@@ -18,8 +18,8 @@
       <mat-form-field appearance="outline">
         <input matInput placeholder="ادخل السلعة" aria-label="option" [matAutocomplete]="auto" [formControl]="commodityCtrl"
           required />
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)">
-          <mat-option *ngFor="let option of filteredcommodities | async" [value]="option.name">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)" [displayWith]="displayCommodity">
+          <mat-option *ngFor="let option of filteredcommodities | async" [value]="option">
             {{ option.name }}
           </mat-option>
         </mat-autocomplete>

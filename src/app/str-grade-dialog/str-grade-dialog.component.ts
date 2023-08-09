@@ -39,6 +39,7 @@ export class STRGradeDialogComponent {
    commidityDt:any={
   id:0,
 }
+commname:any;
 dataSource!: MatTableDataSource<any>;
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -57,18 +58,19 @@ commodityName: any;
    this.filteredcommodities = this.commodityCtrl.valueChanges.pipe(
      startWith(''),
      map((gradd) =>
-       gradd ? this.filtergradd(gradd) : this.commodity_list.slice()
+       gradd ? this.filtercommod(gradd) : this.commodity_list.slice()
      )
    );
     }
     ngOnInit(): void {
       this.gradeForm = this.formBuilder.group({
         //define the components of the form
-        transactionUserId : ['',Validators.required],
+      transactionUserId : ['',Validators.required],
       code : ['',Validators.required],
       name : ['',Validators.required],
       commodityId : ['',Validators.required],
       id : ['',Validators.required],
+      // commodityName : ['',Validators.required],
       });
   
       this.api.getAllCommodity().subscribe((data)=>{
@@ -82,46 +84,15 @@ commodityName: any;
         this.gradeForm.controls['code'].setValue(this.editData.code);
       this.gradeForm.controls['name'].setValue(this.editData.name);
       // this.gradeForm.controls['commodityName'].setValue(this.editData.commodityName);
+      console.log("editData commodityId: ", this.editData.commodityId)
+
       this.gradeForm.controls['commodityId'].setValue(this.editData.commodityId);
       this.gradeForm.addControl('id', new FormControl('', Validators.required));
       this.gradeForm.controls['id'].setValue(this.editData.id);
       }
     }
 
-    // async getSearchGrades(commidityID:any,name:any) {
-    //   // console.log(commidityID + name)
-    //     this.commodityName =  await this.getcommodityByID(commidityID)
-    //     alert(this.commodityName)
-    //       this.api.getGrade()
-    //         .subscribe({
-    //           next: (res) => {
-    //             // 1-
-    //             if (commidityID != '' && name == '' ){
-    //               this.dataSource = res.filter((res: any)=> res.commodity==commidityID!) 
-    //               this.dataSource.paginator = this.paginator;
-    //               this.dataSource.sort = this.sort;
-    //             }
-    //             else if (commidityID != '' && name != ''){
-    //               // this.dataSource = res.filter((res: any)=> res.name==name!)
-    //               this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name.toLowerCase().includes(name.toLowerCase()))
-    //               this.dataSource.paginator = this.paginator;
-    //               this.dataSource.sort = this.sort;
-    //             }
-    //             else{
-    //               // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-    //               this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
-    //               this.dataSource.paginator = this.paginator;
-    //               this.dataSource.sort = this.sort;
-    //             }
-              
-                
-    //           },
-    //           error: (err) => {
-    //             alert("Error")
-    //           }
-    //         })
-    //         // this.getAllProducts()
-    //       }
+    
   
           
   // getcommodityByID(id: any) {
@@ -132,7 +103,8 @@ commodityName: any;
   //       console.log("fetch name by id res: ", json[0].name);
   //       // this.storeName = res.name;
   //       // this.groupMasterForm.controls['Store'] = json[0].name;
-  //       return json[0].name;
+  //      this.commname =  json[0].name;
+  //      return this.commname 
   //     })
   //     .catch((err) => {
   //       console.log("error in fetch name by id: ", err);
@@ -169,11 +141,11 @@ commodityName: any;
     if(!this.editData){
       
       this.gradeForm.removeControl('id')
-      this.gradeForm.controls['commodityId'].setValue(this.selectedOption);
+      this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
       console.log("add: ", this.gradeForm.value);
 
       if(this.gradeForm.valid){
-        this.api.postPlatoon(this.gradeForm.value)
+        this.api.postGrade(this.gradeForm.value)
         .subscribe({
           next:(res)=>{
             alert("تمت الاضافة بنجاح");
@@ -181,7 +153,7 @@ commodityName: any;
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
-            alert("خطأ عند تحديث البيانات") 
+            alert("خطأ عند اضافة البيانات") 
           }
         })
       }
@@ -189,13 +161,18 @@ commodityName: any;
       this.updateGrade()
     }
   }
+
+  displayCommodity (option:any):string {
+    return option && option.name ? option.name:'';
+
+  }
   
     optionSelected(event: MatAutocompleteSelectedEvent) {
       this.selectedOption = event.option.value;
-      this.gradeForm.patchValue({ commodityId: this.selectedOption });
+      this.gradeForm.patchValue({ commodityId: this.selectedOption.id });
     }
   
-    filtergradd(value: string) {
+    filtercommod(value: string) {
       const searchvalue = value.toLocaleLowerCase();
       let arr = this.commodity_list.filter(option => option.name.toLocaleLowerCase().includes(searchvalue) || 
       option.code.toLocaleLowerCase().includes(searchvalue));

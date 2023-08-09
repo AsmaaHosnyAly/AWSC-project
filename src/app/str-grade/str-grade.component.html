@@ -19,18 +19,18 @@
         <mat-form-field appearance="outline">
           <mat-label>النوعية </mat-label>
           <input #grade matInput placeholder="ادخل النوعية">
-          <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-          <!-- <mat-hint>Hint</mat-hint> -->
       </mat-form-field>
-      <mat-form-field appearance="outline">
-          <mat-label>السلعة</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="ادخل السلعة" aria-label="option" [matAutocomplete]="auto" [formControl]="commodityCtrl"
+              required />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="optionSelected($event)" [displayWith]="displayCommodity">
+              <mat-option *ngFor="let option of filteredcommodities | async" [value]="option">
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
   
-          <mat-select [(ngModel)]="commidityDt" #commidityID plceholder="اختر السلعة" >
-              <mat-option *ngFor="let option of commidityList" [value]="option.id">{{option.name}}</mat-option>           
-          </mat-select>        
-      </mat-form-field>
-  
-        <button (click)=" getSearchGrades(commidityID.value,grade.value)" >عرض</button> 
+        <button (click)=" getSearchGrades(grade.value)" >عرض</button> 
       </div>
       </mat-expansion-panel>
     </mat-accordion>

@@ -37,13 +37,16 @@ export class ApiService {
   }
 
 
+  //Grades
+
   postGrade(data : any){
-    return this.http.post<any>("https://ims.aswan.gov.eg/api/STR_Grade/Add-grade/",data);
+    return this.http.post<any>("http://ims.aswan.gov.eg/api/STR_Grade/Add-grade",data);
   }
   getGrade(){
-    return this.http.get<any>("https://ims.aswan.gov.eg/api/STR_Grade/get-all-grades");
+    return this.http.get<any>("http://ims.aswan.gov.eg/api/STR_Grade/get-all-grades");
   }
   putGrade(data:any){
+    console.log("edit: ", data)
     return this.http.put<any>("http://ims.aswan.gov.eg/api/STR_Grade/update-grade-by-id/", data);
   }
   deleteGrade(id:number){
@@ -52,6 +55,7 @@ export class ApiService {
   getAllCommodity():Observable<any> {
     return this.http.get<any>("https://ims.aswan.gov.eg/api/STR_Commodity/get-all-commodity");
   }
+
 
 
 

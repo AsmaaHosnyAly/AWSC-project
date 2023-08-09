@@ -5,16 +5,32 @@ import { ApiService } from '../services/api.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+// import { publishFacade } from '@angular/compiler';
+// import { STRGradeComponent } from '../str-grade/str-grade.component';
+
+
+
+export class commodities {
+  constructor(public name: string, public code: string) {}
+}
 @Component({
   selector: 'app-str-grade',
   templateUrl: './str-grade.component.html',
   styleUrls: ['./str-grade.component.css']
 })
 export class STRGradeComponent {
-title = 'Angular13Crud';
+  commodityCtrl: FormControl;
+  filteredcommodities: Observable<any[]>;
+  commodity_list: commodities[] = [];
+  title = 'Angular13Crud';
   //define table fields which has to be same to api fields
   displayedColumns: string[] = [ 'code','name', 'commodityName','action'];
   dataSource!: MatTableDataSource<any>;
@@ -25,9 +41,20 @@ title = 'Angular13Crud';
     id:0,
   
   }
-  commidityList:any=[];
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  formcontrol = new FormControl(''); 
+  gradeForm !:FormGroup;
 
+  commidityList:any=[];
+  selectedOption: any;
+  constructor(private dialog: MatDialog, private api: ApiService) {
+    this.commodityCtrl = new FormControl();
+    this.filteredcommodities = this.commodityCtrl.valueChanges.pipe(
+      startWith(''),
+      map((gradd) =>
+        gradd ? this.filtercommod(gradd) : this.commodity_list.slice()
+      )
+    );
+     
   }
   ngOnInit(): void {
 
@@ -36,7 +63,7 @@ title = 'Angular13Crud';
     this.getAllGrades();
 
     this.api.getAllCommodity().subscribe((tododata) =>{
-      this.commidityList = tododata;
+      this.commodity_list = tododata;
     });
 
   }
@@ -92,49 +119,60 @@ error:()=>{
 }
 
 
-getSearchGrades(commidityID:any,name:any) {
-  if(commidityID != ''){
-    if(commidityID.id == 0){
-      commidityID = '';
 
-    }
-  }
-console.log("com id: ", commidityID, "name: ", name );
+async getSearchGrades(name:any) {
+  let commidityID :any
+      commidityID = this.selectedOption.id;
+      
+      console.log("com id : "+commidityID,"name : "+name);
+      
+      this.api.getGrade()
+        .subscribe({
+          next: (res) => {
+            // 1-
+            if (commidityID != '' && name == '' ){
+              this.dataSource = res.filter((res: any)=> res.commodityId==commidityID!) 
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+            else if (commidityID != '' && name != ''){
+              // this.dataSource = res.filter((res: any)=> res.name==name!)
+              this.dataSource = res.filter((res: any)=> res.commodityId==commidityID! && res.name.toLowerCase().includes(name.toLowerCase()))
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+            else if(commidityID == '' && name != '' ){
+              // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+              this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+          
+            
+          },
+          error: (err) => {
+            alert("Error")
+          }
+        })
+        // this.getAllGrades()
+      }
 
-  this.api.getGrade()
-    .subscribe({
-      next: (res) => {
-        // 1-
-        console.log(res )
-        if (commidityID != '' && name == '' ){
-          console.log("enter id only: ", "res : ", res, "input id: ", commidityID)
-          this.dataSource = res.filter((res: any)=> res.commodityId==commidityID!) 
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        else if (commidityID != '' && name != ''){
-          console.log("enter name & id: ", "res : ", res, "input name: ", name, "id: ", commidityID)
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter((res: any)=> res.commodityId==commidityID! && res.name.toLowerCase().includes(name.toLowerCase()))
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        else{
-          console.log("enter name only: ", "res name: ", res, "input name: ", name)
-          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-          this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+      displayCommodity (option:any):string {
+        return option && option.name ? option.name:'';
+    
+      }
+      
+        optionSelected(event: MatAutocompleteSelectedEvent) {
+          this.selectedOption = event.option.value;
+          this.gradeForm.patchValue({ commodityId: this.selectedOption.id });
         }
       
-        
-      },
-      error: (err) => {
-        alert("Error")
-      }
-    })
-    // this.getAllGrades()
-  }
+        filtercommod(value: string) {
+          const searchvalue = value.toLocaleLowerCase();
+          let arr = this.commodity_list.filter(option => option.name.toLocaleLowerCase().includes(searchvalue) || 
+          option.code.toLocaleLowerCase().includes(searchvalue));
+          return arr.length ? arr : [{ name: 'No Item found', code: 'null' }];
+        }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -145,3 +183,4 @@ console.log("com id: ", commidityID, "name: ", name );
     }
   }
 }
+
