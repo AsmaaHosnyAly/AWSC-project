@@ -36,6 +36,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   deleteConfirmBtn: any;
   dialogRefDelete: any;
   isReadOnly: boolean = true;
+  autoNo: any;
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
@@ -57,6 +58,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.getStores();
     this.getItems();
     this.getFiscalYears();
+    this.getStrOpenAutoNo();
 
     this.getMasterRowId = this.editData;
 
@@ -85,6 +87,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
     if (this.editData) {
       // console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
+      // this.groupMasterForm.controls['no'].setValue(this.editData.no);
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
       // alert("facialId before: "+ this.editData.fiscalYearId)
@@ -116,6 +119,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
     // alert("store name in add: " + this.storeName)
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+    this.groupMasterForm.controls['no'].setValue(this.autoNo);
 
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
@@ -310,9 +314,9 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
 
       console.log("details form new: ", this.groupDetailsForm.value, "getDetailedRowData: ", this.getDetailedRowData)
-      alert("price: " + this.groupDetailsForm.getRawValue().price)
+      // alert("price: " + this.groupDetailsForm.getRawValue().price)
       // this.groupDetailsForm.controls['price'].setValue(5);
-      alert("price after: " + this.groupDetailsForm.getRawValue().price)
+      // alert("price after: " + this.groupDetailsForm.getRawValue().price)
 
       console.log("change readOnly to enable");
 
@@ -339,7 +343,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
       this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
       this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
-      alert("price in edit: " + this.groupDetailsForm.getRawValue().price)
+      // alert("price in edit: " + this.groupDetailsForm.getRawValue().price)
 
       this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
 
@@ -525,6 +529,22 @@ export class StrOpeningStockDialogComponent implements OnInit {
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
           alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+  }
+
+  getStrOpenAutoNo() {
+    this.api.getStrOpenAutoNo()
+      .subscribe({
+        next: (res) => {
+          this.autoNo = res;
+          console.log("AutoNum res: ", res);
+          return res;
+
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
         }
       })
   }

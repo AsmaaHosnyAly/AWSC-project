@@ -597,6 +597,10 @@ export class ApiService {
   }
 
   ///////////////////////////////// STR-OpeningStock & details/////////////////////////////
+  getStrOpenAutoNo() {
+    return this.http.get<any>(`${this.url}/STROpeningStock/get/AutoNo`);
+  }
+
   postStrOpen(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStock/Add`, data);
   }
