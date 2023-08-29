@@ -113,18 +113,18 @@ input:-internal-autofill-selected{
 
  }
 
- @media (min-width: 1200px) { 
+ @media (min-width: 992px) { 
   #user {
     position: relative;
     top:70px;
-    left: 240px;
+    left:255px;
     color:#85909a !important;
     
   }
   #lock{
     position: relative;
     top:70px;
-    left: 240px;
+    left:255px;
     color:#85909a !important;
     
   }

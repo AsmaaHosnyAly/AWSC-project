@@ -44,6 +44,24 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.getCostCenters();
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource2.paginator) {
+      this.dataSource2.paginator.firstPage();
+    }
+  }
+
+  openEmployeeExchangeDialog() {
+    this.dialog.open(StrEmployeeExchangeDialogComponent, {
+      width: '100%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'save') {
+      }
+    })
+  }
+
   getAllMasterForms() {
     this.api.getStrEmployeeExchange()
       .subscribe({

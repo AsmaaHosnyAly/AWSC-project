@@ -24,17 +24,17 @@ body {  font-family: 'Cairo', sans-serif;}
 }
 .role1{
   padding: 20px;
-  background: linear-gradient(rgb(252, 60, 194), rgb(3, 21, 89));
+  background: linear-gradient(rgb(60, 252, 146), rgb(3, 21, 89));
  min-height: 100vh;
 }
 .role2{
   padding: 20px;
-  background: linear-gradient(rgb(60, 252, 146), rgb(3, 21, 89));
- min-height: 100vh;
+  background: linear-gradient(rgb(252, 169, 60), rgb(3, 21, 89));
+  height: 100vh;
 }
 .role3{
   padding: 20px;
-  background: linear-gradient(rgb(252, 169, 60), rgb(3, 21, 89));
+  background: linear-gradient(rgb(146, 135, 120), rgb(3, 21, 89));
   height: 100vh;
 }
 .role4{
@@ -58,7 +58,7 @@ body {  font-family: 'Cairo', sans-serif;}
 
 .example-container {
   width: auto;
- min-height:135vh;
+ min-height:124vh;
   top: 350px;
   border-left: 1px solid rgba(235, 232, 232, 0.5);
   overflow: hidden;
@@ -263,6 +263,8 @@ mat-toolbar{
 }
 .font{
   font-family: 'Cairo', sans-serif !important;
+  font-size: .8rem;
+  font-weight: bold;
 
 }
 
@@ -277,4 +279,3 @@ mat-expansion-panel{
 .mat-icon.mat-primary {
   --mat-icon-color:rgb(60, 202, 252);
 }
-

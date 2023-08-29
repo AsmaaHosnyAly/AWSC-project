@@ -23,12 +23,5 @@ export class FiEntryContainerComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openFiEntryDialog() {
-    this.dialog.open(FiEntryDialogComponent, {
-      width: '100%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-      }
-    })
-  }
+ 
 }

@@ -5,48 +5,43 @@ mat-card {
   margin: 2%;
   /* background-color: blue; */
   box-shadow: none;
-  
 }
 
-
-mat-card-header{
+mat-card-header {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   width: 100%;
   align-items: center;
   margin-top: 10px;
 }
 
-mat-card-header .child1{
-  
+mat-card-header .child1 {
   width: 82%;
   /* background-color: aquamarine; */
 }
 
-.mat-mdc-card-header{
+.mat-mdc-card-header {
   padding: 0;
 }
 th {
-  background-color:rgb(60, 202, 252) !important;
+  background-color: rgb(60, 202, 252) !important;
   color: white;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
   font-size: 16px;
 }
 
 .add {
-  background: linear-gradient(rgb(122, 205, 235),rgb(60, 202, 252));
+  background: linear-gradient(rgb(122, 205, 235), rgb(60, 202, 252));
   color: white;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
   padding: 5px 35px;
   border-radius: 10px;
   text-align: center;
 }
 .search mat-form-field {
   width: 250px;
- 
+
   padding: 0 !important;
-  
- 
 }
 
 .search {
@@ -55,11 +50,11 @@ th {
   flex-wrap: wrap;
 }
 .search button,
-.print button{
+.print button {
   width: 250px;
   font-size: 15px;
-  font-family: 'Cairo', sans-serif;
-  background-color:rgb(60, 202, 252);
+  font-family: "Cairo", sans-serif;
+  background-color: rgb(60, 202, 252);
   color: white;
   border: none;
   border-radius: 5px;
@@ -69,12 +64,12 @@ th {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
-.display button{
-  background:linear-gradient(rgb(75, 74, 74),rgb(231, 229, 229));
+.display button {
+  background: linear-gradient(rgb(252, 248, 248), rgb(146, 141, 141));
+  color: #111010;
+  font-weight: bold;
 }
-
 
 .print {
   display: flex;
@@ -92,9 +87,8 @@ mat-expansion-panel {
   margin-top: 0px;
 }
 mat-panel-description {
- 
   font-size: 20px;
-  color:rgb(26, 31, 32);
+  color: rgb(26, 31, 32);
   font-weight: 500;
   text-align: right;
 }
@@ -146,15 +140,18 @@ table {
 }
 .mat-mdc-table {
   --mat-table-row-item-outline-width: 1px;
-  table-layout:fixed;
+  table-layout: fixed;
   white-space: normal;
   background-color: var(--mat-table-background-color);
-  font-family: 'Cairo', sans-serif !important;
+  font-family: "Cairo", sans-serif !important;
 }
-table, th, td {
-  border: 1px  rgb(161, 160, 160) solid;
+table,
+th,
+td {
+  border: 1px rgb(161, 160, 160) solid;
   text-align: center;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
+  font-weight: bold;
 }
 
 footer {
@@ -190,6 +187,4 @@ footer h3 {
   padding: 0px !important;
   border: none !important;
   box-shadow: none !important;
-  
 }
-

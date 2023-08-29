@@ -17,8 +17,9 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { GlobalService } from '../services/global.service';
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string,public global:GlobalService) {}
 }
 @Component({
   selector: 'app-str-grade',
@@ -40,16 +41,18 @@ export class STRGradeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterCommodities(value))
     );
+
+    global.getPermissionUserRoles(4, 'stores', ' النوعية', '')
   }
   ngOnInit(): void {
     // console.log(productForm)
-
+    
     this.getAllGrades();
     this.api.getAllCommodity().subscribe((commodities) => {
       this.commodities = commodities;

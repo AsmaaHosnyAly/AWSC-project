@@ -26,7 +26,9 @@ export class StrGroupComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,private global:GlobalService) {
+    global.getPermissionUserRoles(8,'stores', 'المجموعة', '')
+   }
 
   ngOnInit(): void {
     this.getAllGroups();

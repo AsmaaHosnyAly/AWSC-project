@@ -1,6 +1,106 @@
-* {
-  direction: rtl;
+@import url("http://fonts.googleapis.com/earlyaccess/droidarabickufi.css");
+@import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
+
+mat-card {
+  margin: 2%;
+  /* background-color: blue; */
+  box-shadow: none;
+  
 }
+
+
+mat-card-header{
+  display: flex;
+  justify-content:space-between;
+  width: 100%;
+  align-items: center;
+  margin-top: 10px;
+}
+
+mat-card-header .child1{
+  
+  width: 82%;
+  /* background-color: aquamarine; */
+}
+
+.mat-mdc-card-header{
+  padding: 0;
+}
+th {
+  background-color:rgb(60, 202, 252) !important;
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+}
+
+.add {
+  background: linear-gradient(rgb(122, 205, 235),rgb(60, 202, 252));
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  padding: 5px 35px;
+  border-radius: 10px;
+  text-align: center;
+}
+.search mat-form-field {
+  width: 250px;
+ 
+  padding: 0 !important;
+  
+ 
+}
+
+.search {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.search button,
+.print button{
+  width: 250px;
+  font-size: 15px;
+  font-family: 'Cairo', sans-serif;
+  background-color:rgb(60, 202, 252);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 30px;
+  height: 50px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.display button{
+  background:linear-gradient(rgb(252, 248, 248),rgb(146, 141, 141));
+  color: #111010;
+  font-weight: bold;
+}
+
+
+.print {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-expansion-panel {
+  width: 100%;
+  margin: 30px auto;
+  box-shadow: none !important;
+  border: 1px rgb(29, 26, 26) solid;
+  border-radius: 10px !important;
+  padding: 4px 0px !important;
+  margin-top: 0px;
+}
+mat-panel-description {
+ 
+  font-size: 20px;
+  color:rgb(26, 31, 32);
+  font-weight: 500;
+  text-align: right;
+}
+
 .header {
   display: none;
   grid-template-columns: 2fr 1fr;
@@ -9,7 +109,7 @@
 
 .header div {
   height: 100px;
-  background-color: #04365f;
+  background-color: rgb(60, 202, 252);
   color: white;
   /* color: #04365f; */
 }
@@ -41,9 +141,10 @@
   height: 80%;
 }
 
-#prnt-btn {
-  display: flex;
-  justify-content: center;
+table {
+  margin: 28px 0;
+  overflow-y: scroll;
+  width: 80%;
 }
 .print-btn {
   background-color: #147a9f;
@@ -55,7 +156,22 @@
   border-radius: 10px;
   float: left;
   width: 10%;
+
 }
+.show-btn {
+  background-color: #147a9f;
+  color: white;
+  font-family: "Droid Arabic Kufi", serif;
+  font-size: 15px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  /* float: left; */
+  width: 10%;
+  
+
+}
+
 .print-btn:hover {
   background-color: #47afd5;
   font-size: 17px;
@@ -64,3 +180,40 @@
   transform: translateY(-0.25em);
   cursor: pointer;
 }
+
+footer {
+  display: none;
+  position: absolute;
+  bottom: 42px;
+  width: 100%;
+  font-size: large;
+  font-weight: bold;
+  padding: 21px;
+  border: black solid 3px;
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+}
+
+footer h3 {
+  color: red;
+  font-size: large;
+  font-weight: bold;
+}
+
+.date {
+  position: absolute;
+  bottom: 0;
+  left: 7px;
+  margin-top: 14px;
+  display: none;
+}
+.mat-mdc-card-content:first-child {
+  padding: 0px !important;
+  border: none !important;
+  box-shadow: none !important;
+  
+}
+

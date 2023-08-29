@@ -1,25 +1,14 @@
 <div class="container" dir="rtl">
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-description>
-        بحث متقدم
-        <mat-icon>account_circle</mat-icon>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class="search">
-      <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
-    </div>
-    <button (click)="printReport()">طباعة</button>
-  </mat-expansion-panel>
+  <!-- <button (click)="printReport()">طباعة</button> -->
   <!-- <header>
     <div class="top">
       <h2>اذن إضافة</h2>
     </div>
     <div class="bottom">
       <div class="section1">
-        <p>{{ myDate | date : "shortDate" }}</p>
-        <p>مخزن :</p>
-        <p>التاريخ</p>
+        <p>مخزن : {{ storeName }}</p>
+        <p>التاريخ : {{ myDate | date : "shortDate" }}</p>
+        <p></p>
       </div>
       <div class="section2">
         <p>وارد من :</p>
@@ -27,13 +16,19 @@
     </div>
   </header> -->
   <section id="content">
-    <header id="header" class="header">
-      <div class="header-one">
-        <p>إذن إضافة</p>
+    <header>
+      <div class="top">
+        <h2>اذن إضافة</h2>
       </div>
-      <div class="header-two">
-        <img src="../assets/images/water logo.png" />
-        <p>شركة مياه الشرب والصرف الصحى بأسوان</p>
+      <div class="bottom">
+        <div class="section1">
+          <p>مخزن : {{ storeName }}</p>
+          <p>التاريخ : {{ myDate | date : "shortDate" }}</p>
+          <p></p>
+        </div>
+        <div class="section2">
+          <p>وارد من :</p>
+        </div>
       </div>
     </header>
     <table id="my-table" mat-table [dataSource]="dataSource" matSort>

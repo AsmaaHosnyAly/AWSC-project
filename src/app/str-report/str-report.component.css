@@ -50,20 +50,47 @@ section {
   margin: 28px 0;
 }
 
-.mat-mdc-header-row {
-  background-color: rgba(0, 0, 0, 0.38) !important;
-  color: white !important;
-  font-weight: bold;
+th {
+  background-color: rgb(60, 202, 252) !important;
+  color: white;
+  font-family: "Cairo", sans-serif;
+  font-size: 16px;
 }
 
 table {
+  margin: 28px 0;
+  overflow-y: scroll;
+  width: 80%;
+}
+.mat-mdc-table {
+  --mat-table-row-item-outline-width: 1px;
+  table-layout: fixed;
+  white-space: normal;
+  background-color: var(--mat-table-background-color);
+  font-family: "Cairo", sans-serif !important;
+}
+table,
+th,
+td {
+  border: 1px rgb(161, 160, 160) solid;
+  text-align: center;
+  font-family: "Cairo", sans-serif;
+}
+
+/* .mat-mdc-header-row {
+  background-color: rgba(0, 0, 0, 0.38) !important;
+  color: white !important;
+  font-weight: bold;
+} */
+
+/* table {
   border: 3px solid gray;
 }
 
 .mat-mdc-cell,
 .mdc-data-table__header-cell {
   border: 1px solid gray;
-}
+} */
 
 footer {
   display: none;
@@ -105,7 +132,7 @@ footer h3 {
   font-weight: bold;
   width: 90px;
   outline: none;
-  border: rgb(60, 202, 252)solid 2px;
+  border: rgb(60, 202, 252) solid 2px;
   border-radius: 14px;
   -webkit-border-radius: 14px;
   -moz-border-radius: 14px;
@@ -113,27 +140,28 @@ footer h3 {
   -o-border-radius: 14px;
 }
 
-.bottom {
+.print {
   padding-top: 28px;
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
-.bottom button {
-  font-size: large;
-  font-weight: bold;
-  width: fit-content;
-  height: 35px;
-  outline: none;
-  border: rgb(60, 202, 252) 2px;
-  border-radius: 14px;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -o-border-radius: 14px;
+.print button {
+  width: 250px;
+  font-size: 15px;
+  font-family: "Cairo", sans-serif;
+  background-color: rgb(60, 202, 252);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 30px;
+  height: 50px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 button {
   cursor: pointer;
 }

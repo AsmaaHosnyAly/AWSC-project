@@ -26,27 +26,17 @@ export class StrReportAddItemComponent {
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  myDate: any = new Date();
+
+  myDate: any = '';
+  storeName: string = '';
 
   constructor(private api: ApiService, private datePipe: DatePipe) {
-    this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+    // this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
   }
   ngOnInit(): void {
-    this.getAll();
+    this.getDataFromLocalStorage();
   }
-  getAll() {
-    this.api.getAddReportItem().subscribe({
-      next: (res) => {
-        console.log('res of get all products: ', res);
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: () => {
-        alert('خطأ أثناء جلب سجلات المنتجات !!');
-      },
-    });
-  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -55,8 +45,15 @@ export class StrReportAddItemComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-  openDialog() {}
-  getSearchItems() {}
+
+  getDataFromLocalStorage(): any {
+    const data: any = localStorage.getItem('store-data');
+    const dataParse = JSON.parse(data);
+    console.log(dataParse);
+    console.log(dataParse[0].date);
+    this.myDate = dataParse[0].date;
+    this.storeName = dataParse[0].storeName;
+  }
 
   printReport() {
     // this.loadAllData();

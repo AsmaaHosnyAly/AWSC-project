@@ -5,12 +5,18 @@
         <p>{{ displayName }}</p>
       </div>
       <div class="header-two">
-        <img src="../assets/login images/water logo.png" />
+        <img src="../assets/images/water logo.png" />
         <p>شركة مياه الشرب والصرف الصحى بأسوان</p>
       </div>
     </header>
     <section>
-      <table id="my-table" mat-table [dataSource]="dataSource" matSort>
+      <table
+        id="my-table"
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        *ngIf="reportName == 'str-item1'"
+      >
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم الصنف</th>
           <td mat-cell *matCellDef="let row">{{ row.name }}</td>
@@ -56,11 +62,55 @@
           <td class="mat-cell" colspan="4">لا توجد بيانات""</td>
         </tr>
       </table>
+      <!-- <table
+        id="my-table"
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        *ngIf="reportName == 'str-item2'"
+      >
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم الصنف</th>
+          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
 
-      <!-- <mat-paginator
-        [pageSizeOptions]="[2, 5]"
-        aria-label="الصفحات"
-      ></mat-paginator> -->
+
+        <ng-container matColumnDef="commodityName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>السلعة</th>
+          <td mat-cell *matCellDef="let row">{{ row.commodityName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="platoonName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الفصيلة</th>
+          <td mat-cell *matCellDef="let row">{{ row.platoonName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="gradeName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>النوعية</th>
+          <td mat-cell *matCellDef="let row">{{ row.gradeName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="groupName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>المجموعة</th>
+          <td mat-cell *matCellDef="let row">{{ row.groupName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="unitName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الوحدة</th>
+          <td mat-cell *matCellDef="let row">{{ row.unitName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="isActive">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>نوع الصنف</th>
+          <td mat-cell *matCellDef="let row">{{ row.isActive }}</td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>حالة الصنف</th>
+          <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">لا توجد بيانات""</td>
+        </tr>
+      </table> -->
     </section>
     <div *ngIf="show">
       <footer id="reportFooter">
@@ -80,8 +130,10 @@
       <button (click)="next()">></button>
       <button (click)="last()">>></button>
     </div> -->
-    <div class="bottom">
-      <button (click)="printReport()">طباعة</button>
+    <div class="print">
+      <button (click)="printReport()" class="">
+        طباعة<mat-icon class="me-2">print</mat-icon>
+      </button>
     </div>
   </div>
 </div>

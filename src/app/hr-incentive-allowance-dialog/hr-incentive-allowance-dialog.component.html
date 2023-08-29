@@ -8,19 +8,31 @@
             <mat-label>رقم الحافز</mat-label>
             <input matInput placeholder="رقم الحافز" formControlName="no" type="number">
         </mat-form-field>
-        
-        <mat-form-field appearance="outline" class="groupInput">
-            <mat-label>الموظف</mat-label>
-            <mat-select placeholder="الموظف" formControlName="employeeId">
-                <mat-option [value]="employee.id" *ngFor="let employee of employeesList">{{employee.name}}</mat-option>
-            </mat-select>
+
+        <mat-label>الموظف*</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="emploeeCtrl"
+                placeholder="{{editData ? editData.employeename : ''}}" (click)="openAutoEmployee()"
+                required />
+            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                (optionSelected)="employeeSelected($event)">
+                <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                    {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="groupInput">
-            <mat-label>السنة المالية</mat-label>
-            <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
-                <mat-option [value]="fiscalYear.id" *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-            </mat-select>
+        <mat-label>الاجازة*</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput aria-label="commodity" [matAutocomplete]="autofiscalYear" [formControl]="fiscalYearCtrl"
+                placeholder="{{editData ? editData.fiscalYearName : ''}}" (click)="openAutoFiscalYear()"
+                required />
+            <mat-autocomplete #autofiscalYear="matAutocomplete" [displayWith]="displayFiscalYearName"
+                (optionSelected)="fiscalYearSelected($event)">
+                <mat-option *ngFor="let vacation of filteredFiscalYear | async" [value]="vacation">
+                    {{ vacation.fiscalyear }} | {{ vacation.id }}
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="example-full-width">

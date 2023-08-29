@@ -48,6 +48,12 @@ import { HrMillitryStateComponent } from './hr-millitry-state/hr-millitry-state.
 import { HrVacationComponent } from './hr-vacation/hr-vacation.component';
 import { HrIncentiveAllowanceComponent } from './hr-incentive-allowance/hr-incentive-allowance.component';
 import { HrHiringTypeComponent } from './hr-hiring-type/hr-hiring-type.component';
+import { HrEmployeeVacationComponent } from './hr-employee-vacation/hr-employee-vacation.component';
+import { HrEmployeeVacationBalanceComponent } from './hr-employee-vacation-balance/hr-employee-vacation-balance.component';
+
+import { HrDisciplinaryComponent } from './hr-disciplinary/hr-disciplinary.component';
+
+import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-employee-disciplinary.component';
 
 const routes: Routes = [
   //  {path: 'products',
@@ -62,6 +68,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'commodity', component: StrCommodityComponent },
   { path: 'home', component: StrGroupHomeComponent },
+
   { path: 'groupOpening', component: StrOpeningStockContainerComponent },
   { path: 'employeeOpening', component: StrEmployeeExchangeContainerComponent },
   { path: 'groupBannel', component: StrGroupComponent },
@@ -80,22 +87,12 @@ const routes: Routes = [
   { path: 'AccountHierarchy', component: FIAccountHierarchyComponent },
   { path: 'EntrySource' , component: FIEntrySourceComponent},
   { path: 'EntrySourceType' , component: FIEntrySourceTypeComponent},
-  { path: 'withdraw', component: StrWithdrawContainerComponent },
+  { path: 'withdraw', component: StrWithdrawContainerComponent }, //table filter done
   { path: 'add-item-report', component: StrReportAddItemComponent },
-  //  {path: 'products',
-  //  children: [
-  //    {
-  //      path: ':productID',
-  //      component: ProductComponent,
-  //    },
-  //  ],} ,
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'commodity', component: StrCommodityComponent },
   { path: 'AccountParent', component: FIAccountParentComponent },
   { path: 'FiAccountItem', component: FiAccountItemComponent },
   { path: 'FIJournal', component: FIJournalComponent },
-  { path: 'STRAdd', component: STRAddContainerComponent },
+  { path: 'STRAdd', component: STRAddContainerComponent }, //table filter done
   { path: 'city', component: HrCityComponent },
   { path: 'cityState', component: HrCityStateComponent },
   { path: 'QualitativeGroup', component: HrQualitativeGroupComponent },
@@ -129,36 +126,30 @@ const routes: Routes = [
   { path: 'grade', component: STRGradeComponent },
   { path: 'costCenter', component: StrCostcenterComponent },
   //  { path: "items", component:StrItemComponent},
+  // { path: "", redirectTo: "login", pathMatch: "full" },
   { path: 'items1', component: STRItem1Component },
-  { path: 'group', component: StrGroupComponent },
   { path: 'group1', component: STRGroup1Component },
-  { path: 'store', component: StrStoreComponent },
-  { path: 'str-grade', component: STRGradeComponent },
-  { path: 'str-platoon', component: STRPlatoonComponent },
-  { path: 'str-platoon1', component: STRPlatoon1Component },
-  { path: 'str-home', component: STRHomeComponent },
   { path: 'str-employee', component: STREmployeeOpeningCustodyComponent },
   { path: 'str-vendor', component: StrVendorComponent},
-  { path: 'fi-entry', component: FiEntryContainerComponent },
-  { path: 'withdraw', component: StrWithdrawContainerComponent },
+  { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design
   { path: 'account', component: FIAccountComponent },
-
-  // {path:'dashboard' , canActivateChild:[CanActivateChildGuard],children:[
-  //   {path:''  , component:DashboardComponent  },
-  //   {path:'profile'  , component:ProfileComponent},
-  //   {path:'edit-profile'  , component:EditProfileComponent},
-
-  // ]},
-
   {path:'str-account',component:StrAccountsComponent},
   {path:'str-employees',component:StrEmployeesComponent},
-  { path: 'jobTitle', component: HrJobTitleComponent },
-  { path: 'position', component: HrPositionComponent },
-  {path:'hr-MillitryState',component:HrMillitryStateComponent},
+  { path: 'hr-jobTitle', component: HrJobTitleComponent },
+  { path: 'hr-position', component: HrPositionComponent },
+  { path:'hr-MillitryState',component:HrMillitryStateComponent},
   { path:'hr-vacation',component:HrVacationComponent},
   { path:'hr-incentive',component:HrIncentiveAllowanceComponent},
   { path:'hr-hiringType',component:HrHiringTypeComponent},
+  { path:'hr-employeeVacation',component:HrEmployeeVacationComponent}, //waiting back to update
+  { path:'hr-employeeVacationBalance',component:HrEmployeeVacationBalanceComponent},
+  { path: 'hr-disciplinary', component:HrDisciplinaryComponent },
+  
+  { path: 'hr-EmployeeDisciplinary', component: HrEmployeeDisciplinaryComponent },
+
   { path: '**', component: ErrorComponent },
+
+
 ];
 
 @NgModule({

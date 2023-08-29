@@ -1,18 +1,11 @@
 <mat-card>
-  <mat-card-header>
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input>
-    </mat-form-field>
-    <button style="margin-right: 60%;" mat-raised-button class="add" (click)="openDialog()">اضافة</button>
-  </mat-card-header>
-
   <mat-card-content>
     <mat-accordion class="example-headers-align" multi dir="rtl">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-description>
               بحث متقدم
-            <mat-icon>account_circle</mat-icon>
+            <mat-icon>search</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
     <div class="search">
@@ -46,7 +39,18 @@
       </mat-expansion-panel>
     </mat-accordion> 
 
+    <mat-card-header dir="rtl">
+      <div class="child1 ">
+        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
 
+          <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+        </button>
+      </div>
+
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
+      </mat-form-field>
+    </mat-card-header>
     <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
 

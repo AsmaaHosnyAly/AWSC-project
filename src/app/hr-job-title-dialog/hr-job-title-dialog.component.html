@@ -1,20 +1,20 @@
-<!-- <p>str-product-dialog works!</p> -->
-<h1 mat-dialog-title dir="rtl">اضافة منتج</h1>
+
+<h1 mat-dialog-title dir="rtl">اضافة وظيفة</h1>
+
 <div mat-dialog-content dir="rtl" style="padding: 30px;">
     <form [formGroup]="groupForm">
         <mat-form-field appearance="outline" class="groupInput">
-            <mat-label> الوظيفة</mat-label>
-            <input matInput placeholder="اسم الوظيفة" formControlName="name">
+            <mat-label>اسم  الوظيفة</mat-label>
+            <input matInput placeholder="اسم  الوظيفة" formControlName="name">
         </mat-form-field>
-
 
     </form>
 </div>
 
 <div mat-dialog-action [align]="'end'">
     <div class="groupAction">
-        <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-        <button mat-raised-button color="primary" style="margin-left: 8px;"
+        <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button>
+        <button mat-raised-button class="confirmBtn" style="margin-left: 8px;"
             (click)="addJobTitle()">{{actionBtn.toLowerCase() =='save' ? 'اضافة':'تعديل'}}</button>
     </div>
 </div>

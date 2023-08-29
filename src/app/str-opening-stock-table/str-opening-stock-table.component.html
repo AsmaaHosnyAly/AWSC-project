@@ -1,61 +1,71 @@
 <!-- <p>str-opening-stock-table works!</p> -->
 <mat-accordion class="example-headers-align" multi dir="rtl">
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-description>
-                بحث متقدم
-                <mat-icon>account_circle</mat-icon>
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="search">
-            <mat-form-field appearance="outline">
-                <mat-label>الرقم</mat-label>
-                <input #no matInput placeholder="ادخل الرقم" type="number">
-            </mat-form-field>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-description>
+        بحث متقدم
+        <mat-icon>search</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="search">
+      <mat-form-field appearance="outline">
+        <mat-label>الرقم</mat-label>
+        <input #no matInput placeholder="ادخل الرقم" type="number">
+      </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>المخزن</mat-label>
         <mat-select #storeId plceholder="اختر المخزن">
           <mat-option *ngFor="let store of storeList" [value]="store.id">{{
             store.name
-          }}</mat-option>
+            }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>السنة المالية</mat-label>
         <mat-select #fiscalYear plceholder="اختر السنة المالية">
-          <mat-option
-            *ngFor="let fiscalYear of fiscalYearsList"
-            [value]="fiscalYear.fiscalyear"
-            >{{ fiscalYear.fiscalyear }}</mat-option
-          >
+          <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.fiscalyear">{{
+            fiscalYear.fiscalyear }}</mat-option>
         </mat-select>
       </mat-form-field>
 
-            <mat-form-field appearance="outline">
-                <mat-label>الصنف </mat-label>
-                <mat-select #itemId plceholder="اختر الصنف ">
-                    <mat-option *ngFor="let item of itemsList" [value]="item.id">{{item.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>الصنف </mat-label>
+        <mat-select #itemId plceholder="اختر الصنف ">
+          <mat-option *ngFor="let item of itemsList" [value]="item.id">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-            <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>التاريخ</mat-label>
-                <input #date matInput [matDatepicker]="picker">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+      <mat-form-field appearance="outline" class="example-full-width">
+        <mat-label>التاريخ</mat-label>
+        <input #date matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
 
-            <button mat-icon-button color="primary" (click)="getSearchStrOpen(no.value, storeId.value, date.value, fiscalYear.value, itemId.value)">
-                <mat-icon>search</mat-icon>
-            </button>
-        </div>
-    </mat-expansion-panel>
+      <button mat-icon-button color="primary"
+        (click)="getSearchStrOpen(no.value, storeId.value, date.value, fiscalYear.value, itemId.value)">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </mat-expansion-panel>
 </mat-accordion>
+<mat-card-header dir="rtl">
+  <div class="child1 ">
+    <button mat-raised-button class="add" (click)="openOpeningStockDialog()" dir="ltr">
 
+      <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+    </button>
+  </div>
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
+  </mat-form-field>
+
+</mat-card-header>
 <!---print Header-->
 <section id="content">
   <header id="header" class="header">
@@ -70,12 +80,7 @@
 
   <div class="mat-elevation-z8">
     <div id="table-content">
-      <table
-        mat-table
-        [dataSource]="dataSource2"
-        class="mat-elevation-z8"
-        dir="rtl"
-      >
+      <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8" dir="rtl">
         <!-- No Column -->
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef>الرقم</th>
@@ -102,27 +107,14 @@
 
         <!-- Action Column -->
         <ng-container matColumnDef="Action">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            id="action-header"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header id="action-header">
             الاجراء
           </th>
           <td mat-cell *matCellDef="let row" id="buttn">
-            <button
-              mat-icon-button
-              color="primary"
-              (click)="editMasterForm(row)"
-            >
+            <button mat-icon-button color="primary" (click)="editMasterForm(row)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button
-              mat-icon-button
-              color="warn"
-              (click)="deleteBothForms(row.id)"
-            >
+            <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -134,7 +126,4 @@
     </div>
   </div>
 </section>
-<mat-paginator
-  [pageSizeOptions]="[5, 10, 25, 100]"
-  aria-label="Select page of users"
-></mat-paginator>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
