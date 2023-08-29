@@ -165,14 +165,14 @@ platoonSelected(event: MatAutocompleteSelectedEvent): void {
 }
 
 private _filterCommodities(value: string): Commodity[] {
-  const filterValue = value.toLowerCase();
+  const filterValue = value 
   return this.commodities.filter(commodity =>
     commodity.name.toLowerCase().includes(filterValue) || commodity.code.toLowerCase().includes(filterValue)
   );
 }
 
 private _filterGrades(value: string): Grade[] {
-  const filterValue = value.toLowerCase();
+  const filterValue = value 
   return this.grades.filter(
     grade =>
       (grade.name.toLowerCase().includes(filterValue) || grade.code.toLowerCase().includes(filterValue)) &&
@@ -181,7 +181,7 @@ private _filterGrades(value: string): Grade[] {
 }
 
 private _filterPlatoons(value: string): Platoon[] {
-  const filterValue = value.toLowerCase();
+  const filterValue = value 
   return this.platoons.filter(
     platoon =>
       (platoon.name.toLowerCase().includes(filterValue) || platoon.code.toLowerCase().includes(filterValue)) &&
@@ -215,8 +215,9 @@ openAutoPlatoon() {
       this.groupForm.removeControl('id')
       // this.groupForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.groupForm.controls['gradeId'].setValue(this.selectedOption.id);
-      console.log("add: ", this.groupForm.value);
       this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      console.log("add: ", this.groupForm.value);
+
       if(this.groupForm.valid){
         this.api.postGroups(this.groupForm.value)
         .subscribe({
