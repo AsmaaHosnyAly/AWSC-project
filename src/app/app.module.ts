@@ -135,7 +135,9 @@ import { HrSpecializationDialogComponent } from './hr-specialization-dialog/hr-s
 import {HrDisciplinaryComponent} from './hr-disciplinary/hr-disciplinary.component'
 import {HrDisciplinaryDialogComponent} from './hr-disciplinary-dialog/hr-disciplinary-dialog.component';
 import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-employee-disciplinary.component';
-import { HrEmployeeDisciplinaryDialogComponent } from './hr-employee-disciplinary-dialog/hr-employee-disciplinary-dialog.component'
+import { HrEmployeeDisciplinaryDialogComponent } from './hr-employee-disciplinary-dialog/hr-employee-disciplinary-dialog.component';
+import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component';
+import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.component'
 @NgModule({
   declarations: [
     AppComponent,HrEmployeeVacationBalanceComponent,HrEmployeeVacationBalanceDialogComponent,
@@ -232,7 +234,9 @@ import { HrEmployeeDisciplinaryDialogComponent } from './hr-employee-disciplinar
     HrSpecializationComponent,
     HrSpecializationDialogComponent,
     HrEmployeeDisciplinaryComponent,
-    HrEmployeeDisciplinaryDialogComponent
+    HrEmployeeDisciplinaryDialogComponent,
+    PrGroupTableComponent,
+    PrGroupDialogComponent
   
 
 

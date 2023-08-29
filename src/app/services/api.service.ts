@@ -670,6 +670,10 @@ export class ApiService {
   }
 
   ///////////////////////////////// STR-OpeningStock & details/////////////////////////////
+  getStrOpenAutoNo() {
+    return this.http.get<any>(`${this.url}/STROpeningStock/get/AutoNo`);
+  }
+
   postStrOpen(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStock/Add`, data);
   }
@@ -855,6 +859,10 @@ export class ApiService {
   }
 
   ///////////////////////////////// STR-EmployeeExchange & details/////////////////////////////
+  getStrEmployeeExchangeAutoNo() {
+    return this.http.get<any>(`${this.url}/STREmployeExchange/get/AutoNo`);
+  }
+
   getHrEmployees() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
   }
@@ -1926,4 +1934,38 @@ export class ApiService {
     // console.log('form delete data from apiii, id: ', id);
     return this.http.delete<any>(`${this.url}/HrEmployeeVacationBalance/delete/` + id);
   }
+
+
+  ///////////////////////////////// PR-Group & PR-GroupRole/////////////////////////////
+  postPrGroup(data: any) {
+    return this.http.post<any>(`${this.url}/PRGroup/Add`, data);
+  }
+  getPrGroup() {
+    return this.http.get<any>(`${this.url}/PRGroup/get/all`);
+  }
+  putPrGroup(data: any) {
+    return this.http.put<any>(`${this.url}/PRGroup/update`, data);
+  }
+  deletePrGroup(id: number) {
+    console.log("deleted header bbbb row id: ", id)
+    return this.http.delete<any>(`${this.url}/PRGroup/delete/` + id);
+  }
+
+  // postStrOpenDetails(data: any) {
+  //   return this.http.post<any>(`${this.url}/STROpeningStockDetails/Add`, data);
+  // }
+  // putStrOpenDetails(data: any, id: number) {
+  //   console.log('strOpenDetails id: ', id, 'strOpenDetails data: ', data);
+  //   return this.http.put<any>(
+  //     `${this.url}/STROpeningStockDetails/update/` + id,
+  //     data
+  //   );
+  // }
+  deletePrGroupRole(HeaderId: number) {
+    console.log("deleted detaild row id: ", HeaderId)
+    return this.http.delete<any>(
+      `${this.url}/PRGroupRole/delete/` + HeaderId
+    );
+  }
+
 }

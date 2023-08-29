@@ -54,6 +54,7 @@ import { HrEmployeeVacationBalanceComponent } from './hr-employee-vacation-balan
 import { HrDisciplinaryComponent } from './hr-disciplinary/hr-disciplinary.component';
 
 import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-employee-disciplinary.component';
+import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component';
 
 const routes: Routes = [
   //  {path: 'products',
@@ -146,6 +147,8 @@ const routes: Routes = [
   { path: 'hr-disciplinary', component:HrDisciplinaryComponent },
   
   { path: 'hr-EmployeeDisciplinary', component: HrEmployeeDisciplinaryComponent },
+
+  { path:'pr-group', component:PrGroupTableComponent},
 
   { path: '**', component: ErrorComponent },
 
