@@ -1,12 +1,12 @@
 <form [formGroup]="cityStateForm" dir="rtl">
-    <h1 mat-dialog-title>إضافة نوعية</h1>
+    <h1 mat-dialog-title>إضافة مركز</h1>
     <div mat-dialog-content>
       <form [formGroup]="cityStateForm">
         <mat-form-field appearance="outline">
-          <mat-label>القرية </mat-label>
+          <mat-label>المركز </mat-label>
           <input formControlName="name" matInput placeholder="ادخل القرية">
         </mat-form-field>
-        <mat-label>المدينة</mat-label>
+        <mat-label>المحافظة</mat-label>
         <mat-form-field appearance="outline">
           <input matInput aria-label="city" [matAutocomplete]="autoCity" [formControl]="cityCtrl"
             placeholder="{{getCityStateData ? getCityStateData.cityName : ''}}" (click)="openAutoCity()" required />
