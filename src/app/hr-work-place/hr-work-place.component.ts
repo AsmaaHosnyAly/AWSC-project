@@ -17,78 +17,80 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { GlobalService } from '../services/global.service';
-export class Commodity {
-  constructor(public id: number, public name: string, public code: string,public global:GlobalService) {}
+import { HrCityStateDialogComponent } from '../hr-city-state-dialog/hr-city-state-dialog.component';
+import { HrWorkPlacedialogComponent } from '../hr-work-placedialog/hr-work-placedialog.component';
+export class CityState {
+  constructor(public id: number, public name: string) {}
 }
+
 @Component({
-  selector: 'app-str-grade',
-  templateUrl: './str-grade.component.html',
-  styleUrls: ['./str-grade.component.css'],
+  selector: 'app-hr-work-place',
+  templateUrl: './hr-work-place.component.html',
+  styleUrls: ['./hr-work-place.component.css']
 })
-export class STRGradeComponent implements OnInit {
-  commodityCtrl: FormControl;
-  filteredCommodities: Observable<Commodity[]>;
-  commodities: Commodity[] = [];
-  selectedCommodity!: Commodity;
+export class HrWorkPlaceComponent {
+  cityStateCtrl: FormControl;
+  filteredCityState: Observable<CityState[]>;
+  CityStates: CityState[] = [];
+  selectedCitystate!: CityState;
   formcontrol = new FormControl('');
-  gradeForm!: FormGroup;
+  WorkPlaceCtrlForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['code', 'name', 'commodityName', 'action'];
+  displayedColumns: string[] = [ 'name', 'cityStateName', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
-    this.commodityCtrl = new FormControl();
-    this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
+  constructor(private dialog: MatDialog, private api: ApiService) {
+    this.cityStateCtrl = new FormControl();
+    this.filteredCityState = this.cityStateCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterCommodities(value))
+      map((value) => this._filterCitystate(value))
     );
-
-    global.getPermissionUserRoles(4, 'stores', ' النوعية', '')
   }
   ngOnInit(): void {
     // console.log(productForm)
-    
-    this.getAllGrades();
-    this.api.getAllCommodity().subscribe((commodities) => {
-      this.commodities = commodities;
+
+    this.getHrWorkPlace();
+    this.api.getAllCityState().subscribe((citystate) => {
+      this.CityStates = citystate;
     });
   }
   openDialog() {
     this.dialog
-      .open(STRGradeDialogComponent, {
+      .open(HrWorkPlacedialogComponent, {
         width: '30%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getAllGrades();
+          this.getHrWorkPlace();
         }
       });
   }
 
-  displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
+  displaycityStateName(citystate: any): string {
+    return citystate && citystate.name ? citystate.name : '';
   }
-  commoditySelected(event: MatAutocompleteSelectedEvent): void {
-    const commodity = event.option.value as Commodity;
-    this.selectedCommodity = commodity;
-    this.gradeForm.patchValue({ commodityId: commodity.id });
-    this.gradeForm.patchValue({ commodityName: commodity.name });
+
+  cityStateSelected(event: MatAutocompleteSelectedEvent): void {
+    const citystate = event.option.value as CityState;
+    this.selectedCitystate = citystate;
+    this.WorkPlaceCtrlForm.patchValue({ cityStateId: citystate.id });
+    this.WorkPlaceCtrlForm.patchValue({ cityStateName: citystate.name });
   }
-  private _filterCommodities(value: string): Commodity[] {
+
+  private _filterCitystate(value: string): CityState[] {
     const filterValue = value.toLowerCase();
-    return this.commodities.filter(commodity =>
-      commodity.name.toLowerCase().includes(filterValue) || commodity.code.toLowerCase().includes(filterValue)
+    return this.CityStates.filter(citystate =>
+      citystate.name.toLowerCase().includes(filterValue) 
     );
   }
 
-  getAllGrades() {
-    this.api.getGrade().subscribe({
+  getHrWorkPlace() {
+    this.api.getHrWorkPlace().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -100,27 +102,27 @@ export class STRGradeComponent implements OnInit {
     });
   }
 
-  editGrade(row: any) {
+  editHrWorkPlace(row: any) {
     this.dialog
-      .open(STRGradeDialogComponent, {
+      .open(HrWorkPlacedialogComponent, {
         width: '30%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getAllGrades();
+          this.getHrWorkPlace();
         }
       });
   }
 
-  deleteGrade(id: number) {
+  deleteHrWorkPlace(id: number) {
     var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
     if (result) {
-      this.api.deleteGrade(id).subscribe({
+      this.api.deleteHrWorkPlace(id).subscribe({
         next: (res) => {
           alert('تم الحذف بنجاح');
-          this.getAllGrades();
+          this.getHrWorkPlace();
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -128,33 +130,33 @@ export class STRGradeComponent implements OnInit {
       });
     }
   }
-  openAutoCommodity() {
-    this.commodityCtrl.setValue(''); // Clear the input field value
+  openAutoCityState() {
+    this.cityStateCtrl.setValue(''); // Clear the input field value
   
     // Open the autocomplete dropdown by triggering the value change event
-    this.commodityCtrl.updateValueAndValidity();
+    this.cityStateCtrl.updateValueAndValidity();
   }
-  async getSearchGrades(name: any) {
-    this.api.getGrade().subscribe({
+  async getSearchHrWorkPlace(name: any) {
+    this.api.getHrWorkPlace().subscribe({
       next: (res) => {
         //enter id
-        if (this.selectedCommodity && name == '') {
-          console.log('filter ID id: ', this.selectedCommodity, 'name: ', name);
+        if (this.selectedCitystate && name == '') {
+          console.log('filter ID id: ', this.selectedCitystate, 'name: ', name);
 
           this.dataSource = res.filter(
-            (res: any) => res.commodityId == this.selectedCommodity.id!
+            (res: any) => res.cityStateId == this.selectedCitystate.id!
           );
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
         //enter both
-        else if (this.selectedCommodity && name != '') {
-          console.log('filter both id: ', this.selectedCommodity, 'name: ', name);
+        else if (this.selectedCitystate && name != '') {
+          console.log('filter both id: ', this.selectedCitystate, 'name: ', name);
 
           // this.dataSource = res.filter((res: any)=> res.name==name!)
           this.dataSource = res.filter(
             (res: any) =>
-              res.commodityId == this.selectedCommodity.id! &&
+              res.cityStateId == this.selectedCitystate.id! &&
               res.name.toLowerCase().includes(name.toLowerCase())
           );
           this.dataSource.paginator = this.paginator;
@@ -162,7 +164,7 @@ export class STRGradeComponent implements OnInit {
         }
         //enter name
         else {
-          console.log('filter name id: ', this.selectedCommodity, 'name: ', name);
+          console.log('filter name id: ', this.selectedCitystate, 'name: ', name);
           // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
           this.dataSource = res.filter((res: any) =>
             res.name.toLowerCase().includes(name.toLowerCase())
@@ -188,4 +190,5 @@ export class STRGradeComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
 }

@@ -57,9 +57,20 @@
         </div>
     </mat-expansion-panel>
 </mat-accordion>
+<mat-card-header dir="rtl">
+    <div class="child1 ">
+      <button mat-raised-button class="add" (click)="openFiEntryDialog()" dir="ltr">
 
+        <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+      </button>
+    </div>
+
+    <mat-form-field>
+      <input matInput placeholder="بحث" #input />
+    </mat-form-field>
+  </mat-card-header>
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8" dir="rtl">
+    <table mat-table [dataSource]="dataSource2"  dir="rtl">
 
         <!-- No Column -->
         <ng-container matColumnDef="no">

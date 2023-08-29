@@ -6,6 +6,7 @@ import { ApiService } from '../services/api.service';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-str-units',
@@ -19,7 +20,9 @@ export class STRUnitsComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService){}
+  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService){
+    global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
+  }
   ngOnInit(): void {
     this.getAllUnits();
   }

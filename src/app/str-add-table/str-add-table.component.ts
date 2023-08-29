@@ -7,6 +7,7 @@ import { ApiService } from '../services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.component';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-str-add-table',
@@ -48,8 +49,8 @@ export class STRAddTableComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
 
   
-  constructor(private api: ApiService, private dialog: MatDialog, private http: HttpClient, @Inject(LOCALE_ID) private locale: string) {
-
+  constructor(private api: ApiService,private global:GlobalService, private dialog: MatDialog, private http: HttpClient, @Inject(LOCALE_ID) private locale: string) {
+    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '')
   }
 
   ngOnInit(): void {

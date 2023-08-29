@@ -11,7 +11,8 @@ export class GlobalService {
   isLogIn = false;
   bgColor: any;
   isStatus = 'مفعل';
-  pageTitle:any
+  pageTitle:any;
+  icon:any
   public navFlag: boolean = true;
 
   url = 'http://ims.aswan.gov.eg/api';

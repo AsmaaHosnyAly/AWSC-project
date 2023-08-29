@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { GlobalService } from '../services/global.service';
 
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
@@ -60,7 +61,7 @@ export class STRPlatoonComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   // selectedGrade: any;
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -72,6 +73,8 @@ export class STRPlatoonComponent implements OnInit {
       startWith(''),
       map((value) => this._filterGrades(value))
     );
+
+    global.getPermissionUserRoles(7,'stores', 'فصيلة', '')
   }
   ngOnInit(): void {
     this.getAllPlatoons();

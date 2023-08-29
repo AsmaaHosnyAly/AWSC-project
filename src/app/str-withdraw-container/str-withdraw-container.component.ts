@@ -5,6 +5,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw-dialog2.component';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-str-withdraw-container',
@@ -19,7 +20,9 @@ export class StrWithdrawContainerComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService){}
+  constructor(private dialog: MatDialog, private api: ApiService,private global :GlobalService){
+    this.global.getPermissionUserRoles(1, 'stores', ' إذن صرف ', '')
+  }
 
   ngOnInit(): void {
     // this.getAllGroups();
