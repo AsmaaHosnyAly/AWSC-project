@@ -35,6 +35,9 @@ import { FIJournalComponent } from './fi-journal/fi-journal.component';
 import { STRAddContainerComponent } from './str-add-container/str-add-container.component';
 import { HrCityComponent } from './hr-city/hr-city.component';
 import { HrCityStateComponent } from './hr-city-state/hr-city-state.component';
+import { HrQualitativeGroupComponent } from './hr-qualitative-group/hr-qualitative-group.component';
+import { HrWorkPlaceComponent } from './hr-work-place/hr-work-place.component';
+import { HrSpecializationComponent } from './hr-specialization/hr-specialization.component';
 
 import { StrVendorComponent } from './str-vendor/str-vendor.component';
 import {HrJobTitleComponent  } from "./hr-job-title/hr-job-title.component";
@@ -95,6 +98,10 @@ const routes: Routes = [
   { path: 'STRAdd', component: STRAddContainerComponent },
   { path: 'city', component: HrCityComponent },
   { path: 'cityState', component: HrCityStateComponent },
+  { path: 'QualitativeGroup', component: HrQualitativeGroupComponent },
+  { path: 'WorkPlace', component: HrWorkPlaceComponent },
+  { path: 'specialization', component: HrSpecializationComponent },
+
 
   {path:'withdraw',component:StrWithdrawContainerComponent },
 //  {path: 'products',
