@@ -1559,6 +1559,10 @@ export class ApiService {
 
   // ----Start Add----
 
+  getStrAddAutoNo() {
+    return this.http.get<any>(`${this.url}/STRAdd/get/AutoNo`);
+  }
+
   postStrAdd(data: any) {
     console.log('dataaaaaa: ', data);
     return this.http.post<any>('http://ims.aswan.gov.eg/api/STRAdd/Add', data);
