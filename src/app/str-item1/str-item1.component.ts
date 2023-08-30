@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../services/global.service';
 
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string,private global:GlobalService) {
+  constructor(public id: number, public name: string, public code: string) {
     
   }
 }
