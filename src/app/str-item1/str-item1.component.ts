@@ -503,22 +503,162 @@ export class STRItem1Component implements OnInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
-
-        this.reportData = this.dataSource;
-        window.localStorage.setItem(
-          'reportData',
-          JSON.stringify(this.reportData)
-        );
-        window.localStorage.setItem(
-          'reportName',
-          JSON.stringify(this.reportName)
-        );
       },
       error: (err) => {
         alert('Error');
       },
     });
     // this.getAllProducts()
+  }
+
+  async getSearchItemsWithprint(name: any) {
+    if (name) {
+      this.api.getItem().subscribe({
+        next: (res) => {
+          //enter itemName
+          if (!this.selectedGroup && name && !this.selectedUnit) {
+            console.log('filter name id: ', this.selectedGroup, 'name: ', name);
+
+            // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+            this.dataSource = res.filter((res: any) =>
+              res.name.toLowerCase().includes(name.toLowerCase())
+            );
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+          //enter selectedGroup
+          if (this.selectedGroup && name == '' && !this.selectedUnit) {
+            console.log('selectedGroup:', this.selectedGroup);
+
+            this.dataSource = res.filter(
+              (res: any) => res.groupId == this.selectedGroup.id
+            );
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+          //enter selectedUnit
+          if (!this.selectedGroup && name == '' && this.selectedUnit) {
+            console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
+
+            this.dataSource = res.filter(
+              (res: any) => res.unitId == this.selectedUnit.id
+            );
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+          //enter selectedUnit+selectedGroup
+          if (this.selectedUnit && name == '' && this.selectedGroup) {
+            console.log(
+              'filter Unit, Group: ',
+              this.selectedUnit,
+              this.selectedGroup
+            );
+
+            this.dataSource = res.filter(
+              (res: any) =>
+                res.unitId == this.selectedUnit.id &&
+                res.groupId == this.selectedGroup.id
+            );
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+          //enter selectedGroup+item
+          else if (this.selectedGroup && name && !this.selectedUnit) {
+            console.log(
+              'selectedGroup ,name: ',
+              this.selectedGroup,
+              'name: ',
+              name
+            );
+
+            // this.dataSource = res.filter((res: any)=> res.name==name!)
+            this.dataSource = res.filter(
+              (res: any) =>
+                res.groupId == this.selectedGroup.id &&
+                res.name.toLowerCase().includes(name.toLowerCase())
+            );
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+          //enter selectedUnit+item
+          else if (this.selectedUnit && name && !this.selectedGroup) {
+            console.log(
+              'selectedUnit, name: ',
+              this.selectedUnit,
+              'name: ',
+              name
+            );
+
+            // this.dataSource = res.filter((res: any)=> res.name==name!)
+            this.dataSource = res.filter(
+              (res: any) =>
+                res.unitId == this.selectedUnit.id &&
+                res.name.toLowerCase().includes(name.toLowerCase())
+            );
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+          //enter all
+          else if (this.selectedUnit && this.selectedGroup && name) {
+            console.log(
+              'all: ',
+              this.selectedUnit,
+              this.selectedGroup,
+              'name: ',
+              name
+            );
+
+            // this.dataSource = res.filter((res: any)=> res.name==name!)
+            this.dataSource = res.filter(
+              (res: any) =>
+                res.unitId == this.selectedUnit.id &&
+                res.groupId == this.selectedGroup.id! &&
+                res.name.toLowerCase().includes(name.toLowerCase())
+            );
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+          //enter itemName
+          else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
+            console.log(
+              'filter name mmmm id: ',
+              this.selectedGroup,
+              'name: ',
+              name
+            );
+            // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+            // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+          this.reportData = this.dataSource;
+          window.localStorage.setItem(
+            'reportData',
+            JSON.stringify(this.reportData)
+          );
+          window.localStorage.setItem(
+            'reportName',
+            JSON.stringify(this.reportName)
+          );
+
+          this.router.navigate(['/report']);
+        },
+        error: (err) => {
+          alert('Error');
+        },
+      });
+    } else {
+      this.getAllItems();
+      // this.getAllProducts()
+    }
   }
 
   applyFilter(event: Event) {
@@ -531,7 +671,12 @@ export class STRItem1Component implements OnInit {
   }
 
   printReport() {
-    // this.loadAllData();
+    // case print in report component
+
+    this.router.navigate(['/report']);
+
+    // case print in current component
+
     // let header: any = document.getElementById('header');
     // let paginator: any = document.getElementById('paginator');
     // let action1: any = document.getElementById('action1');
@@ -565,6 +710,5 @@ export class STRItem1Component implements OnInit {
     // window.print();
     // document.body.innerHTML = originalContent;
     // location.reload();
-    this.router.navigate(['/report']);
   }
 }
