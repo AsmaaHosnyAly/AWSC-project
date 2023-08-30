@@ -299,7 +299,7 @@ export class STRItem1Component implements OnInit {
   getAllItems() {
     this.api.getItem().subscribe({
       next: (res) => {
-        // console.log('res table: ', res);
+        console.log('res table: ', res);
         this.reportData = res;
         // let data: any = this.api.reportData;
         window.localStorage.setItem(

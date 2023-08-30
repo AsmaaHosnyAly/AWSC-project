@@ -1943,6 +1943,10 @@ deleteSeveranceReason(id: number) {
   }
 
   ///////////////////////////////// PR-Group & PR-GroupRole/////////////////////////////
+  getPrRole() {
+    return this.http.get<any>(`${this.url}/PRRole/get/all`);
+  }
+
   postPrGroup(data: any) {
     return this.http.post<any>(`${this.url}/PRGroup/Add`, data);
   }
@@ -1950,6 +1954,7 @@ deleteSeveranceReason(id: number) {
     return this.http.get<any>(`${this.url}/PRGroup/get/all`);
   }
   putPrGroup(data: any) {
+    console.log("prGroup edit data: ", data)
     return this.http.put<any>(`${this.url}/PRGroup/update`, data);
   }
   deletePrGroup(id: number) {
@@ -1957,16 +1962,16 @@ deleteSeveranceReason(id: number) {
     return this.http.delete<any>(`${this.url}/PRGroup/delete/` + id);
   }
 
-  // postStrOpenDetails(data: any) {
-  //   return this.http.post<any>(`${this.url}/STROpeningStockDetails/Add`, data);
-  // }
-  // putStrOpenDetails(data: any, id: number) {
-  //   console.log('strOpenDetails id: ', id, 'strOpenDetails data: ', data);
-  //   return this.http.put<any>(
-  //     `${this.url}/STROpeningStockDetails/update/` + id,
-  //     data
-  //   );
-  // }
+  postPrGroupRole(data: any) {
+    return this.http.post<any>(`${this.url}/PRGroupRole/add`, data);
+  }
+  putPrGroupRole(data: any) {
+    console.log('PrGroupRole data: ', data);
+    return this.http.put<any>(
+      `${this.url}/PRGroupRole/update/` ,
+      data
+    );
+  }
   deletePrGroupRole(HeaderId: number) {
     console.log('deleted detaild row id: ', HeaderId);
     return this.http.delete<any>(`${this.url}/PRGroupRole/delete/` + HeaderId);

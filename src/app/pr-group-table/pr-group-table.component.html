@@ -1,4 +1,4 @@
-<p>pr-group-table works!</p>
+<!-- <p>pr-group-table works!</p> -->
 <div matSort>
     <mat-accordion class="example-headers-align" multi dir="rtl">
         <mat-expansion-panel>
@@ -58,7 +58,7 @@
 
     <mat-card-header dir="rtl">
         <div class="child1">
-            <button mat-raised-button class="add" (click)="openOpeningStockDialog()" dir="ltr" style="font-weight: 600; font-size: 1.1rem;">
+            <button mat-raised-button class="add" (click)="openDialog()" dir="ltr" style="font-weight: 600; font-size: 1.1rem;">
                 <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
             </button>
         </div>
@@ -82,9 +82,9 @@
             </div>
         </header>
 
-        <div class="mat-elevation-z8">
+        <div >
             <div id="table-content">
-                <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8" dir="rtl" >
+                <table mat-table [dataSource]="dataSource2"  dir="rtl" >
                     <!-- name Column -->
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef style="width: 20%; text-align: center;">الاسم</th>
