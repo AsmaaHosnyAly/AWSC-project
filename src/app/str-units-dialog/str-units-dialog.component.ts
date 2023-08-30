@@ -16,7 +16,8 @@ export class STRUnitsDialogComponent {
   formcontrol = new FormControl('');  
   unitsForm !:FormGroup;
   actionBtn : string = "حفظ";
-
+  userIdFromStorage: any;
+  transactionUserId=localStorage.getItem('transactionUserId')
   // groupEditId: any;
 
   constructor(private formBuilder : FormBuilder,
@@ -35,16 +36,21 @@ export class STRUnitsDialogComponent {
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
+      this.userIdFromStorage = localStorage.getItem('transactionUserId');
       this.unitsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.unitsForm.controls['name'].setValue(this.editData.name);
       // this.unitsForm.controls['id'].setValue(this.editData.id);
       this.unitsForm.addControl('id', new FormControl('', Validators.required));
       this.unitsForm.controls['id'].setValue(this.editData.id);
+      console.log(this.unitsForm.value)
     }
   }
 
   addProduct(){
     if(!this.editData){
+      this.unitsForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      console.log("hhhhhh",this.transactionUserId);
+
       this.unitsForm.removeControl('id')
       if(this.unitsForm.valid){
         this.api.postunit(this.unitsForm.value)
