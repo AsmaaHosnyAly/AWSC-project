@@ -4,7 +4,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input>
       </mat-form-field>
       <button style="margin-right: 60%;" mat-raised-button class="add" (click)="openDialog()">اضافة</button>
-      <button mat-raised-button class="add" (click)="openDialog()">بحث</button>
+      <!-- <button mat-raised-button class="add" (click)="openDialog()">بحث</button> -->
   
     </mat-card-header>
     <mat-card-content>
@@ -15,7 +15,7 @@
   
         <!-- Units Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> اسم المدينة </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> اسم المحافظة </th>
           <td mat-cell *matCellDef="let row"> {{row.name}} </td>
         </ng-container>
   

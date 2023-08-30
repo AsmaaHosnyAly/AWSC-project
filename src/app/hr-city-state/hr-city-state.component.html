@@ -1,9 +1,9 @@
 <mat-card>
     <mat-card-header>
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input>
+        <input matInput (keyup)="applyFilter($event)" placeholder="بحث"  #input  >
       </mat-form-field>
-      <button style="margin-right: 60%;" mat-raised-button class="add" (click)="openDialog()">اضافة</button>
+      <button style="margin-left: 60%;" mat-raised-button class="add" (click)="openDialog()">اضافة</button>
       
     </mat-card-header>
     <mat-card-content>
@@ -17,11 +17,11 @@
           </mat-expansion-panel-header>
       <div class="search">
           <mat-form-field appearance="outline">
-            <mat-label>القرية </mat-label>
+            <mat-label>المركز </mat-label>
             <input #cityState matInput placeholder="ادخل النوعية">
         </mat-form-field>
         <mat-form-field appearance="outline">   
-          <mat-label>المدينة</mat-label>     
+          <mat-label>المحافظة</mat-label>     
           <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="cityCtrl" (click)="openAutoCity()" required/>
           <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displaycityName" (optionSelected)="citySelected($event)">
             <mat-option *ngFor="let city of filteredCities | async" [value]="city">
@@ -35,7 +35,7 @@
         </mat-expansion-panel>
       </mat-accordion>
   
-      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
   
         <!-- productCode Column -->
        

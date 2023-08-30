@@ -45,6 +45,7 @@ export class STRAddDialogComponent implements OnInit {
   dialogRefDelete: any;
   isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
+  autoNo: any;
 
   displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
 
@@ -67,7 +68,7 @@ export class STRAddDialogComponent implements OnInit {
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
-
+    this.getStrAddAutoNo();
 
 
     this.getFiscalYears();
@@ -175,10 +176,19 @@ export class STRAddDialogComponent implements OnInit {
     this.typeName = await this.getTypeByID(this.groupMasterForm.getRawValue().addTypeId);
     // alert("store name in add: " + this.storeName)
     this.groupMasterForm.controls['typeName'].setValue(this.typeName);
+    this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
 
     this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
     console.log("dataName: ", this.groupMasterForm.value)
+
+    if (this.groupMasterForm.getRawValue().no) {
+      console.log("no changed: ", this.groupMasterForm.getRawValue().no)
+    }
+    else{
+      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+      console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
+    }
 
     if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no && this.groupMasterForm.getRawValue().addTypeId
       && this.groupMasterForm.getRawValue().receiptName && this.groupMasterForm.getRawValue().typeName && this.groupMasterForm.getRawValue().receiptName) {
@@ -768,6 +778,20 @@ export class STRAddDialogComponent implements OnInit {
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
           alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+  }
+
+  getStrAddAutoNo() {
+    this.api.getStrAddAutoNo()
+      .subscribe({
+        next: (res) => {
+          this.autoNo = res;
+          return res;
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
         }
       })
   }
