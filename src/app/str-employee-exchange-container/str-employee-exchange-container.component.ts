@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../services/api.service';
 import { StrEmployeeExchangeDialogComponent } from '../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-str-employee-exchange-container',
@@ -17,18 +18,13 @@ export class StrEmployeeExchangeContainerComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService){}
-
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
+    global.getPermissionUserRoles(4, 'stores', 'نقل عهدة', '')
+  }
+   
   ngOnInit(): void {
   }
 
-  openEmployeeExchangeDialog() {
-    this.dialog.open(StrEmployeeExchangeDialogComponent, {
-      width: '100%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-      }
-    })
-  }
+ 
 
 }

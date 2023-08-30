@@ -18,9 +18,12 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { GlobalService } from '../services/global.service';
 
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string,private global:GlobalService) {
+    
+  }
 }
 
 export class Grade {
@@ -54,7 +57,9 @@ export class Group {
 }
 
 export class Unit {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string,private global:GlobalService) {
+    global.getPermissionUserRoles(10, 'stores', 'الاصناف', '')
+  }
 }
 
 @Component({
@@ -114,7 +119,8 @@ export class STRItem1Component implements OnInit {
     private dialog: MatDialog,
     private api: ApiService,
     private datePipe: DatePipe,
-    private router: Router
+    private router: Router,
+    private global:GlobalService
   ) {
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
@@ -147,6 +153,8 @@ export class STRItem1Component implements OnInit {
     );
 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+
+    global.getPermissionUserRoles(10, 'stores', 'إدارة المخازن وحسابات المخازن-الاصناف', '')
   }
   ngOnInit(): void {
     this.getAllItems();

@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { GlobalService } from '../services/global.service';
 @Component({
   selector: 'app-str-commodity',
     templateUrl: './STR_Commodity.component.html',
@@ -36,14 +37,15 @@ export class StrCommodityComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService) {
-
+  constructor(private dialog: MatDialog, private api: ApiService,public global:GlobalService ) {
+    this.global.getPermissionUserRoles(5, 'stores', ' السلعة ', '')
   }
   ngOnInit(): void {
     this.getAllCommodity();
     this.api.getCommodity().subscribe((data: any) => {
       this.commoditylist = data;
-      console.log(this.commoditylist)
+      console.log(this.commoditylist);
+   
     })
   }
   openDialog() {

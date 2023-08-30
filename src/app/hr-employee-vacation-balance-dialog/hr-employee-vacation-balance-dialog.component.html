@@ -1,0 +1,59 @@
+<p>hr-employee-vacation-balance-dialog works!</p>
+
+<h1 mat-dialog-title dir="rtl">اضافة اجازة موظف</h1>
+
+<div mat-dialog-content dir="rtl" style="padding: 30px;">
+    <form [formGroup]="groupForm">
+        <mat-form-field appearance="outline" class="groupInput">
+            <mat-label>الاسم </mat-label>
+            <input matInput placeholder="الاسم " formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="groupInput">
+            <mat-label>الرصيد </mat-label>
+            <input matInput placeholder="الرصيد " formControlName="balance" type="number">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="groupInput">
+            <mat-label>السنة </mat-label>
+            <input matInput placeholder="السنة " formControlName="year" type="number">
+        </mat-form-field>
+
+        <mat-label>الموظف*</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="emploeeCtrl"
+                placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoEmployee()"
+                required />
+            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                (optionSelected)="employeeSelected($event)">
+                <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                    {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-label>الاجازة*</mat-label>
+        <mat-form-field appearance="outline">
+            <input matInput aria-label="commodity" [matAutocomplete]="autoVacation" [formControl]="vacationCtrl"
+                placeholder="{{editData ? editData.vactionName : ''}}" (click)="openAutoVacation()"
+                required />
+            <mat-autocomplete #autoVacation="matAutocomplete" [displayWith]="displayVacationName"
+                (optionSelected)="vacationSelected($event)">
+                <mat-option *ngFor="let vacation of filteredVacation | async" [value]="vacation">
+                    {{ vacation.name }} | {{ vacation.id }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+
+
+    </form>
+</div>
+
+<div mat-dialog-action [align]="'end'">
+    <div class="groupAction">
+        <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button>
+        <button mat-raised-button class="confirmBtn" style="margin-left: 8px;"
+            (click)="addEmployeeVacationBalance()">{{actionBtn.toLowerCase() =='save' ? 'اضافة':'تعديل'}}</button>
+    </div>
+</div>

@@ -24,17 +24,17 @@ body {  font-family: 'Cairo', sans-serif;}
 }
 .role1{
   padding: 20px;
-  background: linear-gradient(rgb(252, 60, 194), rgb(3, 21, 89));
+  background: linear-gradient(rgb(60, 252, 146), rgb(3, 21, 89));
  min-height: 100vh;
 }
 .role2{
   padding: 20px;
-  background: linear-gradient(rgb(60, 252, 146), rgb(3, 21, 89));
- min-height: 100vh;
+  background: linear-gradient(rgb(252, 169, 60), rgb(3, 21, 89));
+  height: 100vh;
 }
 .role3{
   padding: 20px;
-  background: linear-gradient(rgb(252, 169, 60), rgb(3, 21, 89));
+  background: linear-gradient(rgb(146, 135, 120), rgb(3, 21, 89));
   height: 100vh;
 }
 .role4{

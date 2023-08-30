@@ -2,14 +2,18 @@
 1-STRAdd اذن اضافة
 2-withdraw اذن صرف 
 3-groupOpening الافتتاحية 
-4-items1 الاصناف
+4-employeeOpening نقل عهده
+5-commodity السلعة
+6-grade النوعية
+7-str-platoon الفصيلة
+8-groupBannel
+9-unit الوحدة
+10-items1 الاصناف
 5-store المخازن
-6-groupBannel
-7-employeeOpening نقل عهده
-8-commodity السلعة
-9-grade النوعية
-10-str-platoon الفصيلة
-11-unit الوحدة
+
+
+
+
 12-products المنتجات 
 13-costCenter مركز التكلفة
 

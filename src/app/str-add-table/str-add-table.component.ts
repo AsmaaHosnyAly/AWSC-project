@@ -7,6 +7,7 @@ import { ApiService } from '../services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.component';
+import { GlobalService } from '../services/global.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -45,13 +46,18 @@ export class STRAddTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  dataSource!: MatTableDataSource<any>;
+
   constructor(
     private api: ApiService,
+    private global: GlobalService,
     private dialog: MatDialog,
     private http: HttpClient,
-    @Inject(LOCALE_ID) private locale: string,
-    private router: Router
-  ) {}
+    private router: Router,
+    @Inject(LOCALE_ID) private locale: string
+  ) {
+    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();
@@ -61,6 +67,16 @@ export class STRAddTableComponent implements OnInit {
     this.getReciepts();
     this.getEmployees();
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource2.paginator) {
+      this.dataSource2.paginator.firstPage();
+    }
+  }
+
   getAllMasterForms() {
     this.api.getStrAdd().subscribe({
       next: (res) => {
@@ -72,6 +88,32 @@ export class STRAddTableComponent implements OnInit {
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
+      },
+    });
+  }
+
+  openAddDialog() {
+    this.dialog
+      .open(STRAddDialogComponent, {
+        width: '90%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save') {
+          this.getAllGroups();
+        }
+      });
+  }
+
+  getAllGroups() {
+    this.api.getGroup().subscribe({
+      next: (res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: () => {
+        // alert("خطأ أثناء جلب سجلات المجموعة !!");
       },
     });
   }

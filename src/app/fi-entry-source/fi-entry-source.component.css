@@ -1,55 +1,198 @@
-@import url('http://fonts.googleapis.com/earlyaccess/droidarabickufi.css');
-@import url('http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css');
+@import url("http://fonts.googleapis.com/earlyaccess/droidarabickufi.css");
+@import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
 
-mat-card{
+mat-card {
   margin: 2%;
+  /* background-color: blue; */
+  box-shadow: none;
+  
 }
 
-button{
-  margin: 2px;
+
+mat-card-header{
+  display: flex;
+  justify-content:space-between;
+  width: 100%;
+  align-items: center;
+  margin-top: 10px;
 }
 
-th{
-  background-color: #147a9f !important;
+mat-card-header .child1{
+  
+  width: 82%;
+  /* background-color: aquamarine; */
+}
+
+.mat-mdc-card-header{
+  padding: 0;
+}
+th {
+  background-color:rgb(60, 202, 252) !important;
   color: white;
-  font-family: 'Droid Arabic Kufi', serif;
+  font-family: 'Cairo', sans-serif;
   font-size: 16px;
 }
 
-.add{
-  background-color: #147a9f;
-  color: white;  
-  font-family: 'Droid Arabic Kufi', serif;
-  font-size: 15px;
-  padding: 25px;
+.add {
+  background: linear-gradient(rgb(122, 205, 235),rgb(60, 202, 252));
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  padding: 5px 35px;
+  border-radius: 10px;
+  text-align: center;
 }
-.search mat-form-field{
+.search mat-form-field {
   width: 250px;
+ 
+  padding: 0 !important;
+  
+ 
 }
-.search{
+
+.search {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
-.search button{
-  padding: 10px;
-  width: 80px;
-  height: 50px;
+.search button,
+.print button{
+  width: 250px;
   font-size: 15px;
-  font-family: 'Droid Arabic Kufi', serif;
-  background-color: #147a9f;
+  font-family: 'Cairo', sans-serif;
+  background-color:rgb(60, 202, 252);
   color: white;
   border: none;
   border-radius: 5px;
+  padding: 10px 30px;
+  height: 50px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
-mat-expansion-panel{
-  width: 88%;
-  margin:30px auto;
+.display button{
+  background:linear-gradient(rgb(252, 248, 248),rgb(146, 141, 141));
+  color: #111010;
+  font-weight: bold;
 }
-mat-panel-description{
+
+
+.print {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-expansion-panel {
+  width: 100%;
+  margin: 30px auto;
+  box-shadow: none !important;
+  border: 1px rgb(29, 26, 26) solid;
+  border-radius: 10px !important;
+  padding: 4px 0px !important;
+  margin-top: 0px;
+}
+mat-panel-description {
+ 
   font-size: 20px;
-  color: rgb(63 81 181);
+  color:rgb(26, 31, 32);
   font-weight: 500;
   text-align: right;
 }
 
+.header {
+  display: none;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.header div {
+  height: 100px;
+  background-color: rgb(60, 202, 252);
+  color: white;
+  /* color: #04365f; */
+}
+
+.header p,
+.date p {
+  font-size: large;
+  font-weight: bold;
+}
+
+.header .header-one p {
+  padding: 21px;
+}
+
+.header .header-two {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.header .header-two p {
+  width: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.header .header-two img {
+  height: 80%;
+}
+
+table {
+  margin: 28px 0;
+  overflow-y: scroll;
+  width: 80%;
+}
+.mat-mdc-table {
+  --mat-table-row-item-outline-width: 1px;
+  table-layout:fixed;
+  white-space: normal;
+  background-color: var(--mat-table-background-color);
+  font-family: 'Cairo', sans-serif !important;
+}
+table, th, td {
+  border: 1px  rgb(161, 160, 160) solid;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  font-weight: bold;
+}
+
+footer {
+  display: none;
+  position: absolute;
+  bottom: 42px;
+  width: 100%;
+  font-size: large;
+  font-weight: bold;
+  padding: 21px;
+  border: black solid 3px;
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+}
+
+footer h3 {
+  color: red;
+  font-size: large;
+  font-weight: bold;
+}
+
+.date {
+  position: absolute;
+  bottom: 0;
+  left: 7px;
+  margin-top: 14px;
+  display: none;
+}
+.mat-mdc-card-content:first-child {
+  padding: 0px !important;
+  border: none !important;
+  box-shadow: none !important;
+  
+}
 
