@@ -58,6 +58,7 @@ export class HrCityComponent {
     })
   }
   daleteHrCities(id:number){
+    console.log("id:",id)
     if(confirm("Are you sure to delete ")) {
       console.log("Implement delete functionality here");
     }

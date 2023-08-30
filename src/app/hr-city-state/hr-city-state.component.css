@@ -23,6 +23,20 @@ th{
   font-size: 15px;
   padding: 25px;
 }
+.add1{
+  
+    background-color: rgb(60, 202, 252);
+    color: white !important;
+    font-family: 'Droid Arabic Kufi', serif;
+    font-size: 23px;
+    padding: 12px 19px;
+    width: 121px;
+    text-align: right;
+    border: 0px;
+    border-radius: 5px;
+
+}
+
 
 .search mat-form-field{
   width: 250px;
