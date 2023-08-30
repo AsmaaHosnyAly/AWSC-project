@@ -125,10 +125,19 @@ import { HrMillitryStateComponent } from './hr-millitry-state/hr-millitry-state.
 import { HrMillitryStateDialogComponent } from './hr-millitry-state-dialog/hr-millitry-state-dialog.component';
 import { HrVacationComponent } from './hr-vacation/hr-vacation.component';
 import { HrVacationDailogComponent } from './hr-vacation-dailog/hr-vacation-dailog.component';
+import { HrQualitativeGroupComponent } from './hr-qualitative-group/hr-qualitative-group.component';
+import { HrQualitativeGroupDialogComponent } from './hr-qualitative-group-dialog/hr-qualitative-group-dialog.component';
+import { HrWorkPlaceComponent } from './hr-work-place/hr-work-place.component';
+import { HrWorkPlacedialogComponent } from './hr-work-placedialog/hr-work-placedialog.component';
+import { HrSpecializationComponent } from './hr-specialization/hr-specialization.component';
+import { HrSpecializationDialogComponent } from './hr-specialization-dialog/hr-specialization-dialog.component';
+
 import {HrDisciplinaryComponent} from './hr-disciplinary/hr-disciplinary.component'
 import {HrDisciplinaryDialogComponent} from './hr-disciplinary-dialog/hr-disciplinary-dialog.component';
 import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-employee-disciplinary.component';
-import { HrEmployeeDisciplinaryDialogComponent } from './hr-employee-disciplinary-dialog/hr-employee-disciplinary-dialog.component'
+import { HrEmployeeDisciplinaryDialogComponent } from './hr-employee-disciplinary-dialog/hr-employee-disciplinary-dialog.component';
+import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component';
+import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.component'
 @NgModule({
   declarations: [
     AppComponent,HrEmployeeVacationBalanceComponent,HrEmployeeVacationBalanceDialogComponent,
@@ -218,8 +227,16 @@ import { HrEmployeeDisciplinaryDialogComponent } from './hr-employee-disciplinar
     HrMillitryStateDialogComponent,
     HrVacationComponent,
     HrVacationDailogComponent,
+    HrQualitativeGroupComponent,
+    HrQualitativeGroupDialogComponent,
+    HrWorkPlaceComponent,
+    HrWorkPlacedialogComponent,
+    HrSpecializationComponent,
+    HrSpecializationDialogComponent,
     HrEmployeeDisciplinaryComponent,
-    HrEmployeeDisciplinaryDialogComponent
+    HrEmployeeDisciplinaryDialogComponent,
+    PrGroupTableComponent,
+    PrGroupDialogComponent
   
 
 

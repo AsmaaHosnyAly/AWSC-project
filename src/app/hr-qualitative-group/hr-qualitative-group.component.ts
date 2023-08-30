@@ -17,14 +17,14 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-   
+import { HrQualitativeGroupDialogComponent } from '../hr-qualitative-group-dialog/hr-qualitative-group-dialog.component';
+
 @Component({
-  selector: 'app-fi-entry-source',
-  templateUrl: './fi-entry-source.component.html',
-  styleUrls: ['./fi-entry-source.component.css']
+  selector: 'app-hr-qualitative-group',
+  templateUrl: './hr-qualitative-group.component.html',
+  styleUrls: ['./hr-qualitative-group.component.css']
 })
-export class FIEntrySourceComponent  implements OnInit {
-  
+export class HrQualitativeGroupComponent {
   formcontrol = new FormControl('');
   EntrySourceForm!: FormGroup;
   title = 'Angular13Crud';
@@ -37,25 +37,25 @@ export class FIEntrySourceComponent  implements OnInit {
   constructor(private dialog: MatDialog, private api: ApiService) { }
   ngOnInit(): void {
     // console.log(productForm)
-    this.getAllEntrySource();
+    this.getAllHrQualitativeGroup();
   }
   openDialog() {
     this.dialog
-      .open(FIEntrySourceDialogComponent, {
+      .open(HrQualitativeGroupDialogComponent, {
         width: '30%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getAllEntrySource();
+          this.getAllHrQualitativeGroup();
         }
       });
   }
 
   
 
-  getAllEntrySource() {
-    this.api.getEntrySource().subscribe({
+  getAllHrQualitativeGroup() {
+    this.api.getHrQualitativeGroup().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -67,27 +67,27 @@ export class FIEntrySourceComponent  implements OnInit {
     });
   }
 
-  editEntrySource(row: any) {
+  editHrQualitativeGroup(row: any) {
     this.dialog
-      .open(FIEntrySourceDialogComponent, {
+      .open(HrQualitativeGroupDialogComponent, {
         width: '30%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getAllEntrySource();
+          this.getAllHrQualitativeGroup();
         }
       });
   }
 
-  deleteEntrySource(id: number) {
+  deleteHrQualitativeGroup(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteEntrySource(id).subscribe({
+      this.api.deleteHrQualitativeGroup(id).subscribe({
         next: (res) => {
           alert('تم الحذف بنجاح');
-          this.getAllEntrySource();
+          this.getAllHrQualitativeGroup();
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -106,6 +106,5 @@ export class FIEntrySourceComponent  implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
 }
-
-

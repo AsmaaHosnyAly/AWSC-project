@@ -1,0 +1,27 @@
+<form [formGroup]="WorkPlaceCtrlForm" dir="rtl">
+    <h1 mat-dialog-title>إضافة مكان العمل</h1>
+    <div mat-dialog-content>
+      <form [formGroup]="WorkPlaceCtrlForm">
+        <mat-form-field appearance="outline">
+          <mat-label>مكان العمل </mat-label>
+          <input formControlName="name" matInput placeholder="ادخل مكان العمل">
+        </mat-form-field>
+        <mat-label>المركز</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput aria-label="city" [matAutocomplete]="autoCity" [formControl]="cityStateCtrl"
+            placeholder="{{getWorkPlaceData ? getWorkPlaceData.cityName : ''}}" (click)="openAutoCityState()" required />
+          <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displaycityStateName"
+            (optionSelected)="cityStateSelected($event)">
+            <mat-option *ngFor="let city of filteredCityState | async" [value]="city">
+              {{ city.name }} 
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
+      <button mat-raised-button color="primary" (click)="addWorkPlace()" style="margin-left: 8px;">{{actionBtn}}</button>
+    </div>
+  </form>
+

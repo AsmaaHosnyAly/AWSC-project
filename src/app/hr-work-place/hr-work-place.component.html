@@ -17,48 +17,48 @@
           </mat-expansion-panel-header>
       <div class="search">
           <mat-form-field appearance="outline">
-            <mat-label>القرية </mat-label>
-            <input #cityState matInput placeholder="ادخل النوعية">
+            <mat-label>مكان العمل </mat-label>
+            <input #workplace matInput placeholder="ادخل مكان العمل">
         </mat-form-field>
         <mat-form-field appearance="outline">   
-          <mat-label>المدينة</mat-label>     
-          <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="cityCtrl" (click)="openAutoCity()" required/>
-          <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displaycityName" (optionSelected)="citySelected($event)">
-            <mat-option *ngFor="let city of filteredCities | async" [value]="city">
-              {{ city.name }} 
+          <mat-label>المركز</mat-label>     
+          <input matInput aria-label="citystate" [matAutocomplete]="autoCityState" [formControl]="cityStateCtrl" (click)="openAutoCityState()" required/>
+          <mat-autocomplete #autoCityState="matAutocomplete" [displayWith]="displaycityStateName" (optionSelected)="cityStateSelected($event)">
+            <mat-option *ngFor="let citystate of filteredCityState | async" [value]="citystate">
+              {{ citystate.name }} 
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
   
-        <button (click)=" getSearchHrCityState(cityState.value)" >عرض</button>
+        <button (click)=" getSearchHrWorkPlace(workplace.value)" >عرض</button>
         </div>
         </mat-expansion-panel>
       </mat-accordion>
   
-      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
   
         <!-- productCode Column -->
        
           <!-- productName Column -->
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> المركز </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>مكان العمل </th>
             <td mat-cell *matCellDef="let row"> {{row.name}} </td>
           </ng-container>
   
         <!-- category Column -->
-        <ng-container matColumnDef="cityName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> المحافظة </th>
-          <td mat-cell *matCellDef="let row"> {{row.cityName}}</td>
+        <ng-container matColumnDef="cityStateName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> المركز </th>
+          <td mat-cell *matCellDef="let row"> {{row.cityStateName}}</td>
         </ng-container>
   
         <!-- action Column -->
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> الحدث </th>
           <td mat-cell *matCellDef="let row"> 
-            <button mat-icon-button (click)="editHrCityStates(row)" color="primary">
+            <button mat-icon-button (click)="editHrWorkPlace(row)" color="primary">
               <mat-icon>edit</mat-icon>
             </button>
-            <button (click)="deleteHrCityStates(row.id)" mat-icon-button color="warn">
+            <button (click)="deleteHrWorkPlace(row.id)" mat-icon-button color="warn">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -83,3 +83,4 @@
       <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
     </mat-card-footer>
   </mat-card>
+

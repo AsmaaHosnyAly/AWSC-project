@@ -12,23 +12,16 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
   providers: [DatePipe],
 })
 export class StrReportAddItemComponent {
-  displayedColumns: string[] = [
-    'addReceiptId',
-    'createUserName',
-    'date',
-    'employeeName',
-    'fiscalyear',
-    'notes',
-    'sellerName',
-    'storeName',
-    'total',
-  ];
+  displayedColumns: string[] = ['id', 'itemName', 'qty', 'price', 'total'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  id: number = 0;
   myDate: any = '';
+  store: any = {};
   storeName: string = '';
+  sourceStoreName: string = '';
 
   constructor(private api: ApiService, private datePipe: DatePipe) {
     // this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
@@ -50,9 +43,34 @@ export class StrReportAddItemComponent {
     const data: any = localStorage.getItem('store-data');
     const dataParse = JSON.parse(data);
     console.log(dataParse);
-    console.log(dataParse[0].date);
+    // console.log(dataParse[0].date);
     this.myDate = dataParse[0].date;
     this.storeName = dataParse[0].storeName;
+    this.sourceStoreName = dataParse[0].sourceStoreName;
+    // this.id = dataParse[0].id;
+    this.getDataById(dataParse[0].id);
+  }
+
+  getDataById(id: number) {
+    console.log(id);
+    this.api.GetAddGeTAddDetailsByAddId(id).subscribe({
+      next: (res) => {
+        console.log('res table: ', res);
+        console.log('res table: ', res[0].strAddDetailsGetVM);
+
+        this.dataSource = new MatTableDataSource(res[0].strAddDetailsGetVM);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.loadDataToLocalStorage(res[0].strAddDetailsGetVM);
+      },
+      error: (err) => {
+        alert('error while fetching the records!!');
+      },
+    });
+  }
+
+  loadDataToLocalStorage(data: any): void {
+    localStorage.setItem('store-data-details', JSON.stringify(data));
   }
 
   printReport() {

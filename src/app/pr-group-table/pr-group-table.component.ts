@@ -8,25 +8,24 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { PrGroupDialogComponent } from '../pr-group-dialog/pr-group-dialog.component';
 
 @Component({
-  selector: 'app-str-opening-stock-table',
-  templateUrl: './str-opening-stock-table.component.html',
-  styleUrls: ['./str-opening-stock-table.component.css'],
+  selector: 'app-pr-group-table',
+  templateUrl: './pr-group-table.component.html',
+  styleUrls: ['./pr-group-table.component.css']
 })
-export class StrOpeningStockTableComponent implements OnInit {
+export class PrGroupTableComponent implements OnInit {
   displayedColumns: string[] = [
-    'no',
-    'storeName',
-    'fiscalyear',
-    'date',
+    'name',
+    'createUserName',
     'Action',
   ];
   matchedIds: any;
   storeList: any;
   storeName: any;
   fiscalYearsList: any;
-  itemsList:any;
+  itemsList: any;
 
   dataSource2!: MatTableDataSource<any>;
 
@@ -39,7 +38,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAllMasterForms();
@@ -59,9 +58,9 @@ export class StrOpeningStockTableComponent implements OnInit {
 
 
   getAllMasterForms() {
-    this.api.getStrOpen().subscribe({
+    this.api.getPrGroup().subscribe({
       next: (res) => {
-        console.log('response of get all getGroup from api: ', res);
+        console.log('res of get all PrGroup: ', res);
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
@@ -72,7 +71,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     });
   }
   openOpeningStockDialog() {
-    this.dialog.open(StrOpeningStockDialogComponent, {
+    this.dialog.open(PrGroupDialogComponent, {
       width: '90%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
@@ -82,7 +81,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
   editMasterForm(row: any) {
     this.dialog
-      .open(StrOpeningStockDialogComponent, {
+      .open(PrGroupDialogComponent, {
         width: '90%',
         data: row,
       })
@@ -95,54 +94,67 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
 
   deleteBothForms(id: number) {
-    var result = confirm('تاكيد الحذف ؟ ');
+    this.http.get<any>("http://ims.aswan.gov.eg/api/PRGroupRole/get/all")
+      .subscribe(res => {
+        this.matchedIds = res.filter((a: any) => {
+          console.log("matched: ", a.groupId === id)
+          return a.groupId === id
+        })
+        var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
 
-    if (result) {
-      this.api.deleteStrOpen(id).subscribe({
-        next: (res) => {
-          // alert("تم حذف المجموعة بنجاح");
+        if (this.matchedIds.length) {
+          for (let i = 0; i < this.matchedIds.length; i++) {
+            if (result) {
+              this.api.deletePrGroupRole(this.matchedIds[i].id)
+                .subscribe({
+                  next: (res) => {
 
-          this.http
-            .get<any>(
-              'http://ims.aswan.gov.eg/api/STROpeningStockDetails/get/all'
-            )
-            .subscribe(
-              (res) => {
-                this.matchedIds = res.filter((a: any) => {
-                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.HeaderId === id;
-                });
+                    this.api.deletePrGroup(id)
+                      .subscribe({
+                        next: (res) => {
+                          this.toastrDeleteSuccess();
+                          this.getAllMasterForms();
+                        },
+                        error: () => {
+                          // alert("خطأ أثناء حذف الرئيسي !!");
+                        }
+                      })
 
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
+                  },
+                  error: () => {
+                    // alert("خطأ أثناء حذف التفاصيل !!");
+                  }
+                })
+            }
+
+          }
+        }
+        else {
+          if (result) {
+            this.api.deletePrGroup(id)
+              .subscribe({
+                next: (res) => {
+                  // res.code 
+                  // if(res.code == 'succeeded'){
+                    this.toastrDeleteSuccess();
+                    this.getAllMasterForms();
+                  // }
+                  // else{
+                  // alert("خطأ أثناء حذف الرئيسي !!!!!!!");
+
+                  // }
+                  
+                },
+                error: () => {
+                  alert("خطأ أثناء حذف الرئيسي !!");
                 }
-              },
-              (err) => {
-                // alert('خطا اثناء تحديد المجموعة !!');
-              }
-            );
+              })
+          }
+        }
 
-          this.toastrDeleteSuccess();
-          this.getAllMasterForms();
-        },
-        error: () => {
-          // alert('خطأ أثناء حذف المجموعة !!');
-        },
-      });
-    }
-  }
-
-  deleteFormDetails(id: number) {
-    this.api.deleteStrOpenDetails(id).subscribe({
-      next: (res) => {
-        // alert('تم حذف الصنف بنجاح');
-        this.getAllMasterForms();
-      },
-      error: (err) => {
-        console.log("delete details err: ", err)
-        // alert('خطأ أثناء حذف الصنف !!');
-      },
-    });
+      }, err => {
+        // alert("خطا اثناء تحديد المجموعة !!")
+      })
   }
 
   getStores() {
@@ -235,7 +247,7 @@ export class StrOpeningStockTableComponent implements OnInit {
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
         }
-    });
+      });
   }
 
   toastrDeleteSuccess(): void {

@@ -5,44 +5,28 @@ mat-panel-description {
   text-align: right;
 }
 
-.header {
-  display: none;
-  grid-template-columns: 2fr 1fr;
-  gap: 10px;
-}
-
-.header div {
-  height: 100px;
-  background-color: #04365f;
-  color: white;
-  /* color: #04365f; */
-}
-
-.header p,
+header p,
+header h2,
 .date p {
   font-size: large;
   font-weight: bold;
 }
 
-.header .header-one p {
-  padding: 21px;
+header h2 {
+  font-size: x-large;
 }
 
-.header .header-two {
+.top {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 10px;
+  justify-content: center;
 }
 
-.header .header-two p {
-  width: 200px;
+.bottom {
+  padding: 0 70px;
   display: flex;
   align-items: center;
-}
-
-.header .header-two img {
-  height: 80%;
+  justify-content: space-between;
 }
 
 table {
