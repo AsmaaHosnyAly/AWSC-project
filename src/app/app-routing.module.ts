@@ -48,6 +48,8 @@ import { HrMillitryStateComponent } from './hr-millitry-state/hr-millitry-state.
 import { HrVacationComponent } from './hr-vacation/hr-vacation.component';
 import { HrIncentiveAllowanceComponent } from './hr-incentive-allowance/hr-incentive-allowance.component';
 import { HrHiringTypeComponent } from './hr-hiring-type/hr-hiring-type.component';
+import { HrSeveranceReasonComponent } from './hr-severance-reason/hr-severance-reason.component';
+import { HrQualificationComponent } from './hr-qualification/hr-qualification.component';
 import { HrEmployeeVacationComponent } from './hr-employee-vacation/hr-employee-vacation.component';
 import { HrEmployeeVacationBalanceComponent } from './hr-employee-vacation-balance/hr-employee-vacation-balance.component';
 
@@ -162,6 +164,8 @@ const routes: Routes = [
   { path:'hr-vacation',component:HrVacationComponent},
   { path:'hr-incentive',component:HrIncentiveAllowanceComponent},
   { path:'hr-hiringType',component:HrHiringTypeComponent},
+  { path:'SeveranceReason',component:HrSeveranceReasonComponent},
+  { path:'Qualification',component:HrQualificationComponent},
   { path:'hr-employeeVacation',component:HrEmployeeVacationComponent}, //waiting back to update
   { path:'hr-employeeVacationBalance',component:HrEmployeeVacationBalanceComponent},
   { path: 'hr-disciplinary', component:HrDisciplinaryComponent },

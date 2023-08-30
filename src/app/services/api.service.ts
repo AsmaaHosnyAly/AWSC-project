@@ -418,6 +418,62 @@ export class ApiService {
     return this.http.get<any>('http://ims.aswan.gov.eg/api/FIAccount/get/all');
   }
 
+//HrQualification
+
+postQualification(data: any) {
+  return this.http.post<any>(
+    'http://ims.aswan.gov.eg/api/HrQualification/Add',
+    data
+  );
+}
+getQualification() {
+  return this.http.get<any>(
+    'http://ims.aswan.gov.eg/api/HrQualification/get/all'
+  );
+}
+putQualification(data: any) {
+  return this.http.put<any>(
+    'http://ims.aswan.gov.eg/api/HrQualification/update',
+    data
+  );
+}
+deleteQualification(id: number) {
+  return this.http.delete<any>(
+    `http://ims.aswan.gov.eg/api/HrQualification/delete/${id}`
+  );
+}
+getAllQualitativeGroups(): Observable<any> {
+  return this.http.get<any>(
+    'http://ims.aswan.gov.eg/api/HrQualitativeGroup/get/all'
+  );
+}
+
+//HrSeveranceReason
+
+postSeveranceReason(data: any) {
+  return this.http.post<any>(
+    'http://ims.aswan.gov.eg/api/HrSeveranceReason/Add',
+    data
+  );
+}
+getSeveranceReason() {
+  return this.http.get<any>(
+    'http://ims.aswan.gov.eg/api/HrSeveranceReason/get/all'
+  );
+}
+putSeveranceReason(data: any) {
+  return this.http.put<any>(
+    'http://ims.aswan.gov.eg/api/HrSeveranceReason/update',
+    data
+  );
+}
+deleteSeveranceReason(id: number) {
+  return this.http.delete<any>(
+    `http://ims.aswan.gov.eg/api/HrSeveranceReason/delete/${id}`
+  );
+}
+
+
   /**crud group */
 
   postStores(data: any, id: number) {
@@ -1910,5 +1966,77 @@ export class ApiService {
   deletePrGroupRole(HeaderId: number) {
     console.log('deleted detaild row id: ', HeaderId);
     return this.http.delete<any>(`${this.url}/PRGroupRole/delete/` + HeaderId);
+  }
+
+
+  getHrWorkPlace() {
+    return this.http.get<any>(' http://ims.aswan.gov.eg/api/HrWorkPlace/get/all');
+  }
+  putHrWorkPlace(data: any) {
+    return this.http.put<any>(
+      'http://ims.aswan.gov.eg/api/HrWorkPlace/update',
+      data
+    );
+  }
+  deleteHrWorkPlace(id: number) {
+    return this.http.delete<any>(
+      `http://ims.aswan.gov.eg/api/HrWorkPlace/delete/${id}`
+    );
+  }
+  postHrWorkPlace(data: any) {
+    return this.http.post<any>(
+      'http://ims.aswan.gov.eg/api/HrWorkPlace/Add',
+      data
+    );
+  }
+  getAllCityState(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/HrCityState/get/all'
+    );
+  }
+  getHrspecialization() {
+    return this.http.get<any>(' http://ims.aswan.gov.eg/api/HrSpecialization/get/all');
+  }
+  putHrspecialization(data: any) {
+    return this.http.put<any>(
+      'http://ims.aswan.gov.eg/api/HrSpecialization/update',
+      data
+    );
+  }
+  deleteHrspecialization(id: number) {
+    return this.http.delete<any>(
+      `http://ims.aswan.gov.eg/api/HrSpecialization/delete/${id}`
+    );
+  }
+  postHrspecialization(data: any) {
+    return this.http.post<any>(
+      'http://ims.aswan.gov.eg/api/HrSpecialization/Add',
+      data
+    );
+  }
+  getAllqualification(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/HrQualification/get/all'
+    );
+  }
+  getHrQualitativeGroup() {
+    return this.http.get<any>(' http://ims.aswan.gov.eg/api/HrQualitativeGroup/get/all');
+  }
+  putHrQualitativeGroup(data: any) {
+    return this.http.put<any>(
+      'http://ims.aswan.gov.eg/api/HrQualitativeGroup/update',
+      data
+    );
+  }
+  deleteHrQualitativeGroup(id: number) {
+    return this.http.delete<any>(
+      `http://ims.aswan.gov.eg/api/HrQualitativeGroup/delete/${id}`
+    );
+  }
+  postHrQualitativeGroup(data: any) {
+    return this.http.post<any>(
+      'http://ims.aswan.gov.eg/api/HrQualitativeGroup/Add',
+      data
+    );
   }
 }
