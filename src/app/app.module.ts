@@ -120,6 +120,10 @@ import { HrMillitryStateComponent } from './hr-millitry-state/hr-millitry-state.
 import { HrMillitryStateDialogComponent } from './hr-millitry-state-dialog/hr-millitry-state-dialog.component';
 import { HrVacationComponent } from './hr-vacation/hr-vacation.component';
 import { HrVacationDailogComponent } from './hr-vacation-dailog/hr-vacation-dailog.component';
+import { HrSeveranceReasonComponent } from './hr-severance-reason/hr-severance-reason.component';
+import { HrSeveranceReasonDialogComponent } from './hr-severance-reason-dialog/hr-severance-reason-dialog.component';
+import { HrQualificationComponent } from './hr-qualification/hr-qualification.component';
+import { HrQualificationDialogComponent } from './hr-qualification-dialog/hr-qualification-dialog.component';
 
 @NgModule({
   declarations: [
@@ -206,7 +210,11 @@ import { HrVacationDailogComponent } from './hr-vacation-dailog/hr-vacation-dail
     HrMillitryStateComponent,
     HrMillitryStateDialogComponent,
     HrVacationComponent,
-    HrVacationDailogComponent
+    HrVacationDailogComponent,
+    HrSeveranceReasonComponent,
+    HrSeveranceReasonDialogComponent,
+    HrQualificationComponent,
+    HrQualificationDialogComponent
   
 
 

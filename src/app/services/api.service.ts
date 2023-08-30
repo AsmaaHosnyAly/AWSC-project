@@ -433,6 +433,62 @@ getAllAccountsParents(): Observable<any> {
   );
 }
 
+//HrQualification
+
+postQualification(data: any) {
+  return this.http.post<any>(
+    'http://ims.aswan.gov.eg/api/HrQualification/Add',
+    data
+  );
+}
+getQualification() {
+  return this.http.get<any>(
+    'http://ims.aswan.gov.eg/api/HrQualification/get/all'
+  );
+}
+putQualification(data: any) {
+  return this.http.put<any>(
+    'http://ims.aswan.gov.eg/api/HrQualification/update',
+    data
+  );
+}
+deleteQualification(id: number) {
+  return this.http.delete<any>(
+    `http://ims.aswan.gov.eg/api/HrQualification/delete/${id}`
+  );
+}
+getAllQualitativeGroups(): Observable<any> {
+  return this.http.get<any>(
+    'http://ims.aswan.gov.eg/api/HrQualitativeGroup/get/all'
+  );
+}
+
+//HrSeveranceReason
+
+postSeveranceReason(data: any) {
+  return this.http.post<any>(
+    'http://ims.aswan.gov.eg/api/HrSeveranceReason/Add',
+    data
+  );
+}
+getSeveranceReason() {
+  return this.http.get<any>(
+    'http://ims.aswan.gov.eg/api/HrSeveranceReason/get/all'
+  );
+}
+putSeveranceReason(data: any) {
+  return this.http.put<any>(
+    'http://ims.aswan.gov.eg/api/HrSeveranceReason/update',
+    data
+  );
+}
+deleteSeveranceReason(id: number) {
+  return this.http.delete<any>(
+    `http://ims.aswan.gov.eg/api/HrSeveranceReason/delete/${id}`
+  );
+}
+
+
   /**crud group */
 
   postStores(data: any, id: number) {

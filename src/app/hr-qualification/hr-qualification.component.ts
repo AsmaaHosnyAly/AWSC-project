@@ -1,10 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-} from '@angular/material/dialog';
-import { STRGradeDialogComponent } from '../str-grade-dialog/str-grade-dialog.component';
+import {  MatDialog,  MAT_DIALOG_DATA,  MatDialogModule} from '@angular/material/dialog';
 import { ApiService } from '../services/api.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -17,75 +12,84 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {}
+import { HrQualificationDialogComponent } from '../hr-qualification-dialog/hr-qualification-dialog.component';
+export class QualitativeGroup {
+  constructor(public id: number, public name: string) {}
 }
+
+
 @Component({
-  selector: 'app-str-grade',
-  templateUrl: './str-grade.component.html',
-  styleUrls: ['./str-grade.component.css'],
+  selector: 'app-hr-qualification',
+  templateUrl: './hr-qualification.component.html',
+  styleUrls: ['./hr-qualification.component.css']
 })
-export class STRGradeComponent implements OnInit {
-  commodityCtrl: FormControl;
-  filteredCommodities: Observable<Commodity[]>;
-  commodities: Commodity[] = [];
-  selectedCommodity!: Commodity;
+export class HrQualificationComponent implements OnInit {
+  qualitativeGroupCtrl: FormControl;
+  filteredQualitativeGroup: Observable<QualitativeGroup[]>;
+  qualitativeGroups: QualitativeGroup[] = [];
+  selectedQualitativeGroup!: QualitativeGroup;
   formcontrol = new FormControl('');
-  gradeForm!: FormGroup;
+  qualificationForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['code', 'name', 'commodityName', 'action'];
+  displayedColumns: string[] = [ 'name', 'qualitativeGroupName', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
   constructor(private dialog: MatDialog, private api: ApiService) {
-    this.commodityCtrl = new FormControl();
-    this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
+    this.qualitativeGroupCtrl = new FormControl();
+    this.filteredQualitativeGroup = this.qualitativeGroupCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterCommodities(value))
+      map((value) => this._filterQualitativeGroup(value))
     );
   }
   ngOnInit(): void {
     // console.log(productForm)
 
-    this.getAllGrades();
-    this.api.getAllCommodity().subscribe((commodities) => {
-      this.commodities = commodities;
+    this.getAllQualification();
+    this.api.getAllQualitativeGroups().subscribe((qualitativeGroup) => {
+      this.qualitativeGroups = qualitativeGroup;
     });
   }
   openDialog() {
     this.dialog
-      .open(STRGradeDialogComponent, {
+      .open(HrQualificationDialogComponent, {
         width: '30%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getAllGrades();
+          this.getAllQualification();
         }
       });
   }
 
-  displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
+  displayQualitativeGroup(qualitativeGroup: any): string {
+    return qualitativeGroup && qualitativeGroup.name ? qualitativeGroup.name : '';
   }
-  commoditySelected(event: MatAutocompleteSelectedEvent): void {
-    const commodity = event.option.value as Commodity;
-    this.selectedCommodity = commodity;
-    this.gradeForm.patchValue({ commodityId: commodity.id });
-    this.gradeForm.patchValue({ commodityName: commodity.name });
+  qualitativeGroupSelected(event: MatAutocompleteSelectedEvent): void {
+    const qualitativeGroup = event.option.value as QualitativeGroup;
+    this.selectedQualitativeGroup = qualitativeGroup;
+    this.qualificationForm.patchValue({ qualitativeGroupId: qualitativeGroup.id });
+    this.qualificationForm.patchValue({ qualitativeGroupName: qualitativeGroup.name });
   }
-  private _filterCommodities(value: string): Commodity[] {
+  private _filterQualitativeGroup(value: string): QualitativeGroup[] {
     const filterValue = value.toLowerCase();
-    return this.commodities.filter(commodity =>
-      commodity.name.toLowerCase().includes(filterValue) || commodity.code.toLowerCase().includes(filterValue)
+    return this.qualitativeGroups.filter(qualitativeGroup =>
+      qualitativeGroup.name.toLowerCase().includes(filterValue) 
     );
   }
 
-  getAllGrades() {
-    this.api.getGrade().subscribe({
+  openAutoQualitativeGroup() {
+    this.qualitativeGroupCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.qualitativeGroupCtrl.updateValueAndValidity();
+  }
+
+  getAllQualification() {
+    this.api.getQualification().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -97,27 +101,27 @@ export class STRGradeComponent implements OnInit {
     });
   }
 
-  editGrade(row: any) {
+  editQualification(row: any) {
     this.dialog
-      .open(STRGradeDialogComponent, {
+      .open(HrQualificationDialogComponent, {
         width: '30%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getAllGrades();
+          this.getAllQualification();
         }
       });
   }
 
-  deleteGrade(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+  deleteQualification(id: number) {
+    var result = confirm('هل ترغب بتاكيد مسح المؤهل ؟ ');
     if (result) {
-      this.api.deleteGrade(id).subscribe({
+      this.api.deleteQualification(id).subscribe({
         next: (res) => {
           alert('تم الحذف بنجاح');
-          this.getAllGrades();
+          this.getAllQualification();
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -125,34 +129,28 @@ export class STRGradeComponent implements OnInit {
       });
     }
   }
-  openAutoCommodity() {
-    this.commodityCtrl.setValue(''); // Clear the input field value
   
-    // Open the autocomplete dropdown by triggering the value change event
-    this.commodityCtrl.updateValueAndValidity();
-  }
-  
-  async getSearchGrades(name: any) {
-    this.api.getGrade().subscribe({
+  async getQualification(name: any) {
+    this.api.getQualification().subscribe({
       next: (res) => {
         //enter id
-        if (this.selectedCommodity && name == '') {
-          console.log('filter ID id: ', this.selectedCommodity, 'name: ', name);
+        if (this.selectedQualitativeGroup && name == '') {
+          console.log('filter ID id: ', this.selectedQualitativeGroup, 'name: ', name);
 
           this.dataSource = res.filter(
-            (res: any) => res.commodityId == this.selectedCommodity.id!
+            (res: any) => res.qualitativeGroupId == this.selectedQualitativeGroup.id!
           );
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
         //enter both
-        else if (this.selectedCommodity && name != '') {
-          console.log('filter both id: ', this.selectedCommodity, 'name: ', name);
+        else if (this.selectedQualitativeGroup && name != '') {
+          console.log('filter both id: ', this.selectedQualitativeGroup, 'name: ', name);
 
           // this.dataSource = res.filter((res: any)=> res.name==name!)
           this.dataSource = res.filter(
             (res: any) =>
-              res.commodityId == this.selectedCommodity.id! &&
+              res.qualitativeGroupId == this.selectedQualitativeGroup.id! &&
               res.name.toLowerCase().includes(name.toLowerCase())
           );
           this.dataSource.paginator = this.paginator;
@@ -160,7 +158,7 @@ export class STRGradeComponent implements OnInit {
         }
         //enter name
         else {
-          console.log('filter name id: ', this.selectedCommodity, 'name: ', name);
+          console.log('filter name id: ', this.selectedQualitativeGroup, 'name: ', name);
           // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
           this.dataSource = res.filter((res: any) =>
             res.name.toLowerCase().includes(name.toLowerCase())
@@ -175,9 +173,6 @@ export class STRGradeComponent implements OnInit {
     });
     // this.getAllProducts()
   }
-
-
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -186,4 +181,6 @@ export class STRGradeComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+
 }

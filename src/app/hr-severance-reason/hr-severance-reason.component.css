@@ -1,0 +1,55 @@
+@import url('http://fonts.googleapis.com/earlyaccess/droidarabickufi.css');
+@import url('http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css');
+
+mat-card{
+  margin: 2%;
+}
+
+button{
+  margin: 2px;
+}
+
+th{
+  background-color: #147a9f !important;
+  color: white;
+  font-family: 'Droid Arabic Kufi', serif;
+  font-size: 16px;
+}
+
+.add{
+  background-color: #147a9f;
+  color: white;  
+  font-family: 'Droid Arabic Kufi', serif;
+  font-size: 15px;
+  padding: 25px;
+}
+.search mat-form-field{
+  width: 250px;
+}
+.search{
+  display: flex;
+  justify-content: space-between;
+}
+.search button{
+  padding: 10px;
+  width: 80px;
+  height: 50px;
+  font-size: 15px;
+  font-family: 'Droid Arabic Kufi', serif;
+  background-color: #147a9f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+mat-expansion-panel{
+  width: 88%;
+  margin:30px auto;
+}
+mat-panel-description{
+  font-size: 20px;
+  color: rgb(63 81 181);
+  font-weight: 500;
+  text-align: right;
+}
+
+
