@@ -16,11 +16,23 @@
 
           <mat-form-field appearance="outline">
             <mat-label>الوحدة</mat-label>
-            <input matInput aria-label="unit" [matAutocomplete]="autoUnit" [formControl]="unitCtrl"
-              (click)="openAutoUnit()" required />
-            <mat-autocomplete #autoUnit="matAutocomplete" [displayWith]="displayUnitName"
-              (optionSelected)="unitSelected($event)">
-              <mat-option *ngFor="let unit of filteredUnits | async" [value]="unit">
+            <input
+              matInput
+              aria-label="unit"
+              [matAutocomplete]="autoUnit"
+              [formControl]="unitCtrl"
+              (click)="openAutoUnit()"
+              required
+            />
+            <mat-autocomplete
+              #autoUnit="matAutocomplete"
+              [displayWith]="displayUnitName"
+              (optionSelected)="unitSelected($event)"
+            >
+              <mat-option
+                *ngFor="let unit of filteredUnits | async"
+                [value]="unit"
+              >
                 {{ unit.name }}
               </mat-option>
             </mat-autocomplete>
@@ -28,11 +40,23 @@
 
           <mat-form-field appearance="outline">
             <mat-label>السلعة</mat-label>
-            <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" (click)="openAutoCommodity()"
-              [formControl]="commodityCtrl" required />
-            <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
-              (optionSelected)="commoditySelected($event)">
-              <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
+            <input
+              matInput
+              aria-label="commodity"
+              [matAutocomplete]="autoCommodity"
+              (click)="openAutoCommodity()"
+              [formControl]="commodityCtrl"
+              required
+            />
+            <mat-autocomplete
+              #autoCommodity="matAutocomplete"
+              [displayWith]="displayCommodityName"
+              (optionSelected)="commoditySelected($event)"
+            >
+              <mat-option
+                *ngFor="let commodity of filteredCommodities | async"
+                [value]="commodity"
+              >
                 {{ commodity.name }} | {{ commodity.code }}
               </mat-option>
             </mat-autocomplete>
@@ -40,11 +64,24 @@
 
           <mat-form-field appearance="outline">
             <mat-label>النوعية</mat-label>
-            <input matInput aria-label="grade" [matAutocomplete]="autoGrade" [formControl]="gradeCtrl" required
-              (click)="openAutoGrade()" required />
-            <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGradeName"
-              (optionSelected)="gradeSelected($event)">
-              <mat-option *ngFor="let grade of filteredGrades | async" [value]="grade">
+            <input
+              matInput
+              aria-label="grade"
+              [matAutocomplete]="autoGrade"
+              [formControl]="gradeCtrl"
+              required
+              (click)="openAutoGrade()"
+              required
+            />
+            <mat-autocomplete
+              #autoGrade="matAutocomplete"
+              [displayWith]="displayGradeName"
+              (optionSelected)="gradeSelected($event)"
+            >
+              <mat-option
+                *ngFor="let grade of filteredGrades | async"
+                [value]="grade"
+              >
                 {{ grade.name }} | {{ grade.code }}
               </mat-option>
             </mat-autocomplete>
@@ -52,11 +89,23 @@
 
           <mat-form-field appearance="outline">
             <mat-label>الفصيلة</mat-label>
-            <input matInput aria-label="platoon" [matAutocomplete]="autoPlatoon" [formControl]="platoonCtrl"
-              (click)="openAutoPlatoon()" required />
-            <mat-autocomplete #autoPlatoon="matAutocomplete" [displayWith]="displayPlatoonName"
-              (optionSelected)="platoonSelected($event)">
-              <mat-option *ngFor="let platoon of filteredPlatoons | async" [value]="platoon">
+            <input
+              matInput
+              aria-label="platoon"
+              [matAutocomplete]="autoPlatoon"
+              [formControl]="platoonCtrl"
+              (click)="openAutoPlatoon()"
+              required
+            />
+            <mat-autocomplete
+              #autoPlatoon="matAutocomplete"
+              [displayWith]="displayPlatoonName"
+              (optionSelected)="platoonSelected($event)"
+            >
+              <mat-option
+                *ngFor="let platoon of filteredPlatoons | async"
+                [value]="platoon"
+              >
                 {{ platoon.name }} | {{ platoon.code }}
               </mat-option>
             </mat-autocomplete>
@@ -64,11 +113,23 @@
 
           <mat-form-field appearance="outline">
             <mat-label>المجموعة</mat-label>
-            <input matInput aria-label="group" [matAutocomplete]="autoGroup" [formControl]="groupCtrl"
-              (click)="openAutoGroup()" required />
-            <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayGroupName"
-              (optionSelected)="groupSelected($event)">
-              <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
+            <input
+              matInput
+              aria-label="group"
+              [matAutocomplete]="autoGroup"
+              [formControl]="groupCtrl"
+              (click)="openAutoGroup()"
+              required
+            />
+            <mat-autocomplete
+              #autoGroup="matAutocomplete"
+              [displayWith]="displayGroupName"
+              (optionSelected)="groupSelected($event)"
+            >
+              <mat-option
+                *ngFor="let group of filteredGroups | async"
+                [value]="group"
+              >
                 {{ group.name }} | {{ group.code }}
               </mat-option>
             </mat-autocomplete>
@@ -77,39 +138,38 @@
           <mat-form-field appearance="outline">
             <mat-label> التقرير المراد طباعته"</mat-label>
             <mat-select #fiscalYear plceholder="  التقرير المراد طباعته">
-              <mat-option
-              ></mat-option
-              >
+              <mat-option></mat-option>
             </mat-select>
           </mat-form-field>
-          <div class=" print display">
-            <button (click)="printReport()">طباعة <mat-icon class="me-2 ">print</mat-icon></button>
+          <div class="print display">
+            <button (click)="getSearchItemsWithprint(item.value)">
+              طباعة <mat-icon class="me-2">print</mat-icon>
+            </button>
           </div>
           <div class="print">
             <button (click)="getSearchItems(item.value)" class="">عرض</button>
           </div>
-
-
-
         </div>
-
       </mat-expansion-panel>
     </mat-accordion>
 
     <mat-card-header dir="rtl">
-      <div class="child1 ">
+      <div class="child1">
         <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
-
           <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
         </button>
       </div>
 
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="بحث"
+          #input
+        />
       </mat-form-field>
     </mat-card-header>
     <div id="content" class="content">
-
       <header id="header" class="header">
         <div class="header-one">
           <p>الاصناف</p>
@@ -119,7 +179,12 @@
           <p>شركة مياه الشرب والصرف الصحى بأسوان</p>
         </div>
       </header>
-      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table
+        matSort
+        mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8"
+      >
         <!-- Item fullCode Column -->
         <ng-container matColumnDef="fullCode">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>الكود</th>
@@ -182,13 +247,28 @@
 
         <!-- action Column -->
         <ng-container matColumnDef="action">
-          <th mat-header-cell id="action1" *matHeaderCellDef mat-sort-header></th>
+          <th
+            mat-header-cell
+            id="action1"
+            *matHeaderCellDef
+            mat-sort-header
+          ></th>
           <td mat-cell *matCellDef="let row">
             <div id="action2">
-              <button mat-icon-button id="button1" (click)="editItem(row)" color="primary">
+              <button
+                mat-icon-button
+                id="button1"
+                (click)="editItem(row)"
+                color="primary"
+              >
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button id="button2" color="warn" (click)="deleteItem(row.id)">
+              <button
+                mat-icon-button
+                id="button2"
+                color="warn"
+                (click)="deleteItem(row.id)"
+              >
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -217,6 +297,10 @@
   </mat-card-content>
   <br />
   <mat-card-footer>
-    <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator
+      id="paginator"
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
   </mat-card-footer>
 </mat-card>

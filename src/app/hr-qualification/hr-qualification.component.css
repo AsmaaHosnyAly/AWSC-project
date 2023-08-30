@@ -31,7 +31,6 @@ th {
   color: white;
   font-family: 'Cairo', sans-serif;
   font-size: 16px;
-  
 }
 
 .add {
@@ -156,7 +155,6 @@ table, th, td {
   border: 1px  rgb(161, 160, 160) solid;
   text-align: center;
   font-family: 'Cairo', sans-serif;
-  font-weight: bold;
 }
 
 footer {

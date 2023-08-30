@@ -7,19 +7,20 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class GlobalService {
-  public shortLink='';
+  public shortLink = '';
   isLogIn = false;
   bgColor: any;
+  displayScreen: any;
   isStatus = 'مفعل';
-  pageTitle:any;
-  icon:any
+  pageTitle: any;
+  icon: any
   public navFlag: boolean = true;
 
   url = 'http://ims.aswan.gov.eg/api';
 
   public reportData: [] = [];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
 
   getUsers(): Observable<any> {
@@ -39,7 +40,7 @@ export class GlobalService {
     );
   }
 
- 
+
   getRolesByUserId(userId: any): Observable<any> {
     console.log('userId ', userId);
     return this.http.get(`${this.url}/PRUser/get/role/${userId}`);
@@ -69,26 +70,31 @@ export class GlobalService {
     );
   }
 
-  getPermissionUserRoles(role: any,background:any,pageTitle:any,icon:any) {
+  getPermissionUserRoles(role: any, background: any, pageTitle: any, icon: any) {
     let userRoles = localStorage.getItem('userRoles')?.split('');
     console.log(userRoles);
     for (let i = 0; i < userRoles!.length; i++) {
-      if (role == userRoles![i]){
-       if(background=='stores' ) 
-       this.bgColor= document.querySelector('section')?.setAttribute("class","role1")
-      if (background=='acounts' )
-      this.bgColor= document.querySelector('section')?.setAttribute("class","role2")
-      // else
-      // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
-      this.pageTitle=pageTitle
-      return true;
+      if (role == userRoles![i]) {
+        
+          if (background == 'stores')
+            this.bgColor = document.querySelector('section')?.setAttribute("class", "role1")
+         
+          if (background == 'acounts')
+            this.bgColor = document.querySelector('section')?.setAttribute("class", "role2")
+          // else
+          // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
+       
+
+        this.pageTitle = pageTitle
+        return true;
 
       }
-      
-    }
-    window.alert('You dont have the permission to visit this page');
-    this.router.navigate(['/home']);
 
-    return false;
+    }
+    // window.alert('You dont have the permission to visit this page');
+    // this.router.navigate(['/home']);
+    // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
+
+   return false
   }
 }

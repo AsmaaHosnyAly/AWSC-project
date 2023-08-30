@@ -48,6 +48,8 @@ import { HrMillitryStateComponent } from './hr-millitry-state/hr-millitry-state.
 import { HrVacationComponent } from './hr-vacation/hr-vacation.component';
 import { HrIncentiveAllowanceComponent } from './hr-incentive-allowance/hr-incentive-allowance.component';
 import { HrHiringTypeComponent } from './hr-hiring-type/hr-hiring-type.component';
+import { HrSeveranceReasonComponent } from './hr-severance-reason/hr-severance-reason.component';
+import { HrQualificationComponent } from './hr-qualification/hr-qualification.component';
 import { HrEmployeeVacationComponent } from './hr-employee-vacation/hr-employee-vacation.component';
 import { HrEmployeeVacationBalanceComponent } from './hr-employee-vacation-balance/hr-employee-vacation-balance.component';
 
@@ -67,6 +69,26 @@ const routes: Routes = [
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+
+
+  // main screens
+  { path: 'str-home', component: STRHomeComponent },
+  {path:'hr-home',component:StrEmployeesComponent},
+  {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  
+
   { path: 'commodity', component: StrCommodityComponent },
   { path: 'home', component: StrGroupHomeComponent },
 
@@ -80,7 +102,7 @@ const routes: Routes = [
   { path: 'str-grade', component: STRGradeComponent },
   { path: 'str-platoon', component: STRPlatoonComponent },
   { path: 'str-platoon1', component: STRPlatoon1Component },
-  { path: 'str-home', component: STRHomeComponent },
+  
   { path: 'report', component: StrReportComponent },
   { path: 'AccountHierarchy', component: FIAccountHierarchyComponent },
   { path: 'EntrySource' , component: FIEntrySourceComponent},
@@ -127,14 +149,16 @@ const routes: Routes = [
   { path: 'str-vendor', component: StrVendorComponent},
   { path: 'fi-entry', component: FiEntryContainerComponent },
   { path: 'account', component: FIAccountComponent },
-  {path:'str-account',component:StrAccountsComponent},
-  {path:'str-employees',component:StrEmployeesComponent},
+  
+ 
   { path: 'hr-jobTitle', component: HrJobTitleComponent },
   { path: 'hr-position', component: HrPositionComponent },
   { path:'hr-MillitryState',component:HrMillitryStateComponent},
   { path:'hr-vacation',component:HrVacationComponent},
   { path:'hr-incentive',component:HrIncentiveAllowanceComponent},
   { path:'hr-hiringType',component:HrHiringTypeComponent},
+  { path:'SeveranceReason',component:HrSeveranceReasonComponent},
+  { path:'Qualification',component:HrQualificationComponent},
   { path:'hr-employeeVacation',component:HrEmployeeVacationComponent}, //waiting back to update
   { path:'hr-employeeVacationBalance',component:HrEmployeeVacationBalanceComponent},
   { path: 'hr-disciplinary', component:HrDisciplinaryComponent },

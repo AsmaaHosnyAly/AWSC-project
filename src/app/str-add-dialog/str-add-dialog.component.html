@@ -1,5 +1,5 @@
 <!-- <p>str-opening-stock-dialog works!</p> -->
-<h1 mat-dialog-title dir="rtl">اضافة </h1>
+<h1 mat-dialog-title dir="rtl">اضافة اذن اضافة جديد </h1>
 <div mat-dialog-content dir="rtl" style="padding: 30px;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
@@ -7,7 +7,7 @@
            <div class="row" >
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no" type="number">
+                <input matInput placeholder="الرقم" formControlName="no" type="number" [value]="editData ? editData.no : autoNo">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">

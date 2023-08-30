@@ -10,34 +10,19 @@ button{
 }
 
 th{
-  background-color: rgb(60, 202, 252) !important;
+  background-color: #147a9f !important;
   color: white;
   font-family: 'Droid Arabic Kufi', serif;
   font-size: 16px;
 }
 
 .add{
-  background-color: rgb(60, 202, 252);
+  background-color: #147a9f;
   color: white;  
   font-family: 'Droid Arabic Kufi', serif;
   font-size: 15px;
   padding: 25px;
 }
-.add1{
-  
-    background-color: rgb(60, 202, 252);
-    color: white !important;
-    font-family: 'Droid Arabic Kufi', serif;
-    font-size: 23px;
-    padding: 12px 19px;
-    width: 121px;
-    text-align: right;
-    border: 0px;
-    border-radius: 5px;
-
-}
-
-
 .search mat-form-field{
   width: 250px;
 }
@@ -51,7 +36,7 @@ th{
   height: 50px;
   font-size: 15px;
   font-family: 'Droid Arabic Kufi', serif;
-  background-color: rgb(60, 202, 252);
+  background-color: #147a9f;
   color: white;
   border: none;
   border-radius: 5px;
@@ -62,7 +47,9 @@ mat-expansion-panel{
 }
 mat-panel-description{
   font-size: 20px;
-  color: rgb(60, 202, 252);
+  color: rgb(63 81 181);
   font-weight: 500;
   text-align: right;
 }
+
+
