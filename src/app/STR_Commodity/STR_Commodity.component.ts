@@ -39,6 +39,7 @@ export class StrCommodityComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private api: ApiService,public global:GlobalService ) {
     this.global.getPermissionUserRoles(5, 'stores', ' السلعة ', '')
+    global.getPermissionUserRoles(5, 'stores', 'إدارة المخازن وحسابات المخازن-السلعة', '')
   }
   ngOnInit(): void {
     this.getAllCommodity();
