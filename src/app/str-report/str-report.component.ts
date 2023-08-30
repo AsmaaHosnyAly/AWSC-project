@@ -41,8 +41,7 @@ export class StrReportComponent {
 
   ngOnInit(): void {
     this.loadReportData();
-    this.reportDataColumns(this.reportName);
-    // this.printReport();
+    this.reportData(this.reportName);
   }
 
   loadReportData() {
@@ -53,21 +52,37 @@ export class StrReportComponent {
     }
     let local: any = localStorage.getItem('reportData');
     let reportNameStorage: any = localStorage.getItem('reportName');
-    this.reportName = JSON.parse(reportNameStorage);
+    this.reportName = reportNameStorage;
+    console.log(reportNameStorage);
+    // console.log(local);
     this.reportLocal = JSON.parse(local);
+    // // console.log(this.reportLocal);
+    // this.pagesNumber = this.reportLocal.length / this.pageSize;
+    // // console.log(this.pagesNumber);
+    // this.pageData = this.reportLocal.slice(
+    //   this.pageNumber - 1,
+    //   this.pageNumber * this.pageSize
+    // );
+    // let report: any = this.pageData;
+    // this.dataSource = new MatTableDataSource(report);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
 
     //  All Data
-
+    console.log(this.reportName);
     let report: any = this.reportLocal;
+
+    console.log(report);
     this.dataSource = new MatTableDataSource(report);
+    console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  reportDataColumns(name: string) {
-    // console.log(name);
+  reportData(name: string) {
     switch (name) {
       case (name = 'str-item1'):
+        console.log(name);
         this.displayedColumns = [
           'name',
           'commodityName',
@@ -78,10 +93,47 @@ export class StrReportComponent {
           'isActive',
           'type',
         ];
-        this.displayName = 'الاصناف';
-        // this.show = false;
-        break;
 
+        this.displayName = 'الاصناف';
+        this.show = false;
+        break;
+      case (name = 'withdraw'):
+        console.log(name);
+        this.displayedColumns = [
+          'no',
+          'storeName',
+          'employeeName',
+          'costCenterName',
+          'date',
+        ];
+        this.displayName = 'اذن صرف';
+        this.show = false;
+        break;
+      case (name = 'groupOpening'):
+        console.log(name);
+        this.displayedColumns = ['no', 'storeName', 'fiscalyear', 'date'];
+        this.displayName = 'أرصدة إفتتاحية';
+        this.show = false;
+        break;
+      case (name = 'employeeOpening'):
+        console.log(name);
+        this.displayedColumns = [
+          'no',
+          'fiscalyear',
+          'employeeName',
+          'destEmployeeName',
+          'costCenterName',
+          'date',
+        ];
+        this.displayName = 'اذن صرف';
+        this.show = false;
+        break;
+      case (name = 'str-employee'):
+        console.log(name);
+        this.displayedColumns = ['no', 'employeeName', 'date'];
+        this.displayName = 'اذن صرف';
+        this.show = false;
+        break;
       default:
         this.displayedColumns = [];
         break;
@@ -101,13 +153,11 @@ export class StrReportComponent {
   printReport() {
     // this.loadAllData();
     let reportFooter: any = document.getElementById('reportFooter');
-    let section: any = document.getElementById('my-table');
     let date: any = document.getElementById('date');
-    if (!this.show) {
+    if (this.show) {
       reportFooter.style.display = 'block';
       date.style.display = 'block';
     }
-    console.log(section);
     let printContent: any = document.getElementById('content')?.innerHTML;
     let originalContent: any = document.body.innerHTML;
     document.body.innerHTML = printContent;
