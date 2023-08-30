@@ -122,6 +122,8 @@ export class STRItem1Component implements OnInit {
     private router: Router,
     private global:GlobalService
   ) {
+
+    global.getPermissionUserRoles(1, 'stores', 'إدارة المخازن وحسابات المخازن-الاصناف', '')
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -154,7 +156,7 @@ export class STRItem1Component implements OnInit {
 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
 
-    global.getPermissionUserRoles(10, 'stores', 'إدارة المخازن وحسابات المخازن-الاصناف', '')
+    
   }
   ngOnInit(): void {
     this.getAllItems();
@@ -297,7 +299,7 @@ export class STRItem1Component implements OnInit {
   getAllItems() {
     this.api.getItem().subscribe({
       next: (res) => {
-        // console.log('res table: ', res);
+        console.log('res table: ', res);
         this.reportData = res;
         // let data: any = this.api.reportData;
         window.localStorage.setItem(
