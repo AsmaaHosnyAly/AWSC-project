@@ -219,6 +219,10 @@ export class STRItem1DialogComponent implements OnInit {
     }
   }
 
+  displayUnitName(unit: any): string {
+    return unit && unit.name ? unit.name : '';
+  }
+
   displayCommodityName(commodity: any): string {
     return commodity && commodity.name ? commodity.name : '';
   }
@@ -235,8 +239,14 @@ export class STRItem1DialogComponent implements OnInit {
     return group && group.name ? group.name : '';
   }
 
-  displayUnitName(unit: any): string {
-    return unit && unit.name ? unit.name : '';
+
+  
+  unitSelected(event: MatAutocompleteSelectedEvent): void {
+    const unit = event.option.value as Unit;
+    this.selectedUnit = unit;
+    this.itemForm.patchValue({ unitId: unit.id });
+    this.itemForm.patchValue({ unitName: unit.name });
+    this.commodityCtrl.setValue('');
   }
 
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
@@ -275,14 +285,6 @@ export class STRItem1DialogComponent implements OnInit {
     this.getNoByGroupId();
   }
 
-  unitSelected(event: MatAutocompleteSelectedEvent): void {
-    const unit = event.option.value as Unit;
-    this.selectedUnit = unit;
-    this.itemForm.patchValue({ unitId: unit.id });
-    this.itemForm.patchValue({ unitName: unit.name });
-    this.commodityCtrl.setValue('');
-  }
-
   private _filterCommodities(value: string): Commodity[] {
     const filterValue = value.toLowerCase();
     return this.commodities.filter(
@@ -307,7 +309,7 @@ export class STRItem1DialogComponent implements OnInit {
     return this.platoons.filter(
       (platoon) =>
         (platoon.name.toLowerCase().includes(filterValue) ||
-          platoon.code.toLowerCase().includes(filterValue)) &&
+        platoon.code.toLowerCase().includes(filterValue)) &&
         platoon.gradeId === this.selectedGrade?.id
     );
   }
@@ -317,10 +319,20 @@ export class STRItem1DialogComponent implements OnInit {
     return this.groups.filter(
       (group) =>
         (group.name.toLowerCase().includes(filterValue) ||
-          group.code.toLowerCase().includes(filterValue)) &&
+        group.code.toLowerCase().includes(filterValue)) &&
         group.platoonId === this.selectedPlatoon?.id
     );
   }
+
+  // private _filterGroups(value: string): Group[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.groups.filter(
+  //     (group) =>
+  //       (group.name.toLowerCase().includes(filterValue) ||
+  //         group.code.toLowerCase().includes(filterValue)) &&
+  //       group.platoonId === this.selectedPlatoon?.id
+  //   );
+  // }
 
   private _filterUnits(value: string): Unit[] {
     const filterValue = value.toLowerCase();
@@ -330,35 +342,25 @@ export class STRItem1DialogComponent implements OnInit {
   }
 
   openAutoUnit() {
-    this.unitCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
+    this.unitCtrl.setValue('');
     this.unitCtrl.updateValueAndValidity();
   }
 
   openAutoCommodity() {
-    this.commodityCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
+    this.commodityCtrl.setValue('');
     this.commodityCtrl.updateValueAndValidity();
   }
   openAutoGrade() {
-    this.gradeCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
+    this.gradeCtrl.setValue('');
     this.gradeCtrl.updateValueAndValidity();
   }
   openAutoPlatoon() {
-    this.platoonCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
+    this.platoonCtrl.setValue('');
     this.platoonCtrl.updateValueAndValidity();
   }
 
   openAutoGroup() {
-    this.platoonCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
+    this.platoonCtrl.setValue('');
     this.platoonCtrl.updateValueAndValidity();
   }
 
@@ -368,11 +370,9 @@ export class STRItem1DialogComponent implements OnInit {
 
         this.No = res;
         console.log('number: ', this.No);
-        // alert("تم الحفظ بنجاح");
       },
       error: (err) => {
         console.log('get no. err: ', err);
-        // alert("حدث خطأ أثناء إضافة مجموعة")
       },
     });
   }

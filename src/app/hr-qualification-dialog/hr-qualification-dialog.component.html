@@ -1,0 +1,25 @@
+<form [formGroup]="qualificationForm" dir="rtl">
+  <h1 mat-dialog-title>إضافة مؤهل</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="qualificationForm">
+      <mat-form-field appearance="outline">
+        <mat-label>اسم المؤهل</mat-label>
+        <input formControlName="name" matInput placeholder="ادخل اسم المؤهل">
+      </mat-form-field>
+
+      <mat-label>المجموعة النوعية</mat-label> 
+      <mat-form-field appearance="outline">   
+        <input matInput aria-label="qualitativeGroup" [matAutocomplete]="autoQualitativeGroup" [formControl]="qualitativeGroupCtrl" (click)="openAutoQualitativeGroup()" placeholder="{{getQualificationData ? getQualificationData.qualitativeGroupName : ''}}" required/>
+        <mat-autocomplete #autoQualitativeGroup="matAutocomplete" [displayWith]="displayQualitativeGroup" (optionSelected)="qualitativeGroupSelected($event)">
+          <mat-option *ngFor="let qualitativeGroup of filteredQualitativeGroup | async" [value]="qualitativeGroup">
+            {{ qualitativeGroup.name }} 
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
+    <button mat-raised-button color="primary" (click)="addQualification()" style="margin-left: 8px;">{{actionBtn}}</button>
+  </div>
+</form>
