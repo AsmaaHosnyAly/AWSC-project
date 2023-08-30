@@ -20,12 +20,13 @@ body {  font-family: 'Cairo', sans-serif;}
   background: linear-gradient(rgb(60, 202, 252), rgb(3, 21, 89));
   min-height: 100vh;
   overflow: scroll;
-  
+ 
 }
 .role1{
   padding: 20px;
   background: linear-gradient(rgb(60, 252, 146), rgb(3, 21, 89));
  min-height: 100vh;
+ box-shadow: 0.5px 2px 5px 0.5px lightblue;
 }
 .role2{
   padding: 20px;
@@ -58,13 +59,15 @@ body {  font-family: 'Cairo', sans-serif;}
 
 .example-container {
   width: auto;
- min-height:124vh;
-  top: 350px;
-  border-left: 1px solid rgba(235, 232, 232, 0.5);
+ min-height:140vh;
+  top: 396px;
+  border-left: 1px solid rgba(48, 46, 46, 0.5);
+  border-right: 1px solid rgba(48, 46, 46, 0.5);
   overflow: hidden;
   background-color: transparent;
+  box-shadow: 0.5px 2px 5px 0.5px lightblue;
   transition: none !important;
-  
+  border-radius: 20px;
 
  
 }
@@ -101,7 +104,7 @@ mat-drawer-content {
   padding: 10px ;
   min-height: 100% !important;
  position: absolute;
- /* background-color: blueviolet; */
+ background-color: transparent;
  right: 0px;
  width: 100%;
  
@@ -275,6 +278,10 @@ mat-expansion-panel{
   margin-top: 10px;
  
 
+}
+
+.displayscreen{
+  display: none;
 }
 .mat-icon.mat-primary {
   --mat-icon-color:rgb(60, 202, 252);

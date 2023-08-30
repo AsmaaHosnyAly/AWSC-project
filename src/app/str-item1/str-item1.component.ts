@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../services/global.service';
 
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string,private global:GlobalService) {
+  constructor(public id: number, public name: string, public code: string) {
     
   }
 }
@@ -57,8 +57,8 @@ export class Group {
 }
 
 export class Unit {
-  constructor(public id: number, public name: string,private global:GlobalService) {
-    global.getPermissionUserRoles(10, 'stores', 'الاصناف', '')
+  constructor(public id: number, public name: string,public global:GlobalService) {
+  
   }
 }
 
@@ -122,6 +122,8 @@ export class STRItem1Component implements OnInit {
     private router: Router,
     private global:GlobalService
   ) {
+    global.getPermissionUserRoles(1, 'stores', 'إدارة المخازن وحسابات المخازن-الاصناف', '')
+    
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -154,7 +156,7 @@ export class STRItem1Component implements OnInit {
 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
 
-    global.getPermissionUserRoles(10, 'stores', 'إدارة المخازن وحسابات المخازن-الاصناف', '')
+   
   }
   ngOnInit(): void {
     this.getAllItems();

@@ -63,6 +63,26 @@ const routes: Routes = [
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+
+
+  // main screens
+  { path: 'str-home', component: STRHomeComponent },
+  {path:'hr-home',component:StrEmployeesComponent},
+  {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  // {path:'fi-home',component:StrAccountsComponent},
+  
+
   { path: 'commodity', component: StrCommodityComponent },
   { path: 'home', component: StrGroupHomeComponent },
 
@@ -79,7 +99,7 @@ const routes: Routes = [
   { path: 'str-grade', component: STRGradeComponent },
   { path: 'str-platoon', component: STRPlatoonComponent },
   { path: 'str-platoon1', component: STRPlatoon1Component },
-  { path: 'str-home', component: STRHomeComponent },
+  
   { path: 'report', component: StrReportComponent },
   { path: 'AccountHierarchy', component: FIAccountHierarchyComponent },
   { path: 'EntrySource' , component: FIEntrySourceComponent},
@@ -99,8 +119,8 @@ const routes: Routes = [
   { path: 'str-vendor', component: StrVendorComponent},
   { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design
   { path: 'account', component: FIAccountComponent },
-  {path:'str-account',component:StrAccountsComponent},
-  {path:'str-employees',component:StrEmployeesComponent},
+  
+ 
   { path: 'hr-jobTitle', component: HrJobTitleComponent },
   { path: 'hr-position', component: HrPositionComponent },
   { path:'hr-MillitryState',component:HrMillitryStateComponent},
