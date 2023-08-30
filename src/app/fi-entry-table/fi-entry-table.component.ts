@@ -47,6 +47,15 @@ export class FiEntryTableComponent implements OnInit {
     this.getFiEntrySource();
   }
 
+  openFiEntryDialog() {
+    this.dialog.open(FiEntryDialogComponent, {
+      width: '100%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'save') {
+      }
+    })
+  }
+
   getAllMasterForms() {
     this.api.getFiEntry()
       .subscribe({

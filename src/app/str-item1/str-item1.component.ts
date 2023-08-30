@@ -17,9 +17,13 @@ import {
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { GlobalService } from '../services/global.service';
 
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string,private global:GlobalService) {
+    
+  }
 }
 
 export class Grade {
@@ -53,7 +57,9 @@ export class Group {
 }
 
 export class Unit {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string,private global:GlobalService) {
+
+  }
 }
 
 @Component({
@@ -102,6 +108,9 @@ export class STRItem1Component implements OnInit {
 
   myDate: any = new Date();
 
+  reportName: string = 'str-item1';
+  reportData: any;
+
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -109,8 +118,12 @@ export class STRItem1Component implements OnInit {
   constructor(
     private dialog: MatDialog,
     private api: ApiService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router,
+    private global:GlobalService
   ) {
+
+    global.getPermissionUserRoles(1, 'stores', 'إدارة المخازن وحسابات المخازن-الاصناف', '')
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -142,6 +155,8 @@ export class STRItem1Component implements OnInit {
     );
 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+
+    
   }
   ngOnInit(): void {
     this.getAllItems();
@@ -284,13 +299,17 @@ export class STRItem1Component implements OnInit {
   getAllItems() {
     this.api.getItem().subscribe({
       next: (res) => {
-        console.log('res table: ', res);
-        this.api.reportData = res;
-        this.api.reportName = 'str-item1';
-        let data: any = this.api.reportData;
-        window.localStorage.setItem('reportData', JSON.stringify(data));
-        let reportName: string = this.api.reportName;
-        window.localStorage.setItem('reportName', reportName);
+        // console.log('res table: ', res);
+        this.reportData = res;
+        // let data: any = this.api.reportData;
+        window.localStorage.setItem(
+          'reportData',
+          JSON.stringify(this.reportData)
+        );
+        window.localStorage.setItem(
+          'reportName',
+          JSON.stringify(this.reportName)
+        );
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -366,6 +385,7 @@ export class STRItem1Component implements OnInit {
         //enter itemName
         if (!this.selectedGroup && name && !this.selectedUnit) {
           console.log('filter name id: ', this.selectedGroup, 'name: ', name);
+
           // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
           this.dataSource = res.filter((res: any) =>
             res.name.toLowerCase().includes(name.toLowerCase())
@@ -485,6 +505,16 @@ export class STRItem1Component implements OnInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
+
+        this.reportData = this.dataSource;
+        window.localStorage.setItem(
+          'reportData',
+          JSON.stringify(this.reportData)
+        );
+        window.localStorage.setItem(
+          'reportName',
+          JSON.stringify(this.reportName)
+        );
       },
       error: (err) => {
         alert('Error');
@@ -504,38 +534,39 @@ export class STRItem1Component implements OnInit {
 
   printReport() {
     // this.loadAllData();
-    let header: any = document.getElementById('header');
-    let paginator: any = document.getElementById('paginator');
-    let action1: any = document.getElementById('action1');
-    let action2: any = document.querySelectorAll('action2');
-    console.log(action2);
-    let button1: any = document.querySelectorAll('#button1');
-    console.log(button1);
-    let button2: any = document.getElementById('button2');
-    let button: any = document.getElementsByClassName('mdc-icon-button');
-    console.log(button);
-    let reportFooter: any = document.getElementById('reportFooter');
-    let date: any = document.getElementById('date');
-    header.style.display = 'grid';
-    // paginator.style.display = 'none';
-    action1.style.display = 'none';
-    // button1.style.display = 'none';
-    // button2.style.display = 'none';
-    for (let index = 0; index < button.length; index++) {
-      let element = button[index];
+    // let header: any = document.getElementById('header');
+    // let paginator: any = document.getElementById('paginator');
+    // let action1: any = document.getElementById('action1');
+    // let action2: any = document.querySelectorAll('action2');
+    // console.log(action2);
+    // let button1: any = document.querySelectorAll('#button1');
+    // console.log(button1);
+    // let button2: any = document.getElementById('button2');
+    // let button: any = document.getElementsByClassName('mdc-icon-button');
+    // console.log(button);
+    // let reportFooter: any = document.getElementById('reportFooter');
+    // let date: any = document.getElementById('date');
+    // header.style.display = 'grid';
+    // // paginator.style.display = 'none';
+    // action1.style.display = 'none';
+    // // button1.style.display = 'none';
+    // // button2.style.display = 'none';
+    // for (let index = 0; index < button.length; index++) {
+    //   let element = button[index];
 
-      element.hidden = true;
-    }
-    // reportFooter.style.display = 'block';
-    // date.style.display = 'block';
-    let printContent: any = document.getElementById('content')?.innerHTML;
-    let originalContent: any = document.body.innerHTML;
-    document.body.innerHTML = printContent;
-    // console.log(document.body.children);
-    document.body.style.cssText =
-      'direction:rtl;-webkit-print-color-adjust:exact;';
-    window.print();
-    document.body.innerHTML = originalContent;
-    location.reload();
+    //   element.hidden = true;
+    // }
+    // // reportFooter.style.display = 'block';
+    // // date.style.display = 'block';
+    // let printContent: any = document.getElementById('content')?.innerHTML;
+    // let originalContent: any = document.body.innerHTML;
+    // document.body.innerHTML = printContent;
+    // // console.log(document.body.children);
+    // document.body.style.cssText =
+    //   'direction:rtl;-webkit-print-color-adjust:exact;';
+    // window.print();
+    // document.body.innerHTML = originalContent;
+    // location.reload();
+    this.router.navigate(['/report']);
   }
 }

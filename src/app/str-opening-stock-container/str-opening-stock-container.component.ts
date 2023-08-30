@@ -5,6 +5,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-str-opening-stock-container',
@@ -19,7 +20,9 @@ export class StrOpeningStockContainerComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService){}
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
+    global.getPermissionUserRoles(3, 'stores', 'الإفتتاحي', '')
+  }
 
   ngOnInit(): void {
     // this.getAllGroups();

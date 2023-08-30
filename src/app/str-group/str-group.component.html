@@ -1,21 +1,19 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>supervised_user_circle</mat-icon>
-  </button>
-  <span>المجموعات</span>
-  <span class="example-spacer"></span>
-  <!-- <button mat-raised-button color="warn" (click)="openDialog()">Add Product</button> -->
-  <button mat-raised-button color="warn" (click)="openGroupDialog()">اضافة </button>
-</mat-toolbar>
+
 
 <div class="container" dir="rtl">
   <div style="margin-top: 10px;">
-    <mat-form-field>
-      <mat-label>بحث</mat-label>
-      <!-- <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input> -->
-      <input matInput (keyup)="applyFilter($event)" #input>
-    </mat-form-field>
+    <mat-card-header dir="rtl">
+      <div class="child1 ">
+        <button mat-raised-button class="add"  (click)="openGroupDialog()" dir="ltr">
 
+          <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+        </button>
+      </div>
+
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
+      </mat-form-field>
+    </mat-card-header>
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
 

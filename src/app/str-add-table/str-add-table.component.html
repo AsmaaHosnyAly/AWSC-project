@@ -4,7 +4,7 @@
         <mat-expansion-panel-header>
             <mat-panel-description>
                 بحث متقدم
-                <mat-icon>account_circle</mat-icon>
+                <mat-icon>search</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="search">
@@ -39,7 +39,18 @@
         </div>
     </mat-expansion-panel>
 </mat-accordion>
+<mat-card-header dir="rtl">
+    <div class="child1 ">
+      <button mat-raised-button class="add" (click)="openAddDialog()" dir="ltr">
 
+        <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+      </button>
+    </div>
+
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
+    </mat-form-field>
+  </mat-card-header>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8" dir="rtl">
 

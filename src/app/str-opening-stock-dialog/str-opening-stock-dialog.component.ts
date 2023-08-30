@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../services/api.service';
-// import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -36,6 +35,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   deleteConfirmBtn: any;
   dialogRefDelete: any;
   isReadOnly: boolean = true;
+  autoNo: any;
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
@@ -48,7 +48,6 @@ export class StrOpeningStockDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
-    // private toastr: ToastrService,
     private dialog: MatDialog,
     private toastr: ToastrService) { }
 
@@ -57,6 +56,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.getStores();
     this.getItems();
     this.getFiscalYears();
+    this.getStrOpenAutoNo();
 
     this.getMasterRowId = this.editData;
 
@@ -83,14 +83,10 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
 
     if (this.editData) {
-      // console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-      // alert("facialId before: "+ this.editData.fiscalYearId)
       this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-      // console.log("faciaaaaal year edit: ", this.groupMasterForm.getRawValue().fiscalYearId)
-      // alert("facialId after: "+ this.groupMasterForm.getRawValue().fiscalYearId)
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
       this.groupMasterForm.controls['total'].setValue(this.editData.total);
 
@@ -100,11 +96,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     this.getAllDetailsForms();
 
-    // localStorage.setItem('transactionUserId', JSON.stringify("mehrail"));
     this.userIdFromStorage = localStorage.getItem('transactionUserId');
-    // console.log("userIdFromStorage in localStorage: ", this.userIdFromStorage)
-    // console.log("userIdFromStorage after slice from string shape: ", this.userIdFromStorage?.slice(1, length - 1))
-    // this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
   }
@@ -113,32 +105,30 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.groupMasterForm.removeControl('id')
 
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
-    // alert("store name in add: " + this.storeName)
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-
-    // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
-    // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
-    // console.log("dataName: ", this.groupMasterForm.value)
+    if (this.groupMasterForm.getRawValue().no) {
+      console.log("no changed: ", this.groupMasterForm.getRawValue().no)
+    }
+    else{
+      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+      console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
+    }
 
     if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no) {
 
 
-      console.log("Master add form : ", this.groupMasterForm.value)
+      // console.log("Master add form : ", this.groupMasterForm.value)
       this.api.postStrOpen(this.groupMasterForm.value)
         .subscribe({
           next: (res) => {
-            // console.log("ID header after post req: ", res);
             this.getMasterRowId = {
               "id": res
             };
-            // console.log("mastered res: ", this.getMasterRowId.id)
             this.MasterGroupInfoEntered = true;
 
-            // alert("تم الحفظ بنجاح");
             this.toastrSuccess();
             this.getAllDetailsForms();
-            // this.updateDetailsForm();
             this.addDetailsInfo();
           },
           error: (err) => {
@@ -147,21 +137,16 @@ export class StrOpeningStockDialogComponent implements OnInit {
           }
         })
     }
-    // else {
-    //   alert("تاكد من ادخال البيانات صحيحة")
-    // }
+
   }
 
   getAllDetailsForms() {
 
-    // console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
       this.http.get<any>("http://ims.aswan.gov.eg/api/STROpeningStockDetails/get/all")
         .subscribe(res => {
-          // console.log("res to get all details form: ", res, "masterRowId: ", this.getMasterRowId.id);
 
           this.matchedIds = res.filter((a: any) => {
-            // console.log("matchedIds: ", a.stR_Opening_StockId == this.getMasterRowId.id, "res: ", this.matchedIds)
             return a.stR_Opening_StockId == this.getMasterRowId.id
           })
 
@@ -189,43 +174,29 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   }
   async addDetailsInfo() {
-    // console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "main id: ", this.getMasterRowId.id);
 
     if (this.getMasterRowId.id) {
       if (this.getMasterRowId.id) {
-        // console.log("form  headerId: ", this.getMasterRowId.id)
 
         if (this.groupDetailsForm.getRawValue().itemId) {
-          // this.getAvgPrice(
-          //   this.groupMasterForm.getRawValue().storeId,
-          //   this.groupMasterForm.getRawValue().fiscalYearId,
-          //   formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-          //   this.groupDetailsForm.getRawValue().itemId)
-
+          
           this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
           this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          // this.groupDetailsForm.controls['price'].setValue(this.priceCalled);
-          // this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
           this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
         }
 
         this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
-        // console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
-
-
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
           this.api.postStrOpenDetails(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
-                // alert("تمت إضافة المجموعة بنجاح");
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
-                // this.dialogRef.close('save');
               },
               error: () => {
                 // alert("حدث خطأ أثناء إضافة مجموعة")
@@ -245,77 +216,45 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   async updateDetailsForm() {
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
-    // alert("update Store name: " + this.storeName)
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-    // console.log("data storeName in edit: ", this.groupMasterForm.value)
 
     this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-
-    // console.log("values master form: ", this.groupMasterForm.value)
-    // console.log("values getMasterRowId: ", this.getMasterRowId)
-    // console.log("values details form: ", this.groupDetailsForm.value)
 
     if (this.editData) {
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
-      // console.log("data item Name in edit: ", this.groupMasterForm.value)
     }
 
     this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
-    // this.groupMasterForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
-    // console.log("data item Name in edit without id: ", this.groupMasterForm.value)
 
     this.api.putStrOpen(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
-          // alert("تم الحفظ بنجاح");
-          // console.log("update res: ", res, "details form values: ", this.groupDetailsForm.value, "details id: ", this.getDetailedRowData);
           if (this.groupDetailsForm.value && this.getDetailedRowData) {
             this.api.putStrOpenDetails(this.groupDetailsForm.value, this.getDetailedRowData.id)
               .subscribe({
                 next: (res) => {
-                  // alert("تم الحفظ بنجاح");
                   this.toastrSuccess();
-                  // console.log("update res: ", res);
                   this.groupDetailsForm.reset();
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
-                  // this.dialogRef.close('update');
                 },
                 error: (err) => {
-                  // console.log("update err: ", err)
+                  console.log("update err: ", err)
                   // alert("خطأ أثناء تحديث سجل المجموعة !!")
                 }
               })
           }
 
-          // this.dialogRef.close('update');
         },
-        // error: () => {
-        //   alert("خطأ أثناء تحديث سجل الصنف !!")
-        // }
+      
       })
   }
 
   updateBothForms() {
-    // console.log("pass id: ", this.getMasterRowId.id, "pass No: ", this.groupMasterForm.getRawValue().no, "pass StoreId: ", this.groupMasterForm.getRawValue().storeId, "pass Date: ", this.groupMasterForm.getRawValue().date)
     if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
-
-      // this.getAvgPrice(
-      //   this.groupMasterForm.getRawValue().storeId,
-      //   this.groupMasterForm.getRawValue().fiscalYearId,
-      //   formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-      //   this.groupDetailsForm.getRawValue().itemId)
-
-
-      console.log("details form new: ", this.groupDetailsForm.value, "getDetailedRowData: ", this.getDetailedRowData)
-      alert("price: " + this.groupDetailsForm.getRawValue().price)
-      // this.groupDetailsForm.controls['price'].setValue(5);
-      alert("price after: " + this.groupDetailsForm.getRawValue().price)
-
       console.log("change readOnly to enable");
-
 
       this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
       this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
@@ -330,7 +269,6 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   editDetailsForm(row: any) {
 
-    // console.log("test pass row: ", row)
     if (this.editDataDetails || row) {
       this.getDetailedRowData = row;
 
@@ -339,14 +277,10 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
       this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
       this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
-      alert("price in edit: " + this.groupDetailsForm.getRawValue().price)
 
       this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
 
-      // console.log("itemid focus: ", this.matchedIds);
-
       this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
-      // this.getAvgPrice();
 
     }
 
@@ -359,7 +293,6 @@ export class StrOpeningStockDialogComponent implements OnInit {
       this.api.deleteStrOpenDetails(id)
         .subscribe({
           next: (res) => {
-            // alert("تم الحذف بنجاح");
             this.toastrDeleteSuccess();
             this.getAllDetailsForms()
           },
@@ -375,7 +308,6 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.api.getStrOpen()
       .subscribe({
         next: (res) => {
-          // console.log("response of get all getStrOpen from api: ", res);
           this.dataSource = new MatTableDataSource(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -391,7 +323,6 @@ export class StrOpeningStockDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.storeList = res;
-          // console.log("store res: ", this.storeList);
         },
         error: (err) => {
           // console.log("fetch store data err: ", err);
@@ -401,11 +332,9 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   getStoreByID(id: any) {
-    // console.log("row store id: ", id);
     return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
       .then(response => response.json())
       .then(json => {
-        // console.log("fetch name by id res: ", json.name);
         return json.name;
       })
       .catch((err) => {
@@ -419,7 +348,6 @@ export class StrOpeningStockDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.itemsList = res;
-          // console.log("items res: ", this.itemsList);
         },
         error: (err) => {
           // console.log("fetch items data err: ", err);
@@ -429,11 +357,9 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   getItemByID(id: any) {
-    // console.log("row item id: ", id);
     return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
       .then(response => response.json())
       .then(json => {
-        // console.log("fetch item name by id res: ", json.name);
         return json.name;
       })
       .catch((err) => {
@@ -444,8 +370,6 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
-      // console.log("code: ", code.target.value);
-
       this.itemsList.filter((a: any) => {
         if (a.fullCode === code.target.value) {
           this.groupDetailsForm.controls['itemId'].setValue(a.id);
@@ -463,7 +387,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.fiscalYearsList = res;
-          console.log("fiscalYears res: ", this.fiscalYearsList);
+          // console.log("fiscalYears res: ", this.fiscalYearsList);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -473,11 +397,11 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   getFiscalYearsByID(id: any) {
-    console.log("row fiscalYear id: ", id);
+    // console.log("row fiscalYear id: ", id);
     return fetch(`http://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
       .then(response => response.json())
       .then(json => {
-        console.log("fetch fiscalYears name by id res: ", json.fiscalyear);
+        // console.log("fetch fiscalYears name by id res: ", json.fiscalyear);
         return json.fiscalyear;
       })
       .catch((err) => {
@@ -488,15 +412,14 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   itemOnChange(itemEvent: any) {
     // this.isReadOnly = true;
-    console.log("itemId: ", itemEvent)
 
     if (this.groupDetailsForm.getRawValue().price == 0) {
       this.isReadOnly = false;
-      console.log("change readOnly to enable");
+      // console.log("change readOnly to enable");
     }
     else {
       this.isReadOnly = true;
-      console.log("change readOnly to disable");
+      // console.log("change readOnly to disable");
     }
 
     this.getAvgPrice(
@@ -509,22 +432,34 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
-    console.log("Avg get inputs: ", "storeId: ", this.groupMasterForm.getRawValue().storeId,
-      " fiscalYear: ", this.groupMasterForm.getRawValue().fiscalYearId,
-      " date: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-      " itemId: ", this.groupDetailsForm.getRawValue().itemId)
+    // console.log("Avg get inputs: ", "storeId: ", this.groupMasterForm.getRawValue().storeId,
+    //   " fiscalYear: ", this.groupMasterForm.getRawValue().fiscalYearId,
+    //   " date: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+    //   " itemId: ", this.groupDetailsForm.getRawValue().itemId)
 
     this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
 
       .subscribe({
         next: (res) => {
-          // this.priceCalled = res;
           this.groupDetailsForm.controls['price'].setValue(res);
-          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+        },
+        error: (err) => {
+          console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+  }
+
+  getStrOpenAutoNo() {
+    this.api.getStrOpenAutoNo()
+      .subscribe({
+        next: (res) => {
+          this.autoNo = res;
+          return res;
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
-          alert("خطا اثناء جلب متوسط السعر !");
+          // alert("خطا اثناء جلب العناصر !");
         }
       })
   }

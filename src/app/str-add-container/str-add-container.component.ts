@@ -5,6 +5,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.component';
+import { GlobalService } from '../services/global.service';
 
 
 @Component({
@@ -20,7 +21,10 @@ export class STRAddContainerComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService){}
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
+
+    
+  }
 
   ngOnInit(): void {
     this.getAllGroups();

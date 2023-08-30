@@ -91,13 +91,13 @@ export class HrPositionDialogComponent implements OnInit{
                 this.productIdToEdit = res.id;
 
                 this.toastrSuccess();
-                alert("تمت إضافة المنتج بنجاح");
+                alert("تمت إضافة الوظيفة بنجاح");
                 this.groupForm.reset();
 
                 this.dialogRef.close('save');
               },
               error: (err) => {
-                alert("حدث خطأ أثناء إضافة منتج");
+                alert("حدث خطأ أثناء إضافة وظيفة");
                 console.log("post product with api err: ", err)
               }
             })
@@ -115,13 +115,13 @@ export class HrPositionDialogComponent implements OnInit{
     this.api.putHrPosition(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث المنتج بنجاح");
+          alert("تم تحديث الوظيفة بنجاح");
           this.toastrSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          alert("خطأ أثناء تحديث سجل المنتج !!")
+          alert("خطأ أثناء تحديث سجل الوظيفة !!")
         }
       })
   }

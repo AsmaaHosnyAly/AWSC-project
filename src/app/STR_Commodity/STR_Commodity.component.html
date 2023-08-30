@@ -1,29 +1,11 @@
-<div class="container2" dir="rtl">
-  <span class="header">ادارة المخازن-اضافة سلعة</span>
 
-
-<mat-toolbar style="position: relative;">
-    <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"  style="position: absolute;right: 5px;font-size: 18px;">
-      <mat-icon>supervised_user_circle</mat-icon>
-    </button> -->
-    <span class="example-spacer"></span>
-   
-    <button mat-button  class='button' (click)="openDialog()"
-     >اضافة سلعة
-    +</button>
-  </mat-toolbar>
-
- <mat-form-field >
-        <mat-label class="filter" >بحث</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-      </mat-form-field>
 
   <mat-accordion class="example-headers-align" style="border: 1px;border-radius: 50px;" multi dir="rtl">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-description>
             بحث 
-          <mat-icon>account_circle</mat-icon>
+          <mat-icon>search</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
   <div class="search">
@@ -42,6 +24,19 @@
       <button (click)=" getSearchProducts(commidityId.value)" >عرض</button> 
     </div>
     </mat-expansion-panel>
+
+    <mat-card-header>
+      <div class="child1 ">
+        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
+
+          <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+        </button>
+      </div>
+
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
+      </mat-form-field>
+    </mat-card-header>
   <div class="container">
     <div>
      

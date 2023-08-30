@@ -75,21 +75,18 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>التقرير المراد طباعته</mat-label>
-            <input matInput aria-label="group" [matAutocomplete]="autoGroup" [formControl]="groupCtrl"
-              (click)="openAutoGroup()" required />
-            <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayGroupName"
-              (optionSelected)="groupSelected($event)">
-              <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
-                {{ group.name }} | {{ group.code }}
-              </mat-option>
-            </mat-autocomplete>
+            <mat-label> التقرير المراد طباعته"</mat-label>
+            <mat-select #fiscalYear plceholder="  التقرير المراد طباعته">
+              <mat-option
+              ></mat-option
+              >
+            </mat-select>
           </mat-form-field>
           <div class=" print display">
-            <button (click)="getSearchItems(item.value)">عرض</button>
+            <button (click)="printReport()">طباعة <mat-icon class="me-2 ">print</mat-icon></button>
           </div>
           <div class="print">
-            <button (click)="printReport()" class="">طباعة<mat-icon class="me-2 ">print</mat-icon></button>
+            <button (click)="getSearchItems(item.value)" class="">عرض</button>
           </div>
 
 
@@ -99,7 +96,7 @@
       </mat-expansion-panel>
     </mat-accordion>
 
-    <mat-card-header>
+    <mat-card-header dir="rtl">
       <div class="child1 ">
         <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
 

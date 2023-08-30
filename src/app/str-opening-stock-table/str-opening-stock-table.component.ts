@@ -48,6 +48,16 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.getItems();
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource2.paginator) {
+      this.dataSource2.paginator.firstPage();
+    }
+  }
+
+
   getAllMasterForms() {
     this.api.getStrOpen().subscribe({
       next: (res) => {
@@ -57,11 +67,19 @@ export class StrOpeningStockTableComponent implements OnInit {
         this.dataSource2.sort = this.sort;
       },
       error: () => {
-        alert('خطأ أثناء جلب سجلات المجموعة !!');
+        // alert('خطأ أثناء جلب سجلات المجموعة !!');
       },
     });
   }
-
+  openOpeningStockDialog() {
+    this.dialog.open(StrOpeningStockDialogComponent, {
+      width: '90%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'save') {
+        // this.getAllGroups();
+      }
+    })
+  }
   editMasterForm(row: any) {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
@@ -100,7 +118,7 @@ export class StrOpeningStockTableComponent implements OnInit {
                 }
               },
               (err) => {
-                alert('خطا اثناء تحديد المجموعة !!');
+                // alert('خطا اثناء تحديد المجموعة !!');
               }
             );
 
@@ -108,7 +126,7 @@ export class StrOpeningStockTableComponent implements OnInit {
           this.getAllMasterForms();
         },
         error: () => {
-          alert('خطأ أثناء حذف المجموعة !!');
+          // alert('خطأ أثناء حذف المجموعة !!');
         },
       });
     }
@@ -117,12 +135,12 @@ export class StrOpeningStockTableComponent implements OnInit {
   deleteFormDetails(id: number) {
     this.api.deleteStrOpenDetails(id).subscribe({
       next: (res) => {
-        alert('تم حذف الصنف بنجاح');
+        // alert('تم حذف الصنف بنجاح');
         this.getAllMasterForms();
       },
       error: (err) => {
-        // console.log("delete details err: ", err)
-        alert('خطأ أثناء حذف الصنف !!');
+        console.log("delete details err: ", err)
+        // alert('خطأ أثناء حذف الصنف !!');
       },
     });
   }
@@ -188,7 +206,6 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.api.getFiscalYears().subscribe({
       next: (res) => {
         this.fiscalYearsList = res;
-        console.log('fiscalYears res in search: ', this.fiscalYearsList);
       },
       error: (err) => {
         // console.log("fetch fiscalYears data err: ", err);
@@ -202,7 +219,6 @@ export class StrOpeningStockTableComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.itemsList = res;
-          // console.log("items res: ", this.itemsList);
         },
         error: (err) => {
           // console.log("fetch items data err: ", err);
@@ -212,13 +228,9 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
 
   getSearchStrOpen(no: any, store: any, date: any, fiscalYear: any, itemId: any) {
-
-    console.log("no. : ", no, "store : ", store, "date: ", date, "fiscalYear: ", fiscalYear, "itemId: ", itemId);
     this.api.getStrOpenSearach(no, store, date, fiscalYear, itemId)
       .subscribe({
         next: (res) => {
-          console.log("search openingStock res: ", res);
-
           this.dataSource2 = res
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;

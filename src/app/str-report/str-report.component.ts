@@ -41,7 +41,8 @@ export class StrReportComponent {
 
   ngOnInit(): void {
     this.loadReportData();
-    this.reportData(this.reportName);
+    this.reportDataColumns(this.reportName);
+    // this.printReport();
   }
 
   loadReportData() {
@@ -52,21 +53,8 @@ export class StrReportComponent {
     }
     let local: any = localStorage.getItem('reportData');
     let reportNameStorage: any = localStorage.getItem('reportName');
-    this.reportName = reportNameStorage;
-    console.log(reportNameStorage);
-    // console.log(local);
+    this.reportName = JSON.parse(reportNameStorage);
     this.reportLocal = JSON.parse(local);
-    // // console.log(this.reportLocal);
-    // this.pagesNumber = this.reportLocal.length / this.pageSize;
-    // // console.log(this.pagesNumber);
-    // this.pageData = this.reportLocal.slice(
-    //   this.pageNumber - 1,
-    //   this.pageNumber * this.pageSize
-    // );
-    // let report: any = this.pageData;
-    // this.dataSource = new MatTableDataSource(report);
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
 
     //  All Data
 
@@ -76,10 +64,10 @@ export class StrReportComponent {
     this.dataSource.sort = this.sort;
   }
 
-  reportData(name: string) {
+  reportDataColumns(name: string) {
+    // console.log(name);
     switch (name) {
       case (name = 'str-item1'):
-        console.log(name);
         this.displayedColumns = [
           'name',
           'commodityName',
@@ -91,20 +79,11 @@ export class StrReportComponent {
           'type',
         ];
         this.displayName = 'الاصناف';
-        this.show = false;
+        // this.show = false;
         break;
 
       default:
-        this.displayedColumns = [
-          'name',
-          'commodityName',
-          'gradeName',
-          'platoonName',
-          'groupName',
-          'unitName',
-          'isActive',
-          'type',
-        ];
+        this.displayedColumns = [];
         break;
     }
   }
@@ -122,11 +101,13 @@ export class StrReportComponent {
   printReport() {
     // this.loadAllData();
     let reportFooter: any = document.getElementById('reportFooter');
+    let section: any = document.getElementById('my-table');
     let date: any = document.getElementById('date');
-    if (this.show) {
+    if (!this.show) {
       reportFooter.style.display = 'block';
       date.style.display = 'block';
     }
+    console.log(section);
     let printContent: any = document.getElementById('content')?.innerHTML;
     let originalContent: any = document.body.innerHTML;
     document.body.innerHTML = printContent;
