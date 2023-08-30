@@ -129,7 +129,7 @@ accordion!: MatAccordion;
     private _filterParents(value: string): Parent[] {
       const filterValue = value.toLowerCase();
       return this.parents.filter(parent =>
-        parent.name.toLowerCase().includes(filterValue)
+        parent.name.toLowerCase().includes(filterValue) && parent.id !== this.selectedAccount?.id
       );
     }
   

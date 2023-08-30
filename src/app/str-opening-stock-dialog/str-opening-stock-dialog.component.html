@@ -6,7 +6,7 @@
         <div class="headerForm">
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no" type="number">
+                <input matInput placeholder="الرقم" formControlName="no" [value]="editData ? editData.no : autoNo" type="number">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
@@ -75,13 +75,7 @@
                         [value]="getDetailedRowData ? getDetailedRowData.price : ''" formControlName="price"
                         [readonly]="isReadOnly">
                 </mat-form-field>
-                <!-- 
-                <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label>السعر</mat-label>
-                    <input type="number" matInput placeholder="السعر" formControlName="price"
-                        [value]="getDetailedRowData ? getDetailedRowData.price : ''">
-                </mat-form-field> -->
-
+               
 
                 <div mat-dialog-action [align]="'end'">
                     <div class="groupAction">

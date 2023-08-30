@@ -4,20 +4,13 @@
       <mat-toolbar-row>
         <div class="toolbarContainer" *ngIf="global.isLogIn || global.navFlag">
           <div class="toolBarUserInfo" dir="rtl">
-            <mat-icon>notifications_active</mat-icon>
-            <mat-icon>search</mat-icon>
             <button
               mat-button
               [matMenuTriggerFor]="menu"
               aria-label="Example icon-button with a menu"
             >
               <div class="toolbarUserContent d-flex">
-                <img
-                  src="../assets/images/profile.png"
-                  width="30"
-                  height="30"
-                  alt="user photo"
-                />
+                
                 <div class="user-name">
                   <div class="my-2">{{ user?.name }}</div>
                   <div class="">مدير ادارة المخازن</div>
@@ -103,7 +96,7 @@
             </div>
 <!-- start stores -->
             <mat-expansion-panel dir="rtl">
-              <mat-expansion-panel-header>
+              <mat-expansion-panel-header >
                 <mat-panel-title>
                   <mat-icon color="primary" class="ms-2">store</mat-icon>
                   المخازن
