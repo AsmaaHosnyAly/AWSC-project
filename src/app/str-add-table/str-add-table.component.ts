@@ -7,6 +7,7 @@ import { ApiService } from '../services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-str-add-table',
@@ -48,7 +49,8 @@ export class STRAddTableComponent implements OnInit {
     private api: ApiService,
     private dialog: MatDialog,
     private http: HttpClient,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +68,7 @@ export class STRAddTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.loadDataToLocalStorage(res);
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -302,5 +305,9 @@ export class STRAddTableComponent implements OnInit {
   loadDataToLocalStorage(data: any): void {
     localStorage.removeItem('store-data');
     localStorage.setItem('store-data', JSON.stringify(data));
+  }
+
+  print() {
+    this.router.navigate(['/add-item-report']);
   }
 }

@@ -4,6 +4,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ApiService } from '../services/api.service';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -31,20 +32,30 @@ export class StrReportComponent {
   pageSize: number = 2;
   pageData: [] = [];
 
+  static flag: number = 1;
+
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private api: ApiService, private datePipe: DatePipe) {
+  constructor(
+    private api: ApiService,
+    private datePipe: DatePipe,
+    private router: Router
+  ) {
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    // this.flag = true;
     this.loadReportData();
     this.reportDataColumns(this.reportName);
+    // await this.delay(1000);
     // this.printReport();
   }
-
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
   loadReportData() {
     // console.log(this.api.reportData);
     let reportFooter: any = document.getElementById('reportFooter');
@@ -100,6 +111,7 @@ export class StrReportComponent {
 
   printReport() {
     // this.loadAllData();
+    // let flag: boolean = true;
     let reportFooter: any = document.getElementById('reportFooter');
     let section: any = document.getElementById('my-table');
     let date: any = document.getElementById('date');
@@ -116,7 +128,20 @@ export class StrReportComponent {
       'direction:rtl;-webkit-print-color-adjust:exact;';
     window.print();
     document.body.innerHTML = originalContent;
+
+    // must be reloaded after printContent
     location.reload();
+
+    // if (StrReportComponent.flag == 1) {
+    //   StrReportComponent.flag += 1;
+    // }
+    // this.router.navigate(['/items1']);
+    // window.history.back();
+  }
+
+  goBack() {
+    console.log('goBack');
+    window.history.back();
   }
 
   first() {
