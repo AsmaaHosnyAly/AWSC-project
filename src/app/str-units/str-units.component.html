@@ -1,7 +1,7 @@
 <mat-card>
   
   <mat-card-content>
-    <mat-card-header dir="rtl">
+    <mat-card-header >
       <div class="child1 " >
         <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
 
@@ -13,7 +13,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
       </mat-form-field>
     </mat-card-header>
-    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
 
     
 
