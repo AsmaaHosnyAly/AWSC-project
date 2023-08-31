@@ -29,7 +29,7 @@
     </mat-accordion>
     <mat-card-header dir="rtl">
       <div class="child1 ">
-        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
+        <button mat-raised-button class="add" (click)="openDialog()" dir="rtl">
 
           <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
         </button>
@@ -39,7 +39,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
       </mat-form-field>
     </mat-card-header>
-    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
 
       <!-- productCode Column -->
       <ng-container matColumnDef="code">

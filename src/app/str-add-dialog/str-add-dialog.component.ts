@@ -45,6 +45,7 @@ export class STRAddDialogComponent implements OnInit {
   dialogRefDelete: any;
   isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
+  isReadOnlyPercentage:any = false;
   autoNo: any;
 
   displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
@@ -69,7 +70,6 @@ export class STRAddDialogComponent implements OnInit {
     this.getReciepts();
     this.getEmployees();
     this.getStrAddAutoNo();
-
 
     this.getFiscalYears();
     // console.log("next btn: ", this.editDataDetails, "edit data: ", this.editData);
@@ -108,7 +108,7 @@ export class STRAddDialogComponent implements OnInit {
       itemName: ['', Validators.required],
       avgPrice: ['', Validators.required],
       balanceQty: ['', Validators.required],
-      percentage: ['', Validators.required],
+      percentage: [''],
       // storeId: ['', Validators.required],
       // date: ['', Validators.required],
       // fiscalYearId: ['', Validators.required],
@@ -269,6 +269,7 @@ export class STRAddDialogComponent implements OnInit {
   async addDetailsInfo() {
     this.groupDetailsForm.removeControl('id')
     console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "main id: ", this.getMasterRowId.id);
+    
 
     if (this.getMasterRowId.id) {
       if (this.getMasterRowId.id) {
@@ -298,8 +299,10 @@ export class STRAddDialogComponent implements OnInit {
         this.groupDetailsForm.addControl('fiscalYearId', new FormControl('', Validators.required));
         this.groupDetailsForm.controls['fiscalYearId'].setValue(this.groupMasterForm.getRawValue().fiscalYearId);
 
-        console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
+       
 
+        console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
+     
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
           this.api.postStrAddDetails(this.groupDetailsForm.value)
@@ -332,6 +335,8 @@ export class STRAddDialogComponent implements OnInit {
     else {
       this.updateDetailsForm();
     }
+
+    
   }
 
   async updateDetailsForm() {
@@ -725,12 +730,12 @@ export class STRAddDialogComponent implements OnInit {
     this.isReadOnlyEmployee = true
     
   }
-
+ 
   set_store_Employee_Null(sellerId: any) {
     // this.groupMasterForm.controls['sellerId'].setValue(''); 
     this.groupMasterForm.controls['sourceStoreId'].setValue(null);
     this.groupMasterForm.controls['employeeId'].setValue(null);
-    this.isReadOnlyEmployee = false
+    this.isReadOnlyEmployee = false;
   }
   set_store_Seller_Null(employeeId: any) {
     this.groupMasterForm.controls['sellerId'].setValue(null);
@@ -739,48 +744,103 @@ export class STRAddDialogComponent implements OnInit {
     this.isReadOnlyEmployee = true
   }
 
+  set_Percentage(state: any){
+    console.log("state value changed: ", state.value )
+    if(state.value==false){
+      this.isReadOnlyPercentage=false;
+    }else{
+      this.isReadOnlyPercentage=true;
+      this.groupDetailsForm.controls['percentage'].setValue(100);
+
+      
+
+    }
+
+  }
+
   itemOnChange(itemEvent: any) {
     // this.isReadOnly = true;
     console.log("itemId: ", itemEvent)
 
-    if (this.groupDetailsForm.getRawValue().avgPrice == 0) {
-      this.isReadOnly = false;
-      console.log("change readOnly to enable");
-    }
-    else {
-      this.isReadOnly = true;
-      console.log("change readOnly to disable");
-    }
+    // if (this.groupDetailsForm.getRawValue().avgPrice == 0,this.groupDetailsForm.getRawValue().balanceQty == 0  ) {
+    //   this.isReadOnly = false;
+    //   console.log("change readOnly to enable");
+    // }
+    // else {
+    //   this.isReadOnly = true;
+    //   console.log("change readOnly to disable");
+    // }
 
-    this.getAvgPrice(
-      this.groupMasterForm.getRawValue().storeId,
-      this.groupMasterForm.getRawValue().fiscalYearId,
-      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-      itemEvent)
-
-
-  }
-
-  getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
     console.log("Avg get inputs: ", "storeId: ", this.groupMasterForm.getRawValue().storeId,
       " fiscalYear: ", this.groupMasterForm.getRawValue().fiscalYearId,
       " date: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-      " itemId: ", this.groupDetailsForm.getRawValue().itemId)
+      " itemId: ", itemEvent,
+      "sellerId: ", this.groupMasterForm.getRawValue().sellerId
+     )
+     
+     if(this.groupMasterForm.getRawValue().sellerId != null){
+      // console.log("sellerName != null ",this.groupMasterForm.getRawValue().sellerId)
+      this.api.getNewAvgPrice(
+        this.groupMasterForm.getRawValue().storeId,
+        this.groupMasterForm.getRawValue().fiscalYearId,
+        formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+        itemEvent,
+        this.groupDetailsForm.getRawValue().price,
+        this.groupDetailsForm.getRawValue().qty
+        ) 
+          .subscribe({
+            next: (res) => {
+              // this.priceCalled = res;
+              this.groupDetailsForm.controls['avgPrice'].setValue(res);
+              console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+            },
+            error: (err) => {
+              // console.log("fetch fiscalYears data err: ", err);
+              alert("خطا اثناء جلب متوسط السعر !");
+            }
+          })
+          
+     }
+     else{        
+       
+       this.api.getAvgPrice(
+         this.groupMasterForm.getRawValue().storeId,
+         this.groupMasterForm.getRawValue().fiscalYearId,
+         formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+         itemEvent,
+         ) 
+         .subscribe({
+           next: (res) => {
+             // this.priceCalled = res;
+             this.groupDetailsForm.controls['avgPrice'].setValue(res);
+             this.groupDetailsForm.controls['price'].setValue(res)
+              console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+            },
+            error: (err) => {
+              // console.log("fetch fiscalYears data err: ", err);
+              alert("خطا اثناء جلب متوسط السعر !");
+            }
+          })    
+     
+     }
+     this.api.getSumQuantity(
+      this.groupMasterForm.getRawValue().storeId,        
+      itemEvent,
+      ) 
+        .subscribe({
+          next: (res) => {
+            // this.priceCalled = res;
+            this.groupDetailsForm.controls['balanceQty'].setValue(res);
+            console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+          },
+          error: (err) => {
+            // console.log("fetch fiscalYears data err: ", err);
+            alert("خطا اثناء جلب الرصيد الحالى  !");
+          }
+        })
 
-    this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
-
-      .subscribe({
-        next: (res) => {
-          // this.priceCalled = res;
-          this.groupDetailsForm.controls['avgPrice'].setValue(res);
-          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          alert("خطا اثناء جلب متوسط السعر !");
-        }
-      })
-  }
+   
+    }
 
   getStrAddAutoNo() {
     this.api.getStrAddAutoNo()
