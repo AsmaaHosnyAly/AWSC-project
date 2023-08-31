@@ -4,9 +4,14 @@
 
 .example-radio-group {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     margin: 15px 0;
-    align-items: flex-start;
+    align-items: center;
+}
+.radio{
+    display: inline-block;
+    width: 25%;
+    
 }
 
 .example-radio-button {
@@ -70,5 +75,9 @@
   }
   .row{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+  }
+
+  .mat-mdc-dialog-container .mdc-dialog__title {
+    text-align: center;
   }

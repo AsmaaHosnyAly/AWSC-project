@@ -1595,6 +1595,18 @@ deleteSeveranceReason(id: number) {
       `${this.url}/STRAddDetails/Delete/` + HeaderId
     );
   }
+  getNewAvgPrice(storeid: any, FiscalYearid: any, Date: any, itemid: any, price  :any , qty:any) {
+    console.log('Avg price inputs to backend');
+    return this.http.get<any>(
+      `${this.url}/STRAddDetails/get/new/Avg/Price/${storeid}/${FiscalYearid}/${Date}/${itemid}/${price}/${qty}`
+    );
+  }
+  getSumQuantity(storeid: any,itemid: any) {
+    console.log('Avg price inputs to backend');
+    return this.http.get<any>(
+      `${this.url}/STRAddDetails/get/sum/quantity/${storeid}/${itemid}`
+    );
+  }
 
   // -------end add--------
 
