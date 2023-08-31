@@ -38,7 +38,8 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
-
+autoNo: any;
+price:any;
   displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -55,10 +56,12 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.getStores();
+    // this.getStores();
     this.getItems();
     this.getFiscalYears();
     this.getEmployees();
+    this.getStrEmployeeOpenAutoNo();
+    // this.getPrice(); 
     this.distEmployeesList = [
       {
         "id": 1,
@@ -80,7 +83,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
       // storeId: ['', Validators.required],
       // storeName: ['', Validators.required],
       employeeId: ['', Validators.required],
-      destEmployeeId: ['', Validators.required],
+    
       costCenterId: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       date: ['', Validators.required],
@@ -109,7 +112,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
       // this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
 
       this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
-      this.groupMasterForm.controls['destEmployeeId'].setValue(this.editData.destEmployeeId);
+      
       this.groupMasterForm.controls['costCenterId'].setValue(this.editData.costCenterId);
 
       // alert("facialId before: "+ this.editData.fiscalYearId)
@@ -134,19 +137,19 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
 
   }
 
-  getStores() {
-    this.api.getStore()
-      .subscribe({
-        next: (res) => {
-          this.storeList = res;
-          // console.log("store res: ", this.storeList);
-        },
-        error: (err) => {
-          console.log("fetch store data err: ", err);
-          alert("خطا اثناء جلب المخازن !");
-        }
-      })
-  }
+  // getStores() {
+  //   this.api.getStore()
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.storeList = res;
+  //         // console.log("store res: ", this.storeList);
+  //       },
+  //       error: (err) => {
+  //         console.log("fetch store data err: ", err);
+  //         alert("خطا اثناء جلب المخازن !");
+  //       }
+  //     })
+  // }
 
   getItems() {
     this.api.getItems()
@@ -189,7 +192,20 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
         }
       })
   }
+  // getPrice(){
+  //   this.api.getAvgPrice(storeid: any, FiscalYearid: any, Date: any, itemid: any)
 
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.price = res;
+  //         console.log("employees res: ", this.employeesList);
+  //       },
+  //       error: (err) => {
+  //         console.log("fetch employees data err: ", err);
+  //         alert("خطا اثناء جلب الموظفين !");
+  //       }
+  //     })
+ 
   getFiscalYears() {
     this.api.getFiscalYears()
       .subscribe({
@@ -243,7 +259,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')
-
+this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
     // this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
 
     // alert("store name in add: " + this.storeName)
@@ -251,7 +267,13 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
     console.log("dataName: ", this.groupMasterForm.value)
-
+    if (this.groupMasterForm.getRawValue().no) {
+      console.log("no changed: ", this.groupMasterForm.getRawValue().no)
+    }
+    else{
+      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+      console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
+    }
     if (this.groupMasterForm.valid) {
       // if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.valid) {
 
@@ -485,7 +507,19 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
 
 
   }
-
+  getStrEmployeeOpenAutoNo() {
+    this.api.getStrEmployeeOpenAutoNo()
+      .subscribe({
+        next: (res) => {
+          this.autoNo = res;
+          return res;
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
   deleteFormDetails(id: number) {
     // this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
     // this.groupDetailsForm.controls['id'].setValue(this.editData.id);

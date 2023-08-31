@@ -142,6 +142,8 @@ import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-e
 import { HrEmployeeDisciplinaryDialogComponent } from './hr-employee-disciplinary-dialog/hr-employee-disciplinary-dialog.component';
 import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component';
 import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.component';
+import { StrModelComponent } from './str-model/str-model.component';
+import { StrModelDailogComponent } from './str-model-dailog/str-model-dailog.component';
 
 @NgModule({
   declarations: [
@@ -245,7 +247,10 @@ import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.compon
     HrEmployeeDisciplinaryComponent,
     HrEmployeeDisciplinaryDialogComponent,
     PrGroupTableComponent,
-    PrGroupDialogComponent
+    PrGroupDialogComponent,
+    StrModelComponent,
+    StrModelDailogComponent,
+   
   
 
 

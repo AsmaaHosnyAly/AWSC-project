@@ -57,7 +57,7 @@ import { HrDisciplinaryComponent } from './hr-disciplinary/hr-disciplinary.compo
 
 import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-employee-disciplinary.component';
 import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component';
-
+import { StrModelComponent } from './str-model/str-model.component';
 const routes: Routes = [
   //  {path: 'products',
   //  children: [
@@ -92,9 +92,6 @@ const routes: Routes = [
   { path: 'commodity', component: StrCommodityComponent },
   { path: 'home', component: StrGroupHomeComponent },
 
-  { path: 'groupOpening', component: StrOpeningStockContainerComponent },
-  { path: 'employeeOpening', component: StrEmployeeExchangeContainerComponent },
-  { path: 'groupBannel', component: StrGroupComponent },
   { path: 'unit', component: STRUnitsComponent },
   { path: 'grade', component: STRGradeComponent },
   { path: 'costCenter', component: StrCostcenterComponent },
@@ -136,15 +133,11 @@ const routes: Routes = [
    {path:'commodity' , component:StrCommodityComponent},
   
   { path: "home", component: StrGroupHomeComponent},
-  { path: "groupOpening", component: StrOpeningStockContainerComponent },
-  { path: "employeeOpening", component: StrEmployeeExchangeContainerComponent },
-  { path: "groupBannel", component: StrGroupComponent },
   { path: "unit", component:STRUnitsComponent},
   { path: "grade", component:STRGradeComponent },
   { path: 'home', component: StrGroupHomeComponent },
-  { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+  { path: 'str-openingStock', component: StrOpeningStockContainerComponent },
   { path: 'employeeOpening', component: StrEmployeeExchangeContainerComponent },
-  { path: 'groupBannel', component: StrGroupComponent },
   { path: 'unit', component: STRUnitsComponent },
   { path: 'grade', component: STRGradeComponent },
   { path: 'costCenter', component: StrCostcenterComponent },
@@ -154,7 +147,7 @@ const routes: Routes = [
   { path: 'group1', component: STRGroup1Component },
   { path: 'str-employee', component: STREmployeeOpeningCustodyComponent },
   { path: 'str-vendor', component: StrVendorComponent},
-  { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design
+  { path: 'fi-entry', component: FiEntryContainerComponent },
   { path: 'account', component: FIAccountComponent },
   
  
@@ -174,6 +167,7 @@ const routes: Routes = [
 
   { path:'pr-group', component:PrGroupTableComponent},
 
+  { path:'str-model', component: StrModelComponent},
   { path: '**', component: ErrorComponent },
 
 
