@@ -130,7 +130,7 @@ const routes: Routes = [
 //  ],} ,
   { path: "", redirectTo: "login", pathMatch: "full" },
    {path:'login' , component:LoginComponent},
-   {path:'commodity' , component:StrCommodityComponent},
+  //  {path:'commodity' , component:StrCommodityComponent},
   
   { path: "home", component: StrGroupHomeComponent},
   { path: "unit", component:STRUnitsComponent},

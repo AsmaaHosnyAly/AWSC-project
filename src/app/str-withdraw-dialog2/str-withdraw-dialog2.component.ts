@@ -1,4 +1,5 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { FiscalYear } from './../hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
+import { Component, OnInit, Inject, ViewChild , LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -38,8 +40,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   stateName:any;
   // notesName:any;
   withDrawNoName:any;
-
-
+  isReadOnly: any = false;
+  isReadOnlyEmployee: any = false;
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
@@ -49,7 +51,9 @@ export class StrWithdrawDialogComponent implements OnInit {
   costcenterList: any;
   deststoreList:any;
   desstoreName:any;
-
+  autoNo:any;
+  fiscalYearValue:any;
+  deststoreValue:any;
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -59,6 +63,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
+    @Inject(LOCALE_ID) private locale: string,
     private http: HttpClient,
     private toastr: ToastrService,
     private dialog: MatDialog,
@@ -73,6 +78,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.getEmployees();
     this.getCostCenters();
     this.getDestStores();
+    // this.getStrWithdrawAutoNo();
 
 
 
@@ -91,6 +97,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       fiscalYearId: ['', Validators.required],
       costcenterId: [''],
       employeeId: [''],
+      avgPrice: ['', Validators.required],
       // sellerId: [''],
       // sellerName: [''],
       // sourceStoreId: [''],
@@ -119,6 +126,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       itemName: ['', Validators.required],
       
       stateName: [''],
+      
       // notesName: [''],
 
 
@@ -199,7 +207,13 @@ export class StrWithdrawDialogComponent implements OnInit {
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
     // console.log("dataName: ", this.groupMasterForm.value)
-
+    if (this.groupMasterForm.getRawValue().no) {
+      console.log("no changed: ", this.groupMasterForm.getRawValue().no)
+    }
+    else{
+      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+      console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
+    }
     if ( this.groupMasterForm.getRawValue().storeId  && this.groupMasterForm.getRawValue().employeeId && 
     this.groupMasterForm.getRawValue().costcenterId && this.groupMasterForm.getRawValue().date && 
     this.groupMasterForm.getRawValue().deststoreId && this.groupMasterForm.getRawValue().no   ) {
@@ -241,13 +255,79 @@ export class StrWithdrawDialogComponent implements OnInit {
   set_Employee_Null(deststoreId:any) {
     console.log("deststoreId:",deststoreId)
 
-    this.groupMasterForm.controls['destStoreId'].setValue(null); 
+    this.groupMasterForm.controls['employeeId'].setValue(null); 
+    this.isReadOnlyEmployee = true;
+    this.deststoreValue=deststoreId;
   }
   set_store_Null(employeeId:any) {
     console.log("employeeId:",employeeId)
 
-    this.groupMasterForm.controls['employeeId'].setValue(null); 
+    this.groupMasterForm.controls['deststoreId'].setValue(null); 
     // this.groupMasterForm.controls['employeeId'].setValue('');  
+    this.isReadOnlyEmployee = false;
+  
+  }
+  itemOnChange(itemEvent: any) {
+    // this.isReadOnly = true;
+    console.log("itemId: ", itemEvent)
+
+    if (this.groupDetailsForm.getRawValue().avgPrice == 0) {
+      this.isReadOnly = false;
+      console.log("change readOnly to enable");
+    }
+    else {
+      this.isReadOnly = true;
+      console.log("change readOnly to disable");
+    }
+
+    this.getAvgPrice(
+      this.groupMasterForm.getRawValue().storeId,
+      this.groupMasterForm.getRawValue().fiscalYearId,
+      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+      itemEvent)
+
+
+  }
+
+  getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
+    console.log("Avg get inputs: ", "storeId: ", this.groupMasterForm.getRawValue().storeId,
+      " fiscalYear: ", this.groupMasterForm.getRawValue().fiscalYearId,
+      " date: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+      " itemId: ", this.groupDetailsForm.getRawValue().itemId)
+
+    this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
+
+      .subscribe({
+        next: (res) => {
+          // this.priceCalled = res;
+          this.groupDetailsForm.controls['avgPrice'].setValue(res);
+          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+  }
+  // setfiscalYear_value(fiscalYearId:any) {
+  //   console.log("fiscalYearId:",fiscalYearId)
+  //   this.fiscalYearValue=fiscalYearId;
+  //   this.getStrWithdrawAutoNo(this.deststoreValue);
+  //   this.isReadOnlyEmployee = false
+  // }
+  getStrWithdrawAutoNo(storeId:any,fiscalYearId:any) {
+    console.log("store,fiscalyera",storeId,fiscalYearId)
+    this.api.getStrWithdrawAutoNo(storeId,fiscalYearId)
+      .subscribe({
+        next: (res) => {
+          this.autoNo = res;
+          return res;
+        },
+        error: (err) => {
+          console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
   }
   getAllDetailsForms() {
 
@@ -377,9 +457,18 @@ export class StrWithdrawDialogComponent implements OnInit {
 
     if (this.editData) {
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
-      this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
-      // console.log("data item Name in edit: ", this.groupMasterForm.value)
+      this.groupMasterForm.controls['id'].setValue(this.editData.id);
+      console.log("data item Name in edit: ", this.groupMasterForm.value)
     }
+    if (this.getDetailedRowData) {
+      console.log("details foorm: ", this.groupDetailsForm.value)
+      this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+      this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
+      // this.groupDetailsForm.controls['state'].setValue(this.editData.id);
+      this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
+
+    }
+
 
     this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
@@ -445,6 +534,8 @@ console.log("put before",this.groupMasterForm.value)
 
       this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
       this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
+      this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
+
       this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
 
       // console.log("itemid focus: ", this.matchedIds);
@@ -562,7 +653,7 @@ console.log("put before",this.groupMasterForm.value)
       }
 
   getDestStoreById(id: any) {
-    console.log("row store id: ", id);
+    console.log("row deststore id: ", id);
     return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
       .then(response => response.json())
       .then(json => {
@@ -575,7 +666,7 @@ console.log("put before",this.groupMasterForm.value)
   }
   getemployeeByID(id: any) {
         console.log("row employee id: ", id);
-        return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
+        return fetch(`http://ims.aswan.gov.eg/api/HR_Employee/get/${id}`)
           .then(response => response.json())
           .then(json => {
             // console.log("fetch name by id res: ", json.name);

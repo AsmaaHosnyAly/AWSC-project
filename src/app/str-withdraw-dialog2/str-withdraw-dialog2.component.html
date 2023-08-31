@@ -4,9 +4,9 @@
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
         <div class="headerForm">
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>الرقم</mat-label>
-                <input style="width: 20px;" matInput placeholder="الرقم" formControlName="no" type="number">
+            <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
+                <mat-label >الرقم</mat-label>
+                <input style="width: 50px;" matInput [value]="editData ? editData.no : autoNo" placeholder="الرقم" formControlName="no" >
             </mat-form-field>
 
             <!-- <mat-form-field appearance="outline" class="groupInput">
@@ -21,7 +21,12 @@
                     <mat-option [value]="employee.id" *ngFor="let employee of employeeList">{{employee.name}}</mat-option>
                 </mat-select>
             </mat-form-field> -->
-           
+            <mat-form-field appearance="outline" class="groupInput">
+                <mat-label>المخازن</mat-label>
+                <mat-select placeholder="المخازن"  #store formControlName="storeId" (valueChange)="getStrWithdrawAutoNo(store.value,fiscalyear.value)">
+                    <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>مخزن خارجي </mat-label>
                 <mat-select placeholder="مخزن خارجي " (valueChange)="set_Employee_Null($event)" formControlName="deststoreId">
@@ -34,12 +39,7 @@
                     <mat-option [value]="employee.id" *ngFor="let employee of employeeList">{{employee.name}}</mat-option>
                 </mat-select>
                 </mat-form-field>
-                <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label>المخازن</mat-label>
-                    <mat-select placeholder="المخازن" formControlName="storeId">
-                        <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+              
                 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>مركز التكلفة</mat-label>
@@ -50,7 +50,7 @@
            
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
+                <mat-select placeholder="السنة المالية" #fiscalyear formControlName="fiscalYearId" (valueChange)="getStrWithdrawAutoNo(store.value,fiscalyear.value)">
                     <mat-option [value]="fiscalYear.id" *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -120,10 +120,14 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label>السعر</mat-label>
-                    <input type="number" matInput placeholder="السعر" formControlName="price"
-                        [value]="getDetailedRowData ? getDetailedRowData.price : ''">
+                    <input matInput type="number" placeholder="السعر" formControlName="price"
+                        [value]="getDetailedRowData ? getDetailedRowData.price : ''" [readonly]="isReadOnlyEmployee">
                 </mat-form-field>
-
+                <mat-form-field appearance="outline" class="groupInput">
+                    <mat-label>متوسط السعر</mat-label>
+                    <input matInput type="number" placeholder="متوسط السعر" formControlName="avgPrice"
+                        [value]="getDetailedRowData ? getDetailedRowData.avgPrice : ''" [readonly]="isReadOnly">
+                </mat-form-field>
 
                 <div mat-dialog-action [align]="'end'">
                     <div class="groupAction">
