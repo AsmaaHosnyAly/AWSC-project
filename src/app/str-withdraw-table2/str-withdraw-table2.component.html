@@ -1,4 +1,5 @@
 <mat-accordion class="example-headers-align" multi dir="rtl">
+  <div class="page-title"> أذونات الصرف</div>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-description>
@@ -42,26 +43,32 @@
         </mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <button class="show-btn"
-        mat-icon-button
-        color="primary"
-        (click)="getSearchStrWithdraw(
-            no.value,
-            storeId.value,
-            date.value,
-            fiscalYear.value
-          )
-        "
-      >
-        عرض
-      </button>
 
-      
+      <div class="print display">
+        <button (click)="printReport()">
+          طباعة <mat-icon class="me-2">print</mat-icon>
+        </button>
+      </div>
+
+      <div class="print">
+        <button
+          class="show-btn"
+          mat-icon-button
+          color="primary"
+          (click)="
+            getSearchStrWithdraw(
+              no.value,
+              storeId.value,
+              date.value,
+              fiscalYear.value
+            )
+          "
+        >
+          عرض
+        </button>
+      </div>
 
       <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
-    </div>
-    <div id="prnt-btn">
-      <button class="print-btn" (click)="printReport()">طباعة</button>
     </div>
   </mat-expansion-panel>
 </mat-accordion>
@@ -76,45 +83,50 @@
       <p>شركة مياه الشرب والصرف الصحى بأسوان</p>
     </div>
   </header>
-  <mat-card-header dir="rtl">
-    <div class="child1 ">
-      <button mat-raised-button class="add" (click)="openWithdrawDialog()" dir="ltr">
-
+  <mat-card-header dir="ltr" class="parent-search">
+    <div class="child1">
+      <button
+        mat-raised-button
+        class="add"
+        (click)="openWithdrawDialog()"
+        dir="ltr"
+      >
         <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
       </button>
     </div>
 
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
-  </mat-form-field>
+    <div>
+      <input
+        matInput
+        class="filter-search"
+        (keyup)="applyFilter($event)"
+        placeholder="بحث"
+        #input
+      />
+    </div>
   </mat-card-header>
-  <div class="mat-elevation-z8">
-    <table
-      mat-table
-      [dataSource]="dataSource2"
-      class="mat-elevation-z8"
-      dir="rtl"
-    >
+  <div class="div-table">
+    <table mat-table [dataSource]="dataSource2" dir="rtl">
       <!-- No Column -->
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>الرقم</th>
         <td mat-cell *matCellDef="let row">{{ row.no }}</td>
       </ng-container>
 
-        <!-- Store Column -->
-        <ng-container matColumnDef="storeName">
-            <th mat-header-cell *matHeaderCellDef> المخزن </th>
-            <td mat-cell *matCellDef="let row"> {{row.storeName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="employeeName">
-            <th mat-header-cell *matHeaderCellDef> اسم الموظف </th>
-            <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="costCenterName">
-            <th mat-header-cell *matHeaderCellDef> مركز التكلفة </th>
-            <td mat-cell *matCellDef="let row"> {{row.costCenterName}} </td>
-        </ng-container>
-        <!-- <ng-container matColumnDef="desstoreName">
+      <!-- Store Column -->
+      <ng-container matColumnDef="storeName">
+        <th mat-header-cell *matHeaderCellDef>المخزن</th>
+        <td mat-cell *matCellDef="let row">{{ row.storeName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef>اسم الموظف</th>
+        <td mat-cell *matCellDef="let row">{{ row.employeeName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="costCenterName">
+        <th mat-header-cell *matHeaderCellDef>مركز التكلفة</th>
+        <td mat-cell *matCellDef="let row">{{ row.costCenterName }}</td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="desstoreName">
             <th mat-header-cell *matHeaderCellDef> مخزن خارجي </th>
             <td mat-cell *matCellDef="let row"> {{row.deststoreName}} </td>
         </ng-container> -->
