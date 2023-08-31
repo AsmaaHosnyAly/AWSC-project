@@ -7,6 +7,24 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+export class FiscalYear {
+  constructor(public id: number, public fiscalyear: string) { }
+}
+
+export class Employee {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+
+export class CostCenter {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+
+export class Item {
+  constructor(public id: number, public name: string, public no: string, public fullCode: string) { }
+}
 
 @Component({
   selector: 'app-str-employee-exchange-dialog',
@@ -26,17 +44,47 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   getMasterRowId: any;
   getDetailsRowId: any;
   storeList: any;
-  employeesList: any;
-  distEmployeesList: any;
-  costCentersList: any;
-  itemsList: any;
-  fiscalYearsList: any;
+  // employeesList: any;
+  // distEmployeesList: any;
+  // costCentersList: any;
+  // itemsList: any;
+  // fiscalYearsList: any;
   storeName: any;
   itemName: any;
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
   autoNo: any;
+  fiscalYearName: any;
+  employeeName: any;
+  distEmployeeName: any;
+
+  fiscalYearsList: FiscalYear[] = [];
+  fiscalYearCtrl: FormControl;
+  filteredFiscalYear: Observable<FiscalYear[]>;
+  selectedFiscalYear: FiscalYear | undefined;
+  formcontrol = new FormControl('');
+
+  employeesList: Employee[] = [];
+  emploeeCtrl: FormControl;
+  filteredEmployee: Observable<Employee[]>;
+  selectedEmployee: Employee | undefined;
+
+  // distEmployeesList: Employee[] = [];
+  distEmploeeCtrl: FormControl;
+  filtereddistEmployee: Observable<Employee[]>;
+  selecteddistEmployee: Employee | undefined;
+
+  costCentersList: CostCenter[] = [];
+  costCenterCtrl: FormControl;
+  filteredcostCenter: Observable<CostCenter[]>;
+  selectedcostCenter: CostCenter | undefined;
+
+
+  itemsList: Item[] = [];
+  itemsCtrl: FormControl;
+  filtereditems: Observable<Item[]>;
+  selecteditems: Item | undefined;
 
   displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'qty', 'total', 'action'];
 
@@ -49,7 +97,40 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+
+    this.fiscalYearCtrl = new FormControl();
+    this.filteredFiscalYear = this.fiscalYearCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterFiscalYears(value))
+    );
+
+    this.emploeeCtrl = new FormControl();
+    this.filteredEmployee = this.emploeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterEmployees(value))
+    );
+
+    this.distEmploeeCtrl = new FormControl();
+    this.filtereddistEmployee = this.distEmploeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterDistEmployees(value))
+    );
+
+    this.costCenterCtrl = new FormControl();
+    console.log("oninit: ", this.costCenterCtrl)
+    this.filteredcostCenter = this.costCenterCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterCostCenter(value))
+    );
+
+    this.itemsCtrl = new FormControl();
+    this.filtereditems = this.itemsCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterItems(value))
+    );
+
+  }
 
 
   ngOnInit(): void {
@@ -101,12 +182,15 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
+
+      console.log("editData: ", this.editData)
+      
     }
 
     this.getAllDetailsForms();
 
     this.userIdFromStorage = localStorage.getItem('transactionUserId');
-    
+
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
   }
@@ -150,11 +234,38 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
       })
   }
 
+  // getEmployeeById(id: any) {
+  //   this.api.getHrEmployeeById(id)
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.employeeName = res.name;
+  //       },
+  //       error: (err) => {
+  //         // console.log("fetch fiscalYears data err: ", err);
+  //         // alert("خطا اثناء جلب العناصر !");
+  //       }
+  //     })
+  // }
+
+  // getDistEmployeeById(id: any) {
+  //   this.api.getHrEmployeeById(id)
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.distEmployeeName = res.name;
+  //       },
+  //       error: (err) => {
+  //         // console.log("fetch fiscalYears data err: ", err);
+  //         // alert("خطا اثناء جلب العناصر !");
+  //       }
+  //     })
+  // }
+
   getCostCenters() {
     this.api.getFiCostCenter()
       .subscribe({
         next: (res) => {
           this.costCentersList = res;
+          console.log(" costCenter data : ", this.costCentersList);
         },
         error: (err) => {
           // console.log("fetch costCenter data err: ", err);
@@ -168,6 +279,19 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.fiscalYearsList = res;
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
+
+  getFiscalYearById(id: any) {
+    this.api.getFiscalYearById(id)
+      .subscribe({
+        next: (res) => {
+          this.fiscalYearName = res.fiscalyear;
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -209,17 +333,154 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
   }
 
+
+  private _filterFiscalYears(value: string): FiscalYear[] {
+    const filterValue = value;
+    return this.fiscalYearsList.filter(fiscalyearObj =>
+      fiscalyearObj.fiscalyear.toLowerCase().includes(filterValue)
+    );
+  }
+  displayFiscalYearName(fiscalyear: any): string {
+    return fiscalyear && fiscalyear.fiscalyear ? fiscalyear.fiscalyear : '';
+  }
+  fiscalYearSelected(event: MatAutocompleteSelectedEvent): void {
+    const fiscalyear = event.option.value as FiscalYear;
+    console.log("fiscalyear selected: ", fiscalyear);
+    this.selectedFiscalYear = fiscalyear;
+    this.groupMasterForm.patchValue({ fiscalYearId: fiscalyear.id });
+    console.log("fiscalyear in form: ", this.groupMasterForm.getRawValue().fiscalYearId);
+  }
+  openAutoFiscalYear() {
+    this.fiscalYearCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.fiscalYearCtrl.updateValueAndValidity();
+  }
+
+
+  displayEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log("employee selected: ", employee);
+    this.selectedEmployee = employee;
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+    console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+  }
+  private _filterEmployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employeesList.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
+    );
+  }
+  openAutoEmployee() {
+    this.emploeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.emploeeCtrl.updateValueAndValidity();
+  }
+
+
+  displayDistEmployeeName(DistEmployee: any): string {
+    return DistEmployee && DistEmployee.name ? DistEmployee.name : '';
+  }
+  distEmployeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const distEmployee = event.option.value as Employee;
+    console.log("distemployee selected: ", distEmployee);
+    this.selecteddistEmployee = distEmployee;
+    this.groupMasterForm.patchValue({ destEmployeeId: distEmployee.id });
+    console.log("distemployee in form: ", this.groupMasterForm.getRawValue().destEmployeeId);
+  }
+  private _filterDistEmployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employeesList.filter(distEmployee =>
+      distEmployee.name.toLowerCase().includes(filterValue) || distEmployee.code.toLowerCase().includes(filterValue)
+    );
+  }
+  openAutoDistEmployee() {
+    console.log("filtereddistEmployee: ", this.filtereddistEmployee)
+
+    this.distEmploeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.distEmploeeCtrl.updateValueAndValidity();
+    console.log("filtereddistEmployee: ", this.distEmploeeCtrl)
+
+  }
+
+
+  private _filterCostCenter(value: string): CostCenter[] {
+    // this.getCostCenters()
+    // console.log("value: ", this.costCentersList)
+    const filterValue = value;
+    return this.costCentersList.filter(fiscalyearObj =>
+      fiscalyearObj.name.toLowerCase().includes(filterValue)
+    );
+  }
+  displayCostCenterName(fiscalyear: any): string {
+    return fiscalyear && fiscalyear.name ? fiscalyear.name : '';
+  }
+  CostCenterSelected(event: MatAutocompleteSelectedEvent): void {
+    const fiscalyear = event.option.value as CostCenter;
+    console.log("fiscalyear selected: ", fiscalyear);
+    this.selectedcostCenter = fiscalyear;
+    this.groupMasterForm.patchValue({ costCenterId: fiscalyear.id });
+    console.log("fiscalyear in form: ", this.groupMasterForm.getRawValue().costCenterId);
+  }
+  openAutoCostCenter() {
+    console.log("filteredcostCenter: ", this.filteredcostCenter)
+
+    this.costCenterCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.costCenterCtrl.updateValueAndValidity();
+  }
+
+
+  displayItemName(item: any): string {
+    return item && item.name ? item.name : '';
+  }
+  ItemSelected(event: MatAutocompleteSelectedEvent): void {
+    const item = event.option.value as Item;
+    console.log("item selected: ", item);
+    this.selecteditems = item;
+    this.groupDetailsForm.patchValue({ itemId: item.id });
+    console.log("item in form: ", this.groupDetailsForm.getRawValue().itemId);
+  }
+  private _filterItems(value: string): Item[] {
+    console.log("filter: ", value)
+    const filterValue = value;
+    return this.itemsList.filter(item =>
+      item.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutoItem() {
+    this.itemsCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.itemsCtrl.updateValueAndValidity();
+  }
+
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')
     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
 
-    if (this.groupMasterForm.getRawValue().no) {
-      console.log("no changed: ", this.groupMasterForm.getRawValue().no)
-    }
-    else{
-      this.groupMasterForm.controls['no'].setValue(this.autoNo);
-      console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
-    }
+    // if (this.groupMasterForm.getRawValue().no) {
+    //   console.log("no changed: ", this.groupMasterForm.getRawValue().no)
+    // }
+    // else {
+    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
+    //   console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
+    // }
+
+    // this.fiscalYearName = await this.getFiscalYearById(this.groupMasterForm.getRawValue().fiscalYearId);
+    // this.employeeName = await this.getEmployeeById(this.groupMasterForm.getRawValue().employeeId);
+    // this.distEmployeeName = await this.getDistEmployeeById(this.groupMasterForm.getRawValue().destEmployeeId);
+
+    this.groupMasterForm.controls['no'].setValue(this.autoNo);
+
+    console.log("groupMaster: ", this.groupMasterForm.value);
 
     if (this.groupMasterForm.valid) {
       this.api.postStrEmployeeExchange(this.groupMasterForm.value)
@@ -240,7 +501,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
           }
         })
     }
-   
+
   }
 
   async addDetailsInfo() {
@@ -250,12 +511,13 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
         if (this.groupDetailsForm.getRawValue().itemId) {
           this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
           this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-           
+
           this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
           this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.getMasterRowId.id);
           this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
         }
 
+        console.log("groupDetails: ", this.groupDetailsForm.value);
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
           this.api.postStrEmployeeExchangeDetails(this.groupDetailsForm.value)
@@ -295,12 +557,20 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
+    // this.fiscalYearName = await this.getFiscalYearById(this.groupMasterForm.getRawValue().fiscalYearId);
+    // this.employeeName = await this.getEmployeeById(this.groupMasterForm.getRawValue().employeeId);
+    // this.distEmployeeName = await this.getDistEmployeeById(this.groupMasterForm.getRawValue().destEmployeeId);
+
+    console.log("groupMaster update: ", this.groupMasterForm.value);
+
     this.api.putStrEmployeeExchange(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
           if (this.groupDetailsForm.value && this.getDetailedRowData) {
             this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
             this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
+
+            console.log("groupDetails update: ", this.groupDetailsForm.value);
 
             this.api.putStrEmployeeExchangeDetails(this.groupDetailsForm.value)
               .subscribe({
@@ -334,7 +604,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
       this.updateDetailsForm();
     }
-   
+
 
   }
 

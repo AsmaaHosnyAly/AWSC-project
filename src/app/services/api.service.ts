@@ -630,6 +630,11 @@ deleteSeveranceReason(id: number) {
   }
 
   ///////////////////////////////// STR-Group /////////////////////////////
+  getStrGroupAutoCode(lastPlatoonId: any) {
+    console.log("send req to get autoCode , lastPlatoonId is: ", lastPlatoonId)
+    return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRGroup/AutoCod?ID=${lastPlatoonId}`);
+  }
+
   postGroup(data: any) {
     console.log('form add data to apiii: ', data);
     return this.http.post<any>(`${this.url}/STRGroup/Add`, data);
@@ -650,8 +655,8 @@ deleteSeveranceReason(id: number) {
   }
 
   ///////////////////////////////// STR-OpeningStock & details/////////////////////////////
-  getStrOpenAutoNo() {
-    return this.http.get<any>(`${this.url}/STROpeningStock/get/AutoNo`);
+  getStrOpenAutoNo(storeId: any, fiscalYearId: any) {
+    return this.http.get<any>(`${this.url}/STROpeningStock/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalYearId}`);
   }
 
   postStrOpen(data: any) {
@@ -696,8 +701,12 @@ deleteSeveranceReason(id: number) {
     return this.http.get<any>(`${this.url}/STRFiscalYear/get/all`);
   }
 
+  getFiscalYearById(id: any) {
+    return this.http.get<any>(`${this.url}/STRFiscalYear/get/${id}`);
+  }
+
   getAvgPrice(storeid: any, FiscalYearid: any, Date: any, itemid: any) {
-    console.log('Avg price inputs to backend');
+    console.log('Avg price inputs to backend', "storeid: ", storeid, " fiscalyaer: ", FiscalYearid, "date: ", Date, "itemId: ", itemid);
     return this.http.get<any>(
       `${this.url}/STRAddDetails/get/Avg/Price/${storeid}/${FiscalYearid}/${Date}/${itemid}`
     );
@@ -845,6 +854,10 @@ deleteSeveranceReason(id: number) {
 
   getHrEmployees() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
+  }
+
+  getHrEmployeeById(id: any) {
+    return this.http.get<any>(`${this.url}/HREmployee/get/${id}`);
   }
 
   getFiCostCenter() {
