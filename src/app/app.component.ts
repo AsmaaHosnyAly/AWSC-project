@@ -16,10 +16,9 @@ export class AppComponent {
     // console.log(this.global.isLogIn)
 
     // console.log(this.global.userRoles)
-    let userRole= localStorage.getItem('userRoles')
+   
     this.gitUserById()
 
-    this.global.getPermissionUserRoles(50, 'stores', 'الوحدة', '')
   }
 
   ngOnInit():void
