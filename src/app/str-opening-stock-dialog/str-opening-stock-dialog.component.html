@@ -6,19 +6,19 @@
         <div class="headerForm">
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no" [value]="editData ? editData.no : autoNo" type="number">
+                <input matInput placeholder="الرقم" formControlName="no" [value]="editData ? editData.no : autoNo" type="number" readonly>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>المخازن</mat-label>
-                <mat-select placeholder="المخازن" formControlName="storeId">
+                <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
                     <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
+                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId" (valueChange)="fiscalYearValueChanges($event)">
                     <mat-option [value]="fiscalYear.id"
                         *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                 </mat-select>
