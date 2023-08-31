@@ -78,11 +78,13 @@
 
     <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
+
         <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+            <hr>
+            <h1 mat-dialog-title dir="rtl">اضافة تفاصيل اذن </h1>
 
             <div class="detailsForm">
                 <div class="row">
-
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label>بحث بالكود </mat-label>
                     <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
@@ -96,40 +98,44 @@
                         <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-
-                <div class="radio " >
-                <mat-label>  حالةالصنف</mat-label>
-                <mat-radio-group  aria-label="Select an option" formControlName="state">
-                    <mat-radio-button [value]=true>جديد</mat-radio-button>
-                    <mat-radio-button [value]=false>مستعمل</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-                </div>
-                <div class="row">
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label>الكمية</mat-label>
                     <input matInput type="number" placeholder="الكمية" formControlName="qty"
-                        [value]="getDetailedRowData ? getDetailedRowData.qty : ''">
+                        [value]="getDetailedRowData ? getDetailedRowData.qty : ''" >
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label>السعر</mat-label>
                     <input matInput type="number" placeholder="السعر" formControlName="price"
                         [value]="getDetailedRowData ? getDetailedRowData.price : ''" [readonly]="isReadOnlyEmployee">
                 </mat-form-field>
+                
+
+                </div>
+                <div class="row">
+             
+                
+                <div class="radio " >
+                    <mat-label>  حالةالصنف</mat-label>
+                    <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
+                    <mat-radio-group  aria-label="Select an option" formControlName="state" (change)="set_Percentage($event)">
+                        <mat-radio-button [value]=true >جديد</mat-radio-button>
+                        <mat-radio-button [value]=false >مستعمل</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                <mat-form-field appearance="outline" class="groupInput">
+                    <mat-label> النسبة</mat-label>
+                    <input matInput type="number" placeholder="النسبة" formControlName="percentage"
+                        [value]="getDetailedRowData ? getDetailedRowData.percentage : ''" [readonly]="isReadOnlyPercentage">
+                </mat-form-field>
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label>متوسط السعر</mat-label>
                     <input matInput type="number" placeholder="متوسط السعر" formControlName="avgPrice"
-                        [value]="getDetailedRowData ? getDetailedRowData.avgPrice : ''" [readonly]="isReadOnly">
+                        [value]="getDetailedRowData ? getDetailedRowData.avgPrice : ''" readonly>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label>متوسط الكمية</mat-label>
-                    <input matInput type="number" placeholder="السعر" formControlName="balanceQty"
-                        [value]="getDetailedRowData ? getDetailedRowData.balanceQty : ''">
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label> النسبة</mat-label>
-                    <input matInput type="number" placeholder="السعر" formControlName="percentage"
-                        [value]="getDetailedRowData ? getDetailedRowData.percentage : ''">
+                    <mat-label>الرصيد الحالى </mat-label>
+                    <input matInput type="number" placeholder="الرصيد" formControlName="balanceQty"
+                        [value]="getDetailedRowData ? getDetailedRowData.balanceQty : ''" readonly>
                 </mat-form-field>
                 </div>
 

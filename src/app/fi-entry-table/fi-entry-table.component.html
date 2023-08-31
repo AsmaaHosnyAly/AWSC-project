@@ -59,14 +59,14 @@
 </mat-accordion>
 <mat-card-header dir="rtl">
     <div class="child1 ">
-      <button mat-raised-button class="add" (click)="openFiEntryDialog()" dir="ltr">
+      <button mat-raised-button class="add" (click)="openFiEntryDialog()" dir="ltr" style="font-weight: 600; font-size: 1.1rem;">
 
         <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
       </button>
     </div>
 
-    <mat-form-field>
-      <input matInput placeholder="بحث" #input />
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="بحث" #input style="font-weight: 500; font-size: 1.1rem;"/>
     </mat-form-field>
   </mat-card-header>
 <div class="mat-elevation-z8">
@@ -137,7 +137,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 
 
 </div>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
