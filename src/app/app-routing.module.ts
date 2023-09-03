@@ -61,7 +61,7 @@ import { MenubarComponent } from './menubar/menubar.component';
 const routes: Routes = [
   {
     path: '',
-    component: MenubarComponent,
+    component:MenubarComponent,
     children: [
       { path: 'commodity', component: StrCommodityComponent },
       { path: 'home', component: StrGroupHomeComponent },
@@ -100,14 +100,6 @@ const routes: Routes = [
       { path: 'specialization', component: HrSpecializationComponent },
 
       { path: 'withdraw', component: StrWithdrawContainerComponent },
-      //  {path: 'products',
-      //  children: [
-      //    {
-      //      path: ':productID',
-      //      component: ProductComponent,
-      //    },
-      //  ],} ,
-
       { path: 'commodity', component: StrCommodityComponent },
 
       { path: 'home', component: StrGroupHomeComponent },
@@ -166,7 +158,6 @@ const routes: Routes = [
 
   { path: 'login', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-
   // main screens
   { path: 'str-home', component: STRHomeComponent },
   { path: 'hr-home', component: StrEmployeesComponent },
