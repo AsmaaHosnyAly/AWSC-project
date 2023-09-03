@@ -50,7 +50,6 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getAllMasterForms();
     this.getStores();
     this.getEmployees();
-
     this.getFiscalYears();
   }
 
