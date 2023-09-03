@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./str-withdraw-table2.component.css'],
 })
 export class StrWithdrawTableComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'storeName','employeeName','costCenterName','date', 'Action'];
+  displayedColumns: string[] = ['no', 'storeName','employeeName','costCenterName','desstoreName','fiscalYearName','date', 'Action'];
   matchedIds: any;
   storeList: any;
   storeName: any;
@@ -107,7 +107,7 @@ export class StrWithdrawTableComponent implements OnInit {
     if (result) {
       this.api.deleteStrWithdraw(id).subscribe({
         next: (res) => {
-          // alert("تم حذف المجموعة بنجاح");
+          alert("تم حذف المجموعة بنجاح");
 
           this.http
             .get<any>('http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all ')

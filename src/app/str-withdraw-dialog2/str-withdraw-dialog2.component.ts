@@ -28,7 +28,7 @@ export class FiscalYear {
 }
 
 export class item {
-  constructor(public id: number, public name: string, public code: string ){ }
+  constructor(public id: number, public name: string ){ }
 }
 
 
@@ -165,6 +165,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.getEmployees();
     this.getCostCenters();
     this.getDestStores();
+    // this.employeeName();
     // this.getStrWithdrawAutoNo();
 
 
@@ -203,15 +204,15 @@ export class StrWithdrawDialogComponent implements OnInit {
       total: ['', Validators.required],
       transactionUserId: [1, Validators.required],
       destStoreUserId:[1,Validators.required],
-      itemId: ['', Validators.required],
+      itemId: [''],
       stateId: [''],
 
      
 
       withDrawNoId: ['' ],
 
-      itemName: ['', Validators.required],
-      avgPrice: ['', Validators.required],
+      itemName: [''],
+      avgPrice: [''],
 
       stateName: [''],
       
@@ -229,28 +230,28 @@ export class StrWithdrawDialogComponent implements OnInit {
       // this.groupMasterForm.controls['withDrawNoName'].setValue(this.editData.withDrawNoName);
       // this.groupMasterForm.controls['stateName'].setValue(this.editData.stateName);
       // this.groupMasterForm.controls['notesName'].setValue(this.editData.notesName);
-
+ // this.employeeName = await this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
+    // console.log("employeeId",this.groupMasterForm.getRawValue().employeeId)
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
       this.groupMasterForm.controls['storeName'].setValue(this.editData.storeName);
 
-      // alert("facialId before: "+ this.editData.fiscalYearId)
+      alert("facialId before: "+ this.editData.fiscalYearId)
       this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
   
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
       this.groupMasterForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-      this.groupMasterForm.controls['destStoreUserId'].setValue(this.editData.destStoreUserId);
+      // this.groupMasterForm.controls['destStoreUserId'].setValue(this.editData.destStoreUserId);
+      // this.groupMasterForm.controls['destStoreUserName'].setValue(this.editData.destStoreUserName);
 
-      console.log("transactionuser", this.editData.transactionUserId)
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
       this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
-      // this.groupMasterForm.controls['sellerId'].setValue(this.editData.sellerId);
-      // this.groupMasterForm.controls['sellerName'].setValue(this.editData.sellerName);
-      this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
+  
       
-      this.groupMasterForm.controls['sourceStoreName'].setValue(this.editData.sourceStoreName);
+      // this.groupMasterForm.controls['itemId'].setValue(this.editData.itemId);
 
       this.groupMasterForm.controls['employeeName'].setValue(this.editData.employeeName);
+      console.log("employeename", this.editData.employeeName)
 
       this.groupMasterForm.controls['deststoreId'].setValue(this.editData.deststoreId);
       this.groupMasterForm.controls['desstoreName'].setValue(this.editData.desstoreName);
@@ -258,6 +259,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
       this.groupMasterForm.controls['costcenterId'].setValue(this.editData.costcenterId);
       this.groupMasterForm.controls['costcenterName'].setValue(this.editData.costcenterName);
+      console.log("costcenter:",this.editData.costcenterId)
 
     }
 
@@ -378,13 +380,13 @@ export class StrWithdrawDialogComponent implements OnInit {
     const item = event.option.value as item;
     console.log("item selected: ", item);
     this.selecteditem = item;
-    this.groupMasterForm.patchValue({ itemId: item.id });
-    console.log("item in form: ", this.groupMasterForm.getRawValue().itemId);
+    this.groupDetailsForm.patchValue({ itemId: item.id });
+    console.log("item in form: ", this.groupDetailsForm.getRawValue().itemId);
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
     return this.itemsList.filter(item =>
-      item.name.toLowerCase().includes(filterValue) || item.code.toLowerCase().includes(filterValue)
+      item.name.toLowerCase().includes(filterValue)
     );
   }
 
@@ -401,38 +403,40 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.groupMasterForm.removeControl('id')
 
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
-    this.employeeName = await this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
-    console.log("employeeId",this.groupMasterForm.getRawValue().employeeId)
+   
 
     // this.sellerName = await this.getsellerByID(this.groupMasterForm.getRawValue().sellerId );
+    // this.desstoreName =  
+    
+      // this.groupDetailsForm.patchValue({ deststoreName: store.name  });
+ 
+    // console.log("deststoreId in add",this.groupMasterForm.getRawValue().deststoreId)
 
-    this.desstoreName = await this.getDestStoreById(this.groupMasterForm.getRawValue().deststoreId);
-    console.log("deststoreId",this.groupMasterForm.getRawValue().deststoreId)
-
-
+alert("cost center id"+this.groupMasterForm.getRawValue().costcenterId)
     this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costcenterId);
-    // alert("store name in add: " + this.storeName)
+  
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-    this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
+    // this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
         this.groupMasterForm.controls['costcenterName'].setValue(this.costcenterName);
-        this.groupMasterForm.controls['desstoreName'].setValue(this.desstoreName);
+        // this.groupMasterForm.controls['desstoreName'].setValue(this.desstoreName);
 
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
-    // console.log("dataName: ", this.groupMasterForm.value)
+    console.log("dataName: ", this.groupMasterForm.value)
     if (this.groupMasterForm.getRawValue().no) {
       console.log("no changed: ", this.groupMasterForm.getRawValue().no)
+      this.groupMasterForm.controls['no'].setValue(this.autoNo);
     }
     else{
       this.groupMasterForm.controls['no'].setValue(this.autoNo);
       console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
     }
-    if ( this.groupMasterForm.getRawValue().storeId  && this.groupMasterForm.getRawValue().employeeId && 
-    this.groupMasterForm.getRawValue().costcenterId && this.groupMasterForm.getRawValue().date && 
-    this.groupMasterForm.getRawValue().deststoreId && this.groupMasterForm.getRawValue().no   ) {
+    console.log("Master add form : ", this.groupMasterForm.value)
+
+    if ( this.groupMasterForm.getRawValue().storeId ) {
       // this.groupMasterForm.removeControl('id');
 
-      // console.log("Master add form : ", this.groupMasterForm.value)
+      console.log("Master add form in : ", this.groupMasterForm.value)
       this.api.postStrWithdraw(this.groupMasterForm.value)
         .subscribe({
           next: (res) => {
@@ -482,7 +486,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     // console.log("deststoreId in null fun:",this.dest)
 
     // this.groupMasterForm.controls['employeeId'].setValue('');  
-    this.isReadOnlyEmployee = false;
+    this.isReadOnlyEmployee = true;
   
   }
   itemOnChange(itemEvent: any) {
@@ -570,12 +574,14 @@ export class StrWithdrawDialogComponent implements OnInit {
     if (this.groupMasterForm) {
       if (this.editData && !this.fiscalYearSelectedId) {
         console.log("change storeId only in updateHeader");
+        
         this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.editData.fiscalYearId)
           .subscribe({
             next: (res) => {
               this.autoNo = res;
               console.log("autoNo: ", this.autoNo);
               return res;
+              
             },
             error: (err) => {
               console.log("fetch autoNo err: ", err);
@@ -622,9 +628,9 @@ export class StrWithdrawDialogComponent implements OnInit {
 
     // console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      this.http.get<any>("http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all")
+      this.api.getStrWithdrawDetails()
         .subscribe(res => {
-          // console.log("res to get all details form: ", res, "masterRowId: ", this.getMasterRowId.id);
+          console.log("res to get all details form: ", res, "masterRowId: ", this.getMasterRowId.id);
 
           this.matchedIds = res.filter((a: any) => {
             // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
@@ -665,7 +671,7 @@ console.log("masterrow",this.getMasterRowId.id)
           this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
           this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
           this.groupDetailsForm.controls['transactionUserId'].setValue(1);
-          alert("itemId")
+          // alert("itemId")
         }
        
         this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.getMasterRowId.id);
@@ -675,6 +681,7 @@ console.log("masterrow",this.getMasterRowId.id)
 
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
+        console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
 
           this.api.postStrWithdrawDetails(this.groupDetailsForm.value)
             .subscribe({
@@ -708,9 +715,11 @@ console.log("masterrow",this.getMasterRowId.id)
     // alert("update Store name: " + this.storeName)
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
     this.employeeName = await this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
-
+    alert("update costcentr name: " + this.groupMasterForm.getRawValue().costcenterId)
         this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costcenterId);
-        this.desstoreName = await this.getDestStoreById(this.groupMasterForm.getRawValue().deststoreId);
+         
+
+        // this.desstoreName = await this.getDestStoreById(this.groupMasterForm.getRawValue().deststoreId);
 
     // console.log("data storeName in edit: ", this.groupMasterForm.value)
 
@@ -752,7 +761,7 @@ console.log("put before",this.groupMasterForm.value)
             this.api.putStrWithdrawDetails(this.groupDetailsForm.value)
               .subscribe({
                 next: (res) => {
-                  alert("put")
+                  // alert("put")
                   alert("تم الحفظ بنجاح");
                   this.toastrSuccess();
                   // console.log("update res: ", res);
@@ -778,8 +787,8 @@ console.log("put before",this.groupMasterForm.value)
 
   updateBothForms() {
     // console.log("pass id: ", this.getMasterRowId.id, "pass No: ", this.groupMasterForm.getRawValue().no, "pass StoreId: ", this.groupMasterForm.getRawValue().storeId, "pass Date: ", this.groupMasterForm.getRawValue().date)
-    if (this.groupMasterForm.getRawValue().no != ''  && this.groupMasterForm.getRawValue().employeeId && 
-    this.groupMasterForm.getRawValue().deststoreId && this.groupMasterForm.getRawValue().costcenterId 
+    if (this.groupMasterForm.getRawValue().no != ''  && this.groupMasterForm.getRawValue().employeeId!='' && 
+    this.groupMasterForm.getRawValue().deststoreId!='' && this.groupMasterForm.getRawValue().costcenterId!=''
     && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
 
       this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.getMasterRowId.id);
@@ -827,9 +836,10 @@ console.log("put before",this.groupMasterForm.value)
       this.api.deleteStrWithdraw(id)
         .subscribe({
           next: (res) => {
-            // alert("تم الحذف بنجاح");
+            alert("تم الحذف بنجاح");
             this.toastrDeleteSuccess();
             this.getAllDetailsForms();
+            // this.getAllMasterForms();
             
           },
           error: () => {
@@ -873,7 +883,11 @@ console.log("put before",this.groupMasterForm.value)
           .subscribe({
             next: (res) => {
               this.employeesList = res;
-              // console.log("store res: ", this.storeList);
+              console.log("employee list: ", this.employeesList);
+              // this.employeeName =  this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
+              // console.log("employeeId",this.groupMasterForm.getRawValue().employeeId)
+              // console.log('employeeName',this.employeeName.value)
+              // this.employeeName=this.editData(this.employeesList)
             },
             error: (err) => {
               // console.log("fetch store data err: ", err);
@@ -881,26 +895,14 @@ console.log("put before",this.groupMasterForm.value)
             }
           })
       }
-      // getsellers() {
-      //   this.api.getseller()
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.sellerList = res;
-      //         // console.log("store res: ", this.storeList);
-      //       },
-      //       error: (err) => {
-      //         // console.log("fetch store data err: ", err);
-      //         // alert("خطا اثناء جلب المخازن !");
-      //       }
-      //     })
-      // }
+  
    
       getCostCenters() {
         this.api.getCostCenter()
           .subscribe({
             next: (res) => {
               this.costcenterList = res;
-              // console.log("store res: ", this.storeList);
+              console.log("costcenterrr res: ", this.costcenterList);
             },
             error: (err) => {
               // console.log("fetch store data err: ", err);
@@ -936,7 +938,7 @@ console.log("put before",this.groupMasterForm.value)
   }
   getemployeeByID(id: any) {
         console.log("row employee id: ", id);
-        return fetch(`http://ims.aswan.gov.eg/api/HR_Employee/get/${id}`)
+        return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
           .then(response => response.json())
           .then(json => {
             // console.log("fetch name by id res: ", json.name);
