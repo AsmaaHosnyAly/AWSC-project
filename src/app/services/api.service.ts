@@ -654,10 +654,12 @@ deleteSeveranceReason(id: number) {
   getStrOpenAutoNo() {
     return this.http.get<any>(`${this.url}/STROpeningStock/get/AutoNo`);
   }
-  getStrWithdrawAutoNo(storeId:any,FiscalYearId:any) {
-    console.log("deststorevalue,fiscalyearvalue")
-    return this.http.get<any>(`${this.url}/STRWithdraw/get/AutoNo`,storeId+FiscalYearId);
+ 
+
+  getStrWithdrawAutoNo(storeId: any, fiscalyearId: any) {
+    return this.http.get<any>(`${this.url}/STRWithdraw/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalyearId}`);
   }
+
 
   postStrOpen(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStock/Add`, data);

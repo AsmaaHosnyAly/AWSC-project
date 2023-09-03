@@ -1,4 +1,4 @@
-import { FiscalYear } from './../hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
+// import { FiscalYear } from './../str-withdraw-dialog2/';
 import { Component, OnInit, Inject, ViewChild , LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../services/api.service';
@@ -11,6 +11,25 @@ import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+export class deststore {
+  constructor(public id: number, public name: string) { }
+}
+// export class store {
+//   constructor(public id: number, public name: string) { }
+// }
+export class Employee {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+export class FiscalYear {
+  constructor(public id: number, public fiscalyear: string) { }
+}
+
+export class item {
+  constructor(public id: number, public name: string, public code: string ){ }
+}
 
 
 @Component({
@@ -30,11 +49,11 @@ export class StrWithdrawDialogComponent implements OnInit {
   sumOfTotals = 0;
   getMasterRowId: any;
   storeList: any;
-  itemsList: any;
+  // itemsList: any;
   withDrawNoList:any;
   statesList:any;
   notesList:any;
-  fiscalYearsList: any;
+  // fiscalYearsList: any;
   storeName: any;
   itemName: any;
   stateName:any;
@@ -45,16 +64,52 @@ export class StrWithdrawDialogComponent implements OnInit {
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
-  employeeList: any;
+  // employeeList: any;
   employeeName: any;
   costcenterName: any;
   costcenterList: any;
-  deststoreList:any;
+  // deststoreList:any;
   desstoreName:any;
   autoNo:any;
   fiscalYearValue:any;
   deststoreValue:any;
+  storeSelectedId: any;
+  fiscalYearSelectedId: any;
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
+
+
+  deststoresList: deststore[] = [];
+  deststoreCtrl: FormControl<any>;
+  filtereddeststore: Observable<deststore[]>;
+  selecteddeststore: deststore | undefined;
+  formcontrol = new FormControl('');
+
+
+  employeesList: Employee[] = [];
+  employeeCtrl: FormControl<any>;
+  filteredEmployee: Observable<Employee[]>;
+  selectedEmployee: Employee | undefined;
+  // formcontrol = new FormControl('');
+
+
+  fiscalYearsList: FiscalYear[] = [];
+  fiscalYearCtrl: FormControl;
+  filteredFiscalYear: Observable<FiscalYear[]>;
+  selectedFiscalYear: FiscalYear | undefined;
+
+
+  // storeCtrl: FormControl;
+  // filteredstore: Observable<store[]>;
+  // selectedstore: store | undefined;
+
+  
+
+  itemsList: item[] = [];
+  itemCtrl: FormControl;
+  filtereditem: Observable<item[]>;
+  selecteditem: item | undefined;
+
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -68,7 +123,39 @@ export class StrWithdrawDialogComponent implements OnInit {
     private toastr: ToastrService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<StrWithdrawDialogComponent>
-  ) { }
+  ) { 
+    this.deststoreCtrl = new FormControl();
+    this.filtereddeststore = this.deststoreCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterdeststores(value))
+    );
+
+    // this.storeCtrl = new FormControl();
+    // this.filteredstore = this.storeCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filterstores(value))
+    // );
+
+    this.employeeCtrl = new FormControl();
+    this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterEmployees(value))
+    );
+
+
+    this.fiscalYearCtrl = new FormControl();
+    this.filteredFiscalYear = this.fiscalYearCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterFiscalYears(value))
+    );
+
+
+    this.itemCtrl = new FormControl();
+    this.filtereditem = this.itemCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filteritems(value))
+    );
+  }
   //  private toastr: ToastrService
 
   ngOnInit(): void {
@@ -97,7 +184,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       fiscalYearId: ['', Validators.required],
       costcenterId: [''],
       employeeId: [''],
-      avgPrice: ['', Validators.required],
+   
       // sellerId: [''],
       // sellerName: [''],
       // sourceStoreId: [''],
@@ -124,7 +211,8 @@ export class StrWithdrawDialogComponent implements OnInit {
       withDrawNoId: ['' ],
 
       itemName: ['', Validators.required],
-      
+      avgPrice: ['', Validators.required],
+
       stateName: [''],
       
       // notesName: [''],
@@ -135,7 +223,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
 
     if (this.editData) {
-      // console.log("master edit form: ", this.editData);
+      console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
       // this.groupMasterForm.controls['withDrawNoName'].setValue(this.editData.withDrawNoName);
@@ -184,17 +272,142 @@ export class StrWithdrawDialogComponent implements OnInit {
     // console.log("transactionuser",this.editData.transactionUserId)
 
   }
+  displaydeststoreName(deststore: any): string {
+    return deststore && deststore.name ? deststore.name : '';
+  }
+  deststoreSelected(event: MatAutocompleteSelectedEvent): void {
+    const deststore = event.option.value as deststore;
+    console.log("deststore selected: ", deststore);
+    this.selecteddeststore = deststore;
+    this.groupMasterForm.patchValue({ deststoreId: deststore.id });
+    console.log("deststore in form: ", this.groupMasterForm.getRawValue().deststoreId);
+    this.set_Employee_Null( this.groupMasterForm.getRawValue().deststoreId);
+  }
+  private _filterdeststores(value: string): deststore[] {
+    const filterValue = value;
+    return this.deststoresList.filter(deststore =>
+      deststore.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutodeststore() {
+    this.deststoreCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.deststoreCtrl.updateValueAndValidity();
+  }
+
+  private _filterFiscalYears(value: string): FiscalYear[] {
+    const filterValue = value;
+    return this.fiscalYearsList.filter(fiscalyearObj =>
+      fiscalyearObj.fiscalyear.toLowerCase().includes(filterValue)
+    );
+  }
+  displayFiscalYearName(vacation: any): string {
+    return vacation && vacation.fiscalyear ? vacation.fiscalyear : '';
+  }
+  fiscalYearSelected(event: MatAutocompleteSelectedEvent): void {
+    const fiscalyear = event.option.value as FiscalYear;
+    console.log("vacation selected: ", fiscalyear);
+    this.selectedFiscalYear = fiscalyear;
+    this.groupMasterForm.patchValue({ fiscalYearId: fiscalyear.id });
+    console.log("vacation in form: ", this.groupMasterForm.getRawValue().fiscalYearId);
+  }
+  openAutoFiscalYear() {
+    this.fiscalYearCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.fiscalYearCtrl.updateValueAndValidity();
+  }
+
+
+  displayEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log("employee selected: ", employee);
+    this.selectedEmployee = employee;
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+    console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+    this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
+  }
+  private _filterEmployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employeesList.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
+    );
+  }
+  openAutoEmployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.employeeCtrl.updateValueAndValidity();
+  }
+
+
+
+  // displaystoreName(store: any): string {
+  //   return store && store.name ? store.name : '';
+  // }
+  // storeSelected(event: MatAutocompleteSelectedEvent): void {
+  //   const store = event.option.value as store;
+  //   console.log("store selected: ", store);
+  //   this.selectedstore = store;
+  //   this.groupMasterForm.patchValue({ storeId: store.id });
+  //   console.log("store in form: ", this.groupMasterForm.getRawValue().storeId);
+  // }
+  // private _filterstores(value: string): store[] {
+  //   const filterValue = value;
+  //   return this.storesList.filter(store =>
+  //     store.name.toLowerCase().includes(filterValue) 
+  //   );
+  // }
+  // openAutostore() {
+  //   this.storeCtrl.setValue(''); // Clear the input field value
+
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.storeCtrl.updateValueAndValidity();
+  // }
+
+
+
+  displayitemName(item: any): string {
+    return item && item.name ? item.name : '';
+  }
+  itemSelected(event: MatAutocompleteSelectedEvent): void {
+    const item = event.option.value as item;
+    console.log("item selected: ", item);
+    this.selecteditem = item;
+    this.groupMasterForm.patchValue({ itemId: item.id });
+    console.log("item in form: ", this.groupMasterForm.getRawValue().itemId);
+  }
+  private _filteritems(value: string): item[] {
+    const filterValue = value;
+    return this.itemsList.filter(item =>
+      item.name.toLowerCase().includes(filterValue) || item.code.toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutoitem() {
+    this.itemCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.itemCtrl.updateValueAndValidity();
+  }
+
+
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')
 
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
     this.employeeName = await this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
-    alert(this.groupMasterForm.getRawValue().employeeId)
+    console.log("employeeId",this.groupMasterForm.getRawValue().employeeId)
 
     // this.sellerName = await this.getsellerByID(this.groupMasterForm.getRawValue().sellerId );
 
     this.desstoreName = await this.getDestStoreById(this.groupMasterForm.getRawValue().deststoreId);
+    console.log("deststoreId",this.groupMasterForm.getRawValue().deststoreId)
 
 
     this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costcenterId);
@@ -253,16 +466,21 @@ export class StrWithdrawDialogComponent implements OnInit {
   // }
   
   set_Employee_Null(deststoreId:any) {
-    console.log("deststoreId:",deststoreId)
+    console.log("deststoreId in null fun:",deststoreId)
 
     this.groupMasterForm.controls['employeeId'].setValue(null); 
     this.isReadOnlyEmployee = true;
-    this.deststoreValue=deststoreId;
+    // this.employeeCtrl = null;
+    // this.deststoreValue=deststoreId;
+    this.isReadOnlyEmployee = true;
+
   }
   set_store_Null(employeeId:any) {
-    console.log("employeeId:",employeeId)
+    console.log("employeeId in null fun:",employeeId)
 
     this.groupMasterForm.controls['deststoreId'].setValue(null); 
+    // console.log("deststoreId in null fun:",this.dest)
+
     // this.groupMasterForm.controls['employeeId'].setValue('');  
     this.isReadOnlyEmployee = false;
   
@@ -287,6 +505,22 @@ export class StrWithdrawDialogComponent implements OnInit {
       itemEvent)
 
 
+  }
+
+  storeValueChanges(storeId: any) {
+    console.log("store: ", storeId)
+    this.storeSelectedId = storeId;
+    this.groupMasterForm.controls['storeId'].setValue(this.storeSelectedId);
+
+    if (this.editData) {
+      this.getStrWithdrawAutoNo();
+    }
+  }
+  async fiscalYearValueChanges(fiscalyaerId: any) {
+    console.log("fiscalyaer: ", fiscalyaerId)
+    this.fiscalYearSelectedId = await fiscalyaerId;
+    this.groupMasterForm.controls['fiscalYearId'].setValue(this.fiscalYearSelectedId);
+    this.getStrWithdrawAutoNo();
   }
 
   getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
@@ -315,20 +549,75 @@ export class StrWithdrawDialogComponent implements OnInit {
   //   this.getStrWithdrawAutoNo(this.deststoreValue);
   //   this.isReadOnlyEmployee = false
   // }
-  getStrWithdrawAutoNo(storeId:any,fiscalYearId:any) {
-    console.log("store,fiscalyera",storeId,fiscalYearId)
-    this.api.getStrWithdrawAutoNo(storeId,fiscalYearId)
-      .subscribe({
-        next: (res) => {
-          this.autoNo = res;
-          return res;
-        },
-        error: (err) => {
-          console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+  // getStrWithdrawAutoNo(storeId:any,fiscalYearId:any) {
+  //   console.log("store,fiscalyera",storeId,fiscalYearId)
+  //   this.api.getStrWithdrawAutoNo(storeId,fiscalYearId)
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.autoNo = res;
+  //         return res;
+  //       },
+  //       error: (err) => {
+  //         console.log("fetch fiscalYears data err: ", err);
+  //         // alert("خطا اثناء جلب العناصر !");
+  //       }
+  //     })
+  // }
+
+  
+  getStrWithdrawAutoNo() {
+    console.log("storeId: ", this.storeSelectedId, " fiscalYearId: ", this.fiscalYearSelectedId)
+    if (this.groupMasterForm) {
+      if (this.editData && !this.fiscalYearSelectedId) {
+        console.log("change storeId only in updateHeader");
+        this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.editData.fiscalYearId)
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              console.log("autoNo: ", this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log("fetch autoNo err: ", err);
+              // alert("خطا اثناء جلب العناصر !");
+            }
+          })
+      }
+      else if (this.editData && !this.storeSelectedId) {
+        console.log("change fiscalYearId only in updateHeader");
+        this.api.getStrWithdrawAutoNo(this.editData.storeId, this.groupMasterForm.getRawValue().fiscalYearId)
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              console.log("autoNo: ", this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log("fetch autoNo err: ", err);
+              // alert("خطا اثناء جلب العناصر !");
+            }
+          })
+      }
+      else {
+        console.log("change both values in updateHeader");
+        this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              console.log("autoNo: ", this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log("fetch autoNo err: ", err);
+              // alert("خطا اثناء جلب العناصر !");
+            }
+          })
+      }
+
+    }
+
   }
+
   getAllDetailsForms() {
 
     // console.log("mastered row get all data: ", this.getMasterRowId)
@@ -367,7 +656,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
   async addDetailsInfo() {
     // console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "main id: ", this.getMasterRowId.id);
-
+console.log("masterrow",this.getMasterRowId.id)
     if (this.getMasterRowId.id) {
       if (this.getMasterRowId.id) {
         // console.log("form  headerId: ", this.getMasterRowId.id)
@@ -378,26 +667,7 @@ export class StrWithdrawDialogComponent implements OnInit {
           this.groupDetailsForm.controls['transactionUserId'].setValue(1);
           alert("itemId")
         }
-        // if (this.groupDetailsForm.getRawValue().stateId) {
-        //   this.stateName = await this.getItemByID(this.groupDetailsForm.getRawValue().stateId);
-        //   this.groupDetailsForm.controls['stateName'].setValue(this.stateName);
-        //   this.groupDetailsForm.controls['transactionUserId'].setValue(1);
-        //   alert("state")
-        // }
-        // if (this.groupDetailsForm.getRawValue().withDrawNoId) {
-        //   this.withDrawNoName = await this.getItemByID(this.groupDetailsForm.getRawValue().withDrawNoId);
-        //   this.groupDetailsForm.controls['withDrawNoName'].setValue(this.withDrawNoName);
-        //   this.groupDetailsForm.controls['transactionUserId'].setValue(1);
-        //   alert("withDrawNoId")
-        // }
-        // if (this.groupDetailsForm.getRawValue().notesId) {
-        //   this.notesName = await this.getItemByID(this.groupDetailsForm.getRawValue().notesId);
-        //   this.groupDetailsForm.controls['notesName'].setValue(this.notesName);
-        //   this.groupDetailsForm.controls['transactionUserId'].setValue(1);
-        //   alert("itemId")
-        // }
-        // this.groupDetailsForm.controls['itemName'].setValue(this.groupDetailsForm.itemName);
-
+       
         this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.getMasterRowId.id);
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
@@ -590,7 +860,7 @@ console.log("put before",this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
           this.storeList = res;
-          // console.log("store res: ", this.storeList);
+          console.log("store res: ", this.storeList);
         },
         error: (err) => {
           // console.log("fetch store data err: ", err);
@@ -602,7 +872,7 @@ console.log("put before",this.groupMasterForm.value)
         this.api.getEmployee()
           .subscribe({
             next: (res) => {
-              this.employeeList = res;
+              this.employeesList = res;
               // console.log("store res: ", this.storeList);
             },
             error: (err) => {
@@ -642,7 +912,7 @@ console.log("put before",this.groupMasterForm.value)
         this.api.getStore()
           .subscribe({
             next: (res) => {
-              this.deststoreList = res;
+              this.deststoresList = res;
               // console.log("store res: ", this.storeList);
             },
             error: (err) => {
@@ -679,22 +949,7 @@ console.log("put before",this.groupMasterForm.value)
       }
 
 
-      // getsellerByID(id : null) {
-      //   console.log("seller ", id);
-      //   // this.groupMasterForm.controls['sellerId'].setValue(null); 
-
-      //   return fetch(`http://ims.aswan.gov.eg/api/PRSeller/get/${id}`)
-      //     .then(response => response.json())
-      //     .then(json => {
-      //       console.log("fetch name by id res seller: ", json.name);
-      //       return json.name;
-      //     })
-      //     .catch((err) => {
-      //       console.log("error in fetch name by id: ", err);
-      //       alert("خطا اثناء جلب رقم المخزن !");
-      //     });
-      // }
- 
+  
       getcostcenterByID(id: any) {
         console.log("costcenter id: ", id);
         return fetch(`http://ims.aswan.gov.eg/api/FICostCenter/get/${id}`)
@@ -721,6 +976,7 @@ console.log("put before",this.groupMasterForm.value)
         // alert("خطا اثناء جلب رقم المخزن !");
       });
       }
+
   getItems() {
     this.api.getItems()
       .subscribe({
@@ -747,19 +1003,7 @@ console.log("put before",this.groupMasterForm.value)
         // alert("خطا اثناء جلب رقم العنصر !");
       });
     }
-  // getItemByID(id: any) {
-  //   // console.log("row item id: ", id);
-  //   return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
-  //     .then(response => response.json())
-  //     .then(json => {
-  //       // console.log("fetch item name by id res: ", json.name);
-  //       return json.name;
-  //     })
-  //     .catch((err) => {
-  //       // console.log("error in fetch item name by id: ", err);
-  //       // alert("خطا اثناء جلب رقم العنصر !");
-  //     });
-  // }
+
 
   getItemByCode(code: any) {
     if (code.keyCode == 13) {

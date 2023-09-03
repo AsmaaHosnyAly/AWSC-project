@@ -151,8 +151,8 @@ const routes: Routes = [
   { path: 'account', component: FIAccountComponent },
   
  
-  { path: 'hr-jobTitle', component: HrJobTitleComponent },
-  { path: 'hr-position', component: HrPositionComponent },
+  { path: 'jobTitle', component: HrJobTitleComponent },
+  { path: 'position', component: HrPositionComponent },
   { path:'hr-MillitryState',component:HrMillitryStateComponent},
   { path:'hr-vacation',component:HrVacationComponent},
   { path:'hr-incentive',component:HrIncentiveAllowanceComponent},
