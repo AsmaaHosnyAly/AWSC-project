@@ -1,11 +1,4 @@
 <mat-card>
-    <mat-card-header>
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="بحث"  #input  >
-      </mat-form-field>
-      <button style="margin-left: 60%;" mat-raised-button class="add" (click)="openDialog()">اضافة</button>
-      
-    </mat-card-header>
     <mat-card-content>
       <mat-accordion class="example-headers-align" multi dir="rtl">
         <mat-expansion-panel>
@@ -17,48 +10,59 @@
           </mat-expansion-panel-header>
       <div class="search">
           <mat-form-field appearance="outline">
-            <mat-label>المركز </mat-label>
-            <input #cityState matInput placeholder="ادخل المركز">
+            <mat-label>الاسم</mat-label>
+            <input #model matInput placeholder="الاسم">
         </mat-form-field>
         <mat-form-field appearance="outline">   
-          <mat-label>المحافظة</mat-label>     
-          <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="cityCtrl" (click)="openAutoCity()" required/>
-          <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displaycityName" (optionSelected)="citySelected($event)">
-            <mat-option *ngFor="let city of filteredCities | async" [value]="city">
-              {{ city.name }} 
+          <mat-label>اسم المصنع</mat-label>     
+          <input matInput aria-label="vendor" [matAutocomplete]="autoVendor" [formControl]="vendorCtrl" (click)="openAutoVendor()" required/>
+          <mat-autocomplete #autoVendor="matAutocomplete" [displayWith]="displayVendorName" (optionSelected)="vendorSelected($event)">
+            <mat-option *ngFor="let vendor of filteredVendores | async" [value]="vendor">
+              {{ vendor.name }} 
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
   
-        <button (click)=" getSearchHrCityState(cityState.value)" >عرض</button>
+        <button (click)=" getSearchModels(model.value)" >عرض</button>
         </div>
         </mat-expansion-panel>
       </mat-accordion>
+      <mat-card-header dir="rtl">
+        <div class="child1 ">
+          <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
   
-      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
+            <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+          </button>
+        </div>
+  
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
+        </mat-form-field>
+      </mat-card-header>
+      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   
         <!-- productCode Column -->
-       
+        
           <!-- productName Column -->
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> المركز </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> الاسم</th>
             <td mat-cell *matCellDef="let row"> {{row.name}} </td>
           </ng-container>
   
         <!-- category Column -->
-        <ng-container matColumnDef="cityName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> المحافظة </th>
-          <td mat-cell *matCellDef="let row"> {{row.cityName}}</td>
+        <ng-container matColumnDef="vendorName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> اسم المصنع</th>
+          <td mat-cell *matCellDef="let row"> {{row.vendorName}}</td>
         </ng-container>
   
         <!-- action Column -->
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> الحدث </th>
           <td mat-cell *matCellDef="let row"> 
-            <button mat-icon-button (click)="editHrCityStates(row)" color="primary">
+            <button mat-icon-button (click)="editModel(row)" color="primary">
               <mat-icon>edit</mat-icon>
             </button>
-            <button (click)="deleteHrCityStates(row.id)" mat-icon-button color="warn">
+            <button (click)="deleteModel(row.id)" mat-icon-button color="warn">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -83,3 +87,4 @@
       <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
     </mat-card-footer>
   </mat-card>
+  
