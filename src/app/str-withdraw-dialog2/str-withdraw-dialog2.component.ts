@@ -851,6 +851,7 @@ console.log("put before",this.groupMasterForm.value)
   }
 
   getAllMasterForms() {
+    confirm("هل تريد الغاء الطلب")
     this.api.getStrWithdraw()
       .subscribe({
         next: (res) => {

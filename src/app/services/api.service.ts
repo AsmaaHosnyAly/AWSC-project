@@ -633,7 +633,7 @@ deleteSeveranceReason(id: number) {
   ///////////////////////////////// STR-Group /////////////////////////////
   getStrGroupAutoCode(lastPlatoonId: any) {
     console.log("send req to get autoCode , lastPlatoonId is: ", lastPlatoonId)
-    return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRGroup/AutoCod?ID=${lastPlatoonId}`);
+    return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRGroup/AutoCode?PlatoonId=${lastPlatoonId}`);
   }
 
   postGroup(data: any) {
