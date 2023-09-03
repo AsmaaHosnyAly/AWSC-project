@@ -175,7 +175,7 @@ mat-panel-description {
 
 .div-table{
   display: block;
-  overflow-x: scroll;
+  overflow-x: scroll !important;
   width: 100%;
 }
 
@@ -183,6 +183,7 @@ table {
   margin: 28px 0;
   width: 100%;
   text-align: center;
+  
  
 }
 
