@@ -4,24 +4,28 @@
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
         <div class="headerForm">
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no" [value]="editData ? editData.no : autoNo" type="number" readonly>
-            </mat-form-field>
-
+            <!-- <mat-checkbox (click)="toggleEdit()" >Disable select</mat-checkbox> -->
+            <!-- <button (click)="toggleEdit()" >Edit</button> -->
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>المخازن</mat-label>
                 <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
                     <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
-
+ 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId" (valueChange)="fiscalYearValueChanges($event)">
+                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
+                    (valueChange)="fiscalYearValueChanges($event)" >
                     <mat-option [value]="fiscalYear.id"
                         *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                 </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="groupInput">
+                <mat-label>الرقم</mat-label>
+                <input matInput placeholder="الرقم" formControlName="no" [value]="editData ? editData.no : autoNo"
+                    type="number" readonly>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="example-full-width">
@@ -35,7 +39,8 @@
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الاجمالى</mat-label>
-                <input matInput placeholder="الرقم" type="number" [value]="groupMasterForm ? groupMasterForm.getRawValue().total : sumOfTotals" readonly>
+                <input matInput placeholder="الرقم" type="number"
+                    [value]="groupMasterForm ? groupMasterForm.getRawValue().total : sumOfTotals" readonly>
             </mat-form-field>
         </div>
 
@@ -75,7 +80,7 @@
                         [value]="getDetailedRowData ? getDetailedRowData.price : ''" formControlName="price"
                         [readonly]="isReadOnly">
                 </mat-form-field>
-               
+
 
                 <div mat-dialog-action [align]="'end'">
                     <div class="groupAction">

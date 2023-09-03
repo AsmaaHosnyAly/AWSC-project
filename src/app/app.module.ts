@@ -145,6 +145,8 @@ import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.compon
 import { StrModelComponent } from './str-model/str-model.component';
 import { StrModelDailogComponent } from './str-model-dailog/str-model-dailog.component';
 
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 @NgModule({
   declarations: [
     AppComponent,HrEmployeeVacationBalanceComponent,HrEmployeeVacationBalanceDialogComponent,
@@ -289,7 +291,8 @@ import { StrModelDailogComponent } from './str-model-dailog/str-model-dailog.com
     MatAutocompleteModule,
     MatStepperModule,
     ToastrModule.forRoot(),
-    MatBadgeModule
+    MatBadgeModule,
+    MatCheckboxModule
   ],
   providers: [
     {
