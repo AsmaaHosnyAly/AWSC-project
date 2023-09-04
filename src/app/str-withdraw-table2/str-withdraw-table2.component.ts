@@ -1,3 +1,4 @@
+import { FiscalYear } from './../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -15,20 +16,22 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./str-withdraw-table2.component.css'],
 })
 export class StrWithdrawTableComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'storeName','employeeName','costCenterName','desstoreName','fiscalYearName','date', 'Action'];
+  displayedColumns: string[] = ['no', 'storeName', 'employeeName', 'costCenterName', 'desstoreName', 'fiscalyear', 'date', 'Action'];
   matchedIds: any;
   storeList: any;
   storeName: any;
   fiscalYearsList: any;
-  employeeList:any;
-  employeeName:any;
-  costcenterList:any;
-  costCenterName:any;
-  deststoreList:any;
-  deststoreName:any;
-  
+  fiscalyear:any;
+  employeeList: any;
+  employeeName: any;
+  costcenterList: any;
+  costCenterName: any;
+  deststoreList: any;
+  desstoreName: any;
+  itemsList:any;
 
-  
+
+
 
 
   dataSource2!: MatTableDataSource<any>;
@@ -42,15 +45,16 @@ export class StrWithdrawTableComponent implements OnInit {
     private http: HttpClient,
     private toastr: ToastrService,
     @Inject(LOCALE_ID) private locale: string
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.getCostCenters();
     this.getDestStores();
+    this.getFiscalYears();
+
+    this.getCostCenters();
     this.getAllMasterForms();
     this.getStores();
     this.getEmployees();
-    this.getFiscalYears();
   }
 
   applyFilter(event: Event) {
@@ -189,11 +193,24 @@ export class StrWithdrawTableComponent implements OnInit {
         }
       })
   }
+  // getDestStores() {
+  //   this.api.getStore().subscribe({
+  //     next: (res) => {
+  //       this.deststoreList = res;
+  //       console.log("deststore res: ", this.storeList);
+  //     },
+  //     error: (err) => {
+  //       // console.log("fetch store data err: ", err);
+  //       alert('خطا اثناء جلب المخازن !');
+  //     },
+  //   });
+  // }
+
   getDestStores() {
     this.api.getStore().subscribe({
       next: (res) => {
         this.deststoreList = res;
-        // console.log("store res: ", this.storeList);
+        console.log("deststore res: ", this.deststoreList);
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
@@ -206,7 +223,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.api.getFiscalYears().subscribe({
       next: (res) => {
         this.fiscalYearsList = res;
-        console.log('fiscalYears res in search: ', this.fiscalYearsList);
+        console.log('fiscalYears list: ', this.fiscalYearsList);
       },
       error: (err) => {
         // console.log("fetch fiscalYears data err: ", err);
@@ -215,7 +232,9 @@ export class StrWithdrawTableComponent implements OnInit {
     });
   }
 
-  getSearchStrWithdraw(no: any, store: any, date: any, fiscalYear: any) {
+
+
+  getSearchStrWithdraw(no: any, store: any, date: any, fiscalYear: any, item: any) {
     console.log(
       'no. : ',
       no,
@@ -224,111 +243,115 @@ export class StrWithdrawTableComponent implements OnInit {
       'date: ',
       date,
       'fiscalYear: ',
-      fiscalYear
+      fiscalYear, 'item:',item
     );
-    this.api.getStrWithdrawSearch(no, store, date, fiscalYear).subscribe({
+    this.api.getStrWithdrawSearch(no, store, date, fiscalYear, item).subscribe({
       next: (res) => {
-        console.log('search openingStock res: ', res);
+        console.log("search employeeExchange 4res: ", res);
 
-        //enter no.
-        if (no != '' && !store && !date && !fiscalYear) {
-          // console.log("enter no. ")
-          // console.log("no. : ", no, "store: ", store, "date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.no == no!);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        this.dataSource2 = res
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
 
-        //enter store
-        else if (!no && store && !date && !fiscalYear) {
-          // console.log("enter store. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.storeId == store);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        // //enter no.
+        // if (no != '' && !store && !date && !fiscalYear && !item) {
+        //   // console.log("enter no. ")
+        //   // console.log("no. : ", no, "store: ", store, "date: ", date)
+        //   this.dataSource2 = res.filter((res: any) => res.no == no!);
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
 
-        //enter date
-        else if (!no && !store && date && !fiscalYear) {
-          // console.log("enter date. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        // //enter store
+        // else if (!no && store && !date && !fiscalYear) {
+        //   // console.log("enter store. ")
+        //   // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+        //   this.dataSource2 = res.filter((res: any) => res.storeId == store);
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
 
-        //enter fiscalYear
-        else if (!no && !store && !date && fiscalYear) {
-          // console.log("enter date. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => res.fiscalyear == fiscalYear
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        // //enter date
+        // else if (!no && !store && date && !fiscalYear) {
+        //   // console.log("enter date. ")
+        //   // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+        //   this.dataSource2 = res.filter(
+        //     (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
+        //   );
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
 
-        //enter no. & store
-        else if (no && store && !date && !fiscalYear) {
-          // console.log("enter no & store ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => res.no == no! && res.storeId == store
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        // //enter fiscalYear
+        // else if (!no && !store && !date && fiscalYear) {
+        //   // console.log("enter date. ")
+        //   // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+        //   this.dataSource2 = res.filter(
+        //     (res: any) => res.fiscalyear == fiscalYear
+        //   );
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
 
-        //enter no. & date
-        else if (no && !store && date && !fiscalYear) {
-          // console.log("enter no & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        // //enter no. & store
+        // else if (no && store && !date && !fiscalYear) {
+        //   // console.log("enter no & store ")
+        //   // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+        //   this.dataSource2 = res.filter(
+        //     (res: any) => res.no == no! && res.storeId == store
+        //   );
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
 
-        //enter store & date
-        else if (!no && store && date && !fiscalYear) {
-          // console.log("enter store & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        // //enter no. & date
+        // else if (no && !store && date && !fiscalYear) {
+        //   // console.log("enter no & date ")
+        //   // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+        //   this.dataSource2 = res.filter(
+        //     (res: any) =>
+        //       res.no == no! &&
+        //       formatDate(res.date, 'M/d/yyyy', this.locale) == date
+        //   );
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
 
-        //enter all data
-        else if (no != '' && store != '' && date != '' && fiscalYear != '') {
-          // console.log("enter all data. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
-              res.fiscalyear == fiscalYear
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        // //enter store & date
+        // else if (!no && store && date && !fiscalYear) {
+        //   // console.log("enter store & date ")
+        //   // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+        //   this.dataSource2 = res.filter(
+        //     (res: any) =>
+        //       res.storeId == store &&
+        //       formatDate(res.date, 'M/d/yyyy', this.locale) == date
+        //   );
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
 
-        //didn't enter any data
-        else {
-          // console.log("enter no data ")
-          this.dataSource2 = res;
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+        // //enter all data
+        // else if (no != '' && store != '' && date != '' && fiscalYear != '') {
+        //   // console.log("enter all data. ")
+        //   // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+        //   this.dataSource2 = res.filter(
+        //     (res: any) =>
+        //       res.no == no! &&
+        //       res.storeId == store &&
+        //       formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
+        //       res.fiscalyear == fiscalYear
+        //   );
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
+
+        // //didn't enter any data
+        // else {
+        //   // console.log("enter no data ")
+        //   this.dataSource2 = res;
+        //   this.dataSource2.paginator = this.paginator;
+        //   this.dataSource2.sort = this.sort;
+        // }
       },
       error: (err) => {
         alert('Error');

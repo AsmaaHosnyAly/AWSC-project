@@ -44,6 +44,19 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>الصنف </mat-label>
+        <mat-select #item plceholder="اختر  الصنف">
+          <mat-option
+            *ngFor="let item of itemsList"
+            [value]="item.item"
+            >{{ item.item }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
       <div class="print display">
         <button (click)="printReport()">
           طباعة <mat-icon class="me-2">print</mat-icon>
@@ -60,7 +73,7 @@
               no.value,
               storeId.value,
               date.value,
-              fiscalYear.value
+              fiscalYear.value,item.value
             )
           "
         >
@@ -130,9 +143,9 @@
             <th mat-header-cell *matHeaderCellDef> مخزن خارجي </th>
             <td mat-cell *matCellDef="let row"> {{row.desstoreName}} </td>
         </ng-container>
-        <ng-container matColumnDef="fiscalYearName">
+        <ng-container matColumnDef="fiscalyear">
           <th mat-header-cell *matHeaderCellDef> السنة المالية  </th>
-          <td mat-cell *matCellDef="let row"> {{row.fiscalYearName}} </td>
+          <td mat-cell *matCellDef="let row"> {{row.fiscalyear}} </td>
       </ng-container>
 
 
