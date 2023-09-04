@@ -180,6 +180,7 @@ font-size: 20px;
     text-align: center !important;
     font-family: 'Cairo', sans-serif;
     font-weight: bold;
+
    
     
     
@@ -191,5 +192,18 @@ font-size: 20px;
     font-family: 'Cairo', sans-serif;
     font-size: 16px;
     text-align: center !important;
+    
    
+  }
+.sum-label-parent{
+  display: block !important;
+  margin: auto;
+  width: 100%;
+  background-color: transparent;
+ 
+}
+  .sum-label{
+ color: red ;
+ font-weight: bold;
+ 
   }

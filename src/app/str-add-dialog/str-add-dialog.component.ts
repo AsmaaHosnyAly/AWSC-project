@@ -10,6 +10,8 @@ import { HttpClient } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 
+import { MatDialogRef } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-str-add-dialog',
   templateUrl: './str-add-dialog.component.html',
@@ -43,6 +45,7 @@ export class STRAddDialogComponent implements OnInit {
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
+  
   isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
   isReadOnlyPercentage:any = false;
@@ -55,12 +58,14 @@ export class STRAddDialogComponent implements OnInit {
   sourceStoreName: any;
 
   constructor(private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private dialogRef:MatDialogRef<STRAddDialogComponent>,
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     // private toastr: ToastrService,
-    private dialog: MatDialog,
+   
     @Inject(LOCALE_ID) private locale: string) { }
   ngOnInit(): void {
     this.getStores();
@@ -220,6 +225,9 @@ export class STRAddDialogComponent implements OnInit {
     //   alert("تاكد من ادخال البيانات صحيحة")
     // }
   }
+  closeDialog(){
+    this.dialogRef.close();
+  }  
 
   getAllDetailsForms() {
 
@@ -489,7 +497,11 @@ export class STRAddDialogComponent implements OnInit {
 
   }
 
+  
   getAllMasterForms() {
+    let result = window.confirm("هل تريد الغاء الطلب");
+    if (result){
+      this.closeDialog()
     this.api.getStrOpen()
       .subscribe({
         next: (res) => {
@@ -502,7 +514,7 @@ export class STRAddDialogComponent implements OnInit {
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
         }
       })
-  }
+  }}
 
   getStores() {
     this.api.getStore()
