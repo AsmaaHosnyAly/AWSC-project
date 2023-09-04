@@ -1,41 +1,75 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300&display=swap" rel="stylesheet">
-
-<div class=" .container-fluid banner" id="sect1">
-    <div class="form"><form class="" [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
-        <div class="logo"><img src="../../../assets/images/water logo.png" width="70" alt=""></div>
-        <h2>تسجيل الدخول</h2>
-        <div class="">
-            <mat-icon id="user" aria-hidden="false" aria-label="Example home icon" fontIcon="perm_identity"></mat-icon>
-            <input type="text" class="form-control" placeholder="اسم المستخدم" formControlName="name" autocomplete="off" autofocus="false">
-            <div class="alert alert-danger" *ngIf="isSubmit && userName?.invalid">
-                <div *ngIf="userName?.errors?.['required']">ادخل اسم المستخدم</div>
-            </div>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Cairo:wght@300&display=swap"
+  rel="stylesheet"
+/>
+<div class="container">
+  <div class="main-content">
+    <div class="div1">
+      <div class="logo">
+        <img
+          src="../../../assets/images/water logo.png"
+          alt=""
+          class="img"
+          width="130"
+        />
+        <p class="paragraph">شركة مياه الشرب والصرف الصحي بأسوان</p>
+      </div>
+    </div>
+    <div class="div2">
+      <form
+        class="login-form"
+        [formGroup]="loginForm"
+        (ngSubmit)="handleSubmit()"
+      >
+        <p>تسجيل الدخول</p>
+        <label for="" class="details">اسم المستخدم</label>
+        <input
+          dir="rtl"
+          type="text"
+          class="form-control"
+          formControlName="name"
+          autocomplete="off"
+          autofocus="false"
+        />
+        <div *ngIf="isSubmit && userName?.invalid">
+          <div
+            class="alert alert-danger"
+            *ngIf="userName?.errors?.['required']"
+          >
+            ادخل اسم المستخدم
+          </div>
         </div>
-        <div class="">
-            <mat-icon id="lock" aria-hidden="false" aria-label="Example home icon" fontIcon="lock"></mat-icon>
-            <input type="password" class="form-control" placeholder="كلمة المرور  "  formControlName="password" autocomplete="off">
-            <!-- <div class="alert alert-danger" *ngIf="isSubmit && userData?.['password']?.invalid">
+
+        <label for="" class="details">كلمة المرور </label>
+        <input
+          dir="rtl"
+          type="password"
+          class="form-control"
+          formControlName="password"
+          autocomplete="off"
+        />
+        <div *ngIf="isSubmit && userPassword?.invalid">
+          <div
+            class="alert alert-danger"
+            *ngIf="userPassword?.errors?.['required']"
+          >
+            ادخل كلمة المرور
+          </div>
+        </div>
+
+        <!-- <div class="alert alert-danger" *ngIf="isSubmit && userData?.['password']?.invalid">
                 <div *ngIf="userData?.errors?.['required']">password is required</div>
             </div> -->
-            <div class="alert alert-danger" *ngIf="isSubmit && userPassword?.invalid">
-                <div *ngIf="userPassword?.errors?.['required']">ادخل كلمة المرور</div>
-            </div>
+        <button class="btn">الدخول</button>
+
+        <div *ngIf="isSubmit && userPassword?.invalid">
+          <div class="alert alert-danger" *ngIf="isSubmit && isActive == false">
+            عفوا لا تمتلك صلاحية الدخول
+          </div>
         </div>
-        
-        <div class="b">
-            <button class="" >الدخول</button>
-        </div>  
-        <div class="alert alert-danger" *ngIf="isSubmit &&isActive==false">
-            عفوا لا تمتلك صلاحية الدخول 
-       </div>
-
-        
-        
-    </form>
-
+      </form>
+    </div>
+  </div>
 </div>
-    
-</div>
-
