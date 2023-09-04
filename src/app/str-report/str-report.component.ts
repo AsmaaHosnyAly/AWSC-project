@@ -5,6 +5,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ApiService } from '../services/api.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { GlobalService } from '../services/global.service';
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -41,15 +42,24 @@ export class StrReportComponent {
   constructor(
     private api: ApiService,
     private datePipe: DatePipe,
-    private router: Router
+    private router: Router,
+    private global: GlobalService
   ) {
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+    global.getPermissionUserRoles(
+      1,
+      'stores',
+      'إدارة المخازن وحسابات المخازن - تقارير المخازن',
+      ''
+    );
   }
 
   async ngOnInit() {
     // this.flag = true;
     this.loadReportData();
     this.reportData(this.reportName);
+    // await this.delay(500);
+    // this.printReport();
   }
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -62,7 +72,7 @@ export class StrReportComponent {
     }
     let local: any = localStorage.getItem('reportData');
     let reportNameStorage: any = localStorage.getItem('reportName');
-    this.reportName = reportNameStorage;
+    this.reportName = JSON.parse(reportNameStorage);
     console.log(reportNameStorage);
     // console.log(local);
     this.reportLocal = JSON.parse(local);
@@ -86,12 +96,13 @@ export class StrReportComponent {
     this.dataSource = new MatTableDataSource(report);
     console.log(this.dataSource);
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // this.dataSource.sort = this.sort;
   }
 
   reportData(name: string) {
+    console.log('name', name);
     switch (name) {
-      case (name = 'str-item1'):
+      case (name = 'items1'):
         console.log(name);
         this.displayedColumns = [
           'name',
@@ -105,7 +116,7 @@ export class StrReportComponent {
         ];
 
         this.displayName = 'الاصناف';
-        this.show = false;
+        // this.show = false;
         break;
       case (name = 'withdraw'):
         console.log(name);
@@ -135,13 +146,13 @@ export class StrReportComponent {
           'costCenterName',
           'date',
         ];
-        this.displayName = 'اذن صرف';
+        this.displayName = 'ارصدة افتتاحية للعهد الشخصية';
         this.show = false;
         break;
       case (name = 'str-employee'):
         console.log(name);
         this.displayedColumns = ['no', 'employeeName', 'date'];
-        this.displayName = 'اذن صرف';
+        this.displayName = 'نقل عهدة شخصية';
         this.show = false;
         break;
       default:
@@ -179,12 +190,14 @@ export class StrReportComponent {
     document.body.innerHTML = originalContent;
 
     // must be reloaded after printContent
-    location.reload();
+    // location.reload();
+    this.router.navigate([this.reportName]).then(() => {
+      location.reload();
+    });
 
     // if (StrReportComponent.flag == 1) {
     //   StrReportComponent.flag += 1;
     // }
-    // this.router.navigate(['/items1']);
     // window.history.back();
   }
 

@@ -418,61 +418,60 @@ export class ApiService {
     return this.http.get<any>('http://ims.aswan.gov.eg/api/FIAccount/get/all');
   }
 
-//HrQualification
+  //HrQualification
 
-postQualification(data: any) {
-  return this.http.post<any>(
-    'http://ims.aswan.gov.eg/api/HrQualification/Add',
-    data
-  );
-}
-getQualification() {
-  return this.http.get<any>(
-    'http://ims.aswan.gov.eg/api/HrQualification/get/all'
-  );
-}
-putQualification(data: any) {
-  return this.http.put<any>(
-    'http://ims.aswan.gov.eg/api/HrQualification/update',
-    data
-  );
-}
-deleteQualification(id: number) {
-  return this.http.delete<any>(
-    `http://ims.aswan.gov.eg/api/HrQualification/delete/${id}`
-  );
-}
-getAllQualitativeGroups(): Observable<any> {
-  return this.http.get<any>(
-    'http://ims.aswan.gov.eg/api/HrQualitativeGroup/get/all'
-  );
-}
+  postQualification(data: any) {
+    return this.http.post<any>(
+      'http://ims.aswan.gov.eg/api/HrQualification/Add',
+      data
+    );
+  }
+  getQualification() {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/HrQualification/get/all'
+    );
+  }
+  putQualification(data: any) {
+    return this.http.put<any>(
+      'http://ims.aswan.gov.eg/api/HrQualification/update',
+      data
+    );
+  }
+  deleteQualification(id: number) {
+    return this.http.delete<any>(
+      `http://ims.aswan.gov.eg/api/HrQualification/delete/${id}`
+    );
+  }
+  getAllQualitativeGroups(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/HrQualitativeGroup/get/all'
+    );
+  }
 
-//HrSeveranceReason
+  //HrSeveranceReason
 
-postSeveranceReason(data: any) {
-  return this.http.post<any>(
-    'http://ims.aswan.gov.eg/api/HrSeveranceReason/Add',
-    data
-  );
-}
-getSeveranceReason() {
-  return this.http.get<any>(
-    'http://ims.aswan.gov.eg/api/HrSeveranceReason/get/all'
-  );
-}
-putSeveranceReason(data: any) {
-  return this.http.put<any>(
-    'http://ims.aswan.gov.eg/api/HrSeveranceReason/update',
-    data
-  );
-}
-deleteSeveranceReason(id: number) {
-  return this.http.delete<any>(
-    `http://ims.aswan.gov.eg/api/HrSeveranceReason/delete/${id}`
-  );
-}
-
+  postSeveranceReason(data: any) {
+    return this.http.post<any>(
+      'http://ims.aswan.gov.eg/api/HrSeveranceReason/Add',
+      data
+    );
+  }
+  getSeveranceReason() {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/HrSeveranceReason/get/all'
+    );
+  }
+  putSeveranceReason(data: any) {
+    return this.http.put<any>(
+      'http://ims.aswan.gov.eg/api/HrSeveranceReason/update',
+      data
+    );
+  }
+  deleteSeveranceReason(id: number) {
+    return this.http.delete<any>(
+      `http://ims.aswan.gov.eg/api/HrSeveranceReason/delete/${id}`
+    );
+  }
 
   /**crud group */
 
@@ -833,9 +832,7 @@ deleteSeveranceReason(id: number) {
     }
 
     console.log("didn't enter any condition search");
-    return this.http.get<any>(
-      `${this.url}/STROpeningStock/search?StoreId=${0}`
-    );
+    return this.http.get<any>(`${this.url}/STROpeningStock/search`);
   }
 
   ///////////////////////////////// STR-EmployeeExchange & details/////////////////////////////
@@ -1028,7 +1025,7 @@ deleteSeveranceReason(id: number) {
     }
 
     console.log("didn't enter any condition search");
-    return this.http.get<any>(`${this.url}/STREmployeExchange/search?No=${0}`);
+    return this.http.get<any>(`${this.url}/STREmployeExchange/search`);
   }
 
   // open Empoyee
@@ -1142,27 +1139,25 @@ deleteSeveranceReason(id: number) {
     //enter no.
     if (no != '' && !storeId && !date && !fiscalYear) {
       console.log('enter no. strOpen search');
-      return this.http.get<any>(`${this.url}/STROpeningStock/search?No=${no}`);
+      return this.http.get<any>(`${this.url}/STRWithdraw/search?No=${no}`);
     }
     //enter store
     else if (!no && storeId && !date && !fiscalYear) {
       console.log('enter store strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}`
       );
     }
     //enter date
     else if (!no && !storeId && date && !fiscalYear) {
       console.log('enter date strOpen search');
-      return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?Date=${date}`
-      );
+      return this.http.get<any>(`${this.url}/STRWithdraw/search?Date=${date}`);
     }
     //enter fiscalYear
     else if (!no && !storeId && !date && fiscalYear) {
       console.log('enter fisalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?fiscalyear=${fiscalYear}`
       );
     }
     //enter itemId
@@ -1177,21 +1172,21 @@ deleteSeveranceReason(id: number) {
     else if (no && storeId && !date && !fiscalYear) {
       console.log('enter no. & store strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}&No=${no}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}&No=${no}`
       );
     }
     //enter no. & date
     else if (no && !storeId && date && !fiscalYear) {
       console.log('enter no. & date strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?Date=${date}&No=${no}`
+        `${this.url}/STRWithdraw/search?Date=${date}&No=${no}`
       );
     }
     //enter no. & fiscalYear
     else if (no && !storeId && !date && fiscalYear) {
       console.log('enter no. & fiscalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?No=${no}&fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?No=${no}&fiscalyear=${fiscalYear}`
       );
     }
     //enter no. & itemId
@@ -1206,14 +1201,14 @@ deleteSeveranceReason(id: number) {
     else if (!no && storeId && date && !fiscalYear) {
       console.log('enter store & date strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}&Date=${date}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}&Date=${date}`
       );
     }
     //enter store & fiscalYear
     else if (!no && storeId && !date && fiscalYear) {
       console.log('enter store & fiscalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}&fiscalyear=${storeId}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}&fiscalyear=${storeId}`
       );
     }
     //enter store & itemId
@@ -1228,7 +1223,7 @@ deleteSeveranceReason(id: number) {
     else if (!no && !storeId && date && fiscalYear) {
       console.log('enter date & fiscalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?Date=${date}&fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?Date=${date}&fiscalyear=${fiscalYear}`
       );
     }
     //enter date & itemId
@@ -1251,13 +1246,14 @@ deleteSeveranceReason(id: number) {
     else if (no != '' && storeId != '' && date != '' && fiscalYear != '') {
       console.log('enter all data strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}&Date=${date}&No=${no}&fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}&Date=${date}&No=${no}&fiscalyear=${fiscalYear}`
       );
     }
 
     console.log("didn't enter any condition search");
     return this.http.get<any>(
-      `${this.url}/STROpeningStock/search?StoreId=${0}`
+      // `${this.url}/STROpeningStock/search?StoreId=${0}`
+      `${this.url}/STRWithdraw/search`
     );
   }
   // getGroup() {
@@ -1566,9 +1562,9 @@ deleteSeveranceReason(id: number) {
     );
   }
 
-  GetAddGeTAddDetailsByAddId(id: number) {
+  GetAddGeTAddDetailsByAddId(id: string) {
     return this.http.get<any>(
-      'http://ims.aswan.gov.eg/api/STRAdd/GetAddGeTAddDetailsByAddId/' + id
+      'http://ims.aswan.gov.eg/api/STRAdd/searchAddDetails?StoreId=' + id
     );
   }
 
@@ -1968,9 +1964,10 @@ deleteSeveranceReason(id: number) {
     return this.http.delete<any>(`${this.url}/PRGroupRole/delete/` + HeaderId);
   }
 
-
   getHrWorkPlace() {
-    return this.http.get<any>(' http://ims.aswan.gov.eg/api/HrWorkPlace/get/all');
+    return this.http.get<any>(
+      ' http://ims.aswan.gov.eg/api/HrWorkPlace/get/all'
+    );
   }
   putHrWorkPlace(data: any) {
     return this.http.put<any>(
@@ -1995,7 +1992,9 @@ deleteSeveranceReason(id: number) {
     );
   }
   getHrspecialization() {
-    return this.http.get<any>(' http://ims.aswan.gov.eg/api/HrSpecialization/get/all');
+    return this.http.get<any>(
+      ' http://ims.aswan.gov.eg/api/HrSpecialization/get/all'
+    );
   }
   putHrspecialization(data: any) {
     return this.http.put<any>(
@@ -2020,7 +2019,9 @@ deleteSeveranceReason(id: number) {
     );
   }
   getHrQualitativeGroup() {
-    return this.http.get<any>(' http://ims.aswan.gov.eg/api/HrQualitativeGroup/get/all');
+    return this.http.get<any>(
+      ' http://ims.aswan.gov.eg/api/HrQualitativeGroup/get/all'
+    );
   }
   putHrQualitativeGroup(data: any) {
     return this.http.put<any>(

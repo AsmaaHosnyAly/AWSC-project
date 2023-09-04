@@ -61,7 +61,13 @@
         <mat-icon>search</mat-icon>
       </button>
       <div class="print">
-        <button mat-icon-button color="primary" (click)="printReport()">
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="
+            printReport(no.value, storeId.value, date.value, fiscalYear.value)
+          "
+        >
           <mat-icon>print</mat-icon>
         </button>
       </div>

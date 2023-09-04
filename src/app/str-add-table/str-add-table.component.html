@@ -42,7 +42,11 @@
       >
         <mat-icon>search</mat-icon>
       </button>
-      <button mat-icon-button color="primary" (click)="print()">
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="print(no.value, storeId.value, date.value)"
+      >
         <mat-icon>print</mat-icon>
       </button>
     </div>

@@ -21,9 +21,7 @@ import { Router } from '@angular/router';
 import { GlobalService } from '../services/global.service';
 
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {
-    
-  }
+  constructor(public id: number, public name: string, public code: string) {}
 }
 
 export class Grade {
@@ -57,9 +55,11 @@ export class Group {
 }
 
 export class Unit {
-  constructor(public id: number, public name: string,private global:GlobalService) {
-
-  }
+  constructor(
+    public id: number,
+    public name: string,
+    private global: GlobalService
+  ) {}
 }
 
 @Component({
@@ -108,7 +108,7 @@ export class STRItem1Component implements OnInit {
 
   myDate: any = new Date();
 
-  reportName: string = 'str-item1';
+  reportName: string = 'items1';
   reportData: any;
 
   dataSource!: MatTableDataSource<any>;
@@ -120,10 +120,14 @@ export class STRItem1Component implements OnInit {
     private api: ApiService,
     private datePipe: DatePipe,
     private router: Router,
-    private global:GlobalService
+    private global: GlobalService
   ) {
-
-    global.getPermissionUserRoles(1, 'stores', 'إدارة المخازن وحسابات المخازن-الاصناف', '')
+    global.getPermissionUserRoles(
+      1,
+      'stores',
+      'إدارة المخازن وحسابات المخازن-الاصناف',
+      ''
+    );
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -155,8 +159,6 @@ export class STRItem1Component implements OnInit {
     );
 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-
-    
   }
   ngOnInit(): void {
     this.getAllItems();
@@ -380,8 +382,10 @@ export class STRItem1Component implements OnInit {
     this.platoonCtrl.updateValueAndValidity();
   }
   async getSearchItems(name: any) {
+    console.log(name);
     this.api.getItem().subscribe({
       next: (res) => {
+        console.log(res);
         //enter itemName
         if (!this.selectedGroup && name && !this.selectedUnit) {
           console.log('filter name id: ', this.selectedGroup, 'name: ', name);

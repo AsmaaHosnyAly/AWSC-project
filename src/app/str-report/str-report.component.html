@@ -2,7 +2,7 @@
   <div class="content" id="content">
     <header class="header">
       <div class="header-one">
-        <p>{{ displayName }}</p>
+        <p>تقرير {{ displayName }}</p>
       </div>
       <div class="header-two">
         <img src="../assets/images/water logo.png" />
@@ -13,7 +13,7 @@
       <!---str-item1--->
       <ng-container>
         <table
-          *ngIf="reportName === 'str-item1'"
+          *ngIf="reportName === 'items1'"
           id="my-table"
           mat-table
           [dataSource]="dataSource"
@@ -76,15 +76,6 @@
           [dataSource]="dataSource"
           matSort
         >
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم الصنف</th>
-            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
-          </ng-container>
-          <!-- <ng-container matColumnDef="no">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> رقم الصنف </th>
-      <td mat-cell *matCellDef="let row"> {{row.no}} </td>
-    </ng-container> -->
-
           <ng-container matColumnDef="no">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>الرقم</th>
             <td mat-cell *matCellDef="let row">{{ row.no }}</td>
@@ -235,11 +226,6 @@
           </tr>
         </table>
       </ng-container>
-
-      <!-- <mat-paginator
-        [pageSizeOptions]="[2, 5]"
-        aria-label="الصفحات"
-      ></mat-paginator> -->
     </section>
     <div *ngIf="show">
       <footer id="reportFooter">
@@ -259,11 +245,11 @@
       <button (click)="next()">></button>
       <button (click)="last()">>></button>
     </div> -->
-    <div class="bottom">
+    <!-- <div class="bottom">
       <button mat-raised-button class="add" (click)="printReport()" dir="ltr">
         <span class="ms-2">طباعة</span>
       </button>
       <button (click)="goBack()" class="">عودة</button>
-    </div>
+    </div> -->
   </div>
 </div>

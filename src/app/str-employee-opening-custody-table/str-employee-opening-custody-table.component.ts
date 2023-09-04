@@ -9,6 +9,7 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-str-employee-opening-custody-table',
@@ -22,6 +23,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   storeName: any;
   fiscalYearsList: any;
 
+  reportName: string = 'str-employee';
+
   dataSource2!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -32,7 +35,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +52,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        // console.log(this.dataSource2);
+        // console.log(this.dataSource2.data);
+
+        // TODO this should be in Print function
+        this.loadDataToLocalStorage(res);
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -70,77 +79,76 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   }
 
   deleteBothForms(id: number) {
-    
-    this.http.get<any>("http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all")
-      .subscribe(res => {
-        this.matchedIds = res.filter((a: any) => {
-          console.log("matched Id &  : ", a.custodyId === id)
-          return a.custodyId === id
-        })
-        var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+    this.http
+      .get<any>(
+        'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all'
+      )
+      .subscribe(
+        (res) => {
+          this.matchedIds = res.filter((a: any) => {
+            console.log('matched Id &  : ', a.custodyId === id);
+            return a.custodyId === id;
+          });
+          var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
 
-        if (this.matchedIds.length) {
-          for (let i = 0; i < this.matchedIds.length; i++) {
+          if (this.matchedIds.length) {
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              console.log(
+                'matchedIds details in loop: ',
+                this.matchedIds[i].id
+              );
 
-            console.log("matchedIds details in loop: ", this.matchedIds[i].id)
+              if (result) {
+                this.api
+                  .deleteStrEmployeeOpenDetails(this.matchedIds[i].id)
+                  .subscribe({
+                    next: (res) => {
+                      // alert("تم الحذف التفاصيل بنجاح");
 
-            if (result) {
-              this.api. deleteStrEmployeeOpenDetails(this.matchedIds[i].id)
-                .subscribe({
-                  next: (res) => {
-                    // alert("تم الحذف التفاصيل بنجاح");
+                      // var resultMaster = confirm("هل ترغب بتاكيد حذف الرئيسي؟");
+                      // if (resultMaster) {
+                      console.log('master id to be deleted: ', id);
 
-                    // var resultMaster = confirm("هل ترغب بتاكيد حذف الرئيسي؟");
-                    // if (resultMaster) {
-                    console.log("master id to be deleted: ", id)
-
-                    this.api.deleteStrEmployeeOpen(id)
-                      .subscribe({
+                      this.api.deleteStrEmployeeOpen(id).subscribe({
                         next: (res) => {
                           // alert("تم حذف الرئيسي بنجاح");
                           this.toastrDeleteSuccess();
                           this.getAllMasterForms();
                         },
                         error: () => {
-                          alert("خطأ أثناء حذف الرئيسي !!");
-                        }
-                      })
-                    // }
-
-                  },
-                  error: () => {
-                    alert("خطأ أثناء حذف التفاصيل !!");
-                  }
-                })
+                          alert('خطأ أثناء حذف الرئيسي !!');
+                        },
+                      });
+                      // }
+                    },
+                    error: () => {
+                      alert('خطأ أثناء حذف التفاصيل !!');
+                    },
+                  });
+              }
             }
+          } else {
+            if (result) {
+              console.log('master id to be deleted: ', id);
 
-          }
-        }
-        else {
-          if (result) {
-            console.log("master id to be deleted: ", id)
-
-            this.api.deleteStrEmployeeOpen(id)
-              .subscribe({
+              this.api.deleteStrEmployeeOpen(id).subscribe({
                 next: (res) => {
                   // alert("تم حذف الرئيسي بنجاح");
                   this.toastrDeleteSuccess();
                   this.getAllMasterForms();
                 },
                 error: () => {
-                  alert("خطأ أثناء حذف الرئيسي !!");
-                }
-              })
+                  alert('خطأ أثناء حذف الرئيسي !!');
+                },
+              });
+            }
           }
+        },
+        (err) => {
+          alert('خطا اثناء تحديد المجموعة !!');
         }
-
-      }, err => {
-        alert("خطا اثناء تحديد المجموعة !!")
-      })
-
+      );
   }
-
-  
 
   getAllEmployees() {
     this.api.getAllEmployees().subscribe({
@@ -293,40 +301,165 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.toastr.success('تم الحذف بنجاح');
   }
 
-  printReport() {
-    // this.loadAllData();
-    let header: any = document.getElementById('header');
-    let paginator: any = document.getElementById('paginator');
-    let action1: any = document.getElementById('action1');
-    let action2: any = document.querySelectorAll('action2');
-    console.log(action2);
-    let button1: any = document.querySelectorAll('#button1');
-    console.log(button1);
-    let button2: any = document.getElementById('button2');
-    let button: any = document.getElementsByClassName('mdc-icon-button');
-    console.log(button);
-    let reportFooter: any = document.getElementById('reportFooter');
-    let date: any = document.getElementById('date');
-    header.style.display = 'grid';
-    paginator.style.display = 'none';
-    action1.style.display = 'none';
-    // button1.style.display = 'none';
-    // button2.style.display = 'none';
-    for (let index = 0; index < button.length; index++) {
-      let element = button[index];
+  printReport(no: any, store: any, date: any, fiscalYear: any) {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      store,
+      'date: ',
+      date,
+      'fiscalYear: ',
+      fiscalYear
+    );
+    // this.api.getStrOpenSearach(no, store, date, fiscalYear).subscribe({
+    //   next: (res) => {
+    //     console.log('search openingStock res: ', res);
 
-      element.hidden = true;
-    }
-    // reportFooter.style.display = 'block';
-    // date.style.display = 'block';
-    let printContent: any = document.getElementById('content')?.innerHTML;
-    let originalContent: any = document.body.innerHTML;
-    document.body.innerHTML = printContent;
-    // console.log(document.body.children);
-    document.body.style.cssText =
-      'direction:rtl;-webkit-print-color-adjust:exact;';
-    window.print();
-    document.body.innerHTML = originalContent;
-    location.reload();
+    //     //enter no.
+    //     if (no != '' && !store && !date && !fiscalYear) {
+    //       // console.log("enter no. ")
+    //       // console.log("no. : ", no, "store: ", store, "date: ", date)
+    //       this.dataSource2 = res.filter((res: any) => res.no == no!);
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //     //enter store
+    //     else if (!no && store && !date && !fiscalYear) {
+    //       // console.log("enter store. ")
+    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+    //       this.dataSource2 = res.filter((res: any) => res.storeId == store);
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //     //enter date
+    //     else if (!no && !store && date && !fiscalYear) {
+    //       // console.log("enter date. ")
+    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+    //       this.dataSource2 = res.filter(
+    //         (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
+    //       );
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //     //enter fiscalYear
+    //     else if (!no && !store && !date && fiscalYear) {
+    //       // console.log("enter date. ")
+    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+    //       this.dataSource2 = res.filter(
+    //         (res: any) => res.fiscalyear == fiscalYear
+    //       );
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //     //enter no. & store
+    //     else if (no && store && !date && !fiscalYear) {
+    //       // console.log("enter no & store ")
+    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+    //       this.dataSource2 = res.filter(
+    //         (res: any) => res.no == no! && res.storeId == store
+    //       );
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //     //enter no. & date
+    //     else if (no && !store && date && !fiscalYear) {
+    //       // console.log("enter no & date ")
+    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+    //       this.dataSource2 = res.filter(
+    //         (res: any) =>
+    //           res.no == no! &&
+    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
+    //       );
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //     //enter store & date
+    //     else if (!no && store && date && !fiscalYear) {
+    //       // console.log("enter store & date ")
+    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+    //       this.dataSource2 = res.filter(
+    //         (res: any) =>
+    //           res.storeId == store &&
+    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
+    //       );
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //     //enter all data
+    //     else if (no != '' && store != '' && date != '' && fiscalYear != '') {
+    //       // console.log("enter all data. ")
+    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+    //       this.dataSource2 = res.filter(
+    //         (res: any) =>
+    //           res.no == no! &&
+    //           res.storeId == store &&
+    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
+    //           res.fiscalyear == fiscalYear
+    //       );
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //     //didn't enter any data
+    //     else {
+    //       // console.log("enter no data ")
+    //       this.dataSource2 = res;
+    //       this.dataSource2.paginator = this.paginator;
+    //       this.dataSource2.sort = this.sort;
+    //     }
+
+    //  this.loadDataToLocalStorage(res);
+    //   },
+    //   error: (err) => {
+    //     alert('Error');
+    //   },
+    // });
+    // this.loadAllData();
+    // let header: any = document.getElementById('header');
+    // let paginator: any = document.getElementById('paginator');
+    // let action1: any = document.getElementById('action1');
+    // let action2: any = document.querySelectorAll('action2');
+    // console.log(action2);
+    // let button1: any = document.querySelectorAll('#button1');
+    // console.log(button1);
+    // let button2: any = document.getElementById('button2');
+    // let button: any = document.getElementsByClassName('mdc-icon-button');
+    // console.log(button);
+    // let reportFooter: any = document.getElementById('reportFooter');
+    // let date: any = document.getElementById('date');
+    // header.style.display = 'grid';
+    // paginator.style.display = 'none';
+    // action1.style.display = 'none';
+    // // button1.style.display = 'none';
+    // // button2.style.display = 'none';
+    // for (let index = 0; index < button.length; index++) {
+    //   let element = button[index];
+
+    //   element.hidden = true;
+    // }
+    // // reportFooter.style.display = 'block';
+    // // date.style.display = 'block';
+    // let printContent: any = document.getElementById('content')?.innerHTML;
+    // let originalContent: any = document.body.innerHTML;
+    // document.body.innerHTML = printContent;
+    // // console.log(document.body.children);
+    // document.body.style.cssText =
+    //   'direction:rtl;-webkit-print-color-adjust:exact;';
+    // window.print();
+    // document.body.innerHTML = originalContent;
+    // location.reload();
+  }
+
+  loadDataToLocalStorage(data: any): void {
+    window.localStorage.setItem('reportData', JSON.stringify(data));
+    window.localStorage.setItem('reportName', JSON.stringify(this.reportName));
   }
 }

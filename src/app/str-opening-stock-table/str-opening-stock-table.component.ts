@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-str-opening-stock-table',
@@ -26,7 +27,9 @@ export class StrOpeningStockTableComponent implements OnInit {
   storeList: any;
   storeName: any;
   fiscalYearsList: any;
-  itemsList:any;
+  itemsList: any;
+
+  reportName: string = 'employeeOpening';
 
   dataSource2!: MatTableDataSource<any>;
 
@@ -38,7 +41,8 @@ export class StrOpeningStockTableComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +61,6 @@ export class StrOpeningStockTableComponent implements OnInit {
     }
   }
 
-
   getAllMasterForms() {
     this.api.getStrOpen().subscribe({
       next: (res) => {
@@ -72,13 +75,16 @@ export class StrOpeningStockTableComponent implements OnInit {
     });
   }
   openOpeningStockDialog() {
-    this.dialog.open(StrOpeningStockDialogComponent, {
-      width: '90%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-        // this.getAllGroups();
-      }
-    })
+    this.dialog
+      .open(StrOpeningStockDialogComponent, {
+        width: '90%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save') {
+          // this.getAllGroups();
+        }
+      });
   }
   editMasterForm(row: any) {
     this.dialog
@@ -139,7 +145,7 @@ export class StrOpeningStockTableComponent implements OnInit {
         this.getAllMasterForms();
       },
       error: (err) => {
-        console.log("delete details err: ", err)
+        console.log('delete details err: ', err);
         // alert('خطأ أثناء حذف الصنف !!');
       },
     });
@@ -157,49 +163,60 @@ export class StrOpeningStockTableComponent implements OnInit {
       },
     });
   }
-  printReport() {
-    let buttn: any = document.querySelectorAll('#buttn');
-    console.log(buttn);
+  printReport(no: any, store: any, date: any, fiscalYear: any, itemId: any) {
+    this.api.getStrOpenSearach(no, store, date, fiscalYear, itemId).subscribe({
+      next: (res) => {
+        this.dataSource2 = res;
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
 
-    let header: any = document.getElementById('header');
-    console.log(header);
+        this.loadDataToLocalStorage(res);
 
-    let paginator: any = document.getElementById('paginator');
-    console.log(paginator);
+        this.router.navigate(['/report']);
+      },
+    });
+    // let buttn: any = document.querySelectorAll('#buttn');
+    // console.log(buttn);
 
-    let actionheade: any = document.getElementById('action-header');
-    actionheade.style.display = 'none';
+    // let header: any = document.getElementById('header');
+    // console.log(header);
 
-    let action1: any = document.getElementById('action1');
-    console.log(action1);
-    let action2: any = document.querySelectorAll('action2');
-    console.log(action2);
+    // let paginator: any = document.getElementById('paginator');
+    // console.log(paginator);
 
-    let button1: any = document.querySelectorAll('#button1');
-    console.log(button1);
-    let button2: any = document.getElementById('button2');
-    console.log(button2);
-    let button: any = document.getElementsByClassName('mdc-icon-button');
-    console.log(button);
-    let reportFooter: any = document.getElementById('reportFooter');
-    console.log(reportFooter);
-    let date: any = document.getElementById('date');
-    console.log(date);
-    header.style.display = 'grid';
-    // button1.style.display = 'none';
-    // button2.style.display = 'none';
-    for (let i = 0; i < buttn.length; i++) {
-      buttn[i].hidden = true;
-    }
-    let printContent: any = document.getElementById('content')?.innerHTML;
-    let originalContent: any = document.body.innerHTML;
-    document.body.innerHTML = printContent;
-    // console.log(document.body.children);
-    document.body.style.cssText =
-      'direction:rtl;-webkit-print-color-adjust:exact;';
-    window.print();
-    document.body.innerHTML = originalContent;
-    location.reload();
+    // let actionheade: any = document.getElementById('action-header');
+    // actionheade.style.display = 'none';
+
+    // let action1: any = document.getElementById('action1');
+    // console.log(action1);
+    // let action2: any = document.querySelectorAll('action2');
+    // console.log(action2);
+
+    // let button1: any = document.querySelectorAll('#button1');
+    // console.log(button1);
+    // let button2: any = document.getElementById('button2');
+    // console.log(button2);
+    // let button: any = document.getElementsByClassName('mdc-icon-button');
+    // console.log(button);
+    // let reportFooter: any = document.getElementById('reportFooter');
+    // console.log(reportFooter);
+    // let date: any = document.getElementById('date');
+    // console.log(date);
+    // header.style.display = 'grid';
+    // // button1.style.display = 'none';
+    // // button2.style.display = 'none';
+    // for (let i = 0; i < buttn.length; i++) {
+    //   buttn[i].hidden = true;
+    // }
+    // let printContent: any = document.getElementById('content')?.innerHTML;
+    // let originalContent: any = document.body.innerHTML;
+    // document.body.innerHTML = printContent;
+    // // console.log(document.body.children);
+    // document.body.style.cssText =
+    //   'direction:rtl;-webkit-print-color-adjust:exact;';
+    // window.print();
+    // document.body.innerHTML = originalContent;
+    // location.reload();
   }
 
   getFiscalYears() {
@@ -215,30 +232,39 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
 
   getItems() {
-    this.api.getItems()
-      .subscribe({
-        next: (res) => {
-          this.itemsList = res;
-        },
-        error: (err) => {
-          // console.log("fetch items data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.itemsList = res;
+      },
+      error: (err) => {
+        // console.log("fetch items data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
 
-  getSearchStrOpen(no: any, store: any, date: any, fiscalYear: any, itemId: any) {
-    this.api.getStrOpenSearach(no, store, date, fiscalYear, itemId)
-      .subscribe({
-        next: (res) => {
-          this.dataSource2 = res
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  getSearchStrOpen(
+    no: any,
+    store: any,
+    date: any,
+    fiscalYear: any,
+    itemId: any
+  ) {
+    this.api.getStrOpenSearach(no, store, date, fiscalYear, itemId).subscribe({
+      next: (res) => {
+        this.dataSource2 = res;
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
+      },
     });
   }
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
+  }
+
+  loadDataToLocalStorage(data: any): void {
+    window.localStorage.setItem('reportData', JSON.stringify(data));
+    window.localStorage.setItem('reportName', JSON.stringify(this.reportName));
   }
 }

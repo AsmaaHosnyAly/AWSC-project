@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-str-report-add-item',
@@ -13,7 +14,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 })
 export class StrReportAddItemComponent {
   displayedColumns: string[] = ['id', 'itemName', 'qty', 'price', 'total'];
-  dataSource!: MatTableDataSource<any>;
+  dataSource!: MatTableDataSource<any[]>;
+  dataSource1 = {};
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -23,8 +25,22 @@ export class StrReportAddItemComponent {
   storeName: string = '';
   sourceStoreName: string = '';
 
-  constructor(private api: ApiService, private datePipe: DatePipe) {
+  dataParse: any;
+
+  storeDetails: any;
+
+  constructor(
+    private api: ApiService,
+    private datePipe: DatePipe,
+    private global: GlobalService
+  ) {
     // this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+    global.getPermissionUserRoles(
+      1,
+      'stores',
+      'إدارة المخازن وحسابات المخازن - تقارير المخازن',
+      ''
+    );
   }
   ngOnInit(): void {
     this.getDataFromLocalStorage();
@@ -41,27 +57,40 @@ export class StrReportAddItemComponent {
 
   getDataFromLocalStorage(): any {
     const data: any = localStorage.getItem('store-data');
-    const dataParse = JSON.parse(data);
-    console.log(dataParse);
+    this.dataParse = JSON.parse(data);
+    console.log(this.dataParse);
     // console.log(dataParse[0].date);
-    this.myDate = dataParse[0].date;
-    this.storeName = dataParse[0].storeName;
-    this.sourceStoreName = dataParse[0].sourceStoreName;
+    this.myDate = this.dataParse[0].date;
+    this.storeName = this.dataParse[0].storeName;
+    // for (let index = 0; index < this.dataParse.length; index++) {
+    //   // this.dataSource[ index]
+    //   this.getDataById(this.dataParse[index].storeId);
+    // }
+    this.getDataById(this.dataParse[0].storeId);
+    this.sourceStoreName = this.dataParse[0].sourceStoreName;
     // this.id = dataParse[0].id;
-    this.getDataById(dataParse[0].id);
+    // this.getDataById(this.dataParse[0].storeId);
   }
 
-  getDataById(id: number) {
+  getDataById(id: string) {
     console.log(id);
     this.api.GetAddGeTAddDetailsByAddId(id).subscribe({
       next: (res) => {
         console.log('res table: ', res);
         console.log('res table: ', res[0].strAddDetailsGetVM);
 
-        this.dataSource = new MatTableDataSource(res[0].strAddDetailsGetVM);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.loadDataToLocalStorage(res[0].strAddDetailsGetVM);
+        this.storeDetails = res;
+
+        this.loadDataToLocalStorage(res);
+        // this.dataSource1[part] = new MatTableDataSource(res[0].strAddDetailsGetVM);
+        // for (let index = 0; index < res.length; index++) {
+        //   this.dataSource = new MatTableDataSource(
+        //     res[index].strAddDetailsGetVM
+        //   );
+        //   console.log(this.dataSource.data);
+        //   this.dataSource.paginator = this.paginator;
+        //   this.dataSource.sort = this.sort;
+        // }
       },
       error: (err) => {
         alert('error while fetching the records!!');

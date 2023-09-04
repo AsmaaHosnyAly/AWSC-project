@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw-dialog2.component';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-str-withdraw-table2',
@@ -15,21 +16,26 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./str-withdraw-table2.component.css'],
 })
 export class StrWithdrawTableComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'storeName','employeeName','costCenterName','date', 'Action'];
+  displayedColumns: string[] = [
+    'no',
+    'storeName',
+    'employeeName',
+    'costCenterName',
+    'date',
+    'Action',
+  ];
   matchedIds: any;
   storeList: any;
   storeName: any;
   fiscalYearsList: any;
-  employeeList:any;
-  employeeName:any;
-  costcenterList:any;
-  costCenterName:any;
-  deststoreList:any;
-  deststoreName:any;
-  
+  employeeList: any;
+  employeeName: any;
+  costcenterList: any;
+  costCenterName: any;
+  deststoreList: any;
+  deststoreName: any;
 
-  
-
+  reportName: string = 'withdraw';
 
   dataSource2!: MatTableDataSource<any>;
 
@@ -41,7 +47,8 @@ export class StrWithdrawTableComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     private toastr: ToastrService,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -64,13 +71,16 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   openWithdrawDialog() {
-    this.dialog.open(StrWithdrawDialogComponent, {
-      width: '90%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-        // this.getAllGroups();
-      }
-    })
+    this.dialog
+      .open(StrWithdrawDialogComponent, {
+        width: '90%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save') {
+          // this.getAllGroups();
+        }
+      });
   }
 
   getAllMasterForms() {
@@ -80,6 +90,7 @@ export class StrWithdrawTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.loadDataToLocalStorage(res);
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -138,17 +149,16 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   deleteFormDetails(id: number) {
-    this.api.deleteStrWithdrawDetails(id)
-      .subscribe({
-        next: (res) => {
-          alert("تم الحذف  بنجاح");
-          this.getAllMasterForms()
-        },
-        error: (err) => {
-          // console.log("delete details err: ", err)
-          alert("خطأ أثناء حذف الصنف !!");
-        }
-      })
+    this.api.deleteStrWithdrawDetails(id).subscribe({
+      next: (res) => {
+        alert('تم الحذف  بنجاح');
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        // console.log("delete details err: ", err)
+        alert('خطأ أثناء حذف الصنف !!');
+      },
+    });
   }
 
   getStores() {
@@ -176,19 +186,17 @@ export class StrWithdrawTableComponent implements OnInit {
     });
   }
 
-
   getCostCenters() {
-    this.api.getCostCenter()
-      .subscribe({
-        next: (res) => {
-          this.costcenterList = res;
-          console.log("costcenter res: ", this.costcenterList);
-        },
-        error: (err) => {
-          // console.log("fetch store data err: ", err);
-          alert("خطا اثناء جلب مركز التكلفة !");
-        }
-      })
+    this.api.getCostCenter().subscribe({
+      next: (res) => {
+        this.costcenterList = res;
+        console.log('costcenter res: ', this.costcenterList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب مركز التكلفة !');
+      },
+    });
   }
   getDestStores() {
     this.api.getStore().subscribe({
@@ -337,44 +345,161 @@ export class StrWithdrawTableComponent implements OnInit {
     });
   }
 
-  printReport() {
+  printReport(no: any, store: any, date: any, fiscalYear: any) {
+    this.api.getStrWithdrawSearch(no, store, date, fiscalYear).subscribe({
+      next: (res) => {
+        console.log('search openingStock res: ', res);
+
+        //enter no.
+        if (no != '' && !store && !date && !fiscalYear) {
+          // console.log("enter no. ")
+          // console.log("no. : ", no, "store: ", store, "date: ", date)
+          this.dataSource2 = res.filter((res: any) => res.no == no!);
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter store
+        else if (!no && store && !date && !fiscalYear) {
+          // console.log("enter store. ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter((res: any) => res.storeId == store);
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter date
+        else if (!no && !store && date && !fiscalYear) {
+          // console.log("enter date. ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter fiscalYear
+        else if (!no && !store && !date && fiscalYear) {
+          // console.log("enter date. ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) => res.fiscalyear == fiscalYear
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter no. & store
+        else if (no && store && !date && !fiscalYear) {
+          // console.log("enter no & store ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) => res.no == no! && res.storeId == store
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter no. & date
+        else if (no && !store && date && !fiscalYear) {
+          // console.log("enter no & date ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) =>
+              res.no == no! &&
+              formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter store & date
+        else if (!no && store && date && !fiscalYear) {
+          // console.log("enter store & date ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) =>
+              res.storeId == store &&
+              formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter all data
+        else if (no != '' && store != '' && date != '' && fiscalYear != '') {
+          // console.log("enter all data. ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) =>
+              res.no == no! &&
+              res.storeId == store &&
+              formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
+              res.fiscalyear == fiscalYear
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //didn't enter any data
+        else {
+          // console.log("enter no data ")
+          this.dataSource2 = res;
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        this.loadDataToLocalStorage(this.dataSource2);
+
+        this.router.navigate(['/report']);
+      },
+      error: (err) => {
+        alert('Error');
+      },
+    });
     // this.loadAllData();
-    let header: any = document.getElementById('header');
-    let paginator: any = document.getElementById('paginator');
-    let action1: any = document.getElementById('action1');
-    let action2: any = document.querySelectorAll('action2');
-    console.log(action2);
-    let button1: any = document.querySelectorAll('#button1');
-    console.log(button1);
-    let button2: any = document.getElementById('button2');
-    let button: any = document.getElementsByClassName('mdc-icon-button');
-    console.log(button);
-    let buttn: any = document.querySelectorAll('#buttn');
-    for (let index = 0; index < buttn.length; index++) {
-      buttn[index].hidden = true;
-    }
+    // let header: any = document.getElementById('header');
+    // let paginator: any = document.getElementById('paginator');
+    // let action1: any = document.getElementById('action1');
+    // let action2: any = document.querySelectorAll('action2');
+    // console.log(action2);
+    // let button1: any = document.querySelectorAll('#button1');
+    // console.log(button1);
+    // let button2: any = document.getElementById('button2');
+    // let button: any = document.getElementsByClassName('mdc-icon-button');
+    // console.log(button);
+    // let buttn: any = document.querySelectorAll('#buttn');
+    // for (let index = 0; index < buttn.length; index++) {
+    //   buttn[index].hidden = true;
+    // }
 
-    let actionHeader: any = document.getElementById('action-header');
-    actionHeader.style.display = 'none';
+    // let actionHeader: any = document.getElementById('action-header');
+    // actionHeader.style.display = 'none';
 
-    let reportFooter: any = document.getElementById('reportFooter');
-    let date: any = document.getElementById('date');
-    header.style.display = 'grid';
-    // button1.style.display = 'none';
-    // button2.style.display = 'none';
+    // let reportFooter: any = document.getElementById('reportFooter');
+    // let date: any = document.getElementById('date');
+    // header.style.display = 'grid';
+    // // button1.style.display = 'none';
+    // // button2.style.display = 'none';
 
-    let printContent: any = document.getElementById('content')?.innerHTML;
-    let originalContent: any = document.body.innerHTML;
-    document.body.innerHTML = printContent;
-    // console.log(document.body.children);
-    document.body.style.cssText =
-      'direction:rtl;-webkit-print-color-adjust:exact;';
-    window.print();
-    document.body.innerHTML = originalContent;
-    location.reload();
+    // let printContent: any = document.getElementById('content')?.innerHTML;
+    // let originalContent: any = document.body.innerHTML;
+    // document.body.innerHTML = printContent;
+    // // console.log(document.body.children);
+    // document.body.style.cssText =
+    //   'direction:rtl;-webkit-print-color-adjust:exact;';
+    // window.print();
+    // document.body.innerHTML = originalContent;
+    // location.reload();
   }
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
+  }
+
+  loadDataToLocalStorage(data: any): void {
+    window.localStorage.setItem('reportData', JSON.stringify(data));
+    window.localStorage.setItem('reportName', JSON.stringify(this.reportName));
   }
 }
