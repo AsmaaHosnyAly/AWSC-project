@@ -108,6 +108,10 @@ export class StrWithdrawDialogComponent implements OnInit {
   itemCtrl: FormControl;
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
+  isEditDataReadOnly: boolean = true;
+
+  isEdit: boolean = false;
+
 
 
 
@@ -832,8 +836,10 @@ console.log("put before",this.groupMasterForm.value)
   }
 
   getAllMasterForms() {
-    confirm("هل تريد الغاء الطلب")
-    this.api.getStrWithdraw()
+    let result = window.confirm("هل تريد الغاء الطلب");
+    if (result){
+
+      this.api.getStrWithdraw()
       .subscribe({
         next: (res) => {
           // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
@@ -845,6 +851,9 @@ console.log("put before",this.groupMasterForm.value)
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
         }
       })
+    }
+   
+   
   }
 
   getStores() {

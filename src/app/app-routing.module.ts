@@ -59,6 +59,11 @@ import { StrModelComponent } from './str-model/str-model.component';
 import { MenubarComponent } from './menubar/menubar.component';
 
 const routes: Routes = [
+
+
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent }, 
+  
   {
     path: '',
     component:MenubarComponent,
@@ -66,7 +71,7 @@ const routes: Routes = [
       { path: 'commodity', component: StrCommodityComponent },
       { path: 'home', component: StrGroupHomeComponent },
 
-      { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+      { path: 'str-openingStock', component: StrOpeningStockContainerComponent },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
@@ -103,7 +108,7 @@ const routes: Routes = [
       { path: 'commodity', component: StrCommodityComponent },
 
       { path: 'home', component: StrGroupHomeComponent },
-      { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+      // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
@@ -112,7 +117,7 @@ const routes: Routes = [
       { path: 'unit', component: STRUnitsComponent },
       { path: 'grade', component: STRGradeComponent },
       { path: 'home', component: StrGroupHomeComponent },
-      { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+      // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
@@ -156,8 +161,7 @@ const routes: Routes = [
     ],
   },
 
-  { path: 'login', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  
   // main screens
   { path: 'str-home', component: STRHomeComponent },
   { path: 'hr-home', component: StrEmployeesComponent },
