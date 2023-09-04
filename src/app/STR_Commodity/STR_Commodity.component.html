@@ -1,90 +1,92 @@
-
-
-  <mat-accordion class="example-headers-align" style="border: 1px;border-radius: 50px;" multi dir="rtl">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-description>
-            بحث 
-          <mat-icon>search</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-  <div class="search">
+<div class="container" dir="rtl"><mat-card>
+  <mat-card-header>
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input>
+    </mat-form-field>
+    <button style="margin-right: 60%;" mat-raised-button class="add" (click)="openDialog()">اضافة</button>
+    
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion class="example-headers-align" multi dir="rtl">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-description>
+              بحث متقدم
+            <mat-icon>account_circle</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    <div class="search">
       
-    <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">   
+        <mat-label>السلعة</mat-label>     
+        <input matInput #commodity aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl" (click)="openAutoCommodity()" required/>
+        <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName" (optionSelected)="commoditySelected($event)">
+          <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
+            {{ commodity.name }} | {{ commodity.code }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field> -->
+      <mat-form-field appearance="outline">
         <mat-label>السلعة</mat-label>
         
-
-        <mat-select [(ngModel)]="commodity.id" #commidityId plceholder="اختر السلعة" >
-            <mat-option  *ngFor="let commodity of commoditylist" [value]="commodity.code"
+  
+        <mat-select [(ngModel)]="commodity.id" #commodity plceholder="اختر السلعة" >
+            <mat-option  *ngFor="let commodity of commoditylist " [value]="commodity.name"
             >{{commodity.name}}</mat-option>
         </mat-select>
         
     </mat-form-field>
 
-      <button (click)=" getSearchProducts(commidityId.value)" >عرض</button> 
-    </div>
-    </mat-expansion-panel>
-
-    <mat-card-header>
-      <div class="child1 ">
-        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
-
-          <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
-        </button>
+      <button (click)=" getSearchProducts(commodity.value)" >عرض</button>
       </div>
+      </mat-expansion-panel>
+    </mat-accordion>
 
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
-      </mat-form-field>
-    </mat-card-header>
-  <div class="container">
-    <div>
-     
-  
-      <div class="mat-elevation-z8" >
+    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <table mat-table [dataSource]="dataSource" matSort>
-  
-       
-  
-          <ng-container matColumnDef="code" >
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 22px;position: relative;right: 0px;background-color:rgb(84, 186, 255)" > كود السلعة </th>
-            <td mat-cell *matCellDef="let row" style="text-align: right;"> {{row.code}} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 22px;margin-left: 309px !important;background-color:rgb(84, 186, 255)"> السلعة </th>
-            <td mat-cell *matCellDef="let row" style="text-align: right;"> {{row.name}}  </td>
-          </ng-container>
-          
-          <!-- <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="font-size: 22px;margin-left: 309px !important;"> id </th>
-            <td mat-cell *matCellDef="let row" style="text-align: right;"> {{row.id}}  </td>
-          </ng-container>
-           -->
-          <ng-container matColumnDef="action" dir="ltr">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style="background-color:rgb(84, 186, 255)">  </th>
-            <td  mat-cell *matCellDef="let row"> 
-              <button mat-icon-button (click)="editCommodity(row)" color="primary">
-                <mat-icon >edit</mat-icon>
-              </button>
-              <button (click)="deleteCommodity(row.id)" mat-icon-button color="warn">
-                <mat-icon >delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-         
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">لا توجد بيانات "{{input.value}}"</td>
-          </tr>
-        </table>
-  
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="الصفحات"></mat-paginator>
-      </div>
-  
-    </div>
-  </div>
+      <!-- productCode Column -->
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> كود السلعة </th>
+        <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+      </ng-container>
+      
+
+      <!-- category Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> السلعة </th>
+        <td mat-cell *matCellDef="let row"> {{row.name}}</td>
+      </ng-container>
+
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> الحدث </th>
+        <td mat-cell *matCellDef="let row"> 
+          <button mat-icon-button (click)="editcommodity(row)" color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="deletecommodity(row.id)" mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row;columns:displayedColumns"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+
+    </table>
+
+  </mat-card-content>
+  <br>
+  <mat-card-footer>
+
+    <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+  </mat-card-footer>
+</mat-card>
+</div>

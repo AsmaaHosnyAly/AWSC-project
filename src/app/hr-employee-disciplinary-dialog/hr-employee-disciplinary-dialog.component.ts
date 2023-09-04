@@ -6,6 +6,19 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from '../services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+
+export class Employee {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+export class disciplinary {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+
+
+
 
 @Component({
   selector: 'app-hr-employee-disciplinary-dialog',
@@ -15,18 +28,39 @@ import { ToastrService } from 'ngx-toastr';
 export class HrEmployeeDisciplinaryDialogComponent  implements OnInit{
   groupForm !: FormGroup;
   actionBtn: string = "Save";
-  disciplinaryList:any;
   disciplinaryName:any;
-   employeeList: any;
   employeeName: any;
   fiscalYearsList: any;
   userIdFromStorage: any;
+  employeesList: Employee[] = [];
+  emploeeCtrl: FormControl;
+  filteredEmployee: Observable<Employee[]>;
+  selectedEmployee: Employee | undefined;
+  formcontrol = new FormControl('');
 
+  disciplinarysList: disciplinary[] = [];
+  disciplinaryCtrl: FormControl;
+  filtereddisciplinary: Observable<disciplinary[]>;
+  selecteddisciplinary: disciplinary | undefined;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrEmployeeDisciplinaryDialogComponent>,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) { 
+      
+    this.emploeeCtrl = new FormControl();
+    this.filteredEmployee = this.emploeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterEmployees(value))
+    );
+
+
+    this.disciplinaryCtrl = new FormControl();
+    this.filtereddisciplinary = this.disciplinaryCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterdisciplinarys(value))
+    );
+    }
 
   ngOnInit(): void {
     this.getEmployees();
@@ -68,7 +102,52 @@ this.getdisciplinary();
     }
   }
 
+  displayEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log("employee selected: ", employee);
+    this.selectedEmployee = employee;
+    this.groupForm.patchValue({ employeeId: employee.id });
+    console.log("employee in form: ", this.groupForm.getRawValue().employeeId);
+  }
+  private _filterEmployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employeesList.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
+    );
+  }
+  openAutoEmployee() {
+    this.emploeeCtrl.setValue(''); // Clear the input field value
 
+    // Open the autocomplete dropdown by triggering the value change event
+    this.emploeeCtrl.updateValueAndValidity();
+  }
+
+
+  displaydisciplinaryName(disciplinary: any): string {
+    return disciplinary && disciplinary.name ? disciplinary.name : '';
+  }
+  disciplinarySelected(event: MatAutocompleteSelectedEvent): void {
+    const disciplinary = event.option.value as disciplinary;
+    console.log("disciplinary selected: ", disciplinary);
+    this.selecteddisciplinary = disciplinary;
+    this.groupForm.patchValue({ disciplinaryId: disciplinary.id });
+    console.log("disciplinary in form: ", this.groupForm.getRawValue().disciplinaryId);
+  }
+  private _filterdisciplinarys(value: string): disciplinary[] {
+    const filterValue = value;
+    return this.disciplinarysList.filter(disciplinary =>
+      disciplinary.name.toLowerCase().includes(filterValue) || disciplinary.code.toLowerCase().includes(filterValue)
+    );
+  }
+  openAutodisciplinary() {
+    this.disciplinaryCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.disciplinaryCtrl.updateValueAndValidity();
+  }
   async addEmployeeDisciplinary() {
     if (!this.editData) {
       this.groupForm.removeControl('id')
@@ -129,7 +208,7 @@ this.getdisciplinary();
     this.api.getEmployee()
       .subscribe({
         next: (res) => {
-          this.employeeList = res;
+          this.employeesList = res;
           // console.log("store res: ", this.storeList);
         },
         error: (err) => {
@@ -142,7 +221,7 @@ this.getdisciplinary();
     this.api.getHrDisciplinary()
       .subscribe({
         next: (res) => {
-          this.disciplinaryList = res;
+          this.disciplinarysList = res;
           // console.log("store res: ", this.storeList);
         },
         error: (err) => {

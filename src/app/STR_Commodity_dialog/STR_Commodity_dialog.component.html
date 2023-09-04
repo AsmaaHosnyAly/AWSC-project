@@ -1,26 +1,35 @@
-<div dir="rtl">
-
-    <h1 mat-dialog-title style="font-size: 30px;">اضافة سلعة جديدة</h1>
-   <div mat-dilog-content>
-   <form [formGroup]="productForm" style="padding: 20px;" >
-       <mat-form-field appearance="outline" >
-           <mat-label>كود السلعة</mat-label>
-           <input formControlName="code" pattern="^[0-9]{1}$" matInput placeholder="ادخل كود السلعة" >
-           <mat-error *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched">
-            كود السلعة مطلوب ويجب أن يحتوي على رقم واحد.
-         </mat-error>
-       </mat-form-field>
-       <mat-form-field appearance="outline">
-           <mat-label>السلعة</mat-label>
-           <input formControlName="name" matInput placeholder="ادخل السلعة" type="text">
-   
-       </mat-form-field>
-    <!-- <app-file-upload></app-file-upload> -->
-   </form>
-   </div>
-   <div mat-dialog-action [align]="'end'" style="padding: 10px;margin-left: 30%;">
-    <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="addCommodity()">{{actionBtn}}</button>
-
-       <button mat-raised-button color="warn" mat-dialog-close>الغاء</button>
-   </div>
-   </div>
+<form [formGroup]="productForm" dir="rtl">
+    <h1 mat-dialog-title>إضافة سلعة جديدة</h1>
+    <div mat-dialog-content>
+      <form [formGroup]="productForm">
+        <mat-form-field appearance="outline">
+          <mat-label>كود السلعة</mat-label>
+          <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود السلعة">
+          <mat-error *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched">
+             كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
+          </mat-error>
+        </mat-form-field>
+       
+        <mat-form-field appearance="outline">
+          <mat-label>السلعة</mat-label>
+          <input formControlName="name" matInput placeholder="ادخل اسم السلعة"type="text">
+  
+      </mat-form-field>
+        <!-- <mat-label>السلعة</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
+            placeholder="{{getGradeData ? getGradeData.commodityName : ''}}" (click)="openAutoCommodity()" required />
+          <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
+            (optionSelected)="commoditySelected($event)">
+            <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
+              {{ commodity.name }} | {{ commodity.code }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field> -->
+      </form>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
+      <button mat-raised-button color="primary" (click)="addCommodity()" style="margin-left: 8px;">{{actionBtn}}</button>
+    </div>
+  </form>

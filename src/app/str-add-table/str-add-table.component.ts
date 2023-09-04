@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.component';
 import { GlobalService } from '../services/global.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-str-add-table',
@@ -22,8 +23,9 @@ export class STRAddTableComponent implements OnInit {
     'sellerName',
     'receiptName',
     'employeeName',
-    'TypeName',
-    'date',
+    'typeName',
+    'fiscalyear',
+    'date',    
     'Action',
   ];
   matchedIds: any;
@@ -41,16 +43,21 @@ export class STRAddTableComponent implements OnInit {
   TypeName: any;
 
   dataSource2!: MatTableDataSource<any>;
-  
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   dataSource!: MatTableDataSource<any>;
 
-  
-  constructor(private api: ApiService,private global:GlobalService, private dialog: MatDialog, private http: HttpClient, @Inject(LOCALE_ID) private locale: string) {
-    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '')
+  constructor(
+    private api: ApiService,
+    private global: GlobalService,
+    private dialog: MatDialog,
+    private http: HttpClient,
+    private router: Router,
+    @Inject(LOCALE_ID) private locale: string
+  ) {
+    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
   }
 
   ngOnInit(): void {
@@ -78,6 +85,7 @@ export class STRAddTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.loadDataToLocalStorage(res);
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -86,27 +94,29 @@ export class STRAddTableComponent implements OnInit {
   }
 
   openAddDialog() {
-    this.dialog.open(STRAddDialogComponent, {
-      width: '90%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-        this.getAllGroups();
-      }
-    })
+    this.dialog
+      .open(STRAddDialogComponent, {
+        width: '90%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save') {
+          this.getAllGroups();
+        }
+      });
   }
 
   getAllGroups() {
-    this.api.getGroup()
-      .subscribe({
-        next: (res) => {
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        }
-      })
+    this.api.getGroup().subscribe({
+      next: (res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: () => {
+        // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      },
+    });
   }
 
   editMasterForm(row: any) {
@@ -338,5 +348,9 @@ export class STRAddTableComponent implements OnInit {
   loadDataToLocalStorage(data: any): void {
     localStorage.removeItem('store-data');
     localStorage.setItem('store-data', JSON.stringify(data));
+  }
+
+  print() {
+    this.router.navigate(['/add-item-report']);
   }
 }

@@ -1,12 +1,12 @@
 ****************stores*******************
 1-STRAdd اذن اضافة
 2-withdraw اذن صرف 
-3-groupOpening الافتتاحية 
+3-str-openingStock الافتتاحية 
 4-employeeOpening نقل عهده
 5-commodity السلعة
 6-grade النوعية
 7-str-platoon الفصيلة
-8-groupBannel
+8-group1 المجموعة
 9-unit الوحدة
 10-items1 الاصناف
 5-store المخازن

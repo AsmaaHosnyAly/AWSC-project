@@ -141,7 +141,12 @@ import {HrDisciplinaryDialogComponent} from './hr-disciplinary-dialog/hr-discipl
 import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-employee-disciplinary.component';
 import { HrEmployeeDisciplinaryDialogComponent } from './hr-employee-disciplinary-dialog/hr-employee-disciplinary-dialog.component';
 import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component';
-import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.component'
+import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.component';
+import { StrModelComponent } from './str-model/str-model.component';
+import { StrModelDailogComponent } from './str-model-dailog/str-model-dailog.component';
+
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 @NgModule({
   declarations: [
     AppComponent,HrEmployeeVacationBalanceComponent,HrEmployeeVacationBalanceDialogComponent,
@@ -244,7 +249,10 @@ import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.compon
     HrEmployeeDisciplinaryComponent,
     HrEmployeeDisciplinaryDialogComponent,
     PrGroupTableComponent,
-    PrGroupDialogComponent
+    PrGroupDialogComponent,
+    StrModelComponent,
+    StrModelDailogComponent,
+   
   
 
 
@@ -283,7 +291,8 @@ import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.compon
     MatAutocompleteModule,
     MatStepperModule,
     ToastrModule.forRoot(),
-    MatBadgeModule
+    MatBadgeModule,
+    MatCheckboxModule
   ],
   providers: [
     {
