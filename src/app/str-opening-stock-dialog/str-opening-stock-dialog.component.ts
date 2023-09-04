@@ -59,10 +59,10 @@ export class StrOpeningStockDialogComponent implements OnInit {
     private toastr: ToastrService) { }
 
 
-  async ngOnInit() {
-    await this.getStores();
+  ngOnInit() {
+    this.getStores();
     this.getItems();
-    await this.getFiscalYears();
+    this.getFiscalYears();
     // this.getStrOpenAutoNo();
     this.getMasterRowId = this.editData;
     // this.getStrOpenAutoNo();
