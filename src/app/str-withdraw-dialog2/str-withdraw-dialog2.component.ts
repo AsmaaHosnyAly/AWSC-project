@@ -75,7 +75,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   deststoreValue:any;
   storeSelectedId: any;
   fiscalYearSelectedId: any;
-  displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'price', 'qty','percentage', 'total', 'action'];
 
 
   deststoresList: deststore[] = [];
@@ -198,6 +198,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: ['', Validators.required], //MasterId
       qty: ['', Validators.required],
+      percentage:['',Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: [1, Validators.required],
@@ -595,7 +596,7 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
           })
       }
       else {
-        console.log("change both values in updateHeader");
+        console.log("change both values in updateHeader",this.groupMasterForm.getRawValue().storeId,"fiscall", this.groupMasterForm.getRawValue().fiscalYearId);
         this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
           .subscribe({
             next: (res) => {
@@ -883,7 +884,7 @@ this.isEdit = false;
           else {
             this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
           }
-          this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
+          // this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
 
         },
         error: (err) => {
@@ -1050,9 +1051,9 @@ this.isEdit = false;
           }
           else {
             this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-
+this.getStrWithdrawAutoNo();
           }
-          this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
+          // this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
