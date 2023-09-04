@@ -215,4 +215,17 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }
