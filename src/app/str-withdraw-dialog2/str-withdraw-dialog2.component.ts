@@ -75,7 +75,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   deststoreValue:any;
   storeSelectedId: any;
   fiscalYearSelectedId: any;
-  displayedColumns: string[] = ['itemName', 'price', 'qty','percentage', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
 
   deststoresList: deststore[] = [];
