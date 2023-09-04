@@ -5,8 +5,36 @@
 
 <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل إذن صرف  ' : ' إضافة إذن صرف جديد'}}</h1>
 <div  mat-dialog-content class="mat-dialog-content" dir="rtl" >
+
   <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
     <div class="headerForm">
+
+      <mat-form-field appearance="outline">
+        <mat-label>السنة المالية*</mat-label>
+        <input matInput aria-label="commodity" #fiscalyear [matAutocomplete]="autofiscalYear" [formControl]="fiscalYearCtrl"
+            placeholder="{{editData ? editData.fiscalYearName : ''}}" (click)="openAutoFiscalYear()"
+            required />
+        <mat-autocomplete #fiscalyearId formControlName="fiscalyearId" #autofiscalYear="matAutocomplete" [displayWith]="displayFiscalYearName" 
+        (valueChange)="fiscalYearValueChanges($event)"
+            (optionSelected)="fiscalYearSelected($event)">
+            <mat-option *ngFor="let vacation of filteredFiscalYear | async" [value]="vacation">
+                {{ vacation.fiscalyear }} | {{ vacation.id }}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+      <mat-form-field appearance="outline"  style="width: 150px;margin-left: 5px;">
+        <mat-label>مخزن خارجي*</mat-label>
+
+        <input matInput aria-label="commodity"  [matAutocomplete]="autodeststore" [formControl]="deststoreCtrl"
+            placeholder="{{editData ? editData.deststoreName : ''}}" (click)="openAutodeststore()"
+            required  />
+        <mat-autocomplete #autodeststore="matAutocomplete" #deststoreId  (valueChange)="set_Employee_Null($event)" [displayWith]="displaydeststoreName"
+            (optionSelected)="deststoreSelected($event)">
+            <mat-option *ngFor="let deststore of filtereddeststore | async" [value]="deststore">
+                {{ deststore.name }} |  {{ deststore.id }}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
       <mat-form-field appearance="outline" class=" child-num">
         <mat-label>الرقم</mat-label>
         <input dir="rtl"
@@ -18,20 +46,68 @@
         />
       </mat-form-field>
 
-      <!-- <mat-form-field appearance="outline" class="groupInput">
+      <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>المخازن</mat-label>
                 <mat-select placeholder="المخازن" formControlName="storeId">
                     <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="groupInput">
+            <!-- <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>اسم الموظف</mat-label>
                 <mat-select placeholder="اسم الموظف" formControlName="employeeId">
-                    <mat-option [value]="employee.id" *ngFor="let employee of employeeList">{{employee.name}}</mat-option>
+                    <mat-option [value]="employee.id" *ngFor="let employee of employeesList">{{employee.name}}</mat-option>
                 </mat-select>
             </mat-form-field> -->
+          
+            <!-- <mat-form-field appearance="outline">
+                <mat-label>مخزن *</mat-label>
 
-      <mat-form-field appearance="outline" class="groupInput">
+                <input matInput aria-label="commodity"  [matAutocomplete]="autostore" [formControl]="storeCtrl"
+                    placeholder="{{editData ? editData.storeName : ''}}" (click)="openAutostore()"
+                    required />
+                <mat-autocomplete #storeId formControlName="storeId" #autostore="matAutocomplete" (valueChange)="storeValueChanges($event)" [displayWith]="displaystoreName"
+                    (optionSelected)="storeSelected($event)">
+                    <mat-option *ngFor="let store of filteredstore | async" [value]="store">
+                        {{ store.name }} |  {{ store.id }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field> -->
+            <!-- <mat-form-field appearance="outline" class="groupInput">
+                <mat-label>مخزن خارجي </mat-label>
+                <mat-select placeholder="مخزن خارجي " (valueChange)="set_Employee_Null($event)"  formControlName="deststoreId">
+                    <mat-option [value]="deststore.id" *ngFor="let deststore of deststoreList" >{{deststore.name}}</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+            
+           
+                <mat-form-field appearance="outline"  style="width: 150px;margin-left: 5px;">
+                    <mat-label>الموظف*</mat-label>
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+                        placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoEmployee()"
+                        required  />
+                    <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId (valueChange)="set_store_Null($event)"   [displayWith]="displayEmployeeName"
+                        (optionSelected)="employeeSelected($event)">
+                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                            {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+              
+                
+            <mat-form-field appearance="outline" class="groupInput"  style="width: 150px;margin-left: 5px;">
+                <mat-label>مركز التكلفة</mat-label>
+                <mat-select placeholder="مركز التكلفة" formControlName="costcenterId">
+                    <mat-option [value]="costcenter.id" *ngFor="let costcenter of costcenterList">{{costcenter.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+           
+         
+
+          
+            
+            <!-- <app-file-upload></app-file-upload> -->
+
+      <!-- <mat-form-field appearance="outline" class="groupInput">
         <mat-label>مخزن خارجي </mat-label>
         <mat-select
           placeholder="مخزن خارجي "
@@ -40,12 +116,12 @@
         >
           <mat-option
             [value]="deststore.id"
-            *ngFor="let deststore of deststoreList"
+            *ngFor="let deststore of deststoresList"
             >{{ deststore.name }}</mat-option
           >
         </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="groupInput">
+      </mat-form-field> -->
+      <!-- <mat-form-field appearance="outline" class="groupInput">
         <mat-label>الموظف</mat-label>
         <mat-select
           placeholder="الموظف"
@@ -54,12 +130,12 @@
         >
           <mat-option
             [value]="employee.id"
-            *ngFor="let employee of employeeList"
+            *ngFor="let employee of employeesList"
             >{{ employee.name }}</mat-option
           >
         </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="groupInput">
+      </mat-form-field> -->
+      <!-- <mat-form-field appearance="outline" class="groupInput">
         <mat-label>المخازن</mat-label>
         <mat-select placeholder="المخازن" formControlName="storeId">
           <mat-option [value]="store.id" *ngFor="let store of storeList">{{
@@ -77,9 +153,9 @@
             >{{ costcenter.name }}</mat-option
           >
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
-      <mat-form-field appearance="outline" class="child-num">
+      <!-- <mat-form-field appearance="outline" class="child-num">
         <mat-label>السنة المالية</mat-label>
         <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
           <mat-option
@@ -88,7 +164,7 @@
             >{{ fiscalYear.fiscalyear }}</mat-option
           >
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
       <!-- <app-file-upload></app-file-upload> -->
 
       <!-- <mat-form-field appearance="outline" class="example-full-width">

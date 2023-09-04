@@ -1,3 +1,4 @@
+import { FiscalYear } from './../hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -585,16 +586,16 @@ deleteSeveranceReason(id: number) {
   // CRUD STORE
 
   postStore(data: any) {
-    return this.http.post<any>(`${this.url}/STR_Store/Add-Store`, data);
+    return this.http.post<any>(`${this.url}/STRStore/Add`, data);
   }
 
   putStore(data: any) {
-    return this.http.put<any>(`${this.url}/STR_Store/update-Store`, data);
+    return this.http.put<any>(`${this.url}/STRStore/update`, data);
   }
 
   deleteStore(id: number) {
     return this.http.delete<any>(
-      `${this.url}/STR_Store/delete-Store-by-id/` + id
+      `${this.url}/STRStore/delete/` + id
     );
   }
   //  commodity
@@ -632,7 +633,7 @@ deleteSeveranceReason(id: number) {
   ///////////////////////////////// STR-Group /////////////////////////////
   getStrGroupAutoCode(lastPlatoonId: any) {
     console.log("send req to get autoCode , lastPlatoonId is: ", lastPlatoonId)
-    return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRGroup/AutoCod?ID=${lastPlatoonId}`);
+    return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRGroup/AutoCode?PlatoonId=${lastPlatoonId}`);
   }
 
   postGroup(data: any) {
@@ -658,6 +659,12 @@ deleteSeveranceReason(id: number) {
   getStrOpenAutoNo(storeId: any, fiscalYearId: any) {
     return this.http.get<any>(`${this.url}/STROpeningStock/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalYearId}`);
   }
+ 
+
+  getStrWithdrawAutoNo(storeId: any, fiscalyearId: any) {
+    return this.http.get<any>(`${this.url}/STRWithdraw/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalyearId}`);
+  }
+
 
   postStrOpen(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStock/Add`, data);
@@ -1155,34 +1162,34 @@ deleteSeveranceReason(id: number) {
     //enter no.
     if (no != '' && !storeId && !date && !fiscalYear) {
       console.log('enter no. strOpen search');
-      return this.http.get<any>(`${this.url}/STROpeningStock/search?No=${no}`);
+      return this.http.get<any>(`${this.url}/STRWithdraw/search?No=${no}`);
     }
     //enter store
     else if (!no && storeId && !date && !fiscalYear) {
       console.log('enter store strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}`
       );
     }
     //enter date
     else if (!no && !storeId && date && !fiscalYear) {
       console.log('enter date strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?Date=${date}`
+        `${this.url}/STRWithdraw/search?Date=${date}`
       );
     }
     //enter fiscalYear
     else if (!no && !storeId && !date && fiscalYear) {
       console.log('enter fisalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?fiscalyear=${fiscalYear}`
       );
     }
     //enter itemId
     // else if (!no && !storeId && !date && !fiscalYear ) {
     //   console.log('enter itemId strOpen search');
     //   return this.http.get<any>(
-    //     `${this.url}/STROpeningStock/search?ItemId=${itemId}`
+    //     `${this.url}/STRWithdraw/search?ItemId=${itemId}`
     //   );
     // }
 
@@ -1190,28 +1197,28 @@ deleteSeveranceReason(id: number) {
     else if (no && storeId && !date && !fiscalYear) {
       console.log('enter no. & store strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}&No=${no}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}&No=${no}`
       );
     }
     //enter no. & date
     else if (no && !storeId && date && !fiscalYear) {
       console.log('enter no. & date strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?Date=${date}&No=${no}`
+        `${this.url}/STRWithdraw/search?Date=${date}&No=${no}`
       );
     }
     //enter no. & fiscalYear
     else if (no && !storeId && !date && fiscalYear) {
       console.log('enter no. & fiscalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?No=${no}&fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?No=${no}&fiscalyear=${fiscalYear}`
       );
     }
     //enter no. & itemId
     // else if (no && !storeId && !date && !fiscalYear && itemId) {
     //   console.log('enter no. & itemId strOpen search');
     //   return this.http.get<any>(
-    //     `${this.url}/STROpeningStock/search?No=${no}&ItemId=${itemId}`
+    //     `${this.url}/STRWithdraw/search?No=${no}&ItemId=${itemId}`
     //   );
     // }
 
@@ -1219,21 +1226,21 @@ deleteSeveranceReason(id: number) {
     else if (!no && storeId && date && !fiscalYear) {
       console.log('enter store & date strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}&Date=${date}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}&Date=${date}`
       );
     }
     //enter store & fiscalYear
     else if (!no && storeId && !date && fiscalYear) {
       console.log('enter store & fiscalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}&fiscalyear=${storeId}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}&fiscalyear=${storeId}`
       );
     }
     //enter store & itemId
     // else if (!no && storeId && !date && !fiscalYear && itemI) {
     //   console.log('enter store & itemId strOpen search');
     //   return this.http.get<any>(
-    //     `${this.url}/STROpeningStock/search?StoreId=${storeId}&ItemId=${itemId}`
+    //     `${this.url}/STRWithdraw/search?StoreId=${storeId}&ItemId=${itemId}`
     //   );
     // }
 
@@ -1241,14 +1248,14 @@ deleteSeveranceReason(id: number) {
     else if (!no && !storeId && date && fiscalYear) {
       console.log('enter date & fiscalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?Date=${date}&fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?Date=${date}&fiscalyear=${fiscalYear}`
       );
     }
     //enter date & itemId
     // else if (!no && !storeId && date && !fiscalYear ) {
     //   console.log('enter date & itemId strOpen search');
     //   return this.http.get<any>(
-    //     `${this.url}/STROpeningStock/search?Date=${date}&ItemId=${itemId}`
+    //     `${this.url}/STRWithdraw/search?Date=${date}&ItemId=${itemId}`
     //   );
     // }
 
@@ -1256,7 +1263,7 @@ deleteSeveranceReason(id: number) {
     // else if (!no && !storeId && !date && fiscalYear ) {
     //   console.log('enter fiscalYear & itemId strOpen search');
     //   return this.http.get<any>(
-    //     `${this.url}/STROpeningStock/search?fiscalyear=${fiscalYear}&ItemId=${itemId}`
+    //     `${this.url}/STRWithdraw/search?fiscalyear=${fiscalYear}&ItemId=${itemId}`
     //   );
     // }
 
@@ -1264,13 +1271,13 @@ deleteSeveranceReason(id: number) {
     else if (no != '' && storeId != '' && date != '' && fiscalYear != '') {
       console.log('enter all data strOpen search');
       return this.http.get<any>(
-        `${this.url}/STROpeningStock/search?StoreId=${storeId}&Date=${date}&No=${no}&fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?StoreId=${storeId}&Date=${date}&No=${no}&fiscalyear=${fiscalYear}`
       );
     }
 
     console.log("didn't enter any condition search");
     return this.http.get<any>(
-      `${this.url}/STROpeningStock/search?StoreId=${0}`
+      `${this.url}/STRWithdraw/search`
     );
   }
   // getGroup() {
