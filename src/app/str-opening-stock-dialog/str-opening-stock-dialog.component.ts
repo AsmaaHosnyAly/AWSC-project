@@ -110,9 +110,9 @@ export class StrOpeningStockDialogComponent implements OnInit {
       // this.groupMasterForm.controls['no'].setValue(this.editData.no);
 
     }
-    // else {
-    //   this.groupMasterForm.controls['no'].enable();
-    // }
+    else {
+      this.groupMasterForm.controls['no'].enable();
+    }
 
     this.getAllDetailsForms();
 
@@ -303,9 +303,9 @@ export class StrOpeningStockDialogComponent implements OnInit {
     // else if(this.isEdit == false && (this.autoNo == this.editData.no)){
     //   this.groupMasterForm.controls['no'].setValue(this.editData.no);
     // }
-    if (this.isEdit == false) {
-      this.groupMasterForm.controls['no'].setValue(this.autoNo)
-    }
+    //  if(this.isEdit == false){
+    //   this.groupMasterForm.controls['no'].setValue(this.autoNo)
+    //  }
     if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
       console.log("change readOnly to enable, ", this.groupMasterForm.value);
 
@@ -384,7 +384,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
           else {
             this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
           }
-          // this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
+          this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
 
         },
         error: (err) => {
@@ -458,9 +458,9 @@ export class StrOpeningStockDialogComponent implements OnInit {
           }
           else {
             this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-            this.getStrOpenAutoNo();
+
           }
-          // this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
+          this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -520,17 +520,22 @@ export class StrOpeningStockDialogComponent implements OnInit {
     console.log("store: ", storeId)
     this.storeSelectedId = storeId;
     this.groupMasterForm.controls['storeId'].setValue(this.storeSelectedId);
-    this.isEdit = false;
-    console.log("kkkkkkkkkkk:", this.isEdit)
+    this.isEdit = !this.isEdit;
+    console.log("kkkkkkkkkkk:" , this.isEdit)
 
-    this.getStrOpenAutoNo();
+    if (this.editData || this.defaultFiscalYearSelectValue) {
+      this.getStrOpenAutoNo();
+    }
 
   }
   async fiscalYearValueChanges(fiscalyaerId: any) {
     console.log("fiscalyaer: ", fiscalyaerId)
     this.fiscalYearSelectedId = await fiscalyaerId;
     this.groupMasterForm.controls['fiscalYearId'].setValue(this.fiscalYearSelectedId);
-    this.isEdit = false;
+    // if(this.isEdit == true){
+    this.isEdit = !this.isEdit;
+
+    // }
 
     this.getStrOpenAutoNo();
   }

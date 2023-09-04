@@ -112,8 +112,8 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   isEdit: boolean = false;
 
-
-
+  defaultStoreSelectValue:any;
+  defaultFiscalYearSelectValue:any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -223,6 +223,8 @@ export class StrWithdrawDialogComponent implements OnInit {
 
     if (this.editData) {
       // console.log("")
+      this.isEdit = true;
+
       console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
@@ -264,6 +266,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
       this.groupMasterForm.controls['costCenterId'].setValue(this.editData.costCenterId);
       this.groupMasterForm.controls['costcenterName'].setValue(this.editData.costcenterName);
+      this.isEditDataReadOnly = true;
 
     }
     
@@ -512,19 +515,24 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
 
   }
 
+
+
   storeValueChanges(storeId: any) {
     console.log("store: ", storeId)
     this.storeSelectedId = storeId;
     this.groupMasterForm.controls['storeId'].setValue(this.storeSelectedId);
+    this.isEdit = false;
+    console.log("kkkkkkkkkkk:", this.isEdit)
 
-    if (this.editData) {
-      this.getStrWithdrawAutoNo();
-    }
+    this.getStrWithdrawAutoNo();
+
   }
   async fiscalYearValueChanges(fiscalyaerId: any) {
     console.log("fiscalyaer: ", fiscalyaerId)
     this.fiscalYearSelectedId = await fiscalyaerId;
     this.groupMasterForm.controls['fiscalYearId'].setValue(this.fiscalYearSelectedId);
+    this.isEdit = false;
+
     this.getStrWithdrawAutoNo();
   }
 
@@ -738,6 +746,8 @@ console.log("masterrow",this.getMasterRowId.id)
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
 console.log("put before",this.groupMasterForm.value)
+this.isEdit = false;
+
     this.api.putStrWithdraw(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
@@ -771,6 +781,9 @@ console.log("put before",this.groupMasterForm.value)
   }
 
   updateBothForms() {
+    if(this.isEdit == false){
+      this.groupMasterForm.controls['no'].setValue(this.autoNo)
+     }
     // console.log("pass id: ", this.getMasterRowId.id, "pass No: ", this.groupMasterForm.getRawValue().no, "pass StoreId: ", this.groupMasterForm.getRawValue().storeId, "pass Date: ", this.groupMasterForm.getRawValue().date)
     if (this.groupMasterForm.getRawValue().no != ''  && this.groupMasterForm.getRawValue().employeeId!='' && 
     this.groupMasterForm.getRawValue().deststoreId!='' && this.groupMasterForm.getRawValue().costCenterId!=''
@@ -859,9 +872,19 @@ console.log("put before",this.groupMasterForm.value)
   getStores() {
     this.api.getStore()
       .subscribe({
-        next: (res) => {
+        next: async (res) => {
           this.storeList = res;
           console.log("store res: ", this.storeList);
+          this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+          console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
+          if (this.editData) {
+            this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+          }
+          else {
+            this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
+          }
+          this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
+
         },
         error: (err) => {
           // console.log("fetch store data err: ", err);
@@ -1017,9 +1040,19 @@ console.log("put before",this.groupMasterForm.value)
   getFiscalYears() {
     this.api.getFiscalYears()
       .subscribe({
-        next: (res) => {
+        next: async (res) => {
           this.fiscalYearsList = res;
           console.log("fiscalYears res: ", this.fiscalYearsList);
+          this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+          console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+          if (this.editData) {
+            this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+          }
+          else {
+            this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+
+          }
+          this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
