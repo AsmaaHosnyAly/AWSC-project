@@ -66,7 +66,7 @@ const routes: Routes = [
       { path: 'commodity', component: StrCommodityComponent },
       { path: 'home', component: StrGroupHomeComponent },
 
-      { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+      { path: 'str-openingStock', component: StrOpeningStockContainerComponent },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
@@ -103,7 +103,7 @@ const routes: Routes = [
       { path: 'commodity', component: StrCommodityComponent },
 
       { path: 'home', component: StrGroupHomeComponent },
-      { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+      // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
@@ -112,7 +112,7 @@ const routes: Routes = [
       { path: 'unit', component: STRUnitsComponent },
       { path: 'grade', component: STRGradeComponent },
       { path: 'home', component: StrGroupHomeComponent },
-      { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+      // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
