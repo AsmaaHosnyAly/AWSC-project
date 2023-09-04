@@ -1,6 +1,6 @@
 <!-- <p>str-opening-stock-dialog works!</p> -->
 <div class="cdk-overlay-pane  ">
-    <button class="close" mat-button  (click)="getAllMasterForms()" >X</button>
+    <button class="close" mat-button mat-dialog-close (click)="getAllMasterForms()" > <mat-icon> clear</mat-icon></button>
 </div>
 
 <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل إذن صرف  ' : ' إضافة إذن صرف جديد'}}</h1>
@@ -130,7 +130,7 @@
     >
     <h1 mat-dialog-title class="add-h1">  اكمل باقي البيانات  </h1>
       <div class="detailsForm">
-        <mat-form-field appearance="outline" class="groupInput">
+        <mat-form-field appearance="outline" class=" child-num">
           <mat-label>بحث بالكود </mat-label>
           <input
             matInput
@@ -151,7 +151,7 @@
             </mat-select>
           </mat-form-field>
         
-            <mat-form-field appearance="outline"  class="groupInput">
+            <mat-form-field appearance="outline"  class=" child-num">
                 <mat-label>الكمية</mat-label>
                 <input
                   type="number"
@@ -161,7 +161,7 @@
                   [value]="getDetailedRowData ? getDetailedRowData.qty : ''"
                 />
               </mat-form-field>
-              <mat-form-field appearance="outline"  class="groupInput" >
+              <mat-form-field appearance="outline"  class=" child-num" >
                 <mat-label>السعر</mat-label>
                 <input
                   type="number"
@@ -171,6 +171,26 @@
                   [value]="getDetailedRowData ? getDetailedRowData.price : ''"
                 />
               </mat-form-field>
+
+              <mat-form-field appearance="outline" class=" child-num" >
+                <mat-label> النسبة المئوية </mat-label>
+      
+                <input matInput placeholder=" withDrawNoId" />
+              </mat-form-field> 
+
+              <mat-radio-group
+              placeholder=" الحالة"
+              formControlName="stateId"
+              class="example-radio-group  qnty"
+            >
+              <mat-radio-button class="example-radio-button" value="جديد">
+                جديد
+              </mat-radio-button>
+              <mat-radio-button class="example-radio-button" value=" مستعمل">
+                مستعمل
+              </mat-radio-button>
+            </mat-radio-group>
+      
         
        
         
@@ -178,25 +198,9 @@
       <div>
         <div class="detailsForm">
 
-                  <mat-form-field appearance="outline" class="groupInput" >
-                    <mat-label> النسبة المئوية </mat-label>
-          
-                    <input matInput placeholder=" withDrawNoId" />
-                  </mat-form-field> 
                   
-                  <mat-radio-group
-                    placeholder=" الحالة"
-                    formControlName="stateId"
-                    class="example-radio-group  qnty"
-                  >
-                    <mat-radio-button class="example-radio-button" value="جديد">
-                      جديد
-                    </mat-radio-button>
-                    <mat-radio-button class="example-radio-button" value=" مستعمل">
-                      مستعمل
-                    </mat-radio-button>
-                  </mat-radio-group>
-            
+                  
+                 
             
             
         </div>
@@ -223,7 +227,7 @@
               (click)="addDetailsInfo()"
               class="savebtn"
             >
-              {{ actionBtnDetails.toLowerCase() == "save" ? "نأكيد حفظ الببانات " : "تعديل" }}
+              {{ actionBtnDetails.toLowerCase() == "save" ? "تأكيد حفظ الببانات " : "تعديل" }}
             </button>
            
           </div>
@@ -245,8 +249,8 @@
         
       </div>
 
-      <div>
-        <table mat-table [dataSource]="dataSource" matSort class="headerTable">
+      <div class="div-table">
+        <table mat-table [dataSource]="dataSource" matSort >
           <!-- itemName Column -->
           <ng-container matColumnDef="itemName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>الصنف</th>

@@ -8,9 +8,13 @@
     position: absolute;
     top: 0;
     right: 0;
-    line-height: 14px;
-    min-width: auto;
-    padding: 10px;
+   
+    
+  }
+
+  .close:hover{
+    background-color: red;
+    color:#ffff;
   }
 
 .mat-dialog-content{
@@ -64,7 +68,14 @@ font-size: 20px;
 }
 
 .groupAction button {
-    margin-left: 5%;
+    background-color:rgb(60, 202, 252);
+    color: aliceblue;
+    font-family: 'Cairo', sans-serif !important;
+    display: block;
+    margin: auto;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 5px 30px;
 }
 
 .restGroupInfo {
@@ -90,7 +101,7 @@ font-size: 20px;
   
 }
 
-.headerForm  .child-num{
+  .child-num{
     width: 10%;
     text-align: right;
 }
@@ -126,13 +137,7 @@ font-size: 20px;
 }
 
 .savebtn{
-    background-color:rgb(60, 202, 252);
-    color: aliceblue;
-    font-family: 'Cairo', sans-serif !important;
-    display: block;
-    margin: auto;
-    font-weight: bold;
-    font-size: 20px;
+   
 }
 .mat-mdc-radio-button ~ .mat-mdc-radio-button {
     margin-left: 10px;
@@ -145,4 +150,46 @@ font-size: 20px;
 
   .mat-mdc-dialog-container .mdc-dialog__title {
     text-align: center;
+  }
+
+  .div-table{
+    display: block;
+    overflow-x: scroll !important;
+    width: 100%;
+  }
+
+  table {
+    margin: 28px 0;
+    width: 100%;
+    text-align: center;
+    
+   
+  }
+  
+  .mat-mdc-table {
+    --mat-table-row-item-outline-width: 1px;
+   table-layout: auto;
+    white-space: normal;
+    background-color: var(--mat-table-background-color);
+    font-family: 'Cairo', sans-serif !important;
+   width:100%;
+   
+  }
+  table, th, td {
+    border: 1px  rgb(161, 160, 160) solid;
+    text-align: center !important;
+    font-family: 'Cairo', sans-serif;
+    font-weight: bold;
+   
+    
+    
+  }
+
+  th {
+    background-color:rgb(60, 202, 252) !important;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    text-align: center !important;
+   
   }

@@ -148,7 +148,7 @@
           الاجراء
         </th>
         <td mat-cell *matCellDef="let row" id="buttn">
-          <button mat-icon-button color="primary" (click)="editMasterForm(row)">
+          <button mat-icon-button class=" editbtn" (click)="editMasterForm(row)">
             <mat-icon>edit</mat-icon>
           </button>
           <button
@@ -156,7 +156,7 @@
             color="warn"
             (click)="deleteBothForms(row.id)"
           >
-            <mat-icon>delete</mat-icon>
+            <mat-icon>delete_forever</mat-icon>
           </button>
         </td>
       </ng-container>
