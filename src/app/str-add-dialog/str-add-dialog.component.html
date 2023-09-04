@@ -1,5 +1,9 @@
-<!-- <p>str-opening-stock-dialog works!</p> -->
-<h1 mat-dialog-title dir="rtl">اضافة اذن اضافة جديد </h1>
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  (click)="getAllMasterForms()" > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل إذن إضافة  ' : ' إضافة إذن إضافة جديد'}}</h1>
+
 <div mat-dialog-content dir="rtl" style="padding: 30px;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
@@ -71,9 +75,11 @@
             </mat-form-field>
          </div>
         </div>
-
-        <button mat-raised-button color="primary" (click)="nextToAddFormDetails()"
+        <div dir="ltr">
+            <button mat-raised-button class="follow-btn"  (click)="nextToAddFormDetails()"
             [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
+        </div>
+
     </form>
 
     <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
@@ -81,7 +87,7 @@
 
         <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
             <hr>
-            <h1 mat-dialog-title dir="rtl">اضافة تفاصيل اذن </h1>
+            <h1 mat-dialog-title  class="add-h1">اضافة تفاصيل اذن </h1>
 
             <div class="detailsForm">
                 <div class="row">
@@ -142,11 +148,10 @@
 
                 <div mat-dialog-action [align]="'end'">
                     <div class="groupAction">
-                        <button mat-raised-button color="primary" style="margin-left: 8px;"
+                        <button mat-raised-button class="savebtn"
                             (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
                             'اضافة':'تعديل'}}</button>
-                        <button mat-raised-button color="warn" mat-dialog-close
-                            (click)="getAllMasterForms()">اغلاق</button>
+                      
                     </div>
                 </div>
             </div>
@@ -156,53 +161,53 @@
 
                     <!-- itemName Column -->
                     <ng-container matColumnDef="itemName">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> الصنف</th>
+                        <th mat-header-cell *matHeaderCellDef> الصنف</th>
                         <td mat-cell *matCellDef="let row"> {{row.itemName}} </td>
                     </ng-container>
 
                  
                      <!-- itemName Column -->
                      <ng-container matColumnDef="state">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> حالة الصنف</th>
+                        <th mat-header-cell *matHeaderCellDef > حالة الصنف</th>
                         <td mat-cell *matCellDef="let row"> {{row.state}} </td>
                     </ng-container>
 
                     <!-- price Column -->
                     <ng-container matColumnDef="price">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> السعر </th>
+                        <th mat-header-cell *matHeaderCellDef > السعر </th>
                         <td mat-cell *matCellDef="let row"> {{row.price}} </td>
                     </ng-container>
 
                     <!-- qty Column -->
                     <ng-container matColumnDef="qty">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> الكمية </th>
+                        <th mat-header-cell *matHeaderCellDef > الكمية </th>
                         <td mat-cell *matCellDef="let row"> {{row.qty}} </td>
                     </ng-container>
                       <!-- qty Column -->
                       <ng-container matColumnDef="avgPrice">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> متوسك السعر </th>
+                        <th mat-header-cell *matHeaderCellDef > متوسك السعر </th>
                         <td mat-cell *matCellDef="let row"> {{row.avgPrice}} </td>
                     </ng-container>
                       <!-- qty Column -->
                       <ng-container matColumnDef="balanceQty">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> متوسط الكمية </th>
+                        <th mat-header-cell *matHeaderCellDef > متوسط الكمية </th>
                         <td mat-cell *matCellDef="let row"> {{row.balanceQty}} </td>
                     </ng-container>
                       <!-- qty Column -->
                       <ng-container matColumnDef="percentage">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> النسبة </th>
+                        <th mat-header-cell *matHeaderCellDef > النسبة </th>
                         <td mat-cell *matCellDef="let row"> {{row.percentage}} </td>
                     </ng-container>
 
                     <!-- total Column -->
                     <ng-container matColumnDef="total">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> المجموع </th>
+                        <th mat-header-cell *matHeaderCellDef > المجموع </th>
                         <td mat-cell *matCellDef="let row"> {{row.total}} </td>
                     </ng-container>
 
                     <!-- action Column -->
                     <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> الاجراء </th>
+                        <th mat-header-cell *matHeaderCellDef > الاجراء </th>
                         <td mat-cell *matCellDef="let row">
                             <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
                                 <mat-icon>edit</mat-icon>
