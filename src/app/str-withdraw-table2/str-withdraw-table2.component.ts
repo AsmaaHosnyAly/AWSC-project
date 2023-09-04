@@ -21,6 +21,8 @@ export class StrWithdrawTableComponent implements OnInit {
     'storeName',
     'employeeName',
     'costCenterName',
+    'desstoreName',
+    'fiscalYearName',
     'date',
     'Action',
   ];
@@ -57,7 +59,6 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getAllMasterForms();
     this.getStores();
     this.getEmployees();
-
     this.getFiscalYears();
   }
 
@@ -118,7 +119,7 @@ export class StrWithdrawTableComponent implements OnInit {
     if (result) {
       this.api.deleteStrWithdraw(id).subscribe({
         next: (res) => {
-          // alert("تم حذف المجموعة بنجاح");
+          alert('تم حذف المجموعة بنجاح');
 
           this.http
             .get<any>('http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all ')

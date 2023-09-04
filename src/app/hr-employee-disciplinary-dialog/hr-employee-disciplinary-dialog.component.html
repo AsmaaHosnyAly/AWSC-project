@@ -15,19 +15,40 @@
             <mat-label> التفسير </mat-label>
             <input matInput placeholder=" التفسير " formControlName="description">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="groupInput">
+        <!-- <mat-form-field appearance="outline" class="groupInput">
             <mat-label>الموظف</mat-label>
             <mat-select placeholder="الموظف" formControlName="employeeId">
                 <mat-option [value]="employee.id" *ngFor="let employee of employeeList">{{employee.name}}</mat-option>
             </mat-select>
+            </mat-form-field> -->
+            <mat-label>الموظف*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="emploeeCtrl"
+                    placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoEmployee()"
+                    required />
+                <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                    (optionSelected)="employeeSelected($event)">
+                    <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                        {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
-      
-        <mat-form-field appearance="outline" class="groupInput">
+            <mat-form-field appearance="outline">
+                <input matInput aria-label="commodity" [matAutocomplete]="autodisciplinary" [formControl]="disciplinaryCtrl"
+                    placeholder="{{editData ? editData.disciplinaryName : ''}}" (click)="openAutodisciplinary()"
+                    required />
+                <mat-autocomplete #autodisciplinary="matAutocomplete" [displayWith]="displaydisciplinaryName"  (optionSelected)="disciplinarySelected($event)">
+                    <mat-option *ngFor="let disciplinary of filtereddisciplinary | async" [value]="disciplinary">
+                        {{ disciplinary.name }} | {{ disciplinary.code }} | {{ disciplinary.id }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        <!-- <mat-form-field appearance="outline" class="groupInput">
             <mat-label>discplinary</mat-label>
             <mat-select placeholder="discplinary" formControlName="disciplinaryId">
                 <mat-option [value]="disciplinary.id" *ngFor="let disciplinary of disciplinaryList">{{disciplinary.name}}</mat-option>
             </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
       <mat-form-field appearance="outline" class="example-full-width">
                 <mat-label>التاريخ</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="date">

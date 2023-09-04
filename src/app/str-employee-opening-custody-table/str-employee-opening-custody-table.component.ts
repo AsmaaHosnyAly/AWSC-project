@@ -21,6 +21,10 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   matchedIds: any;
   storeList: any;
   storeName: any;
+  costCentersList: any;
+  
+  employeesList: any;
+  itemList:any;
   fiscalYearsList: any;
 
   reportName: string = 'str-employee';
@@ -43,6 +47,9 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.getAllMasterForms();
     this.getAllEmployees();
     this.getFiscalYears();
+    this.getEmployees();
+    this.getItme();
+    this.getcostCenter();
   }
 
   getAllMasterForms() {
@@ -175,18 +182,66 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       },
     });
   }
-
-  getSearchStrOpen(no: any, store: any, date: any, fiscalYear: any) {
+  getEmployees() {
+    this.api.getHrEmployees()
+      .subscribe({
+        next: (res) => {
+          this.employeesList = res;
+          console.log("employees res: ", this.employeesList);
+        },
+        error: (err) => {
+          console.log("fetch employees data err: ", err);
+          alert("خطا اثناء جلب الموظفين !");
+        }
+      })
+  }
+  getItme() {
+    this.api.getItems()
+      .subscribe({
+        next: (res) => {
+          this.itemList = res;
+          console.log("item res: ", this.itemList);
+        },
+        error: (err) => {
+          console.log("fetch employees data err: ", err);
+          alert("خطا اثناء جلب الموظفين !");
+        }
+      })
+  }
+  getcostCenter() {
+    this.api.getCostCenter()
+      .subscribe({
+        next: (res) => {
+          this.costCentersList = res;
+          console.log("item res: ", this.itemList);
+        },
+        error: (err) => {
+          console.log("fetch employees data err: ", err);
+          alert("خطا اثناء جلب الموظفين !");
+        }
+      })
+  }
+  getSearchStrOpen(no: any, costCenterId:any,employeeId: any,date: any, itemId: any) {
     console.log(
       'no. : ',
       no,
-      'store : ',
-      store,
+      'item : ',
+      itemId,
       'date: ',
       date,
-      'fiscalYear: ',
-      fiscalYear
+      'employeeid: ',
+      employeeId,
+      'CostCenterId:',
+      costCenterId
     );
+    this.api.getStrEmployeeOpenSearach(no, costCenterId, employeeId, date, itemId )
+    .subscribe({
+      next: (res) => {
+        console.log("search employeeExchange 4res: ", res);
+
+        this.dataSource2 = res
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
     // this.api.getStrOpenSearach(no, store, date, fiscalYear).subscribe({
     //   next: (res) => {
     //     console.log('search openingStock res: ', res);
@@ -295,6 +350,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     //     alert('Error');
     //   },
     // });
+  },
+  error: (err) => {
+    alert("Error")
+  }
+})
   }
 
   toastrDeleteSuccess(): void {

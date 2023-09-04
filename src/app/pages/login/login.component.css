@@ -8,11 +8,14 @@ h2 {
 
 .banner{
    background-image:url("../../../assets/images/login1.PNG");
-  background-size: 1000px 600px;
+  background-size:100% 100%;
     background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-   top: -80px;
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+ 
     
     
 
@@ -21,19 +24,19 @@ h2 {
 .form{
   font-family: 'Cairo', sans-serif;
   width:33%;
-  height:auto;
+  height:20%;
   background-color: FFFFFF;
   padding: 10px;
   /* border: 1px solid; */
-  margin: auto;
-  box-shadow: 0px 1px 1px 4px #eeebeb;
-  /* padding-top: 20px; */
-  height: 500px;
-  border-radius: 15px;
   
-  position: relative;
-  top: -7px;
-  z-index: 5;
+  box-shadow: 0px 1px 1px 4px #f8f4f4;
+  /* padding-top: 20px; */
+ border: 1px  #2DC4F3 solid;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ margin-top:40px;
   
   
 }
