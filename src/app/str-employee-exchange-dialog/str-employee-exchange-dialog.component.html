@@ -4,7 +4,7 @@
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
         <div class="headerForm">
-            <mat-form-field appearance="outline" class="groupInput">
+            <mat-form-field appearance="outline" class="child-num">
                 <mat-label>الرقم</mat-label>
                 <input matInput placeholder="الرقم" formControlName="no" [value]="editData ? editData.no : autoNo"
                     type="number" readonly>
@@ -100,11 +100,11 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="groupInput">
+            <!-- <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الاجمالى</mat-label>
                 <input matInput placeholder="الرقم" type="number"
                     [value]="groupMasterForm ? groupMasterForm.getRawValue().total : sumOfTotals" readonly>
-            </mat-form-field>
+            </mat-form-field> -->
         </div>
 
         <button mat-raised-button color="primary" (click)="nextToAddFormDetails()"
