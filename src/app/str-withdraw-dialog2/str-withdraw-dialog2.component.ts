@@ -114,6 +114,9 @@ export class StrWithdrawDialogComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+
+ 
+
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
@@ -124,6 +127,8 @@ export class StrWithdrawDialogComponent implements OnInit {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<StrWithdrawDialogComponent>
   ) { 
+
+     
     this.deststoreCtrl = new FormControl();
     this.filtereddeststore = this.deststoreCtrl.valueChanges.pipe(
       startWith(''),
@@ -568,6 +573,10 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costcenterId)
   //     })
   // }
 
+
+  closeDialog(){
+    this.dialogRef.close();
+  }  
   
   getStrWithdrawAutoNo() {
     console.log("storeId: ", this.storeSelectedId, " fiscalYearId: ", this.fiscalYearSelectedId)
@@ -853,7 +862,7 @@ console.log("put before",this.groupMasterForm.value)
   getAllMasterForms() {
     let result = window.confirm("هل تريد الغاء الطلب");
     if (result){
-
+      this.closeDialog()
       this.api.getStrWithdraw()
       .subscribe({
         next: (res) => {
