@@ -43,6 +43,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   isEditDataReadOnly: boolean = true;
 
   isEdit: boolean = false;
+  userRoles: any;
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
@@ -91,7 +92,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     if (this.editData) {
       this.isEdit = true;
-      console.log("nnnnnnnnnnnnnnnnnnn: ", this.groupMasterForm.value);
+      // console.log("nnnnnnnnnnnnnnnnnnn: ", this.groupMasterForm.value);
 
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
@@ -101,7 +102,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
       this.groupMasterForm.controls['total'].setValue(this.editData.total);
       // this.toggleEdit();
-      // console.log("nnnnnnnnnnnnnnnnnnn: ", this.groupMasterForm.value);
+      console.log("nnnnnnnnnnnnnnnnnnn: ", this.groupMasterForm.value);
 
 
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
@@ -131,6 +132,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   //   }
   // }
   async nextToAddFormDetails() {
+    // console.log("ppppp: ", this.isEdit)
     this.groupMasterForm.removeControl('id')
 
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
@@ -211,9 +213,9 @@ export class StrOpeningStockDialogComponent implements OnInit {
   async addDetailsInfo() {
     console.log("nnnvvvvvvvvvv: ", this.groupMasterForm.value);
     console.log("nnnvvvvvvvvvvhhhhhhhhhhh: ", this.isEdit);
-    // if (this.isEdit == false) {
-    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
-    // }
+    if (this.isEdit == false) {
+      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+    }
 
     if (this.getMasterRowId.id) {
       if (this.getMasterRowId.id) {
@@ -303,17 +305,27 @@ export class StrOpeningStockDialogComponent implements OnInit {
     // else if(this.isEdit == false && (this.autoNo == this.editData.no)){
     //   this.groupMasterForm.controls['no'].setValue(this.editData.no);
     // }
+
+    console.log("ISEDIT: ", this.isEdit)
     if (this.isEdit == false) {
       this.groupMasterForm.controls['no'].setValue(this.autoNo)
     }
+
     if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
       console.log("change readOnly to enable, ", this.groupMasterForm.value);
 
+      if (!this.autoNo) {
+        this.autoNo = this.editData.no;
+
+      }
       this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
       this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
+      console.log("ISEDIT33: ", this.isEdit)
 
       this.updateDetailsForm();
     }
+    console.log("ISEDIT55: ", this.isEdit)
+
     // else {
     //   alert("تاكد من ادخال البيانات صحيحة")
     // }
@@ -324,6 +336,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     if (this.editDataDetails || row) {
       this.getDetailedRowData = row;
+      console.log("itemId: ", this.getDetailedRowData);
 
       this.actionBtnDetails = "Update";
       this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getDetailedRowData.stR_Opening_StockId);
@@ -335,6 +348,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
       this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
 
+      // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
     }
 
 
@@ -372,26 +386,57 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   async getStores() {
-    this.api.getStore()
-      .subscribe({
-        next: async (res) => {
-          this.storeList = res;
-          this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
-          console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
-          if (this.editData) {
-            this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-          }
-          else {
-            this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
-          }
-          // this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
+    this.userRoles = localStorage.getItem('userRoles');
+    console.log('userRoles: ', this.userRoles.includes('15'))
 
-        },
-        error: (err) => {
-          // console.log("fetch store data err: ", err);
-          // alert("خطا اثناء جلب المخازن !");
-        }
-      })
+    if (this.userRoles.includes('15')) {
+      // console.log('user is manager -all stores available- , role: ', userRoles);
+
+      this.api.getStore()
+        .subscribe({
+          next: async (res) => {
+            this.storeList = res;
+            this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+            console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
+            if (this.editData) {
+              this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+            }
+            else {
+              this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
+            }
+
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          }
+        })
+    }
+    else {
+      this.api.getUserStores(localStorage.getItem('transactionUserId'))
+        .subscribe({
+          next: async (res) => {
+            this.storeList = res;
+            this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+            console.log("selected storebbbbbbbbbbbbbbb user: ", this.defaultStoreSelectValue);
+            if (this.editData) {
+              console.log("selected edit data : ", this.editData);
+              this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+            }
+            else {
+              console.log("selected new data : ", this.defaultStoreSelectValue.storeId);
+              this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.storeId);
+            }
+
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          }
+        })
+    }
+
+
   }
 
   getStoreByID(id: any) {
@@ -446,6 +491,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   async getFiscalYears() {
+    
     this.api.getFiscalYears()
       .subscribe({
         next: async (res) => {
@@ -483,37 +529,33 @@ export class StrOpeningStockDialogComponent implements OnInit {
       });
   }
 
-  itemOnChange(itemEvent: any) {
-    // this.isReadOnly = true;
-
-    if (this.groupDetailsForm.getRawValue().price == 0) {
-      this.isReadOnly = false;
-      // console.log("change readOnly to enable");
-    }
-    else {
-      this.isReadOnly = true;
-      // console.log("change readOnly to disable");
-    }
-
-    // console.log("itemmm: ", itemEvent)
-
-    this.api.getAvgPrice(
+  async itemOnChange(itemEvent: any) {
+    await this.api.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,
       formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
       itemEvent)
 
       .subscribe({
-        next: (res) => {
-          this.groupDetailsForm.controls['price'].setValue(res);
+        next: async (res) => {
+          await this.groupDetailsForm.controls['price'].setValue(res);
+          console.log("price passed: ", res);
+
+          console.log("price: ", this.groupDetailsForm.getRawValue().price);
+          if (this.groupDetailsForm.getRawValue().price == 0 || this.getDetailedRowData?.price == 0) {
+            this.isReadOnly = false;
+            console.log("change readOnly to enable here");
+          }
+          else {
+            this.isReadOnly = true;
+            console.log("change readOnly to disable here");
+          }
         },
         error: (err) => {
           console.log("fetch fiscalYears data err: ", err);
           // alert("خطا اثناء جلب متوسط السعر !");
         }
       })
-
-
   }
 
   storeValueChanges(storeId: any) {
@@ -598,6 +640,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
             next: (res) => {
               this.autoNo = res;
               // this.editData.no = res
+              console.log("isEdit : ", this.isEdit)
+
               console.log("autoNo: ", this.autoNo);
               return res;
             },

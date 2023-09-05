@@ -85,6 +85,7 @@ sourceSelected: any;
   sourceStoreName: any;
 
   constructor(private formBuilder: FormBuilder,
+    
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
@@ -162,6 +163,25 @@ sourceSelected: any;
 
 
     if (this.editData) {
+   
+
+      var sourceInput = (<HTMLInputElement>document.getElementById('sourceInput')).value ;
+      console.log("sourceInput: ", sourceInput);
+
+      this.getAddData = this.editData;
+      console.log("getAddData: ",this.sourceSelected);
+      
+      // if(this.sourceSelected === "المورد"){
+      //   this.getAddData=this.getAddData.sellerName; 
+      // }
+      // else if(this.sourceSelected === "الموظف"){
+      //   this.getAddData=this.getAddData.employeeName; 
+      
+      // }  else {
+      //   this.getAddData=this.getAddData.sourceStoreName; 
+       
+      // }
+
       console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
@@ -977,7 +997,7 @@ sourceSelected: any;
     this.sourceSelected = source;
     if(source==="المورد"){
      
-      this.api.getseller().subscribe((lists)=>{
+      this.api.getAllSellers().subscribe((lists)=>{
         this.lists = lists;
         console.log("rrr: ", lists)
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
@@ -988,7 +1008,7 @@ sourceSelected: any;
     }
     else if(source==="الموظف"){
       
-      this.api.getEmployee().subscribe((lists)=>{
+      this.api.getAllEmployee().subscribe((lists)=>{
         this.lists = lists;
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
         this.groupMasterForm.controls['sellerId'].setValue(null);
@@ -997,7 +1017,7 @@ sourceSelected: any;
     
     else {
      
-      this.api.getstores().subscribe((lists)=>{
+      this.api.getAllStore().subscribe((lists)=>{
         this.lists = lists;
         this.groupMasterForm.controls['sellerId'].setValue(null);
       this.groupMasterForm.controls['employeeId'].setValue(null);

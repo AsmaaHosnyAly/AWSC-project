@@ -38,18 +38,18 @@
           <div class="row">
              <mat-form-field appearance="outline" class="groupInput" >
                 <mat-label>المصدر</mat-label>
-                <mat-select formControlName="source" (valueChange)="getListCtrl($event)" >
+                <mat-select id="sourceInput" formControlName="source" (valueChange)="getListCtrl($event)" >
                     <mat-option value="المورد" >المورد</mat-option>
                     <mat-option value="الموظف" >الموظف</mat-option>
                     <mat-option value="المخزن" >المخزن</mat-option>
                 </mat-select>
             </mat-form-field>         
          
-
+            <!-- <mat-label>اختر الاسم</mat-label> -->
               <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>اختر الاسم</mat-label>
+                
                 <input matInput aria-label="list" [matAutocomplete]="autoList"  [formControl]="listCtrl"
-                  placeholder="{{getAddData ? getAddData.employeeList : ''}}" (click)="openAutoList()" required />
+                  placeholder="{{getAddData ? getAddData : ''}}" (click)="openAutoList()" required />
                 <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
                   (optionSelected)="listSelected($event)" >
                   <mat-option *ngFor="let list of filteredList | async" [value]="list">
@@ -89,6 +89,10 @@
         <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
             <hr>
             <h1 ng  dir="rtl">اضافة تفاصيل اذن </h1>
+<<<<<<< HEAD
+=======
+            <h1 mat-dialog-title  class="add-h1">اضافة تفاصيل اذن </h1>
+>>>>>>> eeb7e83e6d7dd8243366fbfca6cafb2dbe43733f
 
             <div class="detailsForm">
                 <div class="row">

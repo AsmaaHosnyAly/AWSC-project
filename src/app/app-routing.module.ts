@@ -57,6 +57,7 @@ import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-e
 import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component';
 import { StrModelComponent } from './str-model/str-model.component';
 import { MenubarComponent } from './menubar/menubar.component';
+import { PrUserTableComponent } from './pr-user-table/pr-user-table.component';
 
 const routes: Routes = [
 
@@ -156,6 +157,7 @@ const routes: Routes = [
       },
 
       { path: 'pr-group', component: PrGroupTableComponent },
+      { path: 'pr-user', component: PrUserTableComponent },
 
       // { path: '**', component: ErrorComponent },
     ],
