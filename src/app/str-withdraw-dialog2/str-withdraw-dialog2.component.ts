@@ -1,5 +1,5 @@
 // import { FiscalYear } from './../str-withdraw-dialog2/';
-import { Component, OnInit, Inject, ViewChild , LOCALE_ID } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -28,13 +28,13 @@ export class Employee {
 // }
 
 export class item {
-  constructor(public id: number, public name: string ){ }
+  constructor(public id: number, public name: string) { }
 }
 export interface Source {
   name: string
 }
 export class List {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 
@@ -58,15 +58,15 @@ export class StrWithdrawDialogComponent implements OnInit {
   getMasterRowId: any;
   storeList: any;
   // itemsList: any;
-  withDrawNoList:any;
-  statesList:any;
-  notesList:any;
+  withDrawNoList: any;
+  statesList: any;
+  notesList: any;
   // fiscalYearsList: any;
   storeName: any;
   itemName: any;
-  stateName:any;
+  stateName: any;
   // notesName:any;
-  withDrawNoName:any;
+  withDrawNoName: any;
   isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
   userIdFromStorage: any;
@@ -77,16 +77,16 @@ export class StrWithdrawDialogComponent implements OnInit {
   costcenterName: any;
   costcenterList: any;
   // deststoreList:any;
-  desstoreName:any;
-  autoNo:any;
-  fiscalYearValue:any;
-  deststoreValue:any;
+  desstoreName: any;
+  autoNo: any;
+  fiscalYearValue: any;
+  deststoreValue: any;
   storeSelectedId: any;
   fiscalYearSelectedId: any;
-  displayedColumns: string[] = ['itemName', 'price','qty', 'total','percentage',  'action'];
+  displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'percentage', 'action'];
 
   // isReadOnlyEmployee: any = false;
-  isReadOnlyPercentage:any = false;
+  isReadOnlyPercentage: any = false;
   deststoresList: deststore[] = [];
   deststoreCtrl: FormControl<any>;
   filtereddeststore: Observable<deststore[]>;
@@ -111,7 +111,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   // filteredstore: Observable<store[]>;
   // selectedstore: store | undefined;
 
-  
+
 
   itemsList: item[] = [];
   itemCtrl: FormControl;
@@ -121,11 +121,11 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   isEdit: boolean = false;
 
-  defaultStoreSelectValue:any;
-  defaultFiscalYearSelectValue:any;
+  defaultStoreSelectValue: any;
+  defaultFiscalYearSelectValue: any;
 
- 
- 
+
+
 
 
   listCtrl: FormControl;
@@ -133,13 +133,16 @@ export class StrWithdrawDialogComponent implements OnInit {
   lists: List[] = [];
   selectedList: List | undefined;
   getAddData: any;
-sourceSelected: any;
+  sourceSelected: any;
+
+  userRoles: any;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
 
- 
+
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -150,9 +153,9 @@ sourceSelected: any;
     private toastr: ToastrService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<StrWithdrawDialogComponent>
-  ) { 
+  ) {
 
-     
+
     this.deststoreCtrl = new FormControl();
     this.filtereddeststore = this.deststoreCtrl.valueChanges.pipe(
       startWith(''),
@@ -208,20 +211,20 @@ sourceSelected: any;
     this.getMasterRowId = this.editData;
 
     this.groupMasterForm = this.formBuilder.group({
-      total: ['0',Validators.required],
+      total: ['0', Validators.required],
       no: ['', Validators.required],
       // itemName:['',Validators.required],
       storeId: [''],
-      storeName: ['',Validators.required],
+      storeName: ['', Validators.required],
       transactionUserId: [1, Validators.required],
       destStoreUserId: [1, Validators.required],
 
       date: ['2023-08-08T21:00:00', Validators.required],
       fiscalYearId: ['', Validators.required],
       employeeId: [''],
-     employeeName: [''],
+      employeeName: [''],
       costCenterId: [''],
-     costcenterName: [''],
+      costcenterName: [''],
       deststoreId: [''],
       desstoreName: [''],
     });
@@ -229,15 +232,15 @@ sourceSelected: any;
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: ['', Validators.required], //MasterId
       qty: ['', Validators.required],
-      percentage:['',Validators.required],
+      percentage: ['', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: [1, Validators.required],
-      destStoreUserId:[1,Validators.required],
+      destStoreUserId: [1, Validators.required],
       itemId: [''],
       stateId: [''],
 
-     
+
 
       // withDrawNoId: ['' ],
 
@@ -245,7 +248,7 @@ sourceSelected: any;
       // avgPrice: [''],
 
       stateName: [''],
-      
+
       // notesName: [''],
 
 
@@ -261,24 +264,24 @@ sourceSelected: any;
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
 
-    console.log("employeeId in edittttt",this.editData.employeeId)
+      console.log("employeeId in edittttt", this.editData.employeeId)
 
-    this.employeeName =  this.getemployeeByID(this.editData.employeeId);
-    console.log("desstore id in edit data", this.editData.deststoreId)
-    this.desstoreName =  this.getDestStoreById(this.editData.deststoreId);
+      this.employeeName = this.getemployeeByID(this.editData.employeeId);
+      console.log("desstore id in edit data", this.editData.deststoreId)
+      this.desstoreName = this.getDestStoreById(this.editData.deststoreId);
 
 
-    console.log("employeename in edit", this.employeeName)
+      console.log("employeename in edit", this.employeeName)
 
-    this.groupMasterForm.controls['employeeName'].setValue(this.editData.employeeName);
-    
+      this.groupMasterForm.controls['employeeName'].setValue(this.editData.employeeName);
+
       this.groupMasterForm.controls['desstoreName'].setValue(this.editData.desstoreName);
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
       this.groupMasterForm.controls['storeName'].setValue(this.editData.storeName);
 
       // alert("facialId before: "+ this.editData.fiscalYearId)
       this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-  
+
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
       this.groupMasterForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       // this.groupMasterForm.controls['destStoreUserId'].setValue(this.editData.destStoreUserId);
@@ -287,21 +290,21 @@ sourceSelected: any;
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
       this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
-  
-      
+
+
       // this.groupMasterForm.controls['itemId'].setValue(this.editData.itemId);
 
 
       this.groupMasterForm.controls['deststoreId'].setValue(this.editData.deststoreId);
-      
-      console.log("costcenter:",this.editData.costCenterId)
+
+      console.log("costcenter:", this.editData.costCenterId)
 
       this.groupMasterForm.controls['costCenterId'].setValue(this.editData.costCenterId);
       this.groupMasterForm.controls['costcenterName'].setValue(this.editData.costcenterName);
       this.isEditDataReadOnly = true;
 
     }
-    
+
 
     this.getAllDetailsForms();
 
@@ -323,12 +326,12 @@ sourceSelected: any;
     this.selecteddeststore = deststore;
     this.groupMasterForm.patchValue({ deststoreId: deststore.id });
     console.log("deststore in form: ", this.groupMasterForm.getRawValue().deststoreId);
-    this.set_Employee_Null( this.groupMasterForm.getRawValue().deststoreId);
+    this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
   }
   private _filterdeststores(value: string): deststore[] {
     const filterValue = value;
     return this.deststoresList.filter(deststore =>
-      deststore.name.toLowerCase().includes(filterValue) 
+      deststore.name.toLowerCase().includes(filterValue)
     );
   }
   openAutodeststore() {
@@ -441,24 +444,24 @@ sourceSelected: any;
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')
-
+console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
-   
+
 
     // this.sellerName = await this.getsellerByID(this.groupMasterForm.getRawValue().sellerId );
     // this.desstoreName =  
-    
-      // this.groupDetailsForm.patchValue({ deststoreName: store.name  });
- 
+
+    // this.groupDetailsForm.patchValue({ deststoreName: store.name  });
+
     // console.log("deststoreId in add",this.groupMasterForm.getRawValue().deststoreId)
 
-// alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
+    // alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
     this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costCenterId);
-  
+
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
     // this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
-        this.groupMasterForm.controls['costcenterName'].setValue(this.costcenterName);
-        // this.groupMasterForm.controls['desstoreName'].setValue(this.desstoreName);
+    this.groupMasterForm.controls['costcenterName'].setValue(this.costcenterName);
+    // this.groupMasterForm.controls['desstoreName'].setValue(this.desstoreName);
 
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
@@ -467,13 +470,13 @@ sourceSelected: any;
       console.log("no changed: ", this.groupMasterForm.getRawValue().no)
       this.groupMasterForm.controls['no'].setValue(this.autoNo);
     }
-    else{
+    else {
       this.groupMasterForm.controls['no'].setValue(this.autoNo);
       console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
     }
     console.log("Master add form : ", this.groupMasterForm.value)
 
-    if ( this.groupMasterForm.getRawValue().storeId ) {
+    if (this.groupMasterForm.getRawValue().storeId) {
       // this.groupMasterForm.removeControl('id');
 
       console.log("Master add form in : ", this.groupMasterForm.value)
@@ -505,25 +508,25 @@ sourceSelected: any;
     // }
   }
 
-  set_Employee_Null(deststoreId:any) {
-    console.log("deststoreId in null fun:",deststoreId)
+  set_Employee_Null(deststoreId: any) {
+    console.log("deststoreId in null fun:", deststoreId)
 
-    this.groupMasterForm.controls['employeeId'].setValue(null); 
+    this.groupMasterForm.controls['employeeId'].setValue(null);
     this.isReadOnlyEmployee = true;
     // this.employeeCtrl = null;
     // this.deststoreValue=deststoreId;
     this.isReadOnlyEmployee = true;
 
   }
-  set_store_Null(employeeId:any) {
-    console.log("employeeId in null fun:",employeeId)
+  set_store_Null(employeeId: any) {
+    console.log("employeeId in null fun:", employeeId)
 
-    this.groupMasterForm.controls['deststoreId'].setValue(null); 
+    this.groupMasterForm.controls['deststoreId'].setValue(null);
     // console.log("deststoreId in null fun:",this.dest)
 
     // this.groupMasterForm.controls['employeeId'].setValue('');  
     this.isReadOnlyEmployee = true;
-  
+
   }
   // itemOnChange(itemEvent: any) {
   //   // this.isReadOnly = true;
@@ -548,19 +551,19 @@ sourceSelected: any;
 
   // }
 
-    set_Percentage(state: any){
-      console.log("state value changed: ", state.value )
-      if(state.value==false){
-        this.isReadOnlyPercentage=false;
-      }else{
-        this.isReadOnlyPercentage=true;
-        this.groupDetailsForm.controls['percentage'].setValue(100);
-  
-        
-  
-      }
-  
+  set_Percentage(state: any) {
+    console.log("state value changed: ", state.value)
+    if (state.value == false) {
+      this.isReadOnlyPercentage = false;
+    } else {
+      this.isReadOnlyPercentage = true;
+      this.groupDetailsForm.controls['percentage'].setValue(100);
+
+
+
     }
+
+  }
 
   storeValueChanges(storeId: any) {
     console.log("store: ", storeId)
@@ -604,65 +607,65 @@ sourceSelected: any;
 
 
 
-  closeDialog(){
+  closeDialog() {
     this.dialogRef.close();
-  }  
-  
-  getStrWithdrawAutoNo() {
-    console.log("storeId: ", this.storeSelectedId, " fiscalYearId: ", this.fiscalYearSelectedId)
-    if (this.groupMasterForm) {
-      if (this.editData && !this.fiscalYearSelectedId) {
-        console.log("change storeId only in updateHeader");
-        
-        this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.editData.fiscalYearId)
-          .subscribe({
-            next: (res) => {
-              this.autoNo = res;
-              console.log("autoNo: ", this.autoNo);
-              return res;
-              
-            },
-            error: (err) => {
-              console.log("fetch autoNo err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
-            }
-          })
-      }
-      else if (this.editData && !this.storeSelectedId) {
-        console.log("change fiscalYearId only in updateHeader");
-        this.api.getStrWithdrawAutoNo(this.editData.storeId, this.groupMasterForm.getRawValue().fiscalYearId)
-          .subscribe({
-            next: (res) => {
-              this.autoNo = res;
-              console.log("autoNo: ", this.autoNo);
-              return res;
-            },
-            error: (err) => {
-              console.log("fetch autoNo err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
-            }
-          })
-      }
-      else {
-        console.log("change both values in updateHeader",this.groupMasterForm.getRawValue().storeId,"fiscall", this.groupMasterForm.getRawValue().fiscalYearId);
-        this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
-          .subscribe({
-            next: (res) => {
-              this.autoNo = res;
-              console.log("autoNo: ", this.autoNo);
-              return res;
-            },
-            error: (err) => {
-              console.log("fetch autoNo err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
-            }
-          })
-      }
-
-    }
-
   }
 
+  // getStrWithdrawAutoNo() {
+  //   console.log("storeId: ", this.storeSelectedId, " fiscalYearId: ", this.fiscalYearSelectedId)
+  //   if (this.groupMasterForm) {
+  //     if (this.editData && !this.fiscalYearSelectedId) {
+  //       console.log("change storeId only in updateHeader");
+
+  //       this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.editData.fiscalYearId)
+  //         .subscribe({
+  //           next: (res) => {
+  //             this.autoNo = res;
+  //             console.log("autoNo: ", this.autoNo);
+  //             return res;
+
+  //           },
+  //           error: (err) => {
+  //             console.log("fetch autoNo err: ", err);
+  //             // alert("خطا اثناء جلب العناصر !");
+  //           }
+  //         })
+  //     }
+  //     else if (this.editData && !this.storeSelectedId) {
+  //       console.log("change fiscalYearId only in updateHeader");
+  //       this.api.getStrWithdrawAutoNo(this.editData.storeId, this.groupMasterForm.getRawValue().fiscalYearId)
+  //         .subscribe({
+  //           next: (res) => {
+  //             this.autoNo = res;
+  //             console.log("autoNo: ", this.autoNo);
+  //             return res;
+  //           },
+  //           error: (err) => {
+  //             console.log("fetch autoNo err: ", err);
+  //             // alert("خطا اثناء جلب العناصر !");
+  //           }
+  //         })
+  //     }
+  //     else {
+  //       console.log("change both values in updateHeader",this.groupMasterForm.getRawValue().storeId,"fiscall", this.groupMasterForm.getRawValue().fiscalYearId);
+  //       this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
+  //         .subscribe({
+  //           next: (res) => {
+  //             this.autoNo = res;
+  //             console.log("autoNo: ", this.autoNo);
+  //             return res;
+  //           },
+  //           error: (err) => {
+  //             console.log("fetch autoNo err: ", err);
+  //             // alert("خطا اثناء جلب العناصر !");
+  //           }
+  //         })
+  //     }
+
+  //   }
+
+  // }
+  
   getAllDetailsForms() {
 
     // console.log("mastered row get all data: ", this.getMasterRowId)
@@ -701,7 +704,7 @@ sourceSelected: any;
   }
   async addDetailsInfo() {
     // console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "main id: ", this.getMasterRowId.id);
-console.log("masterrow",this.getMasterRowId.id)
+    console.log("masterrow", this.getMasterRowId.id)
     if (this.getMasterRowId.id) {
       if (this.getMasterRowId.id) {
         // console.log("form  headerId: ", this.getMasterRowId.id)
@@ -712,7 +715,7 @@ console.log("masterrow",this.getMasterRowId.id)
           this.groupDetailsForm.controls['transactionUserId'].setValue(1);
           // alert("itemId")
         }
-       
+
         this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.getMasterRowId.id);
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
@@ -720,7 +723,7 @@ console.log("masterrow",this.getMasterRowId.id)
 
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
-        console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
+          console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
 
           this.api.postStrWithdrawDetails(this.groupDetailsForm.value)
             .subscribe({
@@ -750,7 +753,7 @@ console.log("masterrow",this.getMasterRowId.id)
   }
 
   async updateDetailsForm() {
-    console.log("store id in update:",this.groupMasterForm.getRawValue().storeId)
+    console.log("store id in update:", this.groupMasterForm.getRawValue().storeId)
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
     // alert("update Store name: " + this.storeName)
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
@@ -758,10 +761,10 @@ console.log("masterrow",this.getMasterRowId.id)
 
     this.employeeName = await this.getemployeeByID(this.editData.employeeId);
     // alert("update costcentr name: " + this.groupMasterForm.getRawValue().costcenterId)
-        this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costCenterId);
-         
+    this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costCenterId);
 
-        this.desstoreName = await this.getDestStoreById(this.editData.deststoreId);
+
+    this.desstoreName = await this.getDestStoreById(this.editData.deststoreId);
 
     // console.log("data storeName in edit: ", this.groupMasterForm.value)
 
@@ -794,13 +797,13 @@ console.log("masterrow",this.getMasterRowId.id)
     this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
-    console.log("put before",this.groupMasterForm.value)
+    console.log("put before", this.groupMasterForm.value)
     this.isEdit = false;
 
     this.api.putStrWithdraw(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
-       
+
           if (this.groupDetailsForm.value && this.getDetailedRowData) {
             this.api.putStrWithdrawDetails(this.groupDetailsForm.value)
               .subscribe({
@@ -830,13 +833,13 @@ console.log("masterrow",this.getMasterRowId.id)
   }
 
   updateBothForms() {
-    if(this.isEdit == false){
+    if (this.isEdit == false) {
       this.groupMasterForm.controls['no'].setValue(this.autoNo)
-     }
+    }
     // console.log("pass id: ", this.getMasterRowId.id, "pass No: ", this.groupMasterForm.getRawValue().no, "pass StoreId: ", this.groupMasterForm.getRawValue().storeId, "pass Date: ", this.groupMasterForm.getRawValue().date)
-    if (this.groupMasterForm.getRawValue().no != ''  && this.groupMasterForm.getRawValue().employeeId!='' && 
-    this.groupMasterForm.getRawValue().deststoreId!='' && this.groupMasterForm.getRawValue().costCenterId!=''
-    && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
+    if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().employeeId != '' &&
+      this.groupMasterForm.getRawValue().deststoreId != '' && this.groupMasterForm.getRawValue().costCenterId != ''
+      && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
 
       this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.getMasterRowId.id);
       this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
@@ -853,7 +856,7 @@ console.log("masterrow",this.getMasterRowId.id)
 
     if (this.editDataDetails || row) {
       this.getDetailedRowData = row;
-    console.log("dETAILS ROW: ", this.getDetailedRowData)
+      console.log("dETAILS ROW: ", this.getDetailedRowData)
 
       this.actionBtnDetails = "Update";
       this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.getDetailedRowData.stR_WithdrawId);
@@ -891,7 +894,7 @@ console.log("masterrow",this.getMasterRowId.id)
             this.toastrDeleteSuccess();
             this.getAllDetailsForms();
             // this.getAllMasterForms();
-            
+
           },
           error: () => {
             // alert("خطأ أثناء حذف التفاصيل !!");
@@ -903,41 +906,91 @@ console.log("masterrow",this.getMasterRowId.id)
 
   getAllMasterForms() {
     let result = window.confirm("هل تريد الغاء الطلب");
-    if (result){
+    if (result) {
       this.closeDialog()
       this.api.getStrWithdraw()
-      .subscribe({
-        next: (res) => {
-          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        }
-      })
+        .subscribe({
+          next: (res) => {
+            // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+            this.dataSource = new MatTableDataSource(res);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          },
+          error: () => {
+            // alert("خطأ أثناء جلب سجلات المجموعة !!");
+          }
+        })
     }
-   
-   
+
+
   }
 
-  getStores() {
-    this.api.getStore()
-      .subscribe({
-        next: async (res) => {
-          this.storeList = res;
-          console.log("store res: ", this.storeList);
-          this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
-          console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
-          if (this.editData) {
-            this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-          }
-          else {
-            this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
-          }
-          // this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
+  async getStores() {
+    this.userRoles = localStorage.getItem('userRoles');
+    console.log('userRoles: ', this.userRoles.includes('15'))
 
+    if (this.userRoles.includes('15')) {
+      // console.log('user is manager -all stores available- , role: ', userRoles);
+
+      this.api.getStore()
+        .subscribe({
+          next: async (res) => {
+            this.storeList = res;
+            this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+            console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
+            if (this.editData) {
+              this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+            }
+            else {
+              this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
+              console.log("selected storebb form: ", this.groupMasterForm.getRawValue().storeId);
+              this.storeValueChanges(this.groupMasterForm.getRawValue().storeId)
+
+            }
+
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          }
+        })
+    }
+    else {
+      this.api.getUserStores(localStorage.getItem('transactionUserId'))
+        .subscribe({
+          next: async (res) => {
+            this.storeList = res;
+            this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+            console.log("selected storebbbbbbbbbbbbbbb user: ", this.defaultStoreSelectValue);
+            if (this.editData) {
+              console.log("selected edit data : ", this.editData);
+              this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+            }
+            else {
+              console.log("selected new data : ", this.defaultStoreSelectValue.storeId);
+              this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.storeId);
+            }
+
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          }
+        })
+    }
+
+
+  }
+  getEmployees() {
+    this.api.getEmployee()
+      .subscribe({
+        next: (res) => {
+          this.employeesList = res;
+          console.log("employee list: ", this.employeesList);
+          // this.employeeName =  this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
+          // console.log("employeeId",this.groupMasterForm.getRawValue().employeeId)
+          // console.log('employeeName',this.employeeName.value)
+          // this.employeeName=this.editData(this.employeesList)
         },
         error: (err) => {
           // console.log("fetch store data err: ", err);
@@ -945,51 +998,34 @@ console.log("masterrow",this.getMasterRowId.id)
         }
       })
   }
-  getEmployees() {
-        this.api.getEmployee()
-          .subscribe({
-            next: (res) => {
-              this.employeesList = res;
-              console.log("employee list: ", this.employeesList);
-              // this.employeeName =  this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
-              // console.log("employeeId",this.groupMasterForm.getRawValue().employeeId)
-              // console.log('employeeName',this.employeeName.value)
-              // this.employeeName=this.editData(this.employeesList)
-            },
-            error: (err) => {
-              // console.log("fetch store data err: ", err);
-              // alert("خطا اثناء جلب المخازن !");
-            }
-          })
-      }
-  
-   
-      getCostCenters() {
-        this.api.getCostCenter()
-          .subscribe({
-            next: (res) => {
-              this.costcenterList = res;
-              console.log("costcenterrr res: ", this.costcenterList);
-            },
-            error: (err) => {
-              // console.log("fetch store data err: ", err);
-              // alert("خطا اثناء جلب المخازن !");
-            }
-          })
-      }
-      getDestStores() {
-        this.api.getStore()
-          .subscribe({
-            next: (res) => {
-              this.deststoresList = res;
-              console.log("deststore list in get deststorelist: ", this.deststoresList);
-            },
-            error: (err) => {
-              // console.log("fetch store data err: ", err);
-              // alert("خطا اثناء جلب المخازن !");
-            }
-          })
-      }
+
+
+  getCostCenters() {
+    this.api.getCostCenter()
+      .subscribe({
+        next: (res) => {
+          this.costcenterList = res;
+          console.log("costcenterrr res: ", this.costcenterList);
+        },
+        error: (err) => {
+          // console.log("fetch store data err: ", err);
+          // alert("خطا اثناء جلب المخازن !");
+        }
+      })
+  }
+  getDestStores() {
+    this.api.getStore()
+      .subscribe({
+        next: (res) => {
+          this.deststoresList = res;
+          console.log("deststore list in get deststorelist: ", this.deststoresList);
+        },
+        error: (err) => {
+          // console.log("fetch store data err: ", err);
+          // alert("خطا اثناء جلب المخازن !");
+        }
+      })
+  }
 
   getDestStoreById(id: any) {
     console.log("row deststore id: ", id);
@@ -1004,39 +1040,39 @@ console.log("masterrow",this.getMasterRowId.id)
       });
   }
   getemployeeByID(id: any) {
-        console.log("row employee id in getemployeebyid: ", id);
-        return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
-          .then(response => response.json())
-          .then(json => {
-            console.log("fetch employee by id res: ", json.name);
-          
-            return json.name;
-            // console.log("json",json.name)
-          })
-          .catch((err) => {
-            // console.log("error in fetch name by id: ", err);
-            // alert("خطا اثناء جلب رقم المخزن !");
-          });
-      }
+    console.log("row employee id in getemployeebyid: ", id);
+    return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
+      .then(response => response.json())
+      .then(json => {
+        console.log("fetch employee by id res: ", json.name);
+
+        return json.name;
+        // console.log("json",json.name)
+      })
+      .catch((err) => {
+        // console.log("error in fetch name by id: ", err);
+        // alert("خطا اثناء جلب رقم المخزن !");
+      });
+  }
 
 
-  
-      getcostcenterByID(id: any) {
-        console.log("costcenter id: ", id);
-        return fetch(`http://ims.aswan.gov.eg/api/FICostCenter/get/${id}`)
-          .then(response => response.json())
-          .then(json => {
-            console.log("fetch name by id res: ", json.name);
-            return json.name;
-          })
-          .catch((err) => {
-            // console.log("error in fetch name by id: ", err);
-            // alert("خطا اثناء جلب رقم المخزن !");
-          });
-      }
-      getStoreByID(id: any) {
-        console.log(" store: ", id);
-        return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
+
+  getcostcenterByID(id: any) {
+    console.log("costcenter id: ", id);
+    return fetch(`http://ims.aswan.gov.eg/api/FICostCenter/get/${id}`)
+      .then(response => response.json())
+      .then(json => {
+        console.log("fetch name by id res: ", json.name);
+        return json.name;
+      })
+      .catch((err) => {
+        // console.log("error in fetch name by id: ", err);
+        // alert("خطا اثناء جلب رقم المخزن !");
+      });
+  }
+  getStoreByID(id: any) {
+    console.log(" store: ", id);
+    return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
       .then(response => response.json())
       .then(json => {
         // console.log("fetch name by id res: ", json.name);
@@ -1046,7 +1082,7 @@ console.log("masterrow",this.getMasterRowId.id)
         // console.log("error in fetch name by id: ", err);
         // alert("خطا اثناء جلب رقم المخزن !");
       });
-      }
+  }
 
   getItems() {
     this.api.getItems()
@@ -1073,7 +1109,7 @@ console.log("masterrow",this.getMasterRowId.id)
         // console.log("error in fetch item name by id: ", err);
         // alert("خطا اثناء جلب رقم العنصر !");
       });
-    }
+  }
 
 
   getItemByCode(code: any) {
@@ -1103,7 +1139,7 @@ console.log("masterrow",this.getMasterRowId.id)
           }
           else {
             this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-this.getStrWithdrawAutoNo();
+            this.getStrWithdrawAutoNo();
           }
           // this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
         },
@@ -1151,16 +1187,16 @@ this.getStrWithdrawAutoNo();
     //   this.groupMasterForm.patchValue({ sellerId: list.id });
     // this.groupMasterForm.patchValue({ sellerName: list.name });
     // }
-     if(this.sourceSelected === "الموظف"){
+    if (this.sourceSelected === "الموظف") {
 
       this.groupMasterForm.patchValue({ employeeId: list.id });
-    this.groupMasterForm.patchValue({ employeeName: list.name });
-    }  else {
+      this.groupMasterForm.patchValue({ employeeName: list.name });
+    } else {
       this.groupMasterForm.patchValue({ deststoreId: list.id });
-    this.groupMasterForm.patchValue({ desstoreName: list.name });
+      this.groupMasterForm.patchValue({ desstoreName: list.name });
     }
 
-   
+
   }
 
   private _filterLists(value: string): List[] {
@@ -1170,49 +1206,129 @@ this.getStrWithdrawAutoNo();
     );
   }
 
- 
+
 
   openAutoList() {
     this.listCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.listCtrl.updateValueAndValidity();
   }
 
-  getListCtrl(source:any){
+  getListCtrl(source: any) {
     this.sourceSelected = source;
     // if(source==="المورد"){
-     
+
     //   this.api.getAllSellers().subscribe((lists)=>{
     //     this.lists = lists;
     //     console.log("rrr: ", lists)
     //     this.groupMasterForm.controls['sourceStoreId'].setValue(null);
     //   this.groupMasterForm.controls['employeeId'].setValue(null);
 
-        
+
     //   });
     // }
-   if(source==="الموظف"){
-      this.api.getEmployee().subscribe((lists)=>{
+    if (source === "الموظف") {
+      this.api.getEmployee().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['deststoreId'].setValue(null);
         // this.groupMasterForm.controls['sellerId'].setValue(null);
-        this.actionName= "choose";
+        this.actionName = "choose";
 
       });
     }
-    
+
     else {
-     
-      this.api.getAllstores().subscribe((lists)=>{
+
+      this.api.getAllstores().subscribe((lists) => {
         this.lists = lists;
         // this.groupMasterForm.controls['sellerId'].setValue(null);
-      this.groupMasterForm.controls['employeeId'].setValue(null);
-      this.actionName= "store";
+        this.groupMasterForm.controls['employeeId'].setValue(null);
+        this.actionName = "store";
 
 
 
       });
-     }
     }
+  }
+
+
+  getStrWithdrawAutoNo() {
+    console.log("storeId: ", this.storeSelectedId, " fiscalYearId: ", this.fiscalYearSelectedId)
+    console.log("get default selected storeId & fisclYearId: ", this.defaultStoreSelectValue, " , ", this.defaultFiscalYearSelectValue);
+
+    if (this.groupMasterForm) {
+
+      if (this.editData && !this.fiscalYearSelectedId) {
+        console.log("change storeId only in updateHeader");
+        this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.editData.fiscalYearId)
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              console.log("autoNo: ", this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log("fetch autoNo err1: ", err);
+              // alert("خطا اثناء جلب العناصر !");
+            }
+          })
+      }
+
+      else if (this.editData && !this.storeSelectedId) {
+        console.log("change fiscalYearId only in updateHeader");
+        this.api.getStrWithdrawAutoNo(this.editData.storeId, this.groupMasterForm.getRawValue().fiscalYearId)
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              console.log("autoNo: ", this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log("fetch autoNo err2: ", err);
+              // alert("خطا اثناء جلب العناصر !");
+            }
+          })
+      }
+      else if (this.editData) {
+        console.log("change both in edit data: ", this.isEdit);
+
+        this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              // this.editData = null;
+              console.log("isEdit : ", this.isEdit)
+              // this.groupMasterForm.controls['no'].setValue(666);
+              console.log("autoNo: ", this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log("fetch autoNo err3: ", err);
+              // alert("خطا اثناء جلب العناصر !");
+            }
+          })
+      }
+      else {
+        console.log("change both values in updateHeader, ", this.groupMasterForm.getRawValue().storeId);
+        this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              // this.editData.no = res
+              console.log("isEdit : ", this.isEdit)
+
+              console.log("autoNo: ", this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log("fetch autoNo err4: ", err);
+              // alert("خطا اثناء جلب العناصر !");
+            }
+          })
+      }
+
+    }
+
+  }
 }

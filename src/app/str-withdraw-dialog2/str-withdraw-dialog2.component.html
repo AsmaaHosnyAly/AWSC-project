@@ -8,17 +8,19 @@
 
   <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
     <div class="headerForm">
-      <mat-form-field appearance="outline" class="groupInput" style="width: 150px;">
+      <mat-form-field appearance="outline" class="groupInput">
         <mat-label>المخازن</mat-label>
         <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
-            <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
+            <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
+                *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
+                store.storeName}}</mat-option> 
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="groupInput" style="width: 100px;">
+    <mat-form-field appearance="outline" class="child-num">
         <mat-label>السنة المالية</mat-label>
-        <mat-select placeholder="السنة المالية" formControlName="fiscalYearId" 
-            (valueChange)="fiscalYearValueChanges($event)" >
+        <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
+            (valueChange)="fiscalYearValueChanges($event)">
             <mat-option [value]="fiscalYear.id"
                 *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
         </mat-select>
@@ -26,7 +28,7 @@
 
     <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
         <mat-label>الرقم</mat-label>
-        <input id="autoNoInput" matInput placeholder="الرقم" formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
+        <input id="autoNoInput" matInput  formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
             type="number" readonly>
     </mat-form-field>
 
@@ -48,10 +50,9 @@
           </mat-form-field>         
        
                            
+          <mat-label style="margin-top: 15px;">{{ actionName.toLowerCase() == "choose" ?" موظف : " : " مخزن :"  }}</mat-label>
           
             <mat-form-field appearance="outline" class="groupInput" style="width: 150px;">
-              <mat-label>{{ actionName.toLowerCase() == "choose" ?" موظف  " : "مخزن"  }}
-              </mat-label>
               <!-- <mat-placeholder class="placeholder">Search</mat-placeholder> -->
               <input matInput class="placeholderr" aria-label="list" [matAutocomplete]="autoList"  [formControl]="listCtrl"
                 placeholder="{{editData && editData.employeeName ? editData.employeeName : editData && editData.desstoreName ? editData.desstoreName : ''}}" (click)="openAutoList()" required />
