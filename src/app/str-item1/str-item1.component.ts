@@ -183,7 +183,7 @@ export class STRItem1Component implements OnInit {
   openDialog() {
     this.dialog
       .open(STRItem1DialogComponent, {
-        width: '30%',
+        width: '40%',
       })
       .afterClosed()
       .subscribe((val) => {
