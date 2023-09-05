@@ -48,22 +48,34 @@
     </div>
   </mat-expansion-panel>
 </mat-accordion>
-<mat-card-header dir="rtl">
+
+
+<mat-card-header dir="ltr" class="parent-search">
   <div class="child1">
-    <button mat-raised-button class="add" (click)="openAddDialog()" dir="ltr">
+    <button
+      mat-raised-button
+      class="add"
+      (click)="openAddDialog()"
+      dir="ltr"
+    >
       <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
     </button>
   </div>
 
-  <mat-form-field>
-    <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
-  </mat-form-field>
+  <div>
+    <input
+      matInput
+      class="filter-search"
+      (keyup)="applyFilter($event)"
+      placeholder="بحث"
+      #input
+    />
+  </div>
 </mat-card-header>
-<div class="mat-elevation-z8">
-  <table
+<div  class="div-table">
+  <table 
     mat-table
     [dataSource]="dataSource2"
-    class="mat-elevation-z8"
     dir="rtl"
   >
     <!-- No Column -->
@@ -117,13 +129,13 @@
 
     <!-- Action Column -->
     <ng-container matColumnDef="Action">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>الاجراء</th>
+      <th mat-header-cell *matHeaderCellDef>الاجراء</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button color="primary" (click)="editMasterForm(row)">
+        <button mat-icon-button class=" editbtn" (click)="editMasterForm(row)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
-          <mat-icon>delete</mat-icon>
+          <mat-icon>delete_forever</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -131,8 +143,11 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+</div >
+
+
   <mat-paginator
     [pageSizeOptions]="[5, 10, 25, 100]"
     aria-label="Select page of users"
   ></mat-paginator>
-</div>
+

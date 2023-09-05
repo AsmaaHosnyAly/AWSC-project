@@ -17,7 +17,7 @@
         </mat-expansion-panel-header>
     <div class="search">
       
-      <mat-form-field appearance="outline">   
+      <!-- <mat-form-field appearance="outline">   
         <mat-label>السلعة</mat-label>     
         <input matInput #commodity aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl" (click)="openAutoCommodity()" required/>
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName" (optionSelected)="commoditySelected($event)">
@@ -25,9 +25,19 @@
             {{ commodity.name }} | {{ commodity.code }}
           </mat-option>
         </mat-autocomplete>
-      </mat-form-field>
+      </mat-form-field> -->
+      <mat-form-field appearance="outline">
+        <mat-label>السلعة</mat-label>
+        
+  
+        <mat-select [(ngModel)]="commodity.id" #commodity plceholder="اختر السلعة" >
+            <mat-option  *ngFor="let commodity of commoditylist " [value]="commodity.name"
+            >{{commodity.name}}</mat-option>
+        </mat-select>
+        
+    </mat-form-field>
 
-      <button (click)=" getSearchGrades(commodity.value)" >عرض</button>
+      <button (click)=" getSearchProducts(commodity.value)" >عرض</button>
       </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -51,10 +61,10 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> الحدث </th>
         <td mat-cell *matCellDef="let row"> 
-          <button mat-icon-button (click)="editGrade(row)" color="primary">
+          <button mat-icon-button (click)="editcommodity(row)" color="primary">
             <mat-icon>edit</mat-icon>
           </button>
-          <button (click)="deleteGrade(row.id)" mat-icon-button color="warn">
+          <button (click)="deletecommodity(row.id)" mat-icon-button color="warn">
             <mat-icon>delete</mat-icon>
           </button>
         </td>

@@ -40,8 +40,8 @@ import { HrWorkPlaceComponent } from './hr-work-place/hr-work-place.component';
 import { HrSpecializationComponent } from './hr-specialization/hr-specialization.component';
 
 import { StrVendorComponent } from './str-vendor/str-vendor.component';
-import {HrJobTitleComponent  } from "./hr-job-title/hr-job-title.component";
-import {HrPositionComponent  } from "./hr-position/hr-position.component";
+import { HrJobTitleComponent } from './hr-job-title/hr-job-title.component';
+import { HrPositionComponent } from './hr-position/hr-position.component';
 import { StrAccountsComponent } from './str-accounts/str-accounts.component';
 import { StrEmployeesComponent } from './str-employees/str-employees.component';
 import { HrMillitryStateComponent } from './hr-millitry-state/hr-millitry-state.component';
@@ -52,29 +52,120 @@ import { HrSeveranceReasonComponent } from './hr-severance-reason/hr-severance-r
 import { HrQualificationComponent } from './hr-qualification/hr-qualification.component';
 import { HrEmployeeVacationComponent } from './hr-employee-vacation/hr-employee-vacation.component';
 import { HrEmployeeVacationBalanceComponent } from './hr-employee-vacation-balance/hr-employee-vacation-balance.component';
-
 import { HrDisciplinaryComponent } from './hr-disciplinary/hr-disciplinary.component';
-
 import { HrEmployeeDisciplinaryComponent } from './hr-employee-disciplinary/hr-employee-disciplinary.component';
 import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component';
+import { StrModelComponent } from './str-model/str-model.component';
+import { MenubarComponent } from './menubar/menubar.component';
 
 const routes: Routes = [
-  //  {path: 'products',
-  //  children: [
-  //    {
-  //      path: ':productID',
-  //      component: ProductComponent,
-  //    },
-  //  ],} ,
+
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent }, 
+  
+  {
+    path: '',
+    component:MenubarComponent,
+    children: [
+      { path: 'commodity', component: StrCommodityComponent },
+      { path: 'home', component: StrGroupHomeComponent },
 
+      { path: 'str-openingStock', component: StrOpeningStockContainerComponent },
+      {
+        path: 'employeeOpening',
+        component: StrEmployeeExchangeContainerComponent,
+      },
+      { path: 'groupBannel', component: StrGroupComponent },
+      { path: 'unit', component: STRUnitsComponent },
+      { path: 'grade', component: STRGradeComponent },
+      { path: 'costCenter', component: StrCostcenterComponent },
+      // { path: 'items', component: StrItemComponent },
+      { path: 'products', component: StrProductComponent },
+      { path: 'group', component: StrGroupComponent },
+      { path: 'store', component: StrStoreComponent },
+      { path: 'str-grade', component: STRGradeComponent },
+      { path: 'str-platoon', component: STRPlatoonComponent },
+      { path: 'str-platoon1', component: STRPlatoon1Component },
 
+      { path: 'report', component: StrReportComponent },
+      { path: 'AccountHierarchy', component: FIAccountHierarchyComponent },
+      { path: 'EntrySource', component: FIEntrySourceComponent },
+      { path: 'EntrySourceType', component: FIEntrySourceTypeComponent },
+      { path: 'withdraw', component: StrWithdrawContainerComponent }, //table filter done
+      { path: 'add-item-report', component: StrReportAddItemComponent },
+      { path: 'AccountParent', component: FIAccountParentComponent },
+      { path: 'FiAccountItem', component: FiAccountItemComponent },
+      { path: 'FIJournal', component: FIJournalComponent },
+      { path: 'STRAdd', component: STRAddContainerComponent }, //table filter done
+      { path: 'city', component: HrCityComponent },
+      { path: 'cityState', component: HrCityStateComponent },
+      { path: 'QualitativeGroup', component: HrQualitativeGroupComponent },
+      { path: 'WorkPlace', component: HrWorkPlaceComponent },
+      { path: 'specialization', component: HrSpecializationComponent },
+
+      { path: 'withdraw', component: StrWithdrawContainerComponent },
+      { path: 'commodity', component: StrCommodityComponent },
+
+      { path: 'home', component: StrGroupHomeComponent },
+      // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+      {
+        path: 'employeeOpening',
+        component: StrEmployeeExchangeContainerComponent,
+      },
+      { path: 'groupBannel', component: StrGroupComponent },
+      { path: 'unit', component: STRUnitsComponent },
+      { path: 'grade', component: STRGradeComponent },
+      { path: 'home', component: StrGroupHomeComponent },
+      // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
+      {
+        path: 'employeeOpening',
+        component: StrEmployeeExchangeContainerComponent,
+      },
+      { path: 'groupBannel', component: StrGroupComponent },
+      { path: 'unit', component: STRUnitsComponent },
+      { path: 'grade', component: STRGradeComponent },
+      { path: 'costCenter', component: StrCostcenterComponent },
+      //  { path: "items", component:StrItemComponent},
+      // { path: "", redirectTo: "login", pathMatch: "full" },
+      { path: 'items1', component: STRItem1Component },
+      { path: 'group1', component: STRGroup1Component },
+      { path: 'str-employee', component: STREmployeeOpeningCustodyComponent },
+      { path: 'str-vendor', component: StrVendorComponent },
+      { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design
+      { path: 'account', component: FIAccountComponent },
+
+      { path: 'hr-jobTitle', component: HrJobTitleComponent },
+      { path: 'hr-position', component: HrPositionComponent },
+      { path: 'hr-MillitryState', component: HrMillitryStateComponent },
+      { path: 'hr-vacation', component: HrVacationComponent },
+      { path: 'hr-incentive', component: HrIncentiveAllowanceComponent },
+      { path: 'hr-hiringType', component: HrHiringTypeComponent },
+      { path: 'SeveranceReason', component: HrSeveranceReasonComponent },
+      { path: 'Qualification', component: HrQualificationComponent },
+      { path: 'hr-employeeVacation', component: HrEmployeeVacationComponent }, //waiting back to update
+      {
+        path: 'hr-employeeVacationBalance',
+        component: HrEmployeeVacationBalanceComponent,
+      },
+      { path: 'hr-disciplinary', component: HrDisciplinaryComponent },
+
+      {
+        path: 'hr-EmployeeDisciplinary',
+        component: HrEmployeeDisciplinaryComponent,
+      },
+
+      { path: 'pr-group', component: PrGroupTableComponent },
+
+      // { path: '**', component: ErrorComponent },
+    ],
+  },
+
+  
   // main screens
   { path: 'str-home', component: STRHomeComponent },
-  {path:'hr-home',component:StrEmployeesComponent},
-  {path:'fi-home',component:StrAccountsComponent},
+  { path: 'hr-home', component: StrEmployeesComponent },
+  { path: 'fi-home', component: StrAccountsComponent },
   // {path:'fi-home',component:StrAccountsComponent},
   // {path:'fi-home',component:StrAccountsComponent},
   // {path:'fi-home',component:StrAccountsComponent},
@@ -87,89 +178,6 @@ const routes: Routes = [
   // {path:'fi-home',component:StrAccountsComponent},
   // {path:'fi-home',component:StrAccountsComponent},
   // {path:'fi-home',component:StrAccountsComponent},
-  
-
-  { path: 'commodity', component: StrCommodityComponent },
-  { path: 'home', component: StrGroupHomeComponent },
-
-  { path: 'unit', component: STRUnitsComponent },
-  { path: 'grade', component: STRGradeComponent },
-  { path: 'costCenter', component: StrCostcenterComponent },
-  // { path: 'items', component: StrItemComponent },
-  { path: 'products', component: StrProductComponent },
-  { path: 'group', component: StrGroupComponent },
-  { path: 'store', component: StrStoreComponent },
-  { path: 'str-grade', component: STRGradeComponent },
-  { path: 'str-platoon', component: STRPlatoonComponent },
-  { path: 'str-platoon1', component: STRPlatoon1Component },
-  
-  { path: 'report', component: StrReportComponent },
-  { path: 'AccountHierarchy', component: FIAccountHierarchyComponent },
-  { path: 'EntrySource' , component: FIEntrySourceComponent},
-  { path: 'EntrySourceType' , component: FIEntrySourceTypeComponent},
-  { path: 'withdraw', component: StrWithdrawContainerComponent }, //table filter done
-  { path: 'add-item-report', component: StrReportAddItemComponent },
-  { path: 'AccountParent', component: FIAccountParentComponent },
-  { path: 'FiAccountItem', component: FiAccountItemComponent },
-  { path: 'FIJournal', component: FIJournalComponent },
-  { path: 'STRAdd', component: STRAddContainerComponent }, //table filter done
-  { path: 'city', component: HrCityComponent },
-  { path: 'cityState', component: HrCityStateComponent },
-  { path: 'QualitativeGroup', component: HrQualitativeGroupComponent },
-  { path: 'WorkPlace', component: HrWorkPlaceComponent },
-  { path: 'specialization', component: HrSpecializationComponent },
-
-
-  {path:'withdraw',component:StrWithdrawContainerComponent },
-//  {path: 'products',
-//  children: [
-//    {
-//      path: ':productID',
-//      component: ProductComponent,
-//    },
-//  ],} ,
-  { path: "", redirectTo: "login", pathMatch: "full" },
-   {path:'login' , component:LoginComponent},
-   {path:'commodity' , component:StrCommodityComponent},
-  
-  { path: "home", component: StrGroupHomeComponent},
-  { path: "unit", component:STRUnitsComponent},
-  { path: "grade", component:STRGradeComponent },
-  { path: 'home', component: StrGroupHomeComponent },
-  { path: 'str-openingStock', component: StrOpeningStockContainerComponent },
-  { path: 'employeeOpening', component: StrEmployeeExchangeContainerComponent },
-  { path: 'unit', component: STRUnitsComponent },
-  { path: 'grade', component: STRGradeComponent },
-  { path: 'costCenter', component: StrCostcenterComponent },
-  //  { path: "items", component:StrItemComponent},
-  // { path: "", redirectTo: "login", pathMatch: "full" },
-  { path: 'items1', component: STRItem1Component },
-  { path: 'group1', component: STRGroup1Component },
-  { path: 'str-employee', component: STREmployeeOpeningCustodyComponent },
-  { path: 'str-vendor', component: StrVendorComponent},
-  { path: 'fi-entry', component: FiEntryContainerComponent },
-  { path: 'account', component: FIAccountComponent },
-  
- 
-  { path: 'hr-jobTitle', component: HrJobTitleComponent },
-  { path: 'hr-position', component: HrPositionComponent },
-  { path:'hr-MillitryState',component:HrMillitryStateComponent},
-  { path:'hr-vacation',component:HrVacationComponent},
-  { path:'hr-incentive',component:HrIncentiveAllowanceComponent},
-  { path:'hr-hiringType',component:HrHiringTypeComponent},
-  { path:'SeveranceReason',component:HrSeveranceReasonComponent},
-  { path:'Qualification',component:HrQualificationComponent},
-  { path:'hr-employeeVacation',component:HrEmployeeVacationComponent}, //waiting back to update
-  { path:'hr-employeeVacationBalance',component:HrEmployeeVacationBalanceComponent},
-  { path: 'hr-disciplinary', component:HrDisciplinaryComponent },
-  
-  { path: 'hr-EmployeeDisciplinary', component: HrEmployeeDisciplinaryComponent },
-
-  { path:'pr-group', component:PrGroupTableComponent},
-
-  { path: '**', component: ErrorComponent },
-
-
 ];
 
 @NgModule({
