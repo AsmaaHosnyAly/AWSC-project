@@ -275,11 +275,11 @@ export class STRGroup1DialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           // alert("تم التحديث بنجاح");
+          this.autoCode = res;
           console.log("autoCode is: ", res)
         },
         error: (err) => {
-          console.log("err get autoCode: ", err.error.text)
-          this.autoCode = err.error.text;
+          console.log("err get autoCode: ", err)
           // alert("خطأ عند تحديث البيانات");
         }
       })

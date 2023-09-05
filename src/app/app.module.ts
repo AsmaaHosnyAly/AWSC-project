@@ -146,6 +146,8 @@ import { StrModelComponent } from './str-model/str-model.component';
 import { StrModelDailogComponent } from './str-model-dailog/str-model-dailog.component';
 
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { PrUserDialogComponent } from './pr-user-dialog/pr-user-dialog.component';
+import { PrUserTableComponent } from './pr-user-table/pr-user-table.component';
 
 @NgModule({
   declarations: [
@@ -252,6 +254,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     PrGroupDialogComponent,
     StrModelComponent,
     StrModelDailogComponent,
+    PrUserDialogComponent,
+    PrUserTableComponent,
    
   
 
