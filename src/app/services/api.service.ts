@@ -72,6 +72,12 @@ export class ApiService {
     );
   }
 
+  getGradeCode(data: any) {
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/STRGrade/AutoCode?commidtyId=${data}`
+    );
+  }
+
   getStrOpenDetails() {
     return this.http.get<any>('http://localhost:3000/StrOpenDetails/');
   }
@@ -222,6 +228,15 @@ export class ApiService {
       `http://ims.aswan.gov.eg/api/STRPlatoon/delete/${id}`
     );
   }
+
+  getPlatoonCode(GradeId: any) {
+    console.log("gradeId:",GradeId);
+    
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/STRPlatoon/AutoCode?GradeId=${GradeId}`
+    );
+  }
+
   getAllCommodities(): Observable<any> {
     return this.http.get<any>(
       'http://ims.aswan.gov.eg/api/STRCommodity/get/all'

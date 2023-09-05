@@ -3,13 +3,6 @@
   <div mat-dialog-content>
     <form [formGroup]="platoonForm">
       <mat-form-field appearance="outline">
-        <mat-label>كود الفصيلة</mat-label>
-        <input formControlName="code" pattern="^[0-9]{2}$" matInput placeholder="كود الفصيلة">
-        <mat-error *ngIf="platoonForm.get('code')?.invalid && platoonForm.get('code')?.touched">
-          كود الفصيلة مطلوب ويجب أن يحتوي على 2 رقم.
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
         <mat-label>اسم الفصيلة</mat-label>
         <input formControlName="name" matInput placeholder="اسم الفصيلة">
       </mat-form-field>

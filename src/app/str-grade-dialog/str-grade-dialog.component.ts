@@ -34,10 +34,7 @@ export class STRGradeDialogComponent {
   actionBtn : string = "حفظ"
   selectedOption:any;
   getGradeData: any;
-  Id:string  | undefined | null;
-   commidityDt:any={
-  id:0,
-}
+  Code: any;
 commname:any;
 dataSource!: MatTableDataSource<any>;
 
@@ -63,7 +60,7 @@ commodityName: any;
       this.gradeForm = this.formBuilder.group({
         //define the components of the form
       transactionUserId : ['',Validators.required],
-      code : ['',Validators.required],
+      code : [''],
       name : ['',Validators.required],
       commodityId : ['',Validators.required],
       id : ['',Validators.required],
@@ -98,6 +95,7 @@ commodityName: any;
       this.selectedCommodity = commodity;
       this.gradeForm.patchValue({ commodityId: commodity.id });
       this.gradeForm.patchValue({ commodityName: commodity.name });
+      this.getCodeByCommodityId();
     }
 
     private _filterCommodities(value: string): Commodity[] {
@@ -114,11 +112,25 @@ commodityName: any;
       this.commodityCtrl.updateValueAndValidity();
     }
 
+    getCodeByCommodityId() {
+      this.api.getGradeCode(this.selectedCommodity?.id).subscribe({
+        next: (res) => {
+  
+          this.Code = res;
+          console.log('GradeCode: ', this.Code);
+        },
+        error: (err) => {
+          console.log('get code. err: ', err);
+        },
+      });
+    }
+
     
 
   addGrade(){
+    this.gradeForm.controls['code'].setValue(this.Code);
+
     if(!this.editData){
-      
       this.gradeForm.removeControl('id')
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
       console.log("add: ", this.gradeForm.value);
