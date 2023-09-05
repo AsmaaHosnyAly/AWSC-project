@@ -170,8 +170,6 @@
       #input
     />
      </div>
-       
-     
     </mat-card-header>
     <div id="content" class="content">
       <header id="header" class="header">
@@ -198,55 +196,55 @@
 
         <!-- Item Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم الصنف</th>
+          <th mat-header-cell *matHeaderCellDef >اسم الصنف</th>
           <td mat-cell *matCellDef="let row">{{ row.name }}</td>
         </ng-container>
 
         <!-- Item Number Column -->
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الرقم</th>
+          <th mat-header-cell *matHeaderCellDef>رقم الصنف</th>
           <td mat-cell *matCellDef="let row">{{ row.no }}</td>
         </ng-container>
 
         <!-- Type Column -->
         <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>النوع</th>
+          <th mat-header-cell *matHeaderCellDef >النوع</th>
           <td mat-cell *matCellDef="let row">{{ row.type }}</td>
         </ng-container>
 
         <!-- isActive Column -->
         <ng-container matColumnDef="isActive">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الحالة</th>
+          <th mat-header-cell *matHeaderCellDef >الحالة</th>
           <td mat-cell *matCellDef="let row">{{ row.isActive }}</td>
         </ng-container>
 
         <!-- Unit Column -->
         <ng-container matColumnDef="unitName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الوحدة</th>
+          <th mat-header-cell *matHeaderCellDef >الوحدة</th>
           <td mat-cell *matCellDef="let row">{{ row.unitName }}</td>
         </ng-container>
 
         <!-- commodity Column -->
         <ng-container matColumnDef="commodityName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>السلعة</th>
+          <th mat-header-cell *matHeaderCellDef >السلعة</th>
           <td mat-cell *matCellDef="let row">{{ row.commodityName }}</td>
         </ng-container>
 
         <!-- grad Column -->
         <ng-container matColumnDef="gradeName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>النوعية</th>
+          <th mat-header-cell *matHeaderCellDef >النوعية</th>
           <td mat-cell *matCellDef="let row">{{ row.gradeName }}</td>
         </ng-container>
 
         <!-- Platoon Column -->
         <ng-container matColumnDef="platoonName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الفصيلة</th>
+          <th mat-header-cell *matHeaderCellDef >الفصيلة</th>
           <td mat-cell *matCellDef="let row">{{ row.platoonName }}</td>
         </ng-container>
 
         <!-- Group Column -->
         <ng-container matColumnDef="groupName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>المجموعة</th>
+          <th mat-header-cell *matHeaderCellDef >المجموعة</th>
           <td mat-cell *matCellDef="let row">{{ row.groupName }}</td>
         </ng-container>
 
@@ -257,14 +255,14 @@
             id="action1"
             *matHeaderCellDef
             mat-sort-header
-          >الإجراءات</th>
+          >الإجراء</th>
           <td mat-cell *matCellDef="let row">
             <div id="action2" class="d-flex ">
               <button
                 mat-icon-button
                 id="button1"
                 (click)="editItem(row)"
-                color="primary"
+                class="editbtn"
               >
                 <mat-icon>edit</mat-icon>
               </button>
@@ -274,7 +272,7 @@
                 color="warn"
                 (click)="deleteItem(row.id)"
               >
-                <mat-icon>delete</mat-icon>
+                <mat-icon>delete_forever</mat-icon>
               </button>
             </div>
           </td>

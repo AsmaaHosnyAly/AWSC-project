@@ -1,5 +1,10 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل صنف   ' : 'إضافة  صنف جديد'}}</h1>
 <form [formGroup]="itemForm" dir="rtl">
-  <h1 mat-dialog-title>إضافة صنف</h1>
+
   <div mat-dialog-content>
     <form [formGroup]="itemForm">
 
@@ -8,8 +13,9 @@
         <input formControlName="name" matInput placeholder="اسم الصنف">
       </mat-form-field>
 
-      <mat-label>الوحدة</mat-label>
-      <mat-form-field appearance="outline">        
+     
+      <mat-form-field appearance="outline">
+        <mat-label>الوحدة</mat-label>        
         <input matInput aria-label="unit" [matAutocomplete]="autoUnit" [formControl]="unitCtrl" placeholder="{{getItemData ? getItemData.unitName : ''}}" (click)="openAutoUnit()" required />
         <mat-autocomplete #autoUnit="matAutocomplete" [displayWith]="displayUnitName"
           (optionSelected)="unitSelected($event)">
@@ -19,8 +25,9 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-label>السلعة</mat-label>
-      <mat-form-field appearance="outline">        
+      
+      <mat-form-field appearance="outline">
+        <mat-label>السلعة</mat-label>        
         <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl" placeholder="{{getItemData ? getItemData.commodityName : ''}}" (click)="openAutoCommodity()" required/>
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName" (optionSelected)="commoditySelected($event)">
           <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
@@ -29,8 +36,9 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-label>النوعية</mat-label>
+     
       <mat-form-field appearance="outline">
+        <mat-label>النوعية</mat-label>
         <input matInput aria-label="grade" [matAutocomplete]="autoGrade" [formControl]="gradeCtrl" required placeholder="{{getItemData ? getItemData.gradeName : ''}}" (click)="openAutoGrade()" required/>
         <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGradeName" (optionSelected)="gradeSelected($event)">
           <mat-option *ngFor="let grade of filteredGrades | async" [value]="grade">
@@ -39,8 +47,9 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-label>الفصيلة</mat-label>
+     
       <mat-form-field appearance="outline">
+        <mat-label>الفصيلة</mat-label>
         <input matInput aria-label="platoon" [matAutocomplete]="autoPlatoon" [formControl]="platoonCtrl" required placeholder="{{getItemData ? getItemData.platoonName : ''}}" (click)="openAutoPlatoon()" required/>
         <mat-autocomplete #autoPlatoon="matAutocomplete" [displayWith]="displayPlatoonName" (optionSelected)="platoonSelected($event)">
           <mat-option *ngFor="let platoon of filteredPlatoons | async" [value]="platoon">
@@ -49,8 +58,9 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-label>المجموعة</mat-label>
+    
       <mat-form-field appearance="outline">
+        <mat-label>المجموعة</mat-label>
         <input matInput aria-label="platoon" [matAutocomplete]="autoGroup" [formControl]="groupCtrl" placeholder="{{getItemData ? getItemData.groupName : ''}}" (click)="openAutoGroup()" required  />
         <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayGroupName"
           (optionSelected)="groupSelected($event)">
@@ -59,8 +69,8 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field> 
-      <label id="example-radio-group-label">النوع</label>
       <mat-radio-group formControlName="type" class="example-radio-group">
+        <label id="example-radio-group-label" class="lable-radio">النوع</label>
         <mat-radio-button class="example-radio-button" value="عهدة">
             عهدة
         </mat-radio-button>
@@ -68,9 +78,8 @@
             مستهلك
         </mat-radio-button>
     </mat-radio-group>
-    <br>
-    <label id="example-radio-group-label">الحالة</label>
     <mat-radio-group formControlName="isActive" class="example-radio-group">
+      <label id="example-radio-group-label"  class="lable-radio">الحالة</label>
       <mat-radio-button class="example-radio-button" [value]=true >
         نشط
       </mat-radio-button>
@@ -78,12 +87,13 @@
           غير نشط
       </mat-radio-button>
   </mat-radio-group>
-  
+
+  <button mat-raised-button  (click)="addItem()" class="savebtn">{{actionBtn}}</button> 
     </form>
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-  <button mat-raised-button color="primary" (click)="addItem()" style="margin-left: 8px;">{{actionBtn}}</button> 
-  </div>
+ 
+   
+  
+ 
   </form>
 
