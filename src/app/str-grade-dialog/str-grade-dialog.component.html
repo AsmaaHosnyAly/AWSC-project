@@ -7,13 +7,13 @@
  
   <div mat-dialog-content>
     <form [formGroup]="gradeForm">
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>كود النوعية</mat-label>
         <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود النوعية">
         <mat-error *ngIf="gradeForm.get('code')?.invalid && gradeForm.get('code')?.touched">
            كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
         </mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
       <mat-form-field appearance="outline">
         <mat-label>النوعية </mat-label>
         <input formControlName="name" matInput placeholder="ادخل النوعية">
