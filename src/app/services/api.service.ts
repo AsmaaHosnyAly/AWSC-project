@@ -1569,6 +1569,16 @@ deleteSeveranceReason(id: number) {
       'http://ims.aswan.gov.eg/api/STRAdd/Delete/' + id
     );
   }
+  getAllSellers() {
+    return this.http.get<any>('http://ims.aswan.gov.eg/api/PRSeller/get/all');
+  }
+  getAllEmployee() {
+    return this.http.get<any>('http://ims.aswan.gov.eg/api/HREmployee/get/all');
+  }
+  getAllStore() {
+    return this.http.get<any>('http://ims.aswan.gov.eg/api/STRStore/get/all');
+  }
+
 
   GetAddGeTAddDetailsByAddId(id: number) {
     return this.http.get<any>(

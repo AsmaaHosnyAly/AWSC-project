@@ -5,9 +5,12 @@
 
         <div class="headerForm">
            <div class="row" >
+         
             <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no" type="number" [value]="editData ? editData.no : autoNo">
+                <mat-label>السنة المالية</mat-label>
+                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
+                    <mat-option [value]="fiscalYear.id" *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
@@ -17,45 +20,11 @@
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>النوع</mat-label>
-                <mat-select placeholder="النوع" formControlName="addTypeId">
-                    <mat-option [value]="type.id" *ngFor="let type of typeList">{{type.type}}</mat-option>
-                </mat-select>
+                <mat-label>الرقم</mat-label>
+                <input matInput placeholder="الرقم" formControlName="no" type="number" [value]="editData ? editData.no : autoNo">
             </mat-form-field>
-             <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>سند الاضافه</mat-label>
-                <mat-select placeholder="سند الاضافه" formControlName="addReceiptId">
-                    <mat-option [value]="Receipt.id" *ngFor="let Receipt of ReceiptList">{{Receipt.addReceipts}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-             <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>مخزن المصدر</mat-label>
-                <mat-select placeholder="المصدر" (valueChange)="set_Seller_Employee_Null($event)" formControlName="sourceStoreId">
-                    <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="row">
-             <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>المورد</mat-label>
-                <mat-select placeholder="المورد" (valueChange)="set_store_Employee_Null($event)" formControlName="sellerId">
-                    <mat-option [value]="seller.id" *ngFor="let seller of sellerList">{{seller.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-             <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>الموظف</mat-label>
-                <mat-select placeholder="الموظف" (valueChange)="set_store_Seller_Null($event)" formControlName="employeeId">
-                    <mat-option [value]="employee.id" *ngFor="let employee of employeeList">{{employee.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
-                    <mat-option [value]="fiscalYear.id" *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
+         
+         
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>التاريخ</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="date">
@@ -63,6 +32,44 @@
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+          </div>
+          <div class="row">
+             <mat-form-field appearance="outline" class="groupInput" >
+                <mat-label>المصدر</mat-label>
+                <mat-select id="sourceInput" formControlName="source" (valueChange)="getListCtrl($event)" >
+                    <mat-option value="المورد" >المورد</mat-option>
+                    <mat-option value="الموظف" >الموظف</mat-option>
+                    <mat-option value="المخزن" >المخزن</mat-option>
+                </mat-select>
+            </mat-form-field>         
+         
+            <!-- <mat-label>اختر الاسم</mat-label> -->
+              <mat-form-field appearance="outline" class="groupInput">
+                
+                <input matInput aria-label="list" [matAutocomplete]="autoList"  [formControl]="listCtrl"
+                  placeholder="{{getAddData ? getAddData : ''}}" (click)="openAutoList()" required />
+                <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
+                  (optionSelected)="listSelected($event)" >
+                  <mat-option *ngFor="let list of filteredList | async" [value]="list">
+                    {{ list.name }}
+                  </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>       
+
+        
+            <mat-form-field appearance="outline" class="groupInput">
+                <mat-label>النوع</mat-label>
+                <mat-select placeholder="النوع" formControlName="addTypeId">
+                    <mat-option [value]="type.id" *ngFor="let type of typeList">{{type.type}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="groupInput">
+                <mat-label>سند الاضافه</mat-label>
+                <mat-select placeholder="سند الاضافه" formControlName="addReceiptId">
+                    <mat-option [value]="Receipt.id" *ngFor="let Receipt of ReceiptList">{{Receipt.addReceipts}}</mat-option>
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
@@ -81,7 +88,7 @@
 
         <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
             <hr>
-            <h1 mat-dialog-title dir="rtl">اضافة تفاصيل اذن </h1>
+            <h1 ng  dir="rtl">اضافة تفاصيل اذن </h1>
 
             <div class="detailsForm">
                 <div class="row">
