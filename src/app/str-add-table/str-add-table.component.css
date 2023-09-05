@@ -98,6 +98,9 @@ th {
   font-weight: bold;
 }
 
+.editbtn{
+  --mat-icon-color:rgb(129, 135, 138);
+}
 
 .print {
   display: flex;

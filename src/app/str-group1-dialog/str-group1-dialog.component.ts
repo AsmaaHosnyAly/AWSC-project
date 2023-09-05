@@ -279,7 +279,7 @@ export class STRGroup1DialogComponent implements OnInit {
           console.log("autoCode is: ", res)
         },
         error: (err) => {
-          console.log("err get autoCode: ", err)
+          // console.log("err get autoCode: ", err)
           // alert("خطأ عند تحديث البيانات");
         }
       })

@@ -102,7 +102,7 @@ font-size: 20px;
 }
 
   .child-num{
-    width: 15%;
+    width: 10%;
     text-align: right;
 }
 .headerForm .groupInput {
@@ -116,7 +116,7 @@ font-size: 20px;
 }
 
 .detailsForm .groupInput {
-    flex-basis: 20%;
+    flex-basis: 19%;
 }
 
 .detailsForm .third-parent{

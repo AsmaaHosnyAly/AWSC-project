@@ -160,7 +160,7 @@ export class STRItem1DialogComponent implements OnInit {
       groupCode: [''],
       unitId: ['', Validators.required],
       unitName: [''],
-      // id: [''],
+      id: [''],
     });
 
     this.api.getAllCommoditiesi().subscribe((commodities) => {
@@ -274,6 +274,8 @@ export class STRItem1DialogComponent implements OnInit {
     this.itemForm.patchValue({ platoonName: platoon.name });
     this.itemForm.patchValue({ platoonCode: platoon.code });
     this.groupCtrl.setValue('');
+    console.log("this.selectedPlatoon:",this.selectedPlatoon);
+    
   }
 
   groupSelected(event: MatAutocompleteSelectedEvent): void {
@@ -305,6 +307,8 @@ export class STRItem1DialogComponent implements OnInit {
   }
 
   private _filterPlatoons(value: string): Platoon[] {
+    console.log("Platoon value:",value);
+    
     const filterValue = value.toLowerCase();
     return this.platoons.filter(
       (platoon) =>
