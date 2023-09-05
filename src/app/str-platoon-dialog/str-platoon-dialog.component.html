@@ -1,13 +1,18 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل فصيلة   ' : ' إضافة  فصيلة جديدة'}}</h1>
 <form [formGroup]="platoonForm" dir="rtl">
-  <h1 mat-dialog-title>إضافة فصيلة</h1>
   <div mat-dialog-content>
     <form [formGroup]="platoonForm">
       <mat-form-field appearance="outline">
         <mat-label>اسم الفصيلة</mat-label>
         <input formControlName="name" matInput placeholder="اسم الفصيلة">
       </mat-form-field>
-      <mat-label>السلعة</mat-label>
+     
       <mat-form-field appearance="outline">
+        <mat-label>السلعة</mat-label>
         <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
           placeholder="{{getPlatoonData ? getPlatoonData.commodityName : ''}}" (click)="openAutoCommodity()" required />
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
@@ -17,8 +22,9 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-label>النوعية</mat-label>
+     
       <mat-form-field appearance="outline">
+        <mat-label>النوعية</mat-label>
         <input matInput aria-label="grade" [matAutocomplete]="autoGrade" [formControl]="gradeCtrl" required
           placeholder="{{getPlatoonData ? getPlatoonData.gradeName : ''}}" (click)="openAutoGrade()" required />
         <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGradeName"
@@ -28,10 +34,10 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+      <button mat-raised-button class="savebtn" (click)="addPlatoon()" style="margin-left: 8px;">{{actionBtn}}</button>
+
     </form>
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addPlatoon()" style="margin-left: 8px;">{{actionBtn}}</button>
-  </div>
+  
+  
 </form>

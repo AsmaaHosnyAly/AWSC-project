@@ -1,5 +1,10 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل نوعية   ' : ' إضافة  نوعية جديدة'}}</h1>
 <form [formGroup]="gradeForm" dir="rtl">
-  <h1 mat-dialog-title>إضافة نوعية</h1>
+ 
   <div mat-dialog-content>
     <form [formGroup]="gradeForm">
       <!-- <mat-form-field appearance="outline">
@@ -24,10 +29,10 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+      <button mat-raised-button class="savebtn" (click)="addGrade()" >{{actionBtn}}</button>
     </form>
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addGrade()" style="margin-left: 8px;">{{actionBtn}}</button>
-  </div>
+  
+    
+  
 </form>

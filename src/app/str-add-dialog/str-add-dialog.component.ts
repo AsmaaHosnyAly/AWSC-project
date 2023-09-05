@@ -5,10 +5,26 @@ import { ApiService } from '../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Observable} from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 // import { ToastrService } from 'ngx-toastr';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+export class Seller {
+  constructor(public id: number, public name: string) {}
+}
+export class Employee {
+  constructor(public id: number, public name: string) {}
+}
+export interface Source {
+  name: string
+}
+export class List {
+  constructor(public id: number, public name: string) {}
+}
+
 
 @Component({
   selector: 'app-str-add-dialog',
@@ -43,10 +59,26 @@ export class STRAddDialogComponent implements OnInit {
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
+  
   isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
   isReadOnlyPercentage:any = false;
   autoNo: any;
+
+  // sourceCtrl: FormControl;
+  // filteredSource: Observable<Source[]>;
+  // sources: Source[] = 
+  // [{name: 'المورد'} ,
+  // {name:'الموظف'},
+  // {name:'المخزن'}];
+  // selectedSource: Source | undefined;
+
+  listCtrl: FormControl;
+  filteredList: Observable<List[]>;
+  lists: List[] = [];
+  selectedList: List | undefined;
+  getAddData: any;
+sourceSelected: any;
 
   displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
 
@@ -55,13 +87,26 @@ export class STRAddDialogComponent implements OnInit {
   sourceStoreName: any;
 
   constructor(private formBuilder: FormBuilder,
+    
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     // private toastr: ToastrService,
     private dialog: MatDialog,
-    @Inject(LOCALE_ID) private locale: string) { }
+    @Inject(LOCALE_ID) private locale: string,
+    private dialogRef : MatDialogRef<STRAddDialogComponent>) { 
+      // this.sourceCtrl = new FormControl();
+      // this.filteredSource = this.sourceCtrl.valueChanges.pipe(
+      //   startWith(''),
+      //   map(value => this._filterSources(value))
+      // );
+      this.listCtrl = new FormControl();
+      this.filteredList = this.listCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterLists(value))
+      );
+    }
   ngOnInit(): void {
     this.getStores();
     this.getItems();
@@ -120,6 +165,25 @@ export class STRAddDialogComponent implements OnInit {
 
 
     if (this.editData) {
+   
+
+      var sourceInput = (<HTMLInputElement>document.getElementById('sourceInput')).value ;
+      console.log("sourceInput: ", sourceInput);
+
+      this.getAddData = this.editData;
+      console.log("getAddData: ",this.sourceSelected);
+      
+      // if(this.sourceSelected === "المورد"){
+      //   this.getAddData=this.getAddData.sellerName; 
+      // }
+      // else if(this.sourceSelected === "الموظف"){
+      //   this.getAddData=this.getAddData.employeeName; 
+      
+      // }  else {
+      //   this.getAddData=this.getAddData.sourceStoreName; 
+       
+      // }
+
       console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
@@ -149,6 +213,7 @@ export class STRAddDialogComponent implements OnInit {
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
   }
+  
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')
@@ -220,6 +285,9 @@ export class STRAddDialogComponent implements OnInit {
     //   alert("تاكد من ادخال البيانات صحيحة")
     // }
   }
+  closeDialog(){
+    this.dialogRef.close();
+  }  
 
   getAllDetailsForms() {
 
@@ -489,7 +557,11 @@ export class STRAddDialogComponent implements OnInit {
 
   }
 
+  
   getAllMasterForms() {
+    let result = window.confirm("هل تريد الغاء الطلب");
+    if (result){
+      this.closeDialog()
     this.api.getStrOpen()
       .subscribe({
         next: (res) => {
@@ -502,7 +574,7 @@ export class STRAddDialogComponent implements OnInit {
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
         }
       })
-  }
+  }}
 
   getStores() {
     this.api.getStore()
@@ -722,27 +794,32 @@ export class STRAddDialogComponent implements OnInit {
   }
 
 
-  set_Seller_Employee_Null(sourceStoreId: any) {
-    this.groupMasterForm.controls['sellerId'].setValue(null);
-    //this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId); 
-    this.groupMasterForm.controls['employeeId'].setValue(null);
-    console.log("source: ", sourceStoreId)
-    this.isReadOnlyEmployee = true
+  // set_Seller_Employee_Null(sourceStoreId: any) {
+  //   // this.groupMasterForm.controls['sellerId'].setValue(null);
+  //   //this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId); 
+  //   // this.groupMasterForm.controls['employeeId'].setValue(null);
     
-  }
+  //     // Set the sellerName value to null
+  //     this.groupMasterForm.patchValue({ sellerId: null });
+  //     this.groupMasterForm.patchValue({ sellerName: null });
+   
+  //   // this.groupMasterForm.patchValue({ sellerName: null });
+  //   this.isReadOnlyEmployee = true
+    
+  // }
  
-  set_store_Employee_Null(sellerId: any) {
-    // this.groupMasterForm.controls['sellerId'].setValue(''); 
-    this.groupMasterForm.controls['sourceStoreId'].setValue(null);
-    this.groupMasterForm.controls['employeeId'].setValue(null);
-    this.isReadOnlyEmployee = false;
-  }
-  set_store_Seller_Null(employeeId: any) {
-    this.groupMasterForm.controls['sellerId'].setValue(null);
-    this.groupMasterForm.controls['sourceStoreId'].setValue(null);
-    // this.groupMasterForm.controls['employeeId'].setValue('');  
-    this.isReadOnlyEmployee = true
-  }
+  // set_store_Employee_Null(sellerId: any) {
+  //   // this.groupMasterForm.controls['sellerId'].setValue(''); 
+  //   this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+  //   this.groupMasterForm.controls['employeeId'].setValue(null);
+  //   this.isReadOnlyEmployee = false;
+  // }
+  // set_store_Seller_Null(employeeId: any) {
+  //   this.groupMasterForm.controls['sellerId'].setValue(null);
+  //   this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+  //   // this.groupMasterForm.controls['employeeId'].setValue('');  
+  //   this.isReadOnlyEmployee = true
+  // }
 
   set_Percentage(state: any){
     console.log("state value changed: ", state.value )
@@ -855,4 +932,118 @@ export class STRAddDialogComponent implements OnInit {
         }
       })
   }
+
+
+  // displaySourceName(source: any): string {
+  //   return source && source.name ? source.name : '';
+  // }
+
+  // sourceSelected(event: MatAutocompleteSelectedEvent): void {
+  //   const source = event.option.value as Source;
+  //   this.selectedSource = source;
+  //   this.groupMasterForm.patchValue({ sourceName: source.name });
+  //   this.listCtrl.setValue('');
+  //   // this.getListCtrl();
+   
+  // }
+
+  // private _filterSources(value: string): Source[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.sources.filter(source =>
+  //     source.name.toLowerCase().includes(filterValue)
+  //   );
+  // }
+
+  // openAutoSource() {
+  //   this.sourceCtrl.setValue(''); // Clear the input field value
+  
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.sourceCtrl.updateValueAndValidity();
+  // }
+
+   
+  
+
+  displayListName(list: any): string {
+    return list && list.name ? list.name : '';
+  }
+
+  listSelected(event: MatAutocompleteSelectedEvent): void {
+    const list = event.option.value as List;
+    this.selectedList = list;
+    if(this.sourceSelected === "المورد"){
+      this.groupMasterForm.patchValue({ sellerId: list.id });
+    this.groupMasterForm.patchValue({ sellerName: list.name });
+    }
+    else if(this.sourceSelected === "الموظف"){
+      this.groupMasterForm.patchValue({ employeeId: list.id });
+    this.groupMasterForm.patchValue({ employeeName: list.name });
+    }  else {
+      this.groupMasterForm.patchValue({ sourceStoreId: list.id });
+    this.groupMasterForm.patchValue({ sourceStoreName: list.name });
+    }
+
+   
+  }
+
+  private _filterLists(value: string): List[] {
+    const filterValue = value.toLowerCase();
+    return this.lists.filter(list =>
+      list.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+ 
+
+  openAutoList() {
+    this.listCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.listCtrl.updateValueAndValidity();
+  }
+
+  getListCtrl(source:any){
+    this.sourceSelected = source;
+    if(source==="المورد"){
+     
+      this.api.getAllSellers().subscribe((lists)=>{
+        this.lists = lists;
+        console.log("rrr: ", lists)
+        this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+      this.groupMasterForm.controls['employeeId'].setValue(null);
+
+        
+      });
+    }
+    else if(source==="الموظف"){
+      
+      this.api.getAllEmployee().subscribe((lists)=>{
+        this.lists = lists;
+        this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+        this.groupMasterForm.controls['sellerId'].setValue(null);
+      });
+    }
+    
+    else {
+     
+      this.api.getAllStore().subscribe((lists)=>{
+        this.lists = lists;
+        this.groupMasterForm.controls['sellerId'].setValue(null);
+      this.groupMasterForm.controls['employeeId'].setValue(null);
+
+
+      });
+     }
+    }
+  
+
+
+
+  
+ 
+  
+    
+  
 }
+
+

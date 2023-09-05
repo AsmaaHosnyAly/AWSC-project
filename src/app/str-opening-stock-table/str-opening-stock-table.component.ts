@@ -73,7 +73,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
   openOpeningStockDialog() {
     this.dialog.open(StrOpeningStockDialogComponent, {
-      width: '90%'
+      width: '60%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         // this.getAllGroups();
@@ -83,7 +83,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
-        width: '90%',
+        width: '60%',
         data: row,
       })
       .afterClosed()

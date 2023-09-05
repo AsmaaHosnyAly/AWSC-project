@@ -23,9 +23,9 @@ export class deststore {
 export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
 }
-export class FiscalYear {
-  constructor(public id: number, public fiscalyear: string) { }
-}
+// export class FiscalYear {
+//   constructor(public id: number, public FiscalYear: string) { }
+// }
 
 export class item {
   constructor(public id: number, public name: string ){ }
@@ -92,10 +92,10 @@ export class StrWithdrawDialogComponent implements OnInit {
   // formcontrol = new FormControl('');
 
 
-  fiscalYearsList: FiscalYear[] = [];
-  fiscalYearCtrl: FormControl;
-  filteredFiscalYear: Observable<FiscalYear[]>;
-  selectedFiscalYear: FiscalYear | undefined;
+  fiscalYearsList: any;
+  // fiscalYearCtrl: FormControl;
+  // filteredFiscalYear: Observable<FiscalYear[]>;
+  // selectedFiscalYear: FiscalYear | undefined;
 
 
   // storeCtrl: FormControl;
@@ -108,11 +108,18 @@ export class StrWithdrawDialogComponent implements OnInit {
   itemCtrl: FormControl;
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
+  isEditDataReadOnly: boolean = true;
 
+  isEdit: boolean = false;
 
+  defaultStoreSelectValue:any;
+  defaultFiscalYearSelectValue:any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+
+ 
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -124,6 +131,8 @@ export class StrWithdrawDialogComponent implements OnInit {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<StrWithdrawDialogComponent>
   ) { 
+
+     
     this.deststoreCtrl = new FormControl();
     this.filtereddeststore = this.deststoreCtrl.valueChanges.pipe(
       startWith(''),
@@ -143,11 +152,11 @@ export class StrWithdrawDialogComponent implements OnInit {
     );
 
 
-    this.fiscalYearCtrl = new FormControl();
-    this.filteredFiscalYear = this.fiscalYearCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterFiscalYears(value))
-    );
+    // this.fiscalYearCtrl = new FormControl();
+    // this.filteredFiscalYear = this.fiscalYearCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filterFiscalYears(value))
+    // );
 
 
     this.itemCtrl = new FormControl();
@@ -177,22 +186,16 @@ export class StrWithdrawDialogComponent implements OnInit {
       no: ['', Validators.required],
       // itemName:['',Validators.required],
       storeId: [''],
-      storeName: [''],
+      storeName: ['',Validators.required],
       transactionUserId: [1, Validators.required],
       destStoreUserId: [1, Validators.required],
 
       date: ['2023-08-08T21:00:00', Validators.required],
       fiscalYearId: ['', Validators.required],
-      costcenterId: [''],
       employeeId: [''],
-   
-      // sellerId: [''],
-      // sellerName: [''],
-      // sourceStoreId: [''],
-      // sourceStoreName: [''],
-
-      employeeName: [''],
-      costcenterName: [''],
+     employeeName: [''],
+      costCenterId: [''],
+     costcenterName: [''],
       deststoreId: [''],
       desstoreName: [''],
     });
@@ -200,6 +203,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: ['', Validators.required], //MasterId
       qty: ['', Validators.required],
+      percentage:['',Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: [1, Validators.required],
@@ -224,14 +228,25 @@ export class StrWithdrawDialogComponent implements OnInit {
 
 
     if (this.editData) {
+      // console.log("")
+      this.isEdit = true;
+
       console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
-      // this.groupMasterForm.controls['withDrawNoName'].setValue(this.editData.withDrawNoName);
-      // this.groupMasterForm.controls['stateName'].setValue(this.editData.stateName);
-      // this.groupMasterForm.controls['notesName'].setValue(this.editData.notesName);
- // this.employeeName = await this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
-    // console.log("employeeId",this.groupMasterForm.getRawValue().employeeId)
+
+    console.log("employeeId in edittttt",this.editData.employeeId)
+
+    this.employeeName =  this.getemployeeByID(this.editData.employeeId);
+    console.log("desstore id in edit data", this.editData.deststoreId)
+    this.desstoreName =  this.getDestStoreById(this.editData.deststoreId);
+
+
+    console.log("employeename in edit", this.employeeName)
+
+    this.groupMasterForm.controls['employeeName'].setValue(this.editData.employeeName);
+    
+      this.groupMasterForm.controls['desstoreName'].setValue(this.editData.desstoreName);
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
       this.groupMasterForm.controls['storeName'].setValue(this.editData.storeName);
 
@@ -250,18 +265,17 @@ export class StrWithdrawDialogComponent implements OnInit {
       
       // this.groupMasterForm.controls['itemId'].setValue(this.editData.itemId);
 
-      this.groupMasterForm.controls['employeeName'].setValue(this.editData.employeeName);
-      console.log("employeename", this.editData.employeeName)
 
       this.groupMasterForm.controls['deststoreId'].setValue(this.editData.deststoreId);
-      this.groupMasterForm.controls['desstoreName'].setValue(this.editData.desstoreName);
+      
+      console.log("costcenter:",this.editData.costCenterId)
 
-
-      this.groupMasterForm.controls['costcenterId'].setValue(this.editData.costcenterId);
+      this.groupMasterForm.controls['costCenterId'].setValue(this.editData.costCenterId);
       this.groupMasterForm.controls['costcenterName'].setValue(this.editData.costcenterName);
-      console.log("costcenter:",this.editData.costcenterId)
+      this.isEditDataReadOnly = true;
 
     }
+    
 
     this.getAllDetailsForms();
 
@@ -298,28 +312,28 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.deststoreCtrl.updateValueAndValidity();
   }
 
-  private _filterFiscalYears(value: string): FiscalYear[] {
-    const filterValue = value;
-    return this.fiscalYearsList.filter(fiscalyearObj =>
-      fiscalyearObj.fiscalyear.toLowerCase().includes(filterValue)
-    );
-  }
-  displayFiscalYearName(vacation: any): string {
-    return vacation && vacation.fiscalyear ? vacation.fiscalyear : '';
-  }
-  fiscalYearSelected(event: MatAutocompleteSelectedEvent): void {
-    const fiscalyear = event.option.value as FiscalYear;
-    console.log("vacation selected: ", fiscalyear);
-    this.selectedFiscalYear = fiscalyear;
-    this.groupMasterForm.patchValue({ fiscalYearId: fiscalyear.id });
-    console.log("vacation in form: ", this.groupMasterForm.getRawValue().fiscalYearId);
-  }
-  openAutoFiscalYear() {
-    this.fiscalYearCtrl.setValue(''); // Clear the input field value
+  // private _filterFiscalYears(value: string): FiscalYear[] {
+  //   const filterValue = value;
+  //   return this.fiscalYearsList.filter(fiscalyearObj =>
+  //     fiscalyearObj.FiscalYear.toLowerCase().includes(filterValue)
+  //   );
+  // }
+  // displayFiscalYearName(vacation: any): string {
+  //   return vacation && vacation.fiscalyear ? vacation.fiscalyear : '';
+  // }
+  // fiscalYearSelected(event: MatAutocompleteSelectedEvent): void {
+  //   const fiscalyear = event.option.value as FiscalYear;
+  //   console.log("vacation selected: ", fiscalyear);
+  //   this.selectedFiscalYear = fiscalyear;
+  //   this.groupMasterForm.patchValue({ fiscalYearId: fiscalyear.id });
+  //   console.log("vacation in form: ", this.groupMasterForm.getRawValue().fiscalYearId);
+  // }
+  // openAutoFiscalYear() {
+  //   this.fiscalYearCtrl.setValue(''); // Clear the input field value
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.fiscalYearCtrl.updateValueAndValidity();
-  }
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.fiscalYearCtrl.updateValueAndValidity();
+  // }
 
 
   displayEmployeeName(employee: any): string {
@@ -412,8 +426,8 @@ export class StrWithdrawDialogComponent implements OnInit {
  
     // console.log("deststoreId in add",this.groupMasterForm.getRawValue().deststoreId)
 
-alert("cost center id"+this.groupMasterForm.getRawValue().costcenterId)
-    this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costcenterId);
+alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
+    this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costCenterId);
   
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
     // this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
@@ -464,11 +478,7 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costcenterId)
     //   alert("تاكد من ادخال البيانات صحيحة")
     // }
   }
-  // set_Seller_Employee_Null(sourceStoreId:any) {
-  //   this.groupMasterForm.controls['sellerId'].setValue(null); 
-  //   this.groupMasterForm.controls['employeeId'].setValue(null);  
-  // }
-  
+
   set_Employee_Null(deststoreId:any) {
     console.log("deststoreId in null fun:",deststoreId)
 
@@ -511,19 +521,24 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costcenterId)
 
   }
 
+
+
   storeValueChanges(storeId: any) {
     console.log("store: ", storeId)
     this.storeSelectedId = storeId;
     this.groupMasterForm.controls['storeId'].setValue(this.storeSelectedId);
+    this.isEdit = false;
+    console.log("kkkkkkkkkkk:", this.isEdit)
 
-    if (this.editData) {
-      this.getStrWithdrawAutoNo();
-    }
+    this.getStrWithdrawAutoNo();
+
   }
   async fiscalYearValueChanges(fiscalyaerId: any) {
     console.log("fiscalyaer: ", fiscalyaerId)
     this.fiscalYearSelectedId = await fiscalyaerId;
     this.groupMasterForm.controls['fiscalYearId'].setValue(this.fiscalYearSelectedId);
+    this.isEdit = false;
+
     this.getStrWithdrawAutoNo();
   }
 
@@ -547,27 +562,12 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costcenterId)
         }
       })
   }
-  // setfiscalYear_value(fiscalYearId:any) {
-  //   console.log("fiscalYearId:",fiscalYearId)
-  //   this.fiscalYearValue=fiscalYearId;
-  //   this.getStrWithdrawAutoNo(this.deststoreValue);
-  //   this.isReadOnlyEmployee = false
-  // }
-  // getStrWithdrawAutoNo(storeId:any,fiscalYearId:any) {
-  //   console.log("store,fiscalyera",storeId,fiscalYearId)
-  //   this.api.getStrWithdrawAutoNo(storeId,fiscalYearId)
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.autoNo = res;
-  //         return res;
-  //       },
-  //       error: (err) => {
-  //         console.log("fetch fiscalYears data err: ", err);
-  //         // alert("خطا اثناء جلب العناصر !");
-  //       }
-  //     })
-  // }
 
+
+
+  closeDialog(){
+    this.dialogRef.close();
+  }  
   
   getStrWithdrawAutoNo() {
     console.log("storeId: ", this.storeSelectedId, " fiscalYearId: ", this.fiscalYearSelectedId)
@@ -605,7 +605,7 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costcenterId)
           })
       }
       else {
-        console.log("change both values in updateHeader");
+        console.log("change both values in updateHeader",this.groupMasterForm.getRawValue().storeId,"fiscall", this.groupMasterForm.getRawValue().fiscalYearId);
         this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
           .subscribe({
             next: (res) => {
@@ -711,15 +711,18 @@ console.log("masterrow",this.getMasterRowId.id)
   }
 
   async updateDetailsForm() {
+    console.log("store id in update:",this.groupMasterForm.getRawValue().storeId)
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
     // alert("update Store name: " + this.storeName)
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-    this.employeeName = await this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
-    alert("update costcentr name: " + this.groupMasterForm.getRawValue().costcenterId)
-        this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costcenterId);
+    this.groupMasterForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
+
+    this.employeeName = await this.getemployeeByID(this.editData.employeeId);
+    // alert("update costcentr name: " + this.groupMasterForm.getRawValue().costcenterId)
+        this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costCenterId);
          
 
-        // this.desstoreName = await this.getDestStoreById(this.groupMasterForm.getRawValue().deststoreId);
+        this.desstoreName = await this.getDestStoreById(this.editData.deststoreId);
 
     // console.log("data storeName in edit: ", this.groupMasterForm.value)
 
@@ -753,6 +756,8 @@ console.log("masterrow",this.getMasterRowId.id)
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
 console.log("put before",this.groupMasterForm.value)
+this.isEdit = false;
+
     this.api.putStrWithdraw(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
@@ -786,9 +791,12 @@ console.log("put before",this.groupMasterForm.value)
   }
 
   updateBothForms() {
+    if(this.isEdit == false){
+      this.groupMasterForm.controls['no'].setValue(this.autoNo)
+     }
     // console.log("pass id: ", this.getMasterRowId.id, "pass No: ", this.groupMasterForm.getRawValue().no, "pass StoreId: ", this.groupMasterForm.getRawValue().storeId, "pass Date: ", this.groupMasterForm.getRawValue().date)
     if (this.groupMasterForm.getRawValue().no != ''  && this.groupMasterForm.getRawValue().employeeId!='' && 
-    this.groupMasterForm.getRawValue().deststoreId!='' && this.groupMasterForm.getRawValue().costcenterId!=''
+    this.groupMasterForm.getRawValue().deststoreId!='' && this.groupMasterForm.getRawValue().costCenterId!=''
     && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
 
       this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.getMasterRowId.id);
@@ -804,9 +812,9 @@ console.log("put before",this.groupMasterForm.value)
 
   editDetailsForm(row: any) {
 
-    // console.log("test pass row: ", row)
     if (this.editDataDetails || row) {
       this.getDetailedRowData = row;
+    console.log("dETAILS ROW: ", this.getDetailedRowData)
 
       this.actionBtnDetails = "Update";
       this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.getDetailedRowData.stR_WithdrawId);
@@ -833,7 +841,7 @@ console.log("put before",this.groupMasterForm.value)
   deleteFormDetails(id: number) {
     var result = confirm("هل ترغب بتاكيد الحذف ؟");
     if (result) {
-      this.api.deleteStrWithdraw(id)
+      this.api.deleteStrWithdrawDetails(id)
         .subscribe({
           next: (res) => {
             alert("تم الحذف بنجاح");
@@ -853,7 +861,7 @@ console.log("put before",this.groupMasterForm.value)
   getAllMasterForms() {
     let result = window.confirm("هل تريد الغاء الطلب");
     if (result){
-
+      this.closeDialog()
       this.api.getStrWithdraw()
       .subscribe({
         next: (res) => {
@@ -874,9 +882,19 @@ console.log("put before",this.groupMasterForm.value)
   getStores() {
     this.api.getStore()
       .subscribe({
-        next: (res) => {
+        next: async (res) => {
           this.storeList = res;
           console.log("store res: ", this.storeList);
+          this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+          console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
+          if (this.editData) {
+            this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+          }
+          else {
+            this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
+          }
+          // this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
+
         },
         error: (err) => {
           // console.log("fetch store data err: ", err);
@@ -921,7 +939,7 @@ console.log("put before",this.groupMasterForm.value)
           .subscribe({
             next: (res) => {
               this.deststoresList = res;
-              // console.log("store res: ", this.storeList);
+              console.log("deststore list in get deststorelist: ", this.deststoresList);
             },
             error: (err) => {
               // console.log("fetch store data err: ", err);
@@ -935,7 +953,7 @@ console.log("put before",this.groupMasterForm.value)
     return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
       .then(response => response.json())
       .then(json => {
-        // console.log("fetch name by id res: ", json.name);
+        console.log("fetch deststore by id res: ", json.name);
         return json.name;
       }).catch((err) => {
         // console.log("error in fetch name by id: ", err);
@@ -943,12 +961,14 @@ console.log("put before",this.groupMasterForm.value)
       });
   }
   getemployeeByID(id: any) {
-        console.log("row employee id: ", id);
+        console.log("row employee id in getemployeebyid: ", id);
         return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
           .then(response => response.json())
           .then(json => {
-            // console.log("fetch name by id res: ", json.name);
+            console.log("fetch employee by id res: ", json.name);
+          
             return json.name;
+            // console.log("json",json.name)
           })
           .catch((err) => {
             // console.log("error in fetch name by id: ", err);
@@ -1030,9 +1050,19 @@ console.log("put before",this.groupMasterForm.value)
   getFiscalYears() {
     this.api.getFiscalYears()
       .subscribe({
-        next: (res) => {
+        next: async (res) => {
           this.fiscalYearsList = res;
           console.log("fiscalYears res: ", this.fiscalYearsList);
+          this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+          console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+          if (this.editData) {
+            this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+          }
+          else {
+            this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+this.getStrWithdrawAutoNo();
+          }
+          // this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
