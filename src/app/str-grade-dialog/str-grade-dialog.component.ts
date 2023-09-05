@@ -28,12 +28,12 @@ export class STRGradeDialogComponent {
   commodityCtrl: FormControl;
   filteredCommodities: Observable<Commodity[]>;
   commodities: Commodity[] = [];
+  getGradeData: any;
   selectedCommodity: Commodity | undefined;
   formcontrol = new FormControl('');  
   gradeForm !:FormGroup;
   actionBtn : string = "حفظ"
   selectedOption:any;
-  getGradeData: any;
   Id:string  | undefined | null;
    commidityDt:any={
   id:0,

@@ -21,11 +21,11 @@ export class STRAddTableComponent implements OnInit {
     'storeName',
     'sourceStoreName',
     'sellerName',
-    'receiptName',
     'employeeName',
-    'typeName',
     'fiscalyear',
-    'date',    
+    'date', 
+    'receiptName',   
+    'typeName',      
     'Action',
   ];
   matchedIds: any;

@@ -56,6 +56,48 @@
           >
         </mat-select>
       </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>الموظف </mat-label>
+        <mat-select  plceholder="اختر  الموظف"  #employeeId>
+          <mat-option
+            *ngFor="let employee of employeesList"
+            [value]="employee.id"
+            >{{ employee.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>  
+  
+      <mat-form-field appearance="outline">
+        <mat-label>مركز التكلفة </mat-label>
+        <mat-select #costCenterId plceholder="اختر  مركز التكلفة">
+          <mat-option
+            *ngFor="let costCenter of costCentersList"
+            [value]="costCenter.id"
+            >{{ costCenter.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>المخزن</mat-label>
+        <mat-select #storeId plceholder="اختر المخزن">
+          <mat-option *ngFor="let store of storeList" [value]="store.id">{{
+            store.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>الصنف </mat-label>
+        <mat-select #employee plceholder="اختر  الصنف">
+          <mat-option
+            *ngFor="let item of itemsList"
+            [value]="item.item"
+            >{{ item.item }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field> -->
 
       <div class="print display">
         <button (click)="printReport()">
@@ -73,7 +115,7 @@
               no.value,
               storeId.value,
               date.value,
-              fiscalYear.value,item.value
+              fiscalYear.value,item.value,employeeId.value,costCenterId.value
             )
           "
         >
