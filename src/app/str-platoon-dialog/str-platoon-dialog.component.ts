@@ -41,10 +41,7 @@ export class STRPlatoonDialogComponent implements OnInit{
   selectedOption: any;
   getPlatoonData: any;
   actionBtn : string = "حفظ"
-  Id:string  | undefined | null;
-   commidityDt:any={
-  id:0,
-}
+  Code:any;
 dataSource!: MatTableDataSource<any>;
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -74,7 +71,7 @@ gradeName: any;
   ngOnInit(): void {
     this.platoonForm = this.formBuilder.group({
       transactionUserId : ['',Validators.required],
-      code : ['',Validators.required],
+      code : [''],
       name : ['',Validators.required],
       commodityId : ['',Validators.required],
       gradeId : ['',Validators.required],
@@ -129,6 +126,7 @@ gradeSelected(event: MatAutocompleteSelectedEvent): void {
   this.selectedGrade = grade;
   this.platoonForm.patchValue({ gradeId: grade.id });
   this.platoonForm.patchValue({ gradeName: grade.name });
+  this.getCodeByGradeId();
 }
 
 private _filterCommodities(value: string): Commodity[] {
@@ -160,9 +158,26 @@ openAutoGrade() {
   this.gradeCtrl.updateValueAndValidity();
 }
 
+getCodeByGradeId() {
+  console.log("gradeid:",this.selectedGrade?.id);
+  this.api.getPlatoonCode(this.selectedGrade?.id).subscribe({
+    
+    
+    next: (res) => {
+
+      this.Code = res;
+      console.log('platoonCode: ', this.Code);
+    },
+    error: (err) => {
+      console.log('get code. err: ', err);
+      // this.Code = err.error.text;
+    },
+  });
+}
+
   addPlatoon(){
-    if(!this.editData){
-      
+    this.platoonForm.controls['code'].setValue(this.Code);
+    if(!this.editData){      
       this.platoonForm.removeControl('id')
       // this.platoonForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.platoonForm.controls['gradeId'].setValue(this.selectedOption.id);
