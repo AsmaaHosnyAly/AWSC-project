@@ -1,5 +1,9 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل وحدة   ' : ' إضافة  وحدة جديدة'}}</h1>
 <form [formGroup]="unitsForm" dir="rtl">
-  <h1 mat-dialog-title>إضافة وحدة</h1>
   <div mat-dialog-content>
     <form [formGroup]="unitsForm">
       
@@ -7,10 +11,10 @@
         <mat-label>اسم الوحدة</mat-label>
         <input formControlName="name" matInput placeholder="اسم الوحدة">
       </mat-form-field>
+      <button mat-raised-button class="savebtn" (click)="addProduct()">{{actionBtn}}</button> 
     </form>
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-  <button mat-raised-button color="primary" (click)="addProduct()" style="margin-left: 8px;">{{actionBtn}}</button> 
-  </div>
+ 
+ 
+ 
   </form>
