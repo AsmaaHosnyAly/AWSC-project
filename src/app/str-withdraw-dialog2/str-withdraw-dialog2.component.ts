@@ -30,6 +30,12 @@ export class Employee {
 export class item {
   constructor(public id: number, public name: string ){ }
 }
+export interface Source {
+  name: string
+}
+export class List {
+  constructor(public id: number, public name: string) {}
+}
 
 
 @Component({
@@ -42,6 +48,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
   actionBtnDetails: string = "Save";
+  actionName: string = "choose";
+
   MasterGroupInfoEntered = false;
   dataSource!: MatTableDataSource<any>;
   matchedIds: any;
@@ -75,9 +83,10 @@ export class StrWithdrawDialogComponent implements OnInit {
   deststoreValue:any;
   storeSelectedId: any;
   fiscalYearSelectedId: any;
-  displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'price','qty', 'total','percentage',  'action'];
 
-
+  // isReadOnlyEmployee: any = false;
+  isReadOnlyPercentage:any = false;
   deststoresList: deststore[] = [];
   deststoreCtrl: FormControl<any>;
   filtereddeststore: Observable<deststore[]>;
@@ -114,6 +123,17 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   defaultStoreSelectValue:any;
   defaultFiscalYearSelectValue:any;
+
+ 
+ 
+
+
+  listCtrl: FormControl;
+  filteredList: Observable<List[]>;
+  lists: List[] = [];
+  selectedList: List | undefined;
+  getAddData: any;
+sourceSelected: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -164,6 +184,12 @@ export class StrWithdrawDialogComponent implements OnInit {
       startWith(''),
       map(value => this._filteritems(value))
     );
+
+    this.listCtrl = new FormControl();
+    this.filteredList = this.listCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterLists(value))
+    );
   }
   //  private toastr: ToastrService
 
@@ -213,10 +239,10 @@ export class StrWithdrawDialogComponent implements OnInit {
 
      
 
-      withDrawNoId: ['' ],
+      // withDrawNoId: ['' ],
 
       itemName: [''],
-      avgPrice: [''],
+      // avgPrice: [''],
 
       stateName: [''],
       
@@ -250,7 +276,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
       this.groupMasterForm.controls['storeName'].setValue(this.editData.storeName);
 
-      alert("facialId before: "+ this.editData.fiscalYearId)
+      // alert("facialId before: "+ this.editData.fiscalYearId)
       this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
   
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
@@ -426,7 +452,7 @@ export class StrWithdrawDialogComponent implements OnInit {
  
     // console.log("deststoreId in add",this.groupMasterForm.getRawValue().deststoreId)
 
-alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
+// alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
     this.costcenterName = await this.getcostcenterByID(this.groupMasterForm.getRawValue().costCenterId);
   
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
@@ -499,29 +525,42 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
     this.isReadOnlyEmployee = true;
   
   }
-  itemOnChange(itemEvent: any) {
-    // this.isReadOnly = true;
-    console.log("itemId: ", itemEvent)
+  // itemOnChange(itemEvent: any) {
+  //   // this.isReadOnly = true;
+  //   console.log("itemId: ", itemEvent)
 
-    if (this.groupDetailsForm.getRawValue().avgPrice == 0) {
-      this.isReadOnly = false;
-      console.log("change readOnly to enable");
+  //   if (this.groupDetailsForm.getRawValue().avgPrice == 0) {
+  //     this.isReadOnly = false;
+  //     console.log("change readOnly to enable");
+  //   }
+  //   else {
+  //     this.isReadOnly = true;
+  //     console.log("change readOnly to disable");
+  //   }
+
+
+  //   this.getAvgPrice(
+  //     this.groupMasterForm.getRawValue().storeId,
+  //     this.groupMasterForm.getRawValue().fiscalYearId,
+  //     formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+  //     itemEvent)
+
+
+  // }
+
+    set_Percentage(state: any){
+      console.log("state value changed: ", state.value )
+      if(state.value==false){
+        this.isReadOnlyPercentage=false;
+      }else{
+        this.isReadOnlyPercentage=true;
+        this.groupDetailsForm.controls['percentage'].setValue(100);
+  
+        
+  
+      }
+  
     }
-    else {
-      this.isReadOnly = true;
-      console.log("change readOnly to disable");
-    }
-
-    this.getAvgPrice(
-      this.groupMasterForm.getRawValue().storeId,
-      this.groupMasterForm.getRawValue().fiscalYearId,
-      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-      itemEvent)
-
-
-  }
-
-
 
   storeValueChanges(storeId: any) {
     console.log("store: ", storeId)
@@ -542,26 +581,26 @@ alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
     this.getStrWithdrawAutoNo();
   }
 
-  getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
-    console.log("Avg get inputs: ", "storeId: ", this.groupMasterForm.getRawValue().storeId,
-      " fiscalYear: ", this.groupMasterForm.getRawValue().fiscalYearId,
-      " date: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-      " itemId: ", this.groupDetailsForm.getRawValue().itemId)
+  // getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
+  //   console.log("Avg get inputs: ", "storeId: ", this.groupMasterForm.getRawValue().storeId,
+  //     " fiscalYear: ", this.groupMasterForm.getRawValue().fiscalYearId,
+  //     " date: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+  //     " itemId: ", this.groupDetailsForm.getRawValue().itemId)
 
-    this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
+  //   this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
 
-      .subscribe({
-        next: (res) => {
-          // this.priceCalled = res;
-          this.groupDetailsForm.controls['avgPrice'].setValue(res);
-          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          alert("خطا اثناء جلب متوسط السعر !");
-        }
-      })
-  }
+  //     .subscribe({
+  //       next: (res) => {
+  //         // this.priceCalled = res;
+  //         this.groupDetailsForm.controls['avgPrice'].setValue(res);
+  //         console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+  //       },
+  //       error: (err) => {
+  //         // console.log("fetch fiscalYears data err: ", err);
+  //         alert("خطا اثناء جلب متوسط السعر !");
+  //       }
+  //     })
+  // }
 
 
 
@@ -747,7 +786,7 @@ console.log("masterrow",this.getMasterRowId.id)
       this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
       this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
       // this.groupDetailsForm.controls['state'].setValue(this.editData.id);
-      this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
+      // this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
 
     }
 
@@ -755,8 +794,8 @@ console.log("masterrow",this.getMasterRowId.id)
     this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
-console.log("put before",this.groupMasterForm.value)
-this.isEdit = false;
+    console.log("put before",this.groupMasterForm.value)
+    this.isEdit = false;
 
     this.api.putStrWithdraw(this.groupMasterForm.value)
       .subscribe({
@@ -821,13 +860,17 @@ this.isEdit = false;
 
       this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
       this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
-      this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
+      this.groupDetailsForm.controls['percentage'].setValue(this.getDetailedRowData.percentage);
+
+      // this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
 
       this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
 
       // console.log("itemid focus: ", this.matchedIds);
 
       this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
+      this.groupDetailsForm.controls['itemName'].setValue(this.getDetailedRowData.itemName);
+
       this.groupDetailsForm.controls['stateName'].setValue(this.getDetailedRowData.stateName);
       // this.groupDetailsForm.controls['notesName'].setValue(this.getDetailedRowData.notes);
       // this.groupDetailsForm.controls['withDrawNoName'].setValue(this.getDetailedRowData.withDrawNoName);
@@ -1091,4 +1134,85 @@ this.getStrWithdrawAutoNo();
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
   }
+
+
+
+
+
+
+  displayListName(list: any): string {
+    return list && list.name ? list.name : '';
+  }
+
+  listSelected(event: MatAutocompleteSelectedEvent): void {
+    const list = event.option.value as List;
+    this.selectedList = list;
+    // if(this.sourceSelected === "المورد"){
+    //   this.groupMasterForm.patchValue({ sellerId: list.id });
+    // this.groupMasterForm.patchValue({ sellerName: list.name });
+    // }
+     if(this.sourceSelected === "الموظف"){
+
+      this.groupMasterForm.patchValue({ employeeId: list.id });
+    this.groupMasterForm.patchValue({ employeeName: list.name });
+    }  else {
+      this.groupMasterForm.patchValue({ deststoreId: list.id });
+    this.groupMasterForm.patchValue({ desstoreName: list.name });
+    }
+
+   
+  }
+
+  private _filterLists(value: string): List[] {
+    const filterValue = value.toLowerCase();
+    return this.lists.filter(list =>
+      list.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+ 
+
+  openAutoList() {
+    this.listCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.listCtrl.updateValueAndValidity();
+  }
+
+  getListCtrl(source:any){
+    this.sourceSelected = source;
+    // if(source==="المورد"){
+     
+    //   this.api.getAllSellers().subscribe((lists)=>{
+    //     this.lists = lists;
+    //     console.log("rrr: ", lists)
+    //     this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+    //   this.groupMasterForm.controls['employeeId'].setValue(null);
+
+        
+    //   });
+    // }
+   if(source==="الموظف"){
+      this.api.getEmployee().subscribe((lists)=>{
+        this.lists = lists;
+        this.groupMasterForm.controls['deststoreId'].setValue(null);
+        // this.groupMasterForm.controls['sellerId'].setValue(null);
+        this.actionName= "choose";
+
+      });
+    }
+    
+    else {
+     
+      this.api.getAllstores().subscribe((lists)=>{
+        this.lists = lists;
+        // this.groupMasterForm.controls['sellerId'].setValue(null);
+      this.groupMasterForm.controls['employeeId'].setValue(null);
+      this.actionName= "store";
+
+
+
+      });
+     }
+    }
 }

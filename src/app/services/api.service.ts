@@ -636,6 +636,16 @@ deleteSeveranceReason(id: number) {
     return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRGroup/AutoCode?PlatoonId=${lastPlatoonId}`);
   }
 
+  getCommodityAutoCode(){
+    return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRCommodity/AutoCode`);
+
+  }
+
+  // getCostCenterAutoCode(){
+  //   return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRCostCenter/AutoCode`);
+
+  // }
+
   postGroup(data: any) {
     console.log('form add data to apiii: ', data);
     return this.http.post<any>(`${this.url}/STRGroup/Add`, data);
@@ -1160,25 +1170,37 @@ deleteSeveranceReason(id: number) {
   }
   getStrWithdrawSearch(
     no: any,
-    storeId: any,
+    store: any,
     date: any,
     fiscalYear: any,
     itemId: any,employeeId:any ,costCenterId:any
   ) {
+    console.log(
+      'no. : ',
+      no, 'store : ',
+      store,
+      'date: ',
+      date,
+      'fiscalYear: ',
+      fiscalYear, 'item:',itemId,  'employee: ',
+      employeeId,
+      'costCenter:',
+      costCenterId
+    );
     //enter no.
-    if (no != '' && !storeId && !date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
+    if (no && !store && !date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
       // console.log('enter no. strOpen search');
       return this.http.get<any>(`${this.url}/STRWithdraw/search?No=${no}`);
     }
     //enter store
-    else if (no != '' && storeId && !date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no == '' && store && !date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter store strOpen search');
       return this.http.get<any>(
-        `${this.url}/STRWithdraw/search?StoreId=${storeId}`
+        `${this.url}/STRWithdraw/search?StoreId=${store}`
       );
     }
     //enter date
-    else if (no != '' && !storeId && date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter date strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?Date=${date}`
@@ -1186,14 +1208,14 @@ deleteSeveranceReason(id: number) {
     }
    
     //enter fiscalYear
-    else if (no != '' && !storeId && !date && fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && !date && fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter fisalYear strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?fiscalyear=${fiscalYear}`
       );
     }
     //enter itemId
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
       console.log('enter itemId strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?ItemId=${itemId}`
@@ -1201,127 +1223,152 @@ deleteSeveranceReason(id: number) {
     }
 
     //enter no. & store
-    else if (no && storeId && !date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no != '' && !store && !date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter no. & store strOpen search');
       return this.http.get<any>(
-        `${this.url}/STRWithdraw/search?StoreId=${storeId}&No=${no}`
+        `${this.url}/STRWithdraw/search?StoreId=${store}&No=${no}`
       );
     }
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && !date && !fiscalYear && !itemId && !employeeId && costCenterId) {
       console.log('enter costCenter employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?CostCenterId=${costCenterId}`
       );
     }
     //enter employee
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && !date && !fiscalYear && !itemId && employeeId && !costCenterId) {
       console.log('enter employee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?EmployeeId=${employeeId}`
       );
     }
     //enter no. & date
-    else if (no != '' && !storeId && date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no != '' && !store && date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter no. & date strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?Date=${date}&No=${no}`
       );
     }
     //enter no. & fiscalYear
-    else if (no != '' && !storeId && !date && fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no != '' && !store && !date && fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter no. & fiscalYear strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?No=${no}&fiscalyear=${fiscalYear}`
       );
     }
     //enter no. & itemId
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no != '' && !store && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
       console.log('enter no. & itemId strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?No=${no}&ItemId=${itemId}`
       );
     }
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no != '' && !store && !date && !fiscalYear && !itemId && !employeeId && costCenterId) {
       console.log('enter no. & costCenter employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?No=${no}&CostCenterId=${costCenterId}`
       );
     }
     //enter no. & employee
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no != ''&& !store && !date && !fiscalYear && !itemId && employeeId && !costCenterId) {
       console.log('enter no. & employee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?No=${no}&EmployeeId=${employeeId}`
       );
     }
 
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && !date && !fiscalYear && !itemId && employeeId && costCenterId) {
       console.log('enter costCenter & employee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?CostCenterId=${costCenterId}&EmployeeId=${employeeId}`
       );
     }
     //enter costCenter & date
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && date && !fiscalYear && itemId && !employeeId && costCenterId) {
       console.log('enter costCenter & date employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?Date=${date}&CostCenterId=${costCenterId}`
       );
     }
     //enter costCenter & distEmployee
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && !date && !fiscalYear && itemId && !employeeId && costCenterId) {
       console.log('enter costCenter & distEmployee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?ItemId=${itemId}&CostCenterId=${costCenterId}`
       );
     }
 
+    else if (no == '' && !store && !date && fiscalYear && !itemId && !employeeId && costCenterId) {
+      console.log('enter costCenter & distEmployee employeeExchange search');
+      return this.http.get<any>(
+        `${this.url}/STRWithdraw/search?fiscalyear=${fiscalYear}&CostCenterId=${costCenterId}`
+      );
+    }
+
     //enter employee & date
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && date && !fiscalYear && !itemId && employeeId && !costCenterId) {
       console.log('enter employee & date employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?Date=${date}&EmployeeId=${employeeId}`
       );
     }
     //enter employee & distEmployee
-    else if (no != '' && !storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && !date && !fiscalYear && itemId && employeeId && !costCenterId) {
       console.log('enter employee & distEmployee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?ItemId=${itemId}&EmployeeId=${employeeId}`
       );
     }
+    else if (no == '' && !store && !date && fiscalYear && !itemId && employeeId && !costCenterId) {
+      console.log('enter employee & distEmployee employeeExchange search');
+      return this.http.get<any>(
+        `${this.url}/STRWithdraw/search?fiscalyear=${fiscalYear}&EmployeeId=${employeeId}`
+      );
+    }
 
     //enter store & date
-    else if (no != '' && storeId && date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no == '' && store && date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter store & date strOpen search');
       return this.http.get<any>(
-        `${this.url}/STRWithdraw/search?StoreId=${storeId}&Date=${date}`
+        `${this.url}/STRWithdraw/search?StoreId=${store}&Date=${date}`
       );
     }
     //enter store & fiscalYear
-    else if (no != '' && storeId && !date && fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no == '' && store && !date && fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter store & fiscalYear strOpen search');
       return this.http.get<any>(
-        `${this.url}/STRWithdraw/search?StoreId=${storeId}&fiscalyear=${fiscalYear}`
+        `${this.url}/STRWithdraw/search?StoreId=${store}&fiscalyear=${fiscalYear}`
       );
     }
     //enter store & itemId
-    else if (no != '' && storeId && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && store && !date && !fiscalYear && itemId && !employeeId && !costCenterId) {
       console.log('enter store & itemId strOpen search');
       return this.http.get<any>(
-        `${this.url}/STRWithdraw/search?StoreId=${storeId}&ItemId=${itemId}`
+        `${this.url}/STRWithdraw/search?StoreId=${store}&ItemId=${itemId}`
+      );
+    }
+    else if (no == '' && store && !date && !fiscalYear && !itemId && !employeeId && costCenterId) {
+      console.log('enter store & cost strOpen search');
+      return this.http.get<any>(
+        `${this.url}/STRWithdraw/search?StoreId=${store}&CoatCenterId=${costCenterId}`
+      );
+    }
+    else if (no == '' && store && !date && !fiscalYear && !itemId && employeeId && !costCenterId) {
+      console.log('enter store & employee strOpen search');
+      return this.http.get<any>(
+        `${this.url}/STRWithdraw/search?StoreId=${store}&EmployeeId=${employeeId}`
       );
     }
 
     //enter date & fiscalYear
-    else if (no != '' && !storeId && date && fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && date && fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter date & fiscalYear strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?Date=${date}&fiscalyear=${fiscalYear}`
       );
     }
     //enter date & itemId
-    else if (no != '' && !storeId && date && !fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && date && !fiscalYear && itemId && !employeeId && !costCenterId) {
       console.log('enter date & itemId strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?Date=${date}&ItemId=${itemId}`
@@ -1329,17 +1376,24 @@ deleteSeveranceReason(id: number) {
     }
 
     //enter fiscalYear & itemId
-    else if (no != '' && !storeId && !date && fiscalYear && itemId && !employeeId && !costCenterId) {
+    else if (no == '' && !store && !date && fiscalYear && itemId && !employeeId && !costCenterId) {
       console.log('enter fiscalYear & itemId strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?fiscalyear=${fiscalYear}&ItemId=${itemId}`
       );
     }
 
+    else if (no == '' && !store && !date && fiscalYear && !itemId && employeeId && !costCenterId) {
+      console.log('enter fiscalYear & itemId strOpen search');
+      return this.http.get<any>(
+        `${this.url}/STRWithdraw/search?fiscalyear=${fiscalYear}&EmployeeId=${employeeId}`
+      );
+    }
+
     //enter all data
     else if (
       no != '' &&
-      storeId != '' &&
+      store != '' &&
       date != '' &&
       fiscalYear != '' &&
       itemId != '' &&
@@ -1348,7 +1402,7 @@ deleteSeveranceReason(id: number) {
     ) {
       console.log('enter all data strOpen search');
       return this.http.get<any>(
-        `${this.url}/STRWithdraw/search?StoreId=${storeId}&Date=${date}&No=${no}&fiscalyear=${fiscalYear}&ItemId=${itemId}&employeeId=${employeeId}&costCenterId=${costCenterId}`
+        `${this.url}/STRWithdraw/search?StoreId=${store}&Date=${date}&No=${no}&fiscalyear=${fiscalYear}&ItemId=${itemId}&EmployeeId=${employeeId}&CostCenterId=${costCenterId}`
       );
     }
 
