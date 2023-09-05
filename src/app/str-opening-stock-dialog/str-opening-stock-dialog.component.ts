@@ -634,7 +634,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
           })
       }
       else {
-        console.log("change both values in updateHeader");
+        console.log("change both values in updateHeader", this.groupMasterForm.getRawValue().storeId);
         this.api.getStrOpenAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
           .subscribe({
             next: (res) => {
