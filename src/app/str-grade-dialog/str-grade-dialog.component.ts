@@ -125,7 +125,7 @@ export class STRGradeDialogComponent {
   }
 
   getCodeByCommodityId() {
-    this.api.getGradeCode(this.selectedCommodity?.id).subscribe({
+    this.api.getGroupCode(this.selectedCommodity?.id).subscribe({
       next: (res) => {
         this.Code = res;
         console.log('GradeCode: ', this.Code);
@@ -138,7 +138,6 @@ export class STRGradeDialogComponent {
 
   addGrade() {
     this.gradeForm.controls['code'].setValue(this.Code);
-
     if (!this.editData) {
       this.gradeForm.removeControl('id');
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
@@ -163,9 +162,7 @@ export class STRGradeDialogComponent {
     }
   }
 
-  displayCommodity(option: any): string {
-    return option && option.name ? option.name : '';
-  }
+
   updateGrade() {
     this.api.putGrade(this.gradeForm.value).subscribe({
       next: (res) => {

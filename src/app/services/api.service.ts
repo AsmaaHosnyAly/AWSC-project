@@ -281,6 +281,14 @@ export class ApiService {
     return this.http.get<any>('http://ims.aswan.gov.eg/api/STRPlatoon/get/all');
   }
 
+  getGroupCode(data: any) {
+    console.log("platoon id:",data);
+    
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/STRGroup/AutoCode?PlatoonId=${data}`
+    );
+  }
+
   //Item
 
   postItems(data: any) {
@@ -1793,6 +1801,14 @@ export class ApiService {
       `${this.url}/STRAddDetails/get/sum/quantity/${storeid}/${itemid}`
     );
   }
+  getAllItems() {
+    console.log('Avg price inputs to backend');
+    return this.http.get<any>(
+      `${this.url}/STRItem/get/all/`
+    );
+  }
+
+
 
   // -------end add--------
 
@@ -2450,5 +2466,10 @@ export class ApiService {
   getStrEmployeeOpenAutoNo() {
     return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/get/AutoNo`);
   }
+  
 
+  getAllCostCenters() {
+    return this.http.get<any>('http://ims.aswan.gov.eg/api/FICostCenter/get/all');
+  }
+  
 }
