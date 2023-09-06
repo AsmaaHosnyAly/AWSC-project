@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw-dialog2.component';
 import { ToastrService } from 'ngx-toastr';
+import { SharedService } from '../guards/shared.service';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-str-withdraw-table2',
@@ -30,6 +32,7 @@ export class StrWithdrawTableComponent implements OnInit {
   desstoreName: any;
   itemsList:any;
   costCentersList:any;
+  sharedStores:any
 
 
 
@@ -44,8 +47,14 @@ export class StrWithdrawTableComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     private toastr: ToastrService,
-    @Inject(LOCALE_ID) private locale: string
-  ) { }
+    @Inject(LOCALE_ID) private locale: string,
+    public shared:SharedService,
+     private global:GlobalService,
+  ) {
+    this.sharedStores =shared.stores 
+
+    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
+   }
 
   ngOnInit(): void {
     this.getDestStores();
@@ -55,6 +64,8 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getAllMasterForms();
     this.getStores();
     this.getEmployees();
+    console.log("looo",this.sharedStores)
+  
   }
 
   applyFilter(event: Event) {
