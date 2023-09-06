@@ -17,17 +17,19 @@ export class StrCommodityDialogComponent implements OnInit {
 
   productForm !: FormGroup;
   actionBtn: string = "حفظ"
-
+  autoCode:any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<StrCommodityDialogComponent>) { }
 
   ngOnInit(): void {
+    this.getCommodityAutoCode();
+
     this.productForm = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
-      transactionUserId:["1", Validators.required],
+      transactionUserId:[1, Validators.required],
  
 
 
@@ -51,7 +53,16 @@ export class StrCommodityDialogComponent implements OnInit {
     if (!this.editData) {
       this.productForm.removeControl('id')
       console.log("add form before go to post: ", this.productForm.value)
+      if (this.productForm.getRawValue().code) {
+        console.log("no changed: ", this.productForm.getRawValue().code)
+        this.productForm.controls['code'].setValue(this.autoCode);
+      }
+      else{
+        this.productForm.controls['code'].setValue(this.autoCode);
+        console.log("no took auto number: ", this.productForm.getRawValue().code)
+      }
       if (this.productForm.valid) {
+      
         console.log('productform:',this.productForm.value)
         this.api.postCommodity(this.productForm.value)
           .subscribe({
@@ -67,6 +78,7 @@ export class StrCommodityDialogComponent implements OnInit {
             }
           })
       }
+      
     }else{
       this.updateCommodity()
     }
@@ -85,6 +97,21 @@ export class StrCommodityDialogComponent implements OnInit {
         console.log('error:',err)
       }
     })
+  }
+
+  getCommodityAutoCode() {
+    this.api.getCommodityAutoCode()
+      .subscribe({
+        next: (res) => {
+          this.autoCode = res;
+          console.log("autocode:",this.autoCode)
+          return res;
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
   }
 
 }

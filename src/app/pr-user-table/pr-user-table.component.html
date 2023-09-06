@@ -1,4 +1,4 @@
-<div class="page-title"> المجموعات</div>
+<!-- <p>pr-user-table works!</p> -->
 <div matSort>
     <!-- <mat-accordion class="example-headers-align" multi dir="rtl">
         <mat-expansion-panel>
@@ -22,35 +22,26 @@
                     </mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
-
             </div>
         </mat-expansion-panel>
     </mat-accordion> -->
 
-<!-- search stop -->
 
-    <mat-card-header dir="ltr" class="parent-search">
+    <mat-card-header dir="rtl">
         <div class="child1">
-          <button
-            mat-raised-button
-            class="add"
-            (click)="openDialog()"
-            dir="ltr"
-          >
-            <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
-          </button>
+            <button mat-raised-button class="add" (click)="openDialog()" dir="ltr"
+                style="font-weight: 600; font-size: 1.1rem;">
+                <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+            </button>
         </div>
-      
-        <div>
-          <input
-            matInput
-            class="filter-search"
-            (keyup)="applyFilter($event)"
-            placeholder="بحث"
-            #input
-          />
-        </div>
-      </mat-card-header>
+
+        <mat-form-field appearance="outline">
+            <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input
+                style="font-weight: 500; font-size: 1.1rem;" />
+        </mat-form-field>
+
+    </mat-card-header>
+
 
     <!---print Header-->
     <section id="content">
@@ -64,7 +55,7 @@
             </div>
         </header>
 
-        <div class="div-table">
+        <div>
             <div id="table-content">
                 <table mat-table [dataSource]="dataSource2" dir="rtl">
                     <!-- name Column -->
@@ -73,21 +64,23 @@
                         <td mat-cell *matCellDef="let row" style="text-align: center;">{{ row.name }}</td>
                     </ng-container>
 
-                    <!-- createUserName Column -->
-                    <ng-container matColumnDef="createUserName">
-                        <th mat-header-cell *matHeaderCellDef style="text-align: center;">اسم المستخدم</th>
-                        <td mat-cell *matCellDef="let row" style="text-align: center;">{{ row.createUserName }}</td>
+                    <!-- isActive Column -->
+                    <ng-container matColumnDef="isActive">
+                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> الحالة </th>
+                        <td mat-cell *matCellDef="let row" style="text-align: center;">{{ row.isActive && row.isActive
+                            == true ? 'نشط' : 'غير نشط' }}</td>
                     </ng-container>
 
                     <!-- Action Column -->
-                    <ng-container matColumnDef="Action" >
-                        <th mat-header-cell *matHeaderCellDef id="action-header" >الاجراء</th>
-                        <td mat-cell *matCellDef="let row" id="buttn" >
-                            <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
+                    <ng-container matColumnDef="Action">
+                        <th mat-header-cell *matHeaderCellDef id="action-header"
+                            style="width: 20%; text-align: center; ">الاجراء</th>
+                        <td mat-cell *matCellDef="let row" id="buttn" style="text-align: center;">
+                            <button mat-icon-button color="primary" (click)="editMasterForm(row)">
                                 <mat-icon>edit</mat-icon>
                             </button>
                             <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
-                                <mat-icon>delete_forever</mat-icon>
+                                <mat-icon>delete</mat-icon>
                             </button>
                         </td>
                     </ng-container>

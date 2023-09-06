@@ -13,7 +13,7 @@ mat-card {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color: #47afd5;
+  color:  rgb(60, 202, 252);
 }
 
 
@@ -98,6 +98,9 @@ th {
   font-weight: bold;
 }
 
+.editbtn{
+  --mat-icon-color:rgb(129, 135, 138);
+}
 
 .print {
   display: flex;

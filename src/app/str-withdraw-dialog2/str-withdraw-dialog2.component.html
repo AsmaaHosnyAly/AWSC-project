@@ -11,22 +11,24 @@
       <mat-form-field appearance="outline" class="groupInput">
         <mat-label>المخازن</mat-label>
         <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
-            <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
+            <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
+                *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
+                store.storeName}}</mat-option> 
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="groupInput">
+    <mat-form-field appearance="outline" class="child-num">
         <mat-label>السنة المالية</mat-label>
-        <mat-select placeholder="السنة المالية" formControlName="fiscalYearId" 
-            (valueChange)="fiscalYearValueChanges($event)" >
+        <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
+            (valueChange)="fiscalYearValueChanges($event)">
             <mat-option [value]="fiscalYear.id"
                 *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="groupInput">
+    <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
         <mat-label>الرقم</mat-label>
-        <input id="autoNoInput" matInput placeholder="الرقم" formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
+        <input id="autoNoInput" matInput  formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
             type="number" readonly>
     </mat-form-field>
 
@@ -38,11 +40,33 @@
                 </mat-select>
             </mat-form-field> -->
 
+            <mat-form-field appearance="outline" class="groupInput" style="width: 150px;" >
+              <mat-label>المصدر</mat-label>
+              <mat-select formControlName="source" (valueChange)="getListCtrl($event)" >
+                  <!-- <mat-option value="المورد" >المورد</mat-option> -->
+                  <mat-option value="الموظف" >الموظف</mat-option>
+                  <mat-option value="المخزن" >المخزن</mat-option>
+              </mat-select>
+          </mat-form-field>         
+       
+                           
+          <mat-label style="margin-top: 15px;">{{ actionName.toLowerCase() == "choose" ?" موظف : " : " مخزن :"  }}</mat-label>
+          
+            <mat-form-field appearance="outline" class="groupInput" style="width: 150px;">
+              <!-- <mat-placeholder class="placeholder">Search</mat-placeholder> -->
+              <input matInput class="placeholderr" aria-label="list" [matAutocomplete]="autoList"  [formControl]="listCtrl"
+                placeholder="{{editData && editData.employeeName ? editData.employeeName : editData && editData.desstoreName ? editData.desstoreName : ''}}" (click)="openAutoList()" required />
+              <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
+                (optionSelected)="listSelected($event)"  >
+                <mat-option *ngFor="let list of filteredList | async" [value]="list">
+                  {{ list.name }}
+                </mat-option>
+              </mat-autocomplete>
+          </mat-form-field> 
 
 
 
-
-      <mat-form-field appearance="outline" style="width: 150px;margin-left: 5px;">
+      <!-- <mat-form-field appearance="outline" style="width: 150px;margin-left: 5px;">
         <mat-label>الموظف*</mat-label>
         <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
           placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoEmployee()" required />
@@ -68,7 +92,7 @@
             {{ deststore.name }} | {{ deststore.id }}
           </mat-option>
         </mat-autocomplete>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field appearance="outline" class="groupInput" style="width: 150px;margin-left: 5px;">
         <mat-label>مركز التكلفة</mat-label>
@@ -162,7 +186,7 @@
       <div class="detailsForm">
         <mat-form-field appearance="outline" class="groupInput">
           <mat-label>بحث بالكود </mat-label>
-          <input matInput placeholder="الكود" (keydown)="getItemByCode($event)" />
+          <input matInput (keydown)="getItemByCode($event)" />
         </mat-form-field>
         <!-- <mat-form-field appearance="outline" class="groupInput">
           <mat-label> الصنف</mat-label>
@@ -188,12 +212,12 @@
 
         <mat-form-field appearance="outline" class="groupInput">
           <mat-label>الكمية</mat-label>
-          <input type="number" matInput placeholder="الكمية" formControlName="qty"
+          <input type="number" matInput formControlName="qty"
             [value]="getDetailedRowData ? getDetailedRowData.qty : ''" />
         </mat-form-field>
         <mat-form-field appearance="outline" class="groupInput">
           <mat-label>السعر</mat-label>
-          <input type="number" matInput placeholder="السعر" formControlName="price"
+          <input type="number" matInput formControlName="price"
             [value]="getDetailedRowData ? getDetailedRowData.price : ''" />
         </mat-form-field>
 
@@ -202,21 +226,44 @@
       </div>
       <div>
         <div class="detailsForm">
-
+          <!-- <mat-form-field appearance="outline" class="groupInput">
+            <mat-label> النسبة المئوية </mat-label>
+            <input type="number" matInput placeholder="النسبة المئوية" formControlName="percentage"
+              [value]="getDetailedRowData ? getDetailedRowData.percentage : ''" />
+          </mat-form-field> -->
           <mat-form-field appearance="outline" class="groupInput">
+            <mat-label> النسبة</mat-label>
+            <input matInput type="number" formControlName="percentage"
+                [value]="getDetailedRowData ? getDetailedRowData.percentage : ''" [readonly]="isReadOnlyPercentage">
+        </mat-form-field>
+        <!-- <mat-form-field appearance="outline" class="groupInput">
+          <mat-label>متوسط السعر</mat-label>
+          <input matInput type="number" placeholder="متوسط السعر" formControlName="avgPrice"
+              [value]="getDetailedRowData ? getDetailedRowData.avgPrice : ''" readonly>
+      </mat-form-field> -->
+
+          <!-- <mat-form-field appearance="outline" class="groupInput">
             <mat-label> النسبة المئوية </mat-label>
 
             <input matInput placeholder=" withDrawNoId" formControlName="percentage"/>
-          </mat-form-field>
+          </mat-form-field> -->
 
-          <mat-radio-group placeholder=" الحالة" formControlName="stateId" class="example-radio-group  qnty">
+          <!-- <mat-radio-group placeholder=" الحالة" formControlName="stateId" class="example-radio-group  qnty">
             <mat-radio-button class="example-radio-button" value="جديد">
               جديد
             </mat-radio-button>
             <mat-radio-button class="example-radio-button" value=" مستعمل">
               مستعمل
             </mat-radio-button>
-          </mat-radio-group>
+          </mat-radio-group> -->
+          <div class="radio " >
+            <mat-label>  حالةالصنف</mat-label>
+            <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
+            <mat-radio-group  aria-label="Select an option" formControlName="stateId" (change)="set_Percentage($event)">
+                <mat-radio-button [value]=true >جديد</mat-radio-button>
+                <mat-radio-button [value]=false >مستعمل</mat-radio-button>
+              </mat-radio-group>
+            </div>
 
 
 
@@ -272,6 +319,15 @@
             <th mat-header-cell *matHeaderCellDef >الكمية</th>
             <td mat-cell *matCellDef="let row">{{ row.qty }}</td>
           </ng-container>
+             <!-- <ng-container matColumnDef="avgPrice">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> متوسط السعر </th>
+                        <td mat-cell *matCellDef="let row"> {{row.avgPrice}} </td>
+                    </ng-container> -->
+          <ng-container matColumnDef="percentage">
+            <th mat-header-cell *matHeaderCellDef >النسبة</th>
+            <td mat-cell *matCellDef="let row">{{ row.percentage }}</td>
+          </ng-container>
+
 
           <!-- total Column -->
           <ng-container matColumnDef="total" >
