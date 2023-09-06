@@ -2450,5 +2450,10 @@ export class ApiService {
   getStrEmployeeOpenAutoNo() {
     return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/get/AutoNo`);
   }
+  
 
+  getAllCostCenters() {
+    return this.http.get<any>('http://ims.aswan.gov.eg/api/FICostCenter/get/all');
+  }
+  
 }

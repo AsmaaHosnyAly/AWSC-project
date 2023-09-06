@@ -4,10 +4,6 @@
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
         <div class="headerForm">
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no"  [value]="editData ? editData.no : autoNo" type="number" >
-            </mat-form-field>
 
             <!-- <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>المخازن</mat-label>
@@ -23,24 +19,40 @@
                         *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                 </mat-select>
             </mat-form-field>
-
             <mat-form-field appearance="outline" class="groupInput">
-                <mat-label> الموظف </mat-label>
-                <mat-select placeholder=" الموظف" formControlName="employeeId">
-                    <mat-option [value]="employee.id"
-                        *ngFor="let employee of employeesList">{{employee.name}}</mat-option>
-                </mat-select>
+                <mat-label>الرقم</mat-label>
+                <input matInput placeholder="الرقم" formControlName="no" [value]="editData ? editData.no : autoNo"
+                    type="number">
             </mat-form-field>
 
             
-
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label> مركز التكلفة</mat-label>
-                <mat-select placeholder=" مركز التكلفة" formControlName="costCenterId">
-                    <mat-option [value]="costCenter.id"
-                        *ngFor="let costCenter of costCentersList">{{costCenter.name}}</mat-option>
-                </mat-select>
+            <mat-form-field appearance="outline">
+                <mat-label>اسم الموظف</mat-label>
+                <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
+                    (click)="openAutoEmployee()"
+                    placeholder="{{getCustodyData ? getCustodyData.employeeName : ''}}" required />
+                <mat-autocomplete #autoemployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                    (optionSelected)="employeeSelected($event)">
+                    <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
+                        {{ employee.name }}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
+
+           
+            <mat-form-field appearance="outline">
+                <mat-label>مركز التكلفة</mat-label>
+                <input matInput aria-label="costCenter" [matAutocomplete]="autoCostCenter" [formControl]="costCenterCtrl"
+                    (click)="openAutoCostCenter()"
+                    placeholder="{{getCustodyData ? getCustodyData.costCenterName : ''}}" required />
+                <mat-autocomplete #autoCostCenter="matAutocomplete" [displayWith]="displayCostCenterName"
+                    (optionSelected)="costCenterSelected($event)">
+                    <mat-option *ngFor="let costCenter of filteredCostCenters | async" [value]="costCenter">
+                        {{ costCenter.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
 
             <mat-form-field appearance="outline" class="example-full-width">
                 <mat-label>التاريخ</mat-label>
@@ -53,7 +65,8 @@
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الاجمالى</mat-label>
-                <input matInput placeholder="الرقم" type="number" [value]="groupMasterForm ? groupMasterForm.getRawValue().total : sumOfTotals"readonly>
+                <input matInput placeholder="الرقم" type="number"
+                    [value]="groupMasterForm ? groupMasterForm.getRawValue().total : sumOfTotals" readonly>
             </mat-form-field>
         </div>
 
@@ -72,12 +85,17 @@
                     <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
                 </mat-form-field> -->
 
-                <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label> الصنف</mat-label>
-                    <mat-select placeholder="بحث يالكود" formControlName="itemId"
-                        [value]="getDetailedRowData ? getDetailedRowData.itemId : ''">
-                        <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
-                    </mat-select>
+                <mat-form-field appearance="outline">
+                    <mat-label>الصنف</mat-label>
+                    <input matInput aria-label="Item" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
+                        (click)="openAutoEmployee()"
+                        placeholder="{{getCustodyData ? getCustodyData.itemeName : ''}}" required />
+                    <mat-autocomplete #autoitem="matAutocomplete" [displayWith]="displayItemName"
+                        (optionSelected)="itemSelected($event)">
+                        <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+                            {{ item.name }}
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="groupInput">
@@ -98,7 +116,8 @@
                         [value]="getDetailedRowData ? getDetailedRowData.percentage : ''">
                 </mat-form-field>
 
-                <mat-radio-group aria-label="Select an option" formControlName="state"  [value]="getDetailedRowData ? getDetailedRowData.state : ''">
+                <mat-radio-group aria-label="Select an option" formControlName="state"
+                    [value]="getDetailedRowData ? getDetailedRowData.state : ''">
                     <mat-label>الحالة</mat-label>
                     <div class="statusRadioBtns">
                         <mat-radio-button value="جديد">جديد</mat-radio-button>
