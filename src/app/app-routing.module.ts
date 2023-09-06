@@ -145,7 +145,7 @@ const routes: Routes = [
   // { path: "", redirectTo: "login", pathMatch: "full" },
   { path: 'items1', component: STRItem1Component },
   { path: 'group1', component: STRGroup1Component },
-  { path: 'str-employee', component: STREmployeeOpeningCustodyComponent },
+  { path: 'STREmployeeOpeningCustody', component: STREmployeeOpeningCustodyComponent },
   { path: 'str-vendor', component: StrVendorComponent},
   { path: 'fi-entry', component: FiEntryContainerComponent },
   { path: 'account', component: FIAccountComponent },
