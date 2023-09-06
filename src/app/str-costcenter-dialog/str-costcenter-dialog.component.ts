@@ -15,7 +15,7 @@ export class StrCostcenterDialogComponent  implements OnInit {
 
   productForm !: FormGroup;
   actionBtn: string = "حفظ"
-
+  autoCode:any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
@@ -32,7 +32,7 @@ export class StrCostcenterDialogComponent  implements OnInit {
 
     if (this.editData) {
       this.actionBtn = "تحديث";
-      this.productForm.controls['code'].setValue(this.editData.code);
+      this.productForm.controls['code'].setValue(this.editData.autoCode);
       this.productForm.controls['name'].setValue(this.editData.name);
       this.productForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.productForm.addControl('id', new FormControl('', Validators.required));
@@ -45,6 +45,14 @@ export class StrCostcenterDialogComponent  implements OnInit {
       this.productForm.removeControl('id')
 
       if (this.productForm.valid) {
+
+        // if (this.productForm.getRawValue().no) {
+        //   console.log("no changed: ", this.productForm.getRawValue().no)
+        // }
+        // else{
+        //   this.productForm.controls['no'].setValue(this.autoCode);
+        //   console.log("no took auto number: ", this.productForm.getRawValue().no)
+        // }
         this.api.postCostCenter(this.productForm.value)
           .subscribe({
             next: (res) => {
@@ -76,5 +84,19 @@ export class StrCostcenterDialogComponent  implements OnInit {
       }
     })
   }
+
+  // getCostCenterAutoCode() {
+  //   this.api.getCostCenterAutoCode()
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.autoCode = res;
+  //         return res;
+  //       },
+  //       error: (err) => {
+  //         // console.log("fetch fiscalYears data err: ", err);
+  //         // alert("خطا اثناء جلب العناصر !");
+  //       }
+  //     })
+  // }
 
 }

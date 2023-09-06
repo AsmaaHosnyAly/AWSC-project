@@ -8,8 +8,10 @@
    <form [formGroup]="productForm" style="padding: 20px;" >
        <mat-form-field appearance="outline" >
            <mat-label>الكود </mat-label>
-           <input formControlName="code" matInput placeholder="ادخل كودالمركز">
-           
+           <input formControlName="code" matInput placeholder="ادخل كودالمركز" >
+           <mat-error *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched">
+            كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
+         </mat-error>
        </mat-form-field>
        <mat-form-field appearance="outline">
            <mat-label>المركز</mat-label>
