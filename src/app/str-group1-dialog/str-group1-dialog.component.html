@@ -1,20 +1,25 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مجموعة   ' : ' إضافة  مجموعة جديدة'}}</h1>
 <form [formGroup]="groupForm" dir="rtl">
-  <h1 mat-dialog-title>إضافة بيان</h1>
   <div mat-dialog-content>
     <form [formGroup]="groupForm">
       <mat-form-field appearance="outline">
         <mat-label>كود المجموعة</mat-label>
-        <input formControlName="code" pattern="^[0-9]{2}$" matInput required placeholder="كود المجموعة">
-        <mat-error *ngIf="groupForm.get('code')?.invalid && groupForm.get('code')?.touched">
+        <input formControlName="code" matInput placeholder="كود المجموعة" [value]="editData ? editData.code : autoCode" readonly>
+        <!-- <mat-error *ngIf="groupForm.get('code')?.invalid && groupForm.get('code')?.touched">
           كود المجموعة مطلوب ويجب أن يحتوي على 2 رقم.
-        </mat-error>
+        </mat-error> -->
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>اسم المجموعة</mat-label>
         <input formControlName="name" matInput placeholder="اسم المجموعة">
       </mat-form-field>
-      <mat-label>السلعة</mat-label>
+     
       <mat-form-field appearance="outline">
+        <mat-label>السلعة</mat-label>
         <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
           placeholder="{{getGroupData ? getGroupData.commodityName : ''}}" (click)="openAutoCommodity()" required />
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
@@ -24,8 +29,9 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-label>النوعية</mat-label>
+     
       <mat-form-field appearance="outline">
+        <mat-label>النوعية</mat-label>
         <input matInput aria-label="grade" [matAutocomplete]="autoGrade" [formControl]="gradeCtrl" required
           placeholder="{{getGroupData ? getGroupData.gradeName : ''}}" (click)="openAutoGrade()" required />
         <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGradeName"
@@ -35,8 +41,9 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-label>الفصيلة</mat-label>
+      
       <mat-form-field appearance="outline">
+        <mat-label>الفصيلة</mat-label>
         <input matInput aria-label="platoon" [matAutocomplete]="autoPlatoon" [formControl]="platoonCtrl" required
           placeholder="{{getGroupData ? getGroupData.platoonName : ''}}" (click)="openAutoPlatoon()" required />
         <mat-autocomplete #autoPlatoon="matAutocomplete" [displayWith]="displayPlatoonName"
@@ -45,11 +52,13 @@
             {{ platoon.name }} | {{ platoon.code }}
           </mat-option>
         </mat-autocomplete>
+
       </mat-form-field>
+      <button mat-raised-button class="savebtn" (click)="addGroup()" style="margin-left: 8px;">{{actionBtn}}</button>
+
     </form>
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addGroup()" style="margin-left: 8px;">{{actionBtn}}</button>
-  </div>
+ 
+    
+ 
 </form>

@@ -145,6 +145,10 @@ import { PrGroupDialogComponent } from './pr-group-dialog/pr-group-dialog.compon
 import { StrModelComponent } from './str-model/str-model.component';
 import { StrModelDailogComponent } from './str-model-dailog/str-model-dailog.component';
 
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { PrUserDialogComponent } from './pr-user-dialog/pr-user-dialog.component';
+import { PrUserTableComponent } from './pr-user-table/pr-user-table.component';
+
 @NgModule({
   declarations: [
     AppComponent,HrEmployeeVacationBalanceComponent,HrEmployeeVacationBalanceDialogComponent,
@@ -250,6 +254,8 @@ import { StrModelDailogComponent } from './str-model-dailog/str-model-dailog.com
     PrGroupDialogComponent,
     StrModelComponent,
     StrModelDailogComponent,
+    PrUserDialogComponent,
+    PrUserTableComponent,
    
   
 
@@ -289,7 +295,8 @@ import { StrModelDailogComponent } from './str-model-dailog/str-model-dailog.com
     MatAutocompleteModule,
     MatStepperModule,
     ToastrModule.forRoot(),
-    MatBadgeModule
+    MatBadgeModule,
+    MatCheckboxModule
   ],
   providers: [
     {

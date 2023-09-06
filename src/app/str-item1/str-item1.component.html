@@ -1,5 +1,7 @@
 <mat-card dir="rtl">
   <mat-card-content>
+
+    <div class="page-title"> الأصناف</div>
     <mat-accordion class="example-headers-align" multi dir="rtl">
       <mat-expansion-panel>
         <mat-expansion-panel-header class="searchadvance">
@@ -153,21 +155,21 @@
       </mat-expansion-panel>
     </mat-accordion>
 
-    <mat-card-header dir="rtl">
+    <mat-card-header dir="ltr">
       <div class="child1">
         <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
           <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
         </button>
       </div>
 
-      <mat-form-field>
-        <input
-          matInput
-          (keyup)="applyFilter($event)"
-          placeholder="بحث"
-          #input
-        />
-      </mat-form-field>
+     <div>
+      <input  class="filter-search"
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="بحث"
+      #input
+    />
+     </div>
     </mat-card-header>
     <div id="content" class="content">
       <header id="header" class="header">
@@ -179,69 +181,70 @@
           <p>شركة مياه الشرب والصرف الصحى بأسوان</p>
         </div>
       </header>
-      <table
+      <div class="div-table">
+        <table
         matSort
         mat-table
         [dataSource]="dataSource"
-        class="mat-elevation-z8"
+       
       >
         <!-- Item fullCode Column -->
-        <ng-container matColumnDef="fullCode">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الكود</th>
-          <td mat-cell *matCellDef="let row">{{ row.fullCode }}</td>
+        <ng-container matColumnDef="fullCode" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="code">الكود</th>
+          <td mat-cell *matCellDef="let row" class="code">{{ row.fullCode }}</td>
         </ng-container>
 
         <!-- Item Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>اسم الصنف</th>
+          <th mat-header-cell *matHeaderCellDef >اسم الصنف</th>
           <td mat-cell *matCellDef="let row">{{ row.name }}</td>
         </ng-container>
 
         <!-- Item Number Column -->
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الرقم</th>
+          <th mat-header-cell *matHeaderCellDef>رقم الصنف</th>
           <td mat-cell *matCellDef="let row">{{ row.no }}</td>
         </ng-container>
 
         <!-- Type Column -->
         <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>النوع</th>
+          <th mat-header-cell *matHeaderCellDef >النوع</th>
           <td mat-cell *matCellDef="let row">{{ row.type }}</td>
         </ng-container>
 
         <!-- isActive Column -->
         <ng-container matColumnDef="isActive">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الحالة</th>
+          <th mat-header-cell *matHeaderCellDef >الحالة</th>
           <td mat-cell *matCellDef="let row">{{ row.isActive }}</td>
         </ng-container>
 
         <!-- Unit Column -->
         <ng-container matColumnDef="unitName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الوحدة</th>
+          <th mat-header-cell *matHeaderCellDef >الوحدة</th>
           <td mat-cell *matCellDef="let row">{{ row.unitName }}</td>
         </ng-container>
 
         <!-- commodity Column -->
         <ng-container matColumnDef="commodityName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>السلعة</th>
+          <th mat-header-cell *matHeaderCellDef >السلعة</th>
           <td mat-cell *matCellDef="let row">{{ row.commodityName }}</td>
         </ng-container>
 
         <!-- grad Column -->
         <ng-container matColumnDef="gradeName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>النوعية</th>
+          <th mat-header-cell *matHeaderCellDef >النوعية</th>
           <td mat-cell *matCellDef="let row">{{ row.gradeName }}</td>
         </ng-container>
 
         <!-- Platoon Column -->
         <ng-container matColumnDef="platoonName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>الفصيلة</th>
+          <th mat-header-cell *matHeaderCellDef >الفصيلة</th>
           <td mat-cell *matCellDef="let row">{{ row.platoonName }}</td>
         </ng-container>
 
         <!-- Group Column -->
         <ng-container matColumnDef="groupName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>المجموعة</th>
+          <th mat-header-cell *matHeaderCellDef >المجموعة</th>
           <td mat-cell *matCellDef="let row">{{ row.groupName }}</td>
         </ng-container>
 
@@ -252,14 +255,14 @@
             id="action1"
             *matHeaderCellDef
             mat-sort-header
-          ></th>
+          >الإجراء</th>
           <td mat-cell *matCellDef="let row">
-            <div id="action2">
+            <div id="action2" class="d-flex ">
               <button
                 mat-icon-button
                 id="button1"
                 (click)="editItem(row)"
-                color="primary"
+                class="editbtn"
               >
                 <mat-icon>edit</mat-icon>
               </button>
@@ -269,11 +272,12 @@
                 color="warn"
                 (click)="deleteItem(row.id)"
               >
-                <mat-icon>delete</mat-icon>
+                <mat-icon>delete_forever</mat-icon>
               </button>
             </div>
           </td>
         </ng-container>
+    
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -285,6 +289,8 @@
           </td>
         </tr>
       </table>
+      </div>
+    
       <footer id="reportFooter">
         <h3>الأمضاءات</h3>
         <p>مدير إدارة الشركة :</p>

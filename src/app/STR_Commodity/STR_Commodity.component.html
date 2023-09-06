@@ -1,23 +1,17 @@
+<div class="page-title"> السلعة</div>
 <div class="container" dir="rtl"><mat-card>
-  <mat-card-header>
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input>
-    </mat-form-field>
-    <button style="margin-right: 60%;" mat-raised-button class="add" (click)="openDialog()">اضافة</button>
-    
-  </mat-card-header>
   <mat-card-content>
     <mat-accordion class="example-headers-align" multi dir="rtl">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-description>
               بحث متقدم
-            <mat-icon>account_circle</mat-icon>
+            <mat-icon>search</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
     <div class="search">
       
-      <mat-form-field appearance="outline">   
+      <!-- <mat-form-field appearance="outline">   
         <mat-label>السلعة</mat-label>     
         <input matInput #commodity aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl" (click)="openAutoCommodity()" required/>
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName" (optionSelected)="commoditySelected($event)">
@@ -25,52 +19,87 @@
             {{ commodity.name }} | {{ commodity.code }}
           </mat-option>
         </mat-autocomplete>
-      </mat-form-field>
+      </mat-form-field> -->
+      <mat-form-field appearance="outline">
+        <mat-label>السلعة</mat-label>
+        
+  
+        <mat-select [(ngModel)]="commodity.id" #commodity plceholder="اختر السلعة" >
+            <mat-option  *ngFor="let commodity of commoditylist " [value]="commodity.name"
+            >{{commodity.name}}</mat-option>
+        </mat-select>
+        
+    </mat-form-field>
 
-      <button (click)=" getSearchGrades(commodity.value)" >عرض</button>
+      <button (click)=" getSearchProducts(commodity.value)" >عرض</button>
       </div>
       </mat-expansion-panel>
     </mat-accordion>
 
-    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <mat-card-header dir="ltr" class="parent-search">
+      <div class="child1">
+        <button
+          mat-raised-button
+          class="add"
+          (click)="openDialog()"
+          dir="ltr"
+        >
+          <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+        </button>
+      </div>
+    
+      <div>
+        <input
+          matInput
+          class="filter-search"
+          (keyup)="applyFilter($event)"
+          placeholder="بحث"
+          #input
+        />
+      </div>
+    </mat-card-header>
+<div  class="div-table">
+  <table matSort mat-table [dataSource]="dataSource" >
 
-      <!-- productCode Column -->
-      <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> كود السلعة </th>
-        <td mat-cell *matCellDef="let row"> {{row.code}} </td>
-      </ng-container>
-      
+    <!-- productCode Column -->
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef > كود السلعة </th>
+      <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+    </ng-container>
+    
 
-      <!-- category Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> السلعة </th>
-        <td mat-cell *matCellDef="let row"> {{row.name}}</td>
-      </ng-container>
+    <!-- category Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef > السلعة </th>
+      <td mat-cell *matCellDef="let row"> {{row.name}}</td>
+    </ng-container>
 
-      <!-- action Column -->
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> الحدث </th>
-        <td mat-cell *matCellDef="let row"> 
-          <button mat-icon-button (click)="editGrade(row)" color="primary">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button (click)="deleteGrade(row.id)" mat-icon-button color="warn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+    <!-- action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef > الحدث </th>
+      <td mat-cell *matCellDef="let row"> 
+        <button mat-icon-button (click)="editcommodity(row)" class="editbtn">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="deletecommodity(row.id)" mat-icon-button color="warn">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row;columns:displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row;columns:displayedColumns"></tr>
 
-      <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-      </tr>
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
 
-    </table>
+  </table>
 
+</div>
+   
   </mat-card-content>
   <br>
   <mat-card-footer>

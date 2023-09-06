@@ -14,6 +14,8 @@ export class GlobalService {
   isStatus = 'مفعل';
   pageTitle: any;
   icon: any
+stores=false
+accounts=false
   public navFlag: boolean = true;
 
   url = 'http://ims.aswan.gov.eg/api';
@@ -75,7 +77,9 @@ export class GlobalService {
     console.log(userRoles);
     for (let i = 0; i < userRoles!.length; i++) {
       if (role == userRoles![i]) {
-        
+        if(role==1|| role==2 || role==3 || role==4){
+          this.stores=true
+        }
           if (background == 'stores')
             this.bgColor = document.querySelector('section')?.setAttribute("class", "role1")
          
