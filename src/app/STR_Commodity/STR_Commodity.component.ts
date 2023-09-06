@@ -151,6 +151,7 @@ openDialog() {
     width: '30%'
   }).afterClosed().subscribe(val => {
     if (val === 'حفظ') {
+      // alert("refresh")
       this.getAllcommodity();
     }
   });
