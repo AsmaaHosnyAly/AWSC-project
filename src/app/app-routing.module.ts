@@ -131,8 +131,9 @@ const routes: Routes = [
       // { path: "", redirectTo: "login", pathMatch: "full" },
       { path: 'items1', component: STRItem1Component },
       { path: 'group1', component: STRGroup1Component },
-      { path: 'str-employee', component: STREmployeeOpeningCustodyComponent },
+      { path: 'EmployeeOpeningCustody', component: STREmployeeOpeningCustodyComponent },
       { path: 'str-vendor', component: StrVendorComponent },
+      {path:'str-model',component:StrModelComponent},
       { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design
       { path: 'account', component: FIAccountComponent },
 
