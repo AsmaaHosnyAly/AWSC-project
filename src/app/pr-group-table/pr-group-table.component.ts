@@ -18,7 +18,6 @@ import { PrGroupDialogComponent } from '../pr-group-dialog/pr-group-dialog.compo
 export class PrGroupTableComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
-    'createUserName',
     'Action',
   ];
   matchedIds: any;
@@ -85,7 +84,7 @@ export class PrGroupTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
+        if (val === 'update' || val === 'save') {
           this.getAllMasterForms();
         }
       });

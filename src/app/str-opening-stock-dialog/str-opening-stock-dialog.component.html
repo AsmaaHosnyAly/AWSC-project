@@ -17,7 +17,7 @@
                 <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
                     <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
                         *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
-                        store.storeName}}</mat-option> 
+                        store.storeName}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
@@ -65,19 +65,35 @@
                     <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="groupInput">
+                <!-- <mat-form-field appearance="outline" class="groupInput">
                     <mat-label> الصنف</mat-label>
                     <mat-select placeholder="الصنف" formControlName="itemId"
                         [value]="getDetailedRowData ? getDetailedRowData.itemId : ''"
                         (valueChange)="itemOnChange($event)">
                         <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
+
+                <div style="display: flex; flex-direction: column;">
+                    <mat-label>الصنف*</mat-label>
+                    <mat-form-field appearance="outline" class="child-num">
+                        <input  matInput aria-label="commodity" [matAutocomplete]="autoItemId" [formControl]="itemCtrl"
+                            placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : ''}}" (click)="openAutoItem()" required />
+                        <mat-autocomplete  #autoItemId="matAutocomplete" [displayWith]="displayItemName"
+                            (optionSelected)="ItemSelected($event)">
+                            <mat-option *ngFor="let item of filteredItem | async" [value]="item">
+                                <!-- {{ item.name }} | {{ item.id }} -->
+                                {{ item.name }} 
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
 
                 <mat-form-field appearance="outline" class=" child-num">
                     <mat-label>الكمية</mat-label>
                     <input type="number" matInput placeholder="الكمية" formControlName="qty"
-                        [value]="getDetailedRowData ? getDetailedRowData.qty : ''">
+                        [value]="getDetailedRowData ? getDetailedRowData.qty : '1'">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="child-num">
