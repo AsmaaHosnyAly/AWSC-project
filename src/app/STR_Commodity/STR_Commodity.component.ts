@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { SharedService } from '../shared/shared.service';
+import { GlobalService } from '../services/global.service';
 @Component({
   selector: 'app-str-commodity',
     templateUrl: './STR_Commodity.component.html',
@@ -136,14 +138,16 @@ commodity: any = {
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private dialog: MatDialog, private api: ApiService) {
-
+constructor(private dialog: MatDialog, private api: ApiService, shared:SharedService,private global:GlobalService) {
+  this.global.getPermissionUserRoles(5, 'stores', ' إذن إضافة ', '');
 }
+
 ngOnInit(): void {
   this.getAllcommodity();
   this.api.getcommodity().subscribe((data: any) => {
     this.commoditylist = data;
     console.log(this.commoditylist)
+    
   })
 }
 openDialog() {

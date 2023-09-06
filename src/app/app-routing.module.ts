@@ -58,6 +58,9 @@ import { PrGroupTableComponent } from './pr-group-table/pr-group-table.component
 import { StrModelComponent } from './str-model/str-model.component';
 import { MenubarComponent } from './menubar/menubar.component';
 import { PrUserTableComponent } from './pr-user-table/pr-user-table.component';
+import { rolesGuard } from './shared/roles.guard';
+import { withdrawGuard } from './shared/withdraw.guard';
+
 
 const routes: Routes = [
 
@@ -67,38 +70,44 @@ const routes: Routes = [
   
   {
     path: '',
-    component:MenubarComponent,
+    component:MenubarComponent,canActivate:[rolesGuard],
     children: [
-      { path: 'commodity', component: StrCommodityComponent },
-      { path: 'home', component: StrGroupHomeComponent },
-
-      { path: 'str-openingStock', component: StrOpeningStockContainerComponent },
-      {
-        path: 'employeeOpening',
-        component: StrEmployeeExchangeContainerComponent,
-      },
+      { path: 'withdraw', component: StrWithdrawContainerComponent,canActivate:[authGuard,withdrawGuard] },
+      { path: 'STRAdd', component: STRAddContainerComponent ,canActivate:[authGuard]}, //table filter done
+      { path: 'str-openingStock', component: StrOpeningStockContainerComponent ,canActivate:[authGuard]},
+      {path: 'employeeOpening', component: StrEmployeeExchangeContainerComponent,canActivate:[authGuard]},
+      { path: 'commodity', component: StrCommodityComponent,canActivate:[authGuard]},
+      { path: 'grade', component: STRGradeComponent ,canActivate:[authGuard]},
+      { path: 'str-platoon', component: STRPlatoonComponent ,canActivate:[authGuard]},
+      { path: 'group1', component: STRGroup1Component ,canActivate:[authGuard]},
+      { path: 'unit', component: STRUnitsComponent ,canActivate:[authGuard]},
+      { path: 'items1', component: STRItem1Component ,canActivate:[authGuard]},
+      { path: 'products', component: StrProductComponent ,canActivate:[authGuard]},
+      { path: 'home', component: StrGroupHomeComponent,canActivate:[authGuard] },
+      { path: 'store', component: StrStoreComponent ,canActivate:[authGuard]},
+      { path: 'costCenter', component: StrCostcenterComponent,canActivate:[authGuard] },
       { path: 'groupBannel', component: StrGroupComponent },
-      { path: 'unit', component: STRUnitsComponent },
-      { path: 'grade', component: STRGradeComponent },
-      { path: 'costCenter', component: StrCostcenterComponent },
+   
+
+   
       // { path: 'items', component: StrItemComponent },
-      { path: 'products', component: StrProductComponent },
+      
       { path: 'group', component: StrGroupComponent },
-      { path: 'store', component: StrStoreComponent },
+     
       { path: 'str-grade', component: STRGradeComponent },
-      { path: 'str-platoon', component: STRPlatoonComponent },
+     
       { path: 'str-platoon1', component: STRPlatoon1Component },
 
       { path: 'report', component: StrReportComponent },
       { path: 'AccountHierarchy', component: FIAccountHierarchyComponent },
       { path: 'EntrySource', component: FIEntrySourceComponent },
       { path: 'EntrySourceType', component: FIEntrySourceTypeComponent },
-      { path: 'withdraw', component: StrWithdrawContainerComponent }, //table filter done
+     //table filter done
       { path: 'add-item-report', component: StrReportAddItemComponent },
       { path: 'AccountParent', component: FIAccountParentComponent },
       { path: 'FiAccountItem', component: FiAccountItemComponent },
       { path: 'FIJournal', component: FIJournalComponent },
-      { path: 'STRAdd', component: STRAddContainerComponent }, //table filter done
+      
       { path: 'city', component: HrCityComponent },
       { path: 'cityState', component: HrCityStateComponent },
       { path: 'QualitativeGroup', component: HrQualitativeGroupComponent },
@@ -115,7 +124,7 @@ const routes: Routes = [
         component: StrEmployeeExchangeContainerComponent,
       },
       { path: 'groupBannel', component: StrGroupComponent },
-      { path: 'unit', component: STRUnitsComponent },
+     
       { path: 'grade', component: STRGradeComponent },
       { path: 'home', component: StrGroupHomeComponent },
       // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
@@ -129,8 +138,8 @@ const routes: Routes = [
       { path: 'costCenter', component: StrCostcenterComponent },
       //  { path: "items", component:StrItemComponent},
       // { path: "", redirectTo: "login", pathMatch: "full" },
-      { path: 'items1', component: STRItem1Component },
-      { path: 'group1', component: STRGroup1Component },
+    
+      
       { path: 'str-employee', component: STREmployeeOpeningCustodyComponent },
       { path: 'str-vendor', component: StrVendorComponent },
       { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design
@@ -156,8 +165,8 @@ const routes: Routes = [
         component: HrEmployeeDisciplinaryComponent,
       },
 
-      { path: 'pr-group', component: PrGroupTableComponent },
-      { path: 'pr-user', component: PrUserTableComponent },
+      { path: 'pr-group', component: PrGroupTableComponent, },
+      { path: 'pr-user', component: PrUserTableComponent ,},
 
       // { path: '**', component: ErrorComponent },
     ],
