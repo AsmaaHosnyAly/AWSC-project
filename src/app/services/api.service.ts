@@ -1793,6 +1793,14 @@ export class ApiService {
       `${this.url}/STRAddDetails/get/sum/quantity/${storeid}/${itemid}`
     );
   }
+  getAllItems() {
+    console.log('Avg price inputs to backend');
+    return this.http.get<any>(
+      `${this.url}/STRItem/get/all/`
+    );
+  }
+
+
 
   // -------end add--------
 
