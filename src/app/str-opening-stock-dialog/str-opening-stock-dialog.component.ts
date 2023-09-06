@@ -40,10 +40,10 @@ export class StrOpeningStockDialogComponent implements OnInit {
   fiscalYearSelectedId: any;
   defaultFiscalYearSelectValue: any;
   defaultStoreSelectValue: any;
+  userRoles: any;
   isEditDataReadOnly: boolean = true;
 
   isEdit: boolean = false;
-  userRoles: any;
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
