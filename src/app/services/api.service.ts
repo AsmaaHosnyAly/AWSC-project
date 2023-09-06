@@ -727,9 +727,9 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRFiscalYear/get/all`);
   }
 
-  // getLastFiscalYear() {
-  //   return this.http.get<any>(`${this.url}/STRFiscalYear/get/all`);
-  // }
+  getLastFiscalYear() {
+    return this.http.get<any>(`${this.url}/STRFiscalYear/getLastfisicalyear/all`);
+  }
 
   getFiscalYearById(id: any) {
     return this.http.get<any>(`${this.url}/STRFiscalYear/get/${id}`);
