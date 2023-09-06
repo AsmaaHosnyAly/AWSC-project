@@ -7,7 +7,11 @@
   
 }
 
-
+.tt{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .example-card mat-card-title-group{     
     align-items: center;
     justify-content: center;
@@ -25,7 +29,7 @@
   /* background: #ec2727; */
   width: 120px;
   padding: 10px;
-  text-align: center;
+  text-align: center !important;
   font-weight: bold;
   font-family: 'Cairo', sans-serif; 
   color: #000;
