@@ -404,6 +404,9 @@ isEdit: boolean = false;
 
         console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
         console.log("master form valuessss: ", this.groupMasterForm.value)
+        
+        
+        // this must be at sellerid only 
         this.api.getNewAvgPrice(
           this.groupMasterForm.getRawValue().storeId,
           this.groupMasterForm.getRawValue().fiscalYearId,
