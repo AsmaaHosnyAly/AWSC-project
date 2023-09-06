@@ -1,14 +1,19 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل نوعية   ' : ' إضافة  نوعية جديدة'}}</h1>
 <form [formGroup]="gradeForm" dir="rtl">
-  <h1 mat-dialog-title>إضافة نوعية</h1>
+ 
   <div mat-dialog-content>
     <form [formGroup]="gradeForm">
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>كود النوعية</mat-label>
         <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود النوعية">
         <mat-error *ngIf="gradeForm.get('code')?.invalid && gradeForm.get('code')?.touched">
            كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
         </mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
       <mat-form-field appearance="outline">
         <mat-label>النوعية </mat-label>
         <input formControlName="name" matInput placeholder="ادخل النوعية">
@@ -24,10 +29,10 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+      <button mat-raised-button class="savebtn" (click)="addGrade()" >{{actionBtn}}</button>
     </form>
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addGrade()" style="margin-left: 8px;">{{actionBtn}}</button>
-  </div>
+  
+    
+  
 </form>

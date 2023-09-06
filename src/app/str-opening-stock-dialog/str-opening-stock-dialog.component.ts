@@ -43,6 +43,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   isEditDataReadOnly: boolean = true;
 
   isEdit: boolean = false;
+  userRoles: any;
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
@@ -312,8 +313,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
       console.log("change readOnly to enable, ", this.groupMasterForm.value);
-      
-      if(!this.autoNo){
+
+      if (!this.autoNo) {
         this.autoNo = this.editData.no;
 
       }
@@ -335,6 +336,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     if (this.editDataDetails || row) {
       this.getDetailedRowData = row;
+      console.log("itemId: ", this.getDetailedRowData);
 
       this.actionBtnDetails = "Update";
       this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getDetailedRowData.stR_Opening_StockId);
@@ -346,6 +348,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
       this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
 
+      // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
     }
 
 
@@ -383,26 +386,57 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   async getStores() {
-    this.api.getStore()
-      .subscribe({
-        next: async (res) => {
-          this.storeList = res;
-          this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
-          console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
-          if (this.editData) {
-            this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-          }
-          else {
-            this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
-          }
-          // this.storeValueChanges(this.groupMasterForm.getRawValue().storeId);
+    this.userRoles = localStorage.getItem('userRoles');
+    console.log('userRoles: ', this.userRoles.includes('15'))
 
-        },
-        error: (err) => {
-          // console.log("fetch store data err: ", err);
-          // alert("خطا اثناء جلب المخازن !");
-        }
-      })
+    if (this.userRoles.includes('15')) {
+      // console.log('user is manager -all stores available- , role: ', userRoles);
+
+      this.api.getStore()
+        .subscribe({
+          next: async (res) => {
+            this.storeList = res;
+            this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+            console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
+            if (this.editData) {
+              this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+            }
+            else {
+              this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
+            }
+
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          }
+        })
+    }
+    else {
+      this.api.getUserStores(localStorage.getItem('transactionUserId'))
+        .subscribe({
+          next: async (res) => {
+            this.storeList = res;
+            this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+            console.log("selected storebbbbbbbbbbbbbbb user: ", this.defaultStoreSelectValue);
+            if (this.editData) {
+              console.log("selected edit data : ", this.editData);
+              this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+            }
+            else {
+              console.log("selected new data : ", this.defaultStoreSelectValue.storeId);
+              this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.storeId);
+            }
+
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          }
+        })
+    }
+
+
   }
 
   getStoreByID(id: any) {
@@ -457,20 +491,41 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   async getFiscalYears() {
+
     this.api.getFiscalYears()
       .subscribe({
         next: async (res) => {
           this.fiscalYearsList = res;
 
-          this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
-          console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
-          if (this.editData) {
-            this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-          }
-          else {
-            this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-            this.getStrOpenAutoNo();
-          }
+          this.api.getLastFiscalYear()
+            .subscribe({
+              next: async (res) => {
+                // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+                this.defaultFiscalYearSelectValue = await res;
+                console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+                if (this.editData) {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+                }
+                else {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+                  this.getStrOpenAutoNo();
+                }
+              },
+              error: (err) => {
+                // console.log("fetch store data err: ", err);
+                // alert("خطا اثناء جلب المخازن !");
+              }
+            })
+
+          // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+          // console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+          // if (this.editData) {
+          //   this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+          // }
+          // else {
+          //   this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+          //   this.getStrOpenAutoNo();
+          // }
           // this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
         },
         error: (err) => {
@@ -494,37 +549,33 @@ export class StrOpeningStockDialogComponent implements OnInit {
       });
   }
 
-  itemOnChange(itemEvent: any) {
-    // this.isReadOnly = true;
-
-    if (this.groupDetailsForm.getRawValue().price == 0) {
-      this.isReadOnly = false;
-      // console.log("change readOnly to enable");
-    }
-    else {
-      this.isReadOnly = true;
-      // console.log("change readOnly to disable");
-    }
-
-    // console.log("itemmm: ", itemEvent)
-
-    this.api.getAvgPrice(
+  async itemOnChange(itemEvent: any) {
+    await this.api.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,
       formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
       itemEvent)
 
       .subscribe({
-        next: (res) => {
-          this.groupDetailsForm.controls['price'].setValue(res);
+        next: async (res) => {
+          await this.groupDetailsForm.controls['price'].setValue(res);
+          console.log("price passed: ", res);
+
+          console.log("price: ", this.groupDetailsForm.getRawValue().price);
+          if (this.groupDetailsForm.getRawValue().price == 0 || this.getDetailedRowData?.price == 0) {
+            this.isReadOnly = false;
+            console.log("change readOnly to enable here");
+          }
+          else {
+            this.isReadOnly = true;
+            console.log("change readOnly to disable here");
+          }
         },
         error: (err) => {
           console.log("fetch fiscalYears data err: ", err);
           // alert("خطا اثناء جلب متوسط السعر !");
         }
       })
-
-
   }
 
   storeValueChanges(storeId: any) {
@@ -603,7 +654,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
           })
       }
       else {
-        console.log("change both values in updateHeader");
+        console.log("change both values in updateHeader", this.groupMasterForm.getRawValue().storeId);
         this.api.getStrOpenAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
           .subscribe({
             next: (res) => {

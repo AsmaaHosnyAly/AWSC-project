@@ -25,7 +25,6 @@ export class List {
   constructor(public id: number, public name: string) {}
 }
 
-
 @Component({
   selector: 'app-str-add-dialog',
   templateUrl: './str-add-dialog.component.html',
@@ -59,7 +58,6 @@ export class STRAddDialogComponent implements OnInit {
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
-  
   isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
   isReadOnlyPercentage:any = false;
@@ -277,9 +275,6 @@ isEdit: boolean = false;
     //   alert("تاكد من ادخال البيانات صحيحة")
     // }
   }
-  closeDialog(){
-    this.dialogRef.close();
-  }  
 
   getAllDetailsForms() {
 
@@ -564,11 +559,7 @@ isEdit: boolean = false;
 
   }
 
-  
   getAllMasterForms() {
-    let result = window.confirm("هل تريد الغاء الطلب");
-    if (result){
-      this.closeDialog()
     this.api.getStrOpen()
       .subscribe({
         next: (res) => {
@@ -581,7 +572,7 @@ isEdit: boolean = false;
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
         }
       })
-  }}
+  }
 
   getStores() {
     this.api.getStore()

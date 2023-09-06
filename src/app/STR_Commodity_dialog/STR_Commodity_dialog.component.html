@@ -1,13 +1,18 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل إذن إفتتاحي  ' : ' إضافة إذن إفتتاحي جديد'}}</h1>
+
 <form [formGroup]="productForm" dir="rtl">
-    <h1 mat-dialog-title>إضافة سلعة جديدة</h1>
     <div mat-dialog-content>
       <form [formGroup]="productForm">
         <mat-form-field appearance="outline">
           <mat-label>كود السلعة</mat-label>
-          <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود السلعة">
-          <mat-error *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched">
+          <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود السلعة" [value]="editData ? editData.code : autoCode">
+          <!-- <mat-error *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched">
              كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
-          </mat-error>
+          </mat-error> -->
         </mat-form-field>
        
         <mat-form-field appearance="outline">
@@ -26,10 +31,11 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field> -->
+        
+  
+          <button mat-raised-button class="savebtn" (click)="addCommodity()" >{{actionBtn}}</button>
+      
       </form>
     </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-      <button mat-raised-button color="primary" (click)="addCommodity()" style="margin-left: 8px;">{{actionBtn}}</button>
-    </div>
+   
   </form>

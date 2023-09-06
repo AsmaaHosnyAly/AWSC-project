@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./str-withdraw-table2.component.css'],
 })
 export class StrWithdrawTableComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'storeName', 'employeeName', 'costCenterName', 'desstoreName', 'fiscalyear', 'date', 'Action'];
+  displayedColumns: string[] = ['no', 'storeName', 'employeeName',  'desstoreName', 'costCenterName','fiscalyear', 'date', 'Action'];
   matchedIds: any;
   storeList: any;
   storeName: any;
