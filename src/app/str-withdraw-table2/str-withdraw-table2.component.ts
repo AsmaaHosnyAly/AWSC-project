@@ -71,7 +71,8 @@ export class StrWithdrawTableComponent implements OnInit {
       width: '90%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
-        // this.getAllGroups();
+       
+        this.getAllMasterForms();
       }
     })
   }
@@ -106,11 +107,11 @@ export class StrWithdrawTableComponent implements OnInit {
 
   deleteBothForms(id: number) {
     var result = confirm('تاكيد الحذف ؟ ');
-
+console.log(" id in delete:",id)
     if (result) {
+      
       this.api.deleteStrWithdraw(id).subscribe({
         next: (res) => {
-          alert("تم حذف المجموعة بنجاح");
 
           this.http
             .get<any>('http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all ')
@@ -121,9 +122,11 @@ export class StrWithdrawTableComponent implements OnInit {
                   return a.HeaderId === id;
                 });
 
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
-                }
+                // for (let i = 0; i < this.matchedIds.length; i++) {
+                //   this.deleteFormDetails(this.matchedIds[i].id);
+                // }
+                alert("تم حذف المجموعة بنجاح");
+
               },
               (err) => {
                 alert('خطا اثناء تحديد المجموعة !!');
