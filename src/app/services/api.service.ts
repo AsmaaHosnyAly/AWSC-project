@@ -281,6 +281,14 @@ export class ApiService {
     return this.http.get<any>('http://ims.aswan.gov.eg/api/STRPlatoon/get/all');
   }
 
+  getGroupCode(data: any) {
+    console.log("platoon id:",data);
+    
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/STRGroup/AutoCode?PlatoonId=${data}`
+    );
+  }
+
   //Item
 
   postItems(data: any) {
