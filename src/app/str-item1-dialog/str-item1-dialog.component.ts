@@ -1,11 +1,5 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validator,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validator, Validators, FormControl, EmailValidator } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -17,136 +11,114 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
+export class Unit {
+  constructor(public id: number, public name: string) { }
+}
+
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 
 export class Grade {
-  constructor(
-    public id: number,
-    public name: string,
-    public code: string,
-    public commodityId: number
-  ) {}
+  constructor(public id: number, public name: string, public code: string, public commodityId: number) { }
 }
 
 export class Platoon {
-  constructor(
-    public id: number,
-    public name: string,
-    public code: string,
-    public commodityId: number,
-    public gradeId: number
-  ) {}
+  constructor(public id: number, public name: string, public code: string, public gradeId: number) { }
 }
 
 export class Group {
-  constructor(
-    public id: number,
-    public name: string,
-    public code: string,
-    public commodityId: number,
-    public gradeId: number,
-    public platoonId: number
-  ) {}
+  constructor(public id: number, public name: string, public code: string, public platoonId: number) { }
 }
-
-export class Unit {
-  constructor(public id: number, public name: string) {}
-}
-
 @Component({
   selector: 'app-str-item1-dialog',
   templateUrl: './str-item1-dialog.component.html',
   styleUrls: ['./str-item1-dialog.component.css'],
 })
 export class STRItem1DialogComponent implements OnInit {
-  transactionUserId = localStorage.getItem('transactionUserId');
+  transactionUserId = localStorage.getItem('transactionUserId')
+  unitCtrl: FormControl;
+  filteredUnits: Observable<Unit[]>;
+  units: Unit[] = [];
+  selectedUnit: Unit | undefined;
   commodityCtrl: FormControl;
   filteredCommodities: Observable<Commodity[]>;
+  selectedCommodity: Commodity | undefined;
   commodities: Commodity[] = [];
   gradeCtrl: FormControl;
   filteredGrades: Observable<Grade[]>;
+  selectedGrade: Grade | undefined;
   grades: Grade[] = [];
   platoonCtrl: FormControl;
   filteredPlatoons: Observable<Platoon[]>;
   platoons: Platoon[] = [];
+  selectedPlatoon: Platoon | undefined;
   groupCtrl: FormControl;
   filteredGroups: Observable<Group[]>;
   groups: Group[] = [];
-  unitCtrl: FormControl;
-  filteredUnits: Observable<Unit[]>;
-  units: Unit[] = [];
-  selectedCommodity!: Commodity;
-  selectedGrade!: Grade;
-  selectedPlatoon!: Platoon;
-  selectedGroup!: Group;
-  selectedUnit!: Unit;
+  selectedGroup: Group | undefined;
   formcontrol = new FormControl('');
-  itemForm!: FormGroup;
-  selectedOption: any;
+  itemForm !: FormGroup;
   getItemData: any;
+  actionBtn: string = "حفظ"
+  Code:any;
+  No:any;
+  gradeName: any;
   fullCode: any;
-  actionBtn: string = 'حفظ';
-  Id: string | undefined | null;
-  commidityDt: any = {
-    id: 0,
-  };
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
   accordion!: MatAccordion;
-  gradeName: any;
-  No: any;
-  constructor(
-    private formBuilder: FormBuilder,
+  
+  constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<STRItem1DialogComponent>
-  ) {
+    private dialogRef: MatDialogRef<STRItem1DialogComponent>) {
+
+      this.unitCtrl = new FormControl();
+    this.filteredUnits = this.unitCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterUnits(value))
+    );
+
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterCommodities(value))
+      map(value => this._filterCommodities(value))
     );
 
     this.gradeCtrl = new FormControl();
     this.filteredGrades = this.gradeCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterGrades(value))
+      map(value => this._filterGrades(value))
     );
 
     this.platoonCtrl = new FormControl();
     this.filteredPlatoons = this.platoonCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterPlatoons(value))
+      map(value => this._filterPlatoons(value))
     );
+  
 
-    this.groupCtrl = new FormControl();
+  this.groupCtrl = new FormControl();
     this.filteredGroups = this.groupCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterGroups(value))
-    );
-
-    this.unitCtrl = new FormControl();
-    this.filteredUnits = this.unitCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filterUnits(value))
+      map(value => this._filterGroups(value))
     );
   }
 
+
   ngOnInit(): void {
+
     this.itemForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       fullCode: [''],
       no: [''],
       name: ['', Validators.required],
       commodityId: ['', Validators.required],
-      type: ['', Validators.required],
-      isActive: ['', Validators.required],
       commodityName: [''],
       commodityCode: [''],
       gradeId: ['', Validators.required],
@@ -160,7 +132,12 @@ export class STRItem1DialogComponent implements OnInit {
       groupCode: [''],
       unitId: ['', Validators.required],
       unitName: [''],
+      unitCode: [''],
       id: [''],
+    });
+
+    this.api.getAllUnitsi().subscribe((units) => {
+      this.units = units;
     });
 
     this.api.getAllCommoditiesi().subscribe((commodities) => {
@@ -179,45 +156,35 @@ export class STRItem1DialogComponent implements OnInit {
       this.groups = groups;
     });
 
-    this.api.getAllUnitsi().subscribe((units) => {
-      this.units = units;
-    });
-
     if (this.editData) {
-      this.actionBtn = 'تعديل';
+      this.actionBtn = "تعديل";
       this.getItemData = this.editData;
-
-      console.log('comm code: ', this.editData);
-      this.itemForm.controls['transactionUserId'].setValue(
-        this.editData.transactionUserId
-      );
-      this.itemForm.controls['name'].setValue(this.editData.name);
+      this.itemForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.itemForm.controls['fullCode'].setValue(this.editData.fullCode);
       this.itemForm.controls['type'].setValue(this.editData.type);
       this.itemForm.controls['isActive'].setValue(this.editData.isActive);
       this.itemForm.controls['no'].setValue(this.editData.no);
+      this.itemForm.controls['name'].setValue(this.editData.name);
+      this.itemForm.controls['unitId'].setValue(this.editData.commodityId);
+      this.itemForm.controls['unitName'].setValue(this.editData.commodityName);
+      this.itemForm.controls['unitCode'].setValue(this.editData.commodityName);      
       this.itemForm.controls['commodityId'].setValue(this.editData.commodityId);
-      this.itemForm.controls['commodityName'].setValue(
-        this.editData.commodityName
-      );
-      this.itemForm.controls['commodityCode'].setValue(
-        this.editData.commodityCode
-      );
+      this.itemForm.controls['commodityName'].setValue(this.editData.commodityName);
+      this.itemForm.controls['commodityCode'].setValue(this.editData.commodityName);
       this.itemForm.controls['gradeId'].setValue(this.editData.gradeId);
       this.itemForm.controls['gradeName'].setValue(this.editData.gradeName);
-      this.itemForm.controls['gradeCode'].setValue(this.editData.gradeCode);
+      this.itemForm.controls['gradeCode'].setValue(this.editData.commodityName);
       this.itemForm.controls['platoonId'].setValue(this.editData.platoonId);
-      this.itemForm.controls['platoonName'].setValue(this.editData.platoonName);
-      this.itemForm.controls['platoonCode'].setValue(this.editData.platoonCode);
-      this.itemForm.controls['groupId'].setValue(this.editData.groupId);
-      this.itemForm.controls['groupName'].setValue(this.editData.groupName);
-      this.itemForm.controls['groupCode'].setValue(this.editData.groupCode);
-      this.itemForm.controls['unitId'].setValue(this.editData.unitId);
-      this.itemForm.controls['unitName'].setValue(this.editData.unitName);
+      this.itemForm.controls['platoonName'].setValue(this.editData.gradeName);
+      this.itemForm.controls['platoonCode'].setValue(this.editData.commodityName);
+      this.itemForm.controls['groupId'].setValue(this.editData.platoonId);
+      this.itemForm.controls['groupName'].setValue(this.editData.gradeName);
+      this.itemForm.controls['groupCode'].setValue(this.editData.commodityName);
       this.itemForm.addControl('id', new FormControl('', Validators.required));
       this.itemForm.controls['id'].setValue(this.editData.id);
     }
   }
+
 
   displayUnitName(unit: any): string {
     return unit && unit.name ? unit.name : '';
@@ -239,14 +206,11 @@ export class STRItem1DialogComponent implements OnInit {
     return group && group.name ? group.name : '';
   }
 
-
-  
   unitSelected(event: MatAutocompleteSelectedEvent): void {
     const unit = event.option.value as Unit;
     this.selectedUnit = unit;
     this.itemForm.patchValue({ unitId: unit.id });
     this.itemForm.patchValue({ unitName: unit.name });
-    this.commodityCtrl.setValue('');
   }
 
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
@@ -273,9 +237,6 @@ export class STRItem1DialogComponent implements OnInit {
     this.itemForm.patchValue({ platoonId: platoon.id });
     this.itemForm.patchValue({ platoonName: platoon.name });
     this.itemForm.patchValue({ platoonCode: platoon.code });
-    this.groupCtrl.setValue('');
-    console.log("this.selectedPlatoon:",this.selectedPlatoon);
-    
   }
 
   groupSelected(event: MatAutocompleteSelectedEvent): void {
@@ -287,89 +248,80 @@ export class STRItem1DialogComponent implements OnInit {
     this.getNoByGroupId();
   }
 
+  private _filterUnits(value: string): Unit[] {
+    const filterValue = value
+    return this.units.filter(unit =>
+      unit.name.toLowerCase().includes(filterValue) 
+    );
+  }
+
   private _filterCommodities(value: string): Commodity[] {
-    const filterValue = value.toLowerCase();
-    return this.commodities.filter(
-      (commodity) =>
-        commodity.name.toLowerCase().includes(filterValue) ||
-        commodity.code.toLowerCase().includes(filterValue)
+    const filterValue = value
+    return this.commodities.filter(commodity =>
+      commodity.name.toLowerCase().includes(filterValue) || commodity.code.toLowerCase().includes(filterValue)
     );
   }
 
   private _filterGrades(value: string): Grade[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value
     return this.grades.filter(
-      (grade) =>
-        (grade.name.toLowerCase().includes(filterValue) ||
-          grade.code.toLowerCase().includes(filterValue)) &&
+      grade =>
+        (grade.name.toLowerCase().includes(filterValue) || grade.code.toLowerCase().includes(filterValue)) &&
         grade.commodityId === this.selectedCommodity?.id
     );
   }
 
   private _filterPlatoons(value: string): Platoon[] {
-    console.log("Platoon value:",value);
-    
-    const filterValue = value.toLowerCase();
+    const filterValue = value
     return this.platoons.filter(
-      (platoon) =>
-        (platoon.name.toLowerCase().includes(filterValue) ||
-        platoon.code.toLowerCase().includes(filterValue)) &&
+      platoon =>
+        (platoon.name.toLowerCase().includes(filterValue) || platoon.code.toLowerCase().includes(filterValue)) &&
         platoon.gradeId === this.selectedGrade?.id
     );
   }
 
   private _filterGroups(value: string): Group[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value
     return this.groups.filter(
-      (group) =>
-        (group.name.toLowerCase().includes(filterValue) ||
-        group.code.toLowerCase().includes(filterValue)) &&
+      group =>
+        (group.name.toLowerCase().includes(filterValue) || group.code.toLowerCase().includes(filterValue)) &&
         group.platoonId === this.selectedPlatoon?.id
     );
   }
-
-  // private _filterGroups(value: string): Group[] {
-  //   const filterValue = value.toLowerCase();
-  //   return this.groups.filter(
-  //     (group) =>
-  //       (group.name.toLowerCase().includes(filterValue) ||
-  //         group.code.toLowerCase().includes(filterValue)) &&
-  //       group.platoonId === this.selectedPlatoon?.id
-  //   );
-  // }
-
-  private _filterUnits(value: string): Unit[] {
-    const filterValue = value.toLowerCase();
-    return this.units.filter((unit) =>
-      unit.name.toLowerCase().includes(filterValue)
-    );
-  }
-
   openAutoUnit() {
-    this.unitCtrl.setValue('');
+    this.unitCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
     this.unitCtrl.updateValueAndValidity();
   }
-
   openAutoCommodity() {
-    this.commodityCtrl.setValue('');
+    this.commodityCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
     this.commodityCtrl.updateValueAndValidity();
   }
   openAutoGrade() {
-    this.gradeCtrl.setValue('');
+    this.gradeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
     this.gradeCtrl.updateValueAndValidity();
   }
   openAutoPlatoon() {
-    this.platoonCtrl.setValue('');
+    this.platoonCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
     this.platoonCtrl.updateValueAndValidity();
   }
 
   openAutoGroup() {
-    this.platoonCtrl.setValue('');
-    this.platoonCtrl.updateValueAndValidity();
+    this.groupCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.groupCtrl.updateValueAndValidity();
   }
 
   getNoByGroupId() {
-    this.api.getItemNo(this.selectedGroup.id).subscribe({
+    this.api.getItemNo(this.selectedGroup?.id).subscribe({
       next: (res) => {
 
         this.No = res;
@@ -381,11 +333,10 @@ export class STRItem1DialogComponent implements OnInit {
     });
   }
 
-  addItem() {    
-      
+  addGroup() {
     this.fullCode =
-    this.itemForm.value.commodityCode +
-    this.itemForm.value.gradeCode +
+    this.itemForm.value.commodityCode.toString()+
+    this.itemForm.value.gradeCode.toString() +
     this.itemForm.value.platoonCode +
     this.itemForm.value.groupCode +
     this.No;
@@ -395,47 +346,43 @@ export class STRItem1DialogComponent implements OnInit {
     this.itemForm.controls['transactionUserId'].setValue(
       this.transactionUserId
     );
-    
-    if (!this.editData) {  
+    if (!this.editData) {
+      this.itemForm.removeControl('id')
+      // this.itemForm.controls['commodityId'].setValue(this.selectedOption.id);
+      // this.itemForm.controls['gradeId'].setValue(this.selectedOption.id);
+      this.itemForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      console.log("add: ", this.itemForm.value);
 
-
-      this.itemForm.removeControl('id');
-    
-      this.itemForm.controls['transactionUserId'].setValue(
-        this.transactionUserId
-      );
-      console.log("post item form: ", this.itemForm.value)
       if (this.itemForm.valid) {
-        
-        this.api.postItems(this.itemForm.value).subscribe({
-          next: (res) => {
-            console.log(res);
-            alert('تمت الاضافة بنجاح');
-            this.itemForm.reset();
-            this.dialogRef.close('save');
-          },
-          error: (err) => {
-            console.log("post err: ", err)
-            alert('خطأ عند حفظ البيانات');
-          },
-        });
+        this.api.postItems(this.itemForm.value)
+          .subscribe({
+            next: (res) => {
+              alert("تمت الاضافة بنجاح");
+              this.itemForm.reset();
+              this.dialogRef.close('save');
+            },
+            error: (err) => {
+              alert("خطأ عند تحديث البيانات")
+            }
+          })
       }
     } else {
-      this.updateItem();
+      this.updateGroup()
     }
   }
 
-  updateItem() {
-    console.log("update form: ", this.itemForm.value)
-    this.api.putItem(this.itemForm.value).subscribe({
-      next: (res) => {
-        alert('تم التحديث بنجاح');
-        this.itemForm.reset();
-        this.dialogRef.close('update');
-      },
-      error: () => {
-        alert('خطأ عند تحديث البيانات');
-      },
-    });
+  updateGroup() {
+    this.api.putItem(this.itemForm.value)
+      .subscribe({
+        next: (res) => {
+          alert("تم التحديث بنجاح");
+          this.itemForm.reset();
+          this.dialogRef.close('update');
+        },
+        error: () => {
+          alert("خطأ عند تحديث البيانات");
+        }
+      })
   }
+
 }

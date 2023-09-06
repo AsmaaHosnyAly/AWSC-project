@@ -1,99 +1,188 @@
-<div class="cdk-overlay-pane  ">
-  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+<div class="cdk-overlay-pane">
+  <button class="close" mat-button mat-dialog-close>
+    <mat-icon> clear</mat-icon>
+  </button>
 </div>
 
-<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل صنف   ' : 'إضافة  صنف جديد'}}</h1>
+<h1 mat-dialog-title class="add-h1">
+  {{ editData ? "  تعديل صنف   " : "إضافة  صنف جديد" }}
+</h1>
 <form [formGroup]="itemForm" dir="rtl">
-
   <div mat-dialog-content>
     <form [formGroup]="itemForm">
-
-      <mat-form-field appearance="outline">
+      <div class="child1">
         <mat-label>اسم الصنف</mat-label>
-        <input formControlName="name" matInput placeholder="اسم الصنف">
-      </mat-form-field>
-
-     
-      <mat-form-field appearance="outline">
-        <mat-label>الوحدة</mat-label>        
-        <input matInput aria-label="unit" [matAutocomplete]="autoUnit" [formControl]="unitCtrl" placeholder="{{getItemData ? getItemData.unitName : ''}}" (click)="openAutoUnit()" required />
-        <mat-autocomplete #autoUnit="matAutocomplete" [displayWith]="displayUnitName"
-          (optionSelected)="unitSelected($event)">
-          <mat-option *ngFor="let unit of filteredUnits | async" [value]="unit">
-            {{ unit.name }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      
-      <mat-form-field appearance="outline">
-        <mat-label>السلعة</mat-label>        
-        <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl" placeholder="{{getItemData ? getItemData.commodityName : ''}}" (click)="openAutoCommodity()" required/>
-        <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName" (optionSelected)="commoditySelected($event)">
-          <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
-            {{ commodity.name }} | {{ commodity.code }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-     
-      <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline">
+          <input formControlName="name" matInput />
+        </mat-form-field>
+      </div>
+      <div class="child1">
+        <mat-label>الوحدة</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="unit"
+            [matAutocomplete]="autoUnit"
+            [formControl]="unitCtrl"
+            placeholder="{{ getItemData ? getItemData.unitName : '' }}"
+            (click)="openAutoUnit()"
+            required
+          />
+          <mat-autocomplete
+            #autoUnit="matAutocomplete"
+            [displayWith]="displayUnitName"
+            (optionSelected)="unitSelected($event)"
+          >
+            <mat-option
+              *ngFor="let unit of filteredUnits | async"
+              [value]="unit"
+            >
+              {{ unit.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="child1">
+        <mat-label>السلعة</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="commodity"
+            [matAutocomplete]="autoCommodity"
+            [formControl]="commodityCtrl"
+            placeholder="{{ getItemData ? getItemData.commodityName : '' }}"
+            (click)="openAutoCommodity()"
+            required
+          />
+          <mat-autocomplete
+            #autoCommodity="matAutocomplete"
+            [displayWith]="displayCommodityName"
+            (optionSelected)="commoditySelected($event)"
+          >
+            <mat-option
+              *ngFor="let commodity of filteredCommodities | async"
+              [value]="commodity"
+            >
+              {{ commodity.name }} | {{ commodity.code }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="child1">
         <mat-label>النوعية</mat-label>
-        <input matInput aria-label="grade" [matAutocomplete]="autoGrade" [formControl]="gradeCtrl" required placeholder="{{getItemData ? getItemData.gradeName : ''}}" (click)="openAutoGrade()" required/>
-        <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGradeName" (optionSelected)="gradeSelected($event)">
-          <mat-option *ngFor="let grade of filteredGrades | async" [value]="grade">
-            {{ grade.name }} | {{ grade.code }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-     
-      <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="grade"
+            [matAutocomplete]="autoGrade"
+            [formControl]="gradeCtrl"
+            required
+            placeholder="{{ getItemData ? getItemData.gradeName : '' }}"
+            (click)="openAutoGrade()"
+            required
+          />
+          <mat-autocomplete
+            #autoGrade="matAutocomplete"
+            [displayWith]="displayGradeName"
+            (optionSelected)="gradeSelected($event)"
+          >
+            <mat-option
+              *ngFor="let grade of filteredGrades | async"
+              [value]="grade"
+            >
+              {{ grade.name }} | {{ grade.code }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="child1">
         <mat-label>الفصيلة</mat-label>
-        <input matInput aria-label="platoon" [matAutocomplete]="autoPlatoon" [formControl]="platoonCtrl" required placeholder="{{getItemData ? getItemData.platoonName : ''}}" (click)="openAutoPlatoon()" required/>
-        <mat-autocomplete #autoPlatoon="matAutocomplete" [displayWith]="displayPlatoonName" (optionSelected)="platoonSelected($event)">
-          <mat-option *ngFor="let platoon of filteredPlatoons | async" [value]="platoon">
-            {{ platoon.name }} | {{ platoon.code }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-    
-      <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="platoon"
+            [matAutocomplete]="autoPlatoon"
+            [formControl]="platoonCtrl"
+            required
+            placeholder="{{ getItemData ? getItemData.platoonName : '' }}"
+            (click)="openAutoPlatoon()"
+            required
+          />
+          <mat-autocomplete
+            #autoPlatoon="matAutocomplete"
+            [displayWith]="displayPlatoonName"
+            (optionSelected)="platoonSelected($event)"
+          >
+            <mat-option
+              *ngFor="let platoon of filteredPlatoons | async"
+              [value]="platoon"
+            >
+              {{ platoon.name }} | {{ platoon.code }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="child1">
         <mat-label>المجموعة</mat-label>
-        <input matInput aria-label="platoon" [matAutocomplete]="autoGroup" [formControl]="groupCtrl" placeholder="{{getItemData ? getItemData.groupName : ''}}" (click)="openAutoGroup()" required  />
-        <mat-autocomplete #autoGroup="matAutocomplete" [displayWith]="displayGroupName"
-          (optionSelected)="groupSelected($event)">
-          <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
-            {{ group.name }} | {{ group.code }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field> 
-      <mat-radio-group formControlName="type" class="example-radio-group">
-        <label id="example-radio-group-label" class="lable-radio">النوع</label>
-        <mat-radio-button class="example-radio-button" value="عهدة">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="group"
+            [matAutocomplete]="autoGroup"
+            [formControl]="groupCtrl"
+            required
+            placeholder="{{ getItemData ? getItemData.groupName : '' }}"
+            (click)="openAutoGroup()"
+            required
+          />
+          <mat-autocomplete
+            #autoGroup="matAutocomplete"
+            [displayWith]="displayGroupName"
+            (optionSelected)="groupSelected($event)"
+          >
+            <mat-option
+              *ngFor="let group of filteredGroups | async"
+              [value]="group"
+            >
+              {{ group.name }} | {{ group.code }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="child1">
+        <mat-radio-group formControlName="type" class="example-radio-group">
+          <label id="example-radio-group-label" class="lable-radio"
+            >النوع</label
+          >
+          <mat-radio-button class="example-radio-button" value="عهدة">
             عهدة
-        </mat-radio-button>
-        <mat-radio-button class="example-radio-button" value="مستهلك">
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value="مستهلك">
             مستهلك
-        </mat-radio-button>
-    </mat-radio-group>
-    <mat-radio-group formControlName="isActive" class="example-radio-group">
-      <label id="example-radio-group-label"  class="lable-radio">الحالة</label>
-      <mat-radio-button class="example-radio-button" [value]=true >
-        نشط
-      </mat-radio-button>
-      <mat-radio-button class="example-radio-button" [value]=false>
-          غير نشط
-      </mat-radio-button>
-  </mat-radio-group>
-
-  <button mat-raised-button  (click)="addItem()" class="savebtn">{{actionBtn}}</button> 
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="child1">
+        <mat-radio-group formControlName="isActive" class="example-radio-group">
+          <label id="example-radio-group-label" class="lable-radio"
+            >الحالة</label
+          >
+          <mat-radio-button class="example-radio-button" [value]="true">
+            نشط
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" [value]="false">
+            غير نشط
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <button
+        mat-raised-button
+        class="savebtn"
+        (click)="addGroup()"
+        style="margin-left: 8px"
+      >
+        {{ actionBtn }}
+      </button>
     </form>
   </div>
- 
-   
-  
- 
-  </form>
-
+</form>
