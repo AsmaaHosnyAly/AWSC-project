@@ -8,20 +8,20 @@
          
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
+                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId" (valueChange)="fiscalYearValueChanges($event)">
                     <mat-option [value]="fiscalYear.id" *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>المخازن</mat-label>
-                <mat-select placeholder="المخازن" formControlName="storeId">
+                <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
                     <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no" type="number" [value]="editData ? editData.no : autoNo">
+                <input matInput placeholder="الرقم" id="autoNoInput" formControlName="no" type="number" [value]="editData ? editData.no : autoNo">
             </mat-form-field>
          
          
@@ -49,7 +49,7 @@
               <mat-form-field appearance="outline" class="groupInput">
                 
                 <input matInput aria-label="list" [matAutocomplete]="autoList"  [formControl]="listCtrl"
-                  placeholder="{{getAddData ? getAddData : ''}}" (click)="openAutoList()" required />
+                  placeholder="{{getAddData && getAddData.sellerName ? getAddData.sellerName : getAddData && getAddData.employeeName ?  getAddData.employeeName :  getAddData && getAddData.sourceStoreName ? getAddData.sourceStoreName :''}}" (click)="openAutoList()" required />
                 <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
                   (optionSelected)="listSelected($event)" >
                   <mat-option *ngFor="let list of filteredList | async" [value]="list">
