@@ -8,6 +8,12 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+export class PrRole {
+  constructor(public id: number, public name: string) { }
+}
 
 @Component({
   selector: 'app-pr-group-dialog',
@@ -37,9 +43,15 @@ export class PrGroupDialogComponent implements OnInit {
   dialogRefDelete: any;
   isReadOnly: boolean = true;
   autoNo: any;
-  prRoleList: any;
+  // prRoleList: any;
 
-  displayedColumns: string[] = ['groupName', 'roleName', 'action'];
+  prRoleList: PrRole[] = [];
+  prRoleCtrl: FormControl;
+  filteredPrRole: Observable<PrRole[]>;
+  selectedPrRole: PrRole | undefined;
+  formcontrol = new FormControl('');
+
+  displayedColumns: string[] = ['roleName', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -51,7 +63,15 @@ export class PrGroupDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+
+    this.prRoleCtrl = new FormControl();
+    this.filteredPrRole = this.prRoleCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterPrRoles(value))
+    );
+
+  }
 
 
   ngOnInit(): void {
@@ -86,6 +106,31 @@ export class PrGroupDialogComponent implements OnInit {
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
   }
+
+
+  private _filterPrRoles(value: string): PrRole[] {
+    const filterValue = value;
+    return this.prRoleList.filter(prRole =>
+      prRole.name.toLowerCase().includes(filterValue)
+    );
+  }
+  displayPrRoleName(prRole: any): string {
+    return prRole && prRole.name ? prRole.name : '';
+  }
+  PrRoleSelected(event: MatAutocompleteSelectedEvent): void {
+    const prRole = event.option.value as PrRole;
+    console.log("prRole selected: ", prRole);
+    this.selectedPrRole = prRole;
+    this.groupDetailsForm.patchValue({ roleId: prRole.id });
+    console.log("prRole in form: ", this.groupDetailsForm.getRawValue().roleId);
+  }
+  openAutoPrRole() {
+    this.prRoleCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.prRoleCtrl.updateValueAndValidity();
+  }
+
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')

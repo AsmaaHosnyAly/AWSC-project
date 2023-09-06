@@ -8,6 +8,12 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+export class PrGroup {
+  constructor(public id: number, public name: string) { }
+}
 
 @Component({
   selector: 'app-pr-user-dialog',
@@ -37,7 +43,15 @@ export class PrUserDialogComponent implements OnInit {
   dialogRefDelete: any;
   isReadOnly: boolean = true;
   autoNo: any;
-  prGroupList: any;
+  // prGroupList: any;
+
+
+  prGroupList: PrGroup[] = [];
+  prGroupCtrl: FormControl;
+  filteredPrGroup: Observable<PrGroup[]>;
+  selectedPrGroup: PrGroup | undefined;
+  formcontrol = new FormControl('');
+
 
   displayedColumns: string[] = ['group_Name', 'action'];
 
@@ -51,7 +65,15 @@ export class PrUserDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+
+      this.prGroupCtrl = new FormControl();
+      this.filteredPrGroup = this.prGroupCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterPrGroups(value))
+      );
+
+  }
 
 
   ngOnInit(): void {
@@ -90,6 +112,31 @@ export class PrUserDialogComponent implements OnInit {
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
   }
+
+
+  private _filterPrGroups(value: string): PrGroup[] {
+    const filterValue = value;
+    return this.prGroupList.filter(prGroup =>
+      prGroup.name.toLowerCase().includes(filterValue)
+    );
+  }
+  displayPrGroupName(prGroup: any): string {
+    return prGroup && prGroup.name ? prGroup.name : '';
+  }
+  PrGroupSelected(event: MatAutocompleteSelectedEvent): void {
+    const prGroup = event.option.value as PrGroup;
+    console.log("prGroup selected: ", prGroup);
+    this.selectedPrGroup = prGroup;
+    this.groupDetailsForm.patchValue({ groupId: prGroup.id });
+    console.log("prGroup in form: ", this.groupDetailsForm.getRawValue().groupId);
+  }
+  openAutoPrGroup() {
+    this.prGroupCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.prGroupCtrl.updateValueAndValidity();
+  }
+
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id');
@@ -251,7 +298,7 @@ export class PrUserDialogComponent implements OnInit {
 
     if (this.editDataDetails || row) {
       this.getDetailedRowData = row;
-      console.log("details: ", this.getDetailedRowData )
+      console.log("details: ", this.getDetailedRowData)
 
       if (this.getDetailedRowData) {
         this.getDetailRowId = {

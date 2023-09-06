@@ -44,7 +44,7 @@ export class FiEntryDialogComponent implements OnInit {
   deleteConfirmBtn: any;
   dialogRefDelete: any;
 
-  displayedColumns: string[] = ['credit', 'debit', 'accountId', 'fiAccountItemId', 'action'];
+  displayedColumns: string[] = ['credit', 'debit', 'accountName', 'fiAccountItemId', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

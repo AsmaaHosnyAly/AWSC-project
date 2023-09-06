@@ -86,7 +86,7 @@ export class PrUserTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
+        if (val === 'update' || val === 'save') {
           this.getAllMasterForms();
         }
       });

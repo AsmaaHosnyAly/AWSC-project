@@ -6,8 +6,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+export class Item {
+  constructor(public id: number, public name: string) { }
+}
 
 @Component({
   selector: 'app-str-opening-stock-dialog',
@@ -27,7 +33,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   priceCalled = 0;
   getMasterRowId: any;
   storeList: any;
-  itemsList: any;
+  // itemsList: any;
   fiscalYearsList: any;
   storeName: any;
   itemName: any;
@@ -44,6 +50,13 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   isEdit: boolean = false;
   userRoles: any;
+  currentData: any;
+
+  itemsList: Item[] = [];
+  itemCtrl: FormControl;
+  filteredItem: Observable<Item[]>;
+  selectedItem: Item | undefined;
+  formcontrol = new FormControl('');
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
@@ -57,7 +70,18 @@ export class StrOpeningStockDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
-    private toastr: ToastrService) { }
+    private dialogRef: MatDialogRef<StrOpeningStockDialogComponent>,
+    private toastr: ToastrService) {
+
+    this.currentData = new Date;
+
+    this.itemCtrl = new FormControl();
+    this.filteredItem = this.itemCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterItems(value))
+    );
+
+  }
 
 
   ngOnInit() {
@@ -73,14 +97,14 @@ export class StrOpeningStockDialogComponent implements OnInit {
       storeId: [''],
       storeName: [''],
       transactionUserId: ['', Validators.required],
-      date: ['', Validators.required],
+      date: [this.currentData, Validators.required],
       total: ['', Validators.required],
       fiscalYearId: ['', Validators.required],
     });
 
     this.groupDetailsForm = this.formBuilder.group({
       stR_Opening_StockId: ['', Validators.required], //MasterId
-      qty: ['', Validators.required],
+      qty: ['1', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: ['', Validators.required],
@@ -121,16 +145,33 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
   }
-  // toggleEdit() {
-  //   this.isEdit = !this.isEdit;
 
-  //   console.log("oooo: ", this.isEdit)
-  //   if (this.isEdit) {
-  //     // this.previousValue = this.myForm.get('status').value;
-  //     console.log("mmmmmmlll: ", this.groupMasterForm.get('no')?.value);
 
-  //   }
-  // }
+  private _filterItems(value: string): Item[] {
+    const filterValue = value;
+    return this.itemsList.filter(item =>
+      item.name.toLowerCase().includes(filterValue)
+    );
+  }
+  displayItemName(item: any): string {
+    return item && item.name ? item.name : '';
+  }
+  ItemSelected(event: MatAutocompleteSelectedEvent): void {
+    const item = event.option.value as Item;
+    console.log("item selected: ", item);
+    this.selectedItem = item;
+    this.groupDetailsForm.patchValue({ itemId: item.id });
+    console.log("item in form: ", this.groupDetailsForm.getRawValue().itemId);
+    this.itemOnChange(this.groupDetailsForm.getRawValue().itemId)
+  }
+  openAutoItem() {
+    this.itemCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.itemCtrl.updateValueAndValidity();
+  }
+
+
   async nextToAddFormDetails() {
     // console.log("ppppp: ", this.isEdit)
     this.groupMasterForm.removeControl('id')
@@ -237,6 +278,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
               next: (res) => {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
+                this.groupDetailsForm.controls['qty'].setValue(1);
+
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
               },
@@ -280,8 +323,11 @@ export class StrOpeningStockDialogComponent implements OnInit {
                 next: (res) => {
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
+
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
+                  this.groupDetailsForm.controls['qty'].setValue(1);
+
                 },
                 error: (err) => {
                   console.log("update err: ", err)
@@ -372,6 +418,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   getAllMasterForms() {
+    this.dialogRef.close('save');
+
     this.api.getStrOpen()
       .subscribe({
         next: (res) => {
@@ -550,6 +598,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   async itemOnChange(itemEvent: any) {
+    console.log("itemEvent change value: ", itemEvent);
+
     await this.api.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,
