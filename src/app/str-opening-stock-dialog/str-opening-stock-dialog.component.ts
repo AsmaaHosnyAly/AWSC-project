@@ -46,6 +46,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   fiscalYearSelectedId: any;
   defaultFiscalYearSelectValue: any;
   defaultStoreSelectValue: any;
+  // userRoles: any;
   isEditDataReadOnly: boolean = true;
 
   isEdit: boolean = false;

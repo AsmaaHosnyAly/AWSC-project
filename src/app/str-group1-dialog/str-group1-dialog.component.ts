@@ -47,11 +47,7 @@ export class STRGroup1DialogComponent implements OnInit {
   selectedOption: any;
   getGroupData: any;
   actionBtn: string = "حفظ"
-  Id: string | undefined | null;
-  commidityDt: any = {
-    id: 0,
-  }
-  autoCode: any;
+  Code:any;
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -86,11 +82,10 @@ export class STRGroup1DialogComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getStrLastPlatoon();
 
     this.groupForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
-      code: ['', Validators.required],
+      code: [''],
       name: ['', Validators.required],
       commodityId: ['', Validators.required],
       commodityName: [''],
@@ -165,6 +160,7 @@ export class STRGroup1DialogComponent implements OnInit {
     this.selectedPlatoon = platoon;
     this.groupForm.patchValue({ platoonId: platoon.id });
     this.groupForm.patchValue({ platoonName: platoon.name });
+    this.getCodeByPlatoonId();
   }
 
   private _filterCommodities(value: string): Commodity[] {
@@ -211,15 +207,25 @@ export class STRGroup1DialogComponent implements OnInit {
     this.platoonCtrl.updateValueAndValidity();
   }
 
+  getCodeByPlatoonId() {
+    this.api.getGroupCode(this.selectedPlatoon?.id).subscribe({
+      next: (res) => {
+        this.Code = res;
+        console.log('selectedPlatoon: ', this.Code);
+      },
+      error: (err) => {
+        console.log('get code. err: ', err);
+      },
+    });
+  }
 
   addGroup() {
+    this.groupForm.controls['code'].setValue(this.Code);
     if (!this.editData) {
-
       this.groupForm.removeControl('id')
       // this.groupForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.groupForm.controls['gradeId'].setValue(this.selectedOption.id);
       this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      this.groupForm.controls['code'].setValue(this.autoCode);
       console.log("add: ", this.groupForm.value);
 
       if (this.groupForm.valid) {
@@ -250,37 +256,6 @@ export class STRGroup1DialogComponent implements OnInit {
         },
         error: () => {
           alert("خطأ عند تحديث البيانات");
-        }
-      })
-  }
-
-  getStrLastPlatoon() {
-    console.log("enter function")
-    this.api.getPlatoons()
-      .subscribe({
-        next: (res) => {
-          // console.log("get res: ", res)
-          console.log("last platoon id: ", res[Object.keys(res)[Object.keys(res).length - 1]].id)
-          this.strGroupAutoCode(res[Object.keys(res)[Object.keys(res).length - 1]].id)
-        },
-        error: (err) => {
-          // console.log("fetch store data err: ", err);
-          // alert("خطا اثناء جلب المخازن !");
-        }
-      })
-  }
-
-  strGroupAutoCode(lastPlatoonId: any) {
-    this.api.getStrGroupAutoCode(lastPlatoonId)
-      .subscribe({
-        next: (res) => {
-          // alert("تم التحديث بنجاح");
-          this.autoCode = res;
-          console.log("autoCode is: ", res)
-        },
-        error: (err) => {
-          // console.log("err get autoCode: ", err)
-          // alert("خطأ عند تحديث البيانات");
         }
       })
   }
