@@ -9,6 +9,9 @@ export class SharedService {
   accounts=false
   hr=false
   withdraw=false;
-  STRAdd=false
+  STRAdd=false;
+  openingStock=false;
+  employeeOpening=false;
+  employeeOpeningCustody=false
   constructor() { }
 }

@@ -95,9 +95,6 @@ export class STRItem1Component implements OnInit {
   displayedColumns: string[] = [
     'fullCode',
     'name',
-    'no',
-    'type',
-    'isActive',
     'commodityName',
     'gradeName',
     'platoonName',
@@ -183,7 +180,7 @@ export class STRItem1Component implements OnInit {
   openDialog() {
     this.dialog
       .open(STRItem1DialogComponent, {
-        width: '40%',
+        width: '50%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -323,7 +320,7 @@ export class STRItem1Component implements OnInit {
     console.log('data : ', row);
     this.dialog
       .open(STRItem1DialogComponent, {
-        width: '30%',
+        width: '50%',
         data: row,
       })
       .afterClosed()

@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {NgIf} from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { SharedService } from '../shared/shared.service';
+import { SharedService } from '../guards/shared.service';
 import { GlobalService } from '../services/global.service';
 @Component({
   selector: 'app-str-commodity',
@@ -155,6 +155,7 @@ openDialog() {
     width: '30%'
   }).afterClosed().subscribe(val => {
     if (val === 'حفظ') {
+      // alert("refresh")
       this.getAllcommodity();
     }
   });

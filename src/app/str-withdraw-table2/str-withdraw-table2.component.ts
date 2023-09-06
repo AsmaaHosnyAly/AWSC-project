@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw-dialog2.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../shared/shared.service';
+import { SharedService } from '../guards/shared.service';
 import { GlobalService } from '../services/global.service';
 
 @Component({
@@ -82,7 +82,8 @@ export class StrWithdrawTableComponent implements OnInit {
       width: '90%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
-        // this.getAllGroups();
+       
+        this.getAllMasterForms();
       }
     })
   }
@@ -117,11 +118,11 @@ export class StrWithdrawTableComponent implements OnInit {
 
   deleteBothForms(id: number) {
     var result = confirm('تاكيد الحذف ؟ ');
-
+console.log(" id in delete:",id)
     if (result) {
+      
       this.api.deleteStrWithdraw(id).subscribe({
         next: (res) => {
-          alert("تم حذف المجموعة بنجاح");
 
           this.http
             .get<any>('http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all ')
@@ -132,9 +133,11 @@ export class StrWithdrawTableComponent implements OnInit {
                   return a.HeaderId === id;
                 });
 
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
-                }
+                // for (let i = 0; i < this.matchedIds.length; i++) {
+                //   this.deleteFormDetails(this.matchedIds[i].id);
+                // }
+                alert("تم حذف المجموعة بنجاح");
+
               },
               (err) => {
                 alert('خطا اثناء تحديد المجموعة !!');

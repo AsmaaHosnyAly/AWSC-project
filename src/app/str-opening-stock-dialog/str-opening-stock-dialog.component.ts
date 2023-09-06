@@ -40,10 +40,10 @@ export class StrOpeningStockDialogComponent implements OnInit {
   fiscalYearSelectedId: any;
   defaultFiscalYearSelectValue: any;
   defaultStoreSelectValue: any;
+  userRoles: any;
   isEditDataReadOnly: boolean = true;
 
   isEdit: boolean = false;
-  userRoles: any;
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
@@ -491,21 +491,41 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   async getFiscalYears() {
-    
+
     this.api.getFiscalYears()
       .subscribe({
         next: async (res) => {
           this.fiscalYearsList = res;
 
-          this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
-          console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
-          if (this.editData) {
-            this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-          }
-          else {
-            this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-            this.getStrOpenAutoNo();
-          }
+          this.api.getLastFiscalYear()
+            .subscribe({
+              next: async (res) => {
+                // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+                this.defaultFiscalYearSelectValue = await res;
+                console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+                if (this.editData) {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+                }
+                else {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+                  this.getStrOpenAutoNo();
+                }
+              },
+              error: (err) => {
+                // console.log("fetch store data err: ", err);
+                // alert("خطا اثناء جلب المخازن !");
+              }
+            })
+
+          // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+          // console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+          // if (this.editData) {
+          //   this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+          // }
+          // else {
+          //   this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+          //   this.getStrOpenAutoNo();
+          // }
           // this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
         },
         error: (err) => {

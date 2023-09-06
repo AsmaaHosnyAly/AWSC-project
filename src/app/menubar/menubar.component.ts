@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GlobalService } from '../services/global.service';
-import { SharedService } from '../shared/shared.service';
+import { SharedService } from '../guards/shared.service';
 
 @Component({
   selector: 'app-menubar',

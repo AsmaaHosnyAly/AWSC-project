@@ -124,10 +124,26 @@
         <a
           mat-list-item
           class="sideNavSubItems"
+          routerLink="/str-vendor"
+        >
+          <p class="font"> المصنع</p></a
+        >
+        <a
+          mat-list-item
+          class="sideNavSubItems"
+          routerLink="/str-model"
+        >
+          <p class="font"> النموذج</p></a
+        >
+        <a
+          mat-list-item
+          class="sideNavSubItems"
           routerLink="/costCenter"
         >
           <p class="font">مركز التكلفة</p></a
         >
+        
+        
       </mat-nav-list>
     </mat-expansion-panel>
     <a
@@ -142,9 +158,8 @@
       mat-list-item
       class="sideNavSubItems"
       routerLink="/STRAdd"
-      (click)="
-        global.getPermissionUserRoles(2, 'stores', 'إذن إضافة', '')
-      "
+      *ngIf="this.shared.STRAdd==true"
+    
     >
       <p class="font">اذن اضافة</p></a
     >
@@ -152,21 +167,29 @@
       mat-list-item
       routerLink="/str-openingStock"
       class="sideNavSubItems"
-      (click)="
-        global.getPermissionUserRoles(3, 'stores', 'الإفتتاحي', '')
-      "
+      *ngIf="this.shared.openingStock==true"
+    
     >
       <p class="font">الافتتاحى</p></a
     >
-
+   
     <a
       mat-list-item
       routerLink="/employeeOpening"
       class="sideNavSubItems"
-      (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
+      *ngIf="this.shared.employeeOpening==true"
     >
       <p class="font">نقل عهدة</p></a
     >
+
+    <a
+    mat-list-item
+    routerLink="/EmployeeOpeningCustody"
+    class="sideNavSubItems"
+    *ngIf="this.shared.employeeOpeningCustody==true"
+  >
+    <p class="font"> الإفتتاحي العهد</p></a
+  >
   </mat-nav-list>
 </mat-expansion-panel>
 
