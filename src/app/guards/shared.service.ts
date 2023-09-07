@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedService {
+  pageTitle: any
   stores=false
   roles=false
   accounts=false
@@ -13,5 +14,6 @@ export class SharedService {
   openingStock=false;
   employeeOpening=false;
   employeeOpeningCustody=false
+  prUser=false
   constructor() { }
 }
