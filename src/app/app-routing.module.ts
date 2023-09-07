@@ -227,15 +227,15 @@ const routes: Routes = [
 
       { path: 'pr-group', component: PrGroupTableComponent },
       { path: 'pr-user', component: PrUserTableComponent },
-
-      // { path: '**', component: ErrorComponent },
-    ],
-  },
-
+      
   // main screens
   { path: 'str-home', component: STRHomeComponent },
   { path: 'hr-home', component: StrEmployeesComponent },
   { path: 'fi-home', component: StrAccountsComponent },
+      // { path: '**', component: ErrorComponent },
+    ],
+  },
+
   // {path:'fi-home',component:StrAccountsComponent},
   // {path:'fi-home',component:StrAccountsComponent},
   // {path:'fi-home',component:StrAccountsComponent},

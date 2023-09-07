@@ -1,10 +1,14 @@
 .example-card {
   /* max-width: 400px; */
   width: 28%;
-  padding:5px 10px;
+  padding:5px 0px;
   margin-bottom: 20px;
   height: 100px;
-  
+  border: 1px rgb(180, 177, 177) solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
 }
 
 .tt{
@@ -22,12 +26,15 @@
     color: var(--secondary-color);
     
 }
+.mat-mdc-card{
+  box-shadow: none !important;
+}
 
 .example-card mat-card-subtitle{
   
   justify-content: center;
   /* background: #ec2727; */
-  width: 120px;
+  min-width: 140px;
   padding: 10px;
   text-align: center !important;
   font-weight: bold;
