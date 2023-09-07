@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ApiService } from '../services/api.service';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
@@ -58,6 +58,9 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   fiscalYearName: any;
   employeeName: any;
   distEmployeeName: any;
+  defaultFiscalYearSelectValue: any;
+  currentDate: any;
+  stateDefaultValue: any;
 
   fiscalYearsList: FiscalYear[] = [];
   fiscalYearCtrl: FormControl;
@@ -97,7 +100,11 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
+    private dialogRef: MatDialogRef<StrEmployeeExchangeDialogComponent>,
     private toastr: ToastrService) {
+
+    this.currentDate = new Date;
+    this.stateDefaultValue = 'جديد';
 
     this.fiscalYearCtrl = new FormControl();
     this.filteredFiscalYear = this.fiscalYearCtrl.valueChanges.pipe(
@@ -149,17 +156,17 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
       destEmployeeId: ['', Validators.required],
       costCenterId: ['', Validators.required],
       transactionUserId: ['', Validators.required],
-      date: ['', Validators.required],
+      date: [this.currentDate, Validators.required],
       fiscalYearId: ['', Validators.required],
       total: ['', Validators.required],
     });
 
     this.groupDetailsForm = this.formBuilder.group({
       employee_ExchangeId: ['', Validators.required], //MasterId
-      qty: ['', Validators.required],
+      qty: ['1', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
-      state: ['', Validators.required],
+      state: [this.stateDefaultValue, Validators.required],
       percentage: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
@@ -184,7 +191,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
 
       console.log("editData: ", this.editData)
-      
+
     }
 
     this.getAllDetailsForms();
@@ -193,6 +200,10 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
+  }
+
+  getAllMasterForms() {
+    this.dialogRef.close('save');
   }
 
   getStores() {
@@ -279,6 +290,25 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.fiscalYearsList = res;
+
+          this.api.getLastFiscalYear()
+            .subscribe({
+              next: async (res) => {
+                // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+                this.defaultFiscalYearSelectValue = await res;
+                console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+                if (this.editData) {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+                }
+                else {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+                }
+              },
+              error: (err) => {
+                // console.log("fetch store data err: ", err);
+                // alert("خطا اثناء جلب المخازن !");
+              }
+            })
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -452,7 +482,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     console.log("filter: ", value)
     const filterValue = value;
     return this.itemsList.filter(item =>
-      item.name.toLowerCase().includes(filterValue) 
+      item.name.toLowerCase().includes(filterValue)
     );
   }
   openAutoItem() {
@@ -529,6 +559,9 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
+                this.groupDetailsForm.controls['qty'].setValue(1);
+                this.groupDetailsForm.controls['state'].setValue('جديد');
+
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
               },
@@ -577,6 +610,10 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
                 next: (res) => {
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
+                  this.groupDetailsForm.controls['qty'].setValue(1);
+                  this.groupDetailsForm.controls['state'].setValue('جديد');
+
+
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
                 },

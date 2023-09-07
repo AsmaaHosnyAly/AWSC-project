@@ -61,7 +61,7 @@
       </mat-list-item> -->
 
 <!-- start stores -->
-<mat-expansion-panel dir="rtl"   >
+<mat-expansion-panel dir="rtl" *ngIf="this.shared.stores ==true" >
   <mat-expansion-panel-header >
     <mat-panel-title>
       <mat-icon color="primary" class="ms-2">store</mat-icon>
@@ -150,9 +150,7 @@
       mat-list-item
       class="sideNavSubItems"
       routerLink="/withdraw"
-      (click)="
-        global.getPermissionUserRoles(1, 'stores', 'إذن صرف', '')
-      "
+      *ngIf="this.shared.withdraw"
     >
       <p class="font">اذن صرف</p></a
     >
@@ -160,9 +158,8 @@
       mat-list-item
       class="sideNavSubItems"
       routerLink="/STRAdd"
-      (click)="
-        global.getPermissionUserRoles(2, 'stores', 'إذن إضافة', '')
-      "
+      *ngIf="this.shared.STRAdd==true"
+    
     >
       <p class="font">اذن اضافة</p></a
     >
@@ -170,37 +167,36 @@
       mat-list-item
       routerLink="/str-openingStock"
       class="sideNavSubItems"
-      (click)="
-        global.getPermissionUserRoles(3, 'stores', 'الإفتتاحي', '')
-      "
+      *ngIf="this.shared.openingStock==true"
+    
     >
       <p class="font">الافتتاحى</p></a
     >
-    <a
-    mat-list-item
-    routerLink="/EmployeeOpeningCustody"
-    class="sideNavSubItems"
-    (click)="
-      global.getPermissionUserRoles(3, 'stores', ' الشاشة الإفتتاحية للموظفين', '')
-    "
-  >
-    <p class="font"> الإفتتاحي للموظفين</p></a
-  >
+   
     <a
       mat-list-item
       routerLink="/employeeOpening"
       class="sideNavSubItems"
-      (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
+      *ngIf="this.shared.employeeOpening==true"
     >
       <p class="font">نقل عهدة</p></a
     >
+
+    <a
+    mat-list-item
+    routerLink="/EmployeeOpeningCustody"
+    class="sideNavSubItems"
+    *ngIf="this.shared.employeeOpeningCustody==true"
+  >
+    <p class="font"> الإفتتاحي العهد</p></a
+  >
   </mat-nav-list>
 </mat-expansion-panel>
 
      
         <!--start accounts -->
 
-        <mat-expansion-panel dir="rtl">
+        <mat-expansion-panel dir="rtl"  *ngIf="this.shared.accounts==true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <img
@@ -318,11 +314,11 @@
         </mat-expansion-panel>
         <!-- end accounts -->
              <!-- start الموراد البشرية-->
-             <mat-expansion-panel dir="rtl">
+             <mat-expansion-panel dir="rtl" *ngIf="this.shared.hr==true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary" class="ms-2">people</mat-icon>
-                  الموراد البشرية
+                   شئون العاملين
                 </mat-panel-title>
                 <mat-nav-list></mat-nav-list>
               </mat-expansion-panel-header>
@@ -387,7 +383,7 @@
             </mat-expansion-panel>
             <!-- end Hr -->
             <!-- start roles -->
-            <mat-expansion-panel dir="rtl">
+            <mat-expansion-panel dir="rtl" *ngIf="this.shared.roles==true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary"  class="ms-2">store</mat-icon>
@@ -414,7 +410,7 @@
                       ><p class="font" >المستخدمين</p></a
                     >
                     <a mat-list-item class="sideNavSubItems" routerLink="/pr-group"
-                      ><p class="font" >الصلاحيات</p></a
+                      ><p class="font" >المجموعات</p></a
                     >
                   </mat-nav-list>
                 </mat-expansion-panel>

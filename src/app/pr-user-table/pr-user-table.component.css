@@ -196,3 +196,11 @@ footer h3 {
   
 }
 
+.page-title{
+  font-family: 'Cairo', sans-serif;
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+  padding-bottom: 25px;
+  color:  rgb(60, 202, 252);
+}
