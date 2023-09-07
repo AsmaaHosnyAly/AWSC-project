@@ -23,7 +23,7 @@ import { STRItem1Component } from './str/str-item1/str-item1.component';
 import { STREmployeeOpeningCustodyComponent } from './str/str-employee-opening-custody/str-employee-opening-custody.component';
 import { StrProductComponent } from './str/str-product/str-product.component';
 import { FiEntryContainerComponent } from './fi/fi-entry-container/fi-entry-container.component';
-import { StrWithdrawContainerComponent } from './str-withdraw-container/str-withdraw-container.component';
+import { StrWithdrawContainerComponent } from './str/str-withdraw-container/str-withdraw-container.component';
 import { FIAccountComponent } from './fi/fi-account/fi-account.component';
 import { FIAccountHierarchyComponent } from './fi/fi-account-hierarchy/fi-account-hierarchy.component';
 import { FIEntrySourceComponent } from './fi/fi-entry-source/fi-entry-source.component';
