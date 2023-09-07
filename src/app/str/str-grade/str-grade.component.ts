@@ -100,41 +100,6 @@ export class STRGradeComponent implements OnInit {
     });
   }
 
-  editGrade(row: any) {
-    this.dialog
-      .open(STRGradeDialogComponent, {
-        width: '30%',
-        data: row,
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'update') {
-          this.getAllGrades();
-        }
-      });
-  }
-
-  deleteGrade(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
-    if (result) {
-      this.api.deleteGrade(id).subscribe({
-        next: (res) => {
-          alert('تم الحذف بنجاح');
-          this.getAllGrades();
-        },
-        error: () => {
-          alert('خطأ فى حذف العنصر');
-        },
-      });
-    }
-  }
-  openAutoCommodity() {
-    this.commodityCtrl.setValue(''); // Clear the input field value
-  
-    // Open the autocomplete dropdown by triggering the value change event
-    this.commodityCtrl.updateValueAndValidity();
-  }
-  
   async getSearchGrades(name: any) {
     this.api.getGrade().subscribe({
       next: (res) => {
@@ -180,13 +145,50 @@ export class STRGradeComponent implements OnInit {
   }
 
 
+  editGrade(row: any) {
+    this.dialog
+      .open(STRGradeDialogComponent, {
+        width: '30%',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'update') {
+          this.getAllGrades();
+        }
+      });
+  }
+
+  deleteGrade(id: number) {
+    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    if (result) {
+      this.api.deleteGrade(id).subscribe({
+        next: (res) => {
+          alert('تم الحذف بنجاح');
+          this.getAllGrades();
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر');
+        },
+      });
+    }
+  }
+  openAutoCommodity() {
+    this.commodityCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.commodityCtrl.updateValueAndValidity();
+  }
+  
+  
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
+  
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-}
+  }

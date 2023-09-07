@@ -14,14 +14,14 @@
            كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
         </mat-error>
       </mat-form-field> -->
+      <mat-label>النوعية </mat-label>
       <mat-form-field appearance="outline">
-        <mat-label>النوعية </mat-label>
         <input formControlName="name" matInput placeholder="ادخل النوعية">
       </mat-form-field>
       <mat-label>السلعة</mat-label>
       <mat-form-field appearance="outline">
         <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
-          placeholder="{{getGradeData ? getGradeData.commodityName : ''}}" (click)="openAutoCommodity()" required />
+          placeholder="{{getGradeData ? getGradeData.commodityName : 'اختر سلعة'}}" (click)="openAutoCommodity()" required />
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
           (optionSelected)="commoditySelected($event)">
           <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">

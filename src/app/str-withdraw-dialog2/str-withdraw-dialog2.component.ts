@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export class deststore {
@@ -151,6 +151,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  confirm: any;
 
 
 
@@ -167,30 +168,9 @@ export class StrWithdrawDialogComponent implements OnInit {
   ) {
 
 
-    // this.deststoreCtrl = new FormControl();
-    // this.filtereddeststore = this.deststoreCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filterdeststores(value))
-    // );
 
-    // this.storeCtrl = new FormControl();
-    // this.filteredstore = this.storeCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filterstores(value))
-    // );
+   
 
-    // this.employeeCtrl = new FormControl();
-    // this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filterEmployees(value))
-    // );
-
-
-    // this.fiscalYearCtrl = new FormControl();
-    // this.filteredFiscalYear = this.fiscalYearCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filterFiscalYears(value))
-    // );
 
 
     this.costcenterCtrl = new FormControl();
@@ -210,21 +190,26 @@ export class StrWithdrawDialogComponent implements OnInit {
       startWith(''),
       map(value => this._filterLists(value))
     );
+    
   }
-  //  private toastr: ToastrService
 
   ngOnInit(): void {
-    //   this.updateSubscription = interval(3000).subscribe(
-    //  (val) => { this.getProducts()});
 
-    // });
     this.getStores();
     this.getItems();
     this.getFiscalYears();
     this.getEmployees();
     this.getCostCenters();
     this.getDestStores();
+    // this.dialogRef.backdropClick().subscribe(() => { this.closeDialog; });
 
+    // this.dialogRef.disableClose = true;
+    // this.dialogRef.backdropClick().subscribe(async () => await this.safeClose());
+    // this.createForm();
+ 
+
+
+  
     let  dateNow: Date = new Date()
 console.log('Date = ' + dateNow)
     // this.employeeName();
@@ -348,7 +333,7 @@ console.log('Date = ' + dateNow)
       this.isEditDataReadOnly = true;
 
     }
-
+  // 
 
     this.getAllDetailsForms();
 
@@ -590,7 +575,7 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
   }
 
   set_Employee_Null(deststoreId: any) {
-    // alert("deststoreId in null fun:"+ deststoreId)
+    alert("deststoreId in null fun:"+ deststoreId)
 
     this.groupMasterForm.controls['employeeId'].setValue(null);
     this.isReadOnlyEmployee = true;
@@ -994,14 +979,15 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
   getAllMasterForms() {
     let result = window.confirm("هل تريد اغلاق الطلب");
     if (result) {
-      if(this.actionBtnMaster=='save'){
-        this.dialogRef.close('save');
-    }
-    else{
-      this.dialogRef.close('update');
+    //   if(this.actionBtnMaster=='save'){
+    //     this.dialogRef.close('save');
+    // }
+    // else{
+    //   this.dialogRef.close('update');
 
-    }
+    // }
       // this.closeDialog();
+      this.dialogRef.close('Save');
       this.api.getStrWithdraw()
         .subscribe({
           next: (res) => {

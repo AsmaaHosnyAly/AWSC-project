@@ -29,14 +29,6 @@ constructor(private dialog: MatDialog, private api: ApiService){
 ngOnInit(): void {
   // this.getAllGroups();
 }
-  openEmployeeingStockDialog() {
-    this.dialog.open(STREmployeeOpeningCustodyDialogComponent, {
-      width: '90%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-        // this.getAllGroups();
-      }
-    })
-  }
+
 
 }

@@ -16,7 +16,7 @@ import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-openin
   styleUrls: ['./str-employee-opening-custody-table.component.css'],
 })
 export class STREmployeeOpeningCustodyTableComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'employeeName', 'date', 'Action'];
+  displayedColumns: string[] = ['no', 'employeeName','costCenterName','fiscalyear', 'date', 'Action'];
   matchedIds: any;
   storeList: any;
   storeName: any;
@@ -48,6 +48,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.getcostCenter();
   }
 
+  
+
   getAllMasterForms() {
     this.api.getStrEmployeeOpen().subscribe({
       next: (res) => {
@@ -61,7 +63,16 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       },
     });
   }
-
+  openEmployeeingStockDialog() {
+    this.dialog.open(STREmployeeOpeningCustodyDialogComponent, {
+      width: '90%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'Save') {
+        // alert("refreshhhh")
+        this.getAllMasterForms();
+      }
+    })
+  }
   editMasterForm(row: any) {
     this.dialog
       .open(STREmployeeOpeningCustodyDialogComponent, {
@@ -70,82 +81,138 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
+        if (val === 'Update' || 'Save') {
+          // alert("REFRESH")
           this.getAllMasterForms();
         }
       });
   }
 
-  deleteBothForms(id: number) {
-    
-    this.http.get<any>("http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all")
-      .subscribe(res => {
-        this.matchedIds = res.filter((a: any) => {
-          console.log("matched Id &  : ", a.custodyId === id)
-          return a.custodyId === id
-        })
-        var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
 
-        if (this.matchedIds.length) {
-          for (let i = 0; i < this.matchedIds.length; i++) {
+  // deleteBothForms(id: number) {
+  //   var result = confirm('تاكيد الحذف ؟ ');
 
-            console.log("matchedIds details in loop: ", this.matchedIds[i].id)
+  //   this.http.get<any>("http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all")
+  //     .subscribe(res => {
+  //       this.matchedIds = res.filter((a: any) => {
+  //         console.log("matched Id &  : ", a.custodyId === id)
+  //         return a.custodyId === id
+  //       });
 
-            if (result) {
-              this.api. deleteStrEmployeeOpenDetails(this.matchedIds[i].id)
-                .subscribe({
-                  next: (res) => {
-                    // alert("تم الحذف التفاصيل بنجاح");
+        
+  //       alert("تم حذف الاذن بنجاح");
 
-                    // var resultMaster = confirm("هل ترغب بتاكيد حذف الرئيسي؟");
-                    // if (resultMaster) {
-                    console.log("master id to be deleted: ", id)
+  //       // var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
 
-                    this.api.deleteStrEmployeeOpen(id)
-                      .subscribe({
-                        next: (res) => {
-                          // alert("تم حذف الرئيسي بنجاح");
-                          this.toastrDeleteSuccess();
-                          this.getAllMasterForms();
-                        },
-                        error: () => {
-                          alert("خطأ أثناء حذف الرئيسي !!");
-                        }
-                      })
-                    // }
+  //       // if (this.matchedIds.length) {
+  //       //   for (let i = 0; i < this.matchedIds.length; i++) {
 
-                  },
-                  error: () => {
-                    alert("خطأ أثناء حذف التفاصيل !!");
-                  }
-                })
-            }
+  //       //     console.log("matchedIds details in loop: ", this.matchedIds[i].id)
 
-          }
-        }
-        else {
-          if (result) {
-            console.log("master id to be deleted: ", id)
+  //       //     if (result) {
+  //       //       this.api. deleteStrEmployeeOpenDetails(this.matchedIds[i].id)
+  //       //         .subscribe({
+  //       //           next: (res) => {
+  //       //             // alert("تم الحذف التفاصيل بنجاح");
 
-            this.api.deleteStrEmployeeOpen(id)
-              .subscribe({
-                next: (res) => {
-                  // alert("تم حذف الرئيسي بنجاح");
-                  this.toastrDeleteSuccess();
-                  this.getAllMasterForms();
+  //       //             // var resultMaster = confirm("هل ترغب بتاكيد حذف الرئيسي؟");
+  //       //             // if (resultMaster) {
+  //       //             console.log("master id to be deleted: ", id)
+
+  //       //             this.api.deleteStrEmployeeOpen(id)
+  //       //               .subscribe({
+  //       //                 next: (res) => {
+  //       //                   // alert("تم حذف الرئيسي بنجاح");
+  //       //                   this.toastrDeleteSuccess();
+  //       //                   this.getAllMasterForms();
+  //       //                 },
+  //       //                 error: () => {
+  //       //                   alert("خطأ أثناء حذف الرئيسي !!");
+  //       //                 }
+  //       //               })
+  //       //             // }
+
+  //       //           },
+  //       //           error: () => {
+  //       //             alert("خطأ أثناء حذف التفاصيل !!");
+  //       //           }
+  //       //         })
+  //       //     }
+
+  //       //   }
+  //       // }
+  //       // else {
+  //       //   if (result) {
+  //       //     console.log("master id to be deleted: ", id)
+
+  //       //     this.api.deleteStrEmployeeOpen(id)
+  //       //       .subscribe({
+  //       //         next: (res) => {
+  //       //           // alert("تم حذف الرئيسي بنجاح");
+  //       //           this.toastrDeleteSuccess();
+  //       //           this.getAllMasterForms();
+  //       //         },
+  //       //         error: () => {
+  //       //           alert("خطأ أثناء حذف الرئيسي !!");
+  //       //         }
+  //       //       })
+  //       //   }
+  //       // }
+
+  //     }, (err) => {
+  //       alert('خطا اثناء تحديد المجموعة !!');
+  //     }
+  //     );
+  //     this.toastrDeleteSuccess();
+  //     this.getAllMasterForms();
+
+
+
+
+
+  //   }
+
+
+    deleteBothForms(id: number) {
+      var result = confirm('تاكيد الحذف ؟ ');
+  console.log(" id in delete:",id)
+      if (result) {
+        
+        this.api.deleteStrWithdraw(id).subscribe({
+          next: (res) => {
+  
+            this.http
+              .get<any>('http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all')
+              .subscribe(
+                (res) => {
+                  this.matchedIds = res.filter((a: any) => {
+                    // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                    return  a.custodyId === id
+                  });
+  
+                  // for (let i = 0; i < this.matchedIds.length; i++) {
+                  //   this.deleteFormDetails(this.matchedIds[i].id);
+                  // }
+                  alert("تم حذف الاذن بنجاح");
+  
                 },
-                error: () => {
-                  alert("خطأ أثناء حذف الرئيسي !!");
+                (err) => {
+                  alert('خطا اثناء تحديد المجموعة !!');
                 }
-              })
-          }
-        }
+              );
+  
+            this.toastrDeleteSuccess();
+            this.getAllMasterForms();
+          },
+          error: () => {
+            alert('خطأ أثناء حذف المجموعة !!');
+          },
+        });
+      }
+    }
+  
 
-      }, err => {
-        alert("خطا اثناء تحديد المجموعة !!")
-      })
-
-  }
+ 
 
   
 

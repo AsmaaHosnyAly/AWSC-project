@@ -48,7 +48,7 @@ export class ApiService {
   //selvana
   postGrade(data: any) {
     return this.http.post<any>(
-      'http://ims.aswan.gov.eg/api/STRGrade/Add/',
+      'http://ims.aswan.gov.eg/api/STRGrade/Add',
       data
     );
   }
@@ -519,6 +519,7 @@ export class ApiService {
   }
 
   deletestores(id: number) {
+    console.log("id in delete store:",id)
     return this.http.delete<any>(
       'http://ims.aswan.gov.eg/api/STRStore/delete/' + id
     );
@@ -1254,7 +1255,7 @@ export class ApiService {
     }
 
     //enter no. & store
-    else if (no != '' && !store && !date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
+    else if (no != '' && store && !date && !fiscalYear && !itemId && !employeeId && !costCenterId) {
       console.log('enter no. & store strOpen search');
       return this.http.get<any>(
         `${this.url}/STRWithdraw/search?StoreId=${store}&No=${no}`
@@ -1381,7 +1382,7 @@ export class ApiService {
     else if (no == '' && store && !date && !fiscalYear && !itemId && !employeeId && costCenterId) {
       console.log('enter store & cost strOpen search');
       return this.http.get<any>(
-        `${this.url}/STRWithdraw/search?StoreId=${store}&CoatCenterId=${costCenterId}`
+        `${this.url}/STRWithdraw/search?StoreId=${store}&CostCenterId=${costCenterId}`
       );
     }
     else if (no == '' && store && !date && !fiscalYear && !itemId && employeeId && !costCenterId) {

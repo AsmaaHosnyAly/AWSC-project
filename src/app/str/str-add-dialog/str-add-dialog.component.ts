@@ -628,6 +628,9 @@ isEdit: boolean = false;
   }
 
   getAllMasterForms() {
+    let result = window.confirm("هل تريد اغلاق الطلب");
+    if (result) {
+     this.dialogRef.close('Save');
     this.api.getStrOpen()
       .subscribe({
         next: (res) => {
@@ -639,7 +642,8 @@ isEdit: boolean = false;
         error: () => {
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
         }
-      })
+      })}
+      
   }
 
   async getStores() {
