@@ -1,4 +1,4 @@
-import { FiscalYear } from './../hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
+import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -48,7 +48,7 @@ export class ApiService {
   //selvana
   postGrade(data: any) {
     return this.http.post<any>(
-      'http://ims.aswan.gov.eg/api/STRGrade/Add/',
+      'http://ims.aswan.gov.eg/api/STRGrade/Add',
       data
     );
   }

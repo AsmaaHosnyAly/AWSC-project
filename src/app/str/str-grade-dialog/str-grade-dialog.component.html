@@ -1,0 +1,38 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل نوعية   ' : ' إضافة  نوعية جديدة'}}</h1>
+<form [formGroup]="gradeForm" dir="rtl">
+ 
+  <div mat-dialog-content>
+    <form [formGroup]="gradeForm">
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>كود النوعية</mat-label>
+        <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود النوعية">
+        <mat-error *ngIf="gradeForm.get('code')?.invalid && gradeForm.get('code')?.touched">
+           كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
+        </mat-error>
+      </mat-form-field> -->
+      <mat-label>النوعية </mat-label>
+      <mat-form-field appearance="outline">
+        <input formControlName="name" matInput placeholder="ادخل النوعية">
+      </mat-form-field>
+      <mat-label>السلعة</mat-label>
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
+          placeholder="{{getGradeData ? getGradeData.commodityName : 'اختر سلعة'}}" (click)="openAutoCommodity()" required />
+        <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
+          (optionSelected)="commoditySelected($event)">
+          <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
+            {{ commodity.name }} | {{ commodity.code }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-raised-button class="savebtn" (click)="addGrade()" >{{actionBtn}}</button>
+    </form>
+  </div>
+  
+    
+  
+</form>

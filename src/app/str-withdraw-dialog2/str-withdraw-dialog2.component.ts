@@ -1,4 +1,4 @@
-import { CostCenter } from './../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
+import { CostCenter } from '../str/str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 // import { FiscalYear } from './../str-withdraw-dialog2/';
 import { Component, OnInit, Inject, ViewChild, LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
