@@ -13,17 +13,17 @@ export class GlobalService {
   displayScreen: any;
   isStatus = 'مفعل';
   pageTitle: any;
-  icon: any
-stores=false
-accounts=false
+  icon: any;
+  stores = false;
+  accounts = false;
   public navFlag: boolean = true;
+ 
 
   url = 'http://ims.aswan.gov.eg/api';
 
   public reportData: [] = [];
 
-  constructor(private http: HttpClient, private router: Router) { }
-
+  constructor(private http: HttpClient, private router: Router) {}
 
   getUsers(): Observable<any> {
     return this.http.get(
@@ -36,12 +36,11 @@ accounts=false
   }
 
   login(obj: any): Observable<any> {
-    console.log("obj ", obj)
+    console.log('obj ', obj);
     return this.http.get(
       `${this.url}/PRUser/check/${obj.name},${obj.password}`
     );
   }
-
 
   getRolesByUserId(userId: any): Observable<any> {
     console.log('userId ', userId);
@@ -72,33 +71,38 @@ accounts=false
     );
   }
 
-  getPermissionUserRoles(role: any, background: any, pageTitle: any, icon: any) {
+  getPermissionUserRoles(
+    role: any,
+    background: any,
+    pageTitle: any,
+    icon: any
+  ) {
     let userRoles = localStorage.getItem('userRoles')?.split('');
     console.log(userRoles);
     for (let i = 0; i < userRoles!.length; i++) {
       if (role == userRoles![i]) {
-        if(role==1|| role==2 || role==3 || role==4){
-          this.stores=true
-        }
-          if (background == 'stores')
-            this.bgColor = document.querySelector('section')?.setAttribute("class", "role1")
-         
-          if (background == 'acounts')
-            this.bgColor = document.querySelector('section')?.setAttribute("class", "role2")
-          // else
-          // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
-       
+      
+    
+      //   if (background == 'stores')
+      //     this.bgColor = document
+      //       .querySelector('section')
+      //       ?.setAttribute('class', 'role1');
 
-        this.pageTitle = pageTitle
-        return true;
+      //   if (background == 'acounts')
+      //     this.bgColor = document
+      //       .querySelector('section')
+      //       ?.setAttribute('class', 'role2');
+      //   // else
+      //   // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
 
+      //   this.pageTitle = pageTitle;
+      //   return true;
       }
-
     }
     // window.alert('You dont have the permission to visit this page');
     // this.router.navigate(['/home']);
     // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
 
-   return false
+    return true;
   }
 }

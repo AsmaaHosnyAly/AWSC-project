@@ -26,7 +26,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   storeList: any;
   storeName: any;
   fiscalYearsList: any;
-  itemsList:any;
+  itemsList: any;
 
   dataSource2!: MatTableDataSource<any>;
 
@@ -39,7 +39,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAllMasterForms();
@@ -76,7 +76,7 @@ export class StrOpeningStockTableComponent implements OnInit {
       width: '60%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
-        // this.getAllGroups();
+        this.getAllMasterForms();
       }
     })
   }
@@ -88,48 +88,103 @@ export class StrOpeningStockTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
+        if (val === 'update' || val === 'save') {
           this.getAllMasterForms();
         }
       });
   }
 
   deleteBothForms(id: number) {
-    var result = confirm('تاكيد الحذف ؟ ');
+    // var result = confirm('تاكيد الحذف ؟ ');
 
-    if (result) {
-      this.api.deleteStrOpen(id).subscribe({
-        next: (res) => {
-          // alert("تم حذف المجموعة بنجاح");
+    // if (result) {
 
-          this.http
-            .get<any>(
-              'http://ims.aswan.gov.eg/api/STROpeningStockDetails/get/all'
-            )
-            .subscribe(
-              (res) => {
-                this.matchedIds = res.filter((a: any) => {
-                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.HeaderId === id;
-                });
 
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
+    //   this.api.deleteStrOpen(id).subscribe({
+    //     next: (res) => {
+    //       // alert("تم حذف المجموعة بنجاح");
+
+    //       this.http
+    //         .get<any>(
+    //           'http://ims.aswan.gov.eg/api/STROpeningStockDetails/get/all'
+    //         )
+    //         .subscribe(
+    //           (res) => {
+    //             this.matchedIds = res.filter((a: any) => {
+    //               // console.log("matched Id & HeaderId : ", a.stR_Opening_StockId === id)
+    //               return a.stR_Opening_StockId === id;
+    //             });
+
+    //             for (let i = 0; i < this.matchedIds.length; i++) {
+    //               this.deleteFormDetails(this.matchedIds[i].id);
+    //             }
+    //           },
+    //           (err) => {
+    //             // alert('خطا اثناء تحديد المجموعة !!');
+    //           }
+    //         );
+
+    //       this.toastrDeleteSuccess();
+    //       this.getAllMasterForms();
+    //     },
+    //     error: () => {
+    //       // alert('خطأ أثناء حذف المجموعة !!');
+    //     },
+    //   });
+    // }
+
+    this.http.get<any>("http://ims.aswan.gov.eg/api/STROpeningStockDetails/get/all")
+      .subscribe(res => {
+        this.matchedIds = res.filter((a: any) => {
+          return a.stR_Opening_StockId === id
+        })
+        var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+
+        if (this.matchedIds.length) {
+          for (let i = 0; i < this.matchedIds.length; i++) {
+            if (result) {
+              this.api.deleteStrOpenDetails(this.matchedIds[i].id)
+                .subscribe({
+                  next: (res) => {
+
+                    this.api.deleteStrOpen(id)
+                      .subscribe({
+                        next: (res) => {
+                          this.toastrDeleteSuccess();
+                          this.getAllMasterForms();
+                        },
+                        error: () => {
+                          // alert("خطأ أثناء حذف الرئيسي !!");
+                        }
+                      })
+
+                  },
+                  error: () => {
+                    // alert("خطأ أثناء حذف التفاصيل !!");
+                  }
+                })
+            }
+
+          }
+        }
+        else {
+          if (result) {
+            this.api.deleteStrOpen(id)
+              .subscribe({
+                next: (res) => {
+                  this.toastrDeleteSuccess();
+                  this.getAllMasterForms();
+                },
+                error: () => {
+                  // alert("خطأ أثناء حذف الرئيسي !!");
                 }
-              },
-              (err) => {
-                // alert('خطا اثناء تحديد المجموعة !!');
-              }
-            );
+              })
+          }
+        }
 
-          this.toastrDeleteSuccess();
-          this.getAllMasterForms();
-        },
-        error: () => {
-          // alert('خطأ أثناء حذف المجموعة !!');
-        },
-      });
-    }
+      }, err => {
+        // alert("خطا اثناء تحديد المجموعة !!")
+      })
   }
 
   deleteFormDetails(id: number) {
@@ -235,7 +290,7 @@ export class StrOpeningStockTableComponent implements OnInit {
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
         }
-    });
+      });
   }
 
   toastrDeleteSuccess(): void {

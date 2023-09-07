@@ -58,6 +58,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       width: '100%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
+        this.getAllMasterForms();
       }
     })
   }
@@ -96,7 +97,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       width: '100%',
       data: row
     }).afterClosed().subscribe(val => {
-      if (val === 'update') {
+      if (val === 'update' || val === 'save') {
         this.getAllMasterForms();
       }
     })

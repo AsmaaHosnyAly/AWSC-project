@@ -3,16 +3,20 @@
 2-STRAdd اذن اضافة
 3-str-openingStock الافتتاحية 
 4-employeeOpening نقل عهده
-5-commodity السلعة
-6-grade النوعية
-7-str-platoon الفصيلة
-8-group1 المجموعة
-9-unit الوحدة
-10-items1 الاصناف
-11-products المنتجات 
-12-stores المخازن
-13-costCenter مركز التكلفة
-14-المصنع
-15- حسابات المخازن
-******************accounts************************
+5-الإفتتاحي للموظفين
+6-commodity السلعة
+7-grade النوعية
+8-str-platoon الفصيلة
+9-group1 المجموعة
+10-unit الوحدة
+11-items1 الاصناف
+12-products المنتجات 
+13-stores المخازن
+14-costCenter مركز التكلفة
+15-المصنع
+16-النوذج
+17- حسابات المخازن
+******************Roles************************
 
+18-pr-user
+19-pr-group
