@@ -1,4 +1,4 @@
-import { FiscalYear } from '../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
+import { FiscalYear } from '../../str/str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
