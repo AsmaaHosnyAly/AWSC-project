@@ -48,7 +48,7 @@ export class ApiService {
   //selvana
   postGrade(data: any) {
     return this.http.post<any>(
-      'http://ims.aswan.gov.eg/api/STRGrade/Add/',
+      'http://ims.aswan.gov.eg/api/STRGrade/Add',
       data
     );
   }
