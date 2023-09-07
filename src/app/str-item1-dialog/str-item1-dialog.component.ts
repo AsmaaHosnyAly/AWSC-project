@@ -116,23 +116,24 @@ export class STRItem1DialogComponent implements OnInit {
     this.itemForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       fullCode: [''],
-      no: [''],
       name: ['', Validators.required],
       commodityId: ['', Validators.required],
       commodityName: [''],
-      commodityCode: [''],
+      commoditycode: [''],
       gradeId: ['', Validators.required],
       gradeName: [''],
-      gradeCode: [''],
+      gradecode: [''],
       platoonId: ['', Validators.required],
       platoonName: [''],
-      platoonCode: [''],
+      platooncode: [''],
       groupId: ['', Validators.required],
       groupName: [''],
-      groupCode: [''],
+      groupcode: [''],
       unitId: ['', Validators.required],
       unitName: [''],
-      unitCode: [''],
+      type: ['عهدة'],
+      isActive: [true],      
+      no: [''],
       id: [''],
     });
 
@@ -163,23 +164,23 @@ export class STRItem1DialogComponent implements OnInit {
       this.itemForm.controls['fullCode'].setValue(this.editData.fullCode);
       this.itemForm.controls['type'].setValue(this.editData.type);
       this.itemForm.controls['isActive'].setValue(this.editData.isActive);
-      this.itemForm.controls['no'].setValue(this.editData.no);
+      this.itemForm.controls['no'].setValue(this.editData.no);     
+
       this.itemForm.controls['name'].setValue(this.editData.name);
-      this.itemForm.controls['unitId'].setValue(this.editData.commodityId);
-      this.itemForm.controls['unitName'].setValue(this.editData.commodityName);
-      this.itemForm.controls['unitCode'].setValue(this.editData.commodityName);      
+      this.itemForm.controls['unitId'].setValue(this.editData.unitId);
+      this.itemForm.controls['unitName'].setValue(this.editData.unitName);
       this.itemForm.controls['commodityId'].setValue(this.editData.commodityId);
       this.itemForm.controls['commodityName'].setValue(this.editData.commodityName);
-      this.itemForm.controls['commodityCode'].setValue(this.editData.commodityName);
+      this.itemForm.controls['commoditycode'].setValue(this.editData.commoditycode);
       this.itemForm.controls['gradeId'].setValue(this.editData.gradeId);
       this.itemForm.controls['gradeName'].setValue(this.editData.gradeName);
-      this.itemForm.controls['gradeCode'].setValue(this.editData.commodityName);
+      this.itemForm.controls['gradecode'].setValue(this.editData.gradecode);
       this.itemForm.controls['platoonId'].setValue(this.editData.platoonId);
-      this.itemForm.controls['platoonName'].setValue(this.editData.gradeName);
-      this.itemForm.controls['platoonCode'].setValue(this.editData.commodityName);
-      this.itemForm.controls['groupId'].setValue(this.editData.platoonId);
+      this.itemForm.controls['platoonName'].setValue(this.editData.platoonName);
+      this.itemForm.controls['platooncode'].setValue(this.editData.platooncode);
+      this.itemForm.controls['groupId'].setValue(this.editData.groupId);
       this.itemForm.controls['groupName'].setValue(this.editData.gradeName);
-      this.itemForm.controls['groupCode'].setValue(this.editData.commodityName);
+      this.itemForm.controls['groupcode'].setValue(this.editData.groupcode);
       this.itemForm.addControl('id', new FormControl('', Validators.required));
       this.itemForm.controls['id'].setValue(this.editData.id);
     }
@@ -218,8 +219,7 @@ export class STRItem1DialogComponent implements OnInit {
     this.selectedCommodity = commodity;
     this.itemForm.patchValue({ commodityId: commodity.id });
     this.itemForm.patchValue({ commodityName: commodity.name });
-    this.itemForm.patchValue({ commodityCode: commodity.code });
-    this.gradeCtrl.setValue('');
+    this.itemForm.patchValue({ commoditycode: commodity.code });
   }
 
   gradeSelected(event: MatAutocompleteSelectedEvent): void {
@@ -227,8 +227,7 @@ export class STRItem1DialogComponent implements OnInit {
     this.selectedGrade = grade;
     this.itemForm.patchValue({ gradeId: grade.id });
     this.itemForm.patchValue({ gradeName: grade.name });
-    this.itemForm.patchValue({ gradeCode: grade.code });
-    this.platoonCtrl.setValue('');
+    this.itemForm.patchValue({ gradecode: grade.code });
   }
 
   platoonSelected(event: MatAutocompleteSelectedEvent): void {
@@ -236,7 +235,7 @@ export class STRItem1DialogComponent implements OnInit {
     this.selectedPlatoon = platoon;
     this.itemForm.patchValue({ platoonId: platoon.id });
     this.itemForm.patchValue({ platoonName: platoon.name });
-    this.itemForm.patchValue({ platoonCode: platoon.code });
+    this.itemForm.patchValue({ platooncode: platoon.code });
   }
 
   groupSelected(event: MatAutocompleteSelectedEvent): void {
@@ -244,7 +243,7 @@ export class STRItem1DialogComponent implements OnInit {
     this.selectedGroup = group;
     this.itemForm.patchValue({ groupId: group.id });
     this.itemForm.patchValue({ groupName: group.name });
-    this.itemForm.patchValue({ groupCode: group.code });
+    this.itemForm.patchValue({ groupcode: group.code });
     this.getNoByGroupId();
   }
 
@@ -324,8 +323,8 @@ export class STRItem1DialogComponent implements OnInit {
     this.api.getItemNo(this.selectedGroup?.id).subscribe({
       next: (res) => {
 
-        this.No = res;
-        console.log('number: ', this.No);
+        this.itemForm.value.no = res;
+       console.log('number: ', this.itemForm.value.no);
       },
       error: (err) => {
         console.log('get no. err: ', err);
@@ -333,15 +332,15 @@ export class STRItem1DialogComponent implements OnInit {
     });
   }
 
-  addGroup() {
+  addItem() {
     this.fullCode =
-    this.itemForm.value.commodityCode.toString()+
-    this.itemForm.value.gradeCode.toString() +
-    this.itemForm.value.platoonCode +
-    this.itemForm.value.groupCode +
-    this.No;
+    this.itemForm.value.commoditycode.toString()+
+    this.itemForm.value.gradecode.toString() +
+    this.itemForm.value.platooncode +
+    this.itemForm.value.groupcode +
+    this.itemForm.value.no;
     this.itemForm.controls['fullCode'].setValue(this.fullCode);
-    this.itemForm.controls['no'].setValue(this.No);
+    // this.itemForm.controls['no'].setValue(this.No);
     console.log('add: ', this.itemForm.value);
     this.itemForm.controls['transactionUserId'].setValue(
       this.transactionUserId
@@ -367,14 +366,18 @@ export class STRItem1DialogComponent implements OnInit {
           })
       }
     } else {
-      this.updateGroup()
+      this.updateItem()
     }
   }
 
-  updateGroup() {
+  updateItem() {
+    
     this.api.putItem(this.itemForm.value)
+    
       .subscribe({
         next: (res) => {
+    console.log("update data:",this.itemForm.value);
+
           alert("تم التحديث بنجاح");
           this.itemForm.reset();
           this.dialogRef.close('update');
