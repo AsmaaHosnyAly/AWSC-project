@@ -226,7 +226,3 @@ applyFilter(event: Event) {
   }
 }
 }
-
-
-
-
