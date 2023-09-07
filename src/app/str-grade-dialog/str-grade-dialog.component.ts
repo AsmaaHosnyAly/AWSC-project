@@ -40,7 +40,6 @@ export class STRGradeDialogComponent {
   gradeForm!: FormGroup;
   actionBtn: string = 'حفظ';
   selectedOption: any;
-  Code: any;
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -125,10 +124,12 @@ export class STRGradeDialogComponent {
   }
 
   getCodeByCommodityId() {
-    this.api.getGroupCode(this.selectedCommodity?.id).subscribe({
+    this.api.getGradeCode(this.selectedCommodity?.id).subscribe({
       next: (res) => {
-        this.Code = res;
-        console.log('GradeCode: ', this.Code);
+        console.log("res value:",res);
+        
+        this.gradeForm.value.code = res;
+        console.log("code value:",this.gradeForm.value.code);
       },
       error: (err) => {
         console.log('get code. err: ', err);
@@ -137,7 +138,6 @@ export class STRGradeDialogComponent {
   }
 
   addGrade() {
-    this.gradeForm.controls['code'].setValue(this.Code);
     if (!this.editData) {
       this.gradeForm.removeControl('id');
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
