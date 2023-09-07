@@ -83,20 +83,20 @@ export class GlobalService {
       if (role == userRoles![i]) {
       
     
-      //   if (background == 'stores')
-      //     this.bgColor = document
-      //       .querySelector('section')
-      //       ?.setAttribute('class', 'role1');
+        if (background == 'stores')
+          this.bgColor = document
+            .querySelector('section')
+            ?.setAttribute('class', 'role1');
 
-      //   if (background == 'acounts')
-      //     this.bgColor = document
-      //       .querySelector('section')
-      //       ?.setAttribute('class', 'role2');
-      //   // else
-      //   // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
+        if (background == 'acounts')
+          this.bgColor = document
+            .querySelector('section')
+            ?.setAttribute('class', 'role2');
+        // else
+        // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
 
-      //   this.pageTitle = pageTitle;
-      //   return true;
+        this.pageTitle = pageTitle;
+        return true;
       }
     }
     // window.alert('You dont have the permission to visit this page');

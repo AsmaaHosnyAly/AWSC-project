@@ -64,6 +64,7 @@ import { sTRAddGuard } from './guards/stradd.guard';
 import { strOpeningStockGuard } from './guards/str-opening-stock.guard';
 import { employeeOpeningGuard } from './guards/employee-opening.guard';
 import { employeeOpeningCustodyGuard } from './guards/employee-opening-custody.guard';
+import { prUserGuard } from './guards/pr-user.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -79,7 +80,8 @@ const routes: Routes = [
       withdrawGuard,
       strOpeningStockGuard,
       employeeOpeningGuard,
-      employeeOpeningCustodyGuard
+      employeeOpeningCustodyGuard,
+      prUserGuard
     ],
     children: [
       {
@@ -227,15 +229,15 @@ const routes: Routes = [
 
       { path: 'pr-group', component: PrGroupTableComponent },
       { path: 'pr-user', component: PrUserTableComponent },
-
-      // { path: '**', component: ErrorComponent },
-    ],
-  },
-
+      
   // main screens
   { path: 'str-home', component: STRHomeComponent },
   { path: 'hr-home', component: StrEmployeesComponent },
   { path: 'fi-home', component: StrAccountsComponent },
+      // { path: '**', component: ErrorComponent },
+    ],
+  },
+
   // {path:'fi-home',component:StrAccountsComponent},
   // {path:'fi-home',component:StrAccountsComponent},
   // {path:'fi-home',component:StrAccountsComponent},

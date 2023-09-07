@@ -13,8 +13,8 @@
 
   background: linear-gradient(
     to right,
-    #3ccafc 0%,
-    #3ccafc 45.9%,
+    var(--bg-primary-color) 0%,
+    var(--bg-primary-color) 45.9%,
     transparent 34.33%,
     transparent 100%
   );
@@ -22,7 +22,7 @@
 .main-content {
   display: flex;
   justify-content: center;
-  box-shadow: 1px 2px 5px 6px rgba(151, 150, 150, 0.55);
+  box-shadow: 1px 1px 1px 2px rgba(114, 113, 113, 0.55);
   border-radius: 5px;
   width: 65%;
   height: 70%;
@@ -92,11 +92,12 @@
 .login-form input {
   margin: auto;
   margin-top: 20px;
-  border: none;
-  border: 1px solid gainsboro;
   padding: 10px;
   width: 55%;
-  background-color: #ffff !important;
+  border: 1px rgb(148, 147, 147) solid;
+ border-radius: 0 !important;
+
+ 
 }
 .alert-danger {
   margin-top: 7px;
@@ -110,9 +111,9 @@
   text-align: center;
   margin: auto;
   margin-top: 50px;
-  border-radius: 5px;
+  border-radius: 2px;
   padding: 5px 40px;
-  background-color: #00c3ff;
+  background-color:    var(--bg-primary-color);
   color: white;
   border: #2dc4f3;
   font-size: 20px;

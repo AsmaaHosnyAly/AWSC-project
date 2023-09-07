@@ -15,6 +15,9 @@ body { margin: 0; font-family: 'Cairo', sans-serif;}
     --primary-color: rgb(255, 255, 255);
     --secondary-color: rgb(60, 202, 252);
     --white-Color: (255, 255, 255);
+    --bg-primary-color:#005061;
+    --add-btn-color:#0D557E;
+    
 }
 
 
