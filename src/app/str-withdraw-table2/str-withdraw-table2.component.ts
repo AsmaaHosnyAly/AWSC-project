@@ -70,13 +70,17 @@ export class StrWithdrawTableComponent implements OnInit {
     this.dialog.open(StrWithdrawDialogComponent, {
       width: '90%'
     }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-       
+      if (val === 'Save') {
+        // alert("refresh")
+
         this.getAllMasterForms();
       }
-    })
+    });
+  //   dRef.componentInstance.onSubmit.subscribe(() => {
+   
+  //    dRef.close();
+  // });}
   }
-
   getAllMasterForms() {
     this.api.getStrWithdraw().subscribe({
       next: (res) => {
@@ -86,7 +90,7 @@ export class StrWithdrawTableComponent implements OnInit {
         this.dataSource2.sort = this.sort;
       },
       error: () => {
-        alert('خطأ أثناء جلب سجلات المجموعة !!');
+        alert('خطأ أثناء جلب سجلات اذن الصرف !!');
       },
     });
   }
@@ -99,7 +103,8 @@ export class StrWithdrawTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
+        if (val === 'Update' || 'Save') {
+          // alert("refresh")
           this.getAllMasterForms();
         }
       });
@@ -125,7 +130,7 @@ console.log(" id in delete:",id)
                 // for (let i = 0; i < this.matchedIds.length; i++) {
                 //   this.deleteFormDetails(this.matchedIds[i].id);
                 // }
-                alert("تم حذف المجموعة بنجاح");
+                alert("تم حذف الاذن بنجاح");
 
               },
               (err) => {
@@ -217,7 +222,7 @@ console.log(" id in delete:",id)
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب المخازن !');
+        alert('خطا اثناء جلب المخازن الخارجية !');
       },
     });
   }
