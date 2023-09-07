@@ -1,6 +1,8 @@
 
 
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { StrCommodityDialogComponent } from '../STR_Commodity_dialog/str-commodity-dialog.component';
 import { ApiService } from '../services/api.service';
@@ -128,6 +130,9 @@ title = 'Angular13Crud';
 //define table fields which has to be same to api fields
 displayedColumns: string[] = ['code', 'name','action'];
 dataSource!: MatTableDataSource<any>;
+// TableForm !: FormControl;
+productForm !: FormGroup;
+
 commoditylist:any;
 commodity: any = {
   id: 0,
@@ -162,6 +167,8 @@ openDialog() {
 }
 
 getAllcommodity() {
+  // this.TableForm.reset();
+  // this.productForm.controls['commoditySearch'].setValue('')
   this.api.getcommodity()
     .subscribe({
       next: (res) => {
