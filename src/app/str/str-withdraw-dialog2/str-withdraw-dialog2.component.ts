@@ -1,8 +1,9 @@
-import { CostCenter } from '../str/str-employee-exchange-dialog/str-employee-exchange-dialog.component';
+import { StrCostcenterComponent } from './../str-costcenter/str-costcenter.component';
+// import { CostCenter } from '../str/StrCostcenterComponent/';
 // import { FiscalYear } from './../str-withdraw-dialog2/';
 import { Component, OnInit, Inject, ViewChild, LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ApiService } from '../services/api.service';
+import { ApiService } from '../../services/api.service';
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';

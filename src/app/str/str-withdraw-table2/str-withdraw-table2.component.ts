@@ -1,16 +1,16 @@
-import { FiscalYear } from '../str/str-employee-exchange-dialog/str-employee-exchange-dialog.component';
+import { FiscalYear } from '../../str/str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { ApiService } from '../services/api.service';
+import { ApiService } from '../../services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw-dialog2.component';
 import { ToastrService } from 'ngx-toastr';
-import { SharedService } from '../guards/shared.service';
-import { GlobalService } from '../services/global.service';
+import { SharedService } from '../../guards/shared.service';
+import { GlobalService } from '../../services/global.service';
 
 @Component({
   selector: 'app-str-withdraw-table2',
