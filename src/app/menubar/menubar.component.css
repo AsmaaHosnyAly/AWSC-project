@@ -104,7 +104,8 @@
   display: flex;
   justify-content: flex-start;
   font-family: 'Cairo', sans-serif;
-  font-weight: bold;
+  font-weight:bold;
+  font-size: 15px;
   /* background-color: aqua; */
   flex: 20%;
   text-align: right;
