@@ -1,7 +1,7 @@
 <div class="page-title"> السلعة</div>
-<div class="container" dir="rtl"><mat-card>
+<div class="container" dir="rtl" ><mat-card>
   <mat-card-content>
-    <mat-accordion class="example-headers-align" multi dir="rtl">
+    <mat-accordion class="example-headers-align" multi dir="rtl" >
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-description>
@@ -9,7 +9,7 @@
             <mat-icon>search</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-    <div class="search">
+    <div class="search" >
       
       <!-- <mat-form-field appearance="outline">   
         <mat-label>السلعة</mat-label>     
@@ -20,11 +20,11 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field> -->
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" >
         <mat-label>السلعة</mat-label>
         
   
-        <mat-select [(ngModel)]="commodity.id" #commodity plceholder="اختر السلعة" >
+        <mat-select [(ngModel)]="commodity.id" #commodity plceholder="اختر السلعة" formControlName="commoditySearch" >
             <mat-option  *ngFor="let commodity of commoditylist " [value]="commodity.name"
             >{{commodity.name}}</mat-option>
         </mat-select>
@@ -32,6 +32,8 @@
     </mat-form-field>
 
       <button (click)=" getSearchProducts(commodity.value)" >عرض</button>
+      <button (click)=" getAllcommodity()" >الغاء</button>
+
       </div>
       </mat-expansion-panel>
     </mat-accordion>
