@@ -69,9 +69,9 @@ import { STREmployeeOpeningCustodyTableComponent } from './str/str-employee-open
 import { STREmployeeOpeningCustodyDialogComponent } from './str/str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
 import { STRGroup1Component } from './str/str-group1/str-group1.component';
 import { STRGroup1DialogComponent } from './str/str-group1-dialog/str-group1-dialog.component';
-import { StrWithdrawContainerComponent } from './str-withdraw-container/str-withdraw-container.component';
-import { StrWithdrawDialogComponent } from './str-withdraw-dialog2/str-withdraw-dialog2.component';
-import { StrWithdrawTableComponent } from './str-withdraw-table2/str-withdraw-table2.component';
+import { StrWithdrawContainerComponent } from './str/str-withdraw-container/str-withdraw-container.component';
+import { StrWithdrawDialogComponent } from './str/str-withdraw-dialog2/str-withdraw-dialog2.component';
+import { StrWithdrawTableComponent } from './str/str-withdraw-table2/str-withdraw-table2.component';
 import { StrProductComponent } from './str/str-product/str-product.component';
 import { StrProductDialogComponent } from './str/str-product-dialog/str-product-dialog.component';
 import { STRItem1Component } from './str/str-item1/str-item1.component';
