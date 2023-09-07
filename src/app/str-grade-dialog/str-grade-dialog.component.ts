@@ -126,10 +126,8 @@ export class STRGradeDialogComponent {
   getCodeByCommodityId() {
     this.api.getGradeCode(this.selectedCommodity?.id).subscribe({
       next: (res) => {
-        console.log("res value:",res);
         
         this.gradeForm.value.code = res;
-        console.log("code value:",this.gradeForm.value.code);
       },
       error: (err) => {
         console.log('get code. err: ', err);
@@ -138,6 +136,8 @@ export class STRGradeDialogComponent {
   }
 
   addGrade() {
+    this.gradeForm.controls['code'].setValue(this.gradeForm.value.code);
+
     if (!this.editData) {
       this.gradeForm.removeControl('id');
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
