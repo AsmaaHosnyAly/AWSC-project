@@ -100,8 +100,10 @@ export class STRAddTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save') {
-          this.getAllGroups();
+        if (val === 'Save') {
+          // alert("refresh")
+
+          this.getAllMasterForms();
         }
       });
   }
@@ -127,7 +129,8 @@ export class STRAddTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
+        if (val === 'Update' || 'Save') {
+          // alert("refresh")
           this.getAllMasterForms();
         }
       });

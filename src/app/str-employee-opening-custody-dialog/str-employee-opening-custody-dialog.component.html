@@ -1,5 +1,6 @@
-<!-- <p>str-opening-stock-dialog works!</p> -->
-<h1 mat-dialog-title dir="rtl">اضافة </h1>
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  (click)="getAllMasterForms()" > <mat-icon> clear</mat-icon></button>
+</div><h1 mat-dialog-title dir="rtl">اضافة </h1>
 <div mat-dialog-content dir="rtl" style="padding: 30px;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
@@ -12,25 +13,34 @@
                 </mat-select>
             </mat-form-field> -->
 
-            <mat-form-field appearance="outline" class="groupInput">
+            <!-- <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>السنة المالية</mat-label>
                 <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
                     <mat-option [value]="fiscalYear.id"
                         *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                 </mat-select>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
+                <mat-label>السنة المالية</mat-label>
+                <mat-select  formControlName="fiscalYearId"
+                    (valueChange)="fiscalYearValueChanges($event)">
+                    <mat-option [value]="fiscalYear.id"
+                        *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+                </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="groupInput">
+            <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
                 <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no" [value]="editData ? editData.no : autoNo"
+                <input matInput formControlName="no" [value]="editData ? editData.no : autoNo"
                     type="number">
             </mat-form-field>
 
-            
-            <mat-form-field appearance="outline">
-                <mat-label>اسم الموظف</mat-label>
+            <mat-label style="margin-top: 15px; ">اسم الموظف  :</mat-label>
+
+            <mat-form-field appearance="outline" style="width: 120px;">
                 <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
                     (click)="openAutoEmployee()"
-                    placeholder="{{getCustodyData ? getCustodyData.employeeName : ''}}" required />
+                    placeholder="{{editData ? editData.employeeName : ''}}" required />
                 <mat-autocomplete #autoemployee="matAutocomplete" [displayWith]="displayEmployeeName"
                     (optionSelected)="employeeSelected($event)">
                     <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
@@ -39,12 +49,12 @@
                 </mat-autocomplete>
             </mat-form-field>
 
-           
-            <mat-form-field appearance="outline">
-                <mat-label>مركز التكلفة</mat-label>
+            <mat-label style="margin-top: 15px;">مركز التكلفة :</mat-label>
+
+            <mat-form-field appearance="outline" style="width: 120px;">
                 <input matInput aria-label="costCenter" [matAutocomplete]="autoCostCenter" [formControl]="costCenterCtrl"
                     (click)="openAutoCostCenter()"
-                    placeholder="{{getCustodyData ? getCustodyData.costCenterName : ''}}" required />
+                    placeholder="{{editData ? editData.costCenterName : ''}}" required />
                 <mat-autocomplete #autoCostCenter="matAutocomplete" [displayWith]="displayCostCenterName"
                     (optionSelected)="costCenterSelected($event)">
                     <mat-option *ngFor="let costCenter of filteredCostCenters | async" [value]="costCenter">
@@ -54,7 +64,7 @@
             </mat-form-field>
 
 
-            <mat-form-field appearance="outline" class="example-full-width">
+            <mat-form-field appearance="outline" class="example-full-width" style="width: 150px;">
                 <mat-label>التاريخ</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="date">
                 <mat-datepicker-toggle matIconSuffix [for]="picker">
@@ -63,9 +73,9 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="groupInput">
+            <mat-form-field appearance="outline" class="groupInput" style="width: 140px;">
                 <mat-label>الاجمالى</mat-label>
-                <input matInput placeholder="الرقم" type="number"
+                <input matInput type="number"
                     [value]="groupMasterForm ? groupMasterForm.getRawValue().total : sumOfTotals" readonly>
             </mat-form-field>
         </div>
@@ -85,34 +95,46 @@
                     <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
                 </mat-form-field> -->
 
-                <mat-form-field appearance="outline">
+                <!-- <mat-form-field appearance="outline">
                     <mat-label>الصنف</mat-label>
                     <input matInput aria-label="Item" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
                         (click)="openAutoEmployee()"
-                        placeholder="{{getCustodyData ? getCustodyData.itemeName : ''}}" required />
+                        placeholder="{{getDetailedRowData ? getDetailedRowData.itemeName : ''}}" required />
                     <mat-autocomplete #autoitem="matAutocomplete" [displayWith]="displayItemName"
                         (optionSelected)="itemSelected($event)">
                         <mat-option *ngFor="let item of filteredItems | async" [value]="item">
                             {{ item.name }}
                         </mat-option>
                     </mat-autocomplete>
-                </mat-form-field>
+                </mat-form-field> -->
+                <mat-label style="margin-top: 15px; ">الصنف*</mat-label>
+
+                <mat-form-field appearance="outline" style="width: 130px;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
+                      placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : ''}}" (click)="openAutoItem()" required />
+                    <mat-autocomplete #autoitem="matAutocomplete" #itemId
+                      [displayWith]="displayItemName" (optionSelected)="itemSelected($event)">
+                      <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+                        {{ item.name }} |  {{ item.id }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
 
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label>الكمية</mat-label>
-                    <input type="number" matInput placeholder="الكمية" formControlName="qty"
+                    <input type="number" matInput  formControlName="qty"
                         [value]="getDetailedRowData ? getDetailedRowData.qty : ''">
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label>السعر</mat-label>
-                    <input type="number" matInput placeholder="السعر" formControlName="price"
+                    <input type="number" matInput formControlName="price"
                         [value]="getDetailedRowData ? getDetailedRowData.price : ''">
                 </mat-form-field>
 
 
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label>النسبة</mat-label>
-                    <input type="number" matInput placeholder="النسبة" formControlName="percentage"
+                    <input type="number" matInput formControlName="percentage"
                         [value]="getDetailedRowData ? getDetailedRowData.percentage : ''">
                 </mat-form-field>
 

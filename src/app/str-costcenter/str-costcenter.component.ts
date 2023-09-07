@@ -104,12 +104,15 @@ export class StrCostcenterComponent  implements OnInit {
 this.api.deleteCostCenter(id)
 .subscribe({
 next:(res)=>{
+
+ if(res == 'Success'){
+  console.log("res of deletestore:",res)
 alert("تم الحذف");
 this.getAllCostCenter();
-},
-error:()=>{
-  alert("خطأ في الحذف")
-}
+}else{
+  alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+
+}}
 })
 }
 
