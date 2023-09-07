@@ -98,14 +98,22 @@ export class StrStoreComponent  implements OnInit {
 
 deleteStore(id:number){
   if(confirm("هل انت متأكد من الحذف؟")) {
-this.api.deleteStore(id)
+this.api.deletestores(id)
 .subscribe({
 next:(res)=>{
+  if(res == 'Success'){
+  console.log("res of deletestore:",res)
 alert("تم الحذف");
 this.getAllStores();
+}else{
+  alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+
+}
 },
+
 error:()=>{
-  alert("خطأ في الحذف")
+  console.log("res of deletestore:")
+
 }
 })}
 }

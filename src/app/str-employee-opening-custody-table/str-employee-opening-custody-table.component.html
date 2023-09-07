@@ -1,4 +1,13 @@
 <!-- <p>str-opening-stock-table works!</p> -->
+<mat-toolbar color="primary">
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>supervised_user_circle</mat-icon>
+  </button>
+  <span>employees</span>
+  <span class="example-spacer"></span>
+  <!-- <button mat-raised-button color="warn" (click)="openDialog()">Add Product</button> -->
+  <button mat-raised-button color="warn" (click)="openEmployeeingStockDialog()">اضافة </button>
+</mat-toolbar>
 <mat-accordion class="example-headers-align" multi dir="rtl">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -28,7 +37,7 @@
         </mat-select>
     </mat-form-field>
 
-    
+
     
    
 
@@ -100,7 +109,15 @@
         <th mat-header-cell *matHeaderCellDef>الموظف</th>
         <td mat-cell *matCellDef="let row">{{ row.employeeName }}</td>
       </ng-container>
-
+      <ng-container matColumnDef="costCenterName">
+        <th mat-header-cell *matHeaderCellDef>مركز التكلفة</th>
+        <td mat-cell *matCellDef="let row">{{ row.costCenterName }}</td>
+      </ng-container>
+     
+        <ng-container matColumnDef="fiscalyear">
+          <th mat-header-cell *matHeaderCellDef> السنة المالية  </th>
+          <td mat-cell *matCellDef="let row"> {{row.fiscalyear}} </td>
+      </ng-container>
       <!-- Date Column -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>التاريخ</th>
