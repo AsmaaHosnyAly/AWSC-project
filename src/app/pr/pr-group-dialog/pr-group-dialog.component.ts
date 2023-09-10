@@ -209,7 +209,7 @@ export class PrGroupDialogComponent implements OnInit {
                 // console.log("res details: ", res)
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
-                // this.groupDetailsForm.controls['groupId'].setValue('');
+                this.prRoleCtrl.setValue('');
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
               },
@@ -258,6 +258,8 @@ export class PrGroupDialogComponent implements OnInit {
                 next: (res) => {
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
+                  this.prRoleCtrl.setValue('');
+
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
                 },
