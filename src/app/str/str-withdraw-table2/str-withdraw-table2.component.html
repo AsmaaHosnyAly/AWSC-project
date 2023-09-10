@@ -7,17 +7,18 @@
         <mat-icon>search</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <div class="search">
-      <mat-form-field appearance="outline">
+  <form [formGroup]="groupMasterForm">
+    <div class="search" id="myForm" >
+      <mat-form-field appearance="outline" >
         <mat-label>الرقم</mat-label>
-        <input #no matInput placeholder="ادخل الرقم" />
+        <input #no matInput placeholder="ادخل الرقم" formControlName="no" (keydown)="getsearch($event)" />
         <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
         <!-- <mat-hint>Hint</mat-hint> -->
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" >
         <mat-label>المخزن</mat-label>
-        <mat-select #storeId plceholder="اختر المخزن">
+        <mat-select #storeId plceholder="اختر المخزن" formControlName="store">
           <mat-option *ngFor="let store of storeList" [value]="store.id">{{
             store.name
           }}</mat-option>
@@ -26,7 +27,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>السنة المالية</mat-label>
-        <mat-select #fiscalYear plceholder="اختر السنة المالية">
+        <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalyear">
           <mat-option
             *ngFor="let fiscalYear of fiscalYearsList"
             [value]="fiscalYear.fiscalyear"
@@ -37,7 +38,7 @@
 
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>التاريخ</mat-label>
-        <input #date matInput [matDatepicker]="picker" />
+        <input #date matInput [matDatepicker]="picker" formControlName="date" />
         <mat-datepicker-toggle matIconSuffix [for]="picker">
           <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
         </mat-datepicker-toggle>
@@ -48,7 +49,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>الصنف </mat-label>
-        <mat-select #item plceholder="اختر  الصنف">
+        <mat-select #item plceholder="اختر  الصنف" formControlName="item">
           <mat-option
             *ngFor="let item of itemsList"
             [value]="item.id"
@@ -58,7 +59,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>الموظف </mat-label>
-        <mat-select  plceholder="اختر  الموظف"  #employeeId>
+        <mat-select  plceholder="اختر  الموظف"  #employeeId formControlName="employee">
           <mat-option
             *ngFor="let employee of employeesList"
             [value]="employee.id"
@@ -69,7 +70,7 @@
   
       <mat-form-field appearance="outline">
         <mat-label>مركز التكلفة </mat-label>
-        <mat-select #costCenterId plceholder="اختر  مركز التكلفة">
+        <mat-select #costCenterId plceholder="اختر  مركز التكلفة" formControlName="costcenter">
           <mat-option
             *ngFor="let costCenter of costCentersList"
             [value]="costCenter.id"
@@ -112,7 +113,7 @@
     >
       <mat-icon>search</mat-icon>
     </button>
-      <button  (click)=" getAllMasterForms()" >الغاء</button>
+      <button  (click)=" getAllAfterCancel()" >الغاء</button>
 
 
 
@@ -132,6 +133,7 @@
 
       <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
     </div>
+  </form>
   </mat-expansion-panel>
 </mat-accordion>
 <section id="content">
@@ -239,3 +241,9 @@
   [pageSizeOptions]="[5, 10, 25, 100]"
   aria-label="Select page of users"
 ></mat-paginator>
+
+
+<!-- <script>
+      document.getElementById("myForm").reset();
+
+</script> -->
