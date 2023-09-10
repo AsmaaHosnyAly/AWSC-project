@@ -51,9 +51,8 @@ font-size: 20px;
     align-items: center;
 }
 .radio{
-    display: inline-block;
-    width: 25%;
-    
+    display: flex;
+    width: 80%;
 }
 
 .example-radio-button {
@@ -117,7 +116,7 @@ font-size: 20px;
 }
 
 .detailsForm .groupInput {
-    flex-basis: 20%;
+  flex-basis: 25%;
 }
 
 .detailsForm .third-parent{
