@@ -61,6 +61,7 @@ font-size: 20px;
 }
 
 .groupAction {
+  margin-top: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -102,7 +103,7 @@ font-size: 20px;
 }
 
   .child-num{
-    width: 10%;
+    width: 12%;
     text-align: right;
 }
 .headerForm .groupInput {
@@ -116,7 +117,7 @@ font-size: 20px;
 }
 
 .detailsForm .groupInput {
-    flex-basis: 19%;
+    flex-basis: 20%;
 }
 
 .detailsForm .third-parent{
@@ -136,8 +137,42 @@ font-size: 20px;
     align-items: center;
 }
 
-.savebtn{
-   
+::ng-deep .mat-form-field-placeholder-wrapper {
+  background-color: blue;
+  display: none !important;
+}
+/* md-autocomplete md-autocomplete-wrap input::-moz-placeholder,
+md-autocomplete md-autocomplete-wrap input:-moz-placeholder,
+ md-autocomplete md-autocomplete-wrap 
+
+md-autocomplete md-autocomplete-wrap input {
+    color: green;
+} */
+
+/* input {
+  &::-webkit-input-placeholder {            
+      font-size: 14px !important;
+      color: #3a3939 !important;
+  }
+  &::-moz-placeholder {
+      font-size: 14px !important;
+      color:#3a3939 !important;
+  }
+  &:-ms-input-placeholder {
+      font-size: 14px !important;
+      color:#3a3939 !important;
+  }
+  &:-moz-placeholder {
+      font-size: 14px !important;
+      color:#3a3939 !important;
+  }
+} */
+input::-webkit-input-placeholder {
+ color: rgb(48, 46, 46); margin:0; text-align:center; 
+ padding:0; display:flex; opacity:2; flex:none; vertical-align:text-top;font-size: 22px;
+}
+.md-autocomplete-suggestions-container{
+  background-color: black;
 }
 .mat-mdc-radio-button ~ .mat-mdc-radio-button {
     margin-left: 10px;
