@@ -11,6 +11,7 @@ import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../guards/shared.service';
 import { GlobalService } from '../../services/global.service';
+import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-str-withdraw-table2',
@@ -32,9 +33,9 @@ export class StrWithdrawTableComponent implements OnInit {
   desstoreName: any;
   itemsList:any;
   costCentersList:any;
-  sharedStores:any
-
-
+  sharedStores:any;
+  form: FormGroup;
+  groupMasterForm !: FormGroup;
 
 
   dataSource2!: MatTableDataSource<any>;
@@ -45,12 +46,16 @@ export class StrWithdrawTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
-    private http: HttpClient,
+    private http: HttpClient,private formBuilder: FormBuilder,
     private toastr: ToastrService,
     @Inject(LOCALE_ID) private locale: string,
     public shared:SharedService,
      private global:GlobalService,
   ) {
+    this.form = this.formBuilder.group({
+      name: [''],
+      email: ['']
+    });
     this.sharedStores =shared.stores 
 
     this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
@@ -66,6 +71,18 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getStores();
     this.getEmployees();
     console.log("looo",this.sharedStores)
+
+    this.groupMasterForm = this.formBuilder.group({
+   no:[''],
+   employee:[''],
+   costcenter:[],
+   item:[''],
+   fiscalyear:[''],
+   date:[''],
+   store:['']
+    });
+
+ 
   
   }
 
@@ -77,7 +94,11 @@ export class StrWithdrawTableComponent implements OnInit {
       this.dataSource2.paginator.firstPage();
     }
   }
-
+  getsearch(code:any){
+    if (code.keyCode == 13) {
+      this.getAllMasterForms();
+     }
+  }
   openWithdrawDialog() {
     this.dialog.open(StrWithdrawDialogComponent, {
       width: '90%'
@@ -93,9 +114,26 @@ export class StrWithdrawTableComponent implements OnInit {
   //    dRef.close();
   // });}
   }
+  getAllAfterCancel(){
+    this.api.getStrWithdraw().subscribe({
+      next: (res) => {
+        
+        console.log('response of get all getGroup from api: ', res);
+        this.dataSource2 = new MatTableDataSource(res);
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset();
+
+      },
+      error: () => {
+        alert('خطأ أثناء جلب سجلات اذن الصرف !!');
+      },
+    });
+  }
   getAllMasterForms() {
     this.api.getStrWithdraw().subscribe({
       next: (res) => {
+        
         console.log('response of get all getGroup from api: ', res);
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;

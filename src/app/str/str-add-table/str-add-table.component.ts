@@ -9,6 +9,7 @@ import { formatDate } from '@angular/common';
 import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.component';
 import { GlobalService } from '../../services/global.service';
 import { Router } from '@angular/router';
+import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-str-add-table',
@@ -41,7 +42,7 @@ export class STRAddTableComponent implements OnInit {
   receiptName: any;
   employeeName: any;
   TypeName: any;
-
+  groupMasterForm !: FormGroup;
   dataSource2!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -52,7 +53,7 @@ export class STRAddTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private global: GlobalService,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
     @Inject(LOCALE_ID) private locale: string
@@ -67,6 +68,18 @@ export class STRAddTableComponent implements OnInit {
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
+    this.groupMasterForm = this.formBuilder.group({
+      no:[''],
+      employee:[''],
+      costcenter:[],
+      item:[''],
+      fiscalyear:[''],
+      date:[''],
+      store:['']
+       });
+
+
+       
   }
 
   applyFilter(event: Event) {
@@ -86,12 +99,15 @@ export class STRAddTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.loadDataToLocalStorage(res);
+        this.groupMasterForm.reset()
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
       },
     });
   }
+
+  
 
   openAddDialog() {
     this.dialog

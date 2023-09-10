@@ -9,17 +9,18 @@
         <mat-icon>search</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
+  <form [formGroup]="groupMasterForm">
     <div class="search">
       <mat-form-field appearance="outline">
         <mat-label>الرقم</mat-label>
-        <input #no matInput placeholder="ادخل الرقم" />
+        <input #no matInput placeholder="ادخل الرقم" formControlName="no" />
         <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
         <!-- <mat-hint>Hint</mat-hint> -->
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>المخزن</mat-label>
-        <mat-select #storeId plceholder="اختر المخزن">
+        <mat-select #storeId plceholder="اختر المخزن" formControlName="store">
           <mat-option *ngFor="let store of storeList" [value]="store.id">{{
             store.name
           }}</mat-option>
@@ -28,7 +29,7 @@
 
       <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>التاريخ</mat-label>
-        <input #date matInput [matDatepicker]="picker" />
+        <input #date matInput [matDatepicker]="picker" formControlName="date" />
         <mat-datepicker-toggle matIconSuffix [for]="picker">
           <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
         </mat-datepicker-toggle>
@@ -50,6 +51,7 @@
         <mat-icon>print</mat-icon>
       </button>
     </div>
+  </form>
   </mat-expansion-panel>
 </mat-accordion>
 
