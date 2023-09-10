@@ -59,6 +59,7 @@ export class StrWithdrawTableComponent implements OnInit {
   ngOnInit(): void {
     this.getDestStores();
     this.getFiscalYears();
+  this.getItems();
 
     this.getCostCenters();
     this.getAllMasterForms();
@@ -172,7 +173,19 @@ console.log(" id in delete:",id)
         }
       })
   }
-
+  getItems() {
+    this.api.getItems()
+      .subscribe({
+        next: (res) => {
+          this.itemsList = res;
+          console.log("items res: ", this.itemsList);
+        },
+        error: (err) => {
+          console.log("fetch items data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
   getStores() {
     this.api.getStore().subscribe({
       next: (res) => {
@@ -254,27 +267,36 @@ console.log(" id in delete:",id)
 
 
   getSearchStrWithdraw(no: any, store: any, date: any, fiscalYear: any, item: any, employee:any ,costCenter:any) {
-    console.log(
-      'no. : ',
-      no, 'store : ',
-      store,
-      'date: ',
-      date,
-      'fiscalYear: ',
-      fiscalYear, 'item:',item,  'employee: ',
-      employee,
-      'costCenter:',
-      costCenter
-    );
-    this.api.getStrWithdrawSearch(no, store, date, fiscalYear, item, employee ,costCenter).subscribe({
+    // if(!store == true){
+    //   store=null;
+    // }
+    // if(!date == true){
+    //   date=null;
+    // }
+    // if(!fiscalYear == true){
+    //   fiscalYear=null;
+    // }
+    // if(!item == true){
+    //   item=null;
+    // }
+    // if(!employee == true){
+    //   employee=null;
+    // }
+    // if(!costCenter == true){
+    //   costCenter=null;
+    // }
+    // if(!no == true){
+    //   no=null;
+    // }
+
+   this.api.getStrWithdrawSearch(no, store, date, fiscalYear, item, employee ,costCenter).subscribe({
       next: (res) => {
         this.dataSource2 = res
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
       },
       error: (err) => {
-        // alert("Error")
-      }
+console.log("eroorr",err)      }
     })
 }
 

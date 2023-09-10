@@ -51,8 +51,8 @@
         <mat-select #item plceholder="اختر  الصنف">
           <mat-option
             *ngFor="let item of itemsList"
-            [value]="item.item"
-            >{{ item.item }}</mat-option
+            [value]="item.id"
+            >{{ item.name }}</mat-option
           >
         </mat-select>
       </mat-form-field>
@@ -98,47 +98,37 @@
           >
         </mat-select>
       </mat-form-field> -->
+      <button
+      mat-icon-button
+      color="primary"
+      (click)="
+      getSearchStrWithdraw(
+        no.value,
+        storeId.value,
+        date.value,
+        fiscalYear.value,item.value,employeeId.value,costCenterId.value
+      )
+    "
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+      <button  (click)=" getAllMasterForms()" >الغاء</button>
+
+
+
 
       <div class="print display">
         <button (click)="printReport()">
-          طباعة <mat-icon class="me-2">print</mat-icon>
+          طباعة <mat-icon >print</mat-icon>
         </button>
       </div>
 
-      <div class="print">
-        <!-- <button
-          class="show-btn"
-          mat-icon-button
-          color="primary"
-          (click)="
-            getSearchStrWithdraw(
-              no.value,
-              storeId.value,
-              date.value,
-              fiscalYear.value,item.value,employeeId.value,costCenterId.value
-            )
-          "
-        >
-          عرض
-        </button> -->
+      <!-- <div class="print search"> -->
+   
 
-        <button
-        mat-icon-button
-        color="primary"
-        (click)="
-        getSearchStrWithdraw(
-          no.value,
-          storeId.value,
-          date.value,
-          fiscalYear.value,item.value,employeeId.value,costCenterId.value
-        )
-      "
-      >
-        <mat-icon>search</mat-icon>
-      </button>
-        <button style="margin: 15px;" (click)=" getAllMasterForms()" >الغاء</button>
+      
 
-      </div>
+      <!-- </div> -->
 
       <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
     </div>

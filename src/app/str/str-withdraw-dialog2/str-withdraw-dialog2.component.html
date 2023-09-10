@@ -197,7 +197,7 @@
       ">
       <h1 mat-dialog-title class="add-h1"> اكمل باقي البيانات </h1>
       <div class="detailsForm">
-        <mat-form-field appearance="outline" class="groupInput">
+        <mat-form-field appearance="outline"  style="width: 110px !important;">
           <mat-label>بحث بالكود </mat-label>
           <input matInput (keydown)="getItemByCode($event)" />
         </mat-form-field>
@@ -211,7 +211,7 @@
           </mat-select>
         </mat-form-field> -->
 
-        <mat-form-field appearance="outline" style="width: 130px;">
+        <mat-form-field appearance="outline" style="width: 140px;">
           <mat-label>الصنف*</mat-label>
           <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
             placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : ''}}" (click)="openAutoitem()" required />
@@ -223,50 +223,51 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="groupInput">
+        <mat-form-field appearance="outline" style="width: 140px !important;">
           <mat-label>الكمية</mat-label>
           <input type="number" matInput formControlName="qty"
             [value]="getDetailedRowData ? getDetailedRowData.qty : ''" />
         </mat-form-field>
-        <mat-form-field appearance="outline" class="groupInput">
+        <mat-form-field appearance="outline" style="width: 140px !important;">
           <mat-label>السعر</mat-label>
           <input type="number" matInput formControlName="price"
             [value]="getDetailedRowData ? getDetailedRowData.price : ''" />
         </mat-form-field>
 
 
-
+        <mat-form-field appearance="outline" style="width: 140px !important;">
+          <mat-label> النسبة</mat-label>
+          <input matInput type="number" formControlName="percentage"
+              [value]="getDetailedRowData ? getDetailedRowData.percentage : ''" [readonly]="isReadOnlyPercentage">
+      </mat-form-field>
       </div>
       <div>
         <div class="detailsForm">
-          <!-- <mat-form-field appearance="outline" class="groupInput">
-            <mat-label> النسبة المئوية </mat-label>
-            <input type="number" matInput placeholder="النسبة المئوية" formControlName="percentage"
-              [value]="getDetailedRowData ? getDetailedRowData.percentage : ''" />
-          </mat-form-field> -->
-          <mat-form-field appearance="outline" class="groupInput">
-            <mat-label> النسبة</mat-label>
-            <input matInput type="number" formControlName="percentage"
-                [value]="getDetailedRowData ? getDetailedRowData.percentage : ''" [readonly]="isReadOnlyPercentage">
-        </mat-form-field>
-   
+      
           <div class="radio " >
-            <mat-label>  حالةالصنف</mat-label>
-            <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
-            <mat-radio-group  aria-label="Select an option" formControlName="stateId" (change)="set_Percentage($event)">
-                <mat-radio-button [value]=true >جديد</mat-radio-button>
-                <mat-radio-button [value]=false >مستعمل</mat-radio-button>
-              </mat-radio-group>
-            </div>
+          
+           
+            
+        
+        <div class="radio1" style="margin-top: 10px;margin-bottom: 20px;">
+        <mat-label style="font-size: 18px;">  حالةالصنف:</mat-label>
+        <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
+        <mat-radio-group  aria-label="Select an option" formControlName="stateId" (change)="set_Percentage($event)" >
+            <mat-radio-button [value]=true >جديد</mat-radio-button>
+            <mat-radio-button [value]=false >مستعمل</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div> 
+        
 
 
 
         </div>
 
         <div class="notes">
-          <mat-form-field appearance="outline" class="groupInput">
+          <mat-form-field appearance="outline" class="groupInput" >
             <mat-label> الملاحظات</mat-label>
-            <textarea id="w3review" name="w3review" rows="4" cols="100" matInput></textarea>
+            <textarea id="w3review" name="w3review" rows="2" cols="50" matInput></textarea>
 
           </mat-form-field>
         </div>
