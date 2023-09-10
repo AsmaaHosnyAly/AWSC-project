@@ -1,71 +1,117 @@
 <!-- <p>str-opening-stock-dialog works!</p> -->
-<div class="cdk-overlay-pane  ">
-    <button class="close" mat-button (click)="getAllMasterForms()" mat-dialog-close> <mat-icon>
-            clear</mat-icon></button>
+<div class="cdk-overlay-pane">
+  <button
+    class="close"
+    mat-button
+    (click)="getAllMasterForms()"
+    mat-dialog-close
+  >
+    <mat-icon> clear</mat-icon>
+  </button>
 </div>
 
-<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل إذن إفتتاحي ' : ' إضافة إذن إفتتاحي جديد'}}</h1>
+<h1 mat-dialog-title class="add-h1">
+  {{ editData ? " تعديل إذن إفتتاحي " : " إضافة إذن إفتتاحي جديد" }}
+</h1>
 
-<div mat-dialog-content dir="rtl" style="padding: 30px;">
-    <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
+<div mat-dialog-content dir="rtl" style="padding: 30px">
+  <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
+    <div class="headerForm">
+      <!-- <mat-checkbox (click)="toggleEdit()" >Disable select</mat-checkbox> -->
+      <!-- <button (click)="toggleEdit()" >Edit</button> -->
+      <mat-form-field appearance="outline" class="groupInput">
+        <mat-label>المخازن</mat-label>
+        <mat-select
+          placeholder="المخازن"
+          formControlName="storeId"
+          (valueChange)="storeValueChanges($event)"
+        >
+          <mat-option
+            [value]="userRoles.includes('15') ? store.id : store.storeId"
+            *ngFor="let store of storeList"
+            >{{
+              userRoles.includes("15") ? store.name : store.storeName
+            }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
 
-        <div class="headerForm">
-            <!-- <mat-checkbox (click)="toggleEdit()" >Disable select</mat-checkbox> -->
-            <!-- <button (click)="toggleEdit()" >Edit</button> -->
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>المخازن</mat-label>
-                <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
-                    <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
-                        *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
-                        store.storeName}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+      <mat-form-field appearance="outline" class="child-num">
+        <mat-label>السنة المالية</mat-label>
+        <mat-select
+          placeholder="السنة المالية"
+          formControlName="fiscalYearId"
+          (valueChange)="fiscalYearValueChanges($event)"
+        >
+          <mat-option
+            [value]="fiscalYear.id"
+            *ngFor="let fiscalYear of fiscalYearsList"
+            >{{ fiscalYear.fiscalyear }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
 
-            <mat-form-field appearance="outline" class="child-num">
-                <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
-                    (valueChange)="fiscalYearValueChanges($event)">
-                    <mat-option [value]="fiscalYear.id"
-                        *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+      <mat-form-field appearance="outline" class="child-num">
+        <mat-label>رقم الافتتاحى</mat-label>
+        <input
+          id="autoNoInput"
+          matInput
+          placeholder="رقم الإفتتاحي"
+          formControlName="no"
+          [value]="isEdit == true ? editData.no : autoNo"
+          type="number"
+          readonly
+        />
+      </mat-form-field>
 
-            <mat-form-field appearance="outline" class="child-num">
-                <mat-label>رقم الافتتاحى</mat-label>
-                <input id="autoNoInput" matInput placeholder="رقم الإفتتاحي" formControlName="no"
-                    [value]="isEdit == true ? editData.no : autoNo" type="number" readonly>
-            </mat-form-field>
+      <mat-form-field appearance="outline" class="groupInput">
+        <mat-label>التاريخ</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div dir="ltr">
+      <button
+        mat-raised-button
+        class="follow-btn"
+        (click)="nextToAddFormDetails()"
+        [ngClass]="
+          editDataDetails || MasterGroupInfoEntered
+            ? 'nextButtonEditHeaderDetails'
+            : 'nextButtonAddNewHeader'
+        "
+      >
+        التالى
+      </button>
+    </div>
+  </form>
 
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>التاريخ</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="date">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+  <form
+    [formGroup]="groupDetailsForm"
+    (keydown.enter)="$event.preventDefault()"
+  >
+    <div
+      [ngClass]="
+        MasterGroupInfoEntered || editDataDetails
+          ? 'restGroupInfo'
+          : 'restGroupInfoDisable'
+      "
+    >
+      <h1 mat-dialog-title class="add-h1">اكمل تفاصيل الإفتتاحي</h1>
+      <div class="detailsForm">
+        <mat-form-field appearance="outline" class="groupInput">
+          <mat-label>بحث بالكود </mat-label>
+          <input
+            matInput
+            placeholder="الكود"
+            (keydown)="getItemByCode($event)"
+          />
+        </mat-form-field>
 
-        </div>
-        <div dir="ltr">
-            <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
-                [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
-        </div>
-
-    </form>
-
-    <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
-
-
-        <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
-            <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل الإفتتاحي </h1>
-            <div class="detailsForm">
-
-                <mat-form-field appearance="outline" class=" child-num">
-                    <mat-label>بحث بالكود </mat-label>
-                    <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
-                </mat-form-field>
-
-                <!-- <mat-form-field appearance="outline" class="groupInput">
+        <!-- <mat-form-field appearance="outline" class="groupInput">
                     <mat-label> الصنف</mat-label>
                     <mat-select placeholder="الصنف" formControlName="itemId"
                         [value]="getDetailedRowData ? getDetailedRowData.itemId : ''"
@@ -74,98 +120,126 @@
                     </mat-select>
                 </mat-form-field> -->
 
-                <div style="display: flex; flex-direction: column;">
-                    <mat-label>الصنف*</mat-label>
-                    <mat-form-field appearance="outline" class="child-num">
-                        <input  matInput aria-label="commodity" [matAutocomplete]="autoItemId" [formControl]="itemCtrl"
-                            placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : ''}}" (click)="openAutoItem()" required />
-                        <mat-autocomplete  #autoItemId="matAutocomplete" [displayWith]="displayItemName"
-                            (optionSelected)="ItemSelected($event)">
-                            <mat-option *ngFor="let item of filteredItem | async" [value]="item">
-                                <!-- {{ item.name }} | {{ item.id }} -->
-                                {{ item.name }} 
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-
-
-                <mat-form-field appearance="outline" class=" child-num">
-                    <mat-label>الكمية</mat-label>
-                    <input type="number" matInput placeholder="الكمية" formControlName="qty"
-                        [value]="getDetailedRowData ? getDetailedRowData.qty : '1'">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="child-num">
-                    <mat-label>متوسط السعر </mat-label>
-                    <input matInput placeholder="الرقم" type="number"
-                        [value]="getDetailedRowData ? getDetailedRowData.price : ''" formControlName="price"
-                        [readonly]="isReadOnly">
-                </mat-form-field>
-
-
-
-            </div>
-            <div mat-dialog-action [align]="'end'">
-                <div class="groupAction">
-                    <button mat-raised-button class="savebtn"
-                        (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
-                        'اضافة':'تعديل'}}</button>
-
-                </div>
-            </div>
-
-            <div class="sum-label-parent">
-                <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
-            </div>
-
-            <div>
-                <table mat-table [dataSource]="dataSource" matSort class="headerTable">
-
-                    <!-- itemName Column -->
-                    <ng-container matColumnDef="itemName">
-                        <th mat-header-cell *matHeaderCellDef> الصنف</th>
-                        <td mat-cell *matCellDef="let row"> {{row.itemName}} </td>
-                    </ng-container>
-
-                    <!-- price Column -->
-                    <ng-container matColumnDef="price">
-                        <th mat-header-cell *matHeaderCellDef> متوسط السعر </th>
-                        <td mat-cell *matCellDef="let row"> {{row.price}} </td>
-                    </ng-container>
-
-                    <!-- qty Column -->
-                    <ng-container matColumnDef="qty">
-                        <th mat-header-cell *matHeaderCellDef> الكمية </th>
-                        <td mat-cell *matCellDef="let row"> {{row.qty}} </td>
-                    </ng-container>
-
-                    <!-- total Column -->
-                    <ng-container matColumnDef="total">
-                        <th mat-header-cell *matHeaderCellDef> المجموع </th>
-                        <td mat-cell *matCellDef="let row"> {{row.total}} </td>
-                    </ng-container>
-
-                    <!-- action Column -->
-                    <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef> الاجراء </th>
-                        <td mat-cell *matCellDef="let row">
-                            <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                            <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-            </div>
+        <div >
+          <mat-label>الصنف*</mat-label>
+          <mat-form-field appearance="outline" >
+            <input
+              matInput
+              aria-label="commodity"
+              [matAutocomplete]="autoItemId"
+              [formControl]="itemCtrl"
+              placeholder="{{
+                getDetailedRowData ? getDetailedRowData.itemName : ''
+              }}"
+              (click)="openAutoItem()"
+              required
+            />
+            <mat-autocomplete
+              #autoItemId="matAutocomplete"
+              [displayWith]="displayItemName"
+              (optionSelected)="ItemSelected($event)"
+            >
+              <mat-option
+                *ngFor="let item of filteredItem | async"
+                [value]="item"
+              >
+                <!-- {{ item.name }} | {{ item.id }} -->
+                {{ item.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
 
-    </form>
+        <mat-form-field appearance="outline" class="child-num">
+          <mat-label>الكمية</mat-label>
+          <input
+            type="number"
+            matInput
+            placeholder="الكمية"
+            formControlName="qty"
+            [value]="getDetailedRowData ? getDetailedRowData.qty : '1'"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="child-num">
+          <mat-label>متوسط السعر </mat-label>
+          <input
+            matInput
+            placeholder="الرقم"
+            type="number"
+            [value]="getDetailedRowData ? getDetailedRowData.price : ''"
+            formControlName="price"
+            [readonly]="isReadOnly"
+          />
+        </mat-form-field>
+      </div>
+      <div mat-dialog-action [align]="'end'">
+        <div class="groupAction">
+          <button mat-raised-button class="savebtn" (click)="addDetailsInfo()">
+            {{ actionBtnDetails.toLowerCase() == "save" ? "اضافة" : "تعديل" }}
+          </button>
+        </div>
+      </div>
+
+      <div class="sum-label-parent">
+        <mat-label class="sum-label">الإجمالى : {{ sumOfTotals }}</mat-label>
+      </div>
+
+      <div>
+        <table mat-table [dataSource]="dataSource" matSort class="headerTable">
+          <!-- itemName Column -->
+          <ng-container matColumnDef="itemName">
+            <th mat-header-cell *matHeaderCellDef>الصنف</th>
+            <td mat-cell *matCellDef="let row">{{ row.itemName }}</td>
+          </ng-container>
+
+          <!-- price Column -->
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>متوسط السعر</th>
+            <td mat-cell *matCellDef="let row">{{ row.price }}</td>
+          </ng-container>
+
+          <!-- qty Column -->
+          <ng-container matColumnDef="qty">
+            <th mat-header-cell *matHeaderCellDef>الكمية</th>
+            <td mat-cell *matCellDef="let row">{{ row.qty }}</td>
+          </ng-container>
+
+          <!-- total Column -->
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>المجموع</th>
+            <td mat-cell *matCellDef="let row">{{ row.total }}</td>
+          </ng-container>
+
+          <!-- action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>الاجراء</th>
+            <td mat-cell *matCellDef="let row">
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="editDetailsForm(row)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="deleteFormDetails(row.id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page of users"
+        ></mat-paginator>
+      </div>
+    </div>
+  </form>
 </div>

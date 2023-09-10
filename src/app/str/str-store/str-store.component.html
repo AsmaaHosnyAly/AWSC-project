@@ -52,7 +52,7 @@
         <table mat-table [dataSource]="dataSource" matSort>
   
           <ng-container matColumnDef="action" >
-            <th mat-header-cell *matHeaderCellDef >الإجراء  </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 15%;">الإجراء  </th>
             <td  mat-cell *matCellDef="let row"> 
               <button mat-icon-button (click)="editStore(row)" class="editbtn">
                 <mat-icon >edit</mat-icon>

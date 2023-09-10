@@ -33,8 +33,8 @@
         </ng-container>
   
         <!-- action Column -->
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef >الإجراء</th>
+        <ng-container matColumnDef="action" >
+          <th mat-header-cell *matHeaderCellDef  style="width: 15%;">الإجراء</th>
           <td mat-cell *matCellDef="let row">
             <button mat-icon-button (click)="editunit(row)" class="editbtn">
               <mat-icon>edit</mat-icon>
