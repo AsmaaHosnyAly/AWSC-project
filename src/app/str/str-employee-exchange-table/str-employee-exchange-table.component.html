@@ -55,7 +55,7 @@
             <button mat-icon-button color="primary">
                 <mat-icon>print</mat-icon>
             </button>
-            <button (click)=" getAllMasterForms()" >الغاء</button>
+            <button (click)=" getAllMasterForms()">الغاء</button>
 
         </div>
     </mat-expansion-panel>
@@ -63,28 +63,17 @@
 
 <mat-card-header dir="ltr" class="parent-search">
     <div class="child1">
-      <button
-        mat-raised-button
-        class="add"
-        (click)="openEmployeeExchangeDialog()"
-        dir="ltr"
-      >
-        <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
-      </button>
+        <button mat-raised-button class="add" (click)="openEmployeeExchangeDialog()" dir="ltr">
+            <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+        </button>
     </div>
 
     <div>
-      <input
-        matInput
-        class="filter-search"
-        (keyup)="applyFilter($event)"
-        placeholder="بحث"
-        #input
-      />
+        <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
     </div>
-  </mat-card-header>
+</mat-card-header>
 <div class="div-table">
-    <table mat-table [dataSource]="dataSource2"  dir="rtl">
+    <table mat-table [dataSource]="dataSource2" dir="rtl">
 
         <!-- No Column -->
         <ng-container matColumnDef="no">
@@ -126,7 +115,7 @@
         <ng-container matColumnDef="Action">
             <th mat-header-cell *matHeaderCellDef style="width: 15%;"> الاجراء </th>
             <td mat-cell *matCellDef="let row">
-                <button mat-icon-button  (click)="editMasterForm(row)" class="editbtn">
+                <button mat-icon-button (click)="editMasterForm(row)" class="editbtn">
                     <mat-icon>edit</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
