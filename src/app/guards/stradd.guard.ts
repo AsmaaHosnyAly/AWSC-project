@@ -42,7 +42,7 @@ export class sTRAddGuard implements CanActivate {
     for (let i = 0; i < userRole!.length; i++) {
       let role = userRole![i];
       console.log('bbbbbbb', role);
-      if (role == '2' || role=='17') 
+      if (role == '1' || role=='17') 
       {
         this.shared.STRAdd = true;
         console.log('strad', this.shared.STRAdd);
