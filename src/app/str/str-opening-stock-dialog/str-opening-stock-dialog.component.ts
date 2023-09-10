@@ -280,6 +280,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
+                this.itemCtrl.setValue('');
 
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
@@ -324,6 +325,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
                 next: (res) => {
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
+                  this.itemCtrl.setValue('');
 
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';

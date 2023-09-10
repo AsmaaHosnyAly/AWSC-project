@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -65,13 +65,15 @@ export class PrUserDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
+    private dialogRef: MatDialogRef<PrUserDialogComponent>,
+
     private toastr: ToastrService) {
 
-      this.prGroupCtrl = new FormControl();
-      this.filteredPrGroup = this.prGroupCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterPrGroups(value))
-      );
+    this.prGroupCtrl = new FormControl();
+    this.filteredPrGroup = this.prGroupCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterPrGroups(value))
+    );
 
   }
 
@@ -216,6 +218,7 @@ export class PrUserDialogComponent implements OnInit {
                 // console.log("res details: ", res)
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
+                this.prGroupCtrl.setValue('');
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
               },
@@ -264,6 +267,8 @@ export class PrUserDialogComponent implements OnInit {
                 next: (res) => {
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
+                  this.prGroupCtrl.setValue('');
+
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
                 },
@@ -339,6 +344,8 @@ export class PrUserDialogComponent implements OnInit {
   }
 
   getAllMasterForms() {
+    this.dialogRef.close('save');
+
     this.api.getPrGroup()
       .subscribe({
         next: (res) => {

@@ -12,38 +12,56 @@
         <div class="headerForm">
             <!-- <mat-checkbox (click)="toggleEdit()" >Disable select</mat-checkbox> -->
             <!-- <button (click)="toggleEdit()" >Edit</button> -->
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>المخازن</mat-label>
-                <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
-                    <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
-                        *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
-                        store.storeName}}</mat-option>
-                </mat-select>
-            </mat-form-field>
 
-            <mat-form-field appearance="outline" class="child-num">
-                <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
-                    (valueChange)="fiscalYearValueChanges($event)">
-                    <mat-option [value]="fiscalYear.id"
-                        *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+            <div style="display: flex; width: 100%; justify-content: space-between;">
 
-            <mat-form-field appearance="outline" class="child-num">
-                <mat-label>رقم الافتتاحى</mat-label>
-                <input id="autoNoInput" matInput placeholder="رقم الإفتتاحي" formControlName="no"
-                    [value]="isEdit == true ? editData.no : autoNo" type="number" readonly>
-            </mat-form-field>
+                <div style="display: flex; flex-direction: column; width: 25%;">
 
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>التاريخ</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="date">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+                    <mat-label>المخازن*</mat-label>
+                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                        <mat-select placeholder="المخازن" formControlName="storeId"
+                            (valueChange)="storeValueChanges($event)">
+                            <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
+                                *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
+                                store.storeName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div style="display: flex; flex-direction: column; width: 30%;">
+                    <mat-label>السنة المالية*</mat-label>
+
+                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                        <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
+                            (valueChange)="fiscalYearValueChanges($event)">
+                            <mat-option [value]="fiscalYear.id"
+                                *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div style="display: flex; flex-direction: column; width: 15%;">
+                    <mat-label>رقم الافتتاحى*</mat-label>
+
+                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                        <input id="autoNoInput" matInput placeholder="رقم الإفتتاحي" formControlName="no"
+                            [value]="isEdit == true ? editData.no : autoNo" type="number" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div style="display: flex; flex-direction: column; width: 20%;">
+                    <mat-label>التاريخ*</mat-label>
+
+                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                        <input matInput [matDatepicker]="picker" formControlName="date">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker">
+                            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+            </div>
 
         </div>
         <div dir="ltr">
@@ -60,48 +78,63 @@
             <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل الإفتتاحي </h1>
             <div class="detailsForm">
 
-                <mat-form-field appearance="outline" class=" child-num">
-                    <mat-label>بحث بالكود </mat-label>
-                    <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
-                </mat-form-field>
+                <div style="display: flex; width: 100%; justify-content: space-between;">
 
-                <!-- <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label> الصنف</mat-label>
-                    <mat-select placeholder="الصنف" formControlName="itemId"
-                        [value]="getDetailedRowData ? getDetailedRowData.itemId : ''"
-                        (valueChange)="itemOnChange($event)">
-                        <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
+                    <div style="display: flex; flex-direction: column; width: 25%; ">
+                        <mat-label>بحث بالكود*</mat-label>
 
-                <div style="display: flex; flex-direction: column;">
-                    <mat-label>الصنف*</mat-label>
-                    <mat-form-field appearance="outline" class="child-num">
-                        <input  matInput aria-label="commodity" [matAutocomplete]="autoItemId" [formControl]="itemCtrl"
-                            placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : ''}}" (click)="openAutoItem()" required />
-                        <mat-autocomplete  #autoItemId="matAutocomplete" [displayWith]="displayItemName"
-                            (optionSelected)="ItemSelected($event)">
-                            <mat-option *ngFor="let item of filteredItem | async" [value]="item">
-                                <!-- {{ item.name }} | {{ item.id }} -->
-                                {{ item.name }} 
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
+                        <mat-form-field appearance="outline" class=" child-num" style="width: 100%;">
+                            <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
+                        </mat-form-field>
+                    </div>
+
+
+                    <!-- <mat-form-field appearance="outline" class="groupInput">
+                        <mat-label> الصنف</mat-label>
+                        <mat-select placeholder="الصنف" formControlName="itemId"
+                            [value]="getDetailedRowData ? getDetailedRowData.itemId : ''"
+                            (valueChange)="itemOnChange($event)">
+                            <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+
+                    <div style="display: flex; flex-direction: column; width: 30%;">
+                        <mat-label>الصنف*</mat-label>
+                        <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                            <input matInput aria-label="commodity" [matAutocomplete]="autoItemId"
+                                [formControl]="itemCtrl"
+                                placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : ''}}"
+                                (click)="openAutoItem()" required />
+                            <mat-autocomplete #autoItemId="matAutocomplete" [displayWith]="displayItemName"
+                                (optionSelected)="ItemSelected($event)">
+                                <mat-option *ngFor="let item of filteredItem | async" [value]="item">
+                                    <!-- {{ item.name }} | {{ item.id }} -->
+                                    {{ item.name }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div style="display: flex; flex-direction: column; width: 15%; ">
+                        <mat-label>الكمية*</mat-label>
+
+                        <mat-form-field appearance="outline" class=" child-num" style="width: 100%;">
+                            <input type="number" matInput placeholder="الكمية" formControlName="qty"
+                                [value]="getDetailedRowData ? getDetailedRowData.qty : '1'">
+                        </mat-form-field>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; width: 20%;">
+                        <mat-label>متوسط السعر*</mat-label>
+
+                        <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                            <input matInput placeholder="الرقم" type="number"
+                                [value]="getDetailedRowData ? getDetailedRowData.price : ''" formControlName="price"
+                                [readonly]="isReadOnly">
+                        </mat-form-field>
+                    </div>
                 </div>
-
-
-                <mat-form-field appearance="outline" class=" child-num">
-                    <mat-label>الكمية</mat-label>
-                    <input type="number" matInput placeholder="الكمية" formControlName="qty"
-                        [value]="getDetailedRowData ? getDetailedRowData.qty : '1'">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="child-num">
-                    <mat-label>متوسط السعر </mat-label>
-                    <input matInput placeholder="الرقم" type="number"
-                        [value]="getDetailedRowData ? getDetailedRowData.price : ''" formControlName="price"
-                        [readonly]="isReadOnly">
-                </mat-form-field>
 
 
 
@@ -147,7 +180,7 @@
                     </ng-container>
 
                     <!-- action Column -->
-                    <ng-container matColumnDef="action">
+                    <!-- <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef> الاجراء </th>
                         <td mat-cell *matCellDef="let row">
                             <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
@@ -155,6 +188,19 @@
                             </button>
                             <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
                                 <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container> -->
+
+                    <!-- action Column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef id="action-header">الاجراء</th>
+                        <td mat-cell *matCellDef="let row" id="buttn">
+                            <button mat-icon-button class="editbtn" (click)="editDetailsForm(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
+                                <mat-icon>delete_forever</mat-icon>
                             </button>
                         </td>
                     </ng-container>

@@ -17,7 +17,8 @@ mat-card {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color: #47afd5;
+  /* color: #47afd5; */
+  color: rgb(60, 202, 252);
 }
 
 
