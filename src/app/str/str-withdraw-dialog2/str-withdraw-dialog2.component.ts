@@ -576,7 +576,7 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
   }
 
   set_Employee_Null(deststoreId: any) {
-    alert("deststoreId in null fun:"+ deststoreId)
+    // alert("deststoreId in null fun:"+ deststoreId)
 
     this.groupMasterForm.controls['employeeId'].setValue(null);
     this.isReadOnlyEmployee = true;
