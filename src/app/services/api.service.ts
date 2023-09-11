@@ -2351,14 +2351,14 @@ export class ApiService {
       );
     }
     //enter costCenter
-    else if (no != '' && !costCenterId && !employeeId && !date && !itemId) {
+    else if (!no  && costCenterId && !employeeId && !date && !itemId) {
       console.log('enter costCenter employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STREmployeeOpeningCustody/search?CostCenterId=${costCenterId}`
       );
     }
     //enter employee
-    else if (no != '' && !costCenterId && !employeeId && !date && !itemId) {
+    else if (!no  && !costCenterId && employeeId && !date && !itemId) {
       console.log('enter employee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STREmployeeOpeningCustody/search?EmployeeId=${employeeId}`
@@ -2378,16 +2378,16 @@ export class ApiService {
         `${this.url}/STREmployeeOpeningCustody/search?ItemId=${itemId}`
       );
     }
-
+   
     //enter no. & costCenter
-    else if (no != '' && !costCenterId && !employeeId && !date && !itemId) {
+    else if (no != '' && costCenterId && !employeeId && !date && !itemId) {
       console.log('enter no. & costCenter employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STREmployeeOpeningCustody/search?No=${no}&CostCenterId=${costCenterId}`
       );
     }
     //enter no. & employee
-    else if (no != '' && !costCenterId && !employeeId && !date && !itemId) {
+    else if (no != '' && !costCenterId && employeeId && !date && !itemId) {
       console.log('enter no. & employee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STREmployeeOpeningCustody/search?No=${no}&EmployeeId=${employeeId}`
@@ -2409,7 +2409,7 @@ export class ApiService {
     }
 
     //enter costCenter & employee
-    else if (no != '' && !costCenterId && !employeeId && !date && !itemId) {
+    else if (no != '' && costCenterId && employeeId && !date && !itemId) {
       console.log('enter costCenter & employee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STREmployeeOpeningCustody/search?CostCenterId=${costCenterId}&EmployeeId=${employeeId}`
@@ -2431,7 +2431,7 @@ export class ApiService {
     }
 
     //enter employee & date
-    else if (no != '' && !costCenterId && !employeeId && !date && !itemId) {
+    else if (no != '' && !costCenterId && employeeId && date && !itemId) {
       console.log('enter employee & date employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STREmployeeOpeningCustody/search?Date=${date}&EmployeeId=${employeeId}`
@@ -2444,7 +2444,12 @@ export class ApiService {
         `${this.url}/STREmployeeOpeningCustody/search?ItemId=${itemId}&EmployeeId=${employeeId}`
       );
     }
-
+    else if (!no && costCenterId && employeeId && !date && !itemId) {
+      console.log('enter employee & distEmployee employeeExchange search');
+      return this.http.get<any>(
+        `${this.url}/STREmployeeOpeningCustody/search?CostCenterId=${costCenterId }&EmployeeId=${employeeId}`
+      );
+    }
     //enter distEmployee & date
     else if (!no && !costCenterId && !employeeId && date && itemId) {
       console.log('enter distEmployee & date employeeExchange search');
