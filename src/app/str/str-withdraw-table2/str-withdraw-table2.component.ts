@@ -114,7 +114,23 @@ export class StrWithdrawTableComponent implements OnInit {
   //    dRef.close();
   // });}
   }
-  getAllAfterCancel(){
+  // getAllAfterCancel(){
+  //   this.api.getStrWithdraw().subscribe({
+  //     next: (res) => {
+        
+  //       console.log('response of get all getGroup from api: ', res);
+  //       this.dataSource2 = new MatTableDataSource(res);
+  //       this.dataSource2.paginator = this.paginator;
+  //       this.dataSource2.sort = this.sort;
+
+  //     },
+  //     error: () => {
+  //       alert('خطأ أثناء جلب سجلات اذن الصرف !!');
+  //     },
+  //   });
+  // }
+  
+  getAllMasterForms() {
     this.api.getStrWithdraw().subscribe({
       next: (res) => {
         
@@ -124,20 +140,6 @@ export class StrWithdrawTableComponent implements OnInit {
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
 
-      },
-      error: () => {
-        alert('خطأ أثناء جلب سجلات اذن الصرف !!');
-      },
-    });
-  }
-  getAllMasterForms() {
-    this.api.getStrWithdraw().subscribe({
-      next: (res) => {
-        
-        console.log('response of get all getGroup from api: ', res);
-        this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات اذن الصرف !!');

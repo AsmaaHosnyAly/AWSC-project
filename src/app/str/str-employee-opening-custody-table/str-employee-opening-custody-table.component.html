@@ -11,20 +11,20 @@
     <div class="search">
       <mat-form-field appearance="outline">
         <mat-label>الرقم</mat-label>
-        <input #no matInput placeholder="ادخل الرقم" />
+        <input #no matInput placeholder="ادخل الرقم" (keydown)="getsearch($event)" formControlName="no" />
         <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
         <!-- <mat-hint>Hint</mat-hint> -->
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>مركز التكلفة</mat-label>
-        <mat-select #costCenterId plceholder="اختر مركز التكلفة">
+        <mat-select #costCenterId plceholder="اختر مركز التكلفة" formControlName="costcenter">
             <mat-option *ngFor="let costCenter of costCentersList" [value]="costCenter.id">{{costCenter.name}}</mat-option>
         </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
         <mat-label>الموظف</mat-label>
-        <mat-select #employeeId plceholder="اختر الموظف">
+        <mat-select #employeeId plceholder="اختر الموظف" formControlName="employee">
             <mat-option *ngFor="let employee of employeesList" [value]="employee.id">{{employee.name}}</mat-option>
         </mat-select>
     </mat-form-field>
@@ -35,7 +35,7 @@
 
     <mat-form-field appearance="outline" class="example-full-width">
         <mat-label>التاريخ</mat-label>
-        <input #date matInput [matDatepicker]="picker">
+        <input #date matInput [matDatepicker]="picker" formControlName="date">
         <mat-datepicker-toggle matIconSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
         </mat-datepicker-toggle>
@@ -43,7 +43,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>الصنف</mat-label>
-      <mat-select #itemId plceholder="الصنف">
+      <mat-select #itemId plceholder="الصنف" formControlName="item">
           <mat-option *ngFor="let item of itemList" [value]="item.id">{{item.name}}</mat-option>
       </mat-select>
   </mat-form-field>

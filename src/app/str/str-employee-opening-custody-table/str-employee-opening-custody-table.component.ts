@@ -9,6 +9,7 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
+import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-str-employee-opening-custody-table',
@@ -25,6 +26,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   employeesList: any;
   itemList:any;
   fiscalYearsList: any;
+  groupMasterForm !: FormGroup;
 
   dataSource2!: MatTableDataSource<any>;
 
@@ -33,7 +35,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private formBuilder: FormBuilder,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
@@ -46,9 +48,27 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.getEmployees();
     this.getItme();
     this.getcostCenter();
+
+    this.groupMasterForm = this.formBuilder.group({
+      no:[''],
+      employee:[''],
+      costcenter:[],
+      item:[''],
+      fiscalyear:[''],
+      date:[''],
+      store:['']
+       });
+
+       
   }
 
   
+  getsearch(code:any){
+    if (code.keyCode == 13) {
+      this.getAllMasterForms();
+     }
+  }
+
 
   getAllMasterForms() {
     this.api.getStrEmployeeOpen().subscribe({
@@ -57,6 +77,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset();
+
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');

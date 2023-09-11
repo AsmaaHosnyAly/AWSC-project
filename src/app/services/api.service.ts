@@ -770,7 +770,7 @@ export class ApiService {
     fiscalYear: any,
     itemId: any
   ) {
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition=`${this.url}/STROpeningStock/search?`
 
     if(!no == false){
       this.mycondition =` ${this.mycondition}&No=${no}`
@@ -993,7 +993,7 @@ export class ApiService {
       distEmployee
     );
     this.mycondition
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition=`${this.url}/STREmployeExchange/search?`
 
     if(!no == false){
       this.mycondition =` ${this.mycondition}&No=${no}`
@@ -1953,7 +1953,7 @@ export class ApiService {
 
   getStrAddSearach(no: any, storeId: any, date: any) {
     //enter no.
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition=`${this.url}/STRAdd/search?`
 
     if(!no == false){
       this.mycondition =` ${this.mycondition}&No=${no}`
@@ -2457,7 +2457,7 @@ export class ApiService {
       "' distEmployee: '",
       itemId
     );
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition=`${this.url}/STREmployeeOpeningCustody/search?`
 
     if(!no == false){
       this.mycondition =` ${this.mycondition}&No=${no}`
