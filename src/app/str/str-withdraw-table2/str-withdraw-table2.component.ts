@@ -11,6 +11,7 @@ import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../guards/shared.service';
 import { GlobalService } from '../../services/global.service';
+import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-str-withdraw-table2',
@@ -32,9 +33,9 @@ export class StrWithdrawTableComponent implements OnInit {
   desstoreName: any;
   itemsList:any;
   costCentersList:any;
-  sharedStores:any
-
-
+  sharedStores:any;
+  form: FormGroup;
+  groupMasterForm !: FormGroup;
 
 
   dataSource2!: MatTableDataSource<any>;
@@ -45,12 +46,16 @@ export class StrWithdrawTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
-    private http: HttpClient,
+    private http: HttpClient,private formBuilder: FormBuilder,
     private toastr: ToastrService,
     @Inject(LOCALE_ID) private locale: string,
     public shared:SharedService,
      private global:GlobalService,
   ) {
+    this.form = this.formBuilder.group({
+      name: [''],
+      email: ['']
+    });
     this.sharedStores =shared.stores 
 
     this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
@@ -59,12 +64,25 @@ export class StrWithdrawTableComponent implements OnInit {
   ngOnInit(): void {
     this.getDestStores();
     this.getFiscalYears();
+  this.getItems();
 
     this.getCostCenters();
     this.getAllMasterForms();
     this.getStores();
     this.getEmployees();
     console.log("looo",this.sharedStores)
+
+    this.groupMasterForm = this.formBuilder.group({
+   no:[''],
+   employee:[''],
+   costcenter:[],
+   item:[''],
+   fiscalyear:[''],
+   date:[''],
+   store:['']
+    });
+
+ 
   
   }
 
@@ -76,7 +94,11 @@ export class StrWithdrawTableComponent implements OnInit {
       this.dataSource2.paginator.firstPage();
     }
   }
-
+  getsearch(code:any){
+    if (code.keyCode == 13) {
+      this.getAllMasterForms();
+     }
+  }
   openWithdrawDialog() {
     this.dialog.open(StrWithdrawDialogComponent, {
       width: '90%'
@@ -92,9 +114,26 @@ export class StrWithdrawTableComponent implements OnInit {
   //    dRef.close();
   // });}
   }
+  getAllAfterCancel(){
+    this.api.getStrWithdraw().subscribe({
+      next: (res) => {
+        
+        console.log('response of get all getGroup from api: ', res);
+        this.dataSource2 = new MatTableDataSource(res);
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset();
+
+      },
+      error: () => {
+        alert('خطأ أثناء جلب سجلات اذن الصرف !!');
+      },
+    });
+  }
   getAllMasterForms() {
     this.api.getStrWithdraw().subscribe({
       next: (res) => {
+        
         console.log('response of get all getGroup from api: ', res);
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
@@ -172,7 +211,19 @@ console.log(" id in delete:",id)
         }
       })
   }
-
+  getItems() {
+    this.api.getItems()
+      .subscribe({
+        next: (res) => {
+          this.itemsList = res;
+          console.log("items res: ", this.itemsList);
+        },
+        error: (err) => {
+          console.log("fetch items data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
   getStores() {
     this.api.getStore().subscribe({
       next: (res) => {
@@ -254,27 +305,36 @@ console.log(" id in delete:",id)
 
 
   getSearchStrWithdraw(no: any, store: any, date: any, fiscalYear: any, item: any, employee:any ,costCenter:any) {
-    console.log(
-      'no. : ',
-      no, 'store : ',
-      store,
-      'date: ',
-      date,
-      'fiscalYear: ',
-      fiscalYear, 'item:',item,  'employee: ',
-      employee,
-      'costCenter:',
-      costCenter
-    );
-    this.api.getStrWithdrawSearch(no, store, date, fiscalYear, item, employee ,costCenter).subscribe({
+    // if(!store == true){
+    //   store=null;
+    // }
+    // if(!date == true){
+    //   date=null;
+    // }
+    // if(!fiscalYear == true){
+    //   fiscalYear=null;
+    // }
+    // if(!item == true){
+    //   item=null;
+    // }
+    // if(!employee == true){
+    //   employee=null;
+    // }
+    // if(!costCenter == true){
+    //   costCenter=null;
+    // }
+    // if(!no == true){
+    //   no=null;
+    // }
+
+   this.api.getStrWithdrawSearch(no, store, date, fiscalYear, item, employee ,costCenter).subscribe({
       next: (res) => {
         this.dataSource2 = res
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
       },
       error: (err) => {
-        // alert("Error")
-      }
+console.log("eroorr",err)      }
     })
 }
 

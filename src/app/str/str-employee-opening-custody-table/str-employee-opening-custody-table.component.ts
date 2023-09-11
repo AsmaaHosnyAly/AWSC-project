@@ -65,7 +65,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   }
   openEmployeeingStockDialog() {
     this.dialog.open(STREmployeeOpeningCustodyDialogComponent, {
-      width: '90%'
+      width: '70%'
     }).afterClosed().subscribe(val => {
       if (val === 'Save') {
         // alert("refreshhhh")
@@ -76,7 +76,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(STREmployeeOpeningCustodyDialogComponent, {
-        width: '90%',
+        width: '70%',
         data: row,
       })
       .afterClosed()

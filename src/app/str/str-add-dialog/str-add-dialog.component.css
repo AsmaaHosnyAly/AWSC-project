@@ -1,164 +1,4 @@
-.groupInput {
-    width: 100%;
-}
-.cdk-overlay-pane {
-    position: relative!important;
-  }
-  .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-   
-    
-  }
 
-  .close:hover{
-    background-color: red;
-    color:#ffff;
-  }
-
-.example-radio-group {
-    display: flex;
-    /* flex-direction: column; */
-    margin: 15px 0;
-    align-items: center;
-}
-.radio{
-    display: inline-block;
-    width: 25%;
-    
-}
-
-.example-radio-button {
-    margin: 5px;
-}
-
-.groupAction {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 5%;
-}
-.groupAction button {
-    background-color:rgb(60, 202, 252);
-    color: aliceblue;
-    font-family: 'Cairo', sans-serif !important;
-    display: block;
-    margin: auto;
-    font-weight: bold;
-    font-size: 15px;
-    padding: 5px 30px;
-}
-
-
-
-.restGroupInfo {
-    display: block;
-}
-
-.restGroupInfoDisable {
-    display: none;
-}
-
-.nextButtonAddNewHeader {
-    display: block;
-}
-
-.nextButtonEditHeaderDetails {
-    display: none;
-}
-
-/* .headerForm {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-} */
-
-.headerForm .groupInput {
-    width: 20%;
-}
-
-/* .detailsForm {
-    margin-top: 2%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-} */
-
-.detailsForm .groupInput {
-    flex-basis: 25%;
-}
-
-.headerTable {
-    align-items: center;
-}
-.mat-mdc-radio-button ~ .mat-mdc-radio-button {
-    margin-left: 10px;
-    
-  }
-  .row{
-    display: flex;
-    justify-content: center;
-  }
-
-  .mat-mdc-dialog-container .mdc-dialog__title {
-    text-align: center;
-  }
-
-  .add-h1{
-    text-align: center;
-    font-family: 'Cairo', sans-serif !important;
-    font-weight: bold;
-    color:rgb(60, 202, 252);
-    margin-top: 10px;
-    box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
-    
-}
-
-.div-table{
-    display: block;
-    overflow-x: scroll !important;
-    width: 100%;
-  }
-
-  table {
-    margin: 28px 0;
-    width: 100%;
-    text-align: center;
-    
-   
-  }
-  
-  .mat-mdc-table {
-    --mat-table-row-item-outline-width: 1px;
-   table-layout: auto;
-    white-space: normal;
-    background-color: var(--mat-table-background-color);
-    font-family: 'Cairo', sans-serif !important;
-   width:100%;
-   
-  }
-  table, th, td {
-    border: 1px  rgb(161, 160, 160) solid;
-    text-align: center !important;
-    font-family: 'Cairo', sans-serif;
-    font-weight: bold;
-
-   
-    
-    
-  }
-
-  th {
-    background-color:rgb(60, 202, 252) !important;
-    color: white;
-    font-family: 'Cairo', sans-serif;
-    font-size: 16px;
-    text-align: center !important;
-    
-   
-  }
-  
 @import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
 
 .cdk-overlay-pane {
@@ -221,6 +61,7 @@ font-size: 20px;
 }
 
 .groupAction {
+  margin-top: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -262,11 +103,11 @@ font-size: 20px;
 }
 
   .child-num{
-    width: 10%;
+    width: 15%;
     text-align: right;
 }
 .headerForm .groupInput {
-    width: 19%;
+    width: 22%;
   
 }
 
@@ -276,8 +117,7 @@ font-size: 20px;
 }
 
 .detailsForm .groupInput {
-    /* flex-basis: 20%; */
-    margin-left: 8px;
+    flex-basis: 22%;
 }
 
 .detailsForm .third-parent{
@@ -297,10 +137,10 @@ font-size: 20px;
     align-items: center;
 }
 
-/* ::ng-deep .mat-form-field-placeholder-wrapper {
+::ng-deep .mat-form-field-placeholder-wrapper {
   background-color: blue;
   display: none !important;
-} */
+}
 /* md-autocomplete md-autocomplete-wrap input::-moz-placeholder,
 md-autocomplete md-autocomplete-wrap input:-moz-placeholder,
  md-autocomplete md-autocomplete-wrap 
@@ -327,10 +167,10 @@ md-autocomplete md-autocomplete-wrap input {
       color:#3a3939 !important;
   }
 } */
-/* input::-webkit-input-placeholder {
+input::-webkit-input-placeholder {
  color: rgb(48, 46, 46); margin:0; text-align:center; 
  padding:0; display:flex; opacity:2; flex:none; vertical-align:text-top;font-size: 22px;
-} */
+}
 .md-autocomplete-suggestions-container{
   background-color: black;
 }
@@ -401,8 +241,4 @@ md-autocomplete md-autocomplete-wrap input {
  color: red ;
  font-weight: bold;
  
-  }
-
-  .dialog-form{
-    margin-left: 15px;
   }

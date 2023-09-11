@@ -30,7 +30,7 @@ export class StrOpeningStockContainerComponent implements OnInit{
 
   openOpeningStockDialog() {
     this.dialog.open(StrOpeningStockDialogComponent, {
-      width: '90%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         // this.getAllGroups();

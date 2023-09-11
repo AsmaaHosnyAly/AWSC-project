@@ -15,6 +15,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Router } from '@angular/router';
 
 export class deststore {
   constructor(public id: number, public name: string) { }
@@ -164,7 +165,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
     private http: HttpClient,
     private toastr: ToastrService,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private router: Router,
     private dialogRef: MatDialogRef<StrWithdrawDialogComponent>
   ) {
 
@@ -576,7 +577,7 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
   }
 
   set_Employee_Null(deststoreId: any) {
-    alert("deststoreId in null fun:"+ deststoreId)
+    // alert("deststoreId in null fun:"+ deststoreId)
 
     this.groupMasterForm.controls['employeeId'].setValue(null);
     this.isReadOnlyEmployee = true;
@@ -886,7 +887,7 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
                   this.groupDetailsForm.reset();
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
-                  alert("تم الحفظ بنجاح");
+                  alert("تم التعديل بنجاح");
 
                   // this.dialogRef.close('update');
                 },
@@ -926,7 +927,7 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
   }
 
   editDetailsForm(row: any) {
-
+this.goToPart();
     if (this.editDataDetails || row) {
       this.getDetailedRowData = row;
       console.log("dETAILS ROW: ", this.getDetailedRowData)
@@ -1166,6 +1167,9 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
         // console.log("error in fetch name by id: ", err);
         // alert("خطا اثناء جلب رقم المخزن !");
       });
+  }
+  goToPart(): void {
+    this.router.navigate(['/formedit']);
   }
 
   getItems() {

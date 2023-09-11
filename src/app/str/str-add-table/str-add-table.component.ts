@@ -9,6 +9,7 @@ import { formatDate } from '@angular/common';
 import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.component';
 import { GlobalService } from '../../services/global.service';
 import { Router } from '@angular/router';
+import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-str-add-table',
@@ -41,7 +42,7 @@ export class STRAddTableComponent implements OnInit {
   receiptName: any;
   employeeName: any;
   TypeName: any;
-
+  groupMasterForm !: FormGroup;
   dataSource2!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -52,7 +53,7 @@ export class STRAddTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private global: GlobalService,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
     @Inject(LOCALE_ID) private locale: string
@@ -67,6 +68,18 @@ export class STRAddTableComponent implements OnInit {
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
+    this.groupMasterForm = this.formBuilder.group({
+      no:[''],
+      employee:[''],
+      costcenter:[],
+      item:[''],
+      fiscalyear:[''],
+      date:[''],
+      store:['']
+       });
+
+
+       
   }
 
   applyFilter(event: Event) {
@@ -86,6 +99,7 @@ export class STRAddTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.loadDataToLocalStorage(res);
+        this.groupMasterForm.reset()
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -93,10 +107,12 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
+  
+
   openAddDialog() {
     this.dialog
       .open(STRAddDialogComponent, {
-        width: '90%',
+        width: '60%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -124,7 +140,7 @@ export class STRAddTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(STRAddDialogComponent, {
-        width: '90%',
+        width: '60%',
         data: row,
       })
       .afterClosed()
@@ -251,102 +267,14 @@ export class STRAddTableComponent implements OnInit {
       next: (res) => {
         console.log('search addStock res: ', res);
 
-        //enter no.
-        if (no != '' && !store && !date) {
-          // console.log("enter no. ")
-          // console.log("no. : ", no, "store: ", store, "date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.no == no!);
-          console.log('data after if :', this.dataSource2);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter store
-        else if (!no && store && !date) {
-          // console.log("enter store. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.storeId == store);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter date
-        else if (!no && !store && date) {
-          // console.log("enter date. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter no. & store
-        else if (no && store && !date) {
-          // console.log("enter no & store ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => res.no == no! && res.storeId == store
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter no. & date
-        else if (no && !store && date) {
-          // console.log("enter no & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter store & date
-        else if (!no && store && date) {
-          // console.log("enter store & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter all data
-        else if (no != '' && store != '' && date != '') {
-          // console.log("enter all data. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //didn't enter any data
-        else {
-          // console.log("enter no data ")
-          this.dataSource2 = res;
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        this.loadDataToLocalStorage(res);
+        this.dataSource2 = res
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
       },
       error: (err) => {
-        alert('Error');
-      },
-    });
-  }
+console.log("eroorr",err)      }
+    })
+}
 
   loadDataToLocalStorage(data: any): void {
     localStorage.removeItem('store-data');

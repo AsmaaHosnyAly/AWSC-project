@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -63,6 +63,7 @@ export class PrGroupDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
+    private dialogRef: MatDialogRef<PrGroupDialogComponent>,
     private toastr: ToastrService) {
 
     this.prRoleCtrl = new FormControl();
@@ -208,6 +209,7 @@ export class PrGroupDialogComponent implements OnInit {
                 // console.log("res details: ", res)
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
+                this.prRoleCtrl.setValue('');
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
               },
@@ -256,6 +258,8 @@ export class PrGroupDialogComponent implements OnInit {
                 next: (res) => {
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
+                  this.prRoleCtrl.setValue('');
+
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
                 },
@@ -331,6 +335,7 @@ export class PrGroupDialogComponent implements OnInit {
   }
 
   getAllMasterForms() {
+    this.dialogRef.close('save');
     this.api.getPrGroup()
       .subscribe({
         next: (res) => {

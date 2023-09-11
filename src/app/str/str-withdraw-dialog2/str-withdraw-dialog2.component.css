@@ -31,7 +31,7 @@
     font-family: 'Cairo', sans-serif !important;
     font-weight: bold;
     color:rgb(60, 202, 252);
-    margin-top: 10px;
+    margin-top: 6px;
     box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
     
 }
@@ -51,9 +51,8 @@ font-size: 20px;
     align-items: center;
 }
 .radio{
-    display: inline-block;
-    width: 25%;
-    
+    display: flex;
+    width: 80%;
 }
 
 .example-radio-button {
@@ -61,10 +60,13 @@ font-size: 20px;
 }
 
 .groupAction {
+  margin-top: 1px;
+  margin-left: 0px;
+
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 5%;
+    /* flex-direction: row; */
+    /* justify-content: space-between; */
+    /* padding: 5%; */
 }
 
 .groupAction button {
@@ -72,10 +74,13 @@ font-size: 20px;
     color: aliceblue;
     font-family: 'Cairo', sans-serif !important;
     display: block;
-    margin: auto;
-    font-weight: bold;
+    margin-left: 0px;
+    /* margin-top: -10px;   */
+  font-weight: bold;
     font-size: 15px;
-    padding: 5px 30px;
+    padding: 10px 40px;
+    height: 55px;
+    width: 180px;
 }
 
 .restGroupInfo {
@@ -102,7 +107,7 @@ font-size: 20px;
 }
 
   .child-num{
-    width: 10%;
+    width: 12%;
     text-align: right;
 }
 .headerForm .groupInput {
@@ -116,7 +121,7 @@ font-size: 20px;
 }
 
 .detailsForm .groupInput {
-    flex-basis: 20%;
+  flex-basis: 25%;
 }
 
 .detailsForm .third-parent{
@@ -125,9 +130,9 @@ font-size: 20px;
    
     
 }
-.notes{
+/* .notes{
     flex-basis: 72%;
-}
+} */
 .qnty{
     width: 20%;
     

@@ -5,7 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 // import { ToastrService } from 'ngx-toastr';
@@ -13,19 +13,19 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { formatDate } from '@angular/common';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 export class Seller {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class Employee {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export interface Source {
   name: string
 }
 export class List {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class Item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 @Component({
@@ -63,7 +63,7 @@ export class STRAddDialogComponent implements OnInit {
   dialogRefDelete: any;
   isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
-  isReadOnlyPercentage:any = false;
+  isReadOnlyPercentage: any = false;
   autoNo: any;
   defaultFiscalYearSelectValue: any;
   storeSelectedId: any;
@@ -71,7 +71,7 @@ export class STRAddDialogComponent implements OnInit {
   defaultStoreSelectValue: any;
   userRoles: any;
   actionName: string = "choose";
-
+  stateDefaultValue: any;
 
   // sourceCtrl: FormControl;
   // filteredSource: Observable<Source[]>;
@@ -92,8 +92,9 @@ export class STRAddDialogComponent implements OnInit {
   selectedItem: Item | undefined;
 
   getAddData: any;
-sourceSelected: any;
-isEdit: boolean = false;
+  sourceSelected: any;
+  isEdit: boolean = false;
+
   displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -103,7 +104,7 @@ isEdit: boolean = false;
   currentDate: any;
 
   constructor(private formBuilder: FormBuilder,
-    
+
     private api: ApiService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
@@ -111,25 +112,29 @@ isEdit: boolean = false;
     // private toastr: ToastrService,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) private locale: string,
-    private dialogRef : MatDialogRef<STRAddDialogComponent>) { 
-      this.currentDate = new Date;
-      // this.sourceCtrl = new FormControl();
-      // this.filteredSource = this.sourceCtrl.valueChanges.pipe(
-      //   startWith(''),
-      //   map(value => this._filterSources(value))
-      // );
-      this.listCtrl = new FormControl();
-      this.filteredList = this.listCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterLists(value))
-      );
+    private dialogRef: MatDialogRef<STRAddDialogComponent>) {
 
-      this.itemCtrl = new FormControl();
-      this.filteredItem = this.itemCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterItems(value))
-      );
-    }
+    this.stateDefaultValue = true;
+
+
+    this.currentDate = new Date;
+    // this.sourceCtrl = new FormControl();
+    // this.filteredSource = this.sourceCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filterSources(value))
+    // );
+    this.listCtrl = new FormControl();
+    this.filteredList = this.listCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterLists(value))
+    );
+
+    this.itemCtrl = new FormControl();
+    this.filteredItem = this.itemCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterItems(value))
+    );
+  }
   ngOnInit(): void {
     this.getStores();
     this.getItems();
@@ -162,7 +167,7 @@ isEdit: boolean = false;
       employeeName: [''],
       sourceStoreId: [''],
       sourceStoreName: [''],
-      source:['']
+      source: ['']
 
     });
 
@@ -177,11 +182,11 @@ isEdit: boolean = false;
       itemName: ['', Validators.required],
       avgPrice: ['', Validators.required],
       balanceQty: ['', Validators.required],
-      percentage: [''],
+      percentage: ['', Validators.required],
       // storeId: ['', Validators.required],
       // date: ['', Validators.required],
       // fiscalYearId: ['', Validators.required],
-      state: ['', Validators.required],
+      state: [this.stateDefaultValue, Validators.required],
 
 
     });
@@ -190,37 +195,37 @@ isEdit: boolean = false;
       this.items = items;
     });
 
-    if (this.editData) {  
+    if (this.editData) {
       this.isEdit = true;
       this.getAddData = this.editData;
 
-      if(this.editData.employeeId == null && this.editData.sellerId == null){
-        this.actionName= "str";
-        console.log("action btnnnnnnnnnnnnn",this.actionName)
+      if (this.editData.employeeId == null && this.editData.sellerId == null) {
+        this.actionName = "str";
+        console.log("action btnnnnnnnnnnnnn", this.actionName)
         this.groupMasterForm.controls['source'].setValue('المخزن')
 
       }
-      else if(this.editData.sourceStoreId == null && this.editData.sellerId == null){
-        this.actionName= "emp";
+      else if (this.editData.sourceStoreId == null && this.editData.sellerId == null) {
+        this.actionName = "emp";
         this.groupMasterForm.controls['source'].setValue('الموظف')
 
 
-      }else{
-        this.actionName= "choose";
+      } else {
+        this.actionName = "choose";
         this.groupMasterForm.controls['source'].setValue('المورد')
 
       }
-      console.log("this.groupMasterForm.getRawValue().source: ",this.groupMasterForm.getRawValue().source);
-      
-      this.getListCtrl(this.groupMasterForm.getRawValue().source);      
+      console.log("this.groupMasterForm.getRawValue().source: ", this.groupMasterForm.getRawValue().source);
+
+      this.getListCtrl(this.groupMasterForm.getRawValue().source);
 
       console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-     
+
       this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-     
+
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
       this.groupMasterForm.controls['total'].setValue(this.editData.total);
       this.groupMasterForm.controls['addTypeId'].setValue(this.editData.addTypeId);
@@ -243,7 +248,7 @@ isEdit: boolean = false;
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
   }
-  
+
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')
@@ -275,7 +280,7 @@ isEdit: boolean = false;
 
     this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
-// this.currentDate = new Date();
+    // this.currentDate = new Date();
     console.log("dataName: ", this.groupMasterForm.value)
 
     // if (this.groupMasterForm.getRawValue().no) {
@@ -290,9 +295,9 @@ isEdit: boolean = false;
 
     if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no && this.groupMasterForm.getRawValue().addTypeId
       && this.groupMasterForm.getRawValue().receiptName && this.groupMasterForm.getRawValue().typeName) {
-        
-        
-       
+
+
+
 
       console.log("Master add form : ", this.groupMasterForm.value)
       this.api.postStrAdd(this.groupMasterForm.value)
@@ -351,10 +356,10 @@ isEdit: boolean = false;
             this.sumOfTotals = 0;
             for (let i = 0; i < this.matchedIds.length; i++) {
               this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-              
+
             }
             this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-              this.updateBothForms();
+            this.updateBothForms();
 
           }
         }
@@ -400,12 +405,12 @@ isEdit: boolean = false;
         this.groupDetailsForm.addControl('fiscalYearId', new FormControl('', Validators.required));
         this.groupDetailsForm.controls['fiscalYearId'].setValue(this.groupMasterForm.getRawValue().fiscalYearId);
 
-       
+
 
         console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
         console.log("master form valuessss: ", this.groupMasterForm.value)
-        
-        
+
+
         // this must be at sellerid only 
         this.api.getNewAvgPrice(
           this.groupMasterForm.getRawValue().storeId,
@@ -414,18 +419,18 @@ isEdit: boolean = false;
           this.groupDetailsForm.getRawValue().itemId,
           this.groupDetailsForm.getRawValue().price,
           this.groupDetailsForm.getRawValue().qty
-          ) 
-            .subscribe({
-              next: (res) => {
-                // this.priceCalled = res;
-                this.groupDetailsForm.controls['avgPrice'].setValue(res);
-                console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-              },
-              error: (err) => {
-                // console.log("fetch fiscalYears data err: ", err);
-                // alert("خطا اثناء جلب متوسط السعر !");
-              }
-            })
+        )
+          .subscribe({
+            next: (res) => {
+              // this.priceCalled = res;
+              this.groupDetailsForm.controls['avgPrice'].setValue(res);
+              console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+            },
+            error: (err) => {
+              // console.log("fetch fiscalYears data err: ", err);
+              // alert("خطا اثناء جلب متوسط السعر !");
+            }
+          })
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
           this.api.postStrAddDetails(this.groupDetailsForm.value)
@@ -434,6 +439,8 @@ isEdit: boolean = false;
                 alert("تمت إضافة المجموعة بنجاح");
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
+                this.groupDetailsForm.controls['state'].setValue(true);
+
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
                 // this.groupDetailsForm.removeControl('date');
@@ -460,7 +467,7 @@ isEdit: boolean = false;
       this.updateDetailsForm();
     }
 
-    
+
   }
 
   async updateDetailsForm() {
@@ -531,6 +538,7 @@ isEdit: boolean = false;
                   // this.toastrSuccess();
                   // console.log("update res: ", res);
                   this.groupDetailsForm.reset();
+                  this.groupDetailsForm.controls['state'].setValue(true);
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
                   // this.dialogRef.close('update');
@@ -551,7 +559,7 @@ isEdit: boolean = false;
   }
 
   updateBothForms() {
-    console.log("enter: " )
+    console.log("enter: ")
 
     var inputValue = (<HTMLInputElement>document.getElementById('autoNoInput')).value;
 
@@ -563,17 +571,17 @@ isEdit: boolean = false;
     console.log("pass id: ", this.getMasterRowId.id, "pass No: ", this.groupMasterForm.getRawValue().no, "pass StoreId: ", this.groupMasterForm.getRawValue().storeId, "pass Date: ", this.groupMasterForm.getRawValue().date)
     // if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != ''
     //   && this.groupMasterForm.getRawValue().addTypeId != '' && this.groupMasterForm.getRawValue().sellerId != '' && this.groupMasterForm.getRawValue().employeeId != '' && this.groupMasterForm.getRawValue().addTypeId != '' && this.groupMasterForm.getRawValue().addReceiptId != '') {
-        if(!this.autoNo){
-          this.autoNo = this.editData.no;
-        }
-        // }
+    if (!this.autoNo) {
+      this.autoNo = this.editData.no;
+    }
+    // }
 
-      this.groupDetailsForm.controls['addId'].setValue(this.getMasterRowId.id);
-      this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
+    this.groupDetailsForm.controls['addId'].setValue(this.getMasterRowId.id);
+    this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
 
-      console.log("master edit form2: ", this.groupMasterForm.value);
-      this.updateDetailsForm();
-    
+    console.log("master edit form2: ", this.groupMasterForm.value);
+    this.updateDetailsForm();
+
     // else {
     //   alert("تاكد من ادخال البيانات صحيحة")
     // }
@@ -588,7 +596,7 @@ isEdit: boolean = false;
       console.log("getDetailedRowData before :", this.getDetailedRowData)
       this.actionBtnDetails = "Update";
       this.groupDetailsForm.controls['addId'].setValue(this.getDetailedRowData.addId);
-      this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
+      // this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
       // this.groupDetailsForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
       // this.groupDetailsForm.controls['fiscalYearId'].setValue(this.groupMasterForm.getRawValue().fiscalYearId);
       // this.groupDetailsForm.controls['date'].setValue(this.groupMasterForm.getRawValue().date);
@@ -604,6 +612,7 @@ isEdit: boolean = false;
 
       this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
       // this.groupDetailsForm.controls['productId'].setValue(this.getDetailedRowData.productId);
+      this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
 
     }
 
@@ -630,20 +639,21 @@ isEdit: boolean = false;
   getAllMasterForms() {
     let result = window.confirm("هل تريد اغلاق الطلب");
     if (result) {
-     this.dialogRef.close('Save');
-    this.api.getStrOpen()
-      .subscribe({
-        next: (res) => {
-          console.log("response of get all getStrOpen from api: ", res);
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        }
-      })}
-      
+      this.dialogRef.close('Save');
+      this.api.getStrOpen()
+        .subscribe({
+          next: (res) => {
+            console.log("response of get all getStrOpen from api: ", res);
+            this.dataSource = new MatTableDataSource(res);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          },
+          error: () => {
+            // alert("خطأ أثناء جلب سجلات المجموعة !!");
+          }
+        })
+    }
+
   }
 
   async getStores() {
@@ -878,28 +888,28 @@ isEdit: boolean = false;
   async getFiscalYears() {
     this.api.getFiscalYears()
       .subscribe({
-        next:async (res) => {
+        next: async (res) => {
           this.fiscalYearsList = res;
 
           this.api.getLastFiscalYear()
-          .subscribe({
-            next: async (res) => {
-              // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
-              this.defaultFiscalYearSelectValue = await res;
-              console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
-              if (this.editData) {
-                this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+            .subscribe({
+              next: async (res) => {
+                // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+                this.defaultFiscalYearSelectValue = await res;
+                console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+                if (this.editData) {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+                }
+                else {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+                  this.getStrOpenAutoNo();
+                }
+              },
+              error: (err) => {
+                // console.log("fetch store data err: ", err);
+                // alert("خطا اثناء جلب المخازن !");
               }
-              else {
-                this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-                this.getStrOpenAutoNo();
-              }
-            },
-            error: (err) => {
-              // console.log("fetch store data err: ", err);
-              // alert("خطا اثناء جلب المخازن !");
-            }
-          })
+            })
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -1021,15 +1031,15 @@ isEdit: boolean = false;
 
 
 
-  set_Percentage(state: any){
-    console.log("state value changed: ", state.value )
-    if(state.value==false){
-      this.isReadOnlyPercentage=false;
-    }else{
-      this.isReadOnlyPercentage=true;
+  set_Percentage(state: any) {
+    console.log("state value changed: ", state.value)
+    if (state.value == false) {
+      this.isReadOnlyPercentage = false;
+    } else {
+      this.isReadOnlyPercentage = true;
       this.groupDetailsForm.controls['percentage'].setValue(100);
 
-      
+
 
     }
 
@@ -1054,7 +1064,7 @@ isEdit: boolean = false;
   //     " itemId: ", itemEvent,
   //     "sellerId: ", this.groupMasterForm.getRawValue().sellerId
   //    )
-     
+
   //   //  if(this.groupMasterForm.getRawValue().sellerId != null){
   //   //   console.log("sellerName != null ",this.groupMasterForm.getRawValue().sellerId)
   //   //   this.api.getNewAvgPrice(
@@ -1076,11 +1086,11 @@ isEdit: boolean = false;
   //   //           alert("خطا اثناء جلب متوسط السعر !");
   //   //         }
   //   //       })
-          
+
   //   //  }
   //   //  else{        
   //     console.log("sellerName == null ",this.groupMasterForm.getRawValue().sellerId)
-       
+
   //      this.api.getAvgPrice(
   //        this.groupMasterForm.getRawValue().storeId,
   //        this.groupMasterForm.getRawValue().fiscalYearId,
@@ -1099,8 +1109,8 @@ isEdit: boolean = false;
   //             // alert("خطا اثناء جلب متوسط السعر !");
   //           }
   //         })    
-     
-     
+
+
   //    this.api.getSumQuantity(
   //     this.groupMasterForm.getRawValue().storeId,        
   //     itemEvent,
@@ -1117,7 +1127,7 @@ isEdit: boolean = false;
   //         }
   //       })
 
-   
+
   //   }
 
   getStrAddAutoNo() {
@@ -1144,44 +1154,44 @@ isEdit: boolean = false;
     this.selectedItem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
     this.groupDetailsForm.patchValue({ itemName: item.name });
-    
+
     this.api.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,
       formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
       this.groupDetailsForm.getRawValue().itemId
-      ) 
+    )
       .subscribe({
         next: (res) => {
           // this.priceCalled = res;
           this.groupDetailsForm.controls['avgPrice'].setValue(res);
           this.groupDetailsForm.controls['price'].setValue(res)
-           console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-         },
-         error: (err) => {
-           // console.log("fetch fiscalYears data err: ", err);
-           // alert("خطا اثناء جلب متوسط السعر !");
-         }
-       })    
-  
-  
-  this.api.getSumQuantity(
-   this.groupMasterForm.getRawValue().storeId,        
-   this.groupDetailsForm.getRawValue().itemId,
-   ) 
-     .subscribe({
-       next: (res) => {
-         // this.priceCalled = res;
-         this.groupDetailsForm.controls['balanceQty'].setValue(res);
-         console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
-       },
-       error: (err) => {
-         // console.log("fetch fiscalYears data err: ", err);
-         alert("خطا اثناء جلب الرصيد الحالى  !");
-       }
-     })
-   
-   
+          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+
+
+    this.api.getSumQuantity(
+      this.groupMasterForm.getRawValue().storeId,
+      this.groupDetailsForm.getRawValue().itemId,
+    )
+      .subscribe({
+        next: (res) => {
+          // this.priceCalled = res;
+          this.groupDetailsForm.controls['balanceQty'].setValue(res);
+          console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          alert("خطا اثناء جلب الرصيد الحالى  !");
+        }
+      })
+
+
   }
 
   private _filterItems(value: string): Item[] {
@@ -1193,13 +1203,13 @@ isEdit: boolean = false;
 
   openAutoTem() {
     this.itemCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.itemCtrl.updateValueAndValidity();
   }
 
-   
-  
+
+
 
   displayListName(list: any): string {
     return list && list.name ? list.name : '';
@@ -1208,23 +1218,23 @@ isEdit: boolean = false;
   listSelected(event: MatAutocompleteSelectedEvent): void {
     const list = event.option.value as List;
     this.selectedList = list;
-    if(this.sourceSelected === "المورد"){
+    if (this.sourceSelected === "المورد") {
       this.groupMasterForm.patchValue({ sellerId: list.id });
-    this.groupMasterForm.patchValue({ sellerName: list.name });
-    
+      this.groupMasterForm.patchValue({ sellerName: list.name });
+
 
     }
-    else if(this.sourceSelected === "الموظف"){
+    else if (this.sourceSelected === "الموظف") {
       this.groupMasterForm.patchValue({ employeeId: list.id });
-    this.groupMasterForm.patchValue({ employeeName: list.name });
-    
-    }  else {
+      this.groupMasterForm.patchValue({ employeeName: list.name });
+
+    } else {
       this.groupMasterForm.patchValue({ sourceStoreId: list.id });
-    this.groupMasterForm.patchValue({ sourceStoreName: list.name });
+      this.groupMasterForm.patchValue({ sourceStoreName: list.name });
 
     }
 
-   
+
   }
 
   private _filterLists(value: string): List[] {
@@ -1234,34 +1244,34 @@ isEdit: boolean = false;
     );
   }
 
- 
+
 
   openAutoList() {
     this.listCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.listCtrl.updateValueAndValidity();
   }
 
-  getListCtrl(source:any){
+  getListCtrl(source: any) {
     this.sourceSelected = source;
-    if(source==="المورد"){
-     
-      this.api.getAllSellers().subscribe((lists)=>{
+    if (source === "المورد") {
+
+      this.api.getAllSellers().subscribe((lists) => {
         this.lists = lists;
         console.log("rrr: ", lists)
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
-      this.groupMasterForm.controls['employeeId'].setValue(null);
-      // this.isReadOnlyEmployee = false;
-      this.actionName = "choose";
+        this.groupMasterForm.controls['employeeId'].setValue(null);
+        // this.isReadOnlyEmployee = false;
+        this.actionName = "choose";
 
 
-        
+
       });
     }
-    else if(source==="الموظف"){
-      
-      this.api.getAllEmployee().subscribe((lists)=>{
+    else if (source === "الموظف") {
+
+      this.api.getAllEmployee().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
         this.groupMasterForm.controls['sellerId'].setValue(null);
@@ -1270,31 +1280,31 @@ isEdit: boolean = false;
 
       });
     }
-    
+
     else {
-     
-      this.api.getAllStore().subscribe((lists)=>{
+
+      this.api.getAllStore().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['sellerId'].setValue(null);
-      this.groupMasterForm.controls['employeeId'].setValue(null);
-    // this.isReadOnlyEmployee = true;
-    this.actionName = "str";
+        this.groupMasterForm.controls['employeeId'].setValue(null);
+        // this.isReadOnlyEmployee = true;
+        this.actionName = "str";
 
 
 
 
       });
-     }
     }
-  
+  }
 
 
 
-  
- 
-  
-    
-  
+
+
+
+
+
+
 }
 
 
