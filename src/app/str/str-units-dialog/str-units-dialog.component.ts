@@ -43,6 +43,7 @@ export class STRUnitsDialogComponent {
       this.unitsForm.addControl('id', new FormControl('', Validators.required));
       this.unitsForm.controls['id'].setValue(this.editData.id);
       console.log(this.unitsForm.value)
+      
     }
   }
 

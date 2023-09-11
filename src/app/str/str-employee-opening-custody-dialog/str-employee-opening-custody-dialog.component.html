@@ -41,9 +41,10 @@
                     type="number">
             </mat-form-field>
 
-            <mat-label style="margin-top: 15px; ">اسم الموظف  :</mat-label>
+            
 
             <mat-form-field appearance="outline" style="width: 120px;">
+                <mat-label style="margin-top: 15px; ">اسم الموظف  :</mat-label>
                 <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
                     (click)="openAutoEmployee()"
                     placeholder="{{editData ? editData.employeeName : ''}}" required />
@@ -55,9 +56,10 @@
                 </mat-autocomplete>
             </mat-form-field>
 
-            <mat-label style="margin-top: 15px;">مركز التكلفة :</mat-label>
+           
 
             <mat-form-field appearance="outline" style="width: 120px;">
+                <mat-label style="margin-top: 15px;">مركز التكلفة :</mat-label>
                 <input matInput aria-label="costCenter" [matAutocomplete]="autoCostCenter" [formControl]="costCenterCtrl"
                     (click)="openAutoCostCenter()"
                     placeholder="{{editData ? editData.costCenterName : ''}}" required />
@@ -115,9 +117,10 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field> -->
-                <mat-label style="margin-top: 15px; ">الصنف*</mat-label>
+              
 
                 <mat-form-field appearance="outline" style="width: 130px;">
+                    <mat-label style="margin-top: 15px; ">الصنف*</mat-label>
                     <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
                       placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : ''}}" (click)="openAutoItem()" required />
                     <mat-autocomplete #autoitem="matAutocomplete" #itemId
