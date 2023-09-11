@@ -103,7 +103,7 @@
                         <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                             <input matInput aria-label="commodity" [matAutocomplete]="autoItemId"
                                 [formControl]="itemCtrl"
-                                placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
+                                placeholder="{{getDetailedRowData && !itemByFullCodeValue ? getDetailedRowData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
                                 (click)="openAutoItem()" required />
                             <mat-autocomplete #autoItemId="matAutocomplete" [displayWith]="displayItemName"
                                 (optionSelected)="ItemSelected($event)">
