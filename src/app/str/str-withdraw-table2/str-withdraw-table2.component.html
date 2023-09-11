@@ -9,23 +9,37 @@
     </mat-expansion-panel-header>
   <form [formGroup]="groupMasterForm">
     <div class="search" id="myForm" >
-      <mat-form-field appearance="outline" >
+      <mat-form-field appearance="outline" style="width: 100px;" >
         <mat-label>الرقم</mat-label>
-        <input #no matInput placeholder="ادخل الرقم" formControlName="no" (keydown)="getsearch($event)" />
+        <input #no matInput placeholder="ادخل الرقم" formControlName="no" (keydown)="getsearch($event)" type="number"min="0"  />
         <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
         <!-- <mat-hint>Hint</mat-hint> -->
       </mat-form-field>
 
-      <mat-form-field appearance="outline" >
+      <!-- <mat-form-field appearance="outline" >
         <mat-label>المخزن</mat-label>
         <mat-select #storeId plceholder="اختر المخزن" formControlName="store">
           <mat-option *ngFor="let store of storeList" [value]="store.id">{{
             store.name
           }}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
-      <mat-form-field appearance="outline">
+
+      <mat-form-field appearance="outline" style="width: 150px;margin-right: 15px;">
+        <mat-label>مخزن *</mat-label>
+
+        <input matInput aria-label="commodity" [matAutocomplete]="autostore" (keydown)="getsearch($event)"  [formControl]="storeCtrl" formControlName="store"
+          (click)="openAutostore()" required />
+        <mat-autocomplete #autostore="matAutocomplete" #storeId 
+          [displayWith]="displaystoreName" (optionSelected)="storeSelected($event)">
+          <mat-option *ngFor="let store of filteredstore | async" [value]="store">
+            {{ store.name }} | {{ store.id }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field> 
+
+      <mat-form-field appearance="outline" style="width: 150px;margin-right: 15px;">
         <mat-label>السنة المالية</mat-label>
         <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalyear">
           <mat-option
@@ -36,7 +50,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="example-full-width">
+      <mat-form-field appearance="outline" class="example-full-width" style="margin-right: 15px;">
         <mat-label>التاريخ</mat-label>
         <input #date matInput [matDatepicker]="picker" formControlName="date" />
         <mat-datepicker-toggle matIconSuffix [for]="picker">
@@ -47,17 +61,19 @@
 
 
 
-      <mat-form-field appearance="outline">
-        <mat-label>الصنف </mat-label>
-        <mat-select #item plceholder="اختر  الصنف" formControlName="item">
-          <mat-option
-            *ngFor="let item of itemsList"
-            [value]="item.id"
-            >{{ item.name }}</mat-option
-          >
-        </mat-select>
+      <mat-label style="margin-top: 15px; margin-right: 30px;margin-left: 3px;">الصنف:</mat-label>
+
+      <mat-form-field appearance="outline" style="width: 140px;">
+        <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl" (keydown)="getsearch($event)"
+         (click)="openAutoitem()" required />
+        <mat-autocomplete #autoitem="matAutocomplete" #itemId 
+          [displayWith]="displayitemName" (optionSelected)="itemSelected($event)">
+          <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+            {{ item.name }} |  {{ item.id }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>الموظف </mat-label>
         <mat-select  plceholder="اختر  الموظف"  #employeeId formControlName="employee">
           <mat-option
@@ -66,72 +82,64 @@
             >{{ employee.name }}</mat-option
           >
         </mat-select>
-      </mat-form-field>  
-  
-      <mat-form-field appearance="outline">
-        <mat-label>مركز التكلفة </mat-label>
-        <mat-select #costCenterId plceholder="اختر  مركز التكلفة" formControlName="costcenter">
-          <mat-option
-            *ngFor="let costCenter of costCentersList"
-            [value]="costCenter.id"
-            >{{ costCenter.name }}</mat-option
-          >
-        </mat-select>
+      </mat-form-field>   -->
+      <mat-label style="margin-top: 15px;margin-right: 10px;">الموظف:</mat-label>
+
+        <mat-form-field appearance="outline" style="width: 150px;margin-left: 5px;">
+        <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" (keydown)="getsearch($event)" [formControl]="employeeCtrl" formControlName="employee"
+          (click)="openAutoEmployee()" required />
+        <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId 
+          [displayWith]="displayEmployeeName" (optionSelected)="employeeSelected($event)">
+          <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+            {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
-
-
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>المخزن</mat-label>
-        <mat-select #storeId plceholder="اختر المخزن">
-          <mat-option *ngFor="let store of storeList" [value]="store.id">{{
-            store.name
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field> -->
-
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>الصنف </mat-label>
-        <mat-select #employee plceholder="اختر  الصنف">
-          <mat-option
-            *ngFor="let item of itemsList"
-            [value]="item.item"
-            >{{ item.item }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field> -->
-      <button
-      mat-icon-button
-      color="primary"
-      (click)="
-      getSearchStrWithdraw(
-        no.value,
-        storeId.value,
-        date.value,
-        fiscalYear.value,item.value,employeeId.value,costCenterId.value
-      )
-    "
-    >
-      <mat-icon>search</mat-icon>
-    </button>
-      <button  (click)=" getAllAfterCancel()" >الغاء</button>
-
-
-
-
-      <div class="print display">
-        <button (click)="printReport()">
-          طباعة <mat-icon >print</mat-icon>
-        </button>
-      </div>
-
-      <!-- <div class="print search"> -->
+  
    
 
+      <mat-label style="margin-right: 20px;margin-top: 15px;">مركز التكلفة :</mat-label>
+
+      <mat-form-field appearance="outline" style="width: 150px;margin-left: 5px;">
+
+        <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter" (keydown)="getsearch($event)"  [formControl]="costcenterCtrl" formControlName="costcenter"
+       (click)="openAutocostcenter()" required />
+        <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId 
+          [displayWith]="displaycostcenterName" (optionSelected)="costcenterSelected($event)">
+          <mat-option *ngFor="let costcenter of filteredcostcenter | async" [value]="costcenter">
+            {{ costcenter.name }} 
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
       
 
-      <!-- </div> -->
-
-      <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
+      <div class="actionss">
+         <button
+        mat-icon-button
+        color="primary"
+        (click)="
+        getSearchStrWithdraw(
+          no.value,
+  
+          date.value,
+          fiscalYear.value
+        )
+      "
+      >
+        <mat-icon>search</mat-icon>
+      </button>
+        <button  (click)=" getAllMasterForms()" >الغاء</button>
+  
+  
+  
+  
+          <button (click)="printReport()"   color="primary" mat-icon-button
+          >
+            طباعة <mat-icon >print</mat-icon>
+          </button>
+        </div>
+      
+ 
     </div>
   </form>
   </mat-expansion-panel>
@@ -234,9 +242,16 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+         <!-- Row shown when there is no matching data. -->
+         <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">لا توجد بيانات للبحث !!{{input.value}}"</td>
+        </tr>
     </table>
   </div>
 </section>
+
+
+     
 <mat-paginator
   [pageSizeOptions]="[5, 10, 25, 100]"
   aria-label="Select page of users"
