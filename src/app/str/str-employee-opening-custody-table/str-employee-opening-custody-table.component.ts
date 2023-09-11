@@ -10,6 +10,22 @@ import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-
 import { ToastrService } from 'ngx-toastr';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
 import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
+import { Observable, map, startWith, tap } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+
+
+
+export class Employee {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+
+export class costcenter {
+  constructor(public id: number, public name: string) { }
+}
+
+
+
 
 @Component({
   selector: 'app-str-employee-opening-custody-table',
@@ -21,13 +37,27 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   matchedIds: any;
   storeList: any;
   storeName: any;
-  costCentersList: any;
+  // costCentersList: any;
   
-  employeesList: any;
+  // employeesList: any;
   itemList:any;
   fiscalYearsList: any;
   groupMasterForm !: FormGroup;
 
+
+
+  
+  costCentersList: costcenter[] = [];
+  costcenterCtrl: FormControl<any>;
+  filteredcostcenter: Observable<costcenter[]>;
+  selectedcostcenter: costcenter | undefined;
+
+
+
+  employeesList: Employee[] = [];
+  employeeCtrl: FormControl<any>;
+  filteredEmployee: Observable<Employee[]>;
+  selectedEmployee: Employee | undefined;
   dataSource2!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -39,7 +69,22 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
-  ) {}
+  ) {
+
+    this.costcenterCtrl = new FormControl();
+    this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filtercostcenters(value))
+    );
+
+
+
+    this.employeeCtrl = new FormControl();
+    this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filteremployees(value))
+    );
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();
@@ -53,6 +98,9 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       no:[''],
       employee:[''],
       costcenter:[],
+      costCenterId:[''],
+      employeeId:[''],
+
       item:[''],
       fiscalyear:[''],
       date:[''],
@@ -302,7 +350,72 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         }
       })
   }
-  getSearchStrOpen(no: any, costCenterId:any,employeeId: any,date: any, itemId: any) {
+
+
+  displaycostcenterName(costcenter: any): string {
+    return costcenter && costcenter.name ? costcenter.name : '';
+  }
+  costcenterSelected(event: MatAutocompleteSelectedEvent): void {
+    const costcenter = event.option.value as costcenter;
+    console.log("costcenter selected: ", costcenter);
+    this.selectedcostcenter = costcenter;
+    this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+    console.log("costcenter in form: ", this.groupMasterForm.getRawValue().costCenterId);
+
+    // this.getSearchStrWithdraw()
+    // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
+    // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+
+  }
+  private _filtercostcenters(value: string): costcenter[] {
+    const filterValue = value;
+    return this.costCentersList.filter(costcenter =>
+      costcenter.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutocostcenter() {
+    this.costcenterCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.costcenterCtrl.updateValueAndValidity();
+
+  }
+
+/////employeee
+
+  displayEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log("employee selected: ", employee);
+    this.selectedEmployee = employee;
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+    console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+
+    // this.getSearchStrWithdraw()
+    // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
+    // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
+
+  }
+  private _filteremployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employeesList.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutoEmployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.employeeCtrl.updateValueAndValidity();
+
+  }
+
+
+
+
+  getSearchStrOpen(no: any,date: any, itemId: any) {
     console.log(
       'no. : ',
       no,
@@ -310,11 +423,16 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       itemId,
       'date: ',
       date,
-      'employeeid: ',
-      employeeId,
-      'CostCenterId:',
-      costCenterId
+   
     );
+
+
+    let costCenterId=this.groupMasterForm.getRawValue().costCenterId
+    let employeeId=this.groupMasterForm.getRawValue().employeeId
+
+
+
+
     this.api.getStrEmployeeOpenSearach(no, costCenterId, employeeId, date, itemId )
     .subscribe({
       next: (res) => {
