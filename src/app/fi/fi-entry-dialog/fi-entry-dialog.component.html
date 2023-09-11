@@ -6,27 +6,26 @@
         <div class="headerForm">
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الرقم</mat-label>
-                <input matInput placeholder="الرقم" formControlName="no" type="number">
+                <input matInput placeholder="الرقم" formControlName="no" type="number" min="0">
             </mat-form-field>
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label> دفتر اليوميه </mat-label>
                 <mat-select placeholder=" دفتر اليوميه " formControlName="journalId" lazy-load-options>
-                    <mat-option [value]="journal.id"
-                        *ngFor="let journal of journalsList">{{journal.no}}</mat-option>
+                    <mat-option [value]="journal.id" *ngFor="let journal of journalsList">{{journal.no}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label> نوع مصدر الإدخال </mat-label>
-                <mat-select placeholder=" نوع مصدر الإدخال " formControlName="fiEntrySourceTypeId" >
-                    <mat-option [value]="source.id"
-                        *ngFor="let source of sourcesList">{{source.name}}</mat-option>
+                <mat-select placeholder=" نوع مصدر الإدخال " formControlName="fiEntrySourceTypeId">
+                    <mat-option [value]="source.id" *ngFor="let source of sourcesList">{{source.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>الموازنة</mat-label>
-                <input matInput placeholder="الموازنة" type="number" [value]="groupMasterForm ? groupMasterForm.getRawValue().balance : resultOfBalance" readonly>
+                <input matInput placeholder="الموازنة" type="number"
+                    [value]="groupMasterForm ? groupMasterForm.getRawValue().balance : resultOfBalance" readonly>
             </mat-form-field>
 
 
@@ -41,12 +40,14 @@
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>مجموع الائتمان</mat-label>
-                <input matInput placeholder="مجموع الائتمان" type="number" [value]="groupMasterForm ? groupMasterForm.getRawValue().creditTotal : sumOfCreditTotals" readonly>
+                <input matInput placeholder="مجموع الائتمان" type="number"
+                    [value]="groupMasterForm ? groupMasterForm.getRawValue().creditTotal : sumOfCreditTotals" readonly>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>مجموع المدين</mat-label>
-                <input matInput placeholder="مجموع المدين" type="number" [value]="groupMasterForm ? groupMasterForm.getRawValue().debitTotal : sumOfDebitTotals" readonly>
+                <input matInput placeholder="مجموع المدين" type="number"
+                    [value]="groupMasterForm ? groupMasterForm.getRawValue().debitTotal : sumOfDebitTotals" readonly>
             </mat-form-field>
 
         </div>
@@ -55,17 +56,29 @@
             [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
     </form>
 
+    <div mat-dialog-action [align]="'end'">
+        <div class="groupAction">
+            <button mat-raised-button class="savebtn" color="primary" (click)="OpenDetailsDialog()">add details</button>
+            <!-- <button mat-raised-button class="savebtn" (click)="EditMaster()">edit master</button> -->
+
+        </div>
+
+    </div>
+
     <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
         <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
 
-            <div class="detailsForm">
-                
+
+
+            <!-- <div class="detailsForm">
+
                 <mat-form-field appearance="outline" class="groupInput">
                     <mat-label> الحساب </mat-label>
                     <mat-select placeholder="الحساب " formControlName="accountId"
                         [value]="getDetailedRowData ? getDetailedRowData.accountId : ''">
-                        <mat-option [value]="account.id" *ngFor="let account of accountsList">{{account.name}}</mat-option>
+                        <mat-option [value]="account.id"
+                            *ngFor="let account of accountsList">{{account.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -73,7 +86,8 @@
                     <mat-label> صنف الحساب </mat-label>
                     <mat-select placeholder="صنف الحساب " formControlName="fiAccountItemId"
                         [value]="getDetailedRowData ? getDetailedRowData.fiAccountItemId : ''">
-                        <mat-option [value]="accountItem.id" *ngFor="let accountItem of accountItemsList">{{accountItem.accounName}}</mat-option>
+                        <mat-option [value]="accountItem.id"
+                            *ngFor="let accountItem of accountItemsList">{{accountItem.accounName}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
@@ -97,7 +111,7 @@
                         <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div>
                 <table mat-table [dataSource]="dataSource" matSort class="headerTable">
