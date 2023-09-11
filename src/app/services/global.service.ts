@@ -16,6 +16,7 @@ export class GlobalService {
   icon: any;
   stores = false;
   accounts = false;
+  test:any
   public navFlag: boolean = true;
  
 

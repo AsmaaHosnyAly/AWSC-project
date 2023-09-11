@@ -7,6 +7,9 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
+import { FiEntryDetailsDialogComponent } from 'src/app/fi-entry-details-dialog/fi-entry-details-dialog.component';
+import { GlobalService } from 'src/app/services/global.service';
+import { Router , Params} from '@angular/router';
 
 @Component({
   selector: 'app-fi-entry-dialog',
@@ -43,20 +46,24 @@ export class FiEntryDialogComponent implements OnInit {
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
+  test: any;
+  testMain: any;
 
   displayedColumns: string[] = ['credit', 'debit', 'accountName', 'fiAccountItemId', 'action'];
+  sessionId = Math.random();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private formBuilder: FormBuilder,
-    private api: ApiService,
+    private api: ApiService,public global:GlobalService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     // private toastr: ToastrService,
     private dialog: MatDialog,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private router: Router) { }
 
 
   ngOnInit(): void {
@@ -65,6 +72,7 @@ export class FiEntryDialogComponent implements OnInit {
     this.getFiAccounts();
     this.getFiAccountItems();
     this.getFiEntrySource();
+    this.global.test =this.test;
 
     this.getMasterRowId = this.editData;
 
@@ -436,15 +444,23 @@ export class FiEntryDialogComponent implements OnInit {
 
   editDetailsForm(row: any) {
 
-    console.log("test edit pass row: ", row)
-    if (this.editDataDetails || row) {
-      this.getDetailedRowData = row;
+    // console.log("test edit pass row: ", row)
+    // if (this.editDataDetails || row) {
+    //   this.getDetailedRowData = row;
 
-      this.actionBtnDetails = "Update";
-      this.groupDetailsForm.controls['entryId'].setValue(this.getDetailedRowData.entryId);
-      console.log("test edit form details: ", this.groupDetailsForm.value)
+    //   this.actionBtnDetails = "Update";
+    //   this.groupDetailsForm.controls['entryId'].setValue(this.getDetailedRowData.entryId);
+    //   console.log("test edit form details: ", this.groupDetailsForm.value)
 
-    }
+    // }
+    this.dialog.open(FiEntryDetailsDialogComponent, {
+      width: '70%',
+      data: row
+    }).afterClosed().subscribe(val => {
+      if (val === 'save' || val === 'update') {
+        this.getAllDetailsForms();
+      }
+    })
 
 
   }
@@ -488,5 +504,16 @@ export class FiEntryDialogComponent implements OnInit {
   }
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
+  }
+
+  OpenDetailsDialog(){
+    this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }])
+    this.dialog.open(FiEntryDetailsDialogComponent, {
+      width: '70%',
+    }).afterClosed().subscribe(val => {
+      if (val === 'save' || val === 'update') {
+        this.getAllDetailsForms();
+      }
+    })
   }
 }
