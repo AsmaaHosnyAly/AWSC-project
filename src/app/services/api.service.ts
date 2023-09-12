@@ -14,6 +14,8 @@ export class ApiService {
 
   // baseApiUrl = 'https://file.io';
   // attachmentURL='src\app\files\str-uploads';
+  // mycondition: any;
+
   public reportData: [] = [];
 
   public reportName: string = '';
@@ -299,7 +301,7 @@ export class ApiService {
   getItemNo(data: any) {
     console.log('No:', data);
     return this.http.get<any>(
-      `http://ims.aswan.gov.eg/api/STRItem/Get/lastNo?GroupId${data}`
+      `http://ims.aswan.gov.eg/api/STRItem/Get/lastNo?GroupId=${data}`
     );
   }
   getItem() {
@@ -336,6 +338,47 @@ export class ApiService {
   getAllUnitsi(): Observable<any> {
     return this.http.get<any>('http://ims.aswan.gov.eg/api/STRUnit/get/all');
   }
+
+  getSearchItem(name: any, fullcode:any, type:any, commodity:any, grade:any, platoon:any, group:any, unit:any) {
+    this.mycondition=`${this.url}/STRItem/search?`
+
+    if(!name == false){
+      this.mycondition =` ${this.mycondition}&Name=${name}`
+
+    }
+    if(!fullcode == false){
+      this.mycondition =` ${this.mycondition}&FullCode=${fullcode}`
+    }
+
+    if(!type == false){
+      this.mycondition =` ${this.mycondition}&Type=${fullcode}`
+    }
+
+    if(!commodity == false){
+      this.mycondition =` ${this.mycondition}&CommodityId=${commodity}`
+    }
+    if(!grade == false){
+      this.mycondition =` ${this.mycondition}&GradeId=${grade}`
+    }
+    if(!platoon == false){
+      this.mycondition =` ${this.mycondition}&PlatoonId=${platoon}`
+    }
+    if(!group == false){
+      this.mycondition =` ${this.mycondition}&GroupId=${group}`
+    }
+    if(!unit == false){
+      this.mycondition =` ${this.mycondition}&UnitId=${unit}`
+     
+    }
+    
+    console.log("url",this.mycondition)
+
+
+    return this.http.get<any>(`${this.mycondition}`);
+  }
+
+
+
   // Account
 
   postAccount(data: any) {
