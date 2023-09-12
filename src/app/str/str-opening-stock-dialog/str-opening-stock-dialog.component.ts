@@ -118,6 +118,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
       itemName: ['', Validators.required],
     });
 
+    // globalTransactionUserId
     this.userIdFromStorage = localStorage.getItem('transactionUserId');
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
