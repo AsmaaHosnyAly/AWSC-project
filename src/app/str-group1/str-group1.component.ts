@@ -110,7 +110,6 @@ export class STRGroup1Component implements OnInit{
     this.selectedCommodity = commodity;
     this.groupForm.patchValue({ commodityId: commodity.id });
     this.groupForm.patchValue({ commodityName: commodity.name });
-    this.gradeCtrl.setValue('');
   }
   
   gradeSelected(event: MatAutocompleteSelectedEvent): void {
@@ -118,7 +117,6 @@ export class STRGroup1Component implements OnInit{
     this.selectedGrade = grade;
     this.groupForm.patchValue({ gradeId: grade.id });
     this.groupForm.patchValue({ gradeName: grade.name });
-    this.platoonCtrl.setValue('');
   }
   
   platoonSelected(event: MatAutocompleteSelectedEvent): void {
@@ -139,8 +137,7 @@ export class STRGroup1Component implements OnInit{
     const filterValue = value.toLowerCase();
     return this.grades.filter(
       grade =>
-        (grade.name.toLowerCase().includes(filterValue) || grade.code.toLowerCase().includes(filterValue)) &&
-        grade.commodityId === this.selectedCommodity?.id
+        (grade.name.toLowerCase().includes(filterValue) || grade.code.toLowerCase().includes(filterValue))
     );
   }
   
@@ -148,9 +145,8 @@ export class STRGroup1Component implements OnInit{
     const filterValue = value.toLowerCase();
     return this.platoons.filter(
       platoon =>
-        (platoon.name.toLowerCase().includes(filterValue) || platoon.code.toLowerCase().includes(filterValue)) &&
-        platoon.gradeId === this.selectedGrade?.id
-    );
+        (platoon.name.toLowerCase().includes(filterValue) || platoon.code.toLowerCase().includes(filterValue)) 
+      );
   }
 
 
@@ -220,32 +216,174 @@ openAutoPlatoon() {
     this.api.getGroups()
           .subscribe({
             next: (res) => {        
-              //enter id
-              if (this.selectedPlatoon  && name == '' ){
-                console.log("filter ID id: ", this.selectedPlatoon , "name: ", name)
-
-                this.dataSource = res.filter((res: any)=> res.platoonId==this.selectedPlatoon.id!) 
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-              //enter both
-              else if (this.selectedPlatoon && name != ''){
-                console.log("filter both id: ", this.selectedPlatoon , "name: ", name)
-
-                // this.dataSource = res.filter((res: any)=> res.name==name!)
-                this.dataSource = res.filter((res: any)=> res.platoonId==this.selectedPlatoon.id! && res.name.toLowerCase().includes(name.toLowerCase()))
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-              //enter name
-              else{
-                console.log("filter name id: ", this.selectedPlatoon , "name: ", name)
-                // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+              //1 enter groupName
+              if (!this.selectedCommodity  && !this.selectedGrade  && !this.selectedPlatoon && name ){
+                                
                 this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
               }
+              //2 enter selectedCommodity
+              else if (this.selectedCommodity  && !this.selectedGrade  && !this.selectedPlatoon && name == ''){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.commodityId == this.selectedCommodity.id
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //3 enter selectedGrade
+              else if (!this.selectedCommodity  && this.selectedGrade  && !this.selectedPlatoon && name == ''){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.gradeId == this.selectedGrade.id
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+              //4 enter selectedPlatoon
+              else if (!this.selectedCommodity  && !this.selectedGrade  && this.selectedPlatoon && name == ''){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.platoonId == this.selectedPlatoon.id
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //5 enter selectedCommodity+selectedGrade
+              else if (this.selectedCommodity  && this.selectedGrade  && !this.selectedPlatoon && name == ''){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.commodityId == this.selectedCommodity.id && 
+                 res.gradeId == this.selectedGrade.id
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //6 enter selectedCommodity+selectedPlatoon
+              else if (this.selectedCommodity  && !this.selectedGrade  && this.selectedPlatoon && name == ''){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.commodityId == this.selectedCommodity.id && 
+                 res.platoonId == this.selectedPlatoon.id
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //7 enter selectedCommodity+groupName
+              else if (this.selectedCommodity  && !this.selectedGrade  && !this.selectedPlatoon && name ){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.commodityId == this.selectedCommodity.id && 
+                 res.name.toLowerCase().includes(name.toLowerCase())
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //8 enter selectedGrade+selectedPlatoon
+              else if (!this.selectedCommodity  && this.selectedGrade  && this.selectedPlatoon && name == ''){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.gradeId == this.selectedGrade.id && 
+                 res.platoonId == this.selectedPlatoon.id
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //9 enter selectedGrade+groupName
+              else if (!this.selectedCommodity  && this.selectedGrade  && !this.selectedPlatoon && name ){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.gradeId == this.selectedGrade.id && 
+                  res.name.toLowerCase().includes(name.toLowerCase())
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //10 enter selectedPlatoon+groupName
+              else if (!this.selectedCommodity  && !this.selectedGrade  && this.selectedPlatoon && name ){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.platoonId == this.selectedPlatoon.id && 
+                  res.name.toLowerCase().includes(name.toLowerCase())
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //11 enter selectedCommodity+selectedGrade+selectedPlatoon
+              else if (this.selectedCommodity  && this.selectedGrade  && this.selectedPlatoon && name == ''){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.commodityId == this.selectedCommodity.id && 
+                  res.gradeId == this.selectedGrade.id && 
+                  res.platoonId == this.selectedPlatoon.id
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //12 enter selectedCommodity+selectedGrade+groupName
+              else if (this.selectedCommodity  && this.selectedGrade  && !this.selectedPlatoon && name){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.commodityId == this.selectedCommodity.id && 
+                  res.gradeId == this.selectedGrade.id && 
+                  res.name.toLowerCase().includes(name.toLowerCase())
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //13 enter selectedGrade+selectedPlatoon+groupName
+              else if (!this.selectedCommodity  && this.selectedGrade  && this.selectedPlatoon && name){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.gradeId == this.selectedGrade.id && 
+                  res.platoonId == this.selectedPlatoon.id &&
+                  res.name.toLowerCase().includes(name.toLowerCase())
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+
+              //14 enter selectedCommodity+selectedPlatoon+groupName
+              else if (this.selectedCommodity  && !this.selectedGrade  && this.selectedPlatoon && name){
+
+                this.dataSource = res.filter(
+                 (res: any)=> res.commodityId == this.selectedCommodity.id && 
+                  res.platoonId == this.selectedPlatoon.id &&
+                  res.name.toLowerCase().includes(name.toLowerCase())
+                 );
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+              }
+              
+              //15 enter all
+              else if (this.selectedCommodity  && this.selectedGrade  && this.selectedPlatoon && name ){
+                this.dataSource = res.filter(
+                  (res: any)=> res.commodityId == this.selectedCommodity.id && 
+                   res.gradeId == this.selectedGrade.id && 
+                   res.platoonId == this.selectedPlatoon.id && 
+                   res.name.toLowerCase().includes(name.toLowerCase())
+                  );
+                 this.dataSource.paginator = this.paginator;
+                 this.dataSource.sort = this.sort;
+              }
             
+              //16 no enter 
+              else if (!this.selectedCommodity  && !this.selectedGrade  && !this.selectedPlatoon && name == '' ){
+              
+                 this.dataSource.paginator = this.paginator;
+                 this.dataSource.sort = this.sort;
+              }
               
             },
             error: (err) => {
