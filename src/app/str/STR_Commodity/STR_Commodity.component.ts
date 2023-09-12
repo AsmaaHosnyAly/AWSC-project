@@ -139,7 +139,7 @@ commodity: any = {
 @ViewChild(MatSort) sort!: MatSort;
 
 constructor(private dialog: MatDialog, private api: ApiService, shared:SharedService,private global:GlobalService) {
-  this.global.getPermissionUserRoles(5, 'stores', ' إدارة المخازن وحسابات المخازن  ', '');
+  this.global.getPermissionUserRoles(1, 'stores', ' إدارة المخازن وحسابات المخازن  ', '');
 }
 
 ngOnInit(): void {

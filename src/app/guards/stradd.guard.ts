@@ -28,19 +28,9 @@ export class sTRAddGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split('');
-
-    //     userRole.forEach(element => {
-    //     if( element==1)
-    //       return true
-    //     else
-    //     window.alert('You dont have the permission to visit this page')
-    //     this.router.navigateByUrl('login')
-    //     return false;
-    // })
-
-    for (let i = 0; i < userRole!.length; i++) {
-      let role = userRole![i];
+ 
+    for (let i = 0; i <this.shared. userRoles!.length; i++) {
+      let role = this.shared. userRoles![i];
       console.log('bbbbbbb', role);
       if (role == '1' || role=='17') 
       {

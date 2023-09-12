@@ -53,7 +53,7 @@ export class StrWithdrawTableComponent implements OnInit {
   ) {
     this.sharedStores =shared.stores 
 
-    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
+   
    }
 
   ngOnInit(): void {

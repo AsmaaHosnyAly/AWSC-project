@@ -22,7 +22,7 @@ export class StrWithdrawContainerComponent implements OnInit{
 
   constructor(private dialog: MatDialog, private api: ApiService,private global :GlobalService){
     
-    global.getPermissionUserRoles(5, 'stores', 'إدارة المخازن وحسابات المخازن -إذن صرف', '')
+    global.getPermissionUserRoles(1, 'stores', 'إدارة المخازن وحسابات المخازن -إذن صرف', '')
   }
 
   ngOnInit(): void {

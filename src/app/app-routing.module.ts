@@ -87,70 +87,70 @@ const routes: Routes = [
       {
         path: 'withdraw',
         component: StrWithdrawContainerComponent,
-        canActivate: [authGuard, withdrawGuard],
+      
       },
       {
         path: 'STRAdd',
         component: STRAddContainerComponent,
-        canActivate: [authGuard, sTRAddGuard],
+     
       }, //table filter done
       {
         path: 'str-openingStock',
         component: StrOpeningStockContainerComponent,
-        canActivate: [authGuard],
+       
       },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
-        canActivate: [authGuard],
+      
       },
       {
         path: 'commodity',
         component: StrCommodityComponent,
-        canActivate: [authGuard],
+        
       },
       { path: 'grade', component: STRGradeComponent, canActivate: [authGuard] },
       {
         path: 'str-platoon',
         component: STRPlatoonComponent,
-        canActivate: [authGuard],
+      
       },
       {
         path: 'group1',
         component: STRGroup1Component,
-        canActivate: [authGuard],
+       
       },
-      { path: 'unit', component: STRUnitsComponent, canActivate: [authGuard] },
+      { path: 'unit', component: STRUnitsComponent },
       {
         path: 'items1',
         component: STRItem1Component,
-        canActivate: [authGuard],
+        
       },
       {
         path: 'products',
         component: StrProductComponent,
-        canActivate: [authGuard],
+       
       },
       {
         path: 'home',
         component: StrGroupHomeComponent,
-        canActivate: [authGuard],
+        
       },
       { path: 'store', component: StrStoreComponent, canActivate: [authGuard] },
       {
         path: 'costCenter',
         component: StrCostcenterComponent,
-        canActivate: [authGuard],
+      
       },
       {
         path: 'EmployeeOpeningCustody',
         component: STREmployeeOpeningCustodyComponent,
-        canActivate: [authGuard],
+        
       },
       {
         path: 'groupBannel',
         component: StrGroupComponent,
-        canActivate: [authGuard],
+       
       },
 
       // { path: 'items', component: StrItemComponent },
@@ -199,9 +199,6 @@ const routes: Routes = [
       { path: 'unit', component: STRUnitsComponent },
       { path: 'grade', component: STRGradeComponent },
       { path: 'costCenter', component: StrCostcenterComponent },
-      //  { path: "items", component:StrItemComponent},
-      // { path: "", redirectTo: "login", pathMatch: "full" },
-
       { path: 'str-vendor', component: StrVendorComponent },
       { path: 'str-model', component: StrModelComponent },
       { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design

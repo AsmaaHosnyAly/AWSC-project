@@ -57,7 +57,8 @@ export class STRAddTableComponent implements OnInit {
     private router: Router,
     @Inject(LOCALE_ID) private locale: string
   ) {
-    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
+   
+    global.getPermissionUserRoles(2, 'stores', 'إدارة المخازن وحسابات المخازن -إذن إضافة', '')
   }
 
   ngOnInit(): void {

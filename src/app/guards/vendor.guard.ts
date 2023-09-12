@@ -1,5 +1,3 @@
-
-
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -15,7 +13,7 @@ import { SharedService } from './shared.service';
 @Injectable({
   providedIn: 'root',
 })
-export class withdrawGuard implements CanActivate {
+export class vendorGuard implements CanActivate {
   constructor(
     private router: Router,
     global: SharedService,
@@ -31,23 +29,12 @@ export class withdrawGuard implements CanActivate {
     | UrlTree {
     let userRole = localStorage.getItem('userRoles')?.split(',');
 
-    //     userRole.forEach(element => {
-    //     if( element==1)
-    //       return true
-    //     else
-    //     window.alert('You dont have the permission to visit this page')
-    //     this.router.navigateByUrl('login')
-    //     return false;
-    // })
-
     for (let i = 0; i < userRole!.length; i++) {
       let role = userRole![i];
-      console.log('bbbbbbb', role);
-      if (role == '1' ) 
+      if (role == '1' || role=='17') 
       {
-        this.shared.withdraw = true;
-        console.log('withdraw', this.shared.withdraw);
-        return this.shared.withdraw;
+        this.shared.prUser= true;
+        return this.shared.prUser;
       } 
     }
 

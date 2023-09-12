@@ -21,7 +21,8 @@ export class StrOpeningStockContainerComponent implements OnInit{
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
-    global.getPermissionUserRoles(3, 'stores', 'الإفتتاحي', '')
+   
+    global.getPermissionUserRoles(3, 'stores', 'إدارة المخازن وحسابات المخازن -رصيد الإفتتاحي', '')
   }
 
   ngOnInit(): void {

@@ -9,6 +9,7 @@ import { GlobalService } from 'src/app/services/global.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  roles:any
   transactionUserId=localStorage.getItem('transactionUserId')
 
   
@@ -26,6 +27,7 @@ export class LoginComponent {
   isActive=false
   constructor(public global : GlobalService , private router : Router){
     this.global.navFlag=false
+    localStorage.setItem('userRoles',this.roles)
   }
 
   get userName(){return this.loginForm.get('name')}
@@ -57,10 +59,12 @@ export class LoginComponent {
   }
 
   getRolesByUserId(){
+   
     this.global.getRolesByUserId(this.transactionUserId).subscribe(res=>{
-      console.log(res)
+      console.log("res", res)
+     
+     this.roles=res
       localStorage.setItem('userRoles',res)
-
     })
 }
 

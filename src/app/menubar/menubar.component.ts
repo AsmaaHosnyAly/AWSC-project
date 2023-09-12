@@ -22,7 +22,7 @@ export class MenubarComponent {
     // console.log(this.global.isLogIn)
 
     // console.log(this.global.userRoles)
-    let userRole = localStorage.getItem('userRoles');
+   
     this.gitUserById();
 
     //  this.global.getPermissionUserRoles(null, 'stores', 'الوحدة', '')
@@ -52,7 +52,7 @@ export class MenubarComponent {
   }
 
   handleLogOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userRoles');
     this.global.isLogIn = false;
   }
 }

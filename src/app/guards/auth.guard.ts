@@ -14,11 +14,16 @@ import { SharedService } from './shared.service';
   providedIn: 'root',
 })
 export class authGuard implements CanActivate {
+  userRoles:any
   constructor(
     private router: Router,
-    global: SharedService,
+   public global: GlobalService,
     public shared: SharedService
-  ) {}
+    
+  ) {
+    
+    this.userRoles = localStorage.getItem('userRoles')?.split(',');
+  }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -27,28 +32,18 @@ export class authGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split('',200);
+  
+  
 
-    //     userRole.forEach(element => {
-    //     if( element==1)
-    //       return true
-    //     else
-    //     window.alert('You dont have the permission to visit this page')
-    //     this.router.navigateByUrl('login')
-    //     return false;
-    // })
-    console.log('arrr',userRole)
-
-    for (let i = 0; i < userRole!.length; i++) {
-      let role = userRole![i];
+    for (let i = 0; i <  this.userRoles.length; i++) {
+      let role = this.userRoles![i];
       console.log('bbbbbbb', role);
       if (
         role == '1' ||
         role == '2' ||
         role == '3' ||
         role == '4' ||
-        role == '20' ||
-        role == '21' ||
+        role == '5' ||
         role == '6' ||
         role == '7' ||
         role == '8' ||
@@ -58,10 +53,12 @@ export class authGuard implements CanActivate {
         role == '12' ||
         role == '13' ||
         role == '14' ||
-        role == '15'
+        role == '15' ||
+        role == '16'||
+        role == '17'
       ) {
         this.shared.stores = true;
-        this.shared.pageTitle="إدارة المخازن وحسابات المخازن"
+        // this.router.navigate(['/str-home'])
         console.log('ggggggggg', this.shared.stores);
         return this.shared.stores;
       } 

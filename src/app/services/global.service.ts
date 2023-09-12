@@ -77,12 +77,12 @@ export class GlobalService {
     pageTitle: any,
     icon: any
   ) {
-    let userRoles = localStorage.getItem('userRoles')?.split('');
+    let userRoles = localStorage.getItem('userRoles')?.split(',');
     console.log(userRoles);
     for (let i = 0; i < userRoles!.length; i++) {
       if (role == userRoles![i]) {
-      
-    
+        this.pageTitle = pageTitle;
+        console.log("page",   this.pageTitle)
         if (background == 'stores')
           this.bgColor = document
             .querySelector('section')
@@ -95,7 +95,7 @@ export class GlobalService {
         // else
         // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
 
-        this.pageTitle = pageTitle;
+       
         return true;
       }
     }
