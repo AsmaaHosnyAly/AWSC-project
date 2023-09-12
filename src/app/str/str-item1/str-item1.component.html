@@ -36,7 +36,7 @@
               aria-label="unit"
               [matAutocomplete]="autoUnit"
               [formControl]="unitCtrl"
-              formControlName="unitName"
+              formControlName="unitN"
               (click)="openAutoUnit()"
               required
             />
@@ -62,7 +62,7 @@
               [matAutocomplete]="autoCommodity"
               (click)="openAutoCommodity()"
               [formControl]="commodityCtrl"
-              formControlName="commodityName"
+              formControlName="commodityN"
               required
             />
             <mat-autocomplete
@@ -86,7 +86,7 @@
               aria-label="grade"
               [matAutocomplete]="autoGrade"
               [formControl]="gradeCtrl"
-              formControlName="gradeName"
+              formControlName="gradeN"
               required
               (click)="openAutoGrade()"
               required
@@ -112,7 +112,7 @@
               aria-label="platoon"
               [matAutocomplete]="autoPlatoon"
               [formControl]="platoonCtrl"
-              formControlName="platoonName"
+              formControlName="platoonN"
               (click)="openAutoPlatoon()"
               required
             />
@@ -137,7 +137,7 @@
               aria-label="group"
               [matAutocomplete]="autoGroup"
               [formControl]="groupCtrl"
-              formControlName="groupName"
+              formControlName="groupN"
               (click)="openAutoGroup()"
               required
             />
@@ -168,7 +168,7 @@
           </div>
           <div class="print">
             <button (click)="getSearchItems(item.value, code.value, type.value)" class="">عرض</button>
-            <button (click)="getSearchItems(item.value, code.value, type.value)" class="">مسح قيم البحث</button>
+            <button (click)="getAllItems()" class="">مسح قيم البحث</button>
 
           </div>
         </div>

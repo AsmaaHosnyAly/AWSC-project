@@ -160,21 +160,7 @@ export class STRItem1Component implements OnInit {
     
   }
   ngOnInit(): void {
-    this.itemForm = this.formBuilder.group({
-      itemName: [''],
-      fullCode: [''],
-      type: [''],
-      unit: [''],
-      commodity: [''],
-      grade: [''],
-      platoon: [''],
-      group: [''],
-      unitId: [''],
-      commodityId: [''],
-      gradeId: [''],
-      platoonId: [''],
-      groupId: [''],
-    });
+  
     this.getAllItems();
     this.api.getAllUnitsi().subscribe((units) => {
       this.units = units;
@@ -194,6 +180,22 @@ export class STRItem1Component implements OnInit {
 
     this.api.getAllGroupsi().subscribe((groups) => {
       this.groups = groups;
+    });
+
+    this.itemForm = this.formBuilder.group({
+      itemName: [''],
+      fullCode: [''],
+      type: [''],
+      unitN: [''],
+      commodityN: [''],
+      gradeN: [''],
+      platoonN: [''],
+      groupN: [''],
+      unitId: [''],
+      commodityId: [''],
+      gradeId: [''],
+      platoonId: [''],
+      groupId: [''],
     });
   }
   openDialog() {
