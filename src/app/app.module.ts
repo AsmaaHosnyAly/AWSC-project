@@ -149,6 +149,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { PrUserDialogComponent } from './pr/pr-user-dialog/pr-user-dialog.component';
 import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component';
 import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entry-details-dialog.component';
+import { StrOpeningStockDetailsDialogComponent } from './str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -258,6 +259,7 @@ import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entr
     PrUserDialogComponent,
     PrUserTableComponent,
     FiEntryDetailsDialogComponent,
+    StrOpeningStockDetailsDialogComponent,
    
   
 

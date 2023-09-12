@@ -10,7 +10,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
   url = 'http://ims.aswan.gov.eg/api';
-  mycondition:any;
+  mycondition: any;
 
   // baseApiUrl = 'https://file.io';
   // attachmentURL='src\app\files\str-uploads';
@@ -232,8 +232,8 @@ export class ApiService {
   }
 
   getPlatoonCode(GradeId: any) {
-    console.log("gradeId:",GradeId);
-    
+    console.log("gradeId:", GradeId);
+
     return this.http.get<any>(
       `http://ims.aswan.gov.eg/api/STRPlatoon/AutoCode?GradeId=${GradeId}`
     );
@@ -284,8 +284,8 @@ export class ApiService {
   }
 
   getGroupCode(data: any) {
-    console.log("platoon id:",data);
-    
+    console.log("platoon id:", data);
+
     return this.http.get<any>(
       `http://ims.aswan.gov.eg/api/STRGroup/AutoCode?PlatoonId=${data}`
     );
@@ -521,7 +521,7 @@ export class ApiService {
   }
 
   deletestores(id: number) {
-    console.log("id in delete store:",id)
+    console.log("id in delete store:", id)
     return this.http.delete<any>(
       'http://ims.aswan.gov.eg/api/STRStore/delete/' + id
     );
@@ -662,7 +662,7 @@ export class ApiService {
     return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRGroup/AutoCode?PlatoonId=${lastPlatoonId}`);
   }
 
-  getCommodityAutoCode(){
+  getCommodityAutoCode() {
     return this.http.get<any>(`http://ims.aswan.gov.eg/api/STRCommodity/AutoCode`);
 
   }
@@ -718,6 +718,9 @@ export class ApiService {
   postStrOpenDetails(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStockDetails/Add`, data);
   }
+  getStrOpenDetailsByMasterId(id: any) {
+    return this.http.get<any>(`${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`);
+  }
   putStrOpenDetails(data: any, id: number) {
     console.log('strOpenDetails id: ', id, 'strOpenDetails data: ', data);
     return this.http.put<any>(
@@ -770,28 +773,28 @@ export class ApiService {
     fiscalYear: any,
     itemId: any
   ) {
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition = `${this.url}/STRWithdraw/search?`
 
-    if(!no == false){
-      this.mycondition =` ${this.mycondition}&No=${no}`
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`
 
     }
-    if(!storeId == false){
-      this.mycondition =` ${this.mycondition}&StoreId=${storeId}`
+    if (!storeId == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`
     }
-    if(!date == false){
-      this.mycondition =` ${this.mycondition}&Date=${date}`
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&Date=${date}`
     }
-    if(!fiscalYear == false){
-      this.mycondition =` ${this.mycondition}&fiscalyear=${fiscalYear}`
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`
     }
-    if(!itemId == false){
-      this.mycondition =` ${this.mycondition}&itemId=${itemId}`
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`
     }
-  
- 
 
-    console.log("url",this.mycondition)
+
+
+    console.log("url", this.mycondition)
 
 
     return this.http.get<any>(`${this.mycondition}`);
@@ -993,31 +996,31 @@ export class ApiService {
       distEmployee
     );
     this.mycondition
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition = `${this.url}/STRWithdraw/search?`
 
-    if(!no == false){
-      this.mycondition =` ${this.mycondition}&No=${no}`
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`
 
     }
-   
-    if(!date == false){
-      this.mycondition =` ${this.mycondition}&Date=${date}`
-    }
-    
-    if(!distEmployee == false){
-      this.mycondition =` ${this.mycondition}&DestEmployeeId=${distEmployee}`
-    }
-    if(!employeeId == false){
-      this.mycondition =` ${this.mycondition}&EmployeeId=${employeeId}`
-    }
-    if(!costCenterId == false){
-      this.mycondition =` ${this.mycondition}&costCenterId=${costCenterId}`
-     
-    }
-    
- 
 
-    console.log("url",this.mycondition)
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&Date=${date}`
+    }
+
+    if (!distEmployee == false) {
+      this.mycondition = ` ${this.mycondition}&DestEmployeeId=${distEmployee}`
+    }
+    if (!employeeId == false) {
+      this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`
+    }
+    if (!costCenterId == false) {
+      this.mycondition = ` ${this.mycondition}&costCenterId=${costCenterId}`
+
+    }
+
+
+
+    console.log("url", this.mycondition)
 
 
     return this.http.get<any>(`${this.mycondition}`);
@@ -1025,7 +1028,7 @@ export class ApiService {
     //enter no.
     // if (no != '' && !costCenterId && !employeeId && !date && !distEmployee) {
     //   console.log('enter no. employeeExchange search');
-      
+
     //   return this.http.get<any>(
     //     `${this.url}/STREmployeExchange/search?No=${no}`
     //   );
@@ -1260,14 +1263,12 @@ export class ApiService {
     );
   }
   getStrWithdrawSearch(
-    no: any ,
-    store: any ,
-    date: any ,
-    fiscalYear: any , 
-    itemId: any , employeeId: any, costCenterId: any
-  )
-  
-  {
+    no: any,
+    store: any,
+    date: any,
+    fiscalYear: any,
+    itemId: any, employeeId: any, costCenterId: any
+  ) {
     // mycondition :String;
     console.log(
       'no. : ',
@@ -1276,41 +1277,41 @@ export class ApiService {
       'date: ',
       date,
       'fiscalYear: ',
-      fiscalYear, 'item:',itemId,  'employee: ',
+      fiscalYear, 'item:', itemId, 'employee: ',
       employeeId,
       'costCenter:',
       costCenterId
     );
 
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition = `${this.url}/STRWithdraw/search?`
 
-    if(!no == false){
-      this.mycondition =` ${this.mycondition}&No=${no}`
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`
 
     }
-    if(!store == false){
-      this.mycondition =` ${this.mycondition}&StoreId=${store}`
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${store}`
     }
-    if(!date == false){
-      this.mycondition =` ${this.mycondition}&Date=${date}`
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&Date=${date}`
     }
-    if(!fiscalYear == false){
-      this.mycondition =` ${this.mycondition}&fiscalyear=${fiscalYear}`
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`
     }
-    if(!itemId == false){
-      this.mycondition =` ${this.mycondition}&itemId=${itemId}`
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`
     }
-    if(!employeeId == false){
-      this.mycondition =` ${this.mycondition}&EmployeeId=${employeeId}`
+    if (!employeeId == false) {
+      this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`
     }
-    if(!costCenterId == false){
-      this.mycondition =` ${this.mycondition}&costCenterId=${costCenterId}`
-     
-    }
-    
- 
+    if (!costCenterId == false) {
+      this.mycondition = ` ${this.mycondition}&costCenterId=${costCenterId}`
 
-    console.log("url",this.mycondition)
+    }
+
+
+
+    console.log("url", this.mycondition)
 
 
     return this.http.get<any>(`${this.mycondition}`);
@@ -1953,22 +1954,22 @@ export class ApiService {
 
   getStrAddSearach(no: any, storeId: any, date: any) {
     //enter no.
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition = `${this.url}/STRWithdraw/search?`
 
-    if(!no == false){
-      this.mycondition =` ${this.mycondition}&No=${no}`
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`
 
     }
-    if(!storeId == false){
-      this.mycondition =` ${this.mycondition}&StoreId=${storeId}`
+    if (!storeId == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`
     }
-    if(!date == false){
-      this.mycondition =` ${this.mycondition}&Date=${date}`
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&Date=${date}`
     }
-   
- 
 
-    console.log("url",this.mycondition)
+
+
+    console.log("url", this.mycondition)
 
 
     return this.http.get<any>(`${this.mycondition}`);
@@ -2457,31 +2458,31 @@ export class ApiService {
       "' distEmployee: '",
       itemId
     );
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition = `${this.url}/STRWithdraw/search?`
 
-    if(!no == false){
-      this.mycondition =` ${this.mycondition}&No=${no}`
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`
 
     }
-   
-    if(!date == false){
-      this.mycondition =` ${this.mycondition}&Date=${date}`
-    }
-    
-    if(!itemId == false){
-      this.mycondition =` ${this.mycondition}&itemId=${itemId}`
-    }
-    if(!employeeId == false){
-      this.mycondition =` ${this.mycondition}&EmployeeId=${employeeId}`
-    }
-    if(!costCenterId == false){
-      this.mycondition =` ${this.mycondition}&costCenterId=${costCenterId}`
-     
-    }
-    
- 
 
-    console.log("url",this.mycondition)
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&Date=${date}`
+    }
+
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`
+    }
+    if (!employeeId == false) {
+      this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`
+    }
+    if (!costCenterId == false) {
+      this.mycondition = ` ${this.mycondition}&costCenterId=${costCenterId}`
+
+    }
+
+
+
+    console.log("url", this.mycondition)
 
 
     return this.http.get<any>(`${this.mycondition}`);
@@ -2493,14 +2494,14 @@ export class ApiService {
       );
     }
     //enter costCenter
-    else if (!no  && costCenterId && !employeeId && !date && !itemId) {
+    else if (!no && costCenterId && !employeeId && !date && !itemId) {
       console.log('enter costCenter employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STREmployeeOpeningCustody/search?CostCenterId=${costCenterId}`
       );
     }
     //enter employee
-    else if (!no  && !costCenterId && employeeId && !date && !itemId) {
+    else if (!no && !costCenterId && employeeId && !date && !itemId) {
       console.log('enter employee employeeExchange search');
       return this.http.get<any>(
         `${this.url}/STREmployeeOpeningCustody/search?EmployeeId=${employeeId}`
@@ -2520,7 +2521,7 @@ export class ApiService {
         `${this.url}/STREmployeeOpeningCustody/search?ItemId=${itemId}`
       );
     }
-   
+
     //enter no. & costCenter
     else if (no != '' && costCenterId && !employeeId && !date && !itemId) {
       console.log('enter no. & costCenter employeeExchange search');
@@ -2589,7 +2590,7 @@ export class ApiService {
     else if (!no && costCenterId && employeeId && !date && !itemId) {
       console.log('enter employee & distEmployee employeeExchange search');
       return this.http.get<any>(
-        `${this.url}/STREmployeeOpeningCustody/search?CostCenterId=${costCenterId }&EmployeeId=${employeeId}`
+        `${this.url}/STREmployeeOpeningCustody/search?CostCenterId=${costCenterId}&EmployeeId=${employeeId}`
       );
     }
     //enter distEmployee & date
@@ -2614,10 +2615,10 @@ export class ApiService {
   getStrEmployeeOpenAutoNo() {
     return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/get/AutoNo`);
   }
-  
+
 
   getAllCostCenters() {
     return this.http.get<any>('http://ims.aswan.gov.eg/api/FICostCenter/get/all');
   }
-  
+
 }
