@@ -149,6 +149,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PrUserDialogComponent } from './pr/pr-user-dialog/pr-user-dialog.component';
 import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component';
 import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entry-details-dialog.component';
+import { StrOpeningStockDetailsDialogComponent } from './str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
 
@@ -276,6 +277,13 @@ import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
     PrUserDialogComponent,
     PrUserTableComponent,
     FiEntryDetailsDialogComponent,
+    StrOpeningStockDetailsDialogComponent,
+   
+  
+
+
+
+
     Item1DialogComponent,
   ],
   imports: [
