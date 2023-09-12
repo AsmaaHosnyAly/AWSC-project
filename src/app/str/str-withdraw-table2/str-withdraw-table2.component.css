@@ -7,7 +7,9 @@ mat-card {
   box-shadow: none;
   
 }
-
+/* .container{
+  overflow: hidden;
+} */
 .editbtn .mat-icon{
   --mat-icon-color:rgb(129, 135, 138);
 }
@@ -76,26 +78,15 @@ th {
 
 .search {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
 }
-.search button,
-.print button{
-  width: 250px;
-  font-size: 15px;
-  font-family: 'Cairo', sans-serif;
-  background-color:rgb(60, 202, 252);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  /* padding: 10px 30px; */
-  height: 50px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-}
+/*  */
+/* .addbutton{
+position: relative;
+right:15px;
+top: 5px;
+} */
 /* .display button{
   background:linear-gradient(rgb(252, 248, 248),rgb(146, 141, 141));
   color: #111010;
@@ -182,7 +173,7 @@ mat-panel-description {
 
 .div-table{
   display: block;
-  overflow-x: scroll !important;
+  /* overflow-y: scroll !important; */
   width: 100%;
 }
 
@@ -190,6 +181,7 @@ table {
   margin: 28px 0;
   width: 100%;
   text-align: center;
+/* overflow-y: auto; */
   
  
 }
@@ -289,7 +281,7 @@ footer h3 {
 }
 .search button,
 .print button{
-  width: 250px;
+  width: 200px;
   font-size: 15px;
   font-family: 'Cairo', sans-serif;
   background-color:rgb(60, 202, 252);
@@ -297,16 +289,27 @@ footer h3 {
   border: none;
   border-radius: 5px;
   padding: 10px 30px;
+  margin: 10px 40px;
   height: 50px;
   text-align: center;
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: space-between; */
 
 }
 
 .actionss {
 display: flex;
-justify-content: space-evenly;
+text-align: center;
+align-items: center;
+
+
 }
+
+/* element.style {
+  width: 98%;
+  max-width: 99vw;
+  position: static;
+} */
+
 

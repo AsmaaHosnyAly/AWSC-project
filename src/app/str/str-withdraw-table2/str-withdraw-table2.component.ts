@@ -189,7 +189,9 @@ costCenterId:[''],
   }
   openWithdrawDialog() {
     this.dialog.open(StrWithdrawDialogComponent, {
-      width: '90%'
+      width: '100%',
+      height: '80%'
+      
     }).afterClosed().subscribe(val => {
       if (val === 'Save') {
         // alert("refresh")
