@@ -32,8 +32,10 @@
         </div>
        
 
+      <div dir="ltr">
         <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
-            [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
+        [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
+      </div>
     </form>
 
     <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
@@ -72,7 +74,7 @@
                         <button mat-raised-button color="primary" style="margin-left: 8px;"
                             (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
                             'اضافة':'تعديل'}}</button>
-                        <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
+                     
                     </div>
                 </div>
             </div>

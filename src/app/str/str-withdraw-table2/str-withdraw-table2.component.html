@@ -167,14 +167,17 @@
       </button>
     </div>
 
-    <div>
+    <div class="search-btn"  >
+      
       <input
         matInput
         class="filter-search"
+       
         (keyup)="applyFilter($event)"
         placeholder="بحث"
         #input
       />
+
     </div>
   </mat-card-header>
   <div class="div-table">

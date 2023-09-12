@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -14,7 +13,7 @@ import { SharedService } from './shared.service';
 @Injectable({
   providedIn: 'root',
 })
-export class sTRAddGuard implements CanActivate {
+export class productsGuard implements CanActivate {
   constructor(
     private router: Router,
     global: SharedService,
@@ -28,13 +27,14 @@ export class sTRAddGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
- 
-    for (let i = 0; i <this.shared. userRoles!.length; i++) {
-      let role = this.shared. userRoles![i];
-      if (role == '1' || role=='17') 
+  
+
+    for (let i = 0; i < this.shared.userRoles!.length; i++) {
+      let role = this.shared.userRoles![i];
+      if (role == '12' || role=='17') 
       {
-        this.shared.STRAdd = true;
-        return this.shared.STRAdd;
+        this.shared.products= true;
+        return this.shared.products;
       } 
     }
 

@@ -55,7 +55,7 @@ import { HrEmployeeVacationBalanceComponent } from './hr/hr-employee-vacation-ba
 import { HrDisciplinaryComponent } from './hr/hr-disciplinary/hr-disciplinary.component';
 import { HrEmployeeDisciplinaryComponent } from './hr/hr-employee-disciplinary/hr-employee-disciplinary.component';
 import { PrGroupTableComponent } from './pr/pr-group-table/pr-group-table.component';
-import { StrModelComponent } from './str/str-model/str-model.component';
+import { StrModelComponent, vendor } from './str/str-model/str-model.component';
 import { MenubarComponent } from './menubar/menubar.component';
 import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component';
 import { rolesGuard } from './guards/roles.guard';
@@ -65,6 +65,18 @@ import { strOpeningStockGuard } from './guards/str-opening-stock.guard';
 import { employeeOpeningGuard } from './guards/employee-opening.guard';
 import { employeeOpeningCustodyGuard } from './guards/employee-opening-custody.guard';
 import { prUserGuard } from './guards/pr-user.guard';
+import { unitGuard } from './guards/unit.guard';
+import { commodityGuard } from './guards/commodity.guard';
+import { costCenterGuard } from './guards/cost-center.guard';
+import { gradeGuard } from './guards/grade.guard';
+import { group1Guard } from './guards/group1.guard';
+import { items1Guard } from './guards/items1.guard';
+import { modelGuard } from './guards/model.guard';
+import { prGroupGuard } from './guards/pr-group.guard';
+import { productsGuard } from './guards/products.guard';
+import { storesGuard } from './guards/stores.guard';
+import { strPlatoonGuard } from './guards/str-platoon.guard';
+import { vendorGuard } from './guards/vendor.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -81,76 +93,90 @@ const routes: Routes = [
       strOpeningStockGuard,
       employeeOpeningGuard,
       employeeOpeningCustodyGuard,
-      prUserGuard
+      prUserGuard,
+      unitGuard,
+      commodityGuard,
+      costCenterGuard,
+      gradeGuard,
+      group1Guard,
+      items1Guard,
+      modelGuard,
+      productsGuard,
+      storesGuard,
+      strPlatoonGuard,
+      vendorGuard,
+      prUserGuard,
+      prGroupGuard,
+
     ],
     children: [
       {
         path: 'withdraw',
         component: StrWithdrawContainerComponent,
-        canActivate: [authGuard, withdrawGuard],
+      
       },
       {
         path: 'STRAdd',
         component: STRAddContainerComponent,
-        canActivate: [authGuard, sTRAddGuard],
+     
       }, //table filter done
       {
         path: 'str-openingStock',
         component: StrOpeningStockContainerComponent,
-        canActivate: [authGuard],
+       
       },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
-        canActivate: [authGuard],
+      
       },
       {
         path: 'commodity',
         component: StrCommodityComponent,
-        canActivate: [authGuard],
+        
       },
       { path: 'grade', component: STRGradeComponent, canActivate: [authGuard] },
       {
         path: 'str-platoon',
         component: STRPlatoonComponent,
-        canActivate: [authGuard],
+      
       },
       {
         path: 'group1',
         component: STRGroup1Component,
-        canActivate: [authGuard],
+       
       },
-      { path: 'unit', component: STRUnitsComponent, canActivate: [authGuard] },
+      { path: 'unit', component: STRUnitsComponent },
       {
         path: 'items1',
         component: STRItem1Component,
-        canActivate: [authGuard],
+        
       },
       {
         path: 'products',
         component: StrProductComponent,
-        canActivate: [authGuard],
+       
       },
       {
         path: 'home',
         component: StrGroupHomeComponent,
-        canActivate: [authGuard],
+        
       },
       { path: 'store', component: StrStoreComponent, canActivate: [authGuard] },
       {
         path: 'costCenter',
         component: StrCostcenterComponent,
-        canActivate: [authGuard],
+      
       },
       {
         path: 'EmployeeOpeningCustody',
         component: STREmployeeOpeningCustodyComponent,
-        canActivate: [authGuard],
+        
       },
       {
         path: 'groupBannel',
         component: StrGroupComponent,
-        canActivate: [authGuard],
+       
       },
 
       // { path: 'items', component: StrItemComponent },
@@ -199,9 +225,6 @@ const routes: Routes = [
       { path: 'unit', component: STRUnitsComponent },
       { path: 'grade', component: STRGradeComponent },
       { path: 'costCenter', component: StrCostcenterComponent },
-      //  { path: "items", component:StrItemComponent},
-      // { path: "", redirectTo: "login", pathMatch: "full" },
-
       { path: 'str-vendor', component: StrVendorComponent },
       { path: 'str-model', component: StrModelComponent },
       { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design
