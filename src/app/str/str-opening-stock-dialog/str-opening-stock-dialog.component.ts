@@ -118,7 +118,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
       itemName: ['', Validators.required],
     });
 
-
+    this.userIdFromStorage = localStorage.getItem('transactionUserId');
+    this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
     if (this.editData) {
       this.isEdit = true;
@@ -147,8 +148,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     this.getAllDetailsForms();
 
-    this.userIdFromStorage = localStorage.getItem('transactionUserId');
-    this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+ 
 
   }
 
@@ -210,7 +210,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
     if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no) {
 
 
-      // console.log("Master add form : ", this.groupMasterForm.value)
+      console.log("Master add form : ", this.groupMasterForm.value)
       this.api.postStrOpen(this.groupMasterForm.value)
         .subscribe({
           next: (res) => {
