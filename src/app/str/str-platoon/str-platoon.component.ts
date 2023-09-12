@@ -85,11 +85,6 @@ export class STRPlatoonComponent implements OnInit {
     global.getPermissionUserRoles(7,'stores', 'فصيلة', '')
   }
   ngOnInit(): void {
-    this.platoonForm = this.formBuilder.group({      
-      platoonName : [''],
-      commodityname: [''],
-      gradeName: ['']
-    });
     this.getAllPlatoons();
     this.api.getAllCommodities().subscribe((commodities) => {
       this.commodities = commodities;
@@ -174,7 +169,6 @@ export class STRPlatoonComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.platoonForm.reset();
       },
       error: (err) => {
         alert('error while fetching the records!!');
@@ -210,108 +204,15 @@ export class STRPlatoonComponent implements OnInit {
     }
   }
 
-  
-  
-  async getSearchPlatoons(name: any) {
-    this.api.getPlatoon().subscribe({
-      next: (res) => {
-        //1 enter selectedCommodity
-        if (this.selectedCommodity && !this.selectedGrade && name == '') {
 
-          this.dataSource = res.filter(
-            (res: any) => res.commodityId == this.selectedCommodity.id
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //2 enter selectedGrade
-        if (!this.selectedCommodity && this.selectedGrade && name == '') {
-
-          this.dataSource = res.filter(
-            (res: any) => res.gradeId == this.selectedGrade.id
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //4 enter All
-        else if (this.selectedCommodity && this.selectedGrade && name ) {
-
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.commodityId == this.selectedCommodity.id &&              
-              res.gradeId == this.selectedGrade.id! &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-
-        //5 enter selectedCommodity and selectedGrade
-        else if (this.selectedCommodity && this.selectedGrade && name == '') {
-
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.commodityId == this.selectedCommodity.id &&              
-              res.gradeId == this.selectedGrade.id 
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-
-        //6 enter selectedCommodity and platoonName
-        else if (this.selectedCommodity && !this.selectedGrade && name ) {
-
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.commodityId == this.selectedCommodity.id &&              
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-
-        //7 enter platoonName and selectedGrade
-        else if (!this.selectedCommodity && this.selectedGrade && name ) {
-
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.gradeId == this.selectedGrade.id &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        
-        //3 enter platoonName
-        else if (!this.selectedCommodity && !this.selectedGrade && name ) {
-
-          this.dataSource = res.filter((res: any) =>
-            res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //4 enter All
-        else if (!this.selectedCommodity && !this.selectedGrade && name == '') {
-        
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
-    // this.getAllProducts()
-  }
-
-  // clearFields() {  
+  clearFields() {  
     
-  //   this.platoonForm.get('platoonName')?.reset();
-  //   // this.searchCommodity = '';
-  //   // this.searchGrade = '';
-  //   this.getAllPlatoons();
-  // }
+    this.platoonForm.get('platoonName')?.reset();
+    // this.platoonForm.get('commodityN')?.reset();
+    
+    this.platoonForm.get('gradeN')?.reset();
+    this.getAllPlatoons();
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
