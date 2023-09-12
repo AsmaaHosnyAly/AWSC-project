@@ -20,135 +20,21 @@ import { GlobalService } from '../../services/global.service';
     styleUrls: ['./STR_Commodity.component.css'],
 })
 export class StrCommodityComponent implements OnInit {
-//   badgevisible = false;
-//     badgevisibility() {
-//       this.badgevisible = true;}
-//       commodity: any = {
-//         id: 0,
-//         name: ''
-    
-//       }
-//       commoditylist: any;
 
-//   title = 'Angular13Crud';
-//   //define table fields which has to be same to api fields
-//   displayedColumns: string[] = ['code', 'name','action'];
-//   dataSource!: MatTableDataSource<any>;
-
-//   @ViewChild(MatPaginator) paginator!: MatPaginator;
-//   @ViewChild(MatSort) sort!: MatSort;
-
-//   constructor(private dialog: MatDialog, private api: ApiService) {
-
-//   }
-//   ngOnInit(): void {
-//     this.getAllCommodity();
-//     this.api.getCommodity().subscribe((data: any) => {
-//       this.commoditylist = data;
-//       console.log(this.commoditylist)
-//     })
-//   }
-//   openDialog() {
-//     this.dialog.open(StrCommodityDialogComponent, {
-//       width: '30%'
-//     }).afterClosed().subscribe(val => {
-//       if (val === 'حفظ') {
-//         this.getAllCommodity();
-//       }
-//     });
-//   }
-
-//   getAllCommodity() {
-//     this.api.getCommodity()
-//       .subscribe({
-//         next: (res) => {
-//           this.dataSource = new MatTableDataSource(res);
-//           this.dataSource.paginator = this.paginator;
-//           this.dataSource.sort = this.sort;
-//         },
-//         error: (err) => {
-//           alert("Error")
-//         }
-//       })
-//   }
-//   getSearchProducts(commodityId:any) {
-
-//     this.api.getCommodity()
-//       .subscribe({
-//         next: (res) => {
-       
-    
-//             this.dataSource = res.filter((res: any)=> res.name==commodityId!) 
-//             this.dataSource.paginator = this.paginator;
-//             this.dataSource.sort = this.sort;
-//           },
-        
-//         error: (err) => {
-//           alert("Error")
-//         }
-//       })
-     
-//     }
-
-
-//   editCommodity(row: any) {
-//     this.dialog.open(StrCommodityDialogComponent, {
-//       width: '30%',
-//       data: row
-//     }).afterClosed().subscribe(val => {
-//       if (val === 'تحديث') {
-//         this.getAllCommodity();
-//       }
-//     })
-//   }
-
-// deleteCommodity(id:number){
-//   if(confirm("هل انت متأكد من الحذف؟")) {
-// this.api.deleteCommodity(id)
-// .subscribe({
-// next:(res)=>{
-// alert("تم الحذف");
-// this.getAllCommodity();
-// },
-// error:()=>{
-//   alert("خطأ في الحذف")
-// }
-// })}
-// }
-
-//   applyFilter(event: Event) {
-//     const filterValue = (event.target as HTMLInputElement).value;
-//     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-//     if (this.dataSource.paginator) {
-//       this.dataSource.paginator.firstPage();
-//     }
-//   }
 title = 'Angular13Crud';
 //define table fields which has to be same to api fields
 displayedColumns: string[] = ['code', 'name','action'];
 dataSource!: MatTableDataSource<any>;
-commoditylist:any;
-commodity: any = {
-  id: 0,
-  name: ''
-
-}
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
 
 constructor(private dialog: MatDialog, private api: ApiService, shared:SharedService,private global:GlobalService) {
-  this.global.getPermissionUserRoles(5, 'stores', ' إذن إضافة ', '');
+  this.global.getPermissionUserRoles(1, 'stores', ' إدارة المخازن وحسابات المخازن  ', '');
 }
 
 ngOnInit(): void {
   this.getAllcommodity();
-  this.api.getcommodity().subscribe((data: any) => {
-    this.commoditylist = data;
-    console.log(this.commoditylist)
-    
-  })
 }
 openDialog() {
   this.dialog.open(StrCommodityDialogComponent, {
@@ -174,23 +60,7 @@ getAllcommodity() {
       }
     })
 }
-getSearchProducts(commodity:any) {
 
-  this.api.getcommodity()
-    .subscribe({
-      next: (res) => {
-        // 1-
-    
-          this.dataSource = res.filter((res: any)=> res.name==commodity!) 
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-      error: (err) => {
-        alert("Error")
-      }
-    })
-  
-  }
 
 editcommodity(row: any) {
   this.dialog.open(StrCommodityDialogComponent, {

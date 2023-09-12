@@ -58,21 +58,39 @@ th {
   text-align: center;
 }
 .filter-search{
-  padding: 0 !important;
-  font-size: 15px !important;
-  background-color: 0 !important;
- outline: none;
- border: none;
- border-bottom: 1px #2b2727 solid;
- width: 100%;
+  padding: 10px 10px!important;
+  font-size: 20px !important;
+ border:1px #2b2727 solid;
  text-align: right;
+width: 500px;
+display: inline-block;
 
 }
-.search mat-form-field {
-  width: 250px;
- 
-  padding: 0 !important;
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: red;
+  opacity: 1; /* Firefox */
   
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: red;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: red;
+  padding: 10px;
+  font-size: 20px;
+}
+
+input{
+  margin-right: 20px !important;
+  width: 500px;
+}
+.search mat-form-field {
+  width: 400px;
+  font-size: 20px !important;
+  padding: 10!important;
+ 
  
 }
 
