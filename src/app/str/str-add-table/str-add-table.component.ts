@@ -118,6 +118,8 @@ export class STRAddTableComponent implements OnInit {
     public shared:SharedService,
      private global:GlobalService,
   ) {
+
+    global.getPermissionUserRoles(2, 'stores', 'إدارة المخازن وحسابات المخازن -إذن إضافة', '')
     // this.form = this.formBuilder.group({
     //   name: [''],
     //   email: ['']

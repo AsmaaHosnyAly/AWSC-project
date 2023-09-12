@@ -9,7 +9,8 @@ import { GlobalService } from 'src/app/services/global.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  transactionUserId=localStorage.getItem('transactionUserId')
+  roles:any
+  transactionUserId:any
 
   
   OnIinit():void{
@@ -26,6 +27,7 @@ export class LoginComponent {
   isActive=false
   constructor(public global : GlobalService , private router : Router){
     this.global.navFlag=false
+    localStorage.setItem('userRoles',this.roles)
   }
 
   get userName(){return this.loginForm.get('name')}
@@ -40,14 +42,19 @@ export class LoginComponent {
     this.isSubmit = true
     if(this.loginForm.valid){
       this.global.login(this.loginForm.value).subscribe(res=>{
-        console.log(res)
+       
          if( res.isActive==true) {
-          
-          
           localStorage.setItem('transactionUserId',res.id);
+          console.log("handelres",  localStorage.setItem('transactionUserId',res.id))
            this.global.isLogIn=true;
-
-          this.getRolesByUserId()
+          
+           this.global.getRolesByUserId(res.id).subscribe(res=>{
+            console.log("res", res)
+           
+           this.roles=res
+            localStorage.setItem('userRoles',res)
+          })
+          //this.getRolesByUserId()
           this.router.navigate(['/home'])
       
         }
@@ -56,13 +63,7 @@ export class LoginComponent {
     }
   }
 
-  getRolesByUserId(){
-    this.global.getRolesByUserId(this.transactionUserId).subscribe(res=>{
-      console.log(res)
-      localStorage.setItem('userRoles',res)
 
-    })
-}
 
 // fddddddddddddddddddddddddddddddddddd
 }
