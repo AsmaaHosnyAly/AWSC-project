@@ -42,6 +42,7 @@ export class rolesGuard implements CanActivate {
         
       ) {
         this.shared.roles = true;
+        
         console.log('role', this.shared.roles);
         return this.shared.roles;
       } 

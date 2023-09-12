@@ -42,11 +42,9 @@ export class withdrawGuard implements CanActivate {
 
     for (let i = 0; i < userRole!.length; i++) {
       let role = userRole![i];
-      console.log('bbbbbbb', role);
       if (role == '1' ) 
       {
         this.shared.withdraw = true;
-        console.log('withdraw', this.shared.withdraw);
         return this.shared.withdraw;
       } 
     }

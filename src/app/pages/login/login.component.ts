@@ -10,7 +10,7 @@ import { GlobalService } from 'src/app/services/global.service';
 })
 export class LoginComponent {
   roles:any
-  transactionUserId=localStorage.getItem('transactionUserId')
+  transactionUserId:any
 
   
   OnIinit():void{
@@ -42,14 +42,19 @@ export class LoginComponent {
     this.isSubmit = true
     if(this.loginForm.valid){
       this.global.login(this.loginForm.value).subscribe(res=>{
-        console.log(res)
+       
          if( res.isActive==true) {
-          
-          
           localStorage.setItem('transactionUserId',res.id);
+          console.log("handelres",  localStorage.setItem('transactionUserId',res.id))
            this.global.isLogIn=true;
-
-          this.getRolesByUserId()
+          
+           this.global.getRolesByUserId(res.id).subscribe(res=>{
+            console.log("res", res)
+           
+           this.roles=res
+            localStorage.setItem('userRoles',res)
+          })
+          //this.getRolesByUserId()
           this.router.navigate(['/home'])
       
         }
@@ -58,15 +63,7 @@ export class LoginComponent {
     }
   }
 
-  getRolesByUserId(){
-   
-    this.global.getRolesByUserId(this.transactionUserId).subscribe(res=>{
-      console.log("res", res)
-     
-     this.roles=res
-      localStorage.setItem('userRoles',res)
-    })
-}
+
 
 // fddddddddddddddddddddddddddddddddddd
 }

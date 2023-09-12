@@ -31,10 +31,10 @@ export class vendorGuard implements CanActivate {
 
     for (let i = 0; i < userRole!.length; i++) {
       let role = userRole![i];
-      if (role == '1' || role=='17') 
+      if (role == '15' || role=='17') 
       {
-        this.shared.prUser= true;
-        return this.shared.prUser;
+        this.shared.vendor= true;
+        return this.shared.vendor;
       } 
     }
 

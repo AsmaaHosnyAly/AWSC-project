@@ -24,6 +24,7 @@ export class authGuard implements CanActivate {
     
     this.userRoles = localStorage.getItem('userRoles')?.split(',');
   }
+  
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

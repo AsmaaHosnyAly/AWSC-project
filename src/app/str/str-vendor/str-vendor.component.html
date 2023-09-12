@@ -18,7 +18,7 @@
         <input
           matInput
           class="filter-search"
-         
+          (keyup)="applyFilter($event)"
           placeholder="بحث"
           #input
         />

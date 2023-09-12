@@ -30,10 +30,10 @@ export class  unitGuard implements CanActivate {
     let userRole = localStorage.getItem('userRoles')?.split(',');
     for (let i = 0; i < userRole!.length; i++) {
       let role = userRole![i];
-      if (role == '9' || role=='17') 
+      if (role == '10' || role=='17') 
       {
-        this.shared.group1 = true;
-        return this.shared.group1;
+        this.shared.unit = true;
+        return this.shared.unit;
       } 
     }
 

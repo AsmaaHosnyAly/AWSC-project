@@ -31,19 +31,7 @@ export class Platoon {
 })
 export class STRGroup1Component implements OnInit{
   transactionUserId=localStorage.getItem('transactionUserId')
-  commodityCtrl: FormControl;
-  filteredCommodities: Observable<Commodity[]>;
-  commodities: Commodity[] = [];
-  gradeCtrl: FormControl;
-  filteredGrades: Observable<Grade[]>;
-  grades: Grade[] = [];
-  platoonCtrl: FormControl;
-  filteredPlatoons: Observable<Commodity[]>;
-  platoons: Platoon[] = [];
-  selectedCommodity!: Commodity;
-  selectedGrade!: Grade;
-  selectedPlatoon!: Platoon;
-  groupForm !:FormGroup;
+  
   title = 'angular13crud';
   displayedColumns: string[] = ['code', 'name', 'commodityName', 'gradeName', 'platoonName', 'action'];
   dataSource!: MatTableDataSource<any>;
@@ -51,37 +39,10 @@ export class STRGroup1Component implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog, private api : ApiService){
-    this.commodityCtrl = new FormControl();
-    this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterCommodities(value))
-    );
-
-    this.gradeCtrl = new FormControl();
-    this.filteredGrades = this.gradeCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterGrades(value))
-    );
-
-    this.platoonCtrl = new FormControl();
-    this.filteredPlatoons = this.platoonCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterPlatoons(value))
-    );
+  
   }
   ngOnInit(): void {
-    this.getAllGroups();
-    this.api.getAllCommodities().subscribe((commodities)=>{
-      this.commodities = commodities;
-    });
-
-    this.api.getAllGrades().subscribe((grades)=>{
-      this.grades = grades;
-    });
-
-    this.api.getAllPlatoonsg().subscribe((platoons)=>{
-      this.platoons = platoons;
-    });
+    this.getAllGroups();    
   }
   openDialog() {
     this.dialog.open(STRGroup1DialogComponent, {
@@ -91,66 +52,6 @@ export class STRGroup1Component implements OnInit{
         this.getAllGroups();
       }
     })
-  }
-
-  displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
-  }
-  
-  displayGradeName(grade: any): string {
-    return grade && grade.name ? grade.name : '';
-  }
-  
-  displayPlatoonName(platoon: any): string {
-    return platoon && platoon.name ? platoon.name : '';
-  }
-  
-  commoditySelected(event: MatAutocompleteSelectedEvent): void {
-    const commodity = event.option.value as Commodity;
-    this.selectedCommodity = commodity;
-    this.groupForm.patchValue({ commodityId: commodity.id });
-    this.groupForm.patchValue({ commodityName: commodity.name });
-    this.gradeCtrl.setValue('');
-  }
-  
-  gradeSelected(event: MatAutocompleteSelectedEvent): void {
-    const grade = event.option.value as Grade;
-    this.selectedGrade = grade;
-    this.groupForm.patchValue({ gradeId: grade.id });
-    this.groupForm.patchValue({ gradeName: grade.name });
-    this.platoonCtrl.setValue('');
-  }
-  
-  platoonSelected(event: MatAutocompleteSelectedEvent): void {
-    const platoon = event.option.value as Platoon;
-    this.selectedPlatoon = platoon;
-    this.groupForm.patchValue({ platoonId: platoon.id });
-    this.groupForm.patchValue({ platoonName: platoon.name });
-  }
-  
-  private _filterCommodities(value: string): Commodity[] {
-    const filterValue = value.toLowerCase();
-    return this.commodities.filter(commodity =>
-      commodity.name.toLowerCase().includes(filterValue) || commodity.code.toLowerCase().includes(filterValue)
-    );
-  }
-  
-  private _filterGrades(value: string): Grade[] {
-    const filterValue = value.toLowerCase();
-    return this.grades.filter(
-      grade =>
-        (grade.name.toLowerCase().includes(filterValue) || grade.code.toLowerCase().includes(filterValue)) &&
-        grade.commodityId === this.selectedCommodity?.id
-    );
-  }
-  
-  private _filterPlatoons(value: string): Platoon[] {
-    const filterValue = value.toLowerCase();
-    return this.platoons.filter(
-      platoon =>
-        (platoon.name.toLowerCase().includes(filterValue) || platoon.code.toLowerCase().includes(filterValue)) &&
-        platoon.gradeId === this.selectedGrade?.id
-    );
   }
 
 
@@ -197,65 +98,6 @@ export class STRGroup1Component implements OnInit{
   }
 }
 
-openAutoCommodity() {
-  this.commodityCtrl.setValue(''); // Clear the input field value
-
-  // Open the autocomplete dropdown by triggering the value change event
-  this.commodityCtrl.updateValueAndValidity();
-}
-openAutoGrade() {
-  this.gradeCtrl.setValue(''); // Clear the input field value
-
-  // Open the autocomplete dropdown by triggering the value change event
-  this.gradeCtrl.updateValueAndValidity();
-}
-openAutoPlatoon() {
-  this.platoonCtrl.setValue(''); // Clear the input field value
-
-  // Open the autocomplete dropdown by triggering the value change event
-  this.platoonCtrl.updateValueAndValidity();
-}
-  async getSearchGroups(name:any) {
-  
-    this.api.getGroups()
-          .subscribe({
-            next: (res) => {        
-              //enter id
-              if (this.selectedPlatoon  && name == '' ){
-                console.log("filter ID id: ", this.selectedPlatoon , "name: ", name)
-
-                this.dataSource = res.filter((res: any)=> res.platoonId==this.selectedPlatoon.id!) 
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-              //enter both
-              else if (this.selectedPlatoon && name != ''){
-                console.log("filter both id: ", this.selectedPlatoon , "name: ", name)
-
-                // this.dataSource = res.filter((res: any)=> res.name==name!)
-                this.dataSource = res.filter((res: any)=> res.platoonId==this.selectedPlatoon.id! && res.name.toLowerCase().includes(name.toLowerCase()))
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-              //enter name
-              else{
-                console.log("filter name id: ", this.selectedPlatoon , "name: ", name)
-                // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-                this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-            
-              
-            },
-            error: (err) => {
-              alert("Error")
-            }
-          })
-          // this.getAllProducts()
-        }
-
-        
 
   
   applyFilter(event: Event) {

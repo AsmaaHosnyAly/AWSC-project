@@ -36,6 +36,7 @@ training=false
   model=false
   storesAccounts=false
   prUser=false
+  prGroup=false
   transactionUserId=localStorage.getItem('transactionUserId')
 
   constructor() { 

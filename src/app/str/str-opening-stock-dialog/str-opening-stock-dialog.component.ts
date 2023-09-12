@@ -52,6 +52,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
   isEdit: boolean = false;
   userRoles: any;
   currentData: any;
+  fullCodeValue: any;
+  itemByFullCodeValue: any;
 
   itemsList: Item[] = [];
   itemCtrl: FormControl;
@@ -163,7 +165,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.selectedItem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
     console.log("item in form: ", this.groupDetailsForm.getRawValue().itemId);
-    this.itemOnChange(this.groupDetailsForm.getRawValue().itemId)
+    this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+    this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
   }
   openAutoItem() {
     this.itemCtrl.setValue(''); // Clear the input field value
@@ -173,6 +176,14 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
 
+  resetControls() {
+    this.groupDetailsForm.reset();
+    this.fullCodeValue = '';
+    this.itemByFullCodeValue = '';
+    this.itemCtrl.setValue('');
+    this.groupDetailsForm.controls['qty'].setValue(1);
+
+  }
   async nextToAddFormDetails() {
     // console.log("ppppp: ", this.isEdit)
     this.groupMasterForm.removeControl('id')
@@ -271,6 +282,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
         this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
+        console.log("post d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
@@ -281,6 +293,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.itemCtrl.setValue('');
+                this.itemByFullCodeValue = '';
+                this.fullCodeValue = '';
 
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
@@ -290,6 +304,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
               }
             })
         } else {
+          console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
+
           this.updateBothForms();
         }
 
@@ -297,6 +313,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     }
     else {
+      console.log("update d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
+
       this.updateDetailsForm();
     }
   }
@@ -316,6 +334,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
     this.isEdit = false;
+    console.log("edit : ", this.groupDetailsForm.value, "row: ", this.getDetailedRowData.id)
     this.api.putStrOpen(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
@@ -326,6 +345,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
                   this.itemCtrl.setValue('');
+                  this.itemByFullCodeValue = '';
+                  this.fullCodeValue = '';
 
                   this.getAllDetailsForms();
                   this.getDetailedRowData = '';
@@ -359,6 +380,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
     if (this.isEdit == false) {
       this.groupMasterForm.controls['no'].setValue(this.autoNo)
     }
+    console.log("check update d, ", this.groupMasterForm.value);
 
     if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().storeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
       console.log("change readOnly to enable, ", this.groupMasterForm.value);
@@ -396,7 +418,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
       this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
 
       this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
-
+      this.getCodeByItem(this.getDetailedRowData.itemId)
       // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
     }
 
@@ -532,11 +554,44 @@ export class StrOpeningStockDialogComponent implements OnInit {
       this.itemsList.filter((a: any) => {
         if (a.fullCode === code.target.value) {
           this.groupDetailsForm.controls['itemId'].setValue(a.id);
+          console.log("item by code: ", a.name);
+          this.itemCtrl.setValue(a.name);
+          if (a.name) {
+            this.itemByFullCodeValue = a.name;
+          }
+          else {
+            this.itemByFullCodeValue = '-';
+          }
+          this.itemByFullCodeValue = a.name;
+          this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
-          this.itemOnChange(this.groupDetailsForm.getRawValue().itemId)
         }
       })
     }
+
+
+  }
+
+  getCodeByItem(item: any) {
+    console.log("item by code: ", item, "code: ", this.itemsList);
+
+    // if (item.keyCode == 13) {
+    this.itemsList.filter((a: any) => {
+      if (a.id === item) {
+        // this.groupDetailsForm.controls['itemId'].setValue(a.id);
+        console.log("item by code selected: ", a)
+        // console.log("item by code selected: ", a.fullCode)
+        if (a.fullCode) {
+          this.fullCodeValue = a.fullCode;
+        }
+        else {
+          this.fullCodeValue = '-';
+        }
+
+        // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId)
+      }
+    })
+    // }
 
 
   }
@@ -602,7 +657,6 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   async itemOnChange(itemEvent: any) {
     console.log("itemEvent change value: ", itemEvent);
-
     await this.api.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,

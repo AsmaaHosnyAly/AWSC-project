@@ -30,7 +30,6 @@ export class  strPlatoonGuard implements CanActivate {
     let userRole = localStorage.getItem('userRoles')?.split(',');
     for (let i = 0; i < userRole!.length; i++) {
       let role = userRole![i];
-      console.log('bbbbbbb', role);
       if (role == '8' || role=='17') 
       {
         this.shared.strPlatoon = true;

@@ -114,11 +114,11 @@ input{
   justify-content: center;
 
 }
-.display button{
+/* .display button{
   background:linear-gradient(rgb(252, 248, 248),rgb(146, 141, 141));
   color: #111010;
   font-weight: bold;
-}
+} */
 /* .search{
 position: relative;
 right: 30px;
@@ -322,3 +322,9 @@ footer h3 {
   justify-content: center;
 
 }
+
+.actionss {
+display: flex;
+justify-content: space-evenly;
+}
+
