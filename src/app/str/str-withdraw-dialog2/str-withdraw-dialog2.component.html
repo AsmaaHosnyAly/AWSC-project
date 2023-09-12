@@ -29,7 +29,7 @@
     <mat-form-field appearance="outline" class="groupInput" style="width: 60px;">
         <mat-label>الرقم</mat-label>
         <input id="autoNoInput" matInput  formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
-            type="number" readonly>
+            type="number" min="0" readonly>
     </mat-form-field>
 
 
@@ -225,19 +225,19 @@
 
         <mat-form-field appearance="outline" style="width: 140px !important;">
           <mat-label>الكمية</mat-label>
-          <input type="number" matInput formControlName="qty"
+          <input type="number " min="0" matInput formControlName="qty"
             [value]="getDetailedRowData ? getDetailedRowData.qty : ''" />
         </mat-form-field>
         <mat-form-field appearance="outline" style="width: 140px !important;">
           <mat-label>السعر</mat-label>
-          <input type="number" matInput formControlName="price"
+          <input type="number" min="0" matInput formControlName="price"
             [value]="getDetailedRowData ? getDetailedRowData.price : ''" />
         </mat-form-field>
 
 
         <mat-form-field appearance="outline" style="width: 140px !important;">
           <mat-label> النسبة</mat-label>
-          <input matInput type="number" formControlName="percentage"
+          <input matInput type="number" min="0" formControlName="percentage"
               [value]="getDetailedRowData ? getDetailedRowData.percentage : ''" [readonly]="isReadOnlyPercentage">
       </mat-form-field>
       </div>

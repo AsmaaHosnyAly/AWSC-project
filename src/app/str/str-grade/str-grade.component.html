@@ -2,35 +2,6 @@
 <mat-card>
  
   <mat-card-content>
-    <mat-accordion class="example-headers-align" multi dir="rtl">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-description>
-              بحث متقدم
-            <mat-icon>search</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-    <div class="search">
-        <mat-form-field appearance="outline">
-          <mat-label>النوعية </mat-label>
-          <input #grade matInput placeholder="ادخل النوعية">
-      </mat-form-field>
-      <mat-form-field appearance="outline">   
-        <mat-label>السلعة</mat-label>     
-        <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl" (click)="openAutoCommodity()" required/>
-        <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName" (optionSelected)="commoditySelected($event)">
-          <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
-            {{ commodity.name }} | {{ commodity.code }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      <button (click)=" getSearchGrades(grade.value)" >عرض</button>
-      <button (click)=" getAllGrades()" >الغاء</button>
-
-      </div>
-      </mat-expansion-panel>
-    </mat-accordion>
     <mat-card-header dir="ltr" class="parent-search">
       <div class="child1">
         <button

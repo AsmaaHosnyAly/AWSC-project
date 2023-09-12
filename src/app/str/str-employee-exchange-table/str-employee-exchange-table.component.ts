@@ -8,6 +8,24 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { StrEmployeeExchangeDialogComponent } from '../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 import { formatDate } from '@angular/common';
+import { Observable, map, startWith, tap } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
+
+export class Employee {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+
+export class costcenter {
+  constructor(public id: number, public name: string) { }
+}
+
+export class distEmployee {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+
+
 
 @Component({
   selector: 'app-str-employee-exchange-table',
@@ -20,8 +38,31 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   storeList: any;
   storeName: any;
   fiscalYearsList: any;
-  employeesList: any;
-  costCentersList: any;
+  // employeesList: any;
+  // costCentersList: any;
+  groupMasterForm !: FormGroup;
+
+
+
+  costcentersList: costcenter[] = [];
+  costcenterCtrl: FormControl<any>;
+  filteredcostcenter: Observable<costcenter[]>;
+  selectedcostcenter: costcenter | undefined;
+
+
+
+  employeesList: Employee[] = [];
+  employeeCtrl: FormControl<any>;
+  filteredEmployee: Observable<Employee[]>;
+  selectedEmployee: Employee | undefined;
+
+
+  distEmployeesList: distEmployee[] = [];
+  distEmployeeCtrl: FormControl<any>;
+  filtereddistEmployee: Observable<distEmployee[]>;
+  selecteddistEmployee: distEmployee | undefined;
+
+
 
   dataSource2!: MatTableDataSource<any>;
 
@@ -29,10 +70,33 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private api: ApiService,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private formBuilder: FormBuilder,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService) {
+
+
+      this.costcenterCtrl = new FormControl();
+      this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filtercostcenters(value))
+      );
+  
+  
+  
+      this.employeeCtrl = new FormControl();
+      this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filteremployees(value))
+      );
+
+
+      this.distEmployeeCtrl = new FormControl();
+      this.filtereddistEmployee = this.distEmployeeCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterdistEmployees(value))
+      );
+
 
   }
 
@@ -42,6 +106,22 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.getFiscalYears();
     this.getEmployees();
     this.getCostCenters();
+
+    this.groupMasterForm = this.formBuilder.group({
+      no:[''],
+      employee:[''],
+      costcenter:[],
+      costCenterId:[],
+
+      storeId:[''],
+      itemId:[''],
+      distEmployeeId:[''],
+      item:[''],
+      fiscalyear:[''],
+      date:[''],
+      store:[''],
+      distEmployee:['']
+       });
   }
 
   applyFilter(event: Event) {
@@ -70,6 +150,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.dataSource2 = new MatTableDataSource(res);
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
+          this.groupMasterForm.reset();
+
         },
         error: () => {
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
@@ -190,7 +272,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.api.getFiCostCenter()
       .subscribe({
         next: (res) => {
-          this.costCentersList = res;
+          this.costcentersList = res;
         },
         error: (err) => {
           // console.log("fetch costCenter data err: ", err);
@@ -198,8 +280,111 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
         }
       })
   }
+  getsearch(code:any){
+    if (code.keyCode == 13) {
+      this.getAllMasterForms();
+     }
+  }
 
-  getSearchStrOpen(no: any, costCenterId: any, employeeId: any, date: any, distEmployee: any) {
+  displaycostcenterName(costcenter: any): string {
+    return costcenter && costcenter.name ? costcenter.name : '';
+  }
+  costcenterSelected(event: MatAutocompleteSelectedEvent): void {
+    const costcenter = event.option.value as costcenter;
+    console.log("costcenter selected: ", costcenter);
+    this.selectedcostcenter = costcenter;
+    this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+    console.log("costcenter in form: ", this.groupMasterForm.getRawValue().costCenterId);
+
+    // this.getSearchStrWithdraw()
+    // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
+    // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+
+  }
+  private _filtercostcenters(value: string): costcenter[] {
+    const filterValue = value;
+    return this.costcentersList.filter(costcenter =>
+      costcenter.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutocostcenter() {
+    this.costcenterCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.costcenterCtrl.updateValueAndValidity();
+
+  }
+
+/////employeee
+
+  displayEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log("employee selected: ", employee);
+    this.selectedEmployee = employee;
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+    console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+
+    // this.getSearchStrWithdraw()
+    // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
+    // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
+
+  }
+  private _filteremployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employeesList.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutoEmployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.employeeCtrl.updateValueAndValidity();
+
+  }
+
+
+  //////distemployee
+  displaydistEmployeeName(distEmployee: any): string {
+    return distEmployee && distEmployee.name ? distEmployee.name : '';
+  }
+  distEmployeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const distEmployee = event.option.value as distEmployee;
+    console.log("distEmployee selected: ", distEmployee);
+    this.selecteddistEmployee = distEmployee;
+    this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
+    console.log("distEmployee in form: ", this.groupMasterForm.getRawValue().distEmployeeId);
+
+    // this.getSearchStrWithdraw()
+    // this.set_store_Null(this.groupMasterForm.getRawValue().distEmployeeId);
+    // return     this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
+
+  }
+  private _filterdistEmployees(value: string): distEmployee[] {
+    const filterValue = value;
+    return this.distEmployeesList.filter(distEmployee =>
+      distEmployee.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutodistEmployee() {
+    this.distEmployeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.distEmployeeCtrl.updateValueAndValidity();
+
+  }
+
+
+  getSearchStrOpen(no: any,  date: any) {
+
+    let costCenterId=this.groupMasterForm.getRawValue().costCenterId
+    let employeeId=this.groupMasterForm.getRawValue().employeeId
+    let distEmployee=this.groupMasterForm.getRawValue().distEmployeeId
+
+
     this.api.getStrEmployeeExchangeSearach(no, costCenterId, employeeId, date, distEmployee)
       .subscribe({
         next: (res) => {

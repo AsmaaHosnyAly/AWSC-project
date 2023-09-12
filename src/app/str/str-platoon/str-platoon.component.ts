@@ -7,6 +7,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import {
   FormGroup,
   FormBuilder,
@@ -26,8 +27,7 @@ export class Grade {
   constructor(
     public id: number,
     public name: string,
-    public code: string,
-    public commodityId: number
+    public code: string
   ) {}
 }
 
@@ -37,6 +37,7 @@ export class Grade {
   styleUrls: ['./str-platoon.component.css'],
 })
 export class STRPlatoonComponent implements OnInit {
+  [x: string]: any;
   transactionUserId = localStorage.getItem('transactionUserId');
   commodityCtrl: FormControl;
   filteredCommodities: Observable<Commodity[]>;
@@ -46,8 +47,11 @@ export class STRPlatoonComponent implements OnInit {
   grades: Grade[] = [];
   selectedCommodity!: Commodity;
   selectedGrade!: Grade;
+  // selectedCommodity = this.commodities[0];
+  // selectedGrade = this.grades[0];  
   formcontrol = new FormControl('');
   platoonForm!: FormGroup;
+  platoon: any;
   title = 'angular13crud';
   displayedColumns: string[] = [
     'code',
@@ -57,11 +61,15 @@ export class STRPlatoonComponent implements OnInit {
     'action',
   ];
   dataSource!: MatTableDataSource<any>;
+  @ViewChild('autoCommodity') autoCommodity!: MatAutocompleteTrigger;
+@ViewChild('autoGrade') autoGrade!: MatAutocompleteTrigger;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  
   // selectedGrade: any;
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
+  constructor(private formBuilder : FormBuilder,private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -112,7 +120,7 @@ export class STRPlatoonComponent implements OnInit {
     this.selectedCommodity = commodity;
     this.platoonForm.patchValue({ commodityId: commodity.id });
     this.platoonForm.patchValue({ commodityName: commodity.name });
-    this.gradeCtrl.setValue('');
+    console.log("commodityname:",commodity.name )
   }
 
   gradeSelected(event: MatAutocompleteSelectedEvent): void {
@@ -136,9 +144,21 @@ export class STRPlatoonComponent implements OnInit {
     return this.grades.filter(
       (grade) =>
         (grade.name.toLowerCase().includes(filterValue) ||
-          grade.code.toLowerCase().includes(filterValue)) &&
-        grade.commodityId === this.selectedCommodity?.id
+          grade.code.toLowerCase().includes(filterValue))
     );
+  }
+
+  openAutoCommodity() {
+    this.commodityCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.commodityCtrl.updateValueAndValidity();
+  }
+  openAutoGrade() {
+    this.gradeCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.gradeCtrl.updateValueAndValidity();
   }
 
   getAllPlatoons() {
@@ -184,61 +204,14 @@ export class STRPlatoonComponent implements OnInit {
     }
   }
 
-  openAutoCommodity() {
-    this.commodityCtrl.setValue(''); // Clear the input field value
-  
-    // Open the autocomplete dropdown by triggering the value change event
-    this.commodityCtrl.updateValueAndValidity();
-  }
-  openAutoGrade() {
-    this.gradeCtrl.setValue(''); // Clear the input field value
-  
-    // Open the autocomplete dropdown by triggering the value change event
-    this.gradeCtrl.updateValueAndValidity();
-  }
-  
-  async getSearchPlatoons(name: any) {
-    this.api.getPlatoon().subscribe({
-      next: (res) => {
-        //enter id
-        if (this.selectedGrade && name == '') {
-          console.log('filter ID id: ', this.selectedGrade, 'name: ', name);
 
-          this.dataSource = res.filter(
-            (res: any) => res.gradeId == this.selectedGrade.id!
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //enter both
-        else if (this.selectedGrade && name != '') {
-          console.log('filter both id: ', this.selectedGrade, 'name: ', name);
-
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.gradeId == this.selectedGrade.id! &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //enter name
-        else {
-          console.log('filter name id: ', this.selectedGrade, 'name: ', name);
-          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-          this.dataSource = res.filter((res: any) =>
-            res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
-    // this.getAllProducts()
+  clearFields() {  
+    
+    this.platoonForm.get('platoonName')?.reset();
+    // this.platoonForm.get('commodityN')?.reset();
+    
+    this.platoonForm.get('gradeN')?.reset();
+    this.getAllPlatoons();
   }
 
   applyFilter(event: Event) {

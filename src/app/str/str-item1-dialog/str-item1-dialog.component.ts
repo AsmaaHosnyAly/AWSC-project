@@ -320,10 +320,13 @@ export class STRItem1DialogComponent implements OnInit {
   }
 
   getNoByGroupId() {
+    console.log('groupId: ', this.selectedGroup?.id);
+    
     this.api.getItemNo(this.selectedGroup?.id).subscribe({
       next: (res) => {
 
-        this.itemForm.value.no = res;
+        // this.itemForm.value.no = res;
+        this.itemForm.controls['no'].setValue(res);
        console.log('number: ', this.itemForm.value.no);
       },
       error: (err) => {
