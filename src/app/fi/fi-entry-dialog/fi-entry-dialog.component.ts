@@ -387,7 +387,7 @@ export class FiEntryDialogComponent implements OnInit {
     this.api.putFiEntry(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم التعديل بنجاح");
+          // alert("تم التعديل بنجاح");
           console.log("update res: ", res, "details form values: ", this.groupDetailsForm.value, "details id: ", this.getDetailedRowData);
           if (this.groupDetailsForm.value && this.getDetailedRowData) {
 

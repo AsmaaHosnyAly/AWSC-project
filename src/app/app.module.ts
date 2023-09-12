@@ -1,7 +1,7 @@
 import { HrEmployeeVacationBalanceDialogComponent } from './hr/hr-employee-vacation-balance-dialog/hr-employee-vacation-balance-dialog.component';
 import { HrEmployeeVacationBalanceComponent } from './hr/hr-employee-vacation-balance/hr-employee-vacation-balance.component';
-import {  HrEmployeeVacationComponent} from "./hr/hr-employee-vacation/hr-employee-vacation.component";
-import {  HrEmployeeVacationDialogComponent} from "./hr/hr-employee-vacation-dialog/hr-employee-vacation-dialog.component";
+import { HrEmployeeVacationComponent } from './hr/hr-employee-vacation/hr-employee-vacation.component';
+import { HrEmployeeVacationDialogComponent } from './hr/hr-employee-vacation-dialog/hr-employee-vacation-dialog.component';
 import { NgModule } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -85,7 +85,7 @@ import { FiEntryDialogComponent } from './fi/fi-entry-dialog/fi-entry-dialog.com
 // import { FileUploadDialogComponent } from './file-upload-dialog/file-upload-dialog.component';
 import { FIAccountHierarchyComponent } from './fi/fi-account-hierarchy/fi-account-hierarchy.component';
 import { FIAccountHierarchyDialogComponent } from './fi/fi-account-hierarchy-dialog/fi-account-hierarchy-dialog.component';
-import {PipesModule  } from "../app/pipes/pipes.module";
+import { PipesModule } from '../app/pipes/pipes.module';
 import { FIEntrySourceComponent } from './fi/fi-entry-source/fi-entry-source.component';
 import { FIEntrySourceDialogComponent } from './fi/fi-entry-source-dialog/fi-entry-source-dialog.component';
 
@@ -103,14 +103,14 @@ import { STRAddDialogComponent } from './str/str-add-dialog/str-add-dialog.compo
 import { STRAddTableComponent } from './str/str-add-table/str-add-table.component';
 import { FIAccountParentComponent } from './fi/fi-account-parent/fi-account-parent.component';
 import { FIAccountParentDialogComponent } from './fi/fi-account-parent-dialog/fi-account-parent-dialog.component';
-import {HrJobTitleComponent} from './hr/hr-job-title/hr-job-title.component';
-import {HrJobTitleDialogComponent} from './hr/hr-job-title-dialog/hr-job-title-dialog.component'
-import {HrPositionComponent} from './hr/hr-position/hr-position.component';
-import {HrPositionDialogComponent} from './hr/hr-position-dialog/hr-position-dialog.component'
+import { HrJobTitleComponent } from './hr/hr-job-title/hr-job-title.component';
+import { HrJobTitleDialogComponent } from './hr/hr-job-title-dialog/hr-job-title-dialog.component';
+import { HrPositionComponent } from './hr/hr-position/hr-position.component';
+import { HrPositionDialogComponent } from './hr/hr-position-dialog/hr-position-dialog.component';
 import { StrVendorComponent } from './str/str-vendor/str-vendor.component';
 import { StrVendorDialogComponent } from './str/str-vendor-dialog/str-vendor-dialog.component';
 import { MenubarComponent } from './menubar/menubar.component';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatBadgeModule } from '@angular/material/badge';
 import { HrCityComponent } from './hr/hr-city/hr-city.component';
 import { HrCityDialogComponent } from './hr/hr-city-dialog/hr-city-dialog.component';
 import { HrCityStateComponent } from './hr/hr-city-state/hr-city-state.component';
@@ -136,8 +136,8 @@ import { HrWorkPlacedialogComponent } from './hr/hr-work-placedialog/hr-work-pla
 import { HrSpecializationComponent } from './hr/hr-specialization/hr-specialization.component';
 import { HrSpecializationDialogComponent } from './hr/hr-specialization-dialog/hr-specialization-dialog.component';
 
-import {HrDisciplinaryComponent} from './hr/hr-disciplinary/hr-disciplinary.component'
-import {HrDisciplinaryDialogComponent} from './hr/hr-disciplinary-dialog/hr-disciplinary-dialog.component';
+import { HrDisciplinaryComponent } from './hr/hr-disciplinary/hr-disciplinary.component';
+import { HrDisciplinaryDialogComponent } from './hr/hr-disciplinary-dialog/hr-disciplinary-dialog.component';
 import { HrEmployeeDisciplinaryComponent } from './hr/hr-employee-disciplinary/hr-employee-disciplinary.component';
 import { HrEmployeeDisciplinaryDialogComponent } from './hr/hr-employee-disciplinary-dialog/hr-employee-disciplinary-dialog.component';
 import { PrGroupTableComponent } from './pr/pr-group-table/pr-group-table.component';
@@ -145,25 +145,44 @@ import { PrGroupDialogComponent } from './pr/pr-group-dialog/pr-group-dialog.com
 import { StrModelComponent } from './str/str-model/str-model.component';
 import { StrModelDailogComponent } from './str/str-model-dailog/str-model-dailog.component';
 
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PrUserDialogComponent } from './pr/pr-user-dialog/pr-user-dialog.component';
 import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component';
 import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entry-details-dialog.component';
+import { StrOpeningStockDetailsDialogComponent } from './str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent,HrEmployeeVacationBalanceComponent,HrEmployeeVacationBalanceDialogComponent,
-    HrDisciplinaryDialogComponent,HrDisciplinaryComponent,
-    HrVacationDailogComponent,HrVacationComponent,HrMillitryStateDialogComponent,
-    HrMillitryStateComponent,HrHiringTypeDialogComponent,HrHiringTypeComponent,HrIncentiveAllowanceDialogComponent,HrIncentiveAllowanceComponent,StrEmployeesComponent,StrAccountsComponent,StrWithdrawContainerComponent,StrWithdrawDialogComponent,StrWithdrawTableComponent,
-    StrCommodityComponent,HrJobTitleComponent,
+    AppComponent,
+    HrEmployeeVacationBalanceComponent,
+    HrEmployeeVacationBalanceDialogComponent,
+    HrDisciplinaryDialogComponent,
+    HrDisciplinaryComponent,
+    HrVacationDailogComponent,
+    HrVacationComponent,
+    HrMillitryStateDialogComponent,
+    HrMillitryStateComponent,
+    HrHiringTypeDialogComponent,
+    HrHiringTypeComponent,
+    HrIncentiveAllowanceDialogComponent,
+    HrIncentiveAllowanceComponent,
+    StrEmployeesComponent,
+    StrAccountsComponent,
+    StrWithdrawContainerComponent,
+    StrWithdrawDialogComponent,
+    StrWithdrawTableComponent,
+    StrCommodityComponent,
+    HrJobTitleComponent,
     HrJobTitleDialogComponent,
     HrPositionDialogComponent,
     HrPositionComponent,
     StrCommodityDialogComponent,
     LoginComponent,
     StrGroupHomeComponent,
-    HrEmployeeVacationComponent,HrEmployeeVacationDialogComponent,
+    HrEmployeeVacationComponent,
+    HrEmployeeVacationDialogComponent,
     STRGradeComponent,
     STRGradeDialogComponent,
 
@@ -209,7 +228,7 @@ import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entr
     FIEntrySourceDialogComponent,
 
     StrReportAddItemComponent,
-// selvana
+    // selvana
     FiAccountItemComponent,
     FiAccountItemdDialogComponent,
     FIEntrySourceTypeComponent,
@@ -258,15 +277,18 @@ import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entr
     PrUserDialogComponent,
     PrUserTableComponent,
     FiEntryDetailsDialogComponent,
+    StrOpeningStockDetailsDialogComponent,
    
   
 
 
 
 
+    Item1DialogComponent,
   ],
   imports: [
-    BrowserModule,PipesModule,
+    BrowserModule,
+    PipesModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,
@@ -298,7 +320,8 @@ import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entr
     MatStepperModule,
     ToastrModule.forRoot(),
     MatBadgeModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    NgxExtendedPdfViewerModule,
   ],
   providers: [
     {
