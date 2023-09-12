@@ -10,9 +10,9 @@
         <mat-label>اسم الفصيلة</mat-label>
         <input formControlName="name" matInput placeholder="اسم الفصيلة">
       </mat-form-field>
-     
+
+      <mat-label>السلعة</mat-label>     
       <mat-form-field appearance="outline">
-        <mat-label>السلعة</mat-label>
         <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
           placeholder="{{getPlatoonData ? getPlatoonData.commodityName : ''}}" (click)="openAutoCommodity()" required />
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
@@ -22,9 +22,9 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-     
+
+      <mat-label>النوعية</mat-label>     
       <mat-form-field appearance="outline">
-        <mat-label>النوعية</mat-label>
         <input matInput aria-label="grade" [matAutocomplete]="autoGrade" [formControl]="gradeCtrl" required
           placeholder="{{getPlatoonData ? getPlatoonData.gradeName : ''}}" (click)="openAutoGrade()" required />
         <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGradeName"

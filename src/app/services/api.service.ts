@@ -359,7 +359,7 @@ export class ApiService {
     }
 
     if (!type == false) {
-      this.mycondition = ` ${this.mycondition}&Type=${fullcode}`;
+      this.mycondition = ` ${this.mycondition}&Type=${type}`;
     }
 
     if (!commodity == false) {
