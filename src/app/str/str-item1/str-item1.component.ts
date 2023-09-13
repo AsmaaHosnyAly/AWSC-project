@@ -20,7 +20,12 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global.service';
 import { Item1DialogComponent } from 'src/app/item1-dialog/item1-dialog.component';
-
+import {
+  faDownload,
+  faMagnifyingGlass,
+  faFilePdf,
+  faEraser,
+} from '@fortawesome/free-solid-svg-icons';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -114,6 +119,10 @@ export class STRItem1Component implements OnInit {
   dataSource!: MatTableDataSource<any>;
   Invoiceheader: any;
   pdfurl = '';
+  faDownload = faDownload;
+  faMagnifyingGlass = faMagnifyingGlass;
+  faFilePdf = faFilePdf;
+  faEraser = faEraser;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -963,147 +972,139 @@ export class STRItem1Component implements OnInit {
       });
   }
 
-  // async getSearchItemsWithprint(name: any) {
-  //   if (name) {
-  //     this.api.getItem().subscribe({
-  //       next: (res) => {
-  //         //enter itemName
-  //         if (!this.selectedGroup && name && !this.selectedUnit) {
-  //           console.log('filter name id: ', this.selectedGroup, 'name: ', name);
+  async getSearch(name: any) {
+    this.api.getItem().subscribe({
+      next: (res) => {
+        //enter itemName
+        if (!this.selectedGroup && name && !this.selectedUnit) {
+          console.log('filter name id: ', this.selectedGroup, 'name: ', name);
 
-  //           // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-  //           this.dataSource = res.filter((res: any) =>
-  //             res.name.toLowerCase().includes(name.toLowerCase())
-  //           );
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-  //         }
+          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+          this.dataSource = res.filter((res: any) =>
+            res.name.toLowerCase().includes(name.toLowerCase())
+          );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
 
-  //         //enter selectedGroup
-  //         if (this.selectedGroup && name == '' && !this.selectedUnit) {
-  //           console.log('selectedGroup:', this.selectedGroup);
+        //enter selectedGroup
+        if (this.selectedGroup && name == '' && !this.selectedUnit) {
+          console.log('selectedGroup:', this.selectedGroup);
 
-  //           this.dataSource = res.filter(
-  //             (res: any) => res.groupId == this.selectedGroup.id
-  //           );
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-  //         }
+          this.dataSource = res.filter(
+            (res: any) => res.groupId == this.selectedGroup.id
+          );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
 
-  //         //enter selectedUnit
-  //         if (!this.selectedGroup && name == '' && this.selectedUnit) {
-  //           console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
+        //enter selectedUnit
+        if (!this.selectedGroup && name == '' && this.selectedUnit) {
+          console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
 
-  //           this.dataSource = res.filter(
-  //             (res: any) => res.unitId == this.selectedUnit.id
-  //           );
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-  //         }
+          this.dataSource = res.filter(
+            (res: any) => res.unitId == this.selectedUnit.id
+          );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
 
-  //         //enter selectedUnit+selectedGroup
-  //         if (this.selectedUnit && name == '' && this.selectedGroup) {
-  //           console.log(
-  //             'filter Unit, Group: ',
-  //             this.selectedUnit,
-  //             this.selectedGroup
-  //           );
+        //enter selectedUnit+selectedGroup
+        if (this.selectedUnit && name == '' && this.selectedGroup) {
+          console.log(
+            'filter Unit, Group: ',
+            this.selectedUnit,
+            this.selectedGroup
+          );
 
-  //           this.dataSource = res.filter(
-  //             (res: any) =>
-  //               res.unitId == this.selectedUnit.id &&
-  //               res.groupId == this.selectedGroup.id
-  //           );
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-  //         }
+          this.dataSource = res.filter(
+            (res: any) =>
+              res.unitId == this.selectedUnit.id &&
+              res.groupId == this.selectedGroup.id
+          );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
 
-  //         //enter selectedGroup+item
-  //         else if (this.selectedGroup && name && !this.selectedUnit) {
-  //           console.log(
-  //             'selectedGroup ,name: ',
-  //             this.selectedGroup,
-  //             'name: ',
-  //             name
-  //           );
+        //enter selectedGroup+item
+        else if (this.selectedGroup && name && !this.selectedUnit) {
+          console.log(
+            'selectedGroup ,name: ',
+            this.selectedGroup,
+            'name: ',
+            name
+          );
 
-  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
-  //           this.dataSource = res.filter(
-  //             (res: any) =>
-  //               res.groupId == this.selectedGroup.id &&
-  //               res.name.toLowerCase().includes(name.toLowerCase())
-  //           );
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-  //         }
+          // this.dataSource = res.filter((res: any)=> res.name==name!)
+          this.dataSource = res.filter(
+            (res: any) =>
+              res.groupId == this.selectedGroup.id &&
+              res.name.toLowerCase().includes(name.toLowerCase())
+          );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
 
-  //         //enter selectedUnit+item
-  //         else if (this.selectedUnit && name && !this.selectedGroup) {
-  //           console.log(
-  //             'selectedUnit, name: ',
-  //             this.selectedUnit,
-  //             'name: ',
-  //             name
-  //           );
+        //enter selectedUnit+item
+        else if (this.selectedUnit && name && !this.selectedGroup) {
+          console.log(
+            'selectedUnit, name: ',
+            this.selectedUnit,
+            'name: ',
+            name
+          );
 
-  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
-  //           this.dataSource = res.filter(
-  //             (res: any) =>
-  //               res.unitId == this.selectedUnit.id &&
-  //               res.name.toLowerCase().includes(name.toLowerCase())
-  //           );
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-  //         }
+          // this.dataSource = res.filter((res: any)=> res.name==name!)
+          this.dataSource = res.filter(
+            (res: any) =>
+              res.unitId == this.selectedUnit.id &&
+              res.name.toLowerCase().includes(name.toLowerCase())
+          );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
 
-  //         //enter all
-  //         else if (this.selectedUnit && this.selectedGroup && name) {
-  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
-  //           this.dataSource = res.filter(
-  //             (res: any) =>
-  //               res.unitId == this.selectedUnit.id &&
-  //               res.groupId == this.selectedGroup.id! &&
-  //               res.name.toLowerCase().includes(name.toLowerCase())
-  //           );
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-  //         }
+        //enter all
+        else if (this.selectedUnit && this.selectedGroup && name) {
+          console.log(
+            'all: ',
+            this.selectedUnit,
+            this.selectedGroup,
+            'name: ',
+            name
+          );
 
-  //         //enter itemName
-  //         else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
-  //           console.log(
-  //             'filter name mmmm id: ',
-  //             this.selectedGroup,
-  //             'name: ',
-  //             name
-  //           );
-  //           // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-  //           // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-  //         }
+          // this.dataSource = res.filter((res: any)=> res.name==name!)
+          this.dataSource = res.filter(
+            (res: any) =>
+              res.unitId == this.selectedUnit.id &&
+              res.groupId == this.selectedGroup.id! &&
+              res.name.toLowerCase().includes(name.toLowerCase())
+          );
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
 
-  //         this.reportData = this.dataSource;
-  //         window.localStorage.setItem(
-  //           'reportData',
-  //           JSON.stringify(this.reportData)
-  //         );
-  //         window.localStorage.setItem(
-  //           'reportName',
-  //           JSON.stringify(this.reportName)
-  //         );
-
-  //         this.router.navigate(['/report']);
-  //       },
-  //       error: (err) => {
-  //         alert('Error');
-  //       },
-  //     });
-  //   } else {
-  //     this.getAllItems();
-  //     // this.getAllProducts()
-  //   }
-  // }
+        //enter itemName
+        else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
+          console.log(
+            'filter name mmmm id: ',
+            this.selectedGroup,
+            'name: ',
+            name
+          );
+          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+          // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+      },
+      error: (err) => {
+        alert('Error');
+      },
+    });
+    // this.getAllProducts()
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -1181,6 +1182,8 @@ export class STRItem1Component implements OnInit {
       .subscribe({
         next: (res) => {
           console.log('search:', res);
+          const url: any = res.url;
+          window.open(url);
           // let blob: Blob = res.body as Blob;
           // let url = window.URL.createObjectURL(blob);
 
