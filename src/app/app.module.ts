@@ -151,6 +151,7 @@ import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component
 import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entry-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -314,6 +315,7 @@ import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
     MatBadgeModule,
     MatCheckboxModule,
     NgxExtendedPdfViewerModule,
+    FontAwesomeModule,
   ],
   providers: [
     {

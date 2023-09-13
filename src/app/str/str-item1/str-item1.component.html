@@ -171,23 +171,31 @@
                 <mat-option></mat-option>
               </mat-select>
             </mat-form-field>
-            <div class="print display">
-              <button
+            <div class="print-display">
+              <fa-icon
+                [icon]="faMagnifyingGlass"
+                (click)="getSearch(item.value)"
+                class="icons"
+              ></fa-icon>
+
+              <fa-icon
+                [icon]="faFilePdf"
+                (click)="preview(item.value, code.value, type.value)"
+                class="icons"
+              ></fa-icon>
+
+              <fa-icon
+                [icon]="faDownload"
                 (click)="
                   getSearchItemsWithprint(item.value, code.value, type.value)
                 "
-              >
-                طباعة <mat-icon class="me-2">print</mat-icon>
-              </button>
-            </div>
-            <div class="print">
-              <button
-                (click)="preview(item.value, code.value, type.value)"
-                class=""
-              >
-                عرض
-              </button>
-              <button (click)="getAllItems()" class="">مسح قيم البحث</button>
+                class="icons"
+              ></fa-icon>
+              <fa-icon
+                [icon]="faEraser"
+                (click)="getAllItems()"
+                class="icons"
+              ></fa-icon>
             </div>
           </div>
         </mat-expansion-panel>
