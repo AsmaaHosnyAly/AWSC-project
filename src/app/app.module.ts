@@ -154,6 +154,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -281,11 +282,6 @@ import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-ex
     FiEntryDetailsDialogComponent,
     StrOpeningStockDetailsDialogComponent,
 
-
-
-
-
-
     Item1DialogComponent,
                 StrEmployeeExchangeDetailsDialogComponent,
   ],
@@ -325,7 +321,8 @@ import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-ex
     MatBadgeModule,
     MatCheckboxModule,
     NgxExtendedPdfViewerModule,
-    MatTabsModule
+    MatTabsModule,
+    // FontAwesomeModule,
   ],
   providers: [
     {
@@ -336,4 +333,4 @@ import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-ex
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
