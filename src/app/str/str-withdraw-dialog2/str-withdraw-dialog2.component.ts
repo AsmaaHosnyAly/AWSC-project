@@ -108,6 +108,9 @@ export class StrWithdrawDialogComponent implements OnInit {
   // filteredEmployee: Observable<Employee[]>;
   // selectedEmployee: Employee | undefined;
   // formcontrol = new FormControl('');
+  fullCodeValue: any;
+  itemByFullCodeValue: any;
+
 
 
   fiscalYearsList: any;
@@ -230,6 +233,7 @@ console.log('Date = ' + dateNow)
       transactionUserId: [1, Validators.required],
       destStoreUserId: [1, Validators.required],
       source:['',Validators.required],
+      sourceInput:[''],
 
       date: [dateNow, Validators.required],
       fiscalYearId: ['', Validators.required],
@@ -281,11 +285,18 @@ console.log('Date = ' + dateNow)
 
 
         this.groupMasterForm.controls['source'].setValue('المخزن');
+        this.groupMasterForm.controls['sourceInput'].setValue(this.groupMasterForm.getRawValue().desstoreName);
+
+        // alert("deststore in edit:"+this.editData.deststoreId)
+
 
       }
       else{
         this.actionName= "choose";
         this.groupMasterForm.controls['source'].setValue('الموظف');
+        this.groupMasterForm.controls['sourceInput'].setValue(this.groupMasterForm.getRawValue().employeeName);
+console.log("employee in edit:",this.groupMasterForm.getRawValue().employeeName)
+// alert("employee in edit:"+this.editData.employeeId)
 
       }
 
@@ -800,6 +811,9 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
                 this.groupDetailsForm.reset();
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
+                this.itemCtrl.setValue('');
+                this.itemByFullCodeValue = '';
+                this.fullCodeValue = '';
                 alert("تمت إضافة المجموعة بنجاح");
 
                 // this.getAllMasterForms();
@@ -842,12 +856,13 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
     // console.log("data storeName in edit: ", this.groupMasterForm.value)
 
     this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-    this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
+    this.groupMasterForm.controls['employeeName'].setValue(this.groupMasterForm.getRawValue().employeeName);
 
     this.groupMasterForm.controls['costcenterName'].setValue(this.costcenterName);
-    this.groupMasterForm.controls['desstoreName'].setValue(this.desstoreName);
+    this.groupMasterForm.controls['desstoreName'].setValue(this.groupMasterForm.getRawValue().desstoreName);
 
-
+    this.groupMasterForm.controls['deststoreId'].setValue(this.groupMasterForm.getRawValue().deststoreId);
+// alert("deststoreId::::::::"+this.groupMasterForm.getRawValue().deststoreId)
     // console.log("values master form: ", this.groupMasterForm.value)
     // console.log("values getMasterRowId: ", this.getMasterRowId)
     // console.log("values details form: ", this.groupDetailsForm.value)
@@ -886,6 +901,9 @@ console.log("in next to add storeId",this.groupMasterForm.getRawValue().storeId)
                   // console.log("update res: ", res);
                   this.groupDetailsForm.reset();
                   this.getAllDetailsForms();
+                  this.itemCtrl.setValue('');
+                  this.itemByFullCodeValue = '';
+                  this.fullCodeValue = '';
                   this.getDetailedRowData = '';
                   alert("تم التعديل بنجاح");
 
@@ -1094,6 +1112,14 @@ this.goToPart();
           // alert("خطا اثناء جلب المخازن !");
         }
       })
+  }
+  resetControls() {
+    this.groupDetailsForm.reset();
+    this.fullCodeValue = '';
+    this.itemByFullCodeValue = '';
+    this.itemCtrl.setValue('');
+    this.groupDetailsForm.controls['qty'].setValue(1);
+
   }
   getDestStores() {
     this.api.getStore()
@@ -1306,6 +1332,7 @@ this.goToPart();
     } else {
       this.groupMasterForm.patchValue({ deststoreId: list.id });
       this.groupMasterForm.patchValue({ desstoreName: list.name });
+      // alert("deststoreId::::"+ this.groupMasterForm.getRawValue().desstoreName)
       this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId)
 
     }

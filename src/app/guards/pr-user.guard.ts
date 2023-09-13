@@ -27,11 +27,11 @@ export class prUserGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split('');
+  
 
-    for (let i = 0; i < userRole!.length; i++) {
-      let role = userRole![i];
-      if (role == '1' || role=='17') 
+    for (let i = 0; i < this.shared.userRoles!.length; i++) {
+      let role = this.shared.userRoles![i];
+      if (role == '17' || role=='17') 
       {
         this.shared.prUser= true;
         this.shared.pageTitle="الصلاحيات"

@@ -149,9 +149,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PrUserDialogComponent } from './pr/pr-user-dialog/pr-user-dialog.component';
 import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component';
 import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entry-details-dialog.component';
+import { StrOpeningStockDetailsDialogComponent } from './str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -277,6 +278,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     PrUserDialogComponent,
     PrUserTableComponent,
     FiEntryDetailsDialogComponent,
+    StrOpeningStockDetailsDialogComponent,
+
     Item1DialogComponent,
   ],
   imports: [
@@ -315,7 +318,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatBadgeModule,
     MatCheckboxModule,
     NgxExtendedPdfViewerModule,
-    FontAwesomeModule,
+    MatTabsModule,
   ],
   providers: [
     {
