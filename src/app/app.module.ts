@@ -152,6 +152,7 @@ import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entr
 import { StrOpeningStockDetailsDialogComponent } from './str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -278,8 +279,8 @@ import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
     PrUserTableComponent,
     FiEntryDetailsDialogComponent,
     StrOpeningStockDetailsDialogComponent,
-   
-  
+
+
 
 
 
@@ -322,6 +323,7 @@ import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
     MatBadgeModule,
     MatCheckboxModule,
     NgxExtendedPdfViewerModule,
+    MatTabsModule
   ],
   providers: [
     {
@@ -332,4 +334,4 @@ import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
