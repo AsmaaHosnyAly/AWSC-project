@@ -135,7 +135,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
   openOpeningStockDialog() {
     this.dialog.open(StrOpeningStockDialogComponent, {
-      width: '98%',
+      width: '95%',
       height: '95%',
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
