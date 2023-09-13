@@ -508,8 +508,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     this.router.navigate(['/str-openingStock'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrOpeningStockDetailsDialogComponent, {
-      width: '50%',
-      height: '80%',
+      width: '95%',
+      height: '95%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
