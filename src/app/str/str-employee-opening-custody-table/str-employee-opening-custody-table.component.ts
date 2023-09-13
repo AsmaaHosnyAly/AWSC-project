@@ -9,7 +9,7 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
-
+import { LoadingService } from 'src/app/loading.service';
 @Component({
   selector: 'app-str-employee-opening-custody-table',
   templateUrl: './str-employee-opening-custody-table.component.html',
@@ -25,7 +25,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   employeesList: any;
   itemList:any;
   fiscalYearsList: any;
- 
+  loading$ = this.loader.loading$;
   dataSource2!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -35,6 +35,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     private api: ApiService,
     private dialog: MatDialog,
     private http: HttpClient,
+    public loader:LoadingService,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {}
@@ -171,7 +172,10 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
 
   //   }
- 
+  // ref(){
+  //   let selet: any = document.querySelectorAll('mat-select');
+  //   selet.value ="";
+  // }
 
     deleteBothForms(id: number) {
       var result = confirm('تاكيد الحذف ؟ ');

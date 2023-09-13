@@ -1,14 +1,18 @@
 <div class="page-title"> الوحدة</div>
+
+  <div id="aa"></div>
+  
 <mat-card>
   <mat-card-content>
     <mat-card-header dir="ltr" class="parent-search">
       <div class="child1">
         <button
           mat-raised-button
-          class="add"
+          class="add "
           (click)="openDialog()"
           dir="ltr"
         >
+       
           <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
         </button>
       </div>
@@ -42,6 +46,9 @@
             <button mat-icon-button color="warn" (click)="daleteunit(row.id)">
               <mat-icon>delete_forever</mat-icon>
             </button>
+            <button mat-raised-button (click)="loader.show()">show</button>
+            <button mat-raised-button (click)="loader.hide()">hide</button>
+            <!-- <button mat-raised-button (click)="fetchuser()">dd</button> -->
           </td>
         </ng-container>
   
@@ -65,3 +72,4 @@
     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
   </mat-card-footer>
 </mat-card>
+<mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>

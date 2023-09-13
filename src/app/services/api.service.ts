@@ -2457,7 +2457,7 @@ export class ApiService {
       "' distEmployee: '",
       itemId
     );
-    this.mycondition=`${this.url}/STRWithdraw/search?`
+    this.mycondition=`${this.url}/STREmployeeOpeningCustody/search?`
 
     if(!no == false){
       this.mycondition =` ${this.mycondition}&No=${no}`

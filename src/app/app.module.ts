@@ -148,6 +148,7 @@ import { StrModelDailogComponent } from './str/str-model-dailog/str-model-dailog
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { PrUserDialogComponent } from './pr/pr-user-dialog/pr-user-dialog.component';
 import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -296,7 +297,8 @@ import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component
     MatStepperModule,
     ToastrModule.forRoot(),
     MatBadgeModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     {
