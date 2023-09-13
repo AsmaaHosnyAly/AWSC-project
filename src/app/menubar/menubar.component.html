@@ -44,9 +44,9 @@
       <mat-icon>voicemail</mat-icon>
       <span>Check voice mail</span>
     </button>
-    <button mat-menu-item routerLink="login">
+    <button mat-menu-item (click)="handleLogOut()" routerLink="login">
       <mat-icon>notifications_off</mat-icon>
-      <span>تسجيل الخروج</span>
+      <span >تسجيل الخروج</span>
     </button>
   </mat-menu>
 </mat-toolbar>
@@ -60,7 +60,8 @@
       </mat-list-item> -->
 
 <!-- start stores -->
-<mat-expansion-panel dir="rtl" *ngIf="this.shared.stores ==true" >
+<mat-expansion-panel dir="rtl" *ngIf="this.shared.stores">
+  
   <mat-expansion-panel-header >
     <mat-panel-title>
       <mat-icon color="primary" class="ms-2">store</mat-icon>
@@ -80,22 +81,22 @@
         <mat-panel-title> التكويد </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-nav-list>
-        <a
+        <a  *ngIf="this.shared.commodity"
           mat-list-item
           class="sideNavSubItems"
           routerLink="/commodity"
-          ><p class="font">السلعة</p></a
+          ><p class="font" >السلعة</p></a
         >
         <a mat-list-item class="sideNavSubItems" routerLink="/grade"
           ><p class="font">النوعية</p></a
         >
-        <a
+        <a *ngIf="this.shared.strPlatoon"
           mat-list-item
           class="sideNavSubItems"
           routerLink="/str-platoon"
           ><p class="font">الفصيلة</p></a
         >
-        <a
+        <a *ngIf="this.shared.group1"
           mat-list-item
           routerLink="/group1"
           class="sideNavSubItems"
@@ -169,7 +170,7 @@
       *ngIf="this.shared.openingStock==true"
     
     >
-      <p class="font">الافتتاحى</p></a
+      <p class="font">الرصيد الافتتاحى</p></a
     >
    
     <a
@@ -382,7 +383,8 @@
             </mat-expansion-panel>
             <!-- end Hr -->
             <!-- start roles -->
-            <mat-expansion-panel dir="rtl" *ngIf="this.shared.roles==true">
+            <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
+            <mat-expansion-panel dir="rtl" *ngIf="this.shared.roles" >
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary"  class="ms-2">store</mat-icon>

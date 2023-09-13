@@ -8,6 +8,18 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
+import { Observable, map, startWith, tap } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+
+export class store {
+  constructor(public id: number, public name: string) { }
+}
+
+export class item {
+  constructor(public id: number, public name: string) { }
+}
 
 @Component({
   selector: 'app-str-opening-stock-table',
@@ -23,10 +35,24 @@ export class StrOpeningStockTableComponent implements OnInit {
     'Action',
   ];
   matchedIds: any;
-  storeList: any;
+  // storeList: any;
   storeName: any;
   fiscalYearsList: any;
-  itemsList: any;
+  // itemsList: any;
+  groupMasterForm !: FormGroup;
+
+
+
+  storeList: store[] = [];
+  storeCtrl: FormControl;
+  filteredstore: Observable<store[]>;
+  selectedstore: store | undefined;
+
+
+  itemsList: item[] = [];
+  itemCtrl: FormControl;
+  filtereditem: Observable<item[]>;
+  selecteditem: item | undefined;
 
   dataSource2!: MatTableDataSource<any>;
 
@@ -36,16 +62,46 @@ export class StrOpeningStockTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
-    private http: HttpClient,
+    private http: HttpClient,private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
-  ) { }
+  ) { 
+
+
+    this.storeCtrl = new FormControl();
+    this.filteredstore = this.storeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterstores(value))
+    );
+
+
+    this.itemCtrl = new FormControl();
+    this.filtereditem = this.itemCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filteritems(value))
+    );
+
+
+
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();
     this.getStores();
     this.getFiscalYears();
     this.getItems();
+
+    this.groupMasterForm = this.formBuilder.group({
+
+      no:[''],
+      employee:[''],
+      // costcenter:[],
+      item:[''],
+      fiscalyear:[''],
+      date:[''],
+      store:[''],
+      storeId:['']
+       });
   }
 
   applyFilter(event: Event) {
@@ -57,7 +113,11 @@ export class StrOpeningStockTableComponent implements OnInit {
     }
   }
 
-
+  getsearch(code:any){
+    if (code.keyCode == 13) {
+      this.getAllMasterForms();
+     }
+  }
   getAllMasterForms() {
     this.api.getStrOpen().subscribe({
       next: (res) => {
@@ -65,6 +125,8 @@ export class StrOpeningStockTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset();
+
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -73,7 +135,8 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
   openOpeningStockDialog() {
     this.dialog.open(StrOpeningStockDialogComponent, {
-      width: '50%'
+      width: '95%',
+      height: '95%',
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllMasterForms();
@@ -83,7 +146,8 @@ export class StrOpeningStockTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
-        width: '50%',
+        width: '95%',
+        height: '95%',
         data: row,
       })
       .afterClosed()
@@ -93,6 +157,61 @@ export class StrOpeningStockTableComponent implements OnInit {
         }
       });
   }
+  displaystoreName(store: any): string {
+    return store && store.name ? store.name : '';
+  }
+  storeSelected(event: MatAutocompleteSelectedEvent): void {
+    const store = event.option.value as store;
+    console.log("store selected: ", store);
+    this.selectedstore = store;
+    this.groupMasterForm.patchValue({ storeId: store.id });
+    console.log("store in form: ", this.groupMasterForm.getRawValue().storeId);
+  }
+  private _filterstores(value: string): store[] {
+    const filterValue = value;
+    return this.storeList.filter((store: { name: string; }) =>
+      store.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutostore() {
+    this.storeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.storeCtrl.updateValueAndValidity();
+  }
+
+
+
+
+  displayitemName(item: any): string {
+    return item && item.name ? item.name : '';
+  }
+  itemSelected(event: MatAutocompleteSelectedEvent): void {
+    const item = event.option.value as item;
+    console.log("item selected: ", item);
+    this.selecteditem = item;
+    this.groupMasterForm.patchValue({ itemId: item.id });
+    console.log("item in form: ", this.groupMasterForm.getRawValue().itemId);
+  }
+  private _filteritems(value: string): item[] {
+    const filterValue = value;
+    return this.itemsList.filter((item: { name: string; }) =>
+      item.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutoitem() {
+    this.itemCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.itemCtrl.updateValueAndValidity();
+  }
+
+
+
+
+
 
   deleteBothForms(id: number) {
     // var result = confirm('تاكيد الحذف ؟ ');
@@ -282,8 +401,13 @@ export class StrOpeningStockTableComponent implements OnInit {
       })
   }
 
-  getSearchStrOpen(no: any, store: any, date: any, fiscalYear: any, itemId: any) {
-    this.api.getStrOpenSearach(no, store, date, fiscalYear, itemId)
+  getSearchStrOpen(no: any,  date: any, fiscalYear: any) {
+
+    let store=this.groupMasterForm.getRawValue().storeId
+    let item=this.groupMasterForm.getRawValue().itemId
+
+
+    this.api.getStrOpenSearach(no, store, date, fiscalYear, item)
       .subscribe({
         next: (res) => {
           this.dataSource2 = res

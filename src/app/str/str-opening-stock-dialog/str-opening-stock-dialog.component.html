@@ -82,10 +82,10 @@
 
                     <div style="display: flex; flex-direction: column; width: 25%; ">
                         <mat-label>بحث بالكود*</mat-label>
-
+<!-- 
                         <mat-form-field appearance="outline" class=" child-num" style="width: 100%;">
                             <input matInput placeholder="الكود" (keydown)="getItemByCode($event)" [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
-                        </mat-form-field>
+                        </mat-form-field> -->
                     </div>
 
 
@@ -98,22 +98,21 @@
                         </mat-select>
                     </mat-form-field> -->
 
-                    <div style="display: flex; flex-direction: column; width: 30%;">
+                    <!-- <div style="display: flex; flex-direction: column; width: 30%;">
                         <mat-label>الصنف*</mat-label>
                         <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                             <input matInput aria-label="commodity" [matAutocomplete]="autoItemId"
                                 [formControl]="itemCtrl"
-                                placeholder="{{getDetailedRowData ? getDetailedRowData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
+                                placeholder="{{getDetailedRowData && !itemByFullCodeValue ? getDetailedRowData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
                                 (click)="openAutoItem()" required />
                             <mat-autocomplete #autoItemId="matAutocomplete" [displayWith]="displayItemName"
                                 (optionSelected)="ItemSelected($event)">
                                 <mat-option *ngFor="let item of filteredItem | async" [value]="item">
-                                    <!-- {{ item.name }} | {{ item.id }} -->
                                     {{ item.name }}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-                    </div>
+                    </div> -->
 
 
                     <div style="display: flex; flex-direction: column; width: 15%; ">
@@ -135,22 +134,22 @@
                         </mat-form-field>
                     </div>
 
-                    <div style="margin-top: 5%; margin-right: 2%;">
+                    <!-- <div style="margin-top: 5%; margin-right: 2%;">
                         <button mat-raised-button color="warn"
                             (click)="resetControls()">مسح</button>
-                    </div>
+                    </div> -->
                 </div>
 
 
 
             </div>
-            <div mat-dialog-action [align]="'end'" style="display: flex; margin-right: -5%;">
+            <!-- <div mat-dialog-action [align]="'end'" style="display: flex; margin-right: -5%;">
                 <div class="groupAction">
                     <button mat-raised-button class="savebtn"
                         (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
                         'اضافة':'تعديل'}}</button>
 
-                </div>
+                </div> -->
 
             </div>
 
@@ -217,7 +216,7 @@
                 </table>
                 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
             </div>
-        </div>
+     
 
     </form>
 </div>

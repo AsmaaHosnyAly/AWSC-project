@@ -137,3 +137,18 @@ mat-expansion-panel{
   margin-top: 50px !important;
   width: 90%;
 }
+
+.hiddenstores{
+  display: hidden !important;
+ 
+}
+
+.displaystores{
+  display: block;
+}
+.displayRoles{
+  display:none;
+}
+.hiddenRoles{
+  display: block;
+}

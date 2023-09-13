@@ -11,7 +11,29 @@ import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw
 import { ToastrService } from 'ngx-toastr';
 import { SharedService } from '../../guards/shared.service';
 import { GlobalService } from '../../services/global.service';
+import { Observable, map, startWith, tap } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
 import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
+
+
+export class item {
+  constructor(public id: number, public name: string) { }
+}
+
+export class Employee {
+  constructor(public id: number, public name: string, public code: string) { }
+}
+
+export class costcenter {
+  constructor(public id: number, public name: string) { }
+}
+
+
+export class store {
+  constructor(public id: number, public name: string) { }
+}
+
 
 @Component({
   selector: 'app-str-withdraw-table2',
@@ -21,23 +43,50 @@ import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/for
 export class StrWithdrawTableComponent implements OnInit {
   displayedColumns: string[] = ['no', 'storeName', 'employeeName',  'desstoreName', 'costCenterName','fiscalyear', 'date', 'Action'];
   matchedIds: any;
-  storeList: any;
+  // storeList: any;
   storeName: any;
   fiscalYearsList: any;
   fiscalyear:any;
-  employeesList: any;
+  // employeesList: any;
   employeeName: any;
   // costcenterList: any;
   costCenterName: any;
   deststoreList: any;
   desstoreName: any;
-  itemsList:any;
+  // itemsList:any;
   costCentersList:any;
   sharedStores:any;
-  form: FormGroup;
+  // form: FormGroup;
   groupMasterForm !: FormGroup;
 
 
+  costcentersList: costcenter[] = [];
+  costcenterCtrl: FormControl<any>;
+  filteredcostcenter: Observable<costcenter[]>;
+  selectedcostcenter: costcenter | undefined;
+
+
+
+  employeesList: Employee[] = [];
+  employeeCtrl: FormControl<any>;
+  filteredEmployee: Observable<Employee[]>;
+  selectedEmployee: Employee | undefined;
+
+
+
+  itemsList: item[] = [];
+  itemCtrl: FormControl;
+  filtereditem: Observable<item[]>;
+  selecteditem: item | undefined;
+
+
+
+  storeList: store[] = [];
+  storeCtrl: FormControl;
+  filteredstore: Observable<store[]>;
+  selectedstore: store | undefined;
+
+  formcontrol = new FormControl('');
   dataSource2!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -52,13 +101,44 @@ export class StrWithdrawTableComponent implements OnInit {
     public shared:SharedService,
      private global:GlobalService,
   ) {
-    this.form = this.formBuilder.group({
-      name: [''],
-      email: ['']
-    });
+    // this.form = this.formBuilder.group({
+    //   name: [''],
+    //   email: ['']
+    // });
+
+    this.costcenterCtrl = new FormControl();
+    this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filtercostcenters(value))
+    );
+
+
+
+    this.employeeCtrl = new FormControl();
+    this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filteremployees(value))
+    );
+
+
+    this.itemCtrl = new FormControl();
+    this.filtereditem = this.itemCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filteritems(value))
+    );
+
+
+    this.storeCtrl = new FormControl();
+    this.filteredstore = this.storeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterstores(value))
+    );
+
+
+
     this.sharedStores =shared.stores 
 
-    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
+   
    }
 
   ngOnInit(): void {
@@ -75,11 +155,19 @@ export class StrWithdrawTableComponent implements OnInit {
     this.groupMasterForm = this.formBuilder.group({
    no:[''],
    employee:[''],
-   costcenter:[],
+   costcenter:[''],
+  // :[''],
+  //  costcentersList:[''],
+costCenterId:[''],
    item:[''],
    fiscalyear:[''],
    date:[''],
-   store:['']
+   store:[''],
+   storeId:[''],
+   employeeId: [''],
+   employeeName: [''],
+
+  
     });
 
  
@@ -101,7 +189,9 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   openWithdrawDialog() {
     this.dialog.open(StrWithdrawDialogComponent, {
-      width: '90%'
+      width: '100%',
+      height: '80%'
+      
     }).afterClosed().subscribe(val => {
       if (val === 'Save') {
         // alert("refresh")
@@ -114,22 +204,22 @@ export class StrWithdrawTableComponent implements OnInit {
   //    dRef.close();
   // });}
   }
-  getAllAfterCancel(){
-    this.api.getStrWithdraw().subscribe({
-      next: (res) => {
+  // getAllAfterCancel(){
+  //   this.api.getStrWithdraw().subscribe({
+  //     next: (res) => {
         
-        console.log('response of get all getGroup from api: ', res);
-        this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-        this.groupMasterForm.reset();
+  //       console.log('response of get all getGroup from api: ', res);
+  //       this.dataSource2 = new MatTableDataSource(res);
+  //       this.dataSource2.paginator = this.paginator;
+  //       this.dataSource2.sort = this.sort;
 
-      },
-      error: () => {
-        alert('خطأ أثناء جلب سجلات اذن الصرف !!');
-      },
-    });
-  }
+  //     },
+  //     error: () => {
+  //       alert('خطأ أثناء جلب سجلات اذن الصرف !!');
+  //     },
+  //   });
+  // }
+  
   getAllMasterForms() {
     this.api.getStrWithdraw().subscribe({
       next: (res) => {
@@ -138,6 +228,21 @@ export class StrWithdrawTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset();
+        // this.costcenterCtrl.setValue('');
+
+        // this.groupMasterForm.getRawValue().costCenterId= null;
+        // this.groupMasterForm.controls['costcenter'].setValue(null)
+        // ;this.groupMasterForm.getRawValue().selectedcostcenter?.id.setValue('')
+        
+        console.log("costcenterId in getall:",this.groupMasterForm.getRawValue().selectedcostcenter?.id);
+
+// this.groupMasterForm.controls('costcenter').setValue('')
+// if (this.selectedcostcenter?.id != undefined) {
+//   this.selectedcostcenter?.id?.se
+
+// }
+
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات اذن الصرف !!');
@@ -158,6 +263,7 @@ export class StrWithdrawTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
+
   }
 
   deleteBothForms(id: number) {
@@ -254,7 +360,7 @@ console.log(" id in delete:",id)
     this.api.getCostCenter()
       .subscribe({
         next: (res) => {
-          this.costCentersList = res;
+          this.costcentersList = res;
           console.log("costcenter res: ", this.costCentersList);
         },
         error: (err) => {
@@ -302,31 +408,129 @@ console.log(" id in delete:",id)
     });
   }
 
+  displaycostcenterName(costcenter: any): string {
+    return costcenter && costcenter.name ? costcenter.name : '';
+  }
+  costcenterSelected(event: MatAutocompleteSelectedEvent): void {
+    const costcenter = event.option.value as costcenter;
+    console.log("costcenter selected: ", costcenter);
+    this.selectedcostcenter = costcenter;
+    this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+    console.log("costcenter in form: ", this.groupMasterForm.getRawValue().costCenterId);
+
+    // this.getSearchStrWithdraw()
+    // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
+    // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+
+  }
+  private _filtercostcenters(value: string): costcenter[] {
+    const filterValue = value;
+    return this.costcentersList.filter(costcenter =>
+      costcenter.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutocostcenter() {
+    this.costcenterCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.costcenterCtrl.updateValueAndValidity();
+
+  }
+
+/////employeee
+
+  displayEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log("employee selected: ", employee);
+    this.selectedEmployee = employee;
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+    console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+
+    // this.getSearchStrWithdraw()
+    // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
+    // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
+
+  }
+  private _filteremployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employeesList.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue) 
+    );
+  }
+  openAutoEmployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.employeeCtrl.updateValueAndValidity();
+
+  }
 
 
-  getSearchStrWithdraw(no: any, store: any, date: any, fiscalYear: any, item: any, employee:any ,costCenter:any) {
-    // if(!store == true){
-    //   store=null;
-    // }
-    // if(!date == true){
-    //   date=null;
-    // }
-    // if(!fiscalYear == true){
-    //   fiscalYear=null;
-    // }
-    // if(!item == true){
-    //   item=null;
-    // }
-    // if(!employee == true){
-    //   employee=null;
-    // }
-    // if(!costCenter == true){
-    //   costCenter=null;
-    // }
-    // if(!no == true){
-    //   no=null;
-    // }
+  /////itemmm
+  displayitemName(item: any): string {
+    return item && item.name ? item.name : '';
+  }
+  itemSelected(event: MatAutocompleteSelectedEvent): void {
+    const item = event.option.value as item;
+    console.log("item selected: ", item);
+    this.selecteditem = item;
+    this.groupMasterForm.patchValue({ itemId: item.id });
+    console.log("item in form: ", this.groupMasterForm.getRawValue().itemId);
+  }
+  private _filteritems(value: string): item[] {
+    const filterValue = value;
+    return this.itemsList.filter((item: { name: string; }) =>
+      item.name.toLowerCase().includes(filterValue)
+    );
+  }
 
+  openAutoitem() {
+    this.itemCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.itemCtrl.updateValueAndValidity();
+  }
+
+
+////storeeee
+ displaystoreName(store: any): string {
+    return store && store.name ? store.name : '';
+  }
+  storeSelected(event: MatAutocompleteSelectedEvent): void {
+    const store = event.option.value as store;
+    console.log("store selected: ", store);
+    this.selectedstore = store;
+    this.groupMasterForm.patchValue({ storeId: store.id });
+    console.log("store in form: ", this.groupMasterForm.getRawValue().storeId);
+  }
+  private _filterstores(value: string): store[] {
+    const filterValue = value;
+    return this.storeList.filter((store: { name: string; }) =>
+      store.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutostore() {
+    this.storeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.storeCtrl.updateValueAndValidity();
+  }
+
+
+
+  getSearchStrWithdraw(no: any, date: any, fiscalYear: any) {
+   
+    let costCenter=this.groupMasterForm.getRawValue().costCenterId
+    let employee=this.groupMasterForm.getRawValue().employeeId
+    let item=this.groupMasterForm.getRawValue().itemId
+    let store=this.groupMasterForm.getRawValue().storeId
+
+
+    
    this.api.getStrWithdrawSearch(no, store, date, fiscalYear, item, employee ,costCenter).subscribe({
       next: (res) => {
         this.dataSource2 = res
@@ -381,4 +585,7 @@ console.log("eroorr",err)      }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
+
+
+  
 }

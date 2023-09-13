@@ -1,0 +1,75 @@
+.groupInput {
+    width: 100%;
+}
+
+.example-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    align-items: flex-start;
+}
+
+.example-radio-button {
+    margin: 5px;
+}
+
+.groupAction {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5%;
+}
+
+.groupAction button {
+    margin-left: 5%;
+}
+
+.restGroupInfo {
+    display: block;
+}
+
+.restGroupInfoDisable {
+    display: none;
+}
+
+.nextButtonAddNewHeader {
+    display: block;
+}
+
+.nextButtonEditHeaderDetails {
+    display: none;
+}
+
+.headerForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.headerForm .groupInput {
+    width: 23%;
+}
+
+.detailsForm {
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.detailsForm .groupInput {
+    width: 27%;
+}
+
+.headerTable {
+    align-items: center;
+}
+
+.statusRadioBtns{
+    display: flex;
+}
+
+mat-radio-group{
+    padding: 2%;
+    margin-top: -3%;
+}

@@ -27,12 +27,7 @@ export class Commodity {
   styleUrls: ['./str-grade.component.css'],
 })
 export class STRGradeComponent implements OnInit {
-  commodityCtrl: FormControl;
-  filteredCommodities: Observable<Commodity[]>;
-  commodities: Commodity[] = [];
-  selectedCommodity!: Commodity;
-  formcontrol = new FormControl('');
-  gradeForm!: FormGroup;
+  
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
   displayedColumns: string[] = ['code', 'name', 'commodityName', 'action'];
@@ -42,21 +37,13 @@ export class STRGradeComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   
   constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
-    this.commodityCtrl = new FormControl();
-    this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filterCommodities(value))
-    );
-
+    
     global.getPermissionUserRoles(4, 'stores', ' النوعية', '')
   }
   ngOnInit(): void {
     // console.log(productForm)
     
     this.getAllGrades();
-    this.api.getAllCommodity().subscribe((commodities) => {
-      this.commodities = commodities;
-    });
   }
   openDialog() {
     this.dialog
@@ -71,21 +58,6 @@ export class STRGradeComponent implements OnInit {
       });
   }
 
-  displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
-  }
-  commoditySelected(event: MatAutocompleteSelectedEvent): void {
-    const commodity = event.option.value as Commodity;
-    this.selectedCommodity = commodity;
-    this.gradeForm.patchValue({ commodityId: commodity.id });
-    this.gradeForm.patchValue({ commodityName: commodity.name });
-  }
-  private _filterCommodities(value: string): Commodity[] {
-    const filterValue = value.toLowerCase();
-    return this.commodities.filter(commodity =>
-      commodity.name.toLowerCase().includes(filterValue) || commodity.code.toLowerCase().includes(filterValue)
-    );
-  }
 
   getAllGrades() {
     this.api.getGrade().subscribe({
@@ -99,51 +71,6 @@ export class STRGradeComponent implements OnInit {
       },
     });
   }
-
-  async getSearchGrades(name: any) {
-    this.api.getGrade().subscribe({
-      next: (res) => {
-        //enter id
-        if (this.selectedCommodity && name == '') {
-          console.log('filter ID id: ', this.selectedCommodity, 'name: ', name);
-
-          this.dataSource = res.filter(
-            (res: any) => res.commodityId == this.selectedCommodity.id!
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //enter both
-        else if (this.selectedCommodity && name != '') {
-          console.log('filter both id: ', this.selectedCommodity, 'name: ', name);
-
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.commodityId == this.selectedCommodity.id! &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //enter name
-        else {
-          console.log('filter name id: ', this.selectedCommodity, 'name: ', name);
-          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-          this.dataSource = res.filter((res: any) =>
-            res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
-    // this.getAllProducts()
-  }
-
 
   editGrade(row: any) {
     this.dialog
@@ -173,14 +100,6 @@ export class STRGradeComponent implements OnInit {
       });
     }
   }
-  openAutoCommodity() {
-    this.commodityCtrl.setValue(''); // Clear the input field value
-  
-    // Open the autocomplete dropdown by triggering the value change event
-    this.commodityCtrl.updateValueAndValidity();
-  }
-  
-  
 
 
   applyFilter(event: Event) {

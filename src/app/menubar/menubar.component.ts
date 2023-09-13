@@ -18,12 +18,7 @@ export class MenubarComponent {
   sharedStores: any;
   constructor(public global: GlobalService,  public shared: SharedService) {
     this.gitUserById();
-    // if(localStorage.getItem('token')) this.global.isLogIn = true
-    // console.log(this.global.isLogIn)
-
-    // console.log(this.global.userRoles)
-    let userRole = localStorage.getItem('userRoles');
-    this.gitUserById();
+   console.log( 'shared',this.shared.stores)
 
     //  this.global.getPermissionUserRoles(null, 'stores', 'الوحدة', '')
   }
@@ -52,7 +47,7 @@ export class MenubarComponent {
   }
 
   handleLogOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userRoles');
     this.global.isLogIn = false;
   }
 }

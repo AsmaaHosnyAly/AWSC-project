@@ -19,11 +19,10 @@ import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global.service';
+import { Item1DialogComponent } from 'src/app/item1-dialog/item1-dialog.component';
 
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {
-    
-  }
+  constructor(public id: number, public name: string, public code: string) {}
 }
 
 export class Grade {
@@ -57,9 +56,11 @@ export class Group {
 }
 
 export class Unit {
-  constructor(public id: number, public name: string,private global:GlobalService) {
-
-  }
+  constructor(
+    public id: number,
+    public name: string,
+    private global: GlobalService
+  ) {}
 }
 
 @Component({
@@ -70,31 +71,33 @@ export class Unit {
 })
 export class STRItem1Component implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId');
+  unitCtrl: FormControl;
+  filteredUnits: Observable<Unit[]>;
+  units: Unit[] = [];
+  selectedUnit!: Unit;
   commodityCtrl: FormControl;
   filteredCommodities: Observable<Commodity[]>;
+  selectedCommodity!: Commodity;
   commodities: Commodity[] = [];
   gradeCtrl: FormControl;
   filteredGrades: Observable<Grade[]>;
+  selectedGrade!: Grade;
   grades: Grade[] = [];
   platoonCtrl: FormControl;
   filteredPlatoons: Observable<Platoon[]>;
   platoons: Platoon[] = [];
+  selectedPlatoon!: Platoon;
   groupCtrl: FormControl;
   filteredGroups: Observable<Group[]>;
   groups: Group[] = [];
-  unitCtrl: FormControl;
-  filteredUnits: Observable<Unit[]>;
-  units: Unit[] = [];
-  selectedCommodity!: Commodity;
-  selectedGrade!: Grade;
-  selectedPlatoon!: Platoon;
   selectedGroup!: Group;
-  selectedUnit!: Unit;
+  formcontrol = new FormControl('');
   itemForm!: FormGroup;
   title = 'angular13crud';
   displayedColumns: string[] = [
     'fullCode',
     'name',
+    'type',
     'commodityName',
     'gradeName',
     'platoonName',
@@ -107,20 +110,33 @@ export class STRItem1Component implements OnInit {
 
   reportName: string = 'str-item1';
   reportData: any;
-
+  dataSource2!: MatTableDataSource<any>;
   dataSource!: MatTableDataSource<any>;
+  Invoiceheader: any;
+  pdfurl = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
+    private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private api: ApiService,
     private datePipe: DatePipe,
     private router: Router,
-    private global:GlobalService
+    private global: GlobalService
   ) {
+    global.getPermissionUserRoles(
+      1,
+      'stores',
+      'إدارة المخازن وحسابات المخازن-الاصناف',
+      ''
+    );
+    this.unitCtrl = new FormControl();
+    this.filteredUnits = this.unitCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterUnits(value))
+    );
 
-    global.getPermissionUserRoles(1, 'stores', 'إدارة المخازن وحسابات المخازن-الاصناف', '')
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -145,19 +161,15 @@ export class STRItem1Component implements OnInit {
       map((value) => this._filterGroups(value))
     );
 
-    this.unitCtrl = new FormControl();
-    this.filteredUnits = this.unitCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filterUnits(value))
-    );
-
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-
-    
   }
   ngOnInit(): void {
     this.getAllItems();
-    this.api.getAllCommodities().subscribe((commodities) => {
+    this.api.getAllUnitsi().subscribe((units) => {
+      this.units = units;
+    });
+
+    this.api.getAllCommoditiesi().subscribe((commodities) => {
       this.commodities = commodities;
     });
 
@@ -173,8 +185,20 @@ export class STRItem1Component implements OnInit {
       this.groups = groups;
     });
 
-    this.api.getAllUnitsi().subscribe((units) => {
-      this.units = units;
+    this.itemForm = this.formBuilder.group({
+      itemName: [''],
+      fullCode: [''],
+      type: [''],
+      unitN: [''],
+      commodityN: [''],
+      gradeN: [''],
+      platoonN: [''],
+      groupN: [''],
+      unitId: [''],
+      commodityId: [''],
+      gradeId: [''],
+      platoonId: [''],
+      groupId: [''],
     });
   }
   openDialog() {
@@ -188,6 +212,10 @@ export class STRItem1Component implements OnInit {
           this.getAllItems();
         }
       });
+  }
+
+  displayUnitName(unit: any): string {
+    return unit && unit.name ? unit.name : '';
   }
 
   displayCommodityName(commodity: any): string {
@@ -206,8 +234,11 @@ export class STRItem1Component implements OnInit {
     return group && group.name ? group.name : '';
   }
 
-  displayUnitName(unit: any): string {
-    return unit && unit.name ? unit.name : '';
+  unitSelected(event: MatAutocompleteSelectedEvent): void {
+    const unit = event.option.value as Unit;
+    this.selectedUnit = unit;
+    this.itemForm.patchValue({ unitId: unit.id });
+    this.itemForm.patchValue({ unitName: unit.name });
   }
 
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
@@ -215,7 +246,7 @@ export class STRItem1Component implements OnInit {
     this.selectedCommodity = commodity;
     this.itemForm.patchValue({ commodityId: commodity.id });
     this.itemForm.patchValue({ commodityName: commodity.name });
-    this.gradeCtrl.setValue('');
+    this.itemForm.patchValue({ commoditycode: commodity.code });
   }
 
   gradeSelected(event: MatAutocompleteSelectedEvent): void {
@@ -223,7 +254,7 @@ export class STRItem1Component implements OnInit {
     this.selectedGrade = grade;
     this.itemForm.patchValue({ gradeId: grade.id });
     this.itemForm.patchValue({ gradeName: grade.name });
-    this.platoonCtrl.setValue('');
+    this.itemForm.patchValue({ gradecode: grade.code });
   }
 
   platoonSelected(event: MatAutocompleteSelectedEvent): void {
@@ -231,7 +262,7 @@ export class STRItem1Component implements OnInit {
     this.selectedPlatoon = platoon;
     this.itemForm.patchValue({ platoonId: platoon.id });
     this.itemForm.patchValue({ platoonName: platoon.name });
-    this.groupCtrl.setValue('');
+    this.itemForm.patchValue({ platooncode: platoon.code });
   }
 
   groupSelected(event: MatAutocompleteSelectedEvent): void {
@@ -239,16 +270,18 @@ export class STRItem1Component implements OnInit {
     this.selectedGroup = group;
     this.itemForm.patchValue({ groupId: group.id });
     this.itemForm.patchValue({ groupName: group.name });
+    this.itemForm.patchValue({ groupcode: group.code });
   }
 
-  unitSelected(event: MatAutocompleteSelectedEvent): void {
-    const unit = event.option.value as Unit;
-    this.selectedUnit = unit;
-    this.itemForm.patchValue({ unitName: unit.name });
+  private _filterUnits(value: string): Unit[] {
+    const filterValue = value;
+    return this.units.filter((unit) =>
+      unit.name.toLowerCase().includes(filterValue)
+    );
   }
 
   private _filterCommodities(value: string): Commodity[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.commodities.filter(
       (commodity) =>
         commodity.name.toLowerCase().includes(filterValue) ||
@@ -257,40 +290,61 @@ export class STRItem1Component implements OnInit {
   }
 
   private _filterGrades(value: string): Grade[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.grades.filter(
       (grade) =>
-        (grade.name.toLowerCase().includes(filterValue) ||
-          grade.code.toLowerCase().includes(filterValue)) &&
-        grade.commodityId === this.selectedCommodity?.id
+        grade.name.toLowerCase().includes(filterValue) ||
+        grade.code.toLowerCase().includes(filterValue)
     );
   }
 
   private _filterPlatoons(value: string): Platoon[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.platoons.filter(
       (platoon) =>
-        (platoon.name.toLowerCase().includes(filterValue) ||
-          platoon.code.toLowerCase().includes(filterValue)) &&
-        platoon.gradeId === this.selectedGrade?.id
+        platoon.name.toLowerCase().includes(filterValue) ||
+        platoon.code.toLowerCase().includes(filterValue)
     );
   }
 
   private _filterGroups(value: string): Group[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.groups.filter(
       (group) =>
-        (group.name.toLowerCase().includes(filterValue) ||
-          group.code.toLowerCase().includes(filterValue)) &&
-        group.platoonId === this.selectedPlatoon?.id
+        group.name.toLowerCase().includes(filterValue) ||
+        group.code.toLowerCase().includes(filterValue)
     );
   }
+  openAutoUnit() {
+    this.unitCtrl.setValue(''); // Clear the input field value
 
-  private _filterUnits(value: string): Unit[] {
-    const filterValue = value.toLowerCase();
-    return this.units.filter((unit) =>
-      unit.name.toLowerCase().includes(filterValue)
-    );
+    // Open the autocomplete dropdown by triggering the value change event
+    this.unitCtrl.updateValueAndValidity();
+  }
+  openAutoCommodity() {
+    this.commodityCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.commodityCtrl.updateValueAndValidity();
+  }
+  openAutoGrade() {
+    this.gradeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.gradeCtrl.updateValueAndValidity();
+  }
+  openAutoPlatoon() {
+    this.platoonCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.platoonCtrl.updateValueAndValidity();
+  }
+
+  openAutoGroup() {
+    this.groupCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.groupCtrl.updateValueAndValidity();
   }
 
   getAllItems() {
@@ -310,6 +364,7 @@ export class STRItem1Component implements OnInit {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.itemForm.reset();
       },
       error: (err) => {
         alert('error while fetching the records!!');
@@ -344,321 +399,711 @@ export class STRItem1Component implements OnInit {
       });
     }
   }
-  openAutoUnit() {
-    this.unitCtrl.setValue(''); // Clear the input field value
+  // async getSearchItems(name: any) {
+  //   this.api.getItem().subscribe({
+  //     next: (res) => {
+  //       //1 enter itemName
+  //       if (!this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name ) {
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.unitCtrl.updateValueAndValidity();
-  }
+  //         this.dataSource = res.filter((res: any) =>
+  //           res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-  openAutoCommodity() {
-    this.commodityCtrl.setValue(''); // Clear the input field value
+  //       //2 enter selectedUnit
+  //       else if (this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name == '' ) {
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.commodityCtrl.updateValueAndValidity();
-  }
-  openAutoGrade() {
-    this.gradeCtrl.setValue(''); // Clear the input field value
+  //         this.dataSource = res.filter(
+  //           (res: any) => res.unitId == this.selectedUnit.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.gradeCtrl.updateValueAndValidity();
-  }
-  openAutoPlatoon() {
-    this.platoonCtrl.setValue(''); // Clear the input field value
+  //       //3 enter selectedCommodity
+  //       else if (!this.selectedUnit && this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name == '' ) {
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.platoonCtrl.updateValueAndValidity();
-  }
+  //         this.dataSource = res.filter(
+  //           (res: any) => res.commodityId == this.selectedCommodity.id!
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+  //       //4 enter selectedGrade
+  //       else if (!this.selectedUnit && !this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name == '' ) {
 
-  openAutoGroup() {
-    this.platoonCtrl.setValue(''); // Clear the input field value
+  //         this.dataSource = res.filter(
+  //           (res: any) => res.gradeId == this.selectedGrade.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.platoonCtrl.updateValueAndValidity();
-  }
-  async getSearchItems(name: any) {
-    this.api.getItem().subscribe({
-      next: (res) => {
-        //enter itemName
-        if (!this.selectedGroup && name && !this.selectedUnit) {
-          console.log('filter name id: ', this.selectedGroup, 'name: ', name);
+  //       //5 enter selectedPlatoon
+  //       else if (!this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name == '' ) {
 
-          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-          this.dataSource = res.filter((res: any) =>
-            res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) => res.platoonId == this.selectedPlatoon.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedGroup
-        if (this.selectedGroup && name == '' && !this.selectedUnit) {
-          console.log('selectedGroup:', this.selectedGroup);
+  //       //6 enter selectedGroup
+  //       else if (!this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name == '' ) {
 
-          this.dataSource = res.filter(
-            (res: any) => res.groupId == this.selectedGroup.id
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) => res.groupId == this.selectedGroup.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedUnit
-        if (!this.selectedGroup && name == '' && this.selectedUnit) {
-          console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
+  //       // 7 enter itemName+selectedUnit
+  //       else if (this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name ) {
 
-          this.dataSource = res.filter(
-            (res: any) => res.unitId == this.selectedUnit.id
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedUnit+selectedGroup
-        if (this.selectedUnit && name == '' && this.selectedGroup) {
-          console.log(
-            'filter Unit, Group: ',
-            this.selectedUnit,
-            this.selectedGroup
-          );
+  //       //8 enter itemName+selectedCommodity
+  //       else if (!this.selectedUnit && this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name ) {
 
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.unitId == this.selectedUnit.id &&
-              res.groupId == this.selectedGroup.id
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.commodityId == this.selectedCommodity.id &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedGroup+item
-        else if (this.selectedGroup && name && !this.selectedUnit) {
-          console.log(
-            'selectedGroup ,name: ',
-            this.selectedGroup,
-            'name: ',
-            name
-          );
+  //       //9 enter itemName+selectedGrade
+  //       else if (!this.selectedUnit && !this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name ) {
 
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.groupId == this.selectedGroup.id &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.gradeId == this.selectedGrade.id &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedUnit+item
-        else if (this.selectedUnit && name && !this.selectedGroup) {
-          console.log(
-            'selectedUnit, name: ',
-            this.selectedUnit,
-            'name: ',
-            name
-          );
+  //       //10 enter itemName+selectedPlatoon
+  //       else if (!this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name ) {
 
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.unitId == this.selectedUnit.id &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.platoonId == this.selectedPlatoon.id &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter all
-        else if (this.selectedUnit && this.selectedGroup && name) {
-          console.log(
-            'all: ',
-            this.selectedUnit,
-            this.selectedGroup,
-            'name: ',
-            name
-          );
+  //       //11 enter itemName+selectedGroup
+  //       else if (!this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name ) {
 
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.unitId == this.selectedUnit.id &&
-              res.groupId == this.selectedGroup.id! &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.groupId == this.selectedGroup.id &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter itemName
-        else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
-          console.log(
-            'filter name mmmm id: ',
-            this.selectedGroup,
-            'name: ',
-            name
-          );
-          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-          // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
-    // this.getAllProducts()
-  }
+  //       //12 enter selectedUnit+selectedCommodity
+  //       else if (this.selectedUnit && this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name == '' ) {
+  //         console.log(
+  //           'filter Unit, Group: ',
+  //           this.selectedUnit,
+  //           this.selectedGroup
+  //         );
 
-  async getSearchItemsWithprint(name: any) {
-    if (name) {
-      this.api.getItem().subscribe({
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.commodityId == this.selectedCommodity.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+
+  //       //13 enter selectedUnit+selectedGrade
+  //       else if (this.selectedUnit && !this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name == '' ) {
+
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.gradeId == this.selectedGrade.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+
+  //       //14 enter selectedUnit+selectedPlatoon
+  //       else if (this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name == '' ) {
+
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.platoonId == this.selectedPlatoon.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+
+  //       //15 enter selectedUnit+selectedGroup
+  //       else if (this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name == '' ) {
+
+  //         // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.groupId == this.selectedGroup.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+
+  //         //16 enter selectedCommodity+selectedGrade
+  //         else if (!this.selectedUnit && this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name == '' ) {
+
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.commodityId == this.selectedCommodity.id &&
+  //               res.gradeId == this.selectedGrade.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //17 enter selectedCommodity+selectedPlatoon
+  //         else if (!this.selectedUnit && this.selectedCommodity && !this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name == '' ) {
+
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.commodityId == this.selectedCommodity.id &&
+  //               res.platoonId == this.selectedPlatoon.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //18 enter selectedCommodity+selectedGroup
+  //         else if (!this.selectedUnit && this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name == '' ) {
+
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.commodityId == this.selectedCommodity.id &&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //19 enter selectedGrade+selectedPlatoon
+  //         else if (!this.selectedUnit && !this.selectedCommodity && this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name == '' ) {
+
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.gradeId == this.selectedGrade.id &&
+  //               res.platoonId == this.selectedPlatoon.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //20 enter selectedGrade+selectedGroup
+  //         else if (!this.selectedUnit && !this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name == '' ) {
+
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.gradeId == this.selectedGrade.id &&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //21 enter selectedPlatoon+selectedGroup
+  //         else if (!this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && this.selectedPlatoon && this.selectedGroup && name == '' ) {
+
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.platoonId == this.selectedPlatoon.id &&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //22 enter itemName+selectedUnit+selectedCommodity
+  //         else if (this.selectedUnit && this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //             res.name.toLowerCase().includes(name.toLowerCase()) &&
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //23 enter itemName+selectedUnit+selectedGrade
+  //         else if (this.selectedUnit && !this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //             res.name.toLowerCase().includes(name.toLowerCase()) &&
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.gradeId == this.selectedGrade.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //24 enter itemName+selectedUnit+selectedPlatoon
+  //         else if (this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //             res.name.toLowerCase().includes(name.toLowerCase()) &&
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.platoonId == this.selectedPlatoon.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //25 enter itemName+selectedUnit+selectedGroup
+  //         else if (this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //             res.name.toLowerCase().includes(name.toLowerCase()) &&
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //26 enter selectedUnit+selectedCommodity+selectedGrade
+  //         else if (this.selectedUnit && this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id &&
+  //               res.gradeId == this.selectedGrade.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //27 enter selectedUnit+selectedCommodity+selectedPlatoon
+  //         else if (this.selectedUnit && this.selectedCommodity && !this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id &&
+  //               res.platoonId == this.selectedPlatoon.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //28 enter selectedUnit+selectedCommodity+selectedGroup
+  //         else if (this.selectedUnit && this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id &&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //29 enter selectedCommodity+selectedGrade+selectedPlatoon
+  //         else if (!this.selectedUnit && this.selectedCommodity && this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.commodityId == this.selectedCommodity.id &&
+  //               res.gradeId == this.selectedGrade.id &&
+  //               res.platoonId == this.selectedPlatoon.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //30 enter selectedCommodity+selectedGrade+selectedGroup
+  //         else if (!this.selectedUnit && this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.commodityId == this.selectedCommodity.id &&
+  //               res.gradeId == this.selectedGrade.id &&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //31 enter selectedGrade+selectedPlatoon+selectedGroup
+  //         else if (!this.selectedUnit && !this.selectedCommodity && this.selectedGrade && this.selectedPlatoon && this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.gradeId == this.selectedGrade.id &&
+  //               res.platoonId == this.selectedPlatoon.id &&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //32 enter itemName+selectedUnit+selectedCommodity+selectedGrade
+  //         else if (this.selectedUnit && this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //             res.name.toLowerCase().includes(name.toLowerCase()) &&
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id&&
+  //               res.gradeId == this.selectedGrade.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //33 enter itemName+selectedUnit+selectedCommodity+selectedPlatoon
+  //         else if (this.selectedUnit && this.selectedCommodity && !this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //             res.name.toLowerCase().includes(name.toLowerCase()) &&
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id&&
+  //               res.platoonId == this.selectedPlatoon.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //34 enter itemName+selectedUnit+selectedCommodity+selectedGroup
+  //         else if (this.selectedUnit && this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //             res.name.toLowerCase().includes(name.toLowerCase()) &&
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id&&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //35 enter selectedUnit+selectedCommodity+selectedGrade+selectedPlatoon
+  //         else if (this.selectedUnit && this.selectedCommodity && this.selectedGrade && this.selectedPlatoon && !this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id&&
+  //               res.gradeId == this.selectedGrade.id&&
+  //               res.platoonId == this.selectedPlatoon.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //36 enter selectedUnit+selectedCommodity+selectedGrade+selectedGroup
+  //         else if (this.selectedUnit && this.selectedCommodity && this.selectedGrade && !this.selectedPlatoon && this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.commodityId == this.selectedCommodity.id&&
+  //               res.gradeId == this.selectedGrade.id&&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //37 enter selectedCommodity+selectedGrade+selectedPlatoon+selectedGroup
+  //         else if (!this.selectedUnit && this.selectedCommodity && this.selectedGrade && this.selectedPlatoon && this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.commodityId == this.selectedCommodity.id&&
+  //               res.gradeId == this.selectedGrade.id&&
+  //               res.platoonId == this.selectedPlatoon.id&&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //38 enter selectedCommodity+selectedGrade+selectedPlatoon+selectedGroup
+  //         else if (!this.selectedUnit && this.selectedCommodity && this.selectedGrade && this.selectedPlatoon && this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.commodityId == this.selectedCommodity.id&&
+  //               res.gradeId == this.selectedGrade.id&&
+  //               res.platoonId == this.selectedPlatoon.id&&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         // enter itemName+selectedUnit+selectedCommodity+selectedGrade+selectedPlatoon
+  //         else if (!this.selectedUnit && this.selectedCommodity && this.selectedGrade && this.selectedPlatoon && this.selectedGroup && name =='' ) {
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.commodityId == this.selectedCommodity.id&&
+  //               res.gradeId == this.selectedGrade.id&&
+  //               res.platoonId == this.selectedPlatoon.id&&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //       //enter all
+  //       else if (this.selectedUnit && this.selectedCommodity && this.selectedGrade && this.selectedPlatoon && this.selectedGroup && name) {
+
+  //         // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.commodityId == this.selectedCommodity.id &&
+  //             res.gradeId == this.selectedGrade.id &&
+  //             res.platoonId == this.selectedPlatoon.id &&
+  //             res.groupId == this.selectedGroup.id &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+
+  //       //no enter
+  //       else if (!this.selectedUnit && !this.selectedCommodity && !this.selectedGrade && !this.selectedPlatoon && !this.selectedGroup && name == '' ) {
+
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+  //     },
+  //     error: (err) => {
+  //       alert('Error');
+  //     },
+  //   });
+  //   // this.getAllProducts()
+  // }
+
+  async getSearchItems(name: any, fullCode: any, type: any) {
+    let commodity = this.itemForm.getRawValue().commodityId;
+    console.log('commodityRow:', commodity);
+    let grade = this.itemForm.getRawValue().gradeId;
+    console.log('gradeRow:', grade);
+    let platoon = this.itemForm.getRawValue().platoonId;
+    console.log('platoonRow:', platoon);
+    let group = this.itemForm.getRawValue().groupId;
+    console.log('groupRow:', group);
+    let unit = this.itemForm.getRawValue().unitId;
+    console.log('unitRow:', unit);
+
+    this.api
+      .getSearchItem(
+        name,
+        fullCode,
+        type,
+        commodity,
+        grade,
+        platoon,
+        group,
+        unit
+      )
+      .subscribe({
         next: (res) => {
-          //enter itemName
-          if (!this.selectedGroup && name && !this.selectedUnit) {
-            console.log('filter name id: ', this.selectedGroup, 'name: ', name);
+          console.log('search:', res);
 
-            // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-            this.dataSource = res.filter((res: any) =>
-              res.name.toLowerCase().includes(name.toLowerCase())
-            );
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-
-          //enter selectedGroup
-          if (this.selectedGroup && name == '' && !this.selectedUnit) {
-            console.log('selectedGroup:', this.selectedGroup);
-
-            this.dataSource = res.filter(
-              (res: any) => res.groupId == this.selectedGroup.id
-            );
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-
-          //enter selectedUnit
-          if (!this.selectedGroup && name == '' && this.selectedUnit) {
-            console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
-
-            this.dataSource = res.filter(
-              (res: any) => res.unitId == this.selectedUnit.id
-            );
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-
-          //enter selectedUnit+selectedGroup
-          if (this.selectedUnit && name == '' && this.selectedGroup) {
-            console.log(
-              'filter Unit, Group: ',
-              this.selectedUnit,
-              this.selectedGroup
-            );
-
-            this.dataSource = res.filter(
-              (res: any) =>
-                res.unitId == this.selectedUnit.id &&
-                res.groupId == this.selectedGroup.id
-            );
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-
-          //enter selectedGroup+item
-          else if (this.selectedGroup && name && !this.selectedUnit) {
-            console.log(
-              'selectedGroup ,name: ',
-              this.selectedGroup,
-              'name: ',
-              name
-            );
-
-            // this.dataSource = res.filter((res: any)=> res.name==name!)
-            this.dataSource = res.filter(
-              (res: any) =>
-                res.groupId == this.selectedGroup.id &&
-                res.name.toLowerCase().includes(name.toLowerCase())
-            );
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-
-          //enter selectedUnit+item
-          else if (this.selectedUnit && name && !this.selectedGroup) {
-            console.log(
-              'selectedUnit, name: ',
-              this.selectedUnit,
-              'name: ',
-              name
-            );
-
-            // this.dataSource = res.filter((res: any)=> res.name==name!)
-            this.dataSource = res.filter(
-              (res: any) =>
-                res.unitId == this.selectedUnit.id &&
-                res.name.toLowerCase().includes(name.toLowerCase())
-            );
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-
-          //enter all
-          else if (this.selectedUnit && this.selectedGroup && name) {
-            console.log(
-              'all: ',
-              this.selectedUnit,
-              this.selectedGroup,
-              'name: ',
-              name
-            );
-
-            // this.dataSource = res.filter((res: any)=> res.name==name!)
-            this.dataSource = res.filter(
-              (res: any) =>
-                res.unitId == this.selectedUnit.id &&
-                res.groupId == this.selectedGroup.id! &&
-                res.name.toLowerCase().includes(name.toLowerCase())
-            );
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-
-          //enter itemName
-          else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
-            console.log(
-              'filter name mmmm id: ',
-              this.selectedGroup,
-              'name: ',
-              name
-            );
-            // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-            // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-
-          this.reportData = this.dataSource;
-          window.localStorage.setItem(
-            'reportData',
-            JSON.stringify(this.reportData)
-          );
-          window.localStorage.setItem(
-            'reportName',
-            JSON.stringify(this.reportName)
-          );
-
-          this.router.navigate(['/report']);
+          this.dataSource = res;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         },
         error: (err) => {
-          alert('Error');
+          console.log('eroorr', err);
         },
       });
-    } else {
-      this.getAllItems();
-      // this.getAllProducts()
-    }
   }
+
+  // async getSearchItemsWithprint(name: any) {
+  //   if (name) {
+  //     this.api.getItem().subscribe({
+  //       next: (res) => {
+  //         //enter itemName
+  //         if (!this.selectedGroup && name && !this.selectedUnit) {
+  //           console.log('filter name id: ', this.selectedGroup, 'name: ', name);
+
+  //           // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+  //           this.dataSource = res.filter((res: any) =>
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //enter selectedGroup
+  //         if (this.selectedGroup && name == '' && !this.selectedUnit) {
+  //           console.log('selectedGroup:', this.selectedGroup);
+
+  //           this.dataSource = res.filter(
+  //             (res: any) => res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //enter selectedUnit
+  //         if (!this.selectedGroup && name == '' && this.selectedUnit) {
+  //           console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
+
+  //           this.dataSource = res.filter(
+  //             (res: any) => res.unitId == this.selectedUnit.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //enter selectedUnit+selectedGroup
+  //         if (this.selectedUnit && name == '' && this.selectedGroup) {
+  //           console.log(
+  //             'filter Unit, Group: ',
+  //             this.selectedUnit,
+  //             this.selectedGroup
+  //           );
+
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.groupId == this.selectedGroup.id
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //enter selectedGroup+item
+  //         else if (this.selectedGroup && name && !this.selectedUnit) {
+  //           console.log(
+  //             'selectedGroup ,name: ',
+  //             this.selectedGroup,
+  //             'name: ',
+  //             name
+  //           );
+
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.groupId == this.selectedGroup.id &&
+  //               res.name.toLowerCase().includes(name.toLowerCase())
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //enter selectedUnit+item
+  //         else if (this.selectedUnit && name && !this.selectedGroup) {
+  //           console.log(
+  //             'selectedUnit, name: ',
+  //             this.selectedUnit,
+  //             'name: ',
+  //             name
+  //           );
+
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.name.toLowerCase().includes(name.toLowerCase())
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //enter all
+  //         else if (this.selectedUnit && this.selectedGroup && name) {
+  //           // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //           this.dataSource = res.filter(
+  //             (res: any) =>
+  //               res.unitId == this.selectedUnit.id &&
+  //               res.groupId == this.selectedGroup.id! &&
+  //               res.name.toLowerCase().includes(name.toLowerCase())
+  //           );
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         //enter itemName
+  //         else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
+  //           console.log(
+  //             'filter name mmmm id: ',
+  //             this.selectedGroup,
+  //             'name: ',
+  //             name
+  //           );
+  //           // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+  //           // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
+  //           this.dataSource.paginator = this.paginator;
+  //           this.dataSource.sort = this.sort;
+  //         }
+
+  //         this.reportData = this.dataSource;
+  //         window.localStorage.setItem(
+  //           'reportData',
+  //           JSON.stringify(this.reportData)
+  //         );
+  //         window.localStorage.setItem(
+  //           'reportName',
+  //           JSON.stringify(this.reportName)
+  //         );
+
+  //         this.router.navigate(['/report']);
+  //       },
+  //       error: (err) => {
+  //         alert('Error');
+  //       },
+  //     });
+  //   } else {
+  //     this.getAllItems();
+  //     // this.getAllProducts()
+  //   }
+  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -709,5 +1154,81 @@ export class STRItem1Component implements OnInit {
     // window.print();
     // document.body.innerHTML = originalContent;
     // location.reload();
+  }
+  // PreviewInvoice(invoice: any) {
+  //   this.service.GenerateInvoicePDF(invoice).subscribe((res) => {
+  //     let blob: Blob = res.body as Blob;
+  //     let url = window.URL.createObjectURL(blob);
+  //     this.pdfurl = url;
+  //   });
+  // }
+
+  async getSearchItemsWithprint(name: any, fullCode: any, type: any) {
+    console.log('print');
+    let commodity = this.itemForm.getRawValue().commodityId;
+    console.log('commodityRow:', commodity);
+    let grade = this.itemForm.getRawValue().gradeId;
+    console.log('gradeRow:', grade);
+    let platoon = this.itemForm.getRawValue().platoonId;
+    console.log('platoonRow:', platoon);
+    let group = this.itemForm.getRawValue().groupId;
+    console.log('groupRow:', group);
+    let unit = this.itemForm.getRawValue().unitId;
+    console.log('unitRow:', unit);
+
+    this.api
+      .printReport(name, fullCode, type, commodity, grade, platoon, group, unit)
+      .subscribe({
+        next: (res) => {
+          console.log('search:', res);
+          // let blob: Blob = res.body as Blob;
+          // let url = window.URL.createObjectURL(blob);
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
+  }
+
+  async preview(name: any, fullCode: any, type: any) {
+    // console.log('print');
+    let commodity = this.itemForm.getRawValue().commodityId;
+    // console.log('commodityRow:', commodity);
+    let grade = this.itemForm.getRawValue().gradeId;
+    // console.log('gradeRow:', grade);
+    let platoon = this.itemForm.getRawValue().platoonId;
+    // console.log('platoonRow:', platoon);
+    let group = this.itemForm.getRawValue().groupId;
+    // console.log('groupRow:', group);
+    let unit = this.itemForm.getRawValue().unitId;
+    // console.log('unitRow:', unit);
+
+    this.api
+      .printReport(name, fullCode, type, commodity, grade, platoon, group, unit)
+      .subscribe({
+        next: (res) => {
+          let blob: Blob = res.body as Blob;
+          console.log(blob);
+          let url = window.URL.createObjectURL(blob);
+          localStorage.setItem('url', JSON.stringify(url));
+          this.pdfurl = url;
+          this.dialog.open(Item1DialogComponent, {
+            width: '50%',
+          });
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
   }
 }
