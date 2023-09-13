@@ -20,12 +20,12 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global.service';
 import { Item1DialogComponent } from 'src/app/item1-dialog/item1-dialog.component';
-import {
-  faDownload,
-  faMagnifyingGlass,
-  faFilePdf,
-  faEraser,
-} from '@fortawesome/free-solid-svg-icons';
+// import {
+//   faDownload,
+//   faMagnifyingGlass,
+//   faFilePdf,
+//   faEraser,
+// } from '@fortawesome/free-solid-svg-icons';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -119,10 +119,10 @@ export class STRItem1Component implements OnInit {
   dataSource!: MatTableDataSource<any>;
   Invoiceheader: any;
   pdfurl = '';
-  faDownload = faDownload;
-  faMagnifyingGlass = faMagnifyingGlass;
-  faFilePdf = faFilePdf;
-  faEraser = faEraser;
+  // faDownload = faDownload;
+  // faMagnifyingGlass = faMagnifyingGlass;
+  // faFilePdf = faFilePdf;
+  // faEraser = faEraser;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
