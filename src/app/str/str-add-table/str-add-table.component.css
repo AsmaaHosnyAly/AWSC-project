@@ -30,11 +30,7 @@ mat-card-header .child1{
   width: 82%;
   /* background-color: aquamarine; */
 }
-.actionss {
-  display: flex;
-  justify-content: space-evenly;
-  }
-  
+
 
 .mat-mdc-card-header{
   padding: 0;
@@ -286,4 +282,3 @@ footer h3 {
   box-shadow: none !important;
   
 }
-

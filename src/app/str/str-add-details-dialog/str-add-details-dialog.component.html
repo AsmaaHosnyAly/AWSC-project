@@ -1,1 +1,103 @@
 <p>str-add-details-dialog works!</p>
+<form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
+
+
+    <div>
+        <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل اذن الاضافة </h1>
+
+        <div class="detailsForm" dir="rtl">
+            <!-- <div class="row"> -->
+
+            <mat-label>بحث بالكود </mat-label>
+
+            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
+            </mat-form-field>
+
+            <!-- <mat-form-field appearance="outline" class="groupInput">
+                    <mat-label> الصنف</mat-label>
+                    <mat-select placeholder="بحث يالكود" formControlName="itemId"
+                        [value]="getDetailedRowData ? getDetailedRowData.itemId : ''"
+                        (valueChange)="itemOnChange($event)">
+                        <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+
+            <mat-label> الصنف*</mat-label>
+
+            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
+                    placeholder="{{editData  ? editData.itemName :''}}" (click)="openAutoTem()" required />
+                <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
+                    (optionSelected)="itemSelected($event)">
+                    <mat-option *ngFor="let item of filteredItem | async" [value]="item">
+                        {{ item.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-label>الكمية*</mat-label>
+
+            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                <input matInput type="number" placeholder="الكمية" formControlName="qty"
+                    [value]="editData ? editData.qty : ''">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="groupInput">
+                <mat-label>السعر</mat-label>
+                <input matInput type="number" placeholder="السعر" formControlName="price"
+                    [value]="editData ? editData.price : ''" [readonly]="isReadOnlyEmployee">
+            </mat-form-field>
+
+
+            <!-- </div> -->
+            <!-- <div class="row"> -->
+
+
+            <div class="radio ">
+                <mat-label> حالةالصنف*</mat-label>
+                <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
+                <mat-radio-group aria-label="Select an option" formControlName="state"
+                    (change)="set_Percentage($event)" [value]="editData ? editData.state : stateDefaultValue">
+                    <mat-radio-button [value]=true>جديد</mat-radio-button>
+                    <mat-radio-button [value]=false>مستعمل</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+
+            <mat-label> النسبة*</mat-label>
+
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput type="number" placeholder="النسبة" formControlName="percentage"
+                    [value]="editData ? editData.percentage : ''" [readonly]="isReadOnlyPercentage">
+            </mat-form-field>
+
+            <mat-label>متوسط السعر*</mat-label>
+
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput type="number" placeholder="متوسط السعر" formControlName="avgPrice"
+                    [value]="editData ? editData.avgPrice : ''" readonly>
+            </mat-form-field>
+
+            <mat-label>الرصيد الحالى*</mat-label>
+
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput type="number" placeholder="الرصيد" formControlName="balanceQty"
+                    [value]="editData ? editData.balanceQty : ''" readonly>
+            </mat-form-field>
+            <!-- </div> -->
+
+
+            <div mat-dialog-action [align]="'end'">
+                <div class="groupAction">
+                    <button mat-raised-button color="primary" style="margin-left: 8px;"
+                        (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
+                        'اضافة':'تعديل'}}</button>
+                    <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
