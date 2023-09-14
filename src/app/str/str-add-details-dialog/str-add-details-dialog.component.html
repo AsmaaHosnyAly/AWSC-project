@@ -1,4 +1,4 @@
-<p>str-add-details-dialog works!</p>
+<!-- <p>str-add-details-dialog works!</p> -->
 <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
 
@@ -11,8 +11,9 @@
             <mat-label>بحث بالكود </mat-label>
 
             <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                <input matInput placeholder="الكود" (keydown)="getItemByCode($event)">
+                <input matInput placeholder="{{editData ? editData.fullCode : ''}}" (keydown)="getItemByCode($event)" [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
             </mat-form-field>
+
 
             <!-- <mat-form-field appearance="outline" class="groupInput">
                     <mat-label> الصنف</mat-label>
@@ -27,7 +28,7 @@
 
             <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
                 <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
-                    placeholder="{{editData  ? editData.itemName :''}}" (click)="openAutoTem()" required />
+                placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}" (click)="openAutoTem()" required />
                 <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
                     (optionSelected)="itemSelected($event)">
                     <mat-option *ngFor="let item of filteredItem | async" [value]="item">
@@ -39,12 +40,12 @@
             <mat-label>الكمية*</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                <input matInput type="number" placeholder="الكمية" formControlName="qty"
+                <input matInput type="number"  min="0" placeholder="الكمية" formControlName="qty"
                     [value]="editData ? editData.qty : ''">
             </mat-form-field>
             <mat-form-field appearance="outline" class="groupInput">
                 <mat-label>السعر</mat-label>
-                <input matInput type="number" placeholder="السعر" formControlName="price"
+                <input matInput type="number"   min="0" placeholder="السعر" formControlName="price"
                     [value]="editData ? editData.price : ''" [readonly]="isReadOnlyEmployee">
             </mat-form-field>
 
@@ -67,21 +68,21 @@
             <mat-label> النسبة*</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput">
-                <input matInput type="number" placeholder="النسبة" formControlName="percentage"
+                <input matInput type="number"  min="0" placeholder="النسبة" formControlName="percentage"
                     [value]="editData ? editData.percentage : ''" [readonly]="isReadOnlyPercentage">
             </mat-form-field>
 
             <mat-label>متوسط السعر*</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput">
-                <input matInput type="number" placeholder="متوسط السعر" formControlName="avgPrice"
+                <input matInput type="number"  min="0" placeholder="متوسط السعر" formControlName="avgPrice"
                     [value]="editData ? editData.avgPrice : ''" readonly>
             </mat-form-field>
 
             <mat-label>الرصيد الحالى*</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput">
-                <input matInput type="number" placeholder="الرصيد" formControlName="balanceQty"
+                <input matInput type="number"  min="0" placeholder="الرصيد" formControlName="balanceQty"
                     [value]="editData ? editData.balanceQty : ''" readonly>
             </mat-form-field>
             <!-- </div> -->

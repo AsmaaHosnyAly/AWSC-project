@@ -55,7 +55,7 @@
           <mat-form-field appearance="outline" class="groupInput">
             <mat-label>رقم الافتتاحى</mat-label>
             <input id="autoNoInput" matInput placeholder="رقم الإفتتاحي" formControlName="no"
-              [value]="isEdit == true ? editData.no : autoNo" type="number" readonly>
+              [value]="isEdit == true ? editData.no : autoNo" type="number"  min="0" readonly>
           </mat-form-field>
 
 
@@ -184,7 +184,7 @@
           </ng-container>
           <!-- qty Column -->
           <ng-container matColumnDef="balanceQty">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> متوسط الكمية </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>الرصيد </th>
             <td mat-cell *matCellDef="let row"> {{row.balanceQty}} </td>
           </ng-container>
           <!-- qty Column -->
@@ -195,7 +195,7 @@
 
           <!-- total Column -->
           <ng-container matColumnDef="total">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> المجموع </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> القيمة </th>
             <td mat-cell *matCellDef="let row"> {{row.total}} </td>
           </ng-container>
 
