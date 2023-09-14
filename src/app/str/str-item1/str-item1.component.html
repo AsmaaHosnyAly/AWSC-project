@@ -172,34 +172,35 @@
               </mat-select>
             </mat-form-field>
             <div class="print-display">
-              <fa-icon
-                [icon]="faMagnifyingGlass"
+              <mat-icon
                 (click)="getSearch(item.value)"
                 class="icons"
                 title="بحث"
-              ></fa-icon>
+                >search</mat-icon
+              >
 
-              <fa-icon
-                [icon]="faFilePdf"
+              <mat-icon
                 (click)="preview(item.value, code.value, type.value)"
                 class="icons"
                 title="عرض"
-              ></fa-icon>
+                >print</mat-icon
+              >
 
-              <fa-icon
-                [icon]="faDownload"
+              <mat-icon
                 (click)="
                   getSearchItemsWithprint(item.value, code.value, type.value)
                 "
                 class="icons"
                 title="تحميل"
-              ></fa-icon>
-              <fa-icon
-                [icon]="faEraser"
+                >get_app</mat-icon
+              >
+
+              <mat-icon
                 (click)="getAllItems()"
                 class="icons"
                 title="حذف قيم البحث"
-              ></fa-icon>
+                >restore</mat-icon
+              >
             </div>
           </div>
         </mat-expansion-panel>
@@ -299,29 +300,33 @@
           </ng-container>
 
           <!-- action Column -->
+
           <ng-container matColumnDef="action">
-            <th mat-header-cell id="action1" *matHeaderCellDef mat-sort-header>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              id="action-header"
+              style="width: 15%"
+            >
               الإجراء
             </th>
             <td mat-cell *matCellDef="let row">
-              <div id="action2" class="d-flex">
-                <button
-                  mat-icon-button
-                  id="button1"
-                  (click)="editItem(row)"
-                  class="editbtn"
-                >
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  id="button2"
-                  color="warn"
-                  (click)="deleteItem(row.id)"
-                >
-                  <mat-icon>delete_forever</mat-icon>
-                </button>
-              </div>
+              <button
+                mat-icon-button
+                id="button1"
+                (click)="editItem(row)"
+                class="editbtn"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                id="button2"
+                color="warn"
+                (click)="deleteItem(row.id)"
+              >
+                <mat-icon>delete_forever</mat-icon>
+              </button>
             </td>
           </ng-container>
 

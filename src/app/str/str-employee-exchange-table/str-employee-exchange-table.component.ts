@@ -10,94 +10,96 @@ import { StrEmployeeExchangeDialogComponent } from '../str-employee-exchange-dia
 import { formatDate } from '@angular/common';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { EmployeeExchangePrintDialogComponent } from 'src/app/str/employee-exchange-print-dialog/employee-exchange-print-dialog.component';
 
-import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormControlName,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: string) {}
 }
 
 export class costcenter {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 export class distEmployee {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: string) {}
 }
-
-
 
 @Component({
   selector: 'app-str-employee-exchange-table',
   templateUrl: './str-employee-exchange-table.component.html',
-  styleUrls: ['./str-employee-exchange-table.component.css']
+  styleUrls: ['./str-employee-exchange-table.component.css'],
 })
 export class StrEmployeeExchangeTableComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'fiscalyear', 'employeeName', 'destEmployeeName', 'costCenterName', 'date', 'Action'];
+  displayedColumns: string[] = [
+    'no',
+    'fiscalyear',
+    'employeeName',
+    'destEmployeeName',
+    'costCenterName',
+    'date',
+    'Action',
+  ];
   matchedIds: any;
   storeList: any;
   storeName: any;
   fiscalYearsList: any;
   // employeesList: any;
   // costCentersList: any;
-  groupMasterForm !: FormGroup;
-
-
+  groupMasterForm!: FormGroup;
 
   costcentersList: costcenter[] = [];
   costcenterCtrl: FormControl<any>;
   filteredcostcenter: Observable<costcenter[]>;
   selectedcostcenter: costcenter | undefined;
 
-
-
   employeesList: Employee[] = [];
   employeeCtrl: FormControl<any>;
   filteredEmployee: Observable<Employee[]>;
   selectedEmployee: Employee | undefined;
-
 
   distEmployeesList: distEmployee[] = [];
   distEmployeeCtrl: FormControl<any>;
   filtereddistEmployee: Observable<distEmployee[]>;
   selecteddistEmployee: distEmployee | undefined;
 
-
-
   dataSource2!: MatTableDataSource<any>;
+  pdfurl = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private api: ApiService,
-    private dialog: MatDialog,private formBuilder: FormBuilder,
+  constructor(
+    private api: ApiService,
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService) {
+    private toastr: ToastrService
+  ) {
+    this.costcenterCtrl = new FormControl();
+    this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filtercostcenters(value))
+    );
 
+    this.employeeCtrl = new FormControl();
+    this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filteremployees(value))
+    );
 
-      this.costcenterCtrl = new FormControl();
-      this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filtercostcenters(value))
-      );
-  
-  
-  
-      this.employeeCtrl = new FormControl();
-      this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filteremployees(value))
-      );
-
-
-      this.distEmployeeCtrl = new FormControl();
-      this.filtereddistEmployee = this.distEmployeeCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterdistEmployees(value))
-      );
-
-
+    this.distEmployeeCtrl = new FormControl();
+    this.filtereddistEmployee = this.distEmployeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterdistEmployees(value))
+    );
   }
 
   ngOnInit(): void {
@@ -108,20 +110,20 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.getCostCenters();
 
     this.groupMasterForm = this.formBuilder.group({
-      no:[''],
-      employee:[''],
-      costcenter:[],
-      costCenterId:[],
+      no: [''],
+      employee: [''],
+      costcenter: [],
+      costCenterId: [],
 
-      storeId:[''],
-      itemId:[''],
-      distEmployeeId:[''],
-      item:[''],
-      fiscalyear:[''],
-      date:[''],
-      store:[''],
-      distEmployee:['']
-       });
+      storeId: [''],
+      itemId: [''],
+      distEmployeeId: [''],
+      item: [''],
+      fiscalyear: [''],
+      date: [''],
+      store: [''],
+      distEmployee: [''],
+    });
   }
 
   applyFilter(event: Event) {
@@ -134,156 +136,152 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
 
   openEmployeeExchangeDialog() {
-    this.dialog.open(StrEmployeeExchangeDialogComponent, {
-      width: '60%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-        this.getAllMasterForms();
-      }
-    })
+    this.dialog
+      .open(StrEmployeeExchangeDialogComponent, {
+        width: '60%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save') {
+          this.getAllMasterForms();
+        }
+      });
   }
 
   getAllMasterForms() {
-    this.api.getStrEmployeeExchange()
-      .subscribe({
-        next: (res) => {
-          this.dataSource2 = new MatTableDataSource(res);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-          this.groupMasterForm.reset();
-
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        }
-      })
-
-
+    this.api.getStrEmployeeExchange().subscribe({
+      next: (res) => {
+        this.dataSource2 = new MatTableDataSource(res);
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset();
+      },
+      error: () => {
+        // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      },
+    });
   }
 
   getStores() {
-    this.api.getStore()
-      .subscribe({
-        next: (res) => {
-          this.storeList = res;
-        },
-        error: (err) => {
-          // console.log("fetch store data err: ", err);
-          // alert("خطا اثناء جلب المخازن !");
-        }
-      })
+    this.api.getStore().subscribe({
+      next: (res) => {
+        this.storeList = res;
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert("خطا اثناء جلب المخازن !");
+      },
+    });
   }
 
   editMasterForm(row: any) {
-    this.dialog.open(StrEmployeeExchangeDialogComponent, {
-      width: '60%',
-      data: row
-    }).afterClosed().subscribe(val => {
-      if (val === 'update' || val === 'save') {
-        this.getAllMasterForms();
-      }
-    })
+    this.dialog
+      .open(StrEmployeeExchangeDialogComponent, {
+        width: '60%',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'update' || val === 'save') {
+          this.getAllMasterForms();
+        }
+      });
   }
 
   deleteBothForms(id: number) {
+    this.http
+      .get<any>(
+        'http://ims.aswan.gov.eg/api/STREmployeeExchangeDetails/get/all'
+      )
+      .subscribe(
+        (res) => {
+          this.matchedIds = res.filter((a: any) => {
+            return a.employee_ExchangeId === id;
+          });
+          var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
 
-    this.http.get<any>("http://ims.aswan.gov.eg/api/STREmployeeExchangeDetails/get/all")
-      .subscribe(res => {
-        this.matchedIds = res.filter((a: any) => {
-          return a.employee_ExchangeId === id
-        })
-        var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
-
-        if (this.matchedIds.length) {
-          for (let i = 0; i < this.matchedIds.length; i++) {
-            if (result) {
-              this.api.deleteStrEmployeeExchangeDetails(this.matchedIds[i].id)
-                .subscribe({
-                  next: (res) => {
-
-                    this.api.deleteStrEmployeeExchange(id)
-                      .subscribe({
+          if (this.matchedIds.length) {
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              if (result) {
+                this.api
+                  .deleteStrEmployeeExchangeDetails(this.matchedIds[i].id)
+                  .subscribe({
+                    next: (res) => {
+                      this.api.deleteStrEmployeeExchange(id).subscribe({
                         next: (res) => {
                           this.toastrDeleteSuccess();
                           this.getAllMasterForms();
                         },
                         error: () => {
                           // alert("خطأ أثناء حذف الرئيسي !!");
-                        }
-                      })
-
-                  },
-                  error: () => {
-                    // alert("خطأ أثناء حذف التفاصيل !!");
-                  }
-                })
+                        },
+                      });
+                    },
+                    error: () => {
+                      // alert("خطأ أثناء حذف التفاصيل !!");
+                    },
+                  });
+              }
             }
-
-          }
-        }
-        else {
-          if (result) {
-            this.api.deleteStrEmployeeExchange(id)
-              .subscribe({
+          } else {
+            if (result) {
+              this.api.deleteStrEmployeeExchange(id).subscribe({
                 next: (res) => {
                   this.toastrDeleteSuccess();
                   this.getAllMasterForms();
                 },
                 error: () => {
                   // alert("خطأ أثناء حذف الرئيسي !!");
-                }
-              })
+                },
+              });
+            }
           }
+        },
+        (err) => {
+          // alert("خطا اثناء تحديد المجموعة !!")
         }
-
-      }, err => {
-        // alert("خطا اثناء تحديد المجموعة !!")
-      })
-
+      );
   }
 
   getFiscalYears() {
-    this.api.getFiscalYears()
-      .subscribe({
-        next: (res) => {
-          this.fiscalYearsList = res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getFiscalYears().subscribe({
+      next: (res) => {
+        this.fiscalYearsList = res;
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
 
   getEmployees() {
-    this.api.getHrEmployees()
-      .subscribe({
-        next: (res) => {
-          this.employeesList = res;
-        },
-        error: (err) => {
-          // console.log("fetch employees data err: ", err);
-          // alert("خطا اثناء جلب الموظفين !");
-        }
-      })
+    this.api.getHrEmployees().subscribe({
+      next: (res) => {
+        this.employeesList = res;
+      },
+      error: (err) => {
+        // console.log("fetch employees data err: ", err);
+        // alert("خطا اثناء جلب الموظفين !");
+      },
+    });
   }
 
   getCostCenters() {
-    this.api.getFiCostCenter()
-      .subscribe({
-        next: (res) => {
-          this.costcentersList = res;
-        },
-        error: (err) => {
-          // console.log("fetch costCenter data err: ", err);
-          // alert("خطا اثناء جلب مراكز التكلفة !");
-        }
-      })
+    this.api.getFiCostCenter().subscribe({
+      next: (res) => {
+        this.costcentersList = res;
+      },
+      error: (err) => {
+        // console.log("fetch costCenter data err: ", err);
+        // alert("خطا اثناء جلب مراكز التكلفة !");
+      },
+    });
   }
-  getsearch(code:any){
+  getsearch(code: any) {
     if (code.keyCode == 13) {
       this.getAllMasterForms();
-     }
+    }
   }
 
   displaycostcenterName(costcenter: any): string {
@@ -291,20 +289,22 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
   costcenterSelected(event: MatAutocompleteSelectedEvent): void {
     const costcenter = event.option.value as costcenter;
-    console.log("costcenter selected: ", costcenter);
+    console.log('costcenter selected: ', costcenter);
     this.selectedcostcenter = costcenter;
     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-    console.log("costcenter in form: ", this.groupMasterForm.getRawValue().costCenterId);
+    console.log(
+      'costcenter in form: ',
+      this.groupMasterForm.getRawValue().costCenterId
+    );
 
     // this.getSearchStrWithdraw()
     // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
     // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-
   }
   private _filtercostcenters(value: string): costcenter[] {
     const filterValue = value;
-    return this.costcentersList.filter(costcenter =>
-      costcenter.name.toLowerCase().includes(filterValue) 
+    return this.costcentersList.filter((costcenter) =>
+      costcenter.name.toLowerCase().includes(filterValue)
     );
   }
   openAutocostcenter() {
@@ -312,30 +312,31 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.costcenterCtrl.updateValueAndValidity();
-
   }
 
-/////employeee
+  /////employeee
 
   displayEmployeeName(employee: any): string {
     return employee && employee.name ? employee.name : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
-    console.log("employee selected: ", employee);
+    console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
     this.groupMasterForm.patchValue({ employeeId: employee.id });
-    console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+    console.log(
+      'employee in form: ',
+      this.groupMasterForm.getRawValue().employeeId
+    );
 
     // this.getSearchStrWithdraw()
     // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
     // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
-
   }
   private _filteremployees(value: string): Employee[] {
     const filterValue = value;
-    return this.employeesList.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) 
+    return this.employeesList.filter((employee) =>
+      employee.name.toLowerCase().includes(filterValue)
     );
   }
   openAutoEmployee() {
@@ -343,9 +344,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.employeeCtrl.updateValueAndValidity();
-
   }
-
 
   //////distemployee
   displaydistEmployeeName(distEmployee: any): string {
@@ -353,20 +352,22 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
   distEmployeeSelected(event: MatAutocompleteSelectedEvent): void {
     const distEmployee = event.option.value as distEmployee;
-    console.log("distEmployee selected: ", distEmployee);
+    console.log('distEmployee selected: ', distEmployee);
     this.selecteddistEmployee = distEmployee;
     this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
-    console.log("distEmployee in form: ", this.groupMasterForm.getRawValue().distEmployeeId);
+    console.log(
+      'distEmployee in form: ',
+      this.groupMasterForm.getRawValue().distEmployeeId
+    );
 
     // this.getSearchStrWithdraw()
     // this.set_store_Null(this.groupMasterForm.getRawValue().distEmployeeId);
     // return     this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
-
   }
   private _filterdistEmployees(value: string): distEmployee[] {
     const filterValue = value;
-    return this.distEmployeesList.filter(distEmployee =>
-      distEmployee.name.toLowerCase().includes(filterValue) 
+    return this.distEmployeesList.filter((distEmployee) =>
+      distEmployee.name.toLowerCase().includes(filterValue)
     );
   }
   openAutodistEmployee() {
@@ -374,44 +375,175 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.distEmployeeCtrl.updateValueAndValidity();
-
   }
 
+  getSearchStrOpen(no: any, date: any) {
+    let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
+    let employeeId = this.groupMasterForm.getRawValue().employeeId;
+    let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
 
-  getSearchStrOpen(no: any,  date: any) {
-
-    let costCenterId=this.groupMasterForm.getRawValue().costCenterId
-    let employeeId=this.groupMasterForm.getRawValue().employeeId
-    let distEmployee=this.groupMasterForm.getRawValue().distEmployeeId
-
-
-    this.api.getStrEmployeeExchangeSearach(no, costCenterId, employeeId, date, distEmployee)
+    this.api
+      .getStrEmployeeExchangeSearach(
+        no,
+        costCenterId,
+        employeeId,
+        date,
+        distEmployee
+      )
       .subscribe({
         next: (res) => {
-          this.dataSource2 = res
+          this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
         },
         error: (err) => {
           // alert("Error")
-        }
-      })
+        },
+      });
+  }
+
+  downloadPdf(no: any, date: any) {
+    let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
+    let employeeId = this.groupMasterForm.getRawValue().employeeId;
+    let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
+
+    this.api
+      .getStrEmployeeExchangeItem(
+        no,
+        costCenterId,
+        employeeId,
+        date,
+        distEmployee
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('search:', res);
+          const url: any = res.url;
+          window.open(url);
+          // let blob: Blob = res.body as Blob;
+          // let url = window.URL.createObjectURL(blob);
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
+  }
+
+  previewPdf(no: any, date: any) {
+    let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
+    let employeeId = this.groupMasterForm.getRawValue().employeeId;
+    let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
+
+    this.api
+      .getStrEmployeeExchangeItem(
+        no,
+        costCenterId,
+        employeeId,
+        date,
+        distEmployee
+      )
+      .subscribe({
+        next: (res) => {
+          let blob: Blob = res.body as Blob;
+          console.log(blob);
+          let url = window.URL.createObjectURL(blob);
+          localStorage.setItem('url', JSON.stringify(url));
+          this.pdfurl = url;
+          this.dialog.open(EmployeeExchangePrintDialogComponent, {
+            width: '50%',
+          });
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
+  }
+
+  // printReport() {
+  //   // this.loadAllData();
+  //   let header: any = document.getElementById('header');
+  //   let paginator: any = document.getElementById('paginator');
+  //   let action1: any = document.getElementById('action1');
+  //   let action2: any = document.querySelectorAll('action2');
+  //   console.log(action2);
+  //   let button1: any = document.querySelectorAll('#button1');
+  //   console.log(button1);
+  //   let button2: any = document.getElementById('button2');
+  //   let button: any = document.getElementsByClassName('mdc-icon-button');
+  //   console.log(button);
+  //   let reportFooter: any = document.getElementById('reportFooter');
+  //   let date: any = document.getElementById('date');
+  //   header.style.display = 'grid';
+  //   //paginator.style.display = 'none';
+  //   action1.style.display = 'none';
+  //   // button1.style.display = 'none';
+  //   // button2.style.display = 'none';
+  //   for (let index = 0; index < button.length; index++) {
+  //     let element = button[index];
+
+  //     element.hidden = true;
+  //   }
+  //   // reportFooter.style.display = 'block';
+  //   // date.style.display = 'block';
+  //   let printContent: any = document.getElementById('content')?.innerHTML;
+  //   let originalContent: any = document.body.innerHTML;
+  //   document.body.innerHTML = printContent;
+  //   // console.log(document.body.children);
+  //   document.body.style.cssText =
+  //     'direction:rtl;-webkit-print-color-adjust:exact;';
+  //   window.print();
+  //   document.body.innerHTML = originalContent;
+  //   location.reload();
+  // }
+
+  printReport() {
+    // this.loadAllData();
+    let header: any = document.getElementById('header');
+    let paginator: any = document.getElementById('paginator');
+    let action1: any = document.getElementById('action1');
+    let action2: any = document.querySelectorAll('action2');
+    console.log(action2);
+    let button1: any = document.querySelectorAll('#button1');
+    console.log(button1);
+    let button2: any = document.getElementById('button2');
+    let button: any = document.getElementsByClassName('mdc-icon-button');
+    console.log(button);
+    let buttn: any = document.querySelectorAll('#buttn');
+    for (let index = 0; index < buttn.length; index++) {
+      buttn[index].hidden = true;
+    }
+
+    let actionHeader: any = document.getElementById('action-header');
+    actionHeader.style.display = 'none';
+
+    let reportFooter: any = document.getElementById('reportFooter');
+    let date: any = document.getElementById('date');
+    header.style.display = 'grid';
+    // button1.style.display = 'none';
+    // button2.style.display = 'none';
+
+    let printContent: any = document.getElementById('content')?.innerHTML;
+    let originalContent: any = document.body.innerHTML;
+    document.body.innerHTML = printContent;
+    // console.log(document.body.children);
+    document.body.style.cssText =
+      'direction:rtl;-webkit-print-color-adjust:exact;';
+    window.print();
+    document.body.innerHTML = originalContent;
+    location.reload();
   }
 
   toastrDeleteSuccess(): void {
-    this.toastr.success("تم الحذف بنجاح");
+    this.toastr.success('تم الحذف بنجاح');
   }
-
-
-
-
-
-
-
-
-
-
-
-
-  
 }
