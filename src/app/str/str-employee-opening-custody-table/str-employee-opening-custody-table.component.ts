@@ -9,23 +9,23 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
-import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormControlName,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
-
-
+import { EmployeeCustodyPrintDialogComponent } from 'src/app/str/employee-custody-print-dialog/employee-custody-print-dialog.component';
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: string) {}
 }
 
 export class costcenter {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
-
-
-
 
 @Component({
   selector: 'app-str-employee-opening-custody-table',
@@ -33,56 +33,57 @@ export class costcenter {
   styleUrls: ['./str-employee-opening-custody-table.component.css'],
 })
 export class STREmployeeOpeningCustodyTableComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'employeeName','costCenterName','fiscalyear', 'date', 'Action'];
+  displayedColumns: string[] = [
+    'no',
+    'employeeName',
+    'costCenterName',
+    'fiscalyear',
+    'date',
+    'Action',
+  ];
   matchedIds: any;
   storeList: any;
   storeName: any;
   // costCentersList: any;
-  
+
   // employeesList: any;
-  itemList:any;
+  itemList: any;
   fiscalYearsList: any;
-  groupMasterForm !: FormGroup;
+  groupMasterForm!: FormGroup;
 
-
-
-  
   costCentersList: costcenter[] = [];
   costcenterCtrl: FormControl<any>;
   filteredcostcenter: Observable<costcenter[]>;
   selectedcostcenter: costcenter | undefined;
-
-
 
   employeesList: Employee[] = [];
   employeeCtrl: FormControl<any>;
   filteredEmployee: Observable<Employee[]>;
   selectedEmployee: Employee | undefined;
   dataSource2!: MatTableDataSource<any>;
+  pdfurl = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private api: ApiService,
-    private dialog: MatDialog,private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
-
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filtercostcenters(value))
+      map((value) => this._filtercostcenters(value))
     );
-
-
 
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filteremployees(value))
+      map((value) => this._filteremployees(value))
     );
   }
 
@@ -95,28 +96,24 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.getcostCenter();
 
     this.groupMasterForm = this.formBuilder.group({
-      no:[''],
-      employee:[''],
-      costcenter:[],
-      costCenterId:[''],
-      employeeId:[''],
+      no: [''],
+      employee: [''],
+      costcenter: [],
+      costCenterId: [''],
+      employeeId: [''],
 
-      item:[''],
-      fiscalyear:[''],
-      date:[''],
-      store:['']
-       });
-
-       
+      item: [''],
+      fiscalyear: [''],
+      date: [''],
+      store: [''],
+    });
   }
 
-  
-  getsearch(code:any){
+  getsearch(code: any) {
     if (code.keyCode == 13) {
       this.getAllMasterForms();
-     }
+    }
   }
-
 
   getAllMasterForms() {
     this.api.getStrEmployeeOpen().subscribe({
@@ -126,7 +123,6 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
-
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -134,14 +130,17 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     });
   }
   openEmployeeingStockDialog() {
-    this.dialog.open(STREmployeeOpeningCustodyDialogComponent, {
-      width: '70%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'Save') {
-        // alert("refreshhhh")
-        this.getAllMasterForms();
-      }
-    })
+    this.dialog
+      .open(STREmployeeOpeningCustodyDialogComponent, {
+        width: '70%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'Save') {
+          // alert("refreshhhh")
+          this.getAllMasterForms();
+        }
+      });
   }
   editMasterForm(row: any) {
     this.dialog
@@ -158,7 +157,6 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       });
   }
 
-
   // deleteBothForms(id: number) {
   //   var result = confirm('تاكيد الحذف ؟ ');
 
@@ -169,7 +167,6 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   //         return a.custodyId === id
   //       });
 
-        
   //       alert("تم حذف الاذن بنجاح");
 
   //       // var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
@@ -236,55 +233,44 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   //     this.toastrDeleteSuccess();
   //     this.getAllMasterForms();
 
-
-
-
-
   //   }
- 
 
-    deleteBothForms(id: number) {
-      var result = confirm('تاكيد الحذف ؟ ');
-  console.log(" id in delete:",id)
-      if (result) {
-        
-        this.api. deleteStrEmployeeOpen(id).subscribe({
-          next: (res) => {
-  
-            this.http
-              .get<any>('http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all')
-              .subscribe(
-                (res) => {
-                  this.matchedIds = res.filter((a: any) => {
-                    // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                    return  a.custodyId === id
-                  });
-  
-                  // for (let i = 0; i < this.matchedIds.length; i++) {
-                  //   this.deleteFormDetails(this.matchedIds[i].id);
-                  // }
-                  alert("تم حذف الاذن بنجاح");
-  
-                },
-                (err) => {
-                  alert('خطا اثناء تحديد المجموعة !!');
-                }
-              );
-  
-            this.toastrDeleteSuccess();
-            this.getAllMasterForms();
-          },
-          error: () => {
-            alert('خطأ أثناء حذف المجموعة !!');
-          },
-        });
-      }
+  deleteBothForms(id: number) {
+    var result = confirm('تاكيد الحذف ؟ ');
+    console.log(' id in delete:', id);
+    if (result) {
+      this.api.deleteStrEmployeeOpen(id).subscribe({
+        next: (res) => {
+          this.http
+            .get<any>(
+              'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all'
+            )
+            .subscribe(
+              (res) => {
+                this.matchedIds = res.filter((a: any) => {
+                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                  return a.custodyId === id;
+                });
+
+                // for (let i = 0; i < this.matchedIds.length; i++) {
+                //   this.deleteFormDetails(this.matchedIds[i].id);
+                // }
+                alert('تم حذف الاذن بنجاح');
+              },
+              (err) => {
+                alert('خطا اثناء تحديد المجموعة !!');
+              }
+            );
+
+          this.toastrDeleteSuccess();
+          this.getAllMasterForms();
+        },
+        error: () => {
+          alert('خطأ أثناء حذف المجموعة !!');
+        },
+      });
     }
-  
-
- 
-
-  
+  }
 
   getAllEmployees() {
     this.api.getAllEmployees().subscribe({
@@ -312,65 +298,63 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     });
   }
   getEmployees() {
-    this.api.getHrEmployees()
-      .subscribe({
-        next: (res) => {
-          this.employeesList = res;
-          console.log("employees res: ", this.employeesList);
-        },
-        error: (err) => {
-          console.log("fetch employees data err: ", err);
-          alert("خطا اثناء جلب الموظفين !");
-        }
-      })
+    this.api.getHrEmployees().subscribe({
+      next: (res) => {
+        this.employeesList = res;
+        console.log('employees res: ', this.employeesList);
+      },
+      error: (err) => {
+        console.log('fetch employees data err: ', err);
+        alert('خطا اثناء جلب الموظفين !');
+      },
+    });
   }
   getItme() {
-    this.api.getItems()
-      .subscribe({
-        next: (res) => {
-          this.itemList = res;
-          console.log("item res: ", this.itemList);
-        },
-        error: (err) => {
-          console.log("fetch employees data err: ", err);
-          alert("خطا اثناء جلب الموظفين !");
-        }
-      })
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.itemList = res;
+        console.log('item res: ', this.itemList);
+      },
+      error: (err) => {
+        console.log('fetch employees data err: ', err);
+        alert('خطا اثناء جلب الموظفين !');
+      },
+    });
   }
   getcostCenter() {
-    this.api.getCostCenter()
-      .subscribe({
-        next: (res) => {
-          this.costCentersList = res;
-          console.log("item res: ", this.itemList);
-        },
-        error: (err) => {
-          console.log("fetch employees data err: ", err);
-          alert("خطا اثناء جلب الموظفين !");
-        }
-      })
+    this.api.getCostCenter().subscribe({
+      next: (res) => {
+        this.costCentersList = res;
+        console.log('item res: ', this.itemList);
+      },
+      error: (err) => {
+        console.log('fetch employees data err: ', err);
+        alert('خطا اثناء جلب الموظفين !');
+      },
+    });
   }
-
 
   displaycostcenterName(costcenter: any): string {
     return costcenter && costcenter.name ? costcenter.name : '';
   }
   costcenterSelected(event: MatAutocompleteSelectedEvent): void {
     const costcenter = event.option.value as costcenter;
-    console.log("costcenter selected: ", costcenter);
+    console.log('costcenter selected: ', costcenter);
     this.selectedcostcenter = costcenter;
     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-    console.log("costcenter in form: ", this.groupMasterForm.getRawValue().costCenterId);
+    console.log(
+      'costcenter in form: ',
+      this.groupMasterForm.getRawValue().costCenterId
+    );
 
     // this.getSearchStrWithdraw()
     // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
     // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-
   }
   private _filtercostcenters(value: string): costcenter[] {
     const filterValue = value;
-    return this.costCentersList.filter(costcenter =>
-      costcenter.name.toLowerCase().includes(filterValue) 
+    return this.costCentersList.filter((costcenter) =>
+      costcenter.name.toLowerCase().includes(filterValue)
     );
   }
   openAutocostcenter() {
@@ -378,30 +362,31 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.costcenterCtrl.updateValueAndValidity();
-
   }
 
-/////employeee
+  /////employeee
 
   displayEmployeeName(employee: any): string {
     return employee && employee.name ? employee.name : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
-    console.log("employee selected: ", employee);
+    console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
     this.groupMasterForm.patchValue({ employeeId: employee.id });
-    console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+    console.log(
+      'employee in form: ',
+      this.groupMasterForm.getRawValue().employeeId
+    );
 
     // this.getSearchStrWithdraw()
     // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
     // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
-
   }
   private _filteremployees(value: string): Employee[] {
     const filterValue = value;
-    return this.employeesList.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) 
+    return this.employeesList.filter((employee) =>
+      employee.name.toLowerCase().includes(filterValue)
     );
   }
   openAutoEmployee() {
@@ -409,151 +394,136 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.employeeCtrl.updateValueAndValidity();
-
   }
 
+  getSearchStrOpen(no: any, date: any, itemId: any) {
+    console.log('no. : ', no, 'item : ', itemId, 'date: ', date);
 
+    let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
+    let employeeId = this.groupMasterForm.getRawValue().employeeId;
 
+    this.api
+      .getStrEmployeeOpenSearach(no, costCenterId, employeeId, date, itemId)
+      .subscribe({
+        next: (res) => {
+          console.log('search employeeExchange 4res: ', res);
 
-  getSearchStrOpen(no: any,date: any, itemId: any) {
-    console.log(
-      'no. : ',
-      no,
-      'item : ',
-      itemId,
-      'date: ',
-      date,
-   
-    );
+          this.dataSource2 = res;
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+          // this.api.getStrOpenSearach(no, store, date, fiscalYear).subscribe({
+          //   next: (res) => {
+          //     console.log('search openingStock res: ', res);
 
+          //     //enter no.
+          //     if (no != '' && !store && !date && !fiscalYear) {
+          //       // console.log("enter no. ")
+          //       // console.log("no. : ", no, "store: ", store, "date: ", date)
+          //       this.dataSource2 = res.filter((res: any) => res.no == no!);
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
 
-    let costCenterId=this.groupMasterForm.getRawValue().costCenterId
-    let employeeId=this.groupMasterForm.getRawValue().employeeId
+          //     //enter store
+          //     else if (!no && store && !date && !fiscalYear) {
+          //       // console.log("enter store. ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter((res: any) => res.storeId == store);
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
 
+          //     //enter date
+          //     else if (!no && !store && date && !fiscalYear) {
+          //       // console.log("enter date. ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
 
+          //     //enter fiscalYear
+          //     else if (!no && !store && !date && fiscalYear) {
+          //       // console.log("enter date. ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) => res.fiscalyear == fiscalYear
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
 
+          //     //enter no. & store
+          //     else if (no && store && !date && !fiscalYear) {
+          //       // console.log("enter no & store ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) => res.no == no! && res.storeId == store
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
 
-    this.api.getStrEmployeeOpenSearach(no, costCenterId, employeeId, date, itemId )
-    .subscribe({
-      next: (res) => {
-        console.log("search employeeExchange 4res: ", res);
+          //     //enter no. & date
+          //     else if (no && !store && date && !fiscalYear) {
+          //       // console.log("enter no & date ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) =>
+          //           res.no == no! &&
+          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
 
-        this.dataSource2 = res
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-    // this.api.getStrOpenSearach(no, store, date, fiscalYear).subscribe({
-    //   next: (res) => {
-    //     console.log('search openingStock res: ', res);
+          //     //enter store & date
+          //     else if (!no && store && date && !fiscalYear) {
+          //       // console.log("enter store & date ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) =>
+          //           res.storeId == store &&
+          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
 
-    //     //enter no.
-    //     if (no != '' && !store && !date && !fiscalYear) {
-    //       // console.log("enter no. ")
-    //       // console.log("no. : ", no, "store: ", store, "date: ", date)
-    //       this.dataSource2 = res.filter((res: any) => res.no == no!);
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
+          //     //enter all data
+          //     else if (no != '' && store != '' && date != '' && fiscalYear != '') {
+          //       // console.log("enter all data. ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) =>
+          //           res.no == no! &&
+          //           res.storeId == store &&
+          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
+          //           res.fiscalyear == fiscalYear
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
 
-    //     //enter store
-    //     else if (!no && store && !date && !fiscalYear) {
-    //       // console.log("enter store. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter((res: any) => res.storeId == store);
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter date
-    //     else if (!no && !store && date && !fiscalYear) {
-    //       // console.log("enter date. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter fiscalYear
-    //     else if (!no && !store && !date && fiscalYear) {
-    //       // console.log("enter date. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => res.fiscalyear == fiscalYear
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter no. & store
-    //     else if (no && store && !date && !fiscalYear) {
-    //       // console.log("enter no & store ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => res.no == no! && res.storeId == store
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter no. & date
-    //     else if (no && !store && date && !fiscalYear) {
-    //       // console.log("enter no & date ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.no == no! &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter store & date
-    //     else if (!no && store && date && !fiscalYear) {
-    //       // console.log("enter store & date ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.storeId == store &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter all data
-    //     else if (no != '' && store != '' && date != '' && fiscalYear != '') {
-    //       // console.log("enter all data. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.no == no! &&
-    //           res.storeId == store &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
-    //           res.fiscalyear == fiscalYear
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //didn't enter any data
-    //     else {
-    //       // console.log("enter no data ")
-    //       this.dataSource2 = res;
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-    //   },
-    //   error: (err) => {
-    //     alert('Error');
-    //   },
-    // });
-  },
-  error: (err) => {
-    alert("Error")
-  }
-})
+          //     //didn't enter any data
+          //     else {
+          //       // console.log("enter no data ")
+          //       this.dataSource2 = res;
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+          //   },
+          //   error: (err) => {
+          //     alert('Error');
+          //   },
+          // });
+        },
+        error: (err) => {
+          alert('Error');
+        },
+      });
   }
 
   toastrDeleteSuccess(): void {
@@ -603,5 +573,62 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     window.print();
     document.body.innerHTML = originalContent;
     location.reload();
+  }
+
+  downloadPdf(no: any, date: any, itemId: any) {
+    console.log('no. : ', no, 'item : ', itemId, 'date: ', date);
+
+    let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
+    let employeeId = this.groupMasterForm.getRawValue().employeeId;
+
+    this.api
+      .getStrEmployeeCustody(no, costCenterId, employeeId, date, itemId)
+      .subscribe({
+        next: (res) => {
+          console.log('search:', res);
+          const url: any = res.url;
+          window.open(url);
+          // let blob: Blob = res.body as Blob;
+          // let url = window.URL.createObjectURL(blob);
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
+  }
+
+  previewPdf(no: any, date: any, itemId: any) {
+    console.log('no. : ', no, 'item : ', itemId, 'date: ', date);
+
+    let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
+    let employeeId = this.groupMasterForm.getRawValue().employeeId;
+
+    this.api
+      .getStrEmployeeCustody(no, costCenterId, employeeId, date, itemId)
+      .subscribe({
+        next: (res) => {
+          let blob: Blob = res.body as Blob;
+          console.log(blob);
+          let url = window.URL.createObjectURL(blob);
+          localStorage.setItem('url', JSON.stringify(url));
+          this.pdfurl = url;
+          this.dialog.open(EmployeeCustodyPrintDialogComponent, {
+            width: '50%',
+          });
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
   }
 }

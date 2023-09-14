@@ -1,0 +1,132 @@
+<h1 mat-dialog-title class="add-h1"> اكمل تفاصيل إذن صرف </h1>
+<div dir="rtl" class="headerForm">
+  <div class="label-div child">
+    <mat-label>بحث بالكود </mat-label>
+    <mat-form-field appearance="outline" >
+      <input
+        matInput
+        (keydown)="getItemByCode($event)"
+        [value]="
+          fullCodeValue && fullCodeValue != '-'
+            ? fullCodeValue
+            : fullCodeValue && fullCodeValue == '-'
+            ? 'لا يوجد'
+            : ''
+        "
+      />
+    </mat-form-field>
+  </div>
+  <div class="label-div">
+    <mat-label>الصنف*</mat-label>
+    <mat-form-field appearance="outline" class="child-num">
+      <input
+        matInput
+        aria-label="commodity"
+        [matAutocomplete]="autoitem"
+        [formControl]="itemCtrl"
+        placeholder="{{
+          getDetailedRowData ? getDetailedRowData.itemName : ''
+        }}"
+        (click)="openAutoitem()"
+        required
+      />
+      <mat-autocomplete
+        #autoitem="matAutocomplete"
+        #itemId
+        (valueChange)="set_store_Null($event)"
+        [displayWith]="displayitemName"
+        (optionSelected)="itemSelected($event)"
+      >
+        <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+          {{ item.name }} | {{ item.id }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div class="label-div child">
+    <mat-label>الكمية*</mat-label>
+    <mat-form-field appearance="outline" class="child-num">
+      <input
+        type="number"
+        matInput
+        formControlName="qty"
+        [value]="getDetailedRowData ? getDetailedRowData.qty : '1'"
+      />
+    </mat-form-field>
+  </div>
+  <div class="label-div child">
+    <mat-label>متوسط السعر*</mat-label>
+    <mat-form-field appearance="outline" class="child-num">
+      <input
+        matInput
+        type="number"
+        [value]="getDetailedRowData ? getDetailedRowData.price : ''"
+        formControlName="price"
+        [readonly]="isReadOnly"
+      />
+    </mat-form-field>
+  </div>
+  <div class="label-div child">
+    <mat-label> النسبة</mat-label>
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="percentage"
+        [value]="getDetailedRowData ? getDetailedRowData.percentage : ''"
+        [readonly]="isReadOnlyPercentage"
+      />
+    </mat-form-field>
+  </div>
+  
+    <div >
+      <mat-label > حالةالصنف:</mat-label>
+      <mat-radio-group
+        aria-label="Select an option"
+        formControlName="stateId"
+        (change)="set_Percentage($event)"
+      >
+        <mat-radio-button [value]="true">جديد</mat-radio-button>
+        <mat-radio-button [value]="false">مستعمل</mat-radio-button>
+      </mat-radio-group>
+    </div>
+ 
+  <div >
+    <mat-form-field appearance="outline"style="width: 100%;" >
+      <mat-label> الملاحظات</mat-label>
+      <textarea
+        id="w3review"
+        name="w3review"
+        rows="2"
+        cols="100"
+        matInput
+      ></textarea>
+    </mat-form-field>
+  </div>
+ 
+</div>
+<div >
+  <div
+  class="groupAction"
+>
+  <button
+    mat-raised-button
+    style="background-color: brown !important"
+    (click)="resetControls()"
+  >
+    مسح
+  </button>
+  <div mat-dialog-action [align]="'end'">
+    <div class="groupAction" >
+      <button mat-raised-button (click)="addDetailsInfo()" class="savebtn">
+        {{
+          actionBtnDetails.toLowerCase() == "save"
+            ? " حفظ الببانات "
+            : "تعديل"
+        }}
+      </button>
+    </div>
+  </div>
+</div>
+</div>

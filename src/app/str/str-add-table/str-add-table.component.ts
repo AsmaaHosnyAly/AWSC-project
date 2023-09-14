@@ -23,9 +23,9 @@ export class STRAddTableComponent implements OnInit {
     'sellerName',
     'employeeName',
     'fiscalyear',
-    'date', 
-    'receiptName',   
-    'typeName',      
+    'date',
+    'receiptName',
+    'typeName',
     'Action',
   ];
   matchedIds: any;
@@ -41,8 +41,8 @@ export class STRAddTableComponent implements OnInit {
   receiptName: any;
   employeeName: any;
   TypeName: any;
-
   dataSource2!: MatTableDataSource<any>;
+  pdfurl = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -77,7 +77,6 @@ export class STRAddTableComponent implements OnInit {
       this.dataSource2.paginator.firstPage();
     }
   }
-
   getAllMasterForms() {
     this.api.getStrAdd().subscribe({
       next: (res) => {
