@@ -152,6 +152,7 @@ import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entr
 import { StrOpeningStockDetailsDialogComponent } from './str/str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
+import { PrHomeComponent } from './pr/pr-home/pr-home.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
 import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-add-details-dialog.component';
@@ -284,6 +285,7 @@ import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-a
     StrOpeningStockDetailsDialogComponent,
 
     Item1DialogComponent,
+                     PrHomeComponent,
                 StrEmployeeExchangeDetailsDialogComponent,
                 StrAddDetailsDialogComponent,
   ],
