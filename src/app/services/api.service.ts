@@ -1940,6 +1940,9 @@ export class ApiService {
       data
     );
   }
+  getStrAddDetailsByAddId(id:any) {
+    return this.http.get<any>(`${this.url}/STRAdd/GeTAddDetailsByAddId/${id}`);
+  }
   putStrAddDetails(data: any) {
     console.log('strOpenDetails data: ', data);
     return this.http.put<any>(

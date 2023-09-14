@@ -27,10 +27,6 @@ mat-card-header .child1 {
   width: 82%;
   /* background-color: aquamarine; */
 }
-.actionss {
-  display: flex;
-  justify-content: space-evenly;
-}
 
 .mat-mdc-card-header {
   padding: 0;
@@ -267,32 +263,5 @@ footer h3 {
   padding: 0px !important;
   border: none !important;
   box-shadow: none !important;
-}
-.print-display {
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  margin-right: 90px;
-}
-
-.icons {
-  font-size: 23px;
-  color: white;
-  background-color: rgb(60, 202, 252);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin-left: 15px;
-}
-.icons:hover {
-  background-color: #72d9ff;
-
-  color: white;
-  box-shadow: 0 0.5em 0.5em -0.4em #a1c9d8;
-  transform: translateY(-0.05em);
-  font-size: 25px;
+  
 }
