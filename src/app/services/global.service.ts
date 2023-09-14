@@ -45,8 +45,9 @@ export class GlobalService {
 
   login(obj: any): Observable<any> {
     console.log('obj ', obj);
-    return this.http.get(
-      `${this.url}/PRUser/check/${obj.name},${obj.password}`
+    return this.http.post(
+      `${this.url}/PRUser/authenticate?username=${obj.name}&password=${obj.password}`,null
+     
     );
   }
 
@@ -85,6 +86,9 @@ export class GlobalService {
     pageTitle: any,
     icon: any
   ) {
+   
+
+    console.log('userrole', localStorage.getItem('userRoles')?.split(','))
     for (let i = 0; i < this.userRoles!.length; i++) {
       if (role == this.userRoles![i]) {
         this.pageTitle = pageTitle;
@@ -108,7 +112,9 @@ export class GlobalService {
           role == '17'
         ) {
           this.shared.stores = true;
-
+         
+          this.router.navigate(['/str-home']);
+          
           // if (background == 'stores')
           //   this.bgColor = document
           //     .querySelector('section')
@@ -121,9 +127,10 @@ export class GlobalService {
           // else
           // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
 
-         
+        
         }
       }
+    
       // window.alert('You dont have the permission to visit this page');
       // this.router.navigate(['/home']);
       // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
@@ -134,6 +141,7 @@ export class GlobalService {
     pageTitle: any,
     icon: any
   ) {
+    console.log('userrole', this.userRoles)
     for (let i = 0; i < this.userRoles!.length; i++) {
       if (role == this.userRoles![i]) {
         this.pageTitle = pageTitle;
@@ -143,9 +151,10 @@ export class GlobalService {
           role == '19'
         ) {
           this.shared.roles = true;
-         
+          this.router.navigate(['/pr-home']);
         }
       }
+      
       // window.alert('You dont have the permission to visit this page');
       // this.router.navigate(['/home']);
       // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
