@@ -1,6 +1,4 @@
-.groupInput {
-  width: 100%;
-}
+@import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
 
 .cdk-overlay-pane {
   position: relative !important;
@@ -17,6 +15,35 @@
 .close:hover {
   background-color: red;
   color: #ffff;
+}
+
+.mat-dialog-content {
+  padding: 20px 40px;
+
+
+
+}
+
+.groupInput {
+  width: 100%;
+}
+
+.add-h1 {
+  text-align: center;
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: bold;
+  color: rgb(60, 202, 252);
+  margin-top: 10px;
+  box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
+
+}
+
+.follow-btn {
+  background-color: rgb(60, 202, 252);
+  color: antiquewhite;
+  text-align: left;
+  padding: 5px 20px;
+  font-size: 20px;
 }
 
 .example-radio-group {
@@ -36,12 +63,12 @@
   margin: 5px;
 }
 
-/* .groupAction {
+.groupAction {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 5%;
-} */
+}
 
 .groupAction button {
   background-color: rgb(60, 202, 252);
@@ -53,15 +80,6 @@
   font-size: 15px;
   padding: 5px 30px;
 }
-
-.follow-btn {
-  background-color: rgb(60, 202, 252);
-  color: antiquewhite;
-  text-align: left;
-  padding: 5px 20px;
-  font-size: 20px;
-}
-
 
 .restGroupInfo {
   display: block;
@@ -79,30 +97,56 @@
   display: none;
 }
 
-/* .headerForm {
+.headerForm {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-} */
+  flex-wrap: wrap;
 
-.headerForm .groupInput {
-  width: 20%;
 }
 
-/* .detailsForm {
-  margin-top: 2%;
+.child-num {
+  width: 10%;
+  text-align: right;
+}
+
+.headerForm .groupInput {
+  width: 19%;
+
+}
+
+.detailsForm {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-} */
+  padding: 5%;
+
+}
 
 .detailsForm .groupInput {
-  flex-basis: 25%;
+  flex-basis: 19%;
+}
+
+.detailsForm .third-parent {
+
+  flex-basis: 15%;
+
+
+}
+
+.notes {
+  flex-basis: 72%;
+}
+
+.qnty {
+  width: 20%;
+
 }
 
 .headerTable {
   align-items: center;
 }
+
+/* .savebtn {} */
 
 .mat-mdc-radio-button~.mat-mdc-radio-button {
   margin-left: 10px;
@@ -118,19 +162,9 @@
   text-align: center;
 }
 
-.add-h1 {
-  text-align: center;
-  font-family: 'Cairo', sans-serif !important;
-  font-weight: bold;
-  color: rgb(60, 202, 252);
-  margin-top: 10px;
-  box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
-
-}
-
 .div-table {
   display: block;
-  /* overflow-x: scroll !important; */
+  overflow-x: scroll !important;
   width: 100%;
 }
 
@@ -175,10 +209,6 @@ th {
 
 }
 
-.editbtn {
-  --mat-icon-color: rgb(129, 135, 138);
-}
-
 .sum-label-parent {
   display: block !important;
   margin: auto;
@@ -193,54 +223,6 @@ th {
 
 }
 
-/* .tableFixHead {
-  overflow-y: auto;
-  height: 200px;
+.editbtn .mat-icon {
+  --mat-icon-color: rgb(129, 135, 138);
 }
-.tableFixHead  th {
-  position: sticky; 
-  top: 0px;
-}
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-th,
-td {
-  padding: 8px 16px;
-  border: 1px solid #ccc;
-}
-th {
-
-  background: #eee;
-} */
-/* 
-.tableFixHead th {
-  table-layout: fixed;
-  position: sticky; 
-  top: 0px;
-  border-collapse: collapse;
-}
-.tableFixHead   {
-  display: block;
-  width: 100%;
-  overflow: auto;
-  height: 300px;
-}
-
-.tableFixHead th,
-.tableFixHead td {
-  padding: 5px;
-  text-align: left;
-  width: 200px;
-} */
-
-table {
-  width: 100%;
-}
-
-.tableFixHead {
-  height: 300px;
-  overflow: auto;
-}
-
