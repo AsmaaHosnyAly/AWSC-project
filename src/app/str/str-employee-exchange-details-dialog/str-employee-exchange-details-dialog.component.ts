@@ -130,7 +130,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
       this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
 
       this.groupDetailsForm.controls['price'].setValue(this.editData.price);
-      alert("price editData: " + this.editData.qty);
+      // alert("price editData: " + this.editData.qty);
       this.groupDetailsForm.controls['qty'].setValue(this.editData.qty);
       this.groupDetailsForm.controls['state'].setValue(this.editData.state);
       this.groupDetailsForm.controls['total'].setValue(this.editData.total);
