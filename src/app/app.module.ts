@@ -156,6 +156,7 @@ import { PrHomeComponent } from './pr/pr-home/pr-home.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
 import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-add-details-dialog.component';
+import { StrWithdrawDetailsDialogComponent } from './str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
@@ -288,6 +289,7 @@ import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-a
                      PrHomeComponent,
                 StrEmployeeExchangeDetailsDialogComponent,
                 StrAddDetailsDialogComponent,
+                StrWithdrawDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,
