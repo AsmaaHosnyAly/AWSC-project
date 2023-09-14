@@ -231,7 +231,7 @@ export class STRAddTableComponent implements OnInit {
   // }
 
   getAllMasterForms() {
-    this.api.getStrWithdraw().subscribe({
+    this.api.getStrAdd().subscribe({
       next: (res) => {
         console.log('response of get all getGroup from api: ', res);
         this.dataSource2 = new MatTableDataSource(res);

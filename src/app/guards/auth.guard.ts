@@ -38,7 +38,6 @@ export class authGuard implements CanActivate {
 
     for (let i = 0; i <  this.userRoles.length; i++) {
       let role = this.userRoles![i];
-      console.log('bbbbbbb', role);
       if (
         role == '1' ||
         role == '2' ||
@@ -58,10 +57,9 @@ export class authGuard implements CanActivate {
         role == '16'||
         role == '17'
       ) {
-        this.shared.stores = true;
-        // this.router.navigate(['/str-home'])
-        console.log('ggggggggg', this.shared.stores);
+        this.shared.stores=true
         return this.shared.stores;
+
       } 
     }
 

@@ -77,36 +77,39 @@ import { productsGuard } from './guards/products.guard';
 import { storesGuard } from './guards/stores.guard';
 import { strPlatoonGuard } from './guards/str-platoon.guard';
 import { vendorGuard } from './guards/vendor.guard';
+import { PrHomeComponent } from './pr/pr-home/pr-home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent
+    },
 
   {
     path: '',
     component: MenubarComponent,
     canActivate: [
-      rolesGuard,
-      sTRAddGuard,
-      authGuard,
-      withdrawGuard,
-      strOpeningStockGuard,
-      employeeOpeningGuard,
-      employeeOpeningCustodyGuard,
-      prUserGuard,
-      unitGuard,
-      commodityGuard,
-      costCenterGuard,
-      gradeGuard,
-      group1Guard,
-      items1Guard,
-      modelGuard,
-      productsGuard,
-      storesGuard,
-      strPlatoonGuard,
-      vendorGuard,
-      prUserGuard,
-      prGroupGuard,
+      
+      // sTRAddGuard,
+     
+     
+      // withdrawGuard,
+      // strOpeningStockGuard,
+      // employeeOpeningGuard,
+      // employeeOpeningCustodyGuard,
+      // prUserGuard,
+      // unitGuard,
+      // commodityGuard,
+      // costCenterGuard,
+      // gradeGuard,
+      // group1Guard,
+      // items1Guard,
+      // modelGuard,
+      // productsGuard,
+      // storesGuard,
+      // strPlatoonGuard,
+      // vendorGuard,
+      // prUserGuard,
+      // prGroupGuard,
 
     ],
     children: [
@@ -135,7 +138,7 @@ const routes: Routes = [
         component: StrCommodityComponent,
         
       },
-      { path: 'grade', component: STRGradeComponent, canActivate: [authGuard] },
+      { path: 'grade', component: STRGradeComponent,  },
       {
         path: 'str-platoon',
         component: STRPlatoonComponent,
@@ -162,7 +165,7 @@ const routes: Routes = [
         component: StrGroupHomeComponent,
         
       },
-      { path: 'store', component: StrStoreComponent, canActivate: [authGuard] },
+      { path: 'store', component: StrStoreComponent,  },
       {
         path: 'costCenter',
         component: StrCostcenterComponent,
@@ -216,6 +219,7 @@ const routes: Routes = [
 
       { path: 'grade', component: STRGradeComponent },
       { path: 'home', component: StrGroupHomeComponent },
+      { path: 'pr-home', component: PrHomeComponent},
       // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
       {
         path: 'employeeOpening',

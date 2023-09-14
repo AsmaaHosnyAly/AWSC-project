@@ -12,6 +12,9 @@ import { HttpClient } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { StrAddDetailsDialogComponent } from '../str-add-details-dialog/str-add-details-dialog.component';
+import { Router } from '@angular/router';
+
 export class Seller {
   constructor(public id: number, public name: string) { }
 }
@@ -112,7 +115,8 @@ export class STRAddDialogComponent implements OnInit {
     // private toastr: ToastrService,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) private locale: string,
-    private dialogRef: MatDialogRef<STRAddDialogComponent>) {
+    private dialogRef: MatDialogRef<STRAddDialogComponent>,
+    private router: Router) {
 
     this.stateDefaultValue = true;
 
@@ -590,31 +594,44 @@ export class STRAddDialogComponent implements OnInit {
 
   editDetailsForm(row: any) {
 
-    // console.log("test pass row: ", row)
-    if (this.editDataDetails || row) {
-      this.getDetailedRowData = row;
-      console.log("getDetailedRowData before :", this.getDetailedRowData)
-      this.actionBtnDetails = "Update";
-      this.groupDetailsForm.controls['addId'].setValue(this.getDetailedRowData.addId);
-      // this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
-      // this.groupDetailsForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
-      // this.groupDetailsForm.controls['fiscalYearId'].setValue(this.groupMasterForm.getRawValue().fiscalYearId);
-      // this.groupDetailsForm.controls['date'].setValue(this.groupMasterForm.getRawValue().date);
+    // // console.log("test pass row: ", row)
+    // if (this.editDataDetails || row) {
+    //   this.getDetailedRowData = row;
+    //   console.log("getDetailedRowData before :", this.getDetailedRowData)
+    //   this.actionBtnDetails = "Update";
+    //   this.groupDetailsForm.controls['addId'].setValue(this.getDetailedRowData.addId);
+    //   // this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
+    //   // this.groupDetailsForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
+    //   // this.groupDetailsForm.controls['fiscalYearId'].setValue(this.groupMasterForm.getRawValue().fiscalYearId);
+    //   // this.groupDetailsForm.controls['date'].setValue(this.groupMasterForm.getRawValue().date);
 
-      this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
-      this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
-      this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
-      this.groupDetailsForm.controls['balanceQty'].setValue(this.getDetailedRowData.balanceQty);
-      this.groupDetailsForm.controls['percentage'].setValue(this.getDetailedRowData.percentage);
-      this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
-      // console.log("groupDetailsForm after: ", this.groupDetailsForm);
-      console.log("itemid focus: ", this.matchedIds);
+    //   this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
+    //   this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
+    //   this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
+    //   this.groupDetailsForm.controls['balanceQty'].setValue(this.getDetailedRowData.balanceQty);
+    //   this.groupDetailsForm.controls['percentage'].setValue(this.getDetailedRowData.percentage);
+    //   this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
+    //   // console.log("groupDetailsForm after: ", this.groupDetailsForm);
+    //   console.log("itemid focus: ", this.matchedIds);
 
-      this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
-      // this.groupDetailsForm.controls['productId'].setValue(this.getDetailedRowData.productId);
-      this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
+    //   this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
+    //   // this.groupDetailsForm.controls['productId'].setValue(this.getDetailedRowData.productId);
+    //   this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
 
-    }
+    // }
+
+
+    // this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id} })
+    this.dialog.open(StrAddDetailsDialogComponent, {
+      width: '50%',
+      height: '80%',
+      data: row
+    }).afterClosed().subscribe(val => {
+      if (val === 'save' || val === 'update') {
+        this.getAllDetailsForms();
+      }
+    })
+
 
 
   }

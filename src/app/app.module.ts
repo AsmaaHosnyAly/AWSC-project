@@ -149,7 +149,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { PrUserDialogComponent } from './pr/pr-user-dialog/pr-user-dialog.component';
 import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component';
 import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entry-details-dialog.component';
-import { StrOpeningStockDetailsDialogComponent } from './str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
+import { StrOpeningStockDetailsDialogComponent } from './str/str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './str/item1-dialog/item1-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -158,6 +158,12 @@ import { EmployeeExchangePrintDialogComponent } from './str/employee-exchange-pr
 import { EmployeeCustodyPrintDialogComponent } from './str/employee-custody-print-dialog/employee-custody-print-dialog.component';
 import { StrAddPrintDialogComponent } from './str/str-add-print-dialog/str-add-print-dialog.component';
 import { OpeningStockPrintDialogComponent } from './str/opening-stock-print-dialog/opening-stock-print-dialog.component';
+
+import { PrHomeComponent } from './pr/pr-home/pr-home.component';
+
+import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
+import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-add-details-dialog.component';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -291,6 +297,9 @@ import { OpeningStockPrintDialogComponent } from './str/opening-stock-print-dial
     EmployeeCustodyPrintDialogComponent,
     StrAddPrintDialogComponent,
     OpeningStockPrintDialogComponent,
+    PrHomeComponent,
+    StrEmployeeExchangeDetailsDialogComponent,
+    StrAddDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -329,6 +338,7 @@ import { OpeningStockPrintDialogComponent } from './str/opening-stock-print-dial
     MatCheckboxModule,
     NgxExtendedPdfViewerModule,
     MatTabsModule,
+    // FontAwesomeModule,
   ],
   providers: [
     {

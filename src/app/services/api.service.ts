@@ -1266,6 +1266,9 @@ export class ApiService {
       data
     );
   }
+  getStrEmployeeExchangeDetailsByMasterId(id: any) {
+    return this.http.get<any>(`${this.url}/STREmployeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`);
+  }
   putStrEmployeeExchangeDetails(data: any) {
     console.log('StrEmployeeExchangeDetails data: ', data);
     return this.http.put<any>(
