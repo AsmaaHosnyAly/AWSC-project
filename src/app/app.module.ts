@@ -150,11 +150,15 @@ import { PrUserDialogComponent } from './pr/pr-user-dialog/pr-user-dialog.compon
 import { PrUserTableComponent } from './pr/pr-user-table/pr-user-table.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entry-details-dialog.component';
-import { StrOpeningStockDetailsDialogComponent } from './str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
+import { StrOpeningStockDetailsDialogComponent } from './str/str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
+import { PrHomeComponent } from './pr/pr-home/pr-home.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { StrEmployeeOpeningCustodyDetailDailogComponent } from './str/str-employee-opening-custody-detail-dailog/str-employee-opening-custody-detail-dailog.component';
+import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
+import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-add-details-dialog.component';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -282,13 +286,11 @@ import { StrEmployeeOpeningCustodyDetailDailogComponent } from './str/str-employ
     FiEntryDetailsDialogComponent,
     StrOpeningStockDetailsDialogComponent,
 
-
-
-
-
-
     Item1DialogComponent,
                 StrEmployeeOpeningCustodyDetailDailogComponent,
+                     PrHomeComponent,
+                StrEmployeeExchangeDetailsDialogComponent,
+                StrAddDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -327,7 +329,8 @@ import { StrEmployeeOpeningCustodyDetailDailogComponent } from './str/str-employ
     MatCheckboxModule,
     MatProgressSpinnerModule,
     NgxExtendedPdfViewerModule,
-    MatTabsModule
+    MatTabsModule,
+    // FontAwesomeModule,
   ],
   providers: [
     {
@@ -338,4 +341,4 @@ import { StrEmployeeOpeningCustodyDetailDailogComponent } from './str/str-employ
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

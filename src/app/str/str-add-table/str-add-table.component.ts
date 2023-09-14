@@ -238,7 +238,7 @@ costCenterId:[''],
   // }
   
   getAllMasterForms() {
-    this.api.getStrWithdraw().subscribe({
+    this.api.getStrAdd().subscribe({
       next: (res) => {
         
         console.log('response of get all getGroup from api: ', res);

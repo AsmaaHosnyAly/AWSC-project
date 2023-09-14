@@ -34,7 +34,6 @@ export class rolesGuard implements CanActivate {
 
     for (let i = 0; i < this.shared.userRoles!.length; i++) {
       let role = this.shared.userRoles![i];
-      console.log('bbbbbbb', role);
       if (
         role == '18' ||
         role == '19'
@@ -43,7 +42,7 @@ export class rolesGuard implements CanActivate {
       ) {
         this.shared.roles = true;
         
-        console.log('role', this.shared.roles);
+     
         return this.shared.roles;
       } 
     }

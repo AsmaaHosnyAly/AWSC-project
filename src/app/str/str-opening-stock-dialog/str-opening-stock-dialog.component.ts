@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { formatDate } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { StrOpeningStockDetailsDialogComponent } from 'src/app/str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
+import { StrOpeningStockDetailsDialogComponent } from 'src/app/str/str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { Router } from '@angular/router';
 
 // export class Item {

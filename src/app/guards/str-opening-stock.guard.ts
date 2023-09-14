@@ -28,7 +28,7 @@ export class strOpeningStockGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split('');
+    let userRole = localStorage.getItem('userRoles')?.split(',');
 
     //     userRole.forEach(element => {
     //     if( element==1)
