@@ -31,11 +31,9 @@ export class employeeOpeningCustodyGuard implements CanActivate {
 
     for (let i = 0; i < userRole!.length; i++) {
       let role = userRole![i];
-      console.log('bbbbbbb', role);
       if (role == '1' || role=='17') 
       {
         this.shared.employeeOpeningCustody= true;
-        console.log('strad', this.shared.employeeOpeningCustody);
         return this.shared.employeeOpeningCustody;
       } 
     }
