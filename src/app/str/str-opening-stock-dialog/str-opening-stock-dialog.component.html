@@ -45,7 +45,7 @@
 
                     <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                         <input id="autoNoInput" matInput placeholder="رقم الإفتتاحي" formControlName="no"
-                            [value]="isEdit == true ? editData.no : autoNo" type="number" readonly>
+                            [value]="isEdit == true ? editData.no : autoNo" type="number" min="0" readonly>
                     </mat-form-field>
                 </div>
 
@@ -132,7 +132,7 @@
 
                         <!-- total Column -->
                         <ng-container matColumnDef="total">
-                            <th mat-header-cell *matHeaderCellDef> المجموع </th>
+                            <th mat-header-cell *matHeaderCellDef> القيمة </th>
                             <td mat-cell *matCellDef="let row"> {{row.total}} </td>
                         </ng-container>
 

@@ -85,6 +85,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
   sourceStoreName: any;
 
   currentDate: any;
+  itemByFullCodeValue: any;
+  fullCodeValue: any;
 
   constructor(private formBuilder: FormBuilder,
 
@@ -124,7 +126,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
       itemName: ['', Validators.required],
       avgPrice: ['', Validators.required],
       balanceQty: ['', Validators.required],
-      percentage: ['', Validators.required],
+      percentage: ['100', Validators.required],
       // storeId: ['', Validators.required],
       // date: ['', Validators.required],
       // fiscalYearId: ['', Validators.required],
@@ -143,7 +145,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
     this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
     this.getMasterRowDate = formatDate(this.route.snapshot.queryParamMap.get('date')!, 'yyyy-MM-dd', this.locale);
-    
+
     console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate);
 
 
@@ -218,6 +220,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
     this.groupDetailsForm.patchValue({ itemId: item.id });
     this.groupDetailsForm.patchValue({ itemName: item.name });
 
+    this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
+
     this.api.getAvgPrice(
       this.getMasterRowStoreId,
       this.getMasterRowFiscalYearId,
@@ -258,7 +262,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   }
 
   private _filterItems(value: string): Item[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value
     return this.items.filter(item =>
       item.name.toLowerCase().includes(filterValue)
     );
@@ -288,17 +292,88 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
-      console.log("code: ", code.target.value);
-
       this.itemsList.filter((a: any) => {
         if (a.fullCode === code.target.value) {
           this.groupDetailsForm.controls['itemId'].setValue(a.id);
+          console.log("item by code: ", a.name);
+          this.itemCtrl.setValue(a.name);
+          if (a.name) {
+            this.itemByFullCodeValue = a.name;
+
+            this.api.getAvgPrice(
+              this.getMasterRowStoreId,
+              this.getMasterRowFiscalYearId,
+              formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+              this.groupDetailsForm.getRawValue().itemId
+            )
+              .subscribe({
+                next: (res) => {
+                  // this.priceCalled = res;
+                  this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                  this.groupDetailsForm.controls['price'].setValue(res)
+                  console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+                },
+                error: (err) => {
+                  // console.log("fetch fiscalYears data err: ", err);
+                  // alert("خطا اثناء جلب متوسط السعر !");
+                }
+              })
+
+
+            this.api.getSumQuantity(
+              this.getMasterRowStoreId,
+              this.groupDetailsForm.getRawValue().itemId,
+            )
+              .subscribe({
+                next: (res) => {
+                  // this.priceCalled = res;
+                  this.groupDetailsForm.controls['balanceQty'].setValue(res);
+                  console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+                },
+                error: (err) => {
+                  // console.log("fetch fiscalYears data err: ", err);
+                  alert("خطا اثناء جلب الرصيد الحالى  !");
+                }
+              })
+          }
+          else {
+            this.itemByFullCodeValue = '-';
+          }
+          this.itemByFullCodeValue = a.name;
+          // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+
         }
       })
     }
 
 
   }
+
+
+  getCodeByItem(item: any) {
+    console.log("item by code: ", item, "code: ", this.itemsList);
+
+    // if (item.keyCode == 13) {
+    this.itemsList.filter((a: any) => {
+      if (a.id === item) {
+        // this.groupDetailsForm.controls['itemId'].setValue(a.id);
+        console.log("item by code selected: ", a)
+        // console.log("item by code selected: ", a.fullCode)
+        if (a.fullCode) {
+          this.fullCodeValue = a.fullCode;
+        }
+        else {
+          this.fullCodeValue = '-';
+        }
+
+        // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId)
+      }
+    })
+    // }
+
+
+  }
+
 
   set_Percentage(state: any) {
 
@@ -383,9 +458,14 @@ export class StrAddDetailsDialogComponent implements OnInit {
                 alert("تمت إضافة المجموعة بنجاح");
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
+                this.groupDetailsForm.controls['percentage'].setValue(100);
+                this.groupDetailsForm.controls['state'].setValue(true);
+
                 // this.updateDetailsForm();
 
                 console.log("form details after remove controllers: ", this.groupDetailsForm.value)
+                this.itemByFullCodeValue = '';
+                this.fullCodeValue = '';
 
                 this.dialogRef.close('save');
                 // this.dialogRef.close('save');
@@ -485,8 +565,11 @@ export class StrAddDetailsDialogComponent implements OnInit {
             // this.toastrSuccess();
             // console.log("update res: ", res);
             this.groupDetailsForm.reset();
+            this.groupDetailsForm.controls['state'].setValue(true);
+            this.itemByFullCodeValue = '';
+            this.fullCodeValue = '';
             // this.getAllDetailsForms();
-            this.getDetailedRowData = '';
+            // this.getDetailedRowData = '';
             this.dialogRef.close('save');
           },
           error: (err) => {
