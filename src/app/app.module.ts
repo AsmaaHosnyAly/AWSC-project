@@ -154,6 +154,7 @@ import { StrOpeningStockDetailsDialogComponent } from './str-opening-stock-detai
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { StrEmployeeOpeningCustodyDetailDailogComponent } from './str/str-employee-opening-custody-detail-dailog/str-employee-opening-custody-detail-dailog.component';
 
 @NgModule({
   declarations: [
@@ -287,6 +288,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 
     Item1DialogComponent,
+                StrEmployeeOpeningCustodyDetailDailogComponent,
   ],
   imports: [
     BrowserModule,
