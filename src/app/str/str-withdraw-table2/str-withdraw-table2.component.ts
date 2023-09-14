@@ -182,15 +182,13 @@ export class StrWithdrawTableComponent implements OnInit {
     }
   }
   openWithdrawDialog() {
-    this.dialog
-      .open(StrWithdrawDialogComponent, {
-        width: '100%',
-        height: '80%',
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'Save') {
-          // alert("refresh")
+    this.dialog.open(StrWithdrawDialogComponent, {
+      width: '95%',
+      height: '80%'
+      
+    }).afterClosed().subscribe(val => {
+      if (val === 'Save') {
+        // alert("refresh")
 
           this.getAllMasterForms();
         }

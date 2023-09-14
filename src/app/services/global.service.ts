@@ -112,8 +112,7 @@ export class GlobalService {
           role == '17'
         ) {
           this.shared.stores = true;
-         
-          this.router.navigate(['/str-home']);
+    
           
           // if (background == 'stores')
           //   this.bgColor = document
