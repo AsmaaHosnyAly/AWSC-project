@@ -599,43 +599,35 @@ export class StrWithdrawTableComponent implements OnInit {
   //   location.reload();
   // }
 
-  // previewPrint(no: any, date: any, fiscalYear: any) {
-  //   let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-  //   let employee = this.groupMasterForm.getRawValue().employeeId;
-  //   let item = this.groupMasterForm.getRawValue().itemId;
-  //   let store = this.groupMasterForm.getRawValue().storeId;
+  previewPrint(no: any, date: any, fiscalYear: any) {
+    let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    let employee = this.groupMasterForm.getRawValue().employeeId;
+    let item = this.groupMasterForm.getRawValue().itemId;
+    let store = this.groupMasterForm.getRawValue().storeId;
 
-  //   this.api
-  //     .getStrWithdrawSearch(
-  //       no,
-  //       store,
-  //       date,
-  //       fiscalYear,
-  //       item,
-  //       employee,
-  //       costCenter
-  //     )
-  //     .subscribe({
-  //       next: (res) => {
-  //         let blob: Blob = res.body as Blob;
-  //         console.log(blob);
-  //         let url = window.URL.createObjectURL(blob);
-  //         localStorage.setItem('url', JSON.stringify(url));
-  //         this.pdfurl = url;
-  //         this.dialog.open(WithdrawPrintDialogComponent, {
-  //           width: '50%',
-  //         });
+    this.api
+      .getStr(no, store, date, fiscalYear, item, employee, costCenter)
+      .subscribe({
+        next: (res) => {
+          let blob: Blob = res.body as Blob;
+          console.log(blob);
+          let url = window.URL.createObjectURL(blob);
+          localStorage.setItem('url', JSON.stringify(url));
+          this.pdfurl = url;
+          this.dialog.open(WithdrawPrintDialogComponent, {
+            width: '50%',
+          });
 
-  //         // this.dataSource = res;
-  //         // this.dataSource.paginator = this.paginator;
-  //         // this.dataSource.sort = this.sort;
-  //       },
-  //       error: (err) => {
-  //         console.log('eroorr', err);
-  //         window.open(err.url);
-  //       },
-  //     });
-  // }
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
+  }
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');

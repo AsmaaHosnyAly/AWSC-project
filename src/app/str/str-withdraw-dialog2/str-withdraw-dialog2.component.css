@@ -223,3 +223,13 @@ th {
 .editbtn .mat-icon {
   --mat-icon-color: rgb(129, 135, 138);
 }
+
+
+table {
+  width: 100%;
+}
+
+.tableFixHead {
+  height: 200px;
+  overflow: auto;
+}
