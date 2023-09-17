@@ -67,7 +67,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 5%;
+  /* padding: 5%; */
 }
 
 .groupAction button {
@@ -87,6 +87,13 @@
 
 .restGroupInfoDisable {
   display: none;
+}
+.follow-btn {
+  background-color: rgb(60, 202, 252);
+  color: antiquewhite;
+  text-align: left;
+  padding: 5px 20px;
+  font-size: 20px;
 }
 
 .nextButtonAddNewHeader {
@@ -222,4 +229,15 @@ th {
 
 .editbtn .mat-icon {
   --mat-icon-color: rgb(129, 135, 138);
+}
+
+table {
+  width: 100%;
+}
+
+.tableFixHead {
+  margin-top: 15px;
+  height: 300px;
+  overflow: auto;
+  max-height: 248px; 
 }

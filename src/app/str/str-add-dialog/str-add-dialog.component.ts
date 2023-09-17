@@ -254,8 +254,8 @@ export class STRAddDialogComponent implements OnInit {
   addNewDetails() {
     this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrAddDetailsDialogComponent, {
-      width: '50%',
-      height: '80%'
+      width: '98%',
+      height:'95%',
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();
@@ -743,8 +743,8 @@ export class STRAddDialogComponent implements OnInit {
 
     this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrAddDetailsDialogComponent, {
-      width: '50%',
-      height: '95%',
+      width: '98%',
+      height:'95%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {

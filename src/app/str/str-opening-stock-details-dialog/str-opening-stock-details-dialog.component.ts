@@ -178,6 +178,8 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
 
   async addDetailsInfo() {
+    this.dialogRef.close('save');
+
     // console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
     // this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
     // this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
