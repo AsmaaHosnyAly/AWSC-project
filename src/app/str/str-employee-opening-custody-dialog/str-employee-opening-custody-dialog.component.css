@@ -65,9 +65,16 @@ font-size: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 5%;
+    /* padding: 5%; */
+}
+table {
+  width: 100%;
 }
 
+.tableFixHead {
+  height: 200px;
+  overflow: auto;
+}
 .groupAction button {
     background-color:rgb(60, 202, 252);
     color: aliceblue;

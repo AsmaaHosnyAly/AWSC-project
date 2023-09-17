@@ -371,7 +371,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
     this.api.putStrEmployeeExchangeDetails(this.groupDetailsForm.value)
       .subscribe({
         next: (res) => {
-          this.toastrSuccess();
+          this.toastrEditSuccess();
           this.groupDetailsForm.reset();
           this.groupDetailsForm.controls['qty'].setValue(1);
           this.groupDetailsForm.controls['state'].setValue('جديد');
@@ -417,5 +417,8 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 }
