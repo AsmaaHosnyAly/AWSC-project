@@ -240,7 +240,7 @@ export class StrWithdrawTableComponent implements OnInit {
         // }
       },
       error: () => {
-        alert('خطأ أثناء جلب سجلات اذن الصرف !!');
+        // alert('خطأ أثناء جلب سجلات اذن الصرف !!');
       },
     });
   }
@@ -279,10 +279,11 @@ export class StrWithdrawTableComponent implements OnInit {
                 // for (let i = 0; i < this.matchedIds.length; i++) {
                 //   this.deleteFormDetails(this.matchedIds[i].id);
                 // }
-                alert('تم حذف الاذن بنجاح');
+                // alert('تم حذف الاذن بنجاح');
+                
               },
               (err) => {
-                alert('خطا اثناء تحديد المجموعة !!');
+                // alert('خطا اثناء تحديد المجموعة !!');
               }
             );
 
@@ -290,7 +291,7 @@ export class StrWithdrawTableComponent implements OnInit {
           this.getAllMasterForms();
         },
         error: () => {
-          alert('خطأ أثناء حذف المجموعة !!');
+          // alert('خطأ أثناء حذف المجموعة !!');
         },
       });
     }
@@ -299,12 +300,12 @@ export class StrWithdrawTableComponent implements OnInit {
   deleteFormDetails(id: number) {
     this.api.deleteStrWithdrawDetails(id).subscribe({
       next: (res) => {
-        alert('تم الحذف  بنجاح');
+this.toastrDeleteSuccess();
         this.getAllMasterForms();
       },
       error: (err) => {
         // console.log("delete details err: ", err)
-        alert('خطأ أثناء حذف الصنف !!');
+        // alert('خطأ أثناء حذف الصنف !!');
       },
     });
   }
@@ -328,7 +329,7 @@ export class StrWithdrawTableComponent implements OnInit {
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب المخازن !');
+        // alert('خطا اثناء جلب المخازن !');
       },
     });
   }
@@ -353,7 +354,7 @@ export class StrWithdrawTableComponent implements OnInit {
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب مركز التكلفة !');
+        // alert('خطا اثناء جلب مركز التكلفة !');
       },
     });
   }
@@ -378,7 +379,7 @@ export class StrWithdrawTableComponent implements OnInit {
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب المخازن الخارجية !');
+        // alert('خطا اثناء جلب المخازن الخارجية !');
       },
     });
   }

@@ -708,7 +708,7 @@ export class StrWithdrawDetailsDialogComponent {
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
-          alert("خطا اثناء جلب متوسط السعر !");
+          // alert("خطا اثناء جلب متوسط السعر !");
         }
       })
   }
@@ -804,7 +804,7 @@ export class StrWithdrawDetailsDialogComponent {
           }
         },
         (err) => {
-          alert('حدث خطا ما !!');
+          // alert('حدث خطا ما !!');
         }
       );
     }
@@ -853,7 +853,7 @@ export class StrWithdrawDetailsDialogComponent {
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
-                alert('تمت إضافة المجموعة بنجاح');
+                // alert('تمت إضافة المجموعة بنجاح');
                 this.dialogRef.close('save');
 
                 // this.getAllMasterForms();
@@ -962,7 +962,7 @@ export class StrWithdrawDetailsDialogComponent {
         .subscribe({
           next: (res) => {
             // alert("put")
-            this.toastrSuccess();
+            // this.toastrSuccess();
             // console.log("update res: ", res);
             this.groupDetailsForm.reset();
             this.getAllDetailsForms();
@@ -970,7 +970,8 @@ export class StrWithdrawDetailsDialogComponent {
             this.itemByFullCodeValue = '';
             this.fullCodeValue = '';
             this.getDetailedRowData = '';
-            alert('تم التعديل بنجاح');
+            // alert('تم التعديل بنجاح');
+            this.toastrEditSuccess();
 
             this.dialogRef.close('save');
           },
@@ -1068,7 +1069,7 @@ export class StrWithdrawDetailsDialogComponent {
     if (result) {
       this.api.deleteStrWithdrawDetails(id).subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          // alert('تم الحذف بنجاح');
           this.toastrDeleteSuccess();
           this.getAllDetailsForms();
           // this.getAllMasterForms();
@@ -1481,6 +1482,10 @@ export class StrWithdrawDetailsDialogComponent {
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
+
 
   // displayListName(list: any): string {
   //   return list && list.name ? list.name : '';

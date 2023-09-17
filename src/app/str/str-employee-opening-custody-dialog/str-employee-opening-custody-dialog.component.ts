@@ -308,7 +308,7 @@ storeSelectedId: any;
         },
         error: (err) => {
           console.log("fetch costCenter data err: ", err);
-          alert("خطا اثناء جلب مراكز التكلفة !");
+          // alert("خطا اثناء جلب مراكز التكلفة !");
           
         }
       })
@@ -469,8 +469,8 @@ storeSelectedId: any;
   addNewDetails() {
     this.router.navigate(['/EmployeeOpeningCustody'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId,itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrEmployeeOpeningCustodyDetailDailogComponent, {
-      width: '50%',
-      height: '80%'
+      width: '98%',
+      height: '95%'
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();
@@ -533,7 +533,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
             console.log("mastered res: ", this.getMasterRowId.id)
             this.MasterGroupInfoEntered = true;
 
-            alert("تم الحفظ بنجاح");
+            // alert("تم الحفظ بنجاح");
             this.toastrSuccess();
             this.getAllDetailsForms();
             // this.addDetailsInfo();
@@ -545,7 +545,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
           },
           error: (err) => {
             console.log("header post err: ", err);
-            alert("حدث خطأ أثناء إضافة مجموعة")
+            // alert("حدث خطأ أثناء إضافة مجموعة")
           }
         })
     }
@@ -691,7 +691,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
                 // this.getDetailsRowId = res;
                 console.log("Details res: ", this.getDetailsRowId.id)
 
-                alert("تمت إضافة التفاصيل بنجاح");
+                // alert("تمت إضافة التفاصيل بنجاح");
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.updateDetailsForm()
@@ -759,8 +759,8 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
             this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
               .subscribe({
                 next: () => {
-                  alert("تم تحديث التفاصيل بنجاح");
-                  this.toastrSuccess();
+                  // alert("تم تحديث التفاصيل بنجاح");
+                  this.toastrEditSuccess();
                   // console.log("update res: ", res);
                   this.groupDetailsForm.reset();
                   this.getAllDetailsForms();
@@ -769,7 +769,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
                 },
                 error: () => {
                   // console.log("update err: ", err)
-                  alert("خطأ أثناء تحديث سجل المجموعة !!")
+                  // alert("خطأ أثناء تحديث سجل المجموعة !!")
                 }
               })
             this.groupDetailsForm.removeControl('id')
@@ -779,7 +779,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
           // this.dialogRef.close('update');
         },
         error: () => {
-          alert("خطأ أثناء تحديث سجل الصنف !!")
+          // alert("خطأ أثناء تحديث سجل الصنف !!")
         }
       })
   }
@@ -832,8 +832,8 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
     //   console.log("test edit form details: ", this.groupDetailsForm.value)
     this.router.navigate(['/EmployeeOpeningCustody'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrEmployeeOpeningCustodyDetailDailogComponent, {
-      width: '50%',
-      height: '80%',
+      width: '98%',
+      height: '95%',
       data: row,
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
@@ -1080,5 +1080,8 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
   }
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }
