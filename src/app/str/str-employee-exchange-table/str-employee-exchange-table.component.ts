@@ -136,16 +136,16 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
 
   openEmployeeExchangeDialog() {
-    this.dialog
-      .open(StrEmployeeExchangeDialogComponent, {
-        width: '60%',
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'save') {
-          this.getAllMasterForms();
-        }
-      });
+    // this.dialog
+    //   .open(StrEmployeeExchangeDialogComponent, {
+    //     width: '60%',
+    //   })
+    //   .afterClosed()
+    //   .subscribe((val) => {
+    //     if (val === 'save') {
+    //       this.getAllMasterForms();
+    //     }
+    //   });
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
         width: '95%',
@@ -186,17 +186,17 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
 
   editMasterForm(row: any) {
-    this.dialog
-      .open(StrEmployeeExchangeDialogComponent, {
-        width: '60%',
-        data: row,
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'update' || val === 'save') {
-          this.getAllMasterForms();
-        }
-      });
+    // this.dialog
+    //   .open(StrEmployeeExchangeDialogComponent, {
+    //     width: '60%',
+    //     data: row,
+    //   })
+    //   .afterClosed()
+    //   .subscribe((val) => {
+    //     if (val === 'update' || val === 'save') {
+    //       this.getAllMasterForms();
+    //     }
+    //   });
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
         width: '95%',

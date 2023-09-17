@@ -1550,8 +1550,13 @@ export class ApiService {
       'http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all '
     );
   }
+  getStrWithdrawDetailsByMasterId(id: any) {
+    return this.http.get<any>(
+      `${this.url}/STRWithdraw/GetallSTRWithDrawDetailsGetByWithDrawId/${id}`
+    );
+  }
   putStrWithdrawDetails(data: any) {
-    console.log('put details');
+    console.log('put details', data);
 
     return this.http.put<any>(
       'http://ims.aswan.gov.eg/api/STRWithdrawDetails/update ',

@@ -184,7 +184,7 @@ export class StrWithdrawTableComponent implements OnInit {
   openWithdrawDialog() {
     this.dialog.open(StrWithdrawDialogComponent, {
       width: '95%',
-      height: '80%'
+      height: '95%'
       
     }).afterClosed().subscribe(val => {
       if (val === 'Save') {
@@ -248,7 +248,8 @@ export class StrWithdrawTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(StrWithdrawDialogComponent, {
-        width: '90%',
+        width: '95%',
+        height: '95%',
         data: row,
       })
       .afterClosed()
