@@ -51,7 +51,7 @@
                     <mat-label>الكمية*</mat-label>
 
                     <mat-form-field appearance="outline" class=" child-num" style="width: 100%;">
-                        <input type="number" matInput placeholder="الكمية" formControlName="qty"
+                        <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
                             [value]="editData ? editData.qty : '1'">
                     </mat-form-field>
                 <!-- </div> -->
@@ -60,7 +60,7 @@
                     <mat-label>متوسط السعر*</mat-label>
 
                     <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
-                        <input matInput placeholder="الرقم" type="number"
+                        <input matInput placeholder="الرقم" type="number" min="0"
                             [value]="editData ? editData.price : ''" formControlName="price"
                             [readonly]="isReadOnly">
                     </mat-form-field>
