@@ -137,10 +137,12 @@
         <input matInput type="number" min="0" placeholder="الكمية" formControlName="qty"
           [value]="editData ? editData.qty : ''">
       </mat-form-field>
+
+      <mat-label>السعر*</mat-label>
+
       <mat-form-field appearance="outline" class="groupInput">
-        <mat-label>السعر</mat-label>
         <input matInput type="number" min="0" placeholder="السعر" formControlName="price"
-          [value]="editData ? editData.price : ''" [readonly]="isReadOnlyEmployee">
+          [value]="editData ? editData.price : ''" [readonly]="isReadOnly">
       </mat-form-field>
 
 

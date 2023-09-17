@@ -232,7 +232,9 @@ export class StrWithdrawDetailsDialogComponent {
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
     this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
-    this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
+    this.getMasterRowDate = formatDate(this.route.snapshot.queryParamMap.get('date')!, 'yyyy-MM-dd', this.locale);
+
+    // this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
     // this.getMasterRowEmployeeId = this.route.snapshot.queryParamMap.get('employeeId');
     console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate, "employeeId: ", this.getMasterRowEmployeeId);
 
