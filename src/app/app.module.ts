@@ -301,6 +301,7 @@ import { StrWithdrawDetailsDialogComponent } from './str/str-withdraw-details-di
     PrHomeComponent,
     StrEmployeeExchangeDetailsDialogComponent,
     StrAddDetailsDialogComponent,
+    StrWithdrawDetailsDialogComponent
   ],
   imports: [
     BrowserModule,
