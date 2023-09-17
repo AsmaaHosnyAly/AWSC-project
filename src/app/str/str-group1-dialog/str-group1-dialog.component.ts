@@ -189,31 +189,35 @@ export class STRGroup1DialogComponent implements OnInit {
   }
 
   openAutoCommodity() {
-    this.commodityCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
+    this.commodityCtrl.setValue(''); 
     this.commodityCtrl.updateValueAndValidity();
   }
   openAutoGrade() {
-    this.gradeCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
+    this.gradeCtrl.setValue(''); 
     this.gradeCtrl.updateValueAndValidity();
   }
   openAutoPlatoon() {
-    this.platoonCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
+    this.platoonCtrl.setValue(''); 
     this.platoonCtrl.updateValueAndValidity();
   }
 
   getCodeByPlatoonId() {
     this.api.getGroupCode(this.selectedPlatoon?.id).subscribe({
       next: (res) => {
-        // this.Code = res;
-        // console.log('selectedPlatoon: ', this.Code);
-      this.groupForm.controls['code'].setValue(res);
+        if (this.editData) {
+          if (this.editData.platoonId == this.selectedPlatoon?.id) {
+            console.log(' edit data with matched choices:');
 
+            this.groupForm.controls['code'].setValue(this.editData.code);
+          } else {
+            console.log(' edit data without matched choices:');
+
+            this.groupForm.controls['code'].setValue(res);
+          }
+        } else {
+          console.log('without editData:');
+          this.groupForm.controls['code'].setValue(res);
+        }
       },
       error: (err) => {
         console.log('get code. err: ', err);

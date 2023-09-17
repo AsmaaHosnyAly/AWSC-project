@@ -324,10 +324,20 @@ export class STRItem1DialogComponent implements OnInit {
     
     this.api.getItemNo(this.selectedGroup?.id).subscribe({
       next: (res) => {
+        if (this.editData) {
+          if (this.editData.groupId == this.selectedGroup?.id) {
+            console.log(' edit data with matched choices:');
 
-        // this.itemForm.value.no = res;
-        this.itemForm.controls['no'].setValue(res);
-       console.log('number: ', this.itemForm.value.no);
+            this.itemForm.controls['no'].setValue(this.editData.no);
+          } else {
+            console.log(' edit data without matched choices:');
+
+            this.itemForm.controls['no'].setValue(res);
+          }
+        } else {
+          console.log('without editData:');
+          this.itemForm.controls['no'].setValue(res);
+        }
       },
       error: (err) => {
         console.log('get no. err: ', err);
