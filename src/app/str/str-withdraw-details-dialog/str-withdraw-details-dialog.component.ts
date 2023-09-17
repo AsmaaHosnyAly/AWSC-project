@@ -23,29 +23,29 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 
 export class deststore {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 // export class store {
 //   constructor(public id: number, public name: string) { }
 // }
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 // export class FiscalYear {
 //   constructor(public id: number, public FiscalYear: string) { }
 // }
 
 export class item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export interface Source {
   name: string;
 }
 export class List {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class costcenter {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 @Component({
@@ -55,7 +55,7 @@ export class costcenter {
 })
 export class StrWithdrawDetailsDialogComponent {
   groupDetailsForm!: FormGroup;
-  getMasterRowEmployeeId :any
+  getMasterRowEmployeeId: any
   groupMasterForm!: FormGroup;
   actionBtnMaster: string = 'Save';
   actionBtnDetails: string = 'Save';
@@ -138,6 +138,7 @@ export class StrWithdrawDetailsDialogComponent {
   isEditDataReadOnly: boolean = true;
 
   isEdit: boolean = false;
+  stateDefaultValue: any;
 
   defaultStoreSelectValue: any;
   defaultFiscalYearSelectValue: any;
@@ -165,6 +166,7 @@ export class StrWithdrawDetailsDialogComponent {
     private dialogRef: MatDialogRef<StrWithdrawDetailsDialogComponent>,
     private route: ActivatedRoute
   ) {
+    this.stateDefaultValue = true;
     // this.costcenterCtrl = new FormControl();
     // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
     //   startWith(''),
@@ -207,19 +209,19 @@ export class StrWithdrawDetailsDialogComponent {
 
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: ['', Validators.required], //MasterId
-      qty: ['', Validators.required],
+      qty: ['1', Validators.required],
       percentage: ['', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: [1, Validators.required],
       destStoreUserId: [1, Validators.required],
       itemId: ['', Validators.required],
-      stateId: ['', Validators.required],
-
+      state: [this.stateDefaultValue, Validators.required],
+      fullCode: [''],
       // withDrawNoId: ['' ],
 
       itemName: [''],
-      // avgPrice: [''],
+      avgPrice: [''],
 
       stateName: [''],
 
@@ -230,110 +232,125 @@ export class StrWithdrawDetailsDialogComponent {
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
     this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
-    this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
-    this.getMasterRowEmployeeId = this.route.snapshot.queryParamMap.get('employeeId');
-    console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate);
+    this.getMasterRowDate = formatDate(this.route.snapshot.queryParamMap.get('date')!, 'yyyy-MM-dd', this.locale);
 
-    // if (this.editData) {
-    //   // console.log("")
-    //   this.isEdit = true;
-    //   this.groupMasterForm.controls['no'].setValue(this.editData.no);
+    // this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
+    // this.getMasterRowEmployeeId = this.route.snapshot.queryParamMap.get('employeeId');
+    console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate, "employeeId: ", this.getMasterRowEmployeeId);
 
-    //   if (this.editData.employeeId == null) {
-    //     this.actionName = 'sss';
-    //     console.log('action btnnnnnnnnnnnnn', this.actionName);
-    //     this.groupMasterForm.controls['source'].setValue('المخزن');
-    //     this.groupMasterForm.controls['sourceInput'].setValue(
-    //       this.groupMasterForm.getRawValue().desstoreName
-    //     );
+    if (this.editData) {
+      console.log("edit Data: ", this.editData);
 
-    //     // alert("deststore in edit:"+this.editData.deststoreId)
-    //   } else {
-    //     this.actionName = 'choose';
-    //     this.groupMasterForm.controls['source'].setValue('الموظف');
-    //     this.groupMasterForm.controls['sourceInput'].setValue(
-    //       this.groupMasterForm.getRawValue().employeeName
-    //     );
-    //     console.log(
-    //       'employee in edit:',
-    //       this.groupMasterForm.getRawValue().employeeName
-    //     );
-    //     // alert("employee in edit:"+this.editData.employeeId)
-    //   }
+      this.groupDetailsForm.controls['fullCode'].setValue(this.editData.fullCode);
+      this.groupDetailsForm.controls['itemId'].setValue(this.editData.itemId);
+      this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
+      this.groupDetailsForm.controls['price'].setValue(this.editData.price);
+      this.groupDetailsForm.controls['qty'].setValue(this.editData.qty);
+      this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.editData.stR_WithdrawId);
+      this.groupDetailsForm.controls['state'].setValue(this.editData.state);
+      this.groupDetailsForm.controls['total'].setValue(this.editData.total);
+      this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
 
-    //   console.log('master edit form: ', this.editData);
-    //   // this.actionName= "ssss";
-    //   this.actionBtnMaster = 'Update';
+      //   this.isEdit = true;
+      //   this.groupMasterForm.controls['no'].setValue(this.editData.no);
 
-    //   console.log('employeeId in edittttt', this.editData.employeeId);
+      //   if (this.editData.employeeId == null) {
+      //     this.actionName = 'sss';
+      //     console.log('action btnnnnnnnnnnnnn', this.actionName);
+      //     this.groupMasterForm.controls['source'].setValue('المخزن');
+      //     this.groupMasterForm.controls['sourceInput'].setValue(
+      //       this.groupMasterForm.getRawValue().desstoreName
+      //     );
 
-    //   this.employeeName = this.getemployeeByID(this.editData.employeeId);
-    //   console.log('desstore id in edit data', this.editData.deststoreId);
-    //   this.desstoreName = this.getDestStoreById(this.editData.deststoreId);
+      //     // alert("deststore in edit:"+this.editData.deststoreId)
+      //   } else {
+      //     this.actionName = 'choose';
+      //     this.groupMasterForm.controls['source'].setValue('الموظف');
+      //     this.groupMasterForm.controls['sourceInput'].setValue(
+      //       this.groupMasterForm.getRawValue().employeeName
+      //     );
+      //     console.log(
+      //       'employee in edit:',
+      //       this.groupMasterForm.getRawValue().employeeName
+      //     );
+      //     // alert("employee in edit:"+this.editData.employeeId)
+      //   }
 
-    //   console.log('employeename in edit', this.employeeName);
+      //   console.log('master edit form: ', this.editData);
+      //   // this.actionName= "ssss";
+      //   this.actionBtnMaster = 'Update';
 
-    //   this.groupMasterForm.controls['employeeName'].setValue(
-    //     this.editData.employeeName
-    //   );
+      //   console.log('employeeId in edittttt', this.editData.employeeId);
 
-    //   this.groupMasterForm.controls['desstoreName'].setValue(
-    //     this.editData.desstoreName
-    //   );
-    //   this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-    //   this.groupMasterForm.controls['storeName'].setValue(
-    //     this.editData.storeName
-    //   );
+      //   this.employeeName = this.getemployeeByID(this.editData.employeeId);
+      //   console.log('desstore id in edit data', this.editData.deststoreId);
+      //   this.desstoreName = this.getDestStoreById(this.editData.deststoreId);
 
-    //   // alert("facialId before: "+ this.editData.fiscalYearId)
-    //   this.groupMasterForm.controls['fiscalYearId'].setValue(
-    //     this.editData.fiscalYearId
-    //   );
+      //   console.log('employeename in edit', this.employeeName);
 
-    //   this.groupMasterForm.controls['date'].setValue(this.editData.date);
-    //   this.groupMasterForm.controls['transactionUserId'].setValue(
-    //     this.editData.transactionUserId
-    //   );
-    //   // this.groupMasterForm.controls['destStoreUserId'].setValue(this.editData.destStoreUserId);
-    //   // this.groupMasterForm.controls['destStoreUserName'].setValue(this.editData.destStoreUserName);
+      //   this.groupMasterForm.controls['employeeName'].setValue(
+      //     this.editData.employeeName
+      //   );
 
-    //   this.groupMasterForm.addControl(
-    //     'id',
-    //     new FormControl('', Validators.required)
-    //   );
-    //   this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
-    //   this.groupMasterForm.controls['employeeId'].setValue(
-    //     this.editData.employeeId
-    //   );
+      //   this.groupMasterForm.controls['desstoreName'].setValue(
+      //     this.editData.desstoreName
+      //   );
+      //   this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+      //   this.groupMasterForm.controls['storeName'].setValue(
+      //     this.editData.storeName
+      //   );
 
-    //   // this.groupMasterForm.controls['itemId'].setValue(this.editData.itemId);
+      //   // alert("facialId before: "+ this.editData.fiscalYearId)
+      //   this.groupMasterForm.controls['fiscalYearId'].setValue(
+      //     this.editData.fiscalYearId
+      //   );
 
-    //   this.groupMasterForm.controls['deststoreId'].setValue(
-    //     this.editData.deststoreId
-    //   );
+      //   this.groupMasterForm.controls['date'].setValue(this.editData.date);
+      //   this.groupMasterForm.controls['transactionUserId'].setValue(
+      //     this.editData.transactionUserId
+      //   );
+      //   // this.groupMasterForm.controls['destStoreUserId'].setValue(this.editData.destStoreUserId);
+      //   // this.groupMasterForm.controls['destStoreUserName'].setValue(this.editData.destStoreUserName);
 
-    //   console.log('costcenter:', this.editData.costCenterId);
+      //   this.groupMasterForm.addControl(
+      //     'id',
+      //     new FormControl('', Validators.required)
+      //   );
+      //   this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+      //   this.groupMasterForm.controls['employeeId'].setValue(
+      //     this.editData.employeeId
+      //   );
 
-    //   this.groupMasterForm.controls['costCenterId'].setValue(
-    //     this.editData.costCenterId
-    //   );
-    //   this.groupMasterForm.controls['costcenterName'].setValue(
-    //     this.editData.costcenterName
-    //   );
-    //   this.isEditDataReadOnly = true;
-    // }
-    //
+      //   // this.groupMasterForm.controls['itemId'].setValue(this.editData.itemId);
 
-    this.getAllDetailsForms();
+      //   this.groupMasterForm.controls['deststoreId'].setValue(
+      //     this.editData.deststoreId
+      //   );
 
-    // localStorage.setItem('transactionUserId', JSON.stringify("mehrail"));
-    // this.userIdFromStorage = localStorage.getItem('transactionUserId');
-    // console.log("userIdFromStorage in localStorage: ", this.userIdFromStorage)
-    // console.log("userIdFromStorage after slice from string shape: ", this.userIdFromStorage?.slice(1, length - 1))
-    // this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
-    // this.groupMasterForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-    // console.log("transactionuser",this.editData.transactionUserId)
+      //   console.log('costcenter:', this.editData.costCenterId);
+
+      //   this.groupMasterForm.controls['costCenterId'].setValue(
+      //     this.editData.costCenterId
+      //   );
+      //   this.groupMasterForm.controls['costcenterName'].setValue(
+      //     this.editData.costcenterName
+      //   );
+      //   this.isEditDataReadOnly = true;
+      // }
+
+
+      // this.getAllDetailsForms();
+
+      // localStorage.setItem('transactionUserId', JSON.stringify("mehrail"));
+      // this.userIdFromStorage = localStorage.getItem('transactionUserId');
+      // console.log("userIdFromStorage in localStorage: ", this.userIdFromStorage)
+      // console.log("userIdFromStorage after slice from string shape: ", this.userIdFromStorage?.slice(1, length - 1))
+      // this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
+      // this.groupMasterForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      // console.log("transactionuser",this.editData.transactionUserId)
+    }
   }
+
   // displaydeststoreName(deststore: any): string {
   //   return deststore && deststore.name ? deststore.name : '';
   // }
@@ -464,6 +481,29 @@ export class StrWithdrawDetailsDialogComponent {
     this.selecteditem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
+    this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+
+    this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
+
+    this.api.getAvgPrice(
+      this.getMasterRowStoreId,
+      this.getMasterRowFiscalYearId,
+      formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+      this.groupDetailsForm.getRawValue().itemId
+    )
+      .subscribe({
+        next: (res) => {
+          // this.priceCalled = res;
+          // this.groupDetailsForm.controls['avgPrice'].setValue(res);
+          this.groupDetailsForm.controls['price'].setValue(res)
+          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
@@ -599,35 +639,35 @@ export class StrWithdrawDetailsDialogComponent {
     // this.groupMasterForm.controls['employeeId'].setValue('');
     this.isReadOnlyEmployee = true;
   }
-  // itemOnChange(itemEvent: any) {
-  //   // this.isReadOnly = true;
-  //   console.log("itemId: ", itemEvent)
+  itemOnChange(itemEvent: any) {
+    // this.isReadOnly = true;
+    console.log("itemId: ", itemEvent)
 
-  //   if (this.groupDetailsForm.getRawValue().avgPrice == 0) {
-  //     this.isReadOnly = false;
-  //     console.log("change readOnly to enable");
-  //   }
-  //   else {
-  //     this.isReadOnly = true;
-  //     console.log("change readOnly to disable");
-  //   }
+    if (this.groupDetailsForm.getRawValue().avgPrice == 0) {
+      this.isReadOnly = false;
+      console.log("change readOnly to enable");
+    }
+    else {
+      this.isReadOnly = true;
+      console.log("change readOnly to disable");
+    }
 
-  //   this.getAvgPrice(
-  //     this.groupMasterForm.getRawValue().storeId,
-  //     this.groupMasterForm.getRawValue().fiscalYearId,
-  //     formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-  //     itemEvent)
+    this.getAvgPrice(
+      this.getMasterRowStoreId,
+      this.getMasterRowFiscalYearId,
+      formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+      itemEvent)
 
-  // }
+  }
 
   set_Percentage(state: any) {
     console.log('state value changed: ', state.value);
     if (state.value == false) {
       this.isReadOnlyPercentage = false;
-      this.groupDetailsForm.controls['stateId'].setValue(state.value);
+      this.groupDetailsForm.controls['state'].setValue(state.value);
     } else {
       this.isReadOnlyPercentage = true;
-      this.groupDetailsForm.controls['stateId'].setValue(state.value);
+      this.groupDetailsForm.controls['state'].setValue(state.value);
       this.groupDetailsForm.controls['percentage'].setValue(100);
     }
   }
@@ -652,26 +692,26 @@ export class StrWithdrawDetailsDialogComponent {
   //   this.getStrWithdrawAutoNo();
   // }
 
-  // getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
-  //   console.log("Avg get inputs: ", "storeId: ", this.groupMasterForm.getRawValue().storeId,
-  //     " fiscalYear: ", this.groupMasterForm.getRawValue().fiscalYearId,
-  //     " date: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-  //     " itemId: ", this.groupDetailsForm.getRawValue().itemId)
+  getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
+    console.log("Avg get inputs: ", "storeId: ", this.getMasterRowStoreId,
+      " fiscalYear: ", this.getMasterRowFiscalYearId,
+      " date: ", formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+      " itemId: ", this.groupDetailsForm.getRawValue().itemId)
 
-  //   this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
+    this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
 
-  //     .subscribe({
-  //       next: (res) => {
-  //         // this.priceCalled = res;
-  //         this.groupDetailsForm.controls['avgPrice'].setValue(res);
-  //         console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-  //       },
-  //       error: (err) => {
-  //         // console.log("fetch fiscalYears data err: ", err);
-  //         alert("خطا اثناء جلب متوسط السعر !");
-  //       }
-  //     })
-  // }
+      .subscribe({
+        next: (res) => {
+          // this.priceCalled = res;
+          this.groupDetailsForm.controls['price'].setValue(res);
+          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+  }
 
   closeDialog() {
     this.dialogRef.close();
@@ -786,17 +826,17 @@ export class StrWithdrawDetailsDialogComponent {
         }
 
         this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
-          this.getMasterRowId
+          parseInt(this.getMasterRowId)
         );
-        alert()
+        // alert()
         this.groupDetailsForm.controls['total'].setValue(
           parseFloat(this.groupDetailsForm.getRawValue().price) *
-            parseFloat(this.groupDetailsForm.getRawValue().qty)
+          parseFloat(this.groupDetailsForm.getRawValue().qty)
         );
 
         console.log("form details after item: ", this.groupDetailsForm.value)
 
-        if (this.groupDetailsForm.valid ) {
+        if (this.groupDetailsForm.valid) {
           console.log(
             'form details after item: ',
             this.groupDetailsForm.value
@@ -814,14 +854,17 @@ export class StrWithdrawDetailsDialogComponent {
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
                 alert('تمت إضافة المجموعة بنجاح');
+                this.dialogRef.close('save');
 
                 // this.getAllMasterForms();
                 // this.dialogRef.close('save');
                 // this.dialogRef.close();
                 // this.getAllMasterForms();
               },
-              error: () => {
+              error: (err) => {
                 // alert("حدث خطأ أثناء إضافة مجموعة")
+                console.log("post err: ", err)
+
               },
             });
         }
@@ -837,19 +880,19 @@ export class StrWithdrawDetailsDialogComponent {
   async updateDetailsForm() {
     console.log(
       'store id in update:',
-      this.groupMasterForm.getRawValue().storeId
+      this.getMasterRowStoreId
     );
     // this.storeName = await this.getStoreByID(
     //   this.groupMasterForm.getRawValue().storeId
     // );
     // alert("update Store name: " + this.storeName)
-    this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-    this.groupMasterForm.controls['storeId'].setValue(
-      this.groupMasterForm.getRawValue().storeId
-    );
-    this.groupMasterForm.controls['fiscalYearId'].setValue(
-      this.groupMasterForm.getRawValue().fiscalYearId
-    );
+    // this.groupMasterForm.controls['storeName'].setValue(this.storeName);
+    // this.groupMasterForm.controls['storeId'].setValue(
+    //   this.groupMasterForm.getRawValue().storeId
+    // );
+    // this.groupMasterForm.controls['fiscalYearId'].setValue(
+    //   this.groupMasterForm.getRawValue().fiscalYearId
+    // );
 
     // this.employeeName = await this.getemployeeByID(this.editData.employeeId);
     // alert("update costcentr id: " + this.groupMasterForm.getRawValue().costcenterId)
@@ -861,86 +904,88 @@ export class StrWithdrawDetailsDialogComponent {
 
     // console.log("data storeName in edit: ", this.groupMasterForm.value)
 
-    this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-    this.groupMasterForm.controls['employeeName'].setValue(
-      this.groupMasterForm.getRawValue().employeeName
-    );
+    // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+    // this.groupMasterForm.controls['employeeName'].setValue(
+    //   this.groupMasterForm.getRawValue().employeeName
+    // );
 
-    this.groupMasterForm.controls['costcenterName'].setValue(
-      this.costcenterName
-    );
-    this.groupMasterForm.controls['desstoreName'].setValue(
-      this.groupMasterForm.getRawValue().desstoreName
-    );
+    // this.groupMasterForm.controls['costcenterName'].setValue(
+    //   this.costcenterName
+    // );
+    // this.groupMasterForm.controls['desstoreName'].setValue(
+    //   this.groupMasterForm.getRawValue().desstoreName
+    // );
 
-    this.groupMasterForm.controls['deststoreId'].setValue(
-      this.groupMasterForm.getRawValue().deststoreId
-    );
+    // this.groupMasterForm.controls['deststoreId'].setValue(
+    //   this.groupMasterForm.getRawValue().deststoreId
+    // );
     // alert("deststoreId::::::::"+this.groupMasterForm.getRawValue().deststoreId)
     // console.log("values master form: ", this.groupMasterForm.value)
     console.log("values getMasterRowId: ", this.getMasterRowId)
     // console.log("values details form: ", this.groupDetailsForm.value)
 
-    if (this.editData) {
-      this.groupMasterForm.addControl(
-        'id',
-        new FormControl('', Validators.required)
-      );
-      this.groupMasterForm.controls['id'].setValue(this.editData.id);
-      console.log('data item Name in edit: ', this.groupMasterForm.value);
-    }
-    if (this.getDetailedRowData) {
-      console.log('details foorm: ', this.groupDetailsForm.value);
-      this.groupDetailsForm.addControl(
-        'id',
-        new FormControl('', Validators.required)
-      );
-      this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
-      // this.groupDetailsForm.controls['state'].setValue(this.editData.id);
-      // this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
-    }
-
-    this.groupMasterForm.addControl(
+    // if (this.editData) {
+    this.groupDetailsForm.addControl(
       'id',
       new FormControl('', Validators.required)
     );
-    this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+    this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+    console.log('data item Name in edit: ', this.groupDetailsForm.value);
+    // }
+    this.groupDetailsForm.controls['price'].setValue(this.editData.price);
 
-    console.log('put before', this.groupMasterForm.value);
+    // if (this.getDetailedRowData) {
+    console.log('details foorm: ', this.groupDetailsForm.value);
+    // this.groupDetailsForm.addControl(
+    //   'id',
+    //   new FormControl('', Validators.required)
+    // );
+    // this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+    // this.groupDetailsForm.controls['state'].setValue(this.editData.id);
+    // this.groupDetailsForm.controls['avgPrice'].setValue(this.editData.avgPrice);
+    // }
+
+    // this.groupMasterForm.addControl(
+    //   'id',
+    //   new FormControl('', Validators.required)
+    // );
+    // this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+
+    // console.log('put before', this.groupMasterForm.value);
     this.isEdit = false;
 
     // this.api.putStrWithdraw(this.groupMasterForm.value).subscribe({
     //   next: (res) => {
-    //     if (this.groupDetailsForm.value && this.getDetailedRowData) {
-    //       this.api
-    //         .putStrWithdrawDetails(this.groupDetailsForm.value)
-    //         .subscribe({
-    //           next: (res) => {
-    //             // alert("put")
-    //             this.toastrSuccess();
-    //             // console.log("update res: ", res);
-    //             this.groupDetailsForm.reset();
-    //             this.getAllDetailsForms();
-    //             this.itemCtrl.setValue('');
-    //             this.itemByFullCodeValue = '';
-    //             this.fullCodeValue = '';
-    //             this.getDetailedRowData = '';
-    //             alert('تم التعديل بنجاح');
+    if (this.groupDetailsForm.valid) {
+      this.api
+        .putStrWithdrawDetails(this.groupDetailsForm.value)
+        .subscribe({
+          next: (res) => {
+            // alert("put")
+            this.toastrSuccess();
+            // console.log("update res: ", res);
+            this.groupDetailsForm.reset();
+            this.getAllDetailsForms();
+            this.itemCtrl.setValue('');
+            this.itemByFullCodeValue = '';
+            this.fullCodeValue = '';
+            this.getDetailedRowData = '';
+            alert('تم التعديل بنجاح');
 
-    //             // this.dialogRef.close('update');
-    //           },
-    //           error: (err) => {
-    //             // console.log("update err: ", err)
-    //             // alert("خطأ أثناء تحديث سجل المجموعة !!")
-    //           },
-    //         });
-    //     }
+            this.dialogRef.close('save');
+          },
+          error: (err) => {
+            console.log("update err: ", err)
+            // alert("خطأ أثناء تحديث سجل المجموعة !!")
+          },
+        });
+    }
 
-    //     // this.dialogRef.close('update');
-    //   },
-    //   // error: () => {
-    //   //   alert("خطأ أثناء تحديث سجل الصنف !!")
-    //   // }
+    // this.dialogRef.close('update');
+    // },
+    // error: () => {
+    //   alert("خطأ أثناء تحديث سجل الصنف !!")
+    // }
     // });
   }
 
@@ -963,7 +1008,7 @@ export class StrWithdrawDetailsDialogComponent {
       );
       this.groupDetailsForm.controls['total'].setValue(
         parseFloat(this.groupDetailsForm.getRawValue().price) *
-          parseFloat(this.groupDetailsForm.getRawValue().qty)
+        parseFloat(this.groupDetailsForm.getRawValue().qty)
       );
 
       this.updateDetailsForm();
@@ -994,11 +1039,11 @@ export class StrWithdrawDetailsDialogComponent {
         this.getDetailedRowData.percentage
       );
 
-      // this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
+      this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
 
       this.groupDetailsForm.controls['total'].setValue(
         parseFloat(this.groupDetailsForm.getRawValue().price) *
-          parseFloat(this.groupDetailsForm.getRawValue().qty)
+        parseFloat(this.groupDetailsForm.getRawValue().qty)
       );
 
       // console.log("itemid focus: ", this.matchedIds);
@@ -1267,16 +1312,100 @@ export class StrWithdrawDetailsDialogComponent {
       });
   }
 
+  // getItemByCode(code: any) {
+  //   if (code.keyCode == 13) {
+  //     // console.log("code: ", code.target.value);
+
+  //     this.itemsList.filter((a: any) => {
+  //       if (a.fullCode === code.target.value) {
+  //         this.groupDetailsForm.controls['itemId'].setValue(a.id);
+  //       }
+  //     });
+  //   }
+  // }
+
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
-      // console.log("code: ", code.target.value);
-
       this.itemsList.filter((a: any) => {
         if (a.fullCode === code.target.value) {
           this.groupDetailsForm.controls['itemId'].setValue(a.id);
+          console.log("item by code: ", a.name);
+          this.itemCtrl.setValue(a.name);
+          if (a.name) {
+            this.itemByFullCodeValue = a.name;
+
+            this.api.getAvgPrice(
+              this.getMasterRowStoreId,
+              this.getMasterRowFiscalYearId,
+              formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+              this.groupDetailsForm.getRawValue().itemId
+            )
+              .subscribe({
+                next: (res) => {
+                  // this.priceCalled = res;
+                  // this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                  this.groupDetailsForm.controls['price'].setValue(res)
+                  console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+                },
+                error: (err) => {
+                  // console.log("fetch fiscalYears data err: ", err);
+                  // alert("خطا اثناء جلب متوسط السعر !");
+                }
+              })
+
+
+            // this.api.getSumQuantity(
+            //   this.getMasterRowStoreId,
+            //   this.groupDetailsForm.getRawValue().itemId,
+            // )
+            //   .subscribe({
+            //     next: (res) => {
+            //       // this.priceCalled = res;
+            //       this.groupDetailsForm.controls['balanceQty'].setValue(res);
+            //       console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+            //     },
+            //     error: (err) => {
+            //       // console.log("fetch fiscalYears data err: ", err);
+            //       alert("خطا اثناء جلب الرصيد الحالى  !");
+            //     }
+            //   })
+          }
+          else {
+            this.itemByFullCodeValue = '-';
+          }
+          this.itemByFullCodeValue = a.name;
+          // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+
         }
-      });
+      })
     }
+
+
+  }
+
+
+  getCodeByItem(item: any) {
+    console.log("item by code: ", item, "code: ", this.itemsList);
+
+    // if (item.keyCode == 13) {
+    this.itemsList.filter((a: any) => {
+      if (a.id === item) {
+        // this.groupDetailsForm.controls['itemId'].setValue(a.id);
+        console.log("item by code selected: ", a)
+        // console.log("item by code selected: ", a.fullCode)
+        if (a.fullCode) {
+          this.fullCodeValue = a.fullCode;
+        }
+        else {
+          this.fullCodeValue = '-';
+        }
+
+        // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId)
+      }
+    })
+    // }
+
+
   }
 
   // async getFiscalYears() {
