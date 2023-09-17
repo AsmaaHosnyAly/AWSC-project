@@ -8,17 +8,22 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
-import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormControlName,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { OpeningStockPrintDialogComponent } from 'src/app/str/opening-stock-print-dialog/opening-stock-print-dialog.component';
 
 export class store {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 export class item {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 @Component({
@@ -39,15 +44,12 @@ export class StrOpeningStockTableComponent implements OnInit {
   storeName: any;
   fiscalYearsList: any;
   // itemsList: any;
-  groupMasterForm !: FormGroup;
-
-
+  groupMasterForm!: FormGroup;
 
   storeList: store[] = [];
   storeCtrl: FormControl;
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
-
 
   itemsList: item[] = [];
   itemCtrl: FormControl;
@@ -55,6 +57,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   selecteditem: item | undefined;
 
   dataSource2!: MatTableDataSource<any>;
+  pdfurl = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -62,27 +65,22 @@ export class StrOpeningStockTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
-    private http: HttpClient,private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
-  ) { 
-
-
+  ) {
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterstores(value))
+      map((value) => this._filterstores(value))
     );
-
 
     this.itemCtrl = new FormControl();
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filteritems(value))
+      map((value) => this._filteritems(value))
     );
-
-
-
   }
 
   ngOnInit(): void {
@@ -92,16 +90,15 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.getItems();
 
     this.groupMasterForm = this.formBuilder.group({
-
-      no:[''],
-      employee:[''],
+      no: [''],
+      employee: [''],
       // costcenter:[],
-      item:[''],
-      fiscalyear:[''],
-      date:[''],
-      store:[''],
-      storeId:['']
-       });
+      item: [''],
+      fiscalyear: [''],
+      date: [''],
+      store: [''],
+      storeId: [''],
+    });
   }
 
   applyFilter(event: Event) {
@@ -113,10 +110,10 @@ export class StrOpeningStockTableComponent implements OnInit {
     }
   }
 
-  getsearch(code:any){
+  getsearch(code: any) {
     if (code.keyCode == 13) {
       this.getAllMasterForms();
-     }
+    }
   }
   getAllMasterForms() {
     this.api.getStrOpen().subscribe({
@@ -126,7 +123,6 @@ export class StrOpeningStockTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
-
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -134,18 +130,23 @@ export class StrOpeningStockTableComponent implements OnInit {
     });
   }
   openOpeningStockDialog() {
-    this.dialog.open(StrOpeningStockDialogComponent, {
-      width: '50%'
-    }).afterClosed().subscribe(val => {
-      if (val === 'save') {
-        this.getAllMasterForms();
-      }
-    })
+    this.dialog
+      .open(StrOpeningStockDialogComponent, {
+        width: '98%',
+        height: '95%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save') {
+          this.getAllMasterForms();
+        }
+      });
   }
   editMasterForm(row: any) {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
-        width: '50%',
+        width: '95%',
+        height: '95%',
         data: row,
       })
       .afterClosed()
@@ -160,14 +161,14 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
   storeSelected(event: MatAutocompleteSelectedEvent): void {
     const store = event.option.value as store;
-    console.log("store selected: ", store);
+    console.log('store selected: ', store);
     this.selectedstore = store;
     this.groupMasterForm.patchValue({ storeId: store.id });
-    console.log("store in form: ", this.groupMasterForm.getRawValue().storeId);
+    console.log('store in form: ', this.groupMasterForm.getRawValue().storeId);
   }
   private _filterstores(value: string): store[] {
     const filterValue = value;
-    return this.storeList.filter((store: { name: string; }) =>
+    return this.storeList.filter((store: { name: string }) =>
       store.name.toLowerCase().includes(filterValue)
     );
   }
@@ -179,22 +180,19 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.storeCtrl.updateValueAndValidity();
   }
 
-
-
-
   displayitemName(item: any): string {
     return item && item.name ? item.name : '';
   }
   itemSelected(event: MatAutocompleteSelectedEvent): void {
     const item = event.option.value as item;
-    console.log("item selected: ", item);
+    console.log('item selected: ', item);
     this.selecteditem = item;
     this.groupMasterForm.patchValue({ itemId: item.id });
-    console.log("item in form: ", this.groupMasterForm.getRawValue().itemId);
+    console.log('item in form: ', this.groupMasterForm.getRawValue().itemId);
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
-    return this.itemsList.filter((item: { name: string; }) =>
+    return this.itemsList.filter((item: { name: string }) =>
       item.name.toLowerCase().includes(filterValue)
     );
   }
@@ -206,16 +204,10 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.itemCtrl.updateValueAndValidity();
   }
 
-
-
-
-
-
   deleteBothForms(id: number) {
     // var result = confirm('تاكيد الحذف ؟ ');
 
     // if (result) {
-
 
     //   this.api.deleteStrOpen(id).subscribe({
     //     next: (res) => {
@@ -250,58 +242,54 @@ export class StrOpeningStockTableComponent implements OnInit {
     //   });
     // }
 
-    this.http.get<any>("http://ims.aswan.gov.eg/api/STROpeningStockDetails/get/all")
-      .subscribe(res => {
-        this.matchedIds = res.filter((a: any) => {
-          return a.stR_Opening_StockId === id
-        })
-        var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+    this.http
+      .get<any>('http://ims.aswan.gov.eg/api/STROpeningStockDetails/get/all')
+      .subscribe(
+        (res) => {
+          this.matchedIds = res.filter((a: any) => {
+            return a.stR_Opening_StockId === id;
+          });
+          var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
 
-        if (this.matchedIds.length) {
-          for (let i = 0; i < this.matchedIds.length; i++) {
-            if (result) {
-              this.api.deleteStrOpenDetails(this.matchedIds[i].id)
-                .subscribe({
+          if (this.matchedIds.length) {
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              if (result) {
+                this.api.deleteStrOpenDetails(this.matchedIds[i].id).subscribe({
                   next: (res) => {
-
-                    this.api.deleteStrOpen(id)
-                      .subscribe({
-                        next: (res) => {
-                          this.toastrDeleteSuccess();
-                          this.getAllMasterForms();
-                        },
-                        error: () => {
-                          // alert("خطأ أثناء حذف الرئيسي !!");
-                        }
-                      })
-
+                    this.api.deleteStrOpen(id).subscribe({
+                      next: (res) => {
+                        this.toastrDeleteSuccess();
+                        this.getAllMasterForms();
+                      },
+                      error: () => {
+                        // alert("خطأ أثناء حذف الرئيسي !!");
+                      },
+                    });
                   },
                   error: () => {
                     // alert("خطأ أثناء حذف التفاصيل !!");
-                  }
-                })
+                  },
+                });
+              }
             }
-
-          }
-        }
-        else {
-          if (result) {
-            this.api.deleteStrOpen(id)
-              .subscribe({
+          } else {
+            if (result) {
+              this.api.deleteStrOpen(id).subscribe({
                 next: (res) => {
                   this.toastrDeleteSuccess();
                   this.getAllMasterForms();
                 },
                 error: () => {
                   // alert("خطأ أثناء حذف الرئيسي !!");
-                }
-              })
+                },
+              });
+            }
           }
+        },
+        (err) => {
+          // alert("خطا اثناء تحديد المجموعة !!")
         }
-
-      }, err => {
-        // alert("خطا اثناء تحديد المجموعة !!")
-      })
+      );
   }
 
   deleteFormDetails(id: number) {
@@ -311,7 +299,7 @@ export class StrOpeningStockTableComponent implements OnInit {
         this.getAllMasterForms();
       },
       error: (err) => {
-        console.log("delete details err: ", err)
+        console.log('delete details err: ', err);
         // alert('خطأ أثناء حذف الصنف !!');
       },
     });
@@ -387,32 +375,76 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
 
   getItems() {
-    this.api.getItems()
-      .subscribe({
-        next: (res) => {
-          this.itemsList = res;
-        },
-        error: (err) => {
-          // console.log("fetch items data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.itemsList = res;
+      },
+      error: (err) => {
+        // console.log("fetch items data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
 
-  getSearchStrOpen(no: any,  date: any, fiscalYear: any) {
+  getSearchStrOpen(no: any, date: any, fiscalYear: any) {
+    let store = this.groupMasterForm.getRawValue().storeId;
+    let item = this.groupMasterForm.getRawValue().itemId;
 
-    let store=this.groupMasterForm.getRawValue().storeId
-    let item=this.groupMasterForm.getRawValue().itemId
+    this.api.getStrOpenSearach(no, store, date, fiscalYear, item).subscribe({
+      next: (res) => {
+        this.dataSource2 = res;
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
+      },
+    });
+  }
 
+  downloadPdf(no: any, date: any, fiscalYear: any) {
+    let store = this.groupMasterForm.getRawValue().storeId;
+    let item = this.groupMasterForm.getRawValue().itemId;
 
-    this.api.getStrOpenSearach(no, store, date, fiscalYear, item)
-      .subscribe({
-        next: (res) => {
-          this.dataSource2 = res
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-      });
+    this.api.openingStock(no, store, date, fiscalYear, item).subscribe({
+      next: (res) => {
+        console.log('search:', res);
+        const url: any = res.url;
+        window.open(url);
+        // let blob: Blob = res.body as Blob;
+        // let url = window.URL.createObjectURL(blob);
+
+        // this.dataSource = res;
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        console.log('eroorr', err);
+        window.open(err.url);
+      },
+    });
+  }
+  previewPdf(no: any, date: any, fiscalYear: any) {
+    let store = this.groupMasterForm.getRawValue().storeId;
+    let item = this.groupMasterForm.getRawValue().itemId;
+
+    this.api.openingStock(no, store, date, fiscalYear, item).subscribe({
+      next: (res) => {
+        let blob: Blob = res.body as Blob;
+        console.log(blob);
+        let url = window.URL.createObjectURL(blob);
+        localStorage.setItem('url', JSON.stringify(url));
+        this.pdfurl = url;
+        this.dialog.open(OpeningStockPrintDialogComponent, {
+          width: '50%',
+        });
+
+        // this.dataSource = res;
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        console.log('eroorr', err);
+        window.open(err.url);
+      },
+    });
   }
 
   toastrDeleteSuccess(): void {

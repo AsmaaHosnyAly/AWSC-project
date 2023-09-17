@@ -28,7 +28,7 @@ export class strOpeningStockGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split('');
+    let userRole = localStorage.getItem('userRoles')?.split(',');
 
     //     userRole.forEach(element => {
     //     if( element==1)
@@ -41,11 +41,9 @@ export class strOpeningStockGuard implements CanActivate {
 
     for (let i = 0; i < userRole!.length; i++) {
       let role = userRole![i];
-      console.log('bbbbbbb', role);
       if (role == '3' || role=='17') 
       {
         this.shared.openingStock= true;
-        console.log('strad', this.shared.openingStock);
         return this.shared.openingStock;
       } 
     }

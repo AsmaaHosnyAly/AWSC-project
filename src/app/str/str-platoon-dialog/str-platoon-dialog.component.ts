@@ -73,8 +73,9 @@ gradeName: any;
       transactionUserId : ['',Validators.required],
       code : [''],
       name : ['',Validators.required],
-      commodityId : ['',Validators.required],
-      gradeId : ['',Validators.required],
+      commodityId : [''],
+      commodityName : [''],
+      gradeId : [''],
       gradeName : [''],
        id : [''],
     });
@@ -97,6 +98,7 @@ gradeName: any;
       this.platoonForm.controls['code'].setValue(this.editData.code);
       this.platoonForm.controls['name'].setValue(this.editData.name);
       this.platoonForm.controls['commodityId'].setValue(this.editData.commodityId);
+      this.platoonForm.controls['commodityName'].setValue(this.editData.commodityName);
       this.platoonForm.controls['gradeId'].setValue(this.editData.gradeId);
       this.platoonForm.controls['gradeName'].setValue(this.editData.gradeName);
       this.platoonForm.addControl('id', new FormControl('', Validators.required));
@@ -165,8 +167,10 @@ getCodeByGradeId() {
     
     next: (res) => {
 
-      this.Code = res;
-      console.log('platoonCode: ', this.Code);
+      // this.Code = res;
+      this.platoonForm.controls['code'].setValue(res);
+
+      // console.log('platoonCode: ', this.Code);
     },
     error: (err) => {
       console.log('get code. err: ', err);
@@ -176,7 +180,7 @@ getCodeByGradeId() {
 }
 
   addPlatoon(){
-    this.platoonForm.controls['code'].setValue(this.Code);
+    // this.platoonForm.controls['code'].setValue(this.Code);
     if(!this.editData){      
       this.platoonForm.removeControl('id')
       // this.platoonForm.controls['commodityId'].setValue(this.selectedOption.id);

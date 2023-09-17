@@ -36,19 +36,20 @@
   margin: 5px;
 }
 
-.groupAction {
+/* .groupAction {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 5%;
-}
+} */
 
 .groupAction button {
   background-color: rgb(60, 202, 252);
   color: aliceblue;
   font-family: 'Cairo', sans-serif !important;
-  display: block;
-  margin: auto;
+  /* display: block; */
+  /* margin: auto; */
+margin: 5px;
   font-weight: bold;
   font-size: 15px;
   padding: 5px 30px;
@@ -130,7 +131,7 @@
 
 .div-table {
   display: block;
-  overflow-x: scroll !important;
+  /* overflow-x: scroll !important; */
   width: 100%;
 }
 
@@ -192,3 +193,57 @@ th {
   font-weight: bold;
 
 }
+
+/* .tableFixHead {
+  overflow-y: auto;
+  height: 200px;
+}
+.tableFixHead  th {
+  position: sticky; 
+  top: 0px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+}
+th {
+
+  background: #eee;
+} */
+/* 
+.tableFixHead th {
+  table-layout: fixed;
+  position: sticky; 
+  top: 0px;
+  border-collapse: collapse;
+}
+.tableFixHead   {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  height: 300px;
+}
+
+.tableFixHead th,
+.tableFixHead td {
+  padding: 5px;
+  text-align: left;
+  width: 200px;
+} */
+
+table {
+  width: 100%;
+}
+
+.tableFixHead {
+  margin-top: 15px;
+  height: 300px;
+  overflow: auto;
+  max-height: 248px; 
+}
+

@@ -22,6 +22,7 @@ export class STRAddContainerComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
+    global.getPermissionUserRoles(1, 'stores', 'إدارة المخازن وحسابات المخازن -إذن اضافة', '')
 
     
   }
@@ -32,7 +33,7 @@ export class STRAddContainerComponent implements OnInit {
 
   openAddDialog() {
     this.dialog.open(STRAddDialogComponent, {
-      width: '90%'
+      width: '95%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllGroups();

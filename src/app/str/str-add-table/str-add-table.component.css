@@ -5,10 +5,9 @@ mat-card {
   margin: 2%;
   /* background-color: blue; */
   box-shadow: none;
-  
 }
-.page-title{
-  font-family: 'Cairo', sans-serif;
+.page-title {
+  font-family: "Cairo", sans-serif;
   font-weight: bold;
   font-size: 25px;
   text-align: center;
@@ -16,62 +15,60 @@ mat-card {
   color: #47afd5;
 }
 
-
-mat-card-header{
+mat-card-header {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   width: 100%;
   align-items: center;
   margin-top: 10px;
 }
 
-mat-card-header .child1{
-  
+mat-card-header .child1 {
   width: 82%;
   /* background-color: aquamarine; */
 }
-.actionss {
-  display: flex;
-  justify-content: space-evenly;
-  }
-  
 
-.mat-mdc-card-header{
+.mat-mdc-card-header {
   padding: 0;
 }
+
+.page-title {
+  font-family: "Cairo", sans-serif;
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+  padding-bottom: 25px;
+  color: #47afd5;
+}
 th {
-  background-color:rgb(60, 202, 252) !important;
+  background-color: rgb(60, 202, 252) !important;
   color: white;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
   font-size: 16px;
- 
 }
 
 .add {
-  background: linear-gradient(rgb(122, 205, 235),rgb(60, 202, 252));
+  background: linear-gradient(rgb(122, 205, 235), rgb(60, 202, 252));
   color: white;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
   padding: 5px 35px;
   border-radius: 10px;
   text-align: center;
 }
-.filter-search{
+.filter-search {
   padding: 0 !important;
   font-size: 15px !important;
   background-color: 0 !important;
- outline: none;
- border: none;
- border-bottom: 1px #2b2727 solid;
- width: 100%;
- text-align: right;
-
+  outline: none;
+  border: none;
+  border-bottom: 1px #2b2727 solid;
+  width: 100%;
+  text-align: right;
 }
 .search mat-form-field {
   width: 250px;
- 
+
   padding: 0 !important;
-  
- 
 }
 
 .search {
@@ -80,11 +77,11 @@ th {
   flex-wrap: wrap;
 }
 .search button,
-.print button{
+.print button {
   width: 250px;
   font-size: 15px;
-  font-family: 'Cairo', sans-serif;
-  background-color:rgb(60, 202, 252);
+  font-family: "Cairo", sans-serif;
+  background-color: rgb(60, 202, 252);
   color: white;
   border: none;
   border-radius: 5px;
@@ -94,16 +91,15 @@ th {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
-.display button{
-  background:linear-gradient(rgb(252, 248, 248),rgb(146, 141, 141));
+.display button {
+  background: linear-gradient(rgb(252, 248, 248), rgb(146, 141, 141));
   color: #111010;
   font-weight: bold;
 }
 
-.editbtn{
-  --mat-icon-color:rgb(129, 135, 138);
+.editbtn {
+  --mat-icon-color: rgb(129, 135, 138);
 }
 
 .print {
@@ -112,15 +108,14 @@ th {
   align-items: center;
 }
 
-.filter-search{
+.filter-search {
   padding: 0 !important;
   font-size: 15px !important;
   background-color: 0 !important;
- outline: none;
- border: none;
- border-bottom: 1px #2b2727 solid;
- width: 100%;
-
+  outline: none;
+  border: none;
+  border-bottom: 1px #2b2727 solid;
+  width: 100%;
 }
 
 mat-expansion-panel {
@@ -133,9 +128,8 @@ mat-expansion-panel {
   margin-top: 0px;
 }
 mat-panel-description {
- 
   font-size: 20px;
-  color:rgb(26, 31, 32);
+  color: rgb(26, 31, 32);
   font-weight: 500;
   text-align: right;
 }
@@ -180,7 +174,7 @@ mat-panel-description {
   height: 80%;
 }
 
-.div-table{
+.div-table {
   display: block;
   overflow-x: scroll;
   width: 100%;
@@ -190,29 +184,26 @@ table {
   margin: 28px 0;
   width: 100%;
   text-align: center;
- 
 }
 
 .mat-mdc-table {
   --mat-table-row-item-outline-width: 1px;
- table-layout: auto;
+  table-layout: auto;
   white-space: normal;
   background-color: var(--mat-table-background-color);
-  font-family: 'Cairo', sans-serif !important;
- width:100%;
- 
+  font-family: "Cairo", sans-serif !important;
+  width: 100%;
 }
-table, th, td {
-  border: 1px  rgb(161, 160, 160) solid;
+table,
+th,
+td {
+  border: 1px rgb(161, 160, 160) solid;
   text-align: center !important;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
   font-weight: bold;
- 
-  
-  
 }
 
-.code{
+.code {
   color: red !important;
 }
 
@@ -226,7 +217,6 @@ table, th, td {
   border-radius: 10px;
   float: left;
   width: 10%;
-
 }
 .show-btn {
   background-color: #147a9f;
@@ -238,8 +228,6 @@ table, th, td {
   border-radius: 10px;
   /* float: left; */
   width: 10%;
-  
-
 }
 
 .print-btn:hover {
@@ -286,4 +274,3 @@ footer h3 {
   box-shadow: none !important;
   
 }
-

@@ -210,8 +210,10 @@ export class STRGroup1DialogComponent implements OnInit {
   getCodeByPlatoonId() {
     this.api.getGroupCode(this.selectedPlatoon?.id).subscribe({
       next: (res) => {
-        this.Code = res;
-        console.log('selectedPlatoon: ', this.Code);
+        // this.Code = res;
+        // console.log('selectedPlatoon: ', this.Code);
+      this.groupForm.controls['code'].setValue(res);
+
       },
       error: (err) => {
         console.log('get code. err: ', err);
@@ -220,7 +222,7 @@ export class STRGroup1DialogComponent implements OnInit {
   }
 
   addGroup() {
-    this.groupForm.controls['code'].setValue(this.Code);
+    // this.groupForm.controls['code'].setValue(this.Code);
     if (!this.editData) {
       this.groupForm.removeControl('id')
       // this.groupForm.controls['commodityId'].setValue(this.selectedOption.id);

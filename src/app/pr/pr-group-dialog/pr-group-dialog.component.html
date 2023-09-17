@@ -17,9 +17,9 @@
             </mat-form-field>
 
         </div>
-
-        <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
-            [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
+<div dir="ltr">
+    <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
+        [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button></div>
     </form>
 
     <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
@@ -37,7 +37,7 @@
                     </mat-select>
                 </mat-form-field> -->
 
-                <div style="display: flex; flex-direction: column;">
+                <div style="display: flex; flex-direction: column; width: 100%;">
                     <mat-label>الصلاحية*</mat-label>
                     <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="roleId" [formControl]="prRoleCtrl"
@@ -52,16 +52,16 @@
                     </mat-form-field>
                 </div>
 
-                <div mat-dialog-action [align]="'end'" style="margin-top: 5%;">
-                    <div class="groupAction">
-                        <button mat-raised-button color="primary" style="margin-left: 8px;"
-                            (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
-                            'اضافة':'تعديل'}}</button>
-                        <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-                    </div>
+              
+            </div>
+            <div mat-dialog-action [align]="'end'" style="margin-top: 5%;">
+                <div class="groupAction">
+                    <button mat-raised-button class="savebtn"
+                        (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
+                        'اضافة':'تعديل'}}</button>
+                   
                 </div>
             </div>
-
             <div>
                 <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 

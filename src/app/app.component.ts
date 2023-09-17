@@ -11,6 +11,9 @@ export class AppComponent {
    user:any
   constructor(public global:GlobalService){
     this.gitUserById()
+    // this.global.getPermissionUserRoles(1||2||3||4||5||6||7||8||9||10||11|12|13|14|15|16|17,'stores','','')
+    // this.global. getPermissionRolesScreens(18||19,'الصلاحيات','')
+   
     
     // if(localStorage.getItem('token')) this.global.isLogIn = true
     // console.log(this.global.isLogIn)

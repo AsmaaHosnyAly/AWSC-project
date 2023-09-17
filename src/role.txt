@@ -11,7 +11,7 @@
 10-unit الوحدة
 11-items1 الاصناف
 12-products المنتجات 
-13-stores المخازن
+13-store المخازن
 14-costCenter مركز التكلفة
 15-المصنع
 16-النوذج
@@ -20,3 +20,6 @@
 
 18-pr-user
 19-pr-group
+
+
+name :aly_it pass:it  roles:(18,19)

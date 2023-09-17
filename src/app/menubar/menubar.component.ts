@@ -8,6 +8,7 @@ import { SharedService } from '../guards/shared.service';
   styleUrls: ['./menubar.component.css'],
 })
 export class MenubarComponent {
+  str1:any
   badgevisible = false;
   badgevisibility() {
     this.badgevisible = true;
@@ -17,14 +18,20 @@ export class MenubarComponent {
   user: any;
   sharedStores: any;
   constructor(public global: GlobalService,  public shared: SharedService) {
-    this.gitUserById();
-    // if(localStorage.getItem('token')) this.global.isLogIn = true
-    // console.log(this.global.isLogIn)
-
-    // console.log(this.global.userRoles)
-    let userRole = localStorage.getItem('userRoles');
-    this.gitUserById();
-
+    // this.refresh()
+   
+  
+  //  this.str1=localStorage.getItem('stores')
+  //   console.log(localStorage.getItem('stores'))
+  //   this.shared.roles
+  //   console.log('stores', this.shared.stores)
+  // //   console.log('roles',this.shared.roles)
+  // this.global.getPermissionUserRoles(1||2||3||4||5||6||7||8||9||10||11|12|13|14|15|16|17,'stores','','')
+  // this.global.getPermissionRolesScreens(18||19,'الصلاحيات','')
+ 
+  this.gitUserById();
+ 
+   
     //  this.global.getPermissionUserRoles(null, 'stores', 'الوحدة', '')
   }
 
@@ -32,8 +39,7 @@ export class MenubarComponent {
     this.global.bgColor = document
       .querySelector('section')
       ?.classList.add('screenBackground');
-
-      console.log("vvvv, ",this.shared.stores )
+    
   }
   title = 'str-group';
 
@@ -52,7 +58,18 @@ export class MenubarComponent {
   }
 
   handleLogOut() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userRoles');
     this.global.isLogIn = false;
   }
-}
+
+refresh(){
+  
+    window.location.reload();
+  }
+   
+ 
+  }
+
+
+  
+
