@@ -157,4 +157,6 @@ export class GlobalService {
       // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
     }
   }
+
+  
 }
