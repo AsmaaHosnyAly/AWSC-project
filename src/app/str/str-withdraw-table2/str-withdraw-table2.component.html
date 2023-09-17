@@ -216,7 +216,14 @@
               >search</mat-icon
             >
 
-            <mat-icon class="icons" title="عرض">print</mat-icon>
+            <mat-icon
+              class="icons"
+              title="عرض"
+              (click)="previewPrint(no.value, date.value, fiscalYear.value)"
+              class="icons"
+              title="تحميل"
+              >print</mat-icon
+            >
 
             <mat-icon
               (click)="downloadPrint(no.value, date.value, fiscalYear.value)"
@@ -346,10 +353,10 @@
     </div>
   </section>
 
-  <!-- <mat-paginator
+  <mat-paginator
     [pageSizeOptions]="[5, 10, 25, 100]"
     aria-label="Select page of users"
-  ></mat-paginator> -->
+  ></mat-paginator>
 
   <!-- <script>
         document.getElementById("myForm").reset();

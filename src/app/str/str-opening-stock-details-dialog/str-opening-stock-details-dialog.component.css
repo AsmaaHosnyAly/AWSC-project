@@ -52,6 +52,7 @@
   font-weight: bold;
   font-size: 15px;
   padding: 5px 30px;
+  margin-top: -50px;
 }
 
 .follow-btn {
@@ -90,10 +91,12 @@
 }
 
 .detailsForm {
-  margin-top: 2%;
+  /* margin-top: 2%; */
+  margin: 5%;
+  margin-right: 20%;
   display: flex;
   flex-direction: column;
-  padding: 5%;
+  /* padding: 5%; */
   /* text-align: right; */
   /* justify-content: space-between; */
   /* background: #000; */
@@ -193,5 +196,11 @@ th {
 .sum-label {
   color: red;
   font-weight: bold;
+
+}
+
+.allform{
+overflow: hidden;
+
 
 }
