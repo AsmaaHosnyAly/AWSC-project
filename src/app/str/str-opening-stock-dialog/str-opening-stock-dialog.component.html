@@ -6,7 +6,7 @@
 
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل إذن إفتتاحي ' : ' إضافة إذن إفتتاحي جديد'}}</h1>
 
-<div mat-dialog-content dir="rtl" style="padding: 30px;">
+<div mat-dialog-content dir="rtl" style="padding: 30px;overflow: hidden;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
         <div class="headerForm">
@@ -91,7 +91,7 @@
                 <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
                     <div class="groupAction">
                         <button mat-raised-button class="savebtn"
-                            (click)="updateMaster()">تعديل الاساسي</button>
+                            (click)="updateMaster()">تعديل الاذن</button>
 
                     </div>
 
@@ -102,14 +102,14 @@
                     
                     <div class="groupAction">
                         <button mat-raised-button class="savebtn"
-                            (click)="addNewDetails()">اضافة تفاصيل</button>
+                            (click)="addNewDetails()">اضافة بيان</button>
 
                     </div>
 
                 </div>
                 
 
-                <div>
+                <div  class="tableFixHead">
                     <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
                         <!-- itemName Column -->
@@ -162,12 +162,12 @@
                             </td>
                         </ng-container>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
 
                     </table>
-                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
-                        aria-label="Select page of users"></mat-paginator>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                        aria-label="Select page of users"></mat-paginator> -->
                 </div>
             </div>
         </div>

@@ -1,13 +1,7 @@
-<!-- <p>str-opening-stock-details-dialog works!</p> -->
-<div class="cdk-overlay-pane  ">
-    <button class="close" mat-button (click)="addDetailsInfo()" mat-dialog-close> <mat-icon>
-            clear</mat-icon></button>
-</div>
-
 <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
 
-    <div class="allform">
+    <div>
         <!-- <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'"> -->
         
         
@@ -19,8 +13,8 @@
                 <!-- <div  > -->
                     <mat-label>بحث بالكود*</mat-label>
 
-                    <mat-form-field appearance="outline" class=" child-num" style="width: 80%;">
-                        <input matInput placeholder="الكود" (keydown)="getItemByCode($event)" placeholder="{{editData ? editData.fullCode : ''}}" [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
+                    <mat-form-field appearance="outline" class=" child-num" style="width: 100%;">
+                        <input matInput placeholder="الكود" min="0" (keydown)="getItemByCode($event)" placeholder="{{editData ? editData.fullCode : ''}}" [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
                     </mat-form-field>
                 <!-- </div> -->
 
@@ -36,7 +30,7 @@
 
                 <!-- <div style="display: flex; flex-direction: column; width: 30%;"> -->
                     <mat-label>الصنف*</mat-label>
-                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoItemId"
                             [formControl]="itemCtrl"
                             placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
@@ -53,28 +47,20 @@
 
 
                 <!-- <div style="display: flex; flex-direction: column; width: 15%; "> -->
-                 <div style="display: flex;flex-direction: row;">
-                    <div style="display: flex;flex-direction: column; width: 18rem;">
-                        <mat-label>الكمية*</mat-label>
+                    <mat-label>الكمية*</mat-label>
 
-                    <mat-form-field appearance="outline" class=" child-num" style="width: 92%;">
+                    <mat-form-field appearance="outline" class=" child-num" style="width: 100%;">
                         <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
                             [value]="editData ? editData.qty : '1'">
                     </mat-form-field>
-                    </div>
                 <!-- </div> -->
 
                 <!-- <div style="display: flex; flex-direction: column; width: 20%;"> -->
-                   <div style="display: flex;flex-direction: column;width: 25rem;">
-                    <mat-label>متوسط السعر*</mat-label>
-
-                    <mat-form-field appearance="outline" class="child-num" style="width: 92%;">
-                        <input matInput placeholder="الرقم" type="number" min="0"
-                            [value]="editData ? editData.price : ''" formControlName="price"
-                            [readonly]="isReadOnly">
+                    <mat-form-field appearance="outline" class="child-num">
+                        <mat-label>السعر</mat-label>
+                        <input type="number"  min="0" matInput formControlName="price"
+                            [value]="editData ? editData.percentage : ''">
                     </mat-form-field>
-                   </div>
-                 </div>
                 <!-- </div> -->
 
                 <!-- <div style="margin-top: 5%; margin-right: 2%;">
@@ -84,9 +70,23 @@
             <!-- </div> -->
 
 
+            <mat-form-field appearance="outline" class="child-num">
+                <mat-label>النسبة</mat-label>
+                <input type="number"  min="0" matInput formControlName="percentage"
+                    [value]="editData ? editData.percentage : ''">
+            </mat-form-field>
+
+            <mat-radio-group aria-label="Select an option" formControlName="state"
+                [value]="editData ? editData.state : ''">
+                <mat-label>حالة العهدة</mat-label>
+                <div class="statusRadioBtns">
+                    <mat-radio-button value="جديد">جديد</mat-radio-button>
+                    <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
+                </div>
+            </mat-radio-group>
 
         </div>
-        <div mat-dialog-action [align]="'end'" style="display: flex; margin-right: -5%;margin-top: 0%;">
+        <div mat-dialog-action [align]="'end'" style="display: flex; margin-right: -5%;">
             <div class="groupAction">
                 <button mat-raised-button class="savebtn"
                     (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?

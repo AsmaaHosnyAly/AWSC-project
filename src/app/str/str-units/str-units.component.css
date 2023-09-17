@@ -1,6 +1,13 @@
 @import url("http://fonts.googleapis.com/earlyaccess/droidarabickufi.css");
 @import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
 
+mat-progress-spinner{
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
 mat-card {
   margin: 2%;
   /* background-color: blue; */
