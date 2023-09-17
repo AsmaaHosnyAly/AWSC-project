@@ -1,91 +1,93 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { STRUnitsDialogComponent } from '../str-units-dialog/str-units-dialog.component';
 import { ApiService } from '../../services/api.service';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { GlobalService } from '../../services/global.service';
 import { LoadingService } from 'src/app/loading.service';
 import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-str-units',
   templateUrl: './str-units.component.html',
-  styleUrls: ['./str-units.component.css']
+  styleUrls: ['./str-units.component.css'],
 })
 export class STRUnitsComponent {
   title = 'angular13crud';
-  displayedColumns: string[] = [ 'name', 'action'];
+  displayedColumns: string[] = ['name', 'action'];
   dataSource!: MatTableDataSource<any>;
- loading$ = this.loader.loading$;
+  loading$ = this.loader.loading$;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , public loader:LoadingService, private http:HttpClient){
-    global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
-    
-
+  constructor(
+    private dialog: MatDialog,
+    private api: ApiService,
+    private global: GlobalService,
+    public loader: LoadingService,
+    private http: HttpClient
+  ) {
+    global.getPermissionUserRoles(9, 'stores', 'الوحدة', '');
   }
   ngOnInit(): void {
     this.getAllUnits();
   }
-  
+
   openDialog() {
-    
-    this.dialog.open(STRUnitsDialogComponent, {
-      width: '30%'
-      
-    }).afterClosed().subscribe(val=>{
-      if(val === 'save'){
-        this.getAllUnits();
-      }
-    })
+    this.dialog
+      .open(STRUnitsDialogComponent, {
+        width: '30%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save') {
+          this.getAllUnits();
+        }
+      });
   }
-  getAllUnits(){
-    this.api.getunit()
-    .subscribe({
-      next:(res)=>{
+  getAllUnits() {
+    this.api.getunit().subscribe({
+      next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },
-      error:(err)=>{
-        alert("خطأ عند استدعاء البيانات");
-      }
-      
-    })
+      error: (err) => {
+        alert('خطأ عند استدعاء البيانات');
+      },
+    });
   }
-  editunit(row : any){
-    this.dialog.open(STRUnitsDialogComponent,{
-      width:'30%',
-      data:row
-    }).afterClosed().subscribe(val=>{
-      if(val === 'update'){
-        this.getAllUnits();
-      }
-    })
+  editunit(row: any) {
+    this.dialog
+      .open(STRUnitsDialogComponent, {
+        width: '30%',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'update') {
+          this.getAllUnits();
+        }
+      });
   }
-  daleteunit(id:number){
+  daleteunit(id: number) {
     var result = confirm('هل ترغب بتاكيد المسح  ؟ ');
     if (result) {
-    this.api.deleteunit(id)
-    .subscribe({
-      next:(res)=>{
-        alert("تأكيد حذف الوحدة");
-        this.getAllUnits();
-      },
-      error:()=>{
-        alert("خطأ عند الحذف")
-      }
-    })
+      this.api.deleteunit(id).subscribe({
+        next: (res) => {
+          alert('تأكيد حذف الوحدة');
+          this.getAllUnits();
+        },
+        error: () => {
+          alert('خطأ عند الحذف');
+        },
+      });
+    }
+    // fetchuser(){
+    //   this.http.get('https://api.github.com/users/thisiszaoib').subscribe((res)=>(console.log(res)))
+    // }
   }
-<<<<<<< HEAD
-}
-=======
-  // fetchuser(){
-  //   this.http.get('https://api.github.com/users/thisiszaoib').subscribe((res)=>(console.log(res)))
-  // }
->>>>>>> 2a94e1f8c59c00398ec699ded27c9a12d2f2fbff
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -94,5 +96,4 @@ export class STRUnitsComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-  
 }
