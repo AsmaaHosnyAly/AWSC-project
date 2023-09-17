@@ -15,6 +15,10 @@
   font-size: 16px;
   margin: 0 !important;
 }
+.user-info{
+  display: flex;
+  align-items: center;
+}
 .user-content p{
   font-family: 'Droid Arabic naskh', serif;
   font-size: 14px;
