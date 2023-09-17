@@ -345,6 +345,27 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
+  downloadPdf(no: any, store: any, date: any) {
+    console.log('no. : ', no, 'store : ', store, 'date: ', date);
+    this.api.strAdd(no, store, date).subscribe({
+      next: (res) => {
+        console.log('search:', res);
+        const url: any = res.url;
+        window.open(url);
+        // let blob: Blob = res.body as Blob;
+        // let url = window.URL.createObjectURL(blob);
+
+        // this.dataSource = res;
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
+      },
+      error: (err) => {
+        console.log('eroorr', err);
+        window.open(err.url);
+      },
+    });
+  }
+
   loadDataToLocalStorage(data: any): void {
     localStorage.removeItem('store-data');
     localStorage.setItem('store-data', JSON.stringify(data));

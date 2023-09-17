@@ -216,7 +216,14 @@
               >search</mat-icon
             >
 
-            <mat-icon class="icons" title="عرض">print</mat-icon>
+            <mat-icon
+              class="icons"
+              title="عرض"
+              (click)="previewPrint(no.value, date.value, fiscalYear.value)"
+              class="icons"
+              title="تحميل"
+              >print</mat-icon
+            >
 
             <mat-icon
               (click)="downloadPrint(no.value, date.value, fiscalYear.value)"
