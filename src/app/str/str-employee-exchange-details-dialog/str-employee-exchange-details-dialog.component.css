@@ -118,7 +118,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 5%;
+  margin-right: 18%;
+  overflow: hidden;
+  /* padding: 5%; */
 
 }
 
@@ -164,7 +166,7 @@
 
 .div-table {
   display: block;
-  overflow-x: scroll !important;
+  /* overflow-x: scroll !important; */
   width: 100%;
 }
 
