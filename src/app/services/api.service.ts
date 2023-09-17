@@ -1534,7 +1534,22 @@ export class ApiService {
         HeaderId
     );
   }
-
+  putStrEmployeeOpenDetail(data: any, id: number) {
+    console.log('strOpenDetails id: ', id, 'strOpenDetails data: ', data);
+    return this.http.put<any>(
+      `${this.url}/STREmployeeOpeningCustodyDetails/update/` + id,
+      data
+    );
+  }
+  getStrEmployeeOpenDetailsByMasterId(id: any) {
+    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`);
+  }
+  putStEmp(data: any) {
+    return this.http.put<any>(`${this.url}/STREmployeeOpeningCustody/update`, data);
+  }
+  // getStrOpenDetailsByMasterId(id: any) {
+  //   return this.http.get<any>(`${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`);
+  // }
   /////////////withdraw///////////
 
   postStrWithdraw(data: any) {
@@ -1576,8 +1591,13 @@ export class ApiService {
       'http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all '
     );
   }
+  getStrWithdrawDetailsByMasterId(id: any) {
+    return this.http.get<any>(
+      `${this.url}/STRWithdraw/GetallSTRWithDrawDetailsGetByWithDrawId/${id}`
+    );
+  }
   putStrWithdrawDetails(data: any) {
-    console.log('put details');
+    console.log('put details', data);
 
     return this.http.put<any>(
       'http://ims.aswan.gov.eg/api/STRWithdrawDetails/update ',
@@ -2550,6 +2570,7 @@ export class ApiService {
       "' distEmployee: '",
       itemId
     );
+    this.mycondition=`${this.url}/STREmployeeOpeningCustody/search?`
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
 
     if (!no == false) {
@@ -2613,6 +2634,7 @@ export class ApiService {
     // else if (no != '' && costCenterId && !employeeId && !date && !itemId) {
     //   console.log('enter no. & costCenter employeeExchange search');
     //   return this.http.get<any>(
+
     //     `${this.url}/STREmployeeOpeningCustody/search?No=${no}&CostCenterId=${costCenterId}`
     //   );
     // }
