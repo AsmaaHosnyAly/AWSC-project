@@ -73,16 +73,7 @@ const routes: Routes = [
   {
     path: '',
     component: MenubarComponent,
-    canActivate: [
-      rolesGuard,
-      sTRAddGuard,
-      authGuard,
-      withdrawGuard,
-      strOpeningStockGuard,
-      employeeOpeningGuard,
-      employeeOpeningCustodyGuard,
-      prUserGuard
-    ],
+    
     children: [
       {
         path: 'withdraw',
