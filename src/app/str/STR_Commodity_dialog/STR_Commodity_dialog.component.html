@@ -9,7 +9,7 @@
       <form [formGroup]="productForm">
         <mat-form-field appearance="outline">
           <mat-label>كود السلعة</mat-label>
-          <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود السلعة" [value]="editData ? editData.code : autoCode">
+          <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود السلعة" [value]="editData ? editData.code : autoCode" readonly>
           <!-- <mat-error *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched">
              كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
           </mat-error> -->

@@ -10,6 +10,8 @@ import { StrOpeningStockDialogComponent } from '../../str/str-opening-stock-dial
 import { ToastrService } from 'ngx-toastr';
 import { PrGroupDialogComponent } from '../pr-group-dialog/pr-group-dialog.component';
 import { PrUserDialogComponent } from '../pr-user-dialog/pr-user-dialog.component';
+import { GlobalPositionStrategy } from '@angular/cdk/overlay';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-pr-user-table',
@@ -38,8 +40,11 @@ export class PrUserTableComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    global:GlobalService
+  ) { 
+    global.getPermissionUserRoles(1, 'stores', 'الصلاحيات-المستخدمين', '')
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();
