@@ -231,7 +231,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
         console.log("post d: ", this.groupDetailsForm.value, "ooo:", !this.getDetailedRowData);
 
-        if (this.groupDetailsForm.valid) {
+        if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
           this.api.postStrEmployeeOpenDetails(this.groupDetailsForm.value)
             .subscribe({
