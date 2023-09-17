@@ -1,6 +1,4 @@
-.groupInput {
-  width: 100%;
-}
+@import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
 
 .cdk-overlay-pane {
   position: relative !important;
@@ -19,6 +17,36 @@
   color: #ffff;
 }
 
+.mat-dialog-content {
+  padding: 20px 40px;
+
+
+
+}
+
+.groupInput {
+  width: 100%;
+}
+
+
+.add-h1 {
+  text-align: center;
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: bold;
+  color: rgb(60, 202, 252);
+  margin-top: 10px;
+  box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
+
+}
+
+.follow-btn {
+  background-color: rgb(60, 202, 252);
+  color: antiquewhite;
+  text-align: left;
+  padding: 5px 20px;
+  font-size: 20px;
+}
+
 .example-radio-group {
   display: flex;
   /* flex-direction: column; */
@@ -32,9 +60,7 @@
 
 }
 
-.example-radio-button {
-  margin: 5px;
-}
+
 
 .groupAction {
   display: flex;
@@ -54,15 +80,6 @@
   padding: 5px 30px;
 }
 
-.follow-btn {
-  background-color: rgb(60, 202, 252);
-  color: antiquewhite;
-  text-align: left;
-  padding: 5px 20px;
-  font-size: 20px;
-}
-
-
 .restGroupInfo {
   display: block;
 }
@@ -79,45 +96,80 @@
   display: none;
 }
 
-
-.headerForm{
+.headerForm {
   display: flex;
   justify-content: space-between;
-  width: 90%;
   flex-wrap: wrap;
-  margin: auto;
-  align-items: center;
+
 }
-.label-div{
+
+.child-num {
+  width: 10%;
+  text-align: right;
+}
+
+.headerForm .groupInput {
+  width: 19%;
+
+}
+
+.detailsForm {
   display: flex;
   flex-direction: column;
-  width: 42%;
- margin: 0 1px;
-  
+  overflow: hidden;
+  margin-right: 18%;
+
+  margin-top:-5%;
+  /* justify-content: space-between; */
+  padding: 5%;
+
 }
 
-.child{
-  width: 25%;
+.detailsForm .groupInput {
+  flex-basis: 19%;
 }
 
+.detailsForm .third-parent {
 
-.add-h1 {
+  flex-basis: 15%;
+
+
+}
+
+.notes {
+  flex-basis: 72%;
+}
+
+.qnty {
+  width: 20%;
+
+}
+
+.headerTable {
+  align-items: center;
+}
+
+/* .savebtn {} */
+
+.mat-mdc-radio-button~.mat-mdc-radio-button {
+  margin-left: 10px;
+
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__title {
   text-align: center;
-  font-family: 'Cairo', sans-serif !important;
-  font-weight: bold;
-  color: rgb(60, 202, 252);
-  margin-top: 10px;
-  box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
-
 }
 
 .div-table {
   display: block;
-  overflow-x: scroll !important;
+  /* overflow-x: scroll !important; */
   width: 100%;
 }
-
-
 
 table {
   margin: 28px 0;
@@ -160,10 +212,6 @@ th {
 
 }
 
-.editbtn {
-  --mat-icon-color: rgb(129, 135, 138);
-}
-
 .sum-label-parent {
   display: block !important;
   margin: auto;
@@ -176,4 +224,8 @@ th {
   color: red;
   font-weight: bold;
 
+}
+
+.editbtn .mat-icon {
+  --mat-icon-color: rgb(129, 135, 138);
 }

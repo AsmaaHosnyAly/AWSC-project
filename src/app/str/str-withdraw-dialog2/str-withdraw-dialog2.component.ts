@@ -752,39 +752,71 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   getAllDetailsForms() {
     // console.log("mastered row get all data: ", this.getMasterRowId)
+    // if (this.getMasterRowId) {
+    //   this.api.getStrWithdrawDetails().subscribe(
+    //     (res) => {
+    //       console.log(
+    //         'res to get all details form: ',
+    //         res,
+    //         'masterRowId: ',
+    //         this.getMasterRowId.id
+    //       );
+
+    //       this.matchedIds = res.filter((a: any) => {
+    //         // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
+    //         return a.stR_WithdrawId == this.getMasterRowId.id;
+    //       });
+
+    //       if (this.matchedIds) {
+    //         this.dataSource = new MatTableDataSource(this.matchedIds);
+    //         this.dataSource.paginator = this.paginator;
+    //         this.dataSource.sort = this.sort;
+
+    //         this.sumOfTotals = 0;
+    //         for (let i = 0; i < this.matchedIds.length; i++) {
+    //           this.sumOfTotals =
+    //             this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+    //           this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+    //           this.updateBothForms();
+    //         }
+    //       }
+    //     },
+    //     (err) => {
+    //       alert('حدث خطا ما !!');
+    //     }
+    //   );
+    // }
+
+
     if (this.getMasterRowId) {
-      this.api.getStrWithdrawDetails().subscribe(
-        (res) => {
-          console.log(
-            'res to get all details form: ',
-            res,
-            'masterRowId: ',
-            this.getMasterRowId.id
-          );
+      console.log("masterRowId: ", this.getMasterRowId.id);
+      this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            // this.itemsList = res;
+            this.matchedIds = res[0].strWithDrawDetailsGetVM;
 
-          this.matchedIds = res.filter((a: any) => {
-            // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
-            return a.stR_WithdrawId == this.getMasterRowId.id;
-          });
+            if (this.matchedIds) {
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
 
-          if (this.matchedIds) {
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-
-            this.sumOfTotals = 0;
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfTotals =
-                this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-              this.updateBothForms();
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+                this.updateMaster();
+              }
             }
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
           }
-        },
-        (err) => {
-          alert('حدث خطا ما !!');
-        }
-      );
+        })
     }
   }
   async addDetailsInfo() {
@@ -1035,7 +1067,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     //   // this.groupDetailsForm.controls['withDrawNoName'].setValue(this.getDetailedRowData.withDrawNoName);
     // }
 
-    this.router.navigate(['/withdraw'], { queryParams: { masterId: this.getMasterRowId.id,employeeId:this.groupMasterForm, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
+    this.router.navigate(['/withdraw'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrWithdrawDetailsDialogComponent, {
       width: '95%',
       height: '95%',
@@ -1312,6 +1344,8 @@ export class StrWithdrawDialogComponent implements OnInit {
     }
   }
 
+
+  
   async getFiscalYears() {
     this.api.getFiscalYears().subscribe({
       next: async (res) => {
@@ -1555,13 +1589,13 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   addNewDetails() {
     this.router.navigate(['/withdraw'], {
-      queryParams: { masterId: this.getMasterRowId.id ,employeeId:this.groupMasterForm.getRawValue().employeeId},
+      queryParams: { masterId: this.getMasterRowId.id , fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date },
      
     });
     this.dialog
       .open(StrWithdrawDetailsDialogComponent, {
-        width: '40%',
-        height: '80%',
+        width: '95%',
+        height: '95%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -1574,84 +1608,114 @@ export class StrWithdrawDialogComponent implements OnInit {
   async updateMaster() {
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
 
-    // if (this.getMasterRowId.id) {
-    //   if (this.getMasterRowId.id) {
+    // // if (this.getMasterRowId.id) {
+    // //   if (this.getMasterRowId.id) {
 
-    //     if (this.groupDetailsForm.getRawValue().itemId) {
+    // //     if (this.groupDetailsForm.getRawValue().itemId) {
 
-    // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-    // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-    this.groupDetailsForm.controls['transactionUserId'].setValue(
-      this.userIdFromStorage
-    );
-    // }
+    // // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
+    // // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+    // this.groupDetailsForm.controls['transactionUserId'].setValue(
+    //   this.userIdFromStorage
+    // );
+    // // }
 
-    // this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
-    // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
-    // console.log("post d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
+    // // this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
+    // // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
+    // // console.log("post d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
 
-    // if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
+    // // if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
-    //   this.api.postStrOpenDetails(this.groupDetailsForm.value)
-    //     .subscribe({
-    //       next: (res) => {
-    //         this.toastrSuccess();
-    //         this.groupDetailsForm.reset();
-    //         this.groupDetailsForm.controls['qty'].setValue(1);
-    //         this.itemCtrl.setValue('');
-    //         this.itemByFullCodeValue = '';
-    //         this.fullCodeValue = '';
+    // //   this.api.postStrOpenDetails(this.groupDetailsForm.value)
+    // //     .subscribe({
+    // //       next: (res) => {
+    // //         this.toastrSuccess();
+    // //         this.groupDetailsForm.reset();
+    // //         this.groupDetailsForm.controls['qty'].setValue(1);
+    // //         this.itemCtrl.setValue('');
+    // //         this.itemByFullCodeValue = '';
+    // //         this.fullCodeValue = '';
 
-    //         this.updateDetailsForm()
-    //         this.getAllDetailsForms();
-    //       },
-    //       error: () => {
-    //         // alert("حدث خطأ أثناء إضافة مجموعة")
-    //       }
-    //     })
-    // }
-    // else {
-    console.log(
-      'update both: ',
-      this.groupDetailsForm.valid,
-      'ooo:',
-      !this.getDetailedRowData
-    );
-    console.log('edit : ', this.groupDetailsForm.value);
-    this.api.putStrEmployeeExchange(this.groupMasterForm.value).subscribe({
-      next: (res) => {
-        // if (this.groupDetailsForm.value && this.getDetailedRowData) {
-        // this.api.putStrOpenDetails(this.groupDetailsForm.value, this.getDetailedRowData.id)
-        //   .subscribe({
-        //     next: (res) => {
+    // //         this.updateDetailsForm()
+    // //         this.getAllDetailsForms();
+    // //       },
+    // //       error: () => {
+    // //         // alert("حدث خطأ أثناء إضافة مجموعة")
+    // //       }
+    // //     })
+    // // }
+    // // else {
+    // console.log(
+    //   'update both: ',
+    //   this.groupDetailsForm.valid,
+    //   'ooo:',
+    //   !this.getDetailedRowData
+    // );
+    // console.log('edit : ', this.groupDetailsForm.value);
+    // this.api.putStrEmployeeExchange(this.groupMasterForm.value).subscribe({
+    //   next: (res) => {
+    //     // if (this.groupDetailsForm.value && this.getDetailedRowData) {
+    //     // this.api.putStrOpenDetails(this.groupDetailsForm.value, this.getDetailedRowData.id)
+    //     //   .subscribe({
+    //     //     next: (res) => {
 
-        // this.toastrSuccess();
-        this.groupDetailsForm.reset();
-        // this.itemCtrl.setValue('');
+    //     // this.toastrSuccess();
+    //     this.groupDetailsForm.reset();
+    //     // this.itemCtrl.setValue('');
 
-        // this.getAllDetailsForms();
-        this.getDetailedRowData = '';
-        this.groupDetailsForm.controls['qty'].setValue(1);
+    //     // this.getAllDetailsForms();
+    //     this.getDetailedRowData = '';
+    //     this.groupDetailsForm.controls['qty'].setValue(1);
 
-        //   },
-        //   error: (err) => {
-        //     console.log("update err: ", err)
-        //     // alert("خطأ أثناء تحديث سجل المجموعة !!")
-        //   }
-        // })
-        // }
-      },
-    });
-    // this.updateBothForms();
-    //     }
+    //     //   },
+    //     //   error: (err) => {
+    //     //     console.log("update err: ", err)
+    //     //     // alert("خطأ أثناء تحديث سجل المجموعة !!")
+    //     //   }
+    //     // })
+    //     // }
+    //   },
+    // });
+    // // this.updateBothForms();
+    // //     }
 
-    //   }
+    // //   }
 
-    // }
-    // else {
-    //   console.log("update d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
+    // // }
+    // // else {
+    // //   console.log("update d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
 
-    //   this.updateDetailsForm();
-    // }
+    // //   this.updateDetailsForm();
+    // // }
+
+
+    console.log("nnnvvvvvvvvvv: ", this.groupMasterForm.value);
+    
+    this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+   
+    console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
+    console.log("edit : ", this.groupDetailsForm.value)
+    this.api.putStrWithdraw(this.groupMasterForm.value)
+      .subscribe({
+        next: (res) => {
+          
+          this.groupDetailsForm.reset();
+          // this.itemCtrl.setValue('');
+
+          // this.getAllDetailsForms();
+          this.getDetailedRowData = '';
+          this.groupDetailsForm.controls['qty'].setValue(1);
+
+          //   },
+          //   error: (err) => {
+          //     console.log("update err: ", err)
+          //     // alert("خطأ أثناء تحديث سجل المجموعة !!")
+          //   }
+          // })
+          // }
+
+        },
+
+      })
   }
 }

@@ -4,14 +4,14 @@
 </div>
 
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل نقل عهدة ' : ' إضافة نقل عهدة جديد'}}</h1>
-<div mat-dialog-content dir="rtl" style="padding: 30px;">
+<div mat-dialog-content dir="rtl" style="padding: 30px;overflow: hidden;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
         <div class="headerForm">
 
-            <div style="display: flex; justify-content: space-between; width: 100%;">
+            <div style="display: flex;  width: 100%;margin-left: 10px;padding-top: 0px;margin-top: -10px;">
 
-                <div style="width: 20%;">
+                <div style="display: flex; flex-direction: column; width: 10%;">
                     <mat-label>الرقم*</mat-label>
 
                     <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
@@ -21,7 +21,7 @@
                 </div>
 
 
-                <div style="width: 35%;">
+                <div style="display: flex; flex-direction: column; width: 20%;margin-left: 10px;">
                     <mat-label>السنة المالية*</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
@@ -52,7 +52,7 @@
                     </mat-select>
                 </mat-form-field> -->
 
-                <div style="width: 40%;">
+                <div style="display: flex; flex-direction: column; width: 20%;margin-left: 10px;">
 
                     <!-- <div style="display: flex; flex-direction: column"> -->
                     <mat-label> الموظف*</mat-label>
@@ -68,23 +68,8 @@
                         </mat-autocomplete>
                     </mat-form-field>
                 </div>
-
-            </div>
-
-            <div style="display: flex; width: 100%; justify-content: space-between;">
-
-
-
-                <!-- <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label>الموظف المحول اليه</mat-label>
-                    <mat-select placeholder="الموظف المحول اليه" formControlName="destEmployeeId">
-                        <mat-option [value]="employee.id"
-                            *ngFor="let employee of employeesList">{{employee.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
-                <!-- <div style="display: flex; flex-direction: column"> -->
-                <div style="width: 40%;">
+                
+                <div style="display: flex; flex-direction: column; width: 20%;margin-left: 10px;">
 
                     <mat-label>الموظف المحول اليه*</mat-label>
                     <mat-form-field appearance="outline" class="groupInput" style=" width: 100%;">
@@ -101,16 +86,7 @@
                     </mat-form-field>
                 </div>
 
-                <!-- <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label> مركز التكلفة</mat-label>
-                    <mat-select placeholder=" مركز التكلفة" formControlName="costCenterId">
-                        <mat-option [value]="costCenter.id"
-                            *ngFor="let costCenter of costCentersList">{{costCenter.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
-                <!-- <div style="display: flex; flex-direction: column"> -->
-                <div style="width: 35%;">
+                    <div style="display: flex; flex-direction: column; width: 20%;margin-left: 10px;">
 
                     <mat-label> مركز التكلفة</mat-label>
                     <mat-form-field appearance="outline" style=" width: 100%;">
@@ -127,7 +103,14 @@
                 </div>
 
 
-                <div style="width: 20%;">
+            </div>
+
+            <div style="display: flex; width: 100%;">
+
+
+
+
+                <div style="display: flex; flex-direction: column; width: 30%;margin-left: 10px;">
                     <mat-label>التاريخ</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
@@ -241,23 +224,25 @@
 
             <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
                 <div class="groupAction">
-                    <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل الاساسي</button>
+                    <button mat-raised-button class="savebtn"
+                        (click)="updateMaster()">تعديل الاذن</button>
 
                 </div>
 
                 <!-- <div class="sum-label-parent"> -->
-                <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
+                    <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
                 <!-- </div> -->
 
-
+                
                 <div class="groupAction">
-                    <button mat-raised-button class="savebtn" (click)="addNewDetails()">اضافة تفاصيل</button>
+                    <button mat-raised-button class="savebtn"
+                        (click)="addNewDetails()">اضافة بيان</button>
 
                 </div>
 
             </div>
 
-            <div>
+            <div class="tableFixHead">
                 <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
                     <!-- itemName Column -->
@@ -322,11 +307,10 @@
                         </td>
                     </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
 
                 </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
             </div>
         </div>
 

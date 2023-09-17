@@ -138,7 +138,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   openEmployeeExchangeDialog() {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
-        width: '60%',
+        width: '98%',
+        height: '95%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -146,17 +147,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
-    this.dialog
-      .open(StrEmployeeExchangeDialogComponent, {
-        width: '95%',
-        height: '95%',
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'save') {
-          this.getAllMasterForms();
-        }
-      });
+ 
   }
 
   getAllMasterForms() {
@@ -186,17 +177,17 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
 
   editMasterForm(row: any) {
-    this.dialog
-      .open(StrEmployeeExchangeDialogComponent, {
-        width: '60%',
-        data: row,
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'update' || val === 'save') {
-          this.getAllMasterForms();
-        }
-      });
+    // this.dialog
+    //   .open(StrEmployeeExchangeDialogComponent, {
+    //     width: '60%',
+    //     data: row,
+    //   })
+    //   .afterClosed()
+    //   .subscribe((val) => {
+    //     if (val === 'update' || val === 'save') {
+    //       this.getAllMasterForms();
+    //     }
+    //   });
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
         width: '95%',
@@ -209,6 +200,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
+ 
   }
 
   deleteBothForms(id: number) {
