@@ -396,8 +396,8 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     //   this.groupMasterForm.controls['id'].setValue(this.editData.id);
     // }
 
-    // this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
-    // this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+    this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+    this.groupDetailsForm.controls['id'].setValue(this.editData.id);
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
     this.isEdit = false;
@@ -405,10 +405,12 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     // this.api.putStrOpen(this.groupMasterForm.value)
     // .subscribe({
     //   next: (res) => {
-    if (this.groupDetailsForm.value && this.editData) {
-      this.api.putStrEmployeeOpenDetail(this.groupDetailsForm.value, this.editData.id)
+    if (this.groupDetailsForm.valid) {
+      
+      this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
+            
             this.toastrSuccess();
             this.groupDetailsForm.reset();
             this.itemCtrl.setValue('');
@@ -418,6 +420,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
             // this.getAllDetailsForms();
             // this.getDetailedRowData = '';
             this.groupDetailsForm.controls['qty'].setValue(1);
+           
             this.dialogRef.close('save');
 
           },

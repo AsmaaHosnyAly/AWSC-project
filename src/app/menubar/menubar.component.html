@@ -27,23 +27,32 @@
       aria-label="Example icon-button with a menu"
     >
       <div class="toolbarUserContent parent-user-name">
-        <div class="user-name">
-          <div class="my-2">{{ user?.name }}</div>
-          <div class="my-2">مدير ادارة المخازن</div>
+      
+        <div class="user-info">
+          <div class="ms-1">
+            <mat-icon>perm_identity</mat-icon>
+          </div>
+          <div class="user-name">
+            <div class="my-2">{{ user?.name }}</div>
+            <div class="my-2">مدير ادارة المخازن</div>
+          </div>
+          
+         
         </div>
+      
       </div>
     </button>
   </div>
 
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <!-- <button mat-menu-item>
       <mat-icon>dialpad</mat-icon>
       <span>Redial</span>
     </button>
     <button mat-menu-item disabled>
       <mat-icon>voicemail</mat-icon>
       <span>Check voice mail</span>
-    </button>
+    </button> -->
     <button mat-menu-item (click)="handleLogOut()" routerLink="login">
       <mat-icon>notifications_off</mat-icon>
       <span >تسجيل الخروج</span>

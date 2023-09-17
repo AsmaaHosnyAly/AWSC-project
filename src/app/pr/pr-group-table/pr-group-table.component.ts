@@ -9,6 +9,7 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../../str/str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { PrGroupDialogComponent } from '../pr-group-dialog/pr-group-dialog.component';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-pr-group-table',
@@ -36,8 +37,11 @@ export class PrGroupTableComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    public global:GlobalService
+  ) { 
+    global.getPermissionUserRoles(1, 'stores', 'الصلاحيات-المجموعات', '')
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();

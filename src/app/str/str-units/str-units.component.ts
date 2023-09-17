@@ -66,9 +66,8 @@ export class STRUnitsComponent {
     })
   }
   daleteunit(id:number){
-    if(confirm("Are you sure to delete ")) {
-      console.log("Implement delete functionality here");
-    }
+    var result = confirm('هل ترغب بتاكيد المسح  ؟ ');
+    if (result) {
     this.api.deleteunit(id)
     .subscribe({
       next:(res)=>{
@@ -80,9 +79,7 @@ export class STRUnitsComponent {
       }
     })
   }
-  // fetchuser(){
-  //   this.http.get('https://api.github.com/users/thisiszaoib').subscribe((res)=>(console.log(res)))
-  // }
+}
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
