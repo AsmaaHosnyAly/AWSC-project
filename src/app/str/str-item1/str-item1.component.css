@@ -295,7 +295,7 @@ footer h3 {
 }
 
 .icons {
-  font-size: 20px;
+  font-size: 23px;
   color: white;
   background-color: rgb(60, 202, 252);
   border-radius: 50%;
@@ -313,5 +313,5 @@ footer h3 {
   color: white;
   box-shadow: 0 0.5em 0.5em -0.4em #a1c9d8;
   transform: translateY(-0.05em);
-  font-size: 22px;
+  font-size: 25px;
 }

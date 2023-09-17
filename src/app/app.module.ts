@@ -152,12 +152,20 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FiEntryDetailsDialogComponent } from './fi-entry-details-dialog/fi-entry-details-dialog.component';
 import { StrOpeningStockDetailsDialogComponent } from './str/str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import { Item1DialogComponent } from './item1-dialog/item1-dialog.component';
-import { PrHomeComponent } from './pr/pr-home/pr-home.component';
+import { Item1DialogComponent } from './str/item1-dialog/item1-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { StrEmployeeOpeningCustodyDetailDailogComponent } from './str/str-employee-opening-custody-detail-dailog/str-employee-opening-custody-detail-dailog.component';
+import { WithdrawPrintDialogComponent } from './str/withdraw-print-dialog/withdraw-print-dialog.component';
+import { EmployeeExchangePrintDialogComponent } from './str/employee-exchange-print-dialog/employee-exchange-print-dialog.component';
+import { EmployeeCustodyPrintDialogComponent } from './str/employee-custody-print-dialog/employee-custody-print-dialog.component';
+import { StrAddPrintDialogComponent } from './str/str-add-print-dialog/str-add-print-dialog.component';
+import { OpeningStockPrintDialogComponent } from './str/opening-stock-print-dialog/opening-stock-print-dialog.component';
+
+import { PrHomeComponent } from './pr/pr-home/pr-home.component';
+
 import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
 import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-add-details-dialog.component';
+import { StrWithdrawDetailsDialogComponent } from './str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
@@ -291,6 +299,15 @@ import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-a
                      PrHomeComponent,
                 StrEmployeeExchangeDetailsDialogComponent,
                 StrAddDetailsDialogComponent,
+    WithdrawPrintDialogComponent,
+    EmployeeExchangePrintDialogComponent,
+    EmployeeCustodyPrintDialogComponent,
+    StrAddPrintDialogComponent,
+    OpeningStockPrintDialogComponent,
+    PrHomeComponent,
+    StrEmployeeExchangeDetailsDialogComponent,
+    StrAddDetailsDialogComponent,
+    StrWithdrawDetailsDialogComponent
   ],
   imports: [
     BrowserModule,

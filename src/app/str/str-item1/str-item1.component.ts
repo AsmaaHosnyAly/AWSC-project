@@ -19,13 +19,7 @@ import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global.service';
-import { Item1DialogComponent } from 'src/app/item1-dialog/item1-dialog.component';
-// import {
-//   faDownload,
-//   faMagnifyingGlass,
-//   faFilePdf,
-//   faEraser,
-// } from '@fortawesome/free-solid-svg-icons';
+import { Item1DialogComponent } from 'src/app/str/item1-dialog/item1-dialog.component';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -119,10 +113,6 @@ export class STRItem1Component implements OnInit {
   dataSource!: MatTableDataSource<any>;
   Invoiceheader: any;
   pdfurl = '';
-  // faDownload = faDownload;
-  // faMagnifyingGlass = faMagnifyingGlass;
-  // faFilePdf = faFilePdf;
-  // faEraser = faEraser;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -1116,46 +1106,83 @@ export class STRItem1Component implements OnInit {
   }
 
   printReport() {
-    // case print in report component
+    // this.loadAllData();
+    let header: any = document.getElementById('header');
+    let paginator: any = document.getElementById('paginator');
+    let action1: any = document.getElementById('action1');
+    let action2: any = document.querySelectorAll('action2');
+    console.log(action2);
+    let button1: any = document.querySelectorAll('#button1');
+    console.log(button1);
+    let button2: any = document.getElementById('button2');
+    let button: any = document.getElementsByClassName('mdc-icon-button');
+    console.log(button);
+    let buttn: any = document.querySelectorAll('#buttn');
+    for (let index = 0; index < buttn.length; index++) {
+      buttn[index].hidden = true;
+    }
 
-    this.router.navigate(['/report']);
+    let actionHeader: any = document.getElementById('action-header');
+    actionHeader.style.display = 'none';
 
-    // case print in current component
+    let reportFooter: any = document.getElementById('reportFooter');
+    let date: any = document.getElementById('date');
+    header.style.display = 'grid';
+    //button1.style.display = 'none';
+    // button2.style.display = 'none';
 
-    // let header: any = document.getElementById('header');
-    // let paginator: any = document.getElementById('paginator');
-    // let action1: any = document.getElementById('action1');
-    // let action2: any = document.querySelectorAll('action2');
-    // console.log(action2);
-    // let button1: any = document.querySelectorAll('#button1');
-    // console.log(button1);
-    // let button2: any = document.getElementById('button2');
-    // let button: any = document.getElementsByClassName('mdc-icon-button');
-    // console.log(button);
-    // let reportFooter: any = document.getElementById('reportFooter');
-    // let date: any = document.getElementById('date');
-    // header.style.display = 'grid';
-    // // paginator.style.display = 'none';
-    // action1.style.display = 'none';
-    // // button1.style.display = 'none';
-    // // button2.style.display = 'none';
-    // for (let index = 0; index < button.length; index++) {
-    //   let element = button[index];
-
-    //   element.hidden = true;
-    // }
-    // // reportFooter.style.display = 'block';
-    // // date.style.display = 'block';
-    // let printContent: any = document.getElementById('content')?.innerHTML;
-    // let originalContent: any = document.body.innerHTML;
-    // document.body.innerHTML = printContent;
-    // // console.log(document.body.children);
-    // document.body.style.cssText =
-    //   'direction:rtl;-webkit-print-color-adjust:exact;';
-    // window.print();
-    // document.body.innerHTML = originalContent;
-    // location.reload();
+    let printContent: any = document.getElementById('content')?.innerHTML;
+    let originalContent: any = document.body.innerHTML;
+    document.body.innerHTML = printContent;
+    // console.log(document.body.children);
+    document.body.style.cssText =
+      'direction:rtl;-webkit-print-color-adjust:exact;';
+    window.print();
+    document.body.innerHTML = originalContent;
+    location.reload();
   }
+
+  // printReport() {
+  //   // case print in report component
+
+  //   this.router.navigate(['/report']);
+
+  //   // case print in current component
+
+  //   let header: any = document.getElementById('header');
+  //   let paginator: any = document.getElementById('paginator');
+  //   let action1: any = document.getElementById('action1');
+  //   let action2: any = document.querySelectorAll('action2');
+  //   console.log(action2);
+  //   let button1: any = document.querySelectorAll('#button1');
+  //   console.log(button1);
+  //   let button2: any = document.getElementById('button2');
+  //   let button: any = document.getElementsByClassName('mdc-icon-button');
+  //   console.log(button);
+  //   let reportFooter: any = document.getElementById('reportFooter');
+  //   let date: any = document.getElementById('date');
+  //   header.style.display = 'grid';
+  //   // // paginator.style.display = 'none';
+  //   action1.style.display = 'none';
+  //   // // button1.style.display = 'none';
+  //   // // button2.style.display = 'none';
+  //   for (let index = 0; index < button.length; index++) {
+  //     let element = button[index];
+
+  //     element.hidden = true;
+  //   }
+  //   // // reportFooter.style.display = 'block';
+  //   // // date.style.display = 'block';
+  //   let printContent: any = document.getElementById('content')?.innerHTML;
+  //   let originalContent: any = document.body.innerHTML;
+  //   document.body.innerHTML = printContent;
+  //   // // console.log(document.body.children);
+  //   document.body.style.cssText =
+  //     'direction:rtl;-webkit-print-color-adjust:exact;';
+  //   window.print();
+  //   document.body.innerHTML = originalContent;
+  //   location.reload();
+  // }
   // PreviewInvoice(invoice: any) {
   //   this.service.GenerateInvoicePDF(invoice).subscribe((res) => {
   //     let blob: Blob = res.body as Blob;
@@ -1178,7 +1205,16 @@ export class STRItem1Component implements OnInit {
     console.log('unitRow:', unit);
 
     this.api
-      .printReport(name, fullCode, type, commodity, grade, platoon, group, unit)
+      .printReportItems(
+        name,
+        fullCode,
+        type,
+        commodity,
+        grade,
+        platoon,
+        group,
+        unit
+      )
       .subscribe({
         next: (res) => {
           console.log('search:', res);
@@ -1212,7 +1248,16 @@ export class STRItem1Component implements OnInit {
     // console.log('unitRow:', unit);
 
     this.api
-      .printReport(name, fullCode, type, commodity, grade, platoon, group, unit)
+      .printReportItems(
+        name,
+        fullCode,
+        type,
+        commodity,
+        grade,
+        platoon,
+        group,
+        unit
+      )
       .subscribe({
         next: (res) => {
           let blob: Blob = res.body as Blob;

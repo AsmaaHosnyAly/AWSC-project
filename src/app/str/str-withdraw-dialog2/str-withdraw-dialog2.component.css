@@ -1,310 +1,225 @@
-
 @import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
 
 .cdk-overlay-pane {
-    position: relative!important;
-  }
-  .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-   
-    
-  }
+  position: relative !important;
+}
 
-  .close:hover{
-    background-color: red;
-    color:#ffff;
-  }
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
 
-.mat-dialog-content{
-    padding:  0px 40px;
-    overflow-y: hidden;
-   
-  
 
 }
+
+.close:hover {
+  background-color: red;
+  color: #ffff;
+}
+
+.mat-dialog-content {
+  padding: 20px 40px;
+
+
+
+}
+
 .groupInput {
-    width: 100%;
-}
-.add-h1{
-    text-align: center;
-    font-family: 'Cairo', sans-serif !important;
-    font-weight: bold;
-    color:rgb(60, 202, 252);
-    margin-top: 6px;
-    box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
-    
-}
-.add-h3{
-  position: relative;
-  display: inline-block;
-  text-align: right;
-    font-family: 'Cairo', sans-serif !important;
-    font-weight: bold;
-    color:rgb(60, 202, 252);
-    margin-top: 6px;
-    /* box-shadow: 0px 1px 1px 0px rgb(124, 123, 123); */
+  width: 100%;
 }
 
-.follow-btn{
-background-color:rgb(60, 202, 252);
-color: antiquewhite;
-text-align: left;
-padding: 5px 20px;
-font-size: 20px;
+.add-h1 {
+  text-align: center;
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: bold;
+  color: rgb(60, 202, 252);
+  margin-top: 10px;
+  box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
+
+}
+
+.follow-btn {
+  background-color: rgb(60, 202, 252);
+  color: antiquewhite;
+  text-align: left;
+  padding: 5px 20px;
+  font-size: 20px;
 }
 
 .example-radio-group {
-    display: flex;
-    /* flex-direction: column; */
-    margin: 15px 0;
-    align-items: center;
+  display: flex;
+  /* flex-direction: column; */
+  margin: 15px 0;
+  align-items: center;
 }
-.radio{
-    display: flex;
-    width: 80%;
+
+.radio {
+  display: inline-block;
+  width: 25%;
+
 }
 
 .example-radio-button {
-    margin: 5px;
+  margin: 5px;
 }
 
 .groupAction {
-  margin-top: 1px;
-  margin-left: 0px;
-
-    display: flex;
-    /* flex-direction: row; */
-    /* justify-content: space-between; */
-    /* padding: 5%; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5%;
 }
 
 .groupAction button {
-    background-color:rgb(60, 202, 252);
-    color: aliceblue;
-    font-family: 'Cairo', sans-serif !important;
-    display: block;
-    margin-left: 0px;
-    /* margin-top: -10px;   */
+  background-color: rgb(60, 202, 252);
+  color: aliceblue;
+  font-family: 'Cairo', sans-serif !important;
+  display: block;
+  margin: auto;
   font-weight: bold;
-    font-size: 15px;
-    padding: 7px 20px;
-    height: 35px;
-    width: 130px;
+  font-size: 15px;
+  padding: 5px 30px;
 }
 
 .restGroupInfo {
-    display: block;
+  display: block;
 }
 
 .restGroupInfoDisable {
-    display: none;
+  display: none;
 }
 
 .nextButtonAddNewHeader {
-    display: block;
+  display: block;
 }
 
 .nextButtonEditHeaderDetails {
-    display: none;
+  display: none;
 }
 
 .headerForm {
-  margin-top: 0px !important;
-    display: flex;
-    /* justify-content: space-between; */
-    /* flex-wrap: wrap; */
-  
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
 }
 
-  .child-num{
-    /* width: 12%; */
-    text-align: right;
+.child-num {
+  width: 10%;
+  text-align: right;
 }
+
 .headerForm .groupInput {
-    width: 19%;
-  
+  width: 19%;
+
 }
 
 .detailsForm {
-    display: flex;
-flex-direction: row;}
-
-/* .detailsForm .groupInput {
-  flex-basis: 25%;
+  display: flex;
+  justify-content: space-between;
 }
 
-.detailsForm .third-parent{
- 
-    flex-basis: 15%;
-   
-    
-} */
-/* .notes{
-    flex-basis: 72%;
-} */
-.qnty{
-    width: 20%;
-    
+.detailsForm .groupInput {
+  flex-basis: 19%;
 }
+
+.detailsForm .third-parent {
+
+  flex-basis: 15%;
+
+
+}
+
+.notes {
+  flex-basis: 72%;
+}
+
+.qnty {
+  width: 20%;
+
+}
+
 .headerTable {
-    align-items: center;
+  align-items: center;
 }
 
-::ng-deep .mat-form-field-placeholder-wrapper {
-  background-color: blue;
-  display: none !important;
+/* .savebtn {} */
+
+.mat-mdc-radio-button~.mat-mdc-radio-button {
+  margin-left: 10px;
+
 }
-/* md-autocomplete md-autocomplete-wrap input::-moz-placeholder,
-md-autocomplete md-autocomplete-wrap input:-moz-placeholder,
- md-autocomplete md-autocomplete-wrap 
 
-md-autocomplete md-autocomplete-wrap input {
-    color: green;
-} */
-
-/* input {
-  &::-webkit-input-placeholder {            
-      font-size: 14px !important;
-      color: #3a3939 !important;
-  }
-  &::-moz-placeholder {
-      font-size: 14px !important;
-      color:#3a3939 !important;
-  }
-  &:-ms-input-placeholder {
-      font-size: 14px !important;
-      color:#3a3939 !important;
-  }
-  &:-moz-placeholder {
-      font-size: 14px !important;
-      color:#3a3939 !important;
-  }
-} */
-input::-webkit-input-placeholder {
- color: rgb(48, 46, 46); margin:0; text-align:center; 
- padding:0; display:flex; opacity:2; flex:none; vertical-align:text-top;font-size: 22px;
+.row {
+  display: flex;
+  justify-content: center;
 }
-.md-autocomplete-suggestions-container{
-  background-color: black;
+
+.mat-mdc-dialog-container .mdc-dialog__title {
+  text-align: center;
 }
-.mat-mdc-radio-button ~ .mat-mdc-radio-button {
-    margin-left: 10px;
-    
-  }
-  .row{
-    display: flex;
-    justify-content: center;
-  }
 
-  .mat-mdc-dialog-container .mdc-dialog__title {
-    text-align: center;
-  }
-
-  .div-table{
-    display: block;
-    /* overflow-x: scroll !important; */
-    width: 100%;
-  }
-
-  table {
-    margin: 28px 0;
-    width: 100%;
-    text-align: center;
-    
-   
-  }
-
-  
-  .mat-mdc-table {
-    --mat-table-row-item-outline-width: 1px;
-   table-layout: auto;
-    white-space: normal;
-    background-color: var(--mat-table-background-color);
-    font-family: 'Cairo', sans-serif !important;
-   width:100%;
-   
-  }
-  table, th, td {
-    border: 1px  rgb(161, 160, 160) solid;
-    text-align: center !important;
-    font-family: 'Cairo', sans-serif;
-    font-weight: bold;
-
-   
-    
-    
-  }
-
-  th {
-    background-color:rgb(60, 202, 252) !important;
-    color: white;
-    font-family: 'Cairo', sans-serif;
-    font-size: 16px;
-    text-align: center !important;
-    
-   
-  }
-.sum-label-parent{
-  /* display: block !important; */
-  /* margin: auto; */
-
+.div-table {
+  display: block;
+  overflow-x: scroll !important;
   width: 100%;
- 
-  background-color: transparent;
- 
-}
-  .sum-label{
-    position: relative;
- color: red ;
- font-weight: bold;
- right: 49rem;
-  }
-
-  .containeer{
- 
-    overflow-y: hidden !important;
-
-}
-  .mdc-notched-outline {
-    padding-top: 4px;
-    height: 50% !important;
-  }
-  
-
-  .mat-mdc-text-field-wrapper {
-    height: 45px !important;
-    
 }
 
-mat-select{
-  height: 52%;
-}
-
-.parent-line{
-  position: relative;
-}
-.line{
-  width: 100%;
-  height: 1px;
-  background-color: rgb(106, 106, 107);
-  position: absolute;
-   /* left: 5px;  */
-  
-  top: 40px;
- bottom: 5px;
-
-}
-
-/* .details-table{
-  overflow-y:scroll ;
-} */
 table {
+  margin: 28px 0;
   width: 100%;
+  text-align: center;
+
+
 }
 
-.tableFixHead {
-  height: 200px;
-  overflow: auto;
+.mat-mdc-table {
+  --mat-table-row-item-outline-width: 1px;
+  table-layout: auto;
+  white-space: normal;
+  background-color: var(--mat-table-background-color);
+  font-family: 'Cairo', sans-serif !important;
+  width: 100%;
+
+}
+
+table,
+th,
+td {
+  border: 1px rgb(161, 160, 160) solid;
+  text-align: center !important;
+  font-family: 'Cairo', sans-serif;
+  font-weight: bold;
+
+
+
+
+}
+
+th {
+  background-color: rgb(60, 202, 252) !important;
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  text-align: center !important;
+
+
+}
+
+.sum-label-parent {
+  display: block !important;
+  margin: auto;
+  width: 100%;
+  background-color: transparent;
+
+}
+
+.sum-label {
+  color: red;
+  font-weight: bold;
+
+}
+
+.editbtn .mat-icon {
+  --mat-icon-color: rgb(129, 135, 138);
 }

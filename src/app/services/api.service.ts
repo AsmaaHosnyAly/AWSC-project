@@ -383,7 +383,7 @@ export class ApiService {
     return this.http.get<any>(`${this.mycondition}`);
   }
 
-  printReport(
+  printReportItems(
     name: any,
     fullcode: any,
     type: any,
@@ -421,6 +421,200 @@ export class ApiService {
     }
     if (!unit == false) {
       this.mycondition = ` ${this.mycondition}&UnitId=${unit}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  addTable(
+    no: any,
+    store: any,
+    date: any,
+    fiscalYear: any,
+    item: any,
+    employee: any,
+    costCenter: any
+  ) {
+    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
+    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    }
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&Type=${fiscalYear}`;
+    }
+
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+    }
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    }
+    if (!employee == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${employee}`;
+    }
+    if (!costCenter == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${costCenter}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  openingStock(no: any, store: any, date: any, fiscalYear: any, item: any) {
+    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
+    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    }
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&Type=${fiscalYear}`;
+    }
+
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+    }
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    }
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  getStrEmployeeCustody(
+    no: any,
+    costCenterId: any,
+    employeeId: any,
+    date: any,
+    itemId: any
+  ) {
+    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
+    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    }
+    if (!costCenterId == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${costCenterId}`;
+    }
+
+    if (!employeeId == false) {
+      this.mycondition = ` ${this.mycondition}&Type=${employeeId}`;
+    }
+
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+    }
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${itemId}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  getStrEmployeeExchangeItem(
+    no: any,
+    costCenterId: any,
+    employeeId: any,
+    date: any,
+    distEmployee: any
+  ) {
+    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
+    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    }
+    if (!costCenterId == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${costCenterId}`;
+    }
+
+    if (!employeeId == false) {
+      this.mycondition = ` ${this.mycondition}&Type=${employeeId}`;
+    }
+
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+    }
+    if (!distEmployee == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${distEmployee}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  getStr(
+    no: any,
+    store: any,
+    date: any,
+    fiscalYear: any,
+    item: any,
+    employee: any,
+    costCenter: any
+  ) {
+    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
+    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    }
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&Type=${date}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${fiscalYear}`;
+    }
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    }
+    if (!employee == false) {
+      this.mycondition = ` ${this.mycondition}&PlatoonId=${employee}`;
+    }
+    if (!costCenter == false) {
+      this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
     }
 
     console.log('url', this.mycondition);
@@ -817,7 +1011,9 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/STROpeningStockDetails/Add`, data);
   }
   getStrOpenDetailsByMasterId(id: any) {
-    return this.http.get<any>(`${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`);
+    return this.http.get<any>(
+      `${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`
+    );
   }
   putStrOpenDetails(data: any, id: number) {
     console.log('strOpenDetails id: ', id, 'strOpenDetails data: ', data);
@@ -1758,6 +1954,9 @@ export class ApiService {
       'http://ims.aswan.gov.eg/api/STRAddDetails/Add',
       data
     );
+  }
+  getStrAddDetailsByAddId(id:any) {
+    return this.http.get<any>(`${this.url}/STRAdd/GeTAddDetailsByAddId/${id}`);
   }
   putStrAddDetails(data: any) {
     console.log('strOpenDetails data: ', data);
