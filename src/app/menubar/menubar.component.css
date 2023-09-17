@@ -25,7 +25,7 @@
   margin: 0 !important;
 }
 .mat-toolbar.mat-primary {
-  background: #034564;
+  background:var( --bg-primary-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
