@@ -79,13 +79,7 @@ export class STRUnitsComponent {
       }
     })
   }
-<<<<<<< HEAD
 }
-=======
-  // fetchuser(){
-  //   this.http.get('https://api.github.com/users/thisiszaoib').subscribe((res)=>(console.log(res)))
-  // }
->>>>>>> 2a94e1f8c59c00398ec699ded27c9a12d2f2fbff
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
