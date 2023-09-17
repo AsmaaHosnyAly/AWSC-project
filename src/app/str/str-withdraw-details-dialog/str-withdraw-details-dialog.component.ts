@@ -828,7 +828,7 @@ export class StrWithdrawDetailsDialogComponent {
         this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
           parseInt(this.getMasterRowId)
         );
-        alert()
+        // alert()
         this.groupDetailsForm.controls['total'].setValue(
           parseFloat(this.groupDetailsForm.getRawValue().price) *
           parseFloat(this.groupDetailsForm.getRawValue().qty)
