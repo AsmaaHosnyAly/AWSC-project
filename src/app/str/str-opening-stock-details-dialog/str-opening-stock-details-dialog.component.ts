@@ -212,7 +212,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
           this.api.postStrOpenDetails(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
-                this.toastrSuccess();
+                this.toastrEditSuccess();
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.itemCtrl.setValue('');
@@ -384,7 +384,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
       this.api.putStrOpenDetails(this.groupDetailsForm.value, this.editData.id)
         .subscribe({
           next: (res) => {
-            this.toastrSuccess();
+            this.toastrEditSuccess();
             this.groupDetailsForm.reset();
             this.itemCtrl.setValue('');
             this.itemByFullCodeValue = '';
@@ -411,5 +411,11 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }

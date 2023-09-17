@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-// import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -112,7 +112,7 @@ export class STRAddDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
-    // private toastr: ToastrService,
+    private toastr: ToastrService,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) private locale: string,
     private dialogRef: MatDialogRef<STRAddDialogComponent>,
@@ -323,14 +323,14 @@ export class STRAddDialogComponent implements OnInit {
             console.log("mastered res: ", this.getMasterRowId.id)
             this.MasterGroupInfoEntered = true;
 
-            alert("تم الحفظ بنجاح");
+this.toastrSuccess();
             this.getAllDetailsForms();
             // this.updateDetailsForm();
             // this.addDetailsInfo();
           },
           error: (err) => {
             console.log("header post err: ", err);
-            alert("حدث خطأ أثناء إضافة مجموعة")
+            // alert("حدث خطأ أثناء إضافة مجموعة")
           }
         })
     }
@@ -578,7 +578,7 @@ export class STRAddDialogComponent implements OnInit {
               },
               error: (err) => {
                 console.log("add details err: ", err)
-                alert("حدث خطأ أثناء إضافة تفاصيل")
+                // alert("حدث خطأ أثناء إضافة تفاصيل")
               }
             })
         } else {
@@ -761,6 +761,7 @@ export class STRAddDialogComponent implements OnInit {
       this.api.deleteStrAddDetails(id)
         .subscribe({
           next: (res) => {
+            this.toastrDeleteSuccess();
             // alert("تم الحذف بنجاح");
             this.getAllDetailsForms()
           },
@@ -1392,6 +1393,16 @@ export class STRAddDialogComponent implements OnInit {
     this.listCtrl.updateValueAndValidity();
   }
 
+  toastrSuccess(): void {
+    this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
+
   getListCtrl(source: any) {
     this.sourceSelected = source;
     if (source === "المورد") {
@@ -1434,6 +1445,8 @@ export class STRAddDialogComponent implements OnInit {
 
       });
     }
+
+    
   }
 
 

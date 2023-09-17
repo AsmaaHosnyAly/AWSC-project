@@ -418,6 +418,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
     this.isEdit = false;
+  this.toastrEditSuccess();
+// 
     // console.log("edit : ", this.groupDetailsForm.value, "row: ", this.getDetailedRowData.id)
     // this.api.putStrOpen(this.groupMasterForm.value)
     //   .subscribe({
@@ -883,5 +885,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }

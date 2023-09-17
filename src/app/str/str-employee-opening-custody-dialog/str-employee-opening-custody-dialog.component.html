@@ -4,7 +4,7 @@
 
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل إفتتاحي عهد ' : ' إضافة إفتتاحي عهد  جديد'}}</h1>
 
-<div mat-dialog-content dir="rtl" style="padding: 30px;">
+<div mat-dialog-content dir="rtl" style="padding: 30px;overflow: hidden;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
         <div class="headerForm">
@@ -24,24 +24,41 @@
                 </mat-select>
             </mat-form-field> -->
 
-            <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
+            <!-- <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
                 <mat-label>السنة المالية</mat-label>
                 <mat-select  formControlName="fiscalYearId"
                     (valueChange)="fiscalYearValueChanges($event)">
                     <mat-option [value]="fiscalYear.id"
                         *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                 </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
-                <mat-label>الرقم</mat-label>
-                <input matInput formControlName="no" min="0" [value]="editData ? editData.no : autoNo"
-                    type="number">
-            </mat-form-field>
+            </mat-form-field> -->
+
+            <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+                <mat-label>السنة المالية:</mat-label>
+              
+                <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
+                  <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
+                      (valueChange)="fiscalYearValueChanges($event)">
+                      <mat-option [value]="fiscalYear.id"
+                          *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+               </div>
+               <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+                <mat-label>الرقم:</mat-label>
+                <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
+                 
+                  <input id="autoNoInput" matInput  formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
+                      type="number" min="0" readonly>
+              </mat-form-field>
+              
+              </div>
 
             
+              <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+                <mat-label >اسم الموظف  :</mat-label>
 
             <mat-form-field appearance="outline" style="width: 120px;">
-                <mat-label style="margin-top: 15px; ">اسم الموظف  :</mat-label>
                 <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
                     (click)="openAutoEmployee()"
                     placeholder="{{editData ? editData.employeeName : ''}}" required />
@@ -52,11 +69,13 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
+          </div>
 
            
+          <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+            <mat-label >مركز التكلفة :</mat-label>
 
             <mat-form-field appearance="outline" style="width: 120px;">
-                <mat-label style="margin-top: 15px;">مركز التكلفة :</mat-label>
                 <input matInput aria-label="costCenter" [matAutocomplete]="autoCostCenter" [formControl]="costCenterCtrl"
                     (click)="openAutoCostCenter()"
                     placeholder="{{editData ? editData.costCenterName : ''}}" required />
@@ -67,16 +86,19 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
+        </div>
+        <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+    
+    <mat-label>التاريخ</mat-label>
 
-
-            <mat-form-field appearance="outline" class="example-full-width" style="width: 150px;">
-                <mat-label>التاريخ</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="date">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+    <mat-form-field appearance="outline" class="example-full-width" style="width: 150px;">
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matIconSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
 <!-- 
             <mat-form-field appearance="outline" class="groupInput" style="width: 140px;">
                 <mat-label>الاجمالى</mat-label>
@@ -158,10 +180,23 @@
                 <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
                     <div class="groupAction">
                         <button mat-raised-button class="savebtn"
-                            (click)="updateMaster()">تعديل الاساسي</button>
-
+                            (click)="updateMaster()">تعديل الاذن</button>
+            
                     </div>
-            </div>
+            
+                    <!-- <div class="sum-label-parent"> -->
+                        <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
+                    <!-- </div> -->
+            
+                    
+                    <div class="groupAction">
+                        <button mat-raised-button class="savebtn"
+                            (click)="addNewDetails()">اضافة بيان</button>
+            
+                    </div>
+            
+                </div>
+                
             <!-- <div mat-dialog-action [align]="'end'">
                 <div class="groupAction">
                     <button mat-raised-button 
@@ -171,15 +206,15 @@
                 </div>
             </div> -->
             <!-- <div  class="sum-label-parent" > -->
-                <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
+                <!-- <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label> -->
               </div>
-              <div class="groupAction">
+              <!-- <div class="groupAction">
                 <button mat-raised-button class="savebtn"
                     (click)="addNewDetails()">اضافة تفاصيل</button>
 
-            </div>
-            <div> 
-               <table mat-table [dataSource]="dataSource" matSort class="headerTable">
+            </div> -->
+            <div  class="tableFixHead">
+                <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
                     <!-- itemName Column -->
                     <ng-container matColumnDef="itemName">
@@ -248,12 +283,12 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
 
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
-        aria-label="Select page of users"></mat-paginator>
+        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page of users"></mat-paginator> -->
         </div>
         </div>
     
