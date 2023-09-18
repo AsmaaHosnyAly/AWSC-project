@@ -39,9 +39,57 @@
 
             <mat-form-field appearance="outline" class="groupInput" style="width:  150px;">
               <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
-                <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
-                  *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
-                  store.storeName}}</mat-option>
+                  <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
+                      *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
+                      store.storeName}}</mat-option> 
+              </mat-select>
+          </mat-form-field>
+          </div>
+      
+      
+       <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+        <mat-label>السنة المالية:</mat-label>
+      
+        <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
+          <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
+              (valueChange)="fiscalYearValueChanges($event)">
+              <mat-option [value]="fiscalYear.id"
+                  *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+       </div>
+      
+      <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+        <mat-label>الرقم:</mat-label>
+        <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
+         
+          <input id="autoNoInput" matInput  formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
+              type="number" min="0" readonly>
+      </mat-form-field>
+      
+      </div>
+
+
+      <div style="display: flex; flex-direction: column; margin-left: 10px;"> 
+    
+        <mat-label>التاريخ:</mat-label>
+        <mat-form-field appearance="outline" style="width:160px">
+                
+                  <input matInput [matDatepicker]="picker" formControlName="date">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker">
+                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field></div>
+              <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+                <mat-label>المصدر:</mat-label>
+  
+            <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+              <mat-select id="sourceInput" formControlName="source" (valueChange)="getListCtrl($event)">
+                <mat-option value="المورد">المورد</mat-option>
+                <mat-option value="الموظف">الموظف</mat-option>
+                <mat-option value="المخزن">المخزن</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -113,38 +161,28 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <!-- </div> -->
         </div>
 
 
-        <!-- <div class="row"> -->
 
-        <!-- <mat-label>اختر الاسم</mat-label> -->
+       <div style="display: flex;flex-direction: row;">
+        <div style="display: flex; flex-direction: column;margin-left: 10px;width: 10rem; ">
+          <mat-label>النوع:</mat-label>
 
 
-        <div style="display: flex;flex-direction: row;">
-          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px;width: 10rem; ">
-            <mat-label>النوع</mat-label>
+       
+       <div style="display: flex; flex-direction: column;margin-left: 10px;width: 10rem; ">
+        <mat-label>سند الاضافه:</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
               <mat-select placeholder="النوع" formControlName="addTypeId">
                 <mat-option [value]="type.id" *ngFor="let type of typeList">{{type.type}}</mat-option>
               </mat-select>
             </mat-form-field>
-          </div> -->
-
-
-          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px;width: 10rem; ">
-            <mat-label>سند الاضافه</mat-label>
-
-            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-              <mat-select placeholder="سند الاضافه" formControlName="addReceiptId">
-                <mat-option [value]="Receipt.id"
-                  *ngFor="let Receipt of ReceiptList">{{Receipt.addReceipts}}</mat-option>
-              </mat-select>
-            </mat-form-field>
           </div>
-        </div> -->
+
+
+          
 
         </div>
       </div>
@@ -155,10 +193,9 @@
       <!-- </div> -->
     </div>
 
-    <button style="text-align: left !;" mat-raised-button color="primary" (click)="nextToAddFormDetails()"
-      class="follow-btn"
-      [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
-  </form>
+    <button style="text-align: left !;" mat-raised-button color="primary" (click)="nextToAddFormDetails()" class="follow-btn"
+      [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
+  <!-- </form> -->
 
   <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
@@ -176,9 +213,10 @@
         <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
         <!-- </div> -->
 
-
-        <div class="groupAction">
-          <button mat-raised-button class="savebtn" (click)="addNewDetails()">اضافة بيان</button>
+        
+        <div class="groupAction" style="margin-left: 20px;">
+            <button mat-raised-button class="savebtn"
+                (click)="addNewDetails()">اضافة بيان</button>
 
         </div>
 
@@ -263,9 +301,9 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
 
-          </table>
-        </div>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </table>
+      </div>
+        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
       </div>
     </div>
 

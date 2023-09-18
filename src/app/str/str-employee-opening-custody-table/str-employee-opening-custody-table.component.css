@@ -67,22 +67,7 @@ th {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.search button,
-.print button {
-  width: 250px;
-  font-size: 15px;
-  font-family: "Cairo", sans-serif;
-  background-color: rgb(60, 202, 252);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 30px;
-  height: 50px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 .display button {
   background: linear-gradient(rgb(252, 248, 248), rgb(146, 141, 141));
   color: #111010;
@@ -292,4 +277,44 @@ footer h3 {
   justify-content: start;
   align-items: start;
   margin-right: 90px;
+}
+
+.searchLabels{
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.buttonSearch{
+  display: flex;
+}
+
+.search button,
+.print button {
+  width: 142px;
+  font-size: 19px;
+  font-family: "Cairo", sans-serif;
+  background-color: rgb(60, 202, 252);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  height: 36px;
+  /* text-align: center; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-left: 2rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.print-display {
+  display: block;
+  display: flex;
+  position: relative;
+  /* left: -482px; */
+  top: 15px;
 }

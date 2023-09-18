@@ -45,7 +45,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   fiscalYearsList: any;
   // itemsList: any;
   groupMasterForm!: FormGroup;
-
+  groupDetailsForm!: FormGroup;
   storeList: store[] = [];
   storeCtrl: FormControl;
   filteredstore: Observable<store[]>;
@@ -89,6 +89,17 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.getFiscalYears();
     this.getItems();
 
+
+    this.groupDetailsForm = this.formBuilder.group({
+      stR_Opening_StockId: [''], //MasterId
+      qty: ['1'],
+      price: [''],
+      total: [''],
+      transactionUserId: [''],
+      itemId: [''],
+      itemName: [''],
+    });
+
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
       employee: [''],
@@ -100,6 +111,7 @@ export class StrOpeningStockTableComponent implements OnInit {
       storeId: [''],
     });
   }
+  
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -187,8 +199,8 @@ export class StrOpeningStockTableComponent implements OnInit {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item;
-    this.groupMasterForm.patchValue({ itemId: item.id });
-    console.log('item in form: ', this.groupMasterForm.getRawValue().itemId);
+    this.groupDetailsForm.patchValue({ itemId: item.id });
+    console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
