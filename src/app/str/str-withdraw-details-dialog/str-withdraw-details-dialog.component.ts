@@ -773,7 +773,17 @@ export class StrWithdrawDetailsDialogComponent {
   // }
 
   getAllDetailsForms() {
-    // console.log("mastered row get all data: ", this.getMasterRowId)
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+      //   if(this.actionBtnMaster=='save'){
+      //     this.dialogRef.close('save');
+      // }
+      // else{
+      //   this.dialogRef.close('update');
+
+      // }
+      // this.closeDialog();
+      this.dialogRef.close('Save');
     if (this.getMasterRowId) {
       this.api.getStrWithdrawDetails().subscribe(
         (res) => {
@@ -807,7 +817,7 @@ export class StrWithdrawDetailsDialogComponent {
           // alert('حدث خطا ما !!');
         }
       );
-    }
+    }}
   }
   async addDetailsInfo() {
     // console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "main id: ", this.getMasterRowId.id);
@@ -849,12 +859,12 @@ export class StrWithdrawDetailsDialogComponent {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.updateDetailsForm();
-                this.getAllDetailsForms();
+                // this.getAllDetailsForms();
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
                 // alert('تمت إضافة المجموعة بنجاح');
-                this.dialogRef.close('save');
+                // this.dialogRef.close('save');
 
                 // this.getAllMasterForms();
                 // this.dialogRef.close('save');
