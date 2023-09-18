@@ -5,7 +5,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { GlobalService } from '../services/global.service';
+import { GlobalService } from '../../services/global.service';
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 

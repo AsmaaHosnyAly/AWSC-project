@@ -1980,9 +1980,9 @@ export class ApiService {
     return this.http.get<any>('http://ims.aswan.gov.eg/api/STRStore/get/all');
   }
 
-  GetAddGeTAddDetailsByAddId(id: string) {
+  GetAddGeTAddDetailsByAddId(id: number) {
     return this.http.get<any>(
-      'http://ims.aswan.gov.eg/api/STRAdd/searchAddDetails?StoreId=' + id
+      'http://ims.aswan.gov.eg/api/STRAdd/GetAddGeTAddDetailsByAddId/' + id
     );
   }
 

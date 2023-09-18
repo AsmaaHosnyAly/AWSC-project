@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { GlobalService } from '../services/global.service';
+import { GlobalService } from '../../services/global.service';
 
 @Component({
   selector: 'app-str-report-add-item',
@@ -72,7 +72,7 @@ export class StrReportAddItemComponent {
     // this.getDataById(this.dataParse[0].storeId);
   }
 
-  getDataById(id: string) {
+  getDataById(id: number) {
     console.log(id);
     this.api.GetAddGeTAddDetailsByAddId(id).subscribe({
       next: (res) => {

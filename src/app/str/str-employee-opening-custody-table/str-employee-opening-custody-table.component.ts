@@ -545,165 +545,40 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     }
   }
 
-  printReport(no: any, store: any, date: any, fiscalYear: any) {
-    console.log(
-      'no. : ',
-      no,
-      'store : ',
-      store,
-      'date: ',
-      date,
-      'fiscalYear: ',
-      fiscalYear
-    );
-    // this.api.getStrOpenSearach(no, store, date, fiscalYear).subscribe({
-    //   next: (res) => {
-    //     console.log('search openingStock res: ', res);
-
-    //     //enter no.
-    //     if (no != '' && !store && !date && !fiscalYear) {
-    //       // console.log("enter no. ")
-    //       // console.log("no. : ", no, "store: ", store, "date: ", date)
-    //       this.dataSource2 = res.filter((res: any) => res.no == no!);
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter store
-    //     else if (!no && store && !date && !fiscalYear) {
-    //       // console.log("enter store. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter((res: any) => res.storeId == store);
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter date
-    //     else if (!no && !store && date && !fiscalYear) {
-    //       // console.log("enter date. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter fiscalYear
-    //     else if (!no && !store && !date && fiscalYear) {
-    //       // console.log("enter date. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => res.fiscalyear == fiscalYear
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter no. & store
-    //     else if (no && store && !date && !fiscalYear) {
-    //       // console.log("enter no & store ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => res.no == no! && res.storeId == store
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter no. & date
-    //     else if (no && !store && date && !fiscalYear) {
-    //       // console.log("enter no & date ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.no == no! &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter store & date
-    //     else if (!no && store && date && !fiscalYear) {
-    //       // console.log("enter store & date ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.storeId == store &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter all data
-    //     else if (no != '' && store != '' && date != '' && fiscalYear != '') {
-    //       // console.log("enter all data. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.no == no! &&
-    //           res.storeId == store &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
-    //           res.fiscalyear == fiscalYear
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //didn't enter any data
-    //     else {
-    //       // console.log("enter no data ")
-    //       this.dataSource2 = res;
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //  this.loadDataToLocalStorage(res);
-    //   },
-    //   error: (err) => {
-    //     alert('Error');
-    //   },
-    // });
+  printReport() {
     // this.loadAllData();
-    // let header: any = document.getElementById('header');
-    // let paginator: any = document.getElementById('paginator');
-    // let action1: any = document.getElementById('action1');
-    // let action2: any = document.querySelectorAll('action2');
-    // console.log(action2);
-    // let button1: any = document.querySelectorAll('#button1');
-    // console.log(button1);
-    // let button2: any = document.getElementById('button2');
-    // let button: any = document.getElementsByClassName('mdc-icon-button');
-    // console.log(button);
-    // let reportFooter: any = document.getElementById('reportFooter');
-    // let date: any = document.getElementById('date');
-    // header.style.display = 'grid';
-    // paginator.style.display = 'none';
-    // action1.style.display = 'none';
-    // // button1.style.display = 'none';
-    // // button2.style.display = 'none';
-    // for (let index = 0; index < button.length; index++) {
-    //   let element = button[index];
+    let header: any = document.getElementById('header');
+    let paginator: any = document.getElementById('paginator');
+    let action1: any = document.getElementById('action1');
+    let action2: any = document.querySelectorAll('action2');
+    console.log(action2);
+    let button1: any = document.querySelectorAll('#button1');
+    console.log(button1);
+    let button2: any = document.getElementById('button2');
+    let button: any = document.getElementsByClassName('mdc-icon-button');
+    console.log(button);
+    let reportFooter: any = document.getElementById('reportFooter');
+    let date: any = document.getElementById('date');
+    header.style.display = 'grid';
+    paginator.style.display = 'none';
+    action1.style.display = 'none';
+    // button1.style.display = 'none';
+    // button2.style.display = 'none';
+    for (let index = 0; index < button.length; index++) {
+      let element = button[index];
 
-    //   element.hidden = true;
-    // }
-    // // reportFooter.style.display = 'block';
-    // // date.style.display = 'block';
-    // let printContent: any = document.getElementById('content')?.innerHTML;
-    // let originalContent: any = document.body.innerHTML;
-    // document.body.innerHTML = printContent;
-    // // console.log(document.body.children);
-    // document.body.style.cssText =
-    //   'direction:rtl;-webkit-print-color-adjust:exact;';
-    // window.print();
-    // document.body.innerHTML = originalContent;
-    // location.reload();
-  }
-
-  loadDataToLocalStorage(data: any): void {
-    window.localStorage.setItem('reportData', JSON.stringify(data));
-    // window.localStorage.setItem('reportName', JSON.stringify(this.reportName));
+      element.hidden = true;
+    }
+    // reportFooter.style.display = 'block';
+    // date.style.display = 'block';
+    let printContent: any = document.getElementById('content')?.innerHTML;
+    let originalContent: any = document.body.innerHTML;
+    document.body.innerHTML = printContent;
+    // console.log(document.body.children);
+    document.body.style.cssText =
+      'direction:rtl;-webkit-print-color-adjust:exact;';
+    window.print();
+    document.body.innerHTML = originalContent;
+    location.reload();
   }
 }
