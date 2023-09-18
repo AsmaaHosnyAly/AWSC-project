@@ -865,16 +865,20 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
   deleteFormDetails(id: number) {
     // this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
     // this.groupDetailsForm.controls['id'].setValue(this.editData.id);
-    console.log("details id: ", id)
+    console.log("details idhhhh: ", id)
 
     var result = confirm("هل ترغب بتاكيد الحذف ؟");
     if (result) {
       this.api.deleteStrEmployeeOpenDetails(id)
         .subscribe({
-          next: () => {
-            // alert("تم الحذف بنجاح");
+          next:(res) => {
+             alert("تم الحذف بنجاح");
+           
             this.toastrDeleteSuccess();
-            this.getAllDetailsForms()
+           this.getAllDetailsForms();
+          //  this.dialogRef
+            console.log('tttttttttttttt')
+           
           },
           error: () => {
             // alert("خطأ أثناء حذف التفاصيل !!");
