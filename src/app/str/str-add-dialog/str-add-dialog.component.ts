@@ -58,9 +58,9 @@ export class STRAddDialogComponent implements OnInit {
   fiscalYearsList: any;
   storeName: any;
   itemName: any;
-  typeName: any;
+  // typeName: any;
   sellerName: any;
-  receiptName: any;
+  // receiptName: any;
   employeeName: any;
   userIdFromStorage: any;
   deleteConfirmBtn: any;
@@ -159,17 +159,17 @@ export class STRAddDialogComponent implements OnInit {
       date: [this.currentDate, Validators.required],
       total: ['', Validators.required],
       fiscalYearId: ['', Validators.required],
-      addReceiptId: ['', Validators.required],
-      receiptName: ['', Validators.required],
-      addTypeId: ['', Validators.required],
-      typeName: ['', Validators.required],
+      // addReceiptId: ['', Validators.required],
+      // receiptName: ['', Validators.required],
+      // addTypeId: ['', Validators.required],
+      // typeName: ['', Validators.required],
       sellerId: [''],
       sellerName: [''],
       employeeId: [''],
       employeeName: [''],
       sourceStoreId: [''],
       sourceStoreName: [''],
-      source: ['']
+      type: ['']
 
     });
 
@@ -204,22 +204,22 @@ export class STRAddDialogComponent implements OnInit {
       if (this.editData.employeeId == null && this.editData.sellerId == null) {
         this.actionName = "str";
         console.log("action btnnnnnnnnnnnnn", this.actionName)
-        this.groupMasterForm.controls['source'].setValue('المخزن')
+        this.groupMasterForm.controls['type'].setValue('المخزن')
 
       }
       else if (this.editData.sourceStoreId == null && this.editData.sellerId == null) {
         this.actionName = "emp";
-        this.groupMasterForm.controls['source'].setValue('الموظف')
+        this.groupMasterForm.controls['type'].setValue('الموظف')
 
 
       } else {
         this.actionName = "choose";
-        this.groupMasterForm.controls['source'].setValue('المورد')
+        this.groupMasterForm.controls['type'].setValue('المورد')
 
       }
-      console.log("this.groupMasterForm.getRawValue().source: ", this.groupMasterForm.getRawValue().source);
+      console.log("this.groupMasterForm.getRawValue().type: ", this.groupMasterForm.getRawValue().type);
 
-      this.getListCtrl(this.groupMasterForm.getRawValue().source);
+      this.getListCtrl(this.groupMasterForm.getRawValue().type);
 
       console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
@@ -230,8 +230,8 @@ export class STRAddDialogComponent implements OnInit {
 
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
       this.groupMasterForm.controls['total'].setValue(this.editData.total);
-      this.groupMasterForm.controls['addTypeId'].setValue(this.editData.addTypeId);
-      this.groupMasterForm.controls['addReceiptId'].setValue(this.editData.addReceiptId);
+      // this.groupMasterForm.controls['addTypeId'].setValue(this.editData.addTypeId);
+      // this.groupMasterForm.controls['addReceiptId'].setValue(this.editData.addReceiptId);
 
       this.groupMasterForm.controls['sellerId'].setValue(this.editData.sellerId);
       this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
@@ -252,7 +252,7 @@ export class STRAddDialogComponent implements OnInit {
   }
 
   addNewDetails() {
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().type} })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
       height:'95%',
@@ -282,13 +282,13 @@ export class STRAddDialogComponent implements OnInit {
     // alert("store name in add: " + this.storeName)
     this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
 
-    this.receiptName = await this.getReceiptByID(this.groupMasterForm.getRawValue().addReceiptId);
+    // this.receiptName = await this.getReceiptByID(this.groupMasterForm.getRawValue().addReceiptId);
     // alert("store name in add: " + this.storeName)
-    this.groupMasterForm.controls['receiptName'].setValue(this.receiptName);
+    // this.groupMasterForm.controls['receiptName'].setValue(this.receiptName);
 
-    this.typeName = await this.getTypeByID(this.groupMasterForm.getRawValue().addTypeId);
+    // this.typeName = await this.getTypeByID(this.groupMasterForm.getRawValue().addTypeId);
     // alert("store name in add: " + this.storeName)
-    this.groupMasterForm.controls['typeName'].setValue(this.typeName);
+    // this.groupMasterForm.controls['typeName'].setValue(this.typeName);
     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
 
     this.groupMasterForm.controls['fiscalYearId'].setValue(1)
@@ -306,12 +306,7 @@ export class STRAddDialogComponent implements OnInit {
     this.groupMasterForm.controls['no'].setValue(this.autoNo);
     // if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no) {
 
-    if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no && this.groupMasterForm.getRawValue().addTypeId
-      && this.groupMasterForm.getRawValue().receiptName && this.groupMasterForm.getRawValue().typeName) {
-
-
-
-
+    if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no) {
       console.log("Master add form : ", this.groupMasterForm.value)
       this.api.postStrAdd(this.groupMasterForm.value)
         .subscribe({
@@ -609,14 +604,14 @@ this.toastrSuccess();
     // alert("update employeeName name: " + this.employeeName)
     this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
 
-    this.typeName = await this.getTypeByID(this.groupMasterForm.getRawValue().addTypeId);
+    // this.typeName = await this.getTypeByID(this.groupMasterForm.getRawValue().addTypeId);
     // alert("update typeName name: " + this.typeName)
-    this.groupMasterForm.controls['typeName'].setValue(this.typeName);
+    // this.groupMasterForm.controls['typeName'].setValue(this.typeName);
     // this.groupMasterForm.patchValue({typeName:this.typeName});
 
-    this.receiptName = await this.getReceiptByID(this.groupMasterForm.getRawValue().addReceiptId);
+    // this.receiptName = await this.getReceiptByID(this.groupMasterForm.getRawValue().addReceiptId);
     // alert("update receiptName name: " + this.receiptName)
-    this.groupMasterForm.controls['receiptName'].setValue(this.receiptName);
+    // this.groupMasterForm.controls['receiptName'].setValue(this.receiptName);
 
     this.sellerName = await this.getSellerByID(this.groupMasterForm.getRawValue().sellerId);
     // alert("update sellerName name: " + this.sellerName)
@@ -741,7 +736,7 @@ this.toastrSuccess();
 
     // }
 
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date,  sourceStoreName: this.groupMasterForm.getRawValue().type,} })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
       height:'95%',
@@ -1403,9 +1398,9 @@ this.toastrSuccess();
     this.toastr.success('تم التعديل بنجاح');
   }
 
-  getListCtrl(source: any) {
-    this.sourceSelected = source;
-    if (source === "المورد") {
+  getListCtrl(type: any) {
+    this.sourceSelected = type;
+    if (type === "المورد") {
 
       this.api.getAllSellers().subscribe((lists) => {
         this.lists = lists;
@@ -1419,7 +1414,7 @@ this.toastrSuccess();
 
       });
     }
-    else if (source === "الموظف") {
+    else if (type === "الموظف") {
 
       this.api.getAllEmployee().subscribe((lists) => {
         this.lists = lists;
