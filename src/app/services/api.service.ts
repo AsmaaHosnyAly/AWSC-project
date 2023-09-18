@@ -477,9 +477,33 @@ export class ApiService {
     });
   }
 
+  strAdd(no: any, store: any, date: any) {
+    ('http://ims.aswan.gov.eg/api/STRAdd/getReport?reportName=STRAddReport&reportType=pdf');
+    this.mycondition = `${this.url}/STRAdd/getReport?reportName=STRAddReport&reportType=pdf`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    }
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
   openingStock(no: any, store: any, date: any, fiscalYear: any, item: any) {
-    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
-    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+    'http://ims.aswan.gov.eg/api/STROpeningStock/getReport?reportName=OpeningStockReport&reportType=pdf';
+    this.mycondition = `${this.url}/STROpeningStock/getReport?reportName=OpeningStockReport&reportType=pdf`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
@@ -514,8 +538,8 @@ export class ApiService {
     date: any,
     itemId: any
   ) {
-    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
-    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+    'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustody/getReport?reportName=EmployeeOpeningReport&reportType=pdf';
+    this.mycondition = `${this.url}/STREmployeeOpeningCustody/getReport?reportName=EmployeeOpeningReport&reportType=pdf`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
@@ -590,8 +614,8 @@ export class ApiService {
     employee: any,
     costCenter: any
   ) {
-    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
-    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+    'http://ims.aswan.gov.eg/api/STRWithdraw/getReport?reportName=STRWithdrawReport&reportType=pdf';
+    this.mycondition = `${this.url}/STRWithdraw/getReport?reportName=STRWithdrawReport&reportType=pdf`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
@@ -1267,7 +1291,9 @@ export class ApiService {
     );
   }
   getStrEmployeeExchangeDetailsByMasterId(id: any) {
-    return this.http.get<any>(`${this.url}/STREmployeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`);
+    return this.http.get<any>(
+      `${this.url}/STREmployeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`
+    );
   }
   putStrEmployeeExchangeDetails(data: any) {
     console.log('StrEmployeeExchangeDetails data: ', data);
@@ -1283,6 +1309,7 @@ export class ApiService {
         HeaderId
     );
   }
+  
   getStrEmployeeExchangeSearach(
     no: any,
     costCenterId: any,
@@ -1508,7 +1535,22 @@ export class ApiService {
         HeaderId
     );
   }
-
+  putStrEmployeeOpenDetail(data: any, id: number) {
+    console.log('strOpenDetails id: ', id, 'strOpenDetails data: ', data);
+    return this.http.put<any>(
+      `${this.url}/STREmployeeOpeningCustodyDetails/update/` + id,
+      data
+    );
+  }
+  getStrEmployeeOpenDetailsByMasterId(id: any) {
+    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`);
+  }
+  putStEmp(data: any) {
+    return this.http.put<any>(`${this.url}/STREmployeeOpeningCustody/update`, data);
+  }
+  // getStrOpenDetailsByMasterId(id: any) {
+  //   return this.http.get<any>(`${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`);
+  // }
   /////////////withdraw///////////
 
   postStrWithdraw(data: any) {
@@ -1550,8 +1592,13 @@ export class ApiService {
       'http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all '
     );
   }
+  getStrWithdrawDetailsByMasterId(id: any) {
+    return this.http.get<any>(
+      `${this.url}/STRWithdraw/GetallSTRWithDrawDetailsGetByWithDrawId/${id}`
+    );
+  }
   putStrWithdrawDetails(data: any) {
-    console.log('put details');
+    console.log('put details', data);
 
     return this.http.put<any>(
       'http://ims.aswan.gov.eg/api/STRWithdrawDetails/update ',
@@ -1940,7 +1987,7 @@ export class ApiService {
       data
     );
   }
-  getStrAddDetailsByAddId(id:any) {
+  getStrAddDetailsByAddId(id: any) {
     return this.http.get<any>(`${this.url}/STRAdd/GeTAddDetailsByAddId/${id}`);
   }
   putStrAddDetails(data: any) {
@@ -2524,6 +2571,7 @@ export class ApiService {
       "' distEmployee: '",
       itemId
     );
+    this.mycondition=`${this.url}/STREmployeeOpeningCustody/search?`
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
 
     if (!no == false) {
@@ -2587,6 +2635,7 @@ export class ApiService {
     // else if (no != '' && costCenterId && !employeeId && !date && !itemId) {
     //   console.log('enter no. & costCenter employeeExchange search');
     //   return this.http.get<any>(
+
     //     `${this.url}/STREmployeeOpeningCustody/search?No=${no}&CostCenterId=${costCenterId}`
     //   );
     // }

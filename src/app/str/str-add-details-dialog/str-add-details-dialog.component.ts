@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-// import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -94,7 +94,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
-    // private toastr: ToastrService,
+    private toastr: ToastrService,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) private locale: string,
     private dialogRef: MatDialogRef<StrAddDetailsDialogComponent>,
@@ -254,7 +254,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
-          alert("خطا اثناء جلب الرصيد الحالى  !");
+          // alert("خطا اثناء جلب الرصيد الحالى  !");
         }
       })
 
@@ -332,7 +332,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
                 },
                 error: (err) => {
                   // console.log("fetch fiscalYears data err: ", err);
-                  alert("خطا اثناء جلب الرصيد الحالى  !");
+                  // alert("خطا اثناء جلب الرصيد الحالى  !");
                 }
               })
           }
@@ -455,7 +455,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
           this.api.postStrAddDetails(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
-                alert("تمت إضافة المجموعة بنجاح");
+                this.toastrSuccess();
+                // alert("تمت إضافة المجموعة بنجاح");
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.groupDetailsForm.controls['percentage'].setValue(100);
@@ -472,7 +473,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
               },
               error: (err) => {
                 console.log("add details err: ", err)
-                alert("حدث خطأ أثناء إضافة تفاصيل")
+                // alert("حدث خطأ أثناء إضافة تفاصيل")
               }
             })
         }
@@ -562,7 +563,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
         .subscribe({
           next: (res) => {
             // alert("تم الحفظ بنجاح");
-            // this.toastrSuccess();
+            this.toastrEditSuccess();
             // console.log("update res: ", res);
             this.groupDetailsForm.reset();
             this.groupDetailsForm.controls['state'].setValue(true);
@@ -600,5 +601,15 @@ export class StrAddDetailsDialogComponent implements OnInit {
         // alert("خطا اثناء جلب رقم العنصر !");
       });
   }
+  toastrSuccess(): void {
+    this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
+
 
 }

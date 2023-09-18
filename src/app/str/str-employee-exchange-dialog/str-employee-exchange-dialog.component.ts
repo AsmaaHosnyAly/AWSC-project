@@ -209,8 +209,8 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   addNewDetails() {
     this.router.navigate(['/employeeOpening'], { queryParams: { masterId: this.getMasterRowId.id } })
     this.dialog.open(StrEmployeeExchangeDetailsDialogComponent, {
-      width: '50%',
-      height: '80%'
+      width: '98%',
+        height: '95%'
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();
@@ -739,7 +739,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
             this.api.putStrEmployeeExchangeDetails(this.groupDetailsForm.value)
               .subscribe({
                 next: (res) => {
-                  this.toastrSuccess();
+                  this.toastrEditSuccess();
                   this.groupDetailsForm.reset();
                   this.groupDetailsForm.controls['qty'].setValue(1);
                   this.groupDetailsForm.controls['state'].setValue('جديد');
@@ -796,8 +796,8 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
     this.router.navigate(['/employeeOpening'], { queryParams: { masterId: this.getMasterRowId.id} })
     this.dialog.open(StrEmployeeExchangeDetailsDialogComponent, {
-      width: '50%',
-      height: '80%',
+      width: '98%',
+      height: '95%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
@@ -857,5 +857,8 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   }
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 }

@@ -5,7 +5,7 @@
 </div>
 
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل إذن صرف ' : ' إضافة إذن صرف جديد'}}</h1>
-<div mat-dialog-content class="mat-dialog-content" dir="rtl">
+<div mat-dialog-content class="mat-dialog-content" dir="rtl" style="overflow: hidden;">
 
 <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
   <div class="headerForm">
@@ -36,7 +36,7 @@
 
 <div style="display: flex; flex-direction: column;margin-left: 10px; ">
   <mat-label>الرقم:</mat-label>
-  <mat-form-field appearance="outline" class="groupInput" style="width: 60px;">
+  <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
    
     <input id="autoNoInput" matInput  formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
         type="number" min="0" readonly>
@@ -44,12 +44,7 @@
 
 </div>
 
-    <!-- <mat-form-field appearance="outline" class="groupInput">
-              <mat-label>اسم الموظف</mat-label>
-              <mat-select placeholder="اسم الموظف" formControlName="employeeId">
-                  <mat-option [value]="employee.id" *ngFor="let employee of employeesList">{{employee.name}}</mat-option>
-              </mat-select>
-          </mat-form-field> -->
+ 
 
         <div style="display: flex; flex-direction: column;margin-left: 10px; ">
           <mat-label>المصدر:</mat-label>
@@ -200,7 +195,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
 </div>
 </form>

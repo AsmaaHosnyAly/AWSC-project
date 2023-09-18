@@ -7,7 +7,8 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { GlobalService } from '../../services/global.service';
-
+import { LoadingService } from 'src/app/loading.service';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-str-units',
   templateUrl: './str-units.component.html',
@@ -17,18 +18,23 @@ export class STRUnitsComponent {
   title = 'angular13crud';
   displayedColumns: string[] = [ 'name', 'action'];
   dataSource!: MatTableDataSource<any>;
-
+ loading$ = this.loader.loading$;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService){
+  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , public loader:LoadingService, private http:HttpClient){
     global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
+    
+
   }
   ngOnInit(): void {
     this.getAllUnits();
   }
+  
   openDialog() {
+    
     this.dialog.open(STRUnitsDialogComponent, {
       width: '30%'
+      
     }).afterClosed().subscribe(val=>{
       if(val === 'save'){
         this.getAllUnits();
@@ -73,7 +79,7 @@ export class STRUnitsComponent {
       }
     })
   }
-  }
+}
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -82,5 +88,5 @@ export class STRUnitsComponent {
       this.dataSource.paginator.firstPage();
     }
   }
+  
 }
-

@@ -86,8 +86,6 @@ export class GlobalService {
     pageTitle: any,
     icon: any
   ) {
-   
-
     console.log('userrole', localStorage.getItem('userRoles')?.split(','))
     for (let i = 0; i < this.userRoles!.length; i++) {
       if (role == this.userRoles![i]) {
@@ -159,4 +157,6 @@ export class GlobalService {
       // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
     }
   }
+
+  
 }

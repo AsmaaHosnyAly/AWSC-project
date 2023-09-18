@@ -20,17 +20,6 @@
           <input formControlName="name" matInput placeholder="ادخل اسم السلعة"type="text">
   
       </mat-form-field>
-        <!-- <mat-label>السلعة</mat-label>
-        <mat-form-field appearance="outline">
-          <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
-            placeholder="{{getGradeData ? getGradeData.commodityName : ''}}" (click)="openAutoCommodity()" required />
-          <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
-            (optionSelected)="commoditySelected($event)">
-            <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
-              {{ commodity.name }} | {{ commodity.code }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field> -->
         
   
           <button mat-raised-button class="savebtn" (click)="addCommodity()" >{{actionBtn}}</button>

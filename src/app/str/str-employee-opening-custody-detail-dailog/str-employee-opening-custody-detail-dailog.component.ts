@@ -11,17 +11,16 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
 export class Item {
   constructor(public id: number, public name: string) { }
 }
 
 @Component({
-  selector: 'app-str-opening-stock-details-dialog',
-  templateUrl: './str-opening-stock-details-dialog.component.html',
-  styleUrls: ['./str-opening-stock-details-dialog.component.css']
+  selector: 'app-str-employee-opening-custody-detail-dailog',
+  templateUrl: './str-employee-opening-custody-detail-dailog.component.html',
+  styleUrls: ['./str-employee-opening-custody-detail-dailog.component.css']
 })
-export class StrOpeningStockDetailsDialogComponent implements OnInit {
+export class StrEmployeeOpeningCustodyDetailDailogComponent {
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -65,7 +64,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   selectedItem: Item | undefined;
   formcontrol = new FormControl('');
 
-  displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -77,7 +76,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<StrOpeningStockDetailsDialogComponent>,
+    private dialogRef: MatDialogRef<StrEmployeeOpeningCustodyDetailDailogComponent>,
     private toastr: ToastrService,
     private route: ActivatedRoute) {
 
@@ -96,31 +95,44 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
     console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
-    this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
-    this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
-    this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
-    console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate);
+    // this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
+    // this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
+    // this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
+    // console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate);
 
     this.groupDetailsForm = this.formBuilder.group({
-      stR_Opening_StockId: ['', Validators.required], //MasterId
+      custodyId: ['', Validators.required], //MasterId
       qty: ['1', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
+      state: ['', Validators.required],
+      percentage: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
     });
+
+
+    console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
+    this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
+    this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
+    this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
+    console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate);
+
+    console.log("nnnnnnnnnnnnnnnnnnn edit d before 1: ", this.editData);
 
     if (this.editData) {
       this.isEdit = true;
       console.log("nnnnnnnnnnnnnnnnnnn edit d before: ", this.editData);
 
       this.actionBtnMaster = "Update";
-      this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.editData.stR_Opening_StockId);
+      this.groupDetailsForm.controls['custodyId'].setValue(this.editData.custodyId);
       this.groupDetailsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
       this.groupDetailsForm.controls['qty'].setValue(this.editData.qty);
       this.groupDetailsForm.controls['price'].setValue(this.editData.price);
+      this.groupDetailsForm.controls['state'].setValue(this.editData.state);
+      this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
       // this.groupDetailsForm.controls['date'].setValue(this.editData.date);
       // this.groupDetailsForm.controls['total'].setValue(this.editData.total);
       // this.toggleEdit();
@@ -166,7 +178,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     this.selectedItem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
     console.log("item in form: ", this.groupDetailsForm.getRawValue().itemId);
-    this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+    // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
     this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
   }
   openAutoItem() {
@@ -178,13 +190,22 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
 
   async addDetailsInfo() {
-    this.dialogRef.close('save');
+    this.groupDetailsForm.controls['custodyId'].setValue(this.getMasterRowId);
 
     // console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
     // this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
     // this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
     // this.getMasterRowId = this.route.snapshot.queryParamMap.get('fiscalYear');
     // this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
+
+    this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
+    if (this.groupDetailsForm.getRawValue().itemId) {
+
+      this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
+      this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+
+      this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+    }
 
     console.log("nnnvvvvvvvvvv post d: ", this.groupDetailsForm.value);
     console.log("nnnvvvvvvvvvvhhhhhhhhhhh: ", this.isEdit);
@@ -193,7 +214,10 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     // }
 
     if (!this.editData) {
+      console.log("enter fun: ");
+
       if (this.getMasterRowId) {
+        console.log("enter fun with id: ", this.getMasterRowId);
 
         if (this.groupDetailsForm.getRawValue().itemId) {
 
@@ -203,16 +227,16 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
           this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
         }
 
-        this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId);
+        this.groupDetailsForm.controls['custodyId'].setValue(this.getMasterRowId);
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
         console.log("post d: ", this.groupDetailsForm.value, "ooo:", !this.getDetailedRowData);
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
-          this.api.postStrOpenDetails(this.groupDetailsForm.value)
+          this.api.postStrEmployeeOpenDetails(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
-                this.toastrEditSuccess();
+                this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.itemCtrl.setValue('');
@@ -223,8 +247,9 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
                 // this.updateDetailsForm()
                 // this.getAllDetailsForms();
               },
-              error: () => {
+              error: (err) => {
                 // alert("حدث خطأ أثناء إضافة مجموعة")
+                console.log("err posttttt: ", err)
               }
             })
         }
@@ -295,7 +320,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
             this.itemByFullCodeValue = '-';
           }
           this.itemByFullCodeValue = a.name;
-          this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+          // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
         }
       })
@@ -329,36 +354,36 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   }
 
 
-  async itemOnChange(itemEvent: any) {
-    console.log("itemEvent change value: ", itemEvent);
-    console.log("get avg values: ", this.getMasterRowStoreId, "year: ", this.getMasterRowFiscalYearId, "date: ", formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale));
-    await this.api.getAvgPrice(
-      this.getMasterRowStoreId,
-      this.getMasterRowFiscalYearId,
-      formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
-      itemEvent)
+  // async itemOnChange(itemEvent: any) {
+  //   console.log("itemEvent change value: ", itemEvent);
+  //   console.log("get avg values: ", this.getMasterRowStoreId, "year: ", this.getMasterRowFiscalYearId, "date: ", formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale));
+  //   await this.api.getAvgPrice(
+  //     this.getMasterRowStoreId,
+  //     this.getMasterRowFiscalYearId,
+  //     formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+  //     itemEvent)
 
-      .subscribe({
-        next: async (res) => {
-          await this.groupDetailsForm.controls['price'].setValue(res);
-          console.log("price passed: ", res);
+  //     .subscribe({
+  //       next: async (res) => {
+  //         await this.groupDetailsForm.controls['price'].setValue(res);
+  //         console.log("price passed: ", res);
 
-          console.log("price: ", this.groupDetailsForm.getRawValue().price);
-          if (this.groupDetailsForm.getRawValue().price == 0 || this.editData?.price == 0) {
-            this.isReadOnly = false;
-            console.log("change readOnly to enable here");
-          }
-          else {
-            this.isReadOnly = true;
-            console.log("change readOnly to disable here");
-          }
-        },
-        error: (err) => {
-          console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب متوسط السعر !");
-        }
-      })
-  }
+  //         console.log("price: ", this.groupDetailsForm.getRawValue().price);
+  //         if (this.groupDetailsForm.getRawValue().price == 0 || this.editData?.price == 0) {
+  //           this.isReadOnly = false;
+  //           console.log("change readOnly to enable here");
+  //         }
+  //         else {
+  //           this.isReadOnly = true;
+  //           console.log("change readOnly to disable here");
+  //         }
+  //       },
+  //       error: (err) => {
+  //         console.log("fetch fiscalYears data err: ", err);
+  //         // alert("خطا اثناء جلب متوسط السعر !");
+  //       }
+  //     })
+  // }
 
   async updateDetailsForm() {
     // this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
@@ -371,8 +396,8 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     //   this.groupMasterForm.controls['id'].setValue(this.editData.id);
     // }
 
-    // this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
-    // this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+    this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+    this.groupDetailsForm.controls['id'].setValue(this.editData.id);
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
     this.isEdit = false;
@@ -380,11 +405,13 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     // this.api.putStrOpen(this.groupMasterForm.value)
     // .subscribe({
     //   next: (res) => {
-    if (this.groupDetailsForm.value && this.editData) {
-      this.api.putStrOpenDetails(this.groupDetailsForm.value, this.editData.id)
+    if (this.groupDetailsForm.valid) {
+      
+      this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-            this.toastrEditSuccess();
+            
+            this.toastrSuccess();
             this.groupDetailsForm.reset();
             this.itemCtrl.setValue('');
             this.itemByFullCodeValue = '';
@@ -393,6 +420,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
             // this.getAllDetailsForms();
             // this.getDetailedRowData = '';
             this.groupDetailsForm.controls['qty'].setValue(1);
+           
             this.dialogRef.close('save');
 
           },
@@ -412,10 +440,5 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
   }
-  toastrDeleteSuccess(): void {
-    this.toastr.success("تم الحذف بنجاح");
-  }
-  toastrEditSuccess(): void {
-    this.toastr.success("تم التعديل بنجاح");
-  }
 }
+

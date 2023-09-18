@@ -138,7 +138,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   openEmployeeExchangeDialog() {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
-        width: '60%',
+        width: '98%',
+        height: '95%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -146,17 +147,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
-    this.dialog
-      .open(StrEmployeeExchangeDialogComponent, {
-        width: '95%',
-        height: '95%',
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'save') {
-          this.getAllMasterForms();
-        }
-      });
+ 
   }
 
   getAllMasterForms() {
@@ -186,17 +177,17 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
 
   editMasterForm(row: any) {
-    this.dialog
-      .open(StrEmployeeExchangeDialogComponent, {
-        width: '60%',
-        data: row,
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'update' || val === 'save') {
-          this.getAllMasterForms();
-        }
-      });
+    // this.dialog
+    //   .open(StrEmployeeExchangeDialogComponent, {
+    //     width: '60%',
+    //     data: row,
+    //   })
+    //   .afterClosed()
+    //   .subscribe((val) => {
+    //     if (val === 'update' || val === 'save') {
+    //       this.getAllMasterForms();
+    //     }
+    //   });
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
         width: '95%',
@@ -209,6 +200,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
+ 
   }
 
   deleteBothForms(id: number) {
@@ -232,7 +224,6 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
                     next: (res) => {
                       this.api.deleteStrEmployeeExchange(id).subscribe({
                         next: (res) => {
-                          this.toastrDeleteSuccess();
                           this.getAllMasterForms();
                         },
                         error: () => {
@@ -245,12 +236,12 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
                     },
                   });
               }
-            }
+            }                          this.toastrDeleteSuccess();
+
           } else {
             if (result) {
               this.api.deleteStrEmployeeExchange(id).subscribe({
                 next: (res) => {
-                  this.toastrDeleteSuccess();
                   this.getAllMasterForms();
                 },
                 error: () => {
@@ -568,5 +559,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 }

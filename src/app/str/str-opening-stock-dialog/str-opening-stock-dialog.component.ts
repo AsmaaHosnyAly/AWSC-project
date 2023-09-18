@@ -306,8 +306,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
   addNewDetails() {
     this.router.navigate(['/str-openingStock'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrOpeningStockDetailsDialogComponent, {
-      width: '50%',
-      height: '80%'
+      width: '98%',
+      height: '95%',
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();
@@ -418,6 +418,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
     this.isEdit = false;
+  this.toastrEditSuccess();
+// 
     // console.log("edit : ", this.groupDetailsForm.value, "row: ", this.getDetailedRowData.id)
     // this.api.putStrOpen(this.groupMasterForm.value)
     //   .subscribe({
@@ -508,7 +510,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     this.router.navigate(['/str-openingStock'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrOpeningStockDetailsDialogComponent, {
-      width: '50%',
+      width: '98%',
       height: '95%',
       data: row
     }).afterClosed().subscribe(val => {
@@ -883,5 +885,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }

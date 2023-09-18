@@ -399,7 +399,6 @@ export class STRItem1Component implements OnInit {
     }
   }
   
-
   async getSearchItems(name: any, fullCode: any, type: any) {
     let commodity = this.itemForm.getRawValue().commodityId;
     console.log('commodityRow:', commodity);
@@ -437,139 +436,139 @@ export class STRItem1Component implements OnInit {
       });
   }
 
-  async getSearch(name: any) {
-    this.api.getItem().subscribe({
-      next: (res) => {
-        //enter itemName
-        if (!this.selectedGroup && name && !this.selectedUnit) {
-          console.log('filter name id: ', this.selectedGroup, 'name: ', name);
+  // async getSearch(name: any) {
+  //   this.api.getItem().subscribe({
+  //     next: (res) => {
+  //       //enter itemName
+  //       if (!this.selectedGroup && name && !this.selectedUnit) {
+  //         console.log('filter name id: ', this.selectedGroup, 'name: ', name);
 
-          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-          this.dataSource = res.filter((res: any) =>
-            res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+  //         this.dataSource = res.filter((res: any) =>
+  //           res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedGroup
-        if (this.selectedGroup && name == '' && !this.selectedUnit) {
-          console.log('selectedGroup:', this.selectedGroup);
+  //       //enter selectedGroup
+  //       if (this.selectedGroup && name == '' && !this.selectedUnit) {
+  //         console.log('selectedGroup:', this.selectedGroup);
 
-          this.dataSource = res.filter(
-            (res: any) => res.groupId == this.selectedGroup.id
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) => res.groupId == this.selectedGroup.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedUnit
-        if (!this.selectedGroup && name == '' && this.selectedUnit) {
-          console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
+  //       //enter selectedUnit
+  //       if (!this.selectedGroup && name == '' && this.selectedUnit) {
+  //         console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
 
-          this.dataSource = res.filter(
-            (res: any) => res.unitId == this.selectedUnit.id
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) => res.unitId == this.selectedUnit.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedUnit+selectedGroup
-        if (this.selectedUnit && name == '' && this.selectedGroup) {
-          console.log(
-            'filter Unit, Group: ',
-            this.selectedUnit,
-            this.selectedGroup
-          );
+  //       //enter selectedUnit+selectedGroup
+  //       if (this.selectedUnit && name == '' && this.selectedGroup) {
+  //         console.log(
+  //           'filter Unit, Group: ',
+  //           this.selectedUnit,
+  //           this.selectedGroup
+  //         );
 
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.unitId == this.selectedUnit.id &&
-              res.groupId == this.selectedGroup.id
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.groupId == this.selectedGroup.id
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedGroup+item
-        else if (this.selectedGroup && name && !this.selectedUnit) {
-          console.log(
-            'selectedGroup ,name: ',
-            this.selectedGroup,
-            'name: ',
-            name
-          );
+  //       //enter selectedGroup+item
+  //       else if (this.selectedGroup && name && !this.selectedUnit) {
+  //         console.log(
+  //           'selectedGroup ,name: ',
+  //           this.selectedGroup,
+  //           'name: ',
+  //           name
+  //         );
 
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.groupId == this.selectedGroup.id &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.groupId == this.selectedGroup.id &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter selectedUnit+item
-        else if (this.selectedUnit && name && !this.selectedGroup) {
-          console.log(
-            'selectedUnit, name: ',
-            this.selectedUnit,
-            'name: ',
-            name
-          );
+  //       //enter selectedUnit+item
+  //       else if (this.selectedUnit && name && !this.selectedGroup) {
+  //         console.log(
+  //           'selectedUnit, name: ',
+  //           this.selectedUnit,
+  //           'name: ',
+  //           name
+  //         );
 
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.unitId == this.selectedUnit.id &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter all
-        else if (this.selectedUnit && this.selectedGroup && name) {
-          console.log(
-            'all: ',
-            this.selectedUnit,
-            this.selectedGroup,
-            'name: ',
-            name
-          );
+  //       //enter all
+  //       else if (this.selectedUnit && this.selectedGroup && name) {
+  //         console.log(
+  //           'all: ',
+  //           this.selectedUnit,
+  //           this.selectedGroup,
+  //           'name: ',
+  //           name
+  //         );
 
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.unitId == this.selectedUnit.id &&
-              res.groupId == this.selectedGroup.id! &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+  //         // this.dataSource = res.filter((res: any)=> res.name==name!)
+  //         this.dataSource = res.filter(
+  //           (res: any) =>
+  //             res.unitId == this.selectedUnit.id &&
+  //             res.groupId == this.selectedGroup.id! &&
+  //             res.name.toLowerCase().includes(name.toLowerCase())
+  //         );
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
 
-        //enter itemName
-        else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
-          console.log(
-            'filter name mmmm id: ',
-            this.selectedGroup,
-            'name: ',
-            name
-          );
-          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-          // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
-    // this.getAllProducts()
-  }
+  //       //enter itemName
+  //       else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
+  //         console.log(
+  //           'filter name mmmm id: ',
+  //           this.selectedGroup,
+  //           'name: ',
+  //           name
+  //         );
+  //         // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
+  //         // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+  //     },
+  //     error: (err) => {
+  //       alert('Error');
+  //     },
+  //   });
+  //   // this.getAllProducts()
+  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
