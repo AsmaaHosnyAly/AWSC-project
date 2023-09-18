@@ -1,134 +1,164 @@
-
-
-
-h2 {
-  font-family: 'Cairo', sans-serif;
-  font-weight: bold;
+* {
+  font-family: "Cairo", sans-serif;
+  padding: 0;
+  margin: 0;
 }
-
-.banner{
-   background-image:url("../../../assets/images/login1.PNG");
-  background-size:100% 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-   
- 
-    
-    
-
-}
-
-.form{
-  font-family: 'Cairo', sans-serif;
-  width:33%;
-  height:20%;
-  background-color: FFFFFF;
-  padding: 10px;
-  /* border: 1px solid; */
-  
-  box-shadow: 0px 1px 1px 4px #f8f4f4;
-  /* padding-top: 20px; */
- border: 1px  #2DC4F3 solid;
-  border-radius: 15px;
+.cont {
   display: flex;
-  align-items: center;
   justify-content: center;
- margin-top:40px;
-  
-  
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    to right,
+    var(--bg-primary-color) 0%,
+    var(--bg-primary-color) 45.9%,
+    transparent 34.33%,
+    transparent 100%
+  );
 }
-.form h2{
+.main-content {
+  display: flex;
+  justify-content: center;
+  box-shadow: 1px 1px 1px 2px rgba(114, 113, 113, 0.55);
+  border-radius: 5px;
+  width: 65%;
+  height: 70%;
+}
+.img {
+  padding-top: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  align-content: center;
+}
+.div1 {
+  margin: 10px 0px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  align-content: center;
+  margin-left: 30px;
+  gap: 50px;
+}
+
+.paragraph {
   text-align: center;
+  font-size: 20px;
+  color: white;
+  max-width: 200px;
+  font-weight: 600;
+  line-height: 1.8;
 }
 
-.form input:focus{
-  background-color: #ffff !important; 
-  box-shadow: none !important;
+.div2 {
+  margin: 10px 10px 10px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  color: rgb(67, 66, 66);
+  flex: 2;
+}
+.div2 p {
+  font-size: 25px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+.login-form {
+  width: 100%;
+  display: flex;
+  text-align: end;
+  align-items: center;
+  flex-direction: column;
+  margin-left: 50px;
+}
+.details {
+  margin-top: 30px;
+  width: 55%;
+  font-size: 18px;
 }
 
-
-.form input{
+.login-form input {
   margin: auto;
   margin-top: 20px;
-  border: none;
-  border-bottom: 1px solid;
-  padding: 20px;
-  width: 80%;
-  border-radius: 0;
-  text-align: right;
-  background-color: #ffff !important;
-  
+  padding: 10px;
+  width: 55%;
+  border: 1px rgb(148, 147, 147) solid;
+ border-radius: 0 !important;
+
+ 
 }
-
-
-input:-internal-autofill-selected{
-  background-color: white !important;
+.alert-danger {
+  margin-top: 7px;
+  padding: 10px;
+  width: 350px;
 }
-   
-
-.form .b button{
+.login-form button {
+  border: hidden;
+}
+.btn {
   text-align: center;
   margin: auto;
-  margin-top: 60px;
-  display: block;
-  border-radius: 20px;
-  padding:12px 50px;
-  background-color: #2DC4F3;
-  color:white;
-  border: #2DC4F3;
+  margin-top: 50px;
+  border-radius: 2px;
+  padding: 5px 40px;
+  background-color:    var(--bg-primary-color);
+  color: white;
+  border: #2dc4f3;
   font-size: 20px;
-}
-.logo{
- 
-  margin: auto;
-  text-align: center;
-
-
-}
-#user {
-  position: relative;
-  top:70px;
-  left: 300px;
-  color:#85909a !important;
-}
-#lock{
-  position: relative;
-  top:70px;
-  left: 300px;
-  color:#85909a !important;
-  
-}
-    
-
-@media (max-width: 576px) {
- 
+  font-weight: 600;
+  display: block;
+  width: 55%;
 }
 
-/* Large devices (desktops, 992px and up) */
-@media (max-width: 992px) {
+.btn:hover {
+  border-color: #6ed3f2;
+  background-color: #25ccff;
+  cursor: pointer;
+}
 
-
-
-  
-
- }
-
- @media (min-width: 992px) { 
-  #user {
-    position: relative;
-    top:70px;
-    left:255px;
-    color:#85909a !important;
-    
+@media (max-width: 1200px) {
+  .main-content {
+    width: 90%;
+    height: 400px;
+    font-weight: 100;
+    font-size: 10px;
   }
-  #lock{
-    position: relative;
-    top:70px;
-    left:255px;
-    color:#85909a !important;
-    
+
+  .paragraph {
+    font-size: 15px;
+    max-width: 400px;
+    font-weight: 100;
+    margin-right: 15px;
   }
- }
+
+  .details {
+    margin-top: 10px;
+    width: 55%;
+    font-size: 14px;
+  }
+
+  .login-form input {
+    margin: auto;
+    margin-top: 15px;
+    padding: 5px;
+    width: 55%;
+  }
+
+  .btn {
+    padding: 5px 30px;
+    font-size: 15px;
+    width: 55%;
+  }
+}

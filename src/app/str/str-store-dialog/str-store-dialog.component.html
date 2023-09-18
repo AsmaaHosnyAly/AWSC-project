@@ -1,0 +1,27 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مخزن   ' : ' إضافة  مخزن جديد'}}</h1>
+<div dir="rtl">
+   <div mat-dilog-content>
+   <form [formGroup]="productForm" style="padding: 20px;" >
+       <!-- <mat-form-field appearance="outline" >
+           <mat-label>الكود </mat-label>
+           <input formControlName="STRcode" matInput placeholder="ادخل كود المخزن" type="number">
+           
+       </mat-form-field> -->
+       <mat-form-field appearance="outline">
+           <mat-label>المخزن</mat-label>
+           <input formControlName="name" matInput placeholder="ادخل المخزن" type="text">
+   
+       </mat-form-field>
+       <button s mat-raised-button class="savebtn" (click)="addStores()">{{actionBtn}}</button>
+
+   </form>
+   </div>
+  
+
+    
+ 
+   </div>

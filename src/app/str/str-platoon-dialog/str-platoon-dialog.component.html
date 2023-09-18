@@ -1,0 +1,43 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل فصيلة   ' : ' إضافة  فصيلة جديدة'}}</h1>
+<form [formGroup]="platoonForm" dir="rtl">
+  <div mat-dialog-content>
+    <form [formGroup]="platoonForm">
+      <mat-form-field appearance="outline">
+        <mat-label>اسم الفصيلة</mat-label>
+        <input formControlName="name" matInput placeholder="اسم الفصيلة">
+      </mat-form-field>
+
+      <mat-label>السلعة</mat-label>     
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
+          placeholder="{{getPlatoonData ? getPlatoonData.commodityName : ''}}" (click)="openAutoCommodity()" required />
+        <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
+          (optionSelected)="commoditySelected($event)">
+          <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
+            {{ commodity.name }} | {{ commodity.code }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-label>النوعية</mat-label>     
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="grade" [matAutocomplete]="autoGrade" [formControl]="gradeCtrl" required
+          placeholder="{{getPlatoonData ? getPlatoonData.gradeName : ''}}" (click)="openAutoGrade()" required />
+        <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGradeName"
+          (optionSelected)="gradeSelected($event)">
+          <mat-option *ngFor="let grade of filteredGrades | async" [value]="grade">
+            {{ grade.name }} | {{ grade.code }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-raised-button class="savebtn" (click)="addPlatoon()" style="margin-left: 8px;">{{actionBtn}}</button>
+
+    </form>
+  </div>
+  
+  
+</form>

@@ -15,17 +15,21 @@
   font-size: 16px;
   margin: 0 !important;
 }
+.user-info{
+  display: flex;
+  align-items: center;
+}
 .user-content p{
   font-family: 'Droid Arabic naskh', serif;
   font-size: 14px;
   margin: 0 !important;
 }
 .mat-toolbar.mat-primary {
-  background: #034564;
+  background:var( --bg-primary-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding:50px 20px ;
+  padding:50px 10px ;
   
 }
 
@@ -74,10 +78,11 @@
   justify-content: space-between;
   border: 1px rgb(240, 236, 236) solid;
   border-radius: 10px;
-  padding: 5px;
+  padding: 5px 0px;
   align-items: center;
-  background-color: aliceblue;
-  color: #000;
+  background-color: var(--mat-sidenav-content-background-color);
+  color: rgb(70, 70, 70);
+  max-width: 300px;
   
 }
 
@@ -85,18 +90,31 @@
   --mat-icon-color:rgb(60, 202, 252);
 }
 
+.information-company .toolbarUserContent{
+  line-height: 0.5;
+  max-width: 170px;
+  
+}
+
+.toolbarUserContent p{
+  font-size: 13px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: bold;
+
+}
 
 #pageTitle{
   /* margin-right: 20%; */
   display: flex;
   justify-content: flex-start;
   font-family: 'Cairo', sans-serif;
-  font-weight: bold;
+  font-weight:bold;
+  font-size: 15px;
   /* background-color: aqua; */
   flex: 20%;
   text-align: right;
  padding-right: 20px;
- color:rgb(60, 202, 252) !important;
+ 
 }
 
 .mat-icon.mat-primary {
@@ -104,8 +122,17 @@
 }
 
 
+mat-expansion-panel{
+ background-color: transparent;
+  border: none !important;
+}
+.mat-drawer{
+ width:235px;
+  background-color: #e9e9e9ab !important;
+  
+}
 .mat-drawer-container{
-  background-color: white !important
+  background-color:transparent !important
 }
 
 .outletConyainer{
@@ -113,4 +140,19 @@
   margin: auto;
   margin-top: 50px !important;
   width: 90%;
+}
+
+.hiddenstores{
+  display: hidden !important;
+ 
+}
+
+.displaystores{
+  display: block;
+}
+.displayRoles{
+  display:none;
+}
+.hiddenRoles{
+  display: block;
 }

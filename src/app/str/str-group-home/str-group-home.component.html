@@ -1,0 +1,110 @@
+<!-- Cards with media area -->
+<div class="routeContainer">
+
+    <mat-card class="example-card" *ngIf="this.shared.time ==true">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>book</mat-icon></mat-card-title>
+        <mat-card-subtitle>الحضور والانصراف</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card"  *ngIf="this.shared.Benefits ==true">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon> money</mat-icon></mat-card-title>
+        <mat-card-subtitle>الاستحقاقات</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card"  *ngIf="this.shared.hr ==true">
+      <mat-card-title-group routerLink="/hr-home">
+        <mat-card-title class="tt"><mat-icon>people</mat-icon></mat-card-title>
+        <mat-card-subtitle>شئون العاملين</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+  
+    <mat-card class="example-card">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon> local_library</mat-icon></mat-card-title>
+        <mat-card-subtitle>الموازنة العامة</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card"  *ngIf="this.shared.costs ==true">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>credit_card</mat-icon></mat-card-title>
+        <mat-card-subtitle>التكاليف</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card" *ngIf="this.shared.accounts ==true" >
+      <mat-card-title-group routerLink="/fi-home">
+        <mat-card-title class="tt"><mat-icon> attach_money</mat-icon></mat-card-title>
+        <mat-card-subtitle>الحسابات العامة</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+  
+    <mat-card class="example-card" *ngIf="this.shared.stores ==true" >
+      <mat-card-title-group routerLink="/str-home">
+        <mat-card-title class="tt"><mat-icon> store_mall_directory</mat-icon></mat-card-title>
+        <mat-card-subtitle >المخازن و حسابات المخازن</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card" >
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>donut_large</mat-icon></mat-card-title>
+        <mat-card-subtitle>الصرف الصناعى</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card" *ngIf="this.shared.MechanicalCampaign">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>build</mat-icon></mat-card-title>
+        <mat-card-subtitle>ادارة الحملة الميكانيكية</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+  
+    <mat-card class="example-card">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>collections_bookmark</mat-icon></mat-card-title>
+        <mat-card-subtitle>الاصول الثابتة</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card" *ngIf="this.shared.CentralWater">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon> pin_drop</mat-icon></mat-card-title>
+        <mat-card-subtitle>الادارة المركزية للمياه</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card"  *ngIf="this.shared.training ==true">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>supervised_user_circle</mat-icon></mat-card-title>
+        <mat-card-subtitle>الادارة العامة للتدريب</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+
+
+    <mat-card class="example-card" *ngIf="this.shared.labs">
+      <mat-card-title-group>
+        <mat-card-title class="tt"> <mat-icon>pan_tool</mat-icon></mat-card-title>
+        <mat-card-subtitle>ادارة المعامل</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+    <mat-card class="example-card"  *ngIf="this.shared.LegalAffairs ==true">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>verified_user</mat-icon></mat-card-title>
+        <mat-card-subtitle>الادارة العامة للشئون القانونية</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    <mat-card class="example-card" *ngIf="this.shared.roles==true">
+      <mat-card-title-group routerLink="/pr-home">
+        <mat-card-title class="tt"><mat-icon>verified_user</mat-icon></mat-card-title>
+        <mat-card-subtitle> الصلاحيات</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+  </div>

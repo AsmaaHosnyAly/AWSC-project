@@ -10,15 +10,14 @@
     alt="user photo"
   />
   <div class="toolbarUserContent ">
-    <p>شركة مياة الشرب</p>
-    <p>و الصرف الصحى باسوان</p>
+    <p >شركة مياةالشرب</p>
+    <p>والصرف الصحى باسوان</p>
   </div>
   </div>
   <div id="pageTitle">
     <div class="d-flex align-items-center">
-      <!-- <span>{{ this.global.pageTitle }}</span
-      ><mat-icon>{{this.global.icon}}</mat-icon> -->
-      <span>المخازن</span>
+      <span>{{ this.global.pageTitle }}</span
+      ><mat-icon>{{this.global.icon}}</mat-icon> 
     </div>
   </div>
   <div>
@@ -28,26 +27,35 @@
       aria-label="Example icon-button with a menu"
     >
       <div class="toolbarUserContent parent-user-name">
-        <div class="user-name">
-          <div class="my-2">{{ user?.name }}</div>
-          <div class="my-2">مدير ادارة المخازن</div>
+      
+        <div class="user-info">
+          <div class="ms-1">
+            <mat-icon>perm_identity</mat-icon>
+          </div>
+          <div class="user-name">
+            <div class="my-2">{{ user?.name }}</div>
+            <div class="my-2">مدير ادارة المخازن</div>
+          </div>
+          
+         
         </div>
+      
       </div>
     </button>
   </div>
 
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <!-- <button mat-menu-item>
       <mat-icon>dialpad</mat-icon>
       <span>Redial</span>
     </button>
     <button mat-menu-item disabled>
       <mat-icon>voicemail</mat-icon>
       <span>Check voice mail</span>
-    </button>
-    <button mat-menu-item routerLink="login">
+    </button> -->
+    <button mat-menu-item (click)="handleLogOut()" routerLink="login">
       <mat-icon>notifications_off</mat-icon>
-      <span>تسجيل الخروج</span>
+      <span >تسجيل الخروج</span>
     </button>
   </mat-menu>
 </mat-toolbar>
@@ -61,7 +69,8 @@
       </mat-list-item> -->
 
 <!-- start stores -->
-<mat-expansion-panel dir="rtl">
+<mat-expansion-panel dir="rtl" *ngIf="this.shared.stores">
+  
   <mat-expansion-panel-header >
     <mat-panel-title>
       <mat-icon color="primary" class="ms-2">store</mat-icon>
@@ -81,22 +90,22 @@
         <mat-panel-title> التكويد </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-nav-list>
-        <a
+        <a  *ngIf="this.shared.commodity"
           mat-list-item
           class="sideNavSubItems"
           routerLink="/commodity"
-          ><p class="font">السلعة</p></a
+          ><p class="font" >السلعة</p></a
         >
         <a mat-list-item class="sideNavSubItems" routerLink="/grade"
           ><p class="font">النوعية</p></a
         >
-        <a
+        <a *ngIf="this.shared.strPlatoon"
           mat-list-item
           class="sideNavSubItems"
           routerLink="/str-platoon"
           ><p class="font">الفصيلة</p></a
         >
-        <a
+        <a *ngIf="this.shared.group1"
           mat-list-item
           routerLink="/group1"
           class="sideNavSubItems"
@@ -124,19 +133,33 @@
         <a
           mat-list-item
           class="sideNavSubItems"
+          routerLink="/str-vendor"
+        >
+          <p class="font"> المصنع</p></a
+        >
+        <a
+          mat-list-item
+          class="sideNavSubItems"
+          routerLink="/str-model"
+        >
+          <p class="font"> النموذج</p></a
+        >
+        <a
+          mat-list-item
+          class="sideNavSubItems"
           routerLink="/costCenter"
         >
           <p class="font">مركز التكلفة</p></a
         >
+        
+        
       </mat-nav-list>
     </mat-expansion-panel>
     <a
       mat-list-item
       class="sideNavSubItems"
       routerLink="/withdraw"
-      (click)="
-        global.getPermissionUserRoles(1, 'stores', 'إذن صرف', '')
-      "
+      *ngIf="this.shared.withdraw"
     >
       <p class="font">اذن صرف</p></a
     >
@@ -144,9 +167,8 @@
       mat-list-item
       class="sideNavSubItems"
       routerLink="/STRAdd"
-      (click)="
-        global.getPermissionUserRoles(2, 'stores', 'إذن إضافة', '')
-      "
+      *ngIf="this.shared.STRAdd==true"
+    
     >
       <p class="font">اذن اضافة</p></a
     >
@@ -154,28 +176,36 @@
       mat-list-item
       routerLink="/str-openingStock"
       class="sideNavSubItems"
-      (click)="
-        global.getPermissionUserRoles(3, 'stores', 'الإفتتاحي', '')
-      "
+      *ngIf="this.shared.openingStock==true"
+    
     >
-      <p class="font">الافتتاحى</p></a
+      <p class="font">الرصيد الافتتاحى</p></a
     >
-
+   
     <a
       mat-list-item
       routerLink="/employeeOpening"
       class="sideNavSubItems"
-      (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
+      *ngIf="this.shared.employeeOpening==true"
     >
       <p class="font">نقل عهدة</p></a
     >
+
+    <a
+    mat-list-item
+    routerLink="/EmployeeOpeningCustody"
+    class="sideNavSubItems"
+    *ngIf="this.shared.employeeOpeningCustody==true"
+  >
+    <p class="font"> الإفتتاحي العهد</p></a
+  >
   </mat-nav-list>
 </mat-expansion-panel>
 
      
         <!--start accounts -->
 
-        <mat-expansion-panel dir="rtl">
+        <mat-expansion-panel dir="rtl"  *ngIf="this.shared.accounts==true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <img
@@ -293,11 +323,11 @@
         </mat-expansion-panel>
         <!-- end accounts -->
              <!-- start الموراد البشرية-->
-             <mat-expansion-panel dir="rtl">
+             <mat-expansion-panel dir="rtl" *ngIf="this.shared.hr==true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary" class="ms-2">people</mat-icon>
-                  الموراد البشرية
+                   شئون العاملين
                 </mat-panel-title>
                 <mat-nav-list></mat-nav-list>
               </mat-expansion-panel-header>
@@ -362,10 +392,11 @@
             </mat-expansion-panel>
             <!-- end Hr -->
             <!-- start roles -->
-            <mat-expansion-panel dir="rtl">
+            <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
+            <mat-expansion-panel dir="rtl" *ngIf="this.shared.roles" >
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <mat-icon color="primary" class="ms-2">store</mat-icon>
+                  <mat-icon color="primary"  class="ms-2">store</mat-icon>
                   الصلاحيات
                 </mat-panel-title>
               </mat-expansion-panel-header>
@@ -385,11 +416,11 @@
                     <a
                       mat-list-item
                       class="sideNavSubItems"
-                      routerLink="/commodity"
-                      ><p class="font">المستخدمين</p></a
+                      routerLink="/pr-user"
+                      ><p class="font" >المستخدمين</p></a
                     >
-                    <a mat-list-item class="sideNavSubItems" routerLink="/grade"
-                      ><p class="font">الصلاحيات</p></a
+                    <a mat-list-item class="sideNavSubItems" routerLink="/pr-group"
+                      ><p class="font" >المجموعات</p></a
                     >
                   </mat-nav-list>
                 </mat-expansion-panel>

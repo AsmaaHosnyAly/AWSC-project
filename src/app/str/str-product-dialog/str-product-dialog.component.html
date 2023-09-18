@@ -1,0 +1,102 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل منتج ' : ' إضافة منتج جديد'}}</h1>
+
+<div mat-dialog-content dir="rtl" style="padding: 30px;">
+    <form [formGroup]="groupForm">
+        <mat-form-field appearance="outline" class="groupInput">
+            <mat-label>اسم المنتج</mat-label>
+            <input matInput placeholder="اسم المنتج" formControlName="name">
+        </mat-form-field>
+        <!-- 
+        <mat-form-field appearance="outline" class="groupInput">
+            <mat-label>الصنف</mat-label>
+            <mat-select placeholder="الصنف" formControlName="itemId">
+                <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <div style="display: flex; flex-direction: column">
+            <mat-label>الصنف*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput aria-label="commodity" [matAutocomplete]="itemId" [formControl]="itemCtrl"
+                    placeholder="{{editData ? editData.itemName ? editData.itemName : editData.itemId : ''}}"
+                    (click)="openAutoItem()" required />
+                <mat-autocomplete #itemId="matAutocomplete" [displayWith]="displayItemName"
+                    (optionSelected)="ItemSelected($event)">
+                    <mat-option *ngFor="let item of filteredItem | async" [value]="item">
+                        {{ item.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+
+        <!-- <mat-form-field appearance="outline" class="groupInput">
+            <mat-label>البائع</mat-label>
+            <mat-select placeholder="البائع" formControlName="vendorId">
+                <mat-option [value]="vendor.id" *ngFor="let vendor of vendorsList">{{vendor.name}}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <div style="display: flex; flex-direction: column">
+            <mat-label>البائع*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput aria-label="commodity" [matAutocomplete]="vendorId" [formControl]="vendorCtrl"
+                    placeholder="{{editData ? editData.vendorName ? editData.vendorName : editData.vendorId : ''}}"
+                    (click)="openAutoVendor()" required />
+                <mat-autocomplete #vendorId="matAutocomplete" [displayWith]="displayVendorName"
+                    (optionSelected)="VendorSelected($event)">
+                    <mat-option *ngFor="let vendor of filteredVendor | async" [value]="vendor">
+                        {{ vendor.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <!-- <mat-form-field appearance="outline" class="groupInput">
+            <mat-label>النموذج</mat-label>
+            <mat-select placeholder="النموذج" formControlName="modelId">
+                <mat-option [value]="model.id" *ngFor="let model of modelsList">{{model.name}}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+
+        <div style="display: flex; flex-direction: column">
+            <mat-label>النموذج*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput aria-label="commodity" [matAutocomplete]="modelId" [formControl]="modelCtrl"
+                    placeholder="{{editData ? editData.modelName ? editData.modelName : editData.modelId : ''}}"
+                    (click)="openAutoModel()" required />
+                <mat-autocomplete #modelId="matAutocomplete" [displayWith]="displayModelName"
+                    (optionSelected)="ModelSelected($event)">
+                    <mat-option *ngFor="let model of filteredModel | async" [value]="model">
+                        {{ model.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+
+        <div class="text-center">
+            <input class="form-control" type="file" (change)="onChange($event)" (change)="onUpload()">
+
+
+        </div>
+
+
+
+        <div class="container" *ngIf="loading">
+            <h3>Loading ...</h3>
+        </div>
+
+    </form>
+
+    <div>
+        <button mat-raised-button class="savebtn" (click)="addProduct()">{{actionBtn.toLowerCase() =='save' ?
+            'اضافة':'تعديل'}}</button>
+
+    </div>
+
+</div>
