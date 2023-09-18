@@ -63,7 +63,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
   filtereditems: Observable<Item[]>;
   selecteditems: Item | undefined;
 
-  displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -109,7 +109,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
       price: ['', Validators.required],
       total: ['', Validators.required],
       state: [this.stateDefaultValue, Validators.required],
-      percentage: ['', Validators.required],
+      // percentage: [''],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
@@ -127,7 +127,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
       this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.editData.employee_ExchangeId);
       this.groupDetailsForm.controls['itemId'].setValue(this.editData.itemId);
-      this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
+      // this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
 
       this.groupDetailsForm.controls['price'].setValue(this.editData.price);
       // alert("price editData: " + this.editData.qty);

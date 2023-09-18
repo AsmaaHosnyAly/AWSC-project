@@ -91,7 +91,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   filtereditems: Observable<Item[]>;
   selecteditems: Item | undefined;
 
-  displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

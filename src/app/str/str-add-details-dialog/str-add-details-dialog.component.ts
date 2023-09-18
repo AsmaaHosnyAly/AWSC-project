@@ -66,6 +66,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   getMasterRowStoreId: any;
   getMasterRowFiscalYearId: any;
   getMasterRowDate: any;
+  getMasterRowSourceName: any;
 
   stateDefaultValue: any;
 
@@ -102,7 +103,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
     private route: ActivatedRoute) {
 
     this.currentDate = new Date;
-    this.stateDefaultValue = true;
+    this.stateDefaultValue = "جديد";
 
 
     this.itemCtrl = new FormControl();
@@ -145,8 +146,9 @@ export class StrAddDetailsDialogComponent implements OnInit {
     this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
     this.getMasterRowDate = formatDate(this.route.snapshot.queryParamMap.get('date')!, 'yyyy-MM-dd', this.locale);
+    this.getMasterRowSourceName = this.route.snapshot.queryParamMap.get('sourceStoreName');
 
-    console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate);
+    console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate, "sourceStoreName: ", this.getMasterRowSourceName);
 
 
     if (this.editData) {
@@ -232,7 +234,16 @@ export class StrAddDetailsDialogComponent implements OnInit {
         next: (res) => {
           // this.priceCalled = res;
           this.groupDetailsForm.controls['avgPrice'].setValue(res);
-          this.groupDetailsForm.controls['price'].setValue(res)
+          this.groupDetailsForm.controls['price'].setValue(res);
+          console.log("include ? ", this.getMasterRowSourceName);
+          if (this.getMasterRowSourceName.includes('مورد')) {
+            this.isReadOnly = false;
+            console.log("change readOnly to enable here");
+          }
+          else {
+            this.isReadOnly = true;
+            console.log("change readOnly to disable here");
+          }
           console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
         },
         error: (err) => {
@@ -380,7 +391,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
     console.log("state value changed: ", state.value);
     this.groupDetailsForm.controls['state'].setValue(state.value);
 
-    if (this.groupDetailsForm.getRawValue().state == false) {
+    if (this.groupDetailsForm.getRawValue().state == "مستعمل") {
       this.isReadOnlyPercentage = false;
     }
     else {
@@ -450,7 +461,9 @@ export class StrAddDetailsDialogComponent implements OnInit {
               // alert("خطا اثناء جلب متوسط السعر !");
             }
           })
-        if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
+
+        console.log("form details before post: ", this.groupDetailsForm.value)
+        if (this.groupDetailsForm.valid) {
 
           this.api.postStrAddDetails(this.groupDetailsForm.value)
             .subscribe({
@@ -460,7 +473,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.groupDetailsForm.controls['percentage'].setValue(100);
-                this.groupDetailsForm.controls['state'].setValue(true);
+                this.groupDetailsForm.controls['state'].setValue("جديد");
 
                 // this.updateDetailsForm();
 
@@ -566,7 +579,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
             this.toastrEditSuccess();
             // console.log("update res: ", res);
             this.groupDetailsForm.reset();
-            this.groupDetailsForm.controls['state'].setValue(true);
+            this.groupDetailsForm.controls['state'].setValue("جديد");
             this.itemByFullCodeValue = '';
             this.fullCodeValue = '';
             // this.getAllDetailsForms();
