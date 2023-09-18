@@ -202,6 +202,8 @@ getCodeByGradeId() {
   }
   
     updatePlatoon(){
+    console.log("update platoonForm last values, id: ", this.platoonForm.value)
+
       this.api.putPlatoon(this.platoonForm.value)
       .subscribe({
         next:(res)=>{
@@ -213,6 +215,6 @@ getCodeByGradeId() {
           alert("خطأ عند تحديث البيانات");
         }
       })
-    }
+    } 
 
 }

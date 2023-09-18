@@ -60,9 +60,8 @@ export class STRUnitsComponent {
     })
   }
   daleteunit(id:number){
-    if(confirm("Are you sure to delete ")) {
-      console.log("Implement delete functionality here");
-    }
+    var result = confirm('هل تريد تأكيد الحذف ');
+    if(result) {  
     this.api.deleteunit(id)
     .subscribe({
       next:(res)=>{
@@ -73,6 +72,7 @@ export class STRUnitsComponent {
         alert("خطأ عند الحذف")
       }
     })
+  }
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
