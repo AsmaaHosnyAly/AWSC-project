@@ -252,7 +252,7 @@ export class STRAddDialogComponent implements OnInit {
   }
 
   addNewDetails() {
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().source} })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().type} })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
       height:'95%',
@@ -736,7 +736,7 @@ this.toastrSuccess();
 
     // }
 
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date,  sourceStoreName: this.groupMasterForm.getRawValue().source,} })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date,  sourceStoreName: this.groupMasterForm.getRawValue().type,} })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
       height:'95%',
