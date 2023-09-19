@@ -1325,7 +1325,7 @@ export class ApiService {
         HeaderId
     );
   }
-  
+
   getStrEmployeeExchangeSearach(
     no: any,
     costCenterId: any,
@@ -1559,10 +1559,15 @@ export class ApiService {
     );
   }
   getStrEmployeeOpenDetailsByMasterId(id: any) {
-    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`);
+    return this.http.get<any>(
+      `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
+    );
   }
   putStEmp(data: any) {
-    return this.http.put<any>(`${this.url}/STREmployeeOpeningCustody/update`, data);
+    return this.http.put<any>(
+      `${this.url}/STREmployeeOpeningCustody/update`,
+      data
+    );
   }
   // getStrOpenDetailsByMasterId(id: any) {
   //   return this.http.get<any>(`${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`);
@@ -2587,7 +2592,7 @@ export class ApiService {
       "' distEmployee: '",
       itemId
     );
-    this.mycondition=`${this.url}/STREmployeeOpeningCustody/search?`
+    this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
 
     if (!no == false) {
