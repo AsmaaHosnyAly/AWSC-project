@@ -59,6 +59,10 @@ export class STRAddTableComponent implements OnInit {
     'typeName',
     'Action',
   ];
+  displayedPendingColumns: string[] = [
+    'no',
+    'Action',
+  ];
 
   fiscalYearsList: any;
 

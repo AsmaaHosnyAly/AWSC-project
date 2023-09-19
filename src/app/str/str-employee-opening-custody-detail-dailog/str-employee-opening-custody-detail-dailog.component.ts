@@ -68,6 +68,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  stateDefaultValue: string;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -81,6 +82,8 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     private route: ActivatedRoute) {
 
     // this.currentData = new Date;
+    this.stateDefaultValue = 'جديد';
+    ;
 
     this.itemCtrl = new FormControl();
     this.filteredItem = this.itemCtrl.valueChanges.pipe(
@@ -105,7 +108,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       qty: ['1', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
-      state: ['', Validators.required],
+      state: [this.stateDefaultValue, Validators.required],
       percentage: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
@@ -239,6 +242,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
+                this.groupDetailsForm.controls['state'].setValue('جديد');
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
@@ -454,11 +458,11 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     // .subscribe({
     //   next: (res) => {
     if (this.groupDetailsForm.valid) {
-      
+
       this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-            
+
             this.toastrSuccess();
             this.groupDetailsForm.reset();
             this.itemCtrl.setValue('');
@@ -468,7 +472,9 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
             // this.getAllDetailsForms();
             // this.getDetailedRowData = '';
             this.groupDetailsForm.controls['qty'].setValue(1);
-           
+            this.groupDetailsForm.controls['state'].setValue('جديد');
+
+
             this.dialogRef.close('save');
 
           },
