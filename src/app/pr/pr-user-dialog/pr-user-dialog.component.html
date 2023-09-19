@@ -1,4 +1,3 @@
-<!-- <p>pr-user-dialog works!</p> -->
 <div class="cdk-overlay-pane  ">
     <button class="close" (click)="getAllMasterForms()" mat-button mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
@@ -34,9 +33,94 @@
 
       <div dir="ltr">
         <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
-        [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
+        [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
       </div>
     </form>
 
+    <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
+        <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+            <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل المستخدم </h1>
+
+            <div class="detailsForm">
+
+                <!-- <mat-form-field appearance="outline" class="groupInput">
+                    <mat-label> اسم المجموعة</mat-label>
+                    <mat-select placeholder="اسم المجموعة" formControlName="groupId"
+                        [value]="getDetailedRowData ? getDetailedRowData.groupId : ''">
+                        <mat-option [value]="prGroup.id"
+                            *ngFor="let prGroup of prGroupList">{{prGroup.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field> -->
+
+                <div style="display: flex; flex-direction: column;">
+                    <mat-label>اسم المجموعة*</mat-label>
+                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                        <input matInput aria-label="commodity" [matAutocomplete]="groupId" [formControl]="prGroupCtrl"
+                            placeholder="{{getDetailedRowData ? getDetailedRowData.group_Name : ''}}"
+                            (click)="openAutoPrGroup()" required />
+                        <mat-autocomplete #groupId="matAutocomplete" [displayWith]="displayPrGroupName"
+                            (optionSelected)="PrGroupSelected($event)">
+                            <mat-option *ngFor="let prGroup of filteredPrGroup | async" [value]="prGroup">
+                                {{ prGroup.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+                <div mat-dialog-action [align]="'end'" style="margin-top: 5%;">
+                    <div class="groupAction">
+                        <button mat-raised-button color="primary" style="margin-left: 8px;"
+                            (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
+                            'اضافة':'تعديل'}}</button>
+                     
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <table mat-table [dataSource]="dataSource" matSort class="headerTable">
+
+                    <!-- group_Name Column -->
+                    <ng-container matColumnDef="group_Name">
+                        <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 70%;"> المجموعة</th>
+                        <td mat-cell *matCellDef="let row"> {{row.group_Name}} </td>
+                    </ng-container>
+
+
+                    <!-- action Column -->
+                    <!-- <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> الاجراء </th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container> -->
+
+                    <!-- action Column -->
+                    <ng-container matColumnDef="action" >
+                        <th mat-header-cell *matHeaderCellDef id="action-header" >الاجراء</th>
+                        <td mat-cell *matCellDef="let row" id="buttn" >
+                            <button mat-icon-button class="editbtn" (click)="editDetailsForm(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+            </div>
+        </div>
+
+    </form>
 </div>
