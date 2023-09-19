@@ -87,7 +87,7 @@ export class STRGradeComponent implements OnInit {
   }
 
   deleteGrade(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteGrade(id).subscribe({
         next: (res) => {

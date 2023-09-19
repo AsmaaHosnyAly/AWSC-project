@@ -291,9 +291,9 @@ export class StrProductDialogComponent implements OnInit {
           .subscribe({
             next: (res) => {
               console.log("add product res: ", res);
-              this.productIdToEdit = res.id;
+              // this.productIdToEdit = res.id;
 
-              this.toastrSuccess();
+              // this.toastrSuccess();
               alert("تمت إضافة المنتج بنجاح");
               this.groupForm.reset();
 

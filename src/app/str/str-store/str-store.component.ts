@@ -103,7 +103,7 @@ deleteStore(id:number){
 this.api.deletestores(id)
 .subscribe({
 next:(res)=>{
-  if(res == 'Success'){
+  if(res == 'Succeeded'){
   console.log("res of deletestore:",res)
 alert("تم الحذف");
 this.getAllStores();
