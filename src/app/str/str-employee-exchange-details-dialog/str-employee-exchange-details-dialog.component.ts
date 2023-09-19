@@ -63,7 +63,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
   filtereditems: Observable<Item[]>;
   selecteditems: Item | undefined;
 
-  displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -109,7 +109,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
       price: ['', Validators.required],
       total: ['', Validators.required],
       state: [this.stateDefaultValue, Validators.required],
-      percentage: ['', Validators.required],
+      // percentage: [''],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
@@ -127,7 +127,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
       this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.editData.employee_ExchangeId);
       this.groupDetailsForm.controls['itemId'].setValue(this.editData.itemId);
-      this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
+      // this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
 
       this.groupDetailsForm.controls['price'].setValue(this.editData.price);
       // alert("price editData: " + this.editData.qty);
@@ -273,7 +273,54 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
   //     })
   // }
 
+  getAllDetailsForms() {
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+      //   if(this.actionBtnMaster=='save'){
+      //     this.dialogRef.close('save');
+      // }
+      // else{
+      //   this.dialogRef.close('update');
 
+      // }
+      // this.closeDialog();
+      this.dialogRef.close('Save');
+    console.log("master Id: ", this.getMasterRowId.id)
+
+    if (this.getMasterRowId.id) {
+   
+      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            // this.itemsList = res;
+            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+
+            if (this.matchedIds) {
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+                // this.updateMaster();
+              }
+            }
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
+          }
+        })}
+      // }
+    }
+
+
+  }
 
   async addDetailsInfo() {
     console.log("enter fun: ");
@@ -311,7 +358,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
 
-                this.dialogRef.close('save');
+                // this.dialogRef.close('save');
 
                 // this.updateDetailsForm()
                 // this.getAllDetailsForms();

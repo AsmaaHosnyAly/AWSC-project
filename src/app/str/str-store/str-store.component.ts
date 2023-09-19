@@ -9,6 +9,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { GlobalService } from '../../services/global.service';
 import { ApiService } from '../../services/api.service';
 
 
@@ -33,7 +34,8 @@ export class StrStoreComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
+    global.getPermissionUserRoles(13,'stores', 'المخازن', '')
 
   }
   ngOnInit(): void {
@@ -101,13 +103,13 @@ deleteStore(id:number){
 this.api.deletestores(id)
 .subscribe({
 next:(res)=>{
-  if(res == 'Success'){
+  if(res == 'Succeeded'){
   console.log("res of deletestore:",res)
 alert("تم الحذف");
 this.getAllStores();
 }else{
   alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-
+ 
 }
 },
 

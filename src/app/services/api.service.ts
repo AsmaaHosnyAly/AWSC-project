@@ -1104,7 +1104,23 @@ export class ApiService {
     date: any,
     fiscalYear: any,
     itemId: any
-  ) {
+  ) 
+  
+  {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      storeId,
+      'date: ',
+      date,
+      'fiscalYear: ',
+      fiscalYear,
+      'item:',
+      itemId
+    
+    );
+
     this.mycondition = `${this.url}/STROpeningStock/search?`;
 
     if (!no == false) {
@@ -1120,7 +1136,7 @@ export class ApiService {
       this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`;
     }
     if (!itemId == false) {
-      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
     }
 
     console.log('url', this.mycondition);

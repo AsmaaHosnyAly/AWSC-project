@@ -3,7 +3,7 @@
 
 <div class="page-title"> المخازن</div>
 
-  <mat-accordion class="example-headers-align" multi dir="rtl">
+  <!-- <mat-accordion class="example-headers-align" multi dir="rtl">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-description>
@@ -29,7 +29,7 @@
 
     </div>
     </mat-expansion-panel>
-    </mat-accordion>
+    </mat-accordion> -->
   
       <mat-card-header dir="ltr">
         <div class="child1">
@@ -54,7 +54,7 @@
           <ng-container matColumnDef="action" >
             <th mat-header-cell *matHeaderCellDef style="width: 15%;">الإجراء  </th>
             <td  mat-cell *matCellDef="let row"> 
-              <button mat-icon-button (click)="editStore(row)" class="editbtn">
+              <button mat-icon-button (click)="editStore(row)" color="primary" >
                 <mat-icon >edit</mat-icon>
               </button>
               <button (click)="deleteStore(row.id)" mat-icon-button color="warn">

@@ -117,7 +117,7 @@ export class StrGroupDialogComponent {
         },
         error: () => {
           // alert("خطأ أثناء تحديث سجل المجموعة !!")
-        }
+        } 
       })
   }
 
