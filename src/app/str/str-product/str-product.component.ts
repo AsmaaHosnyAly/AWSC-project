@@ -29,7 +29,7 @@ export class StrProductComponent implements OnInit {
   loading: boolean = false; // Flag variable
   file:any
   File = null;
-  displayedColumns: string[] = ['name', 'itemId', 'vendorId', 'modelId','attachment', 'action'];
+  displayedColumns: string[] = ['name', 'itemName', 'vendorName', 'modelName','attachment', 'action'];
 
   dataSource!: MatTableDataSource<any>;
 
@@ -41,7 +41,7 @@ export class StrProductComponent implements OnInit {
     global.getPermissionUserRoles(
       1,
       'stores',
-      'الأصناف',
+      'المنتجات',
       ''
     );
    }
@@ -144,17 +144,30 @@ export class StrProductComponent implements OnInit {
       this.api.deleteStrProduct(id)
         .subscribe({
           next: (res) => {
-            this.toastrDeleteSuccess();
-            // alert("تم حذف المنتج بنجاح");
+            if(res == 'Succeeded'){
+              console.log("res of deletestore:",res)
+            alert('تم الحذف بنجاح');
+            // this.toastrDeleteSuccess();
+
             this.getAllProducts()
+
+  
+    
+          }else{
+            alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+          }
+            // this.toastrDeleteSuccess();
+            // alert("تم حذف المنتج بنجاح");
+            // this.getAllProducts()
           },
-          // error: () => {
-          //   alert("خطأ أثناء حذف المنتج !!");
-          // }
+          error: () => {
+            alert('خطأ فى حذف العنصر');
+          },
         })
     }
 
   }
+
 
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");

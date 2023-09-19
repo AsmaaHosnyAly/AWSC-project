@@ -116,12 +116,18 @@ export class StrModelComponent {
   }
 
   deleteModel(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteModel(id).subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           alert('تم الحذف بنجاح');
           this.getAllModels();
+
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -129,6 +135,8 @@ export class StrModelComponent {
       });
     }
   }
+  
+
   openAutoVendor() {
     this.vendorCtrl.setValue(''); // Clear the input field value
   
