@@ -97,6 +97,19 @@ th {
   color: #111010;
   font-weight: bold;
 }
+.icons {
+  font-size: 23px;
+  color: white;
+  background-color: rgb(60, 202, 252);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 15px;
+}
 
 .editbtn {
   --mat-icon-color: rgb(129, 135, 138);
@@ -297,3 +310,16 @@ footer h3 {
 .successbtn {
   --mat-icon-color: rgb(5, 238, 187);
 }
+.searchLabels{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.print-display {
+  display: block;
+  display: flex;
+  position: relative;
+  /* left: -482px; */
+  top: 15px;
+}
+

@@ -12,6 +12,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { GlobalService } from '../../services/global.service';
 import { ApiService } from '../../services/api.service';
 
 
@@ -37,8 +38,8 @@ export class StrCostcenterComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService) {
-
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
+    global.getPermissionUserRoles(14,'stores', 'مركز التكلفة', '')
   }
   ngOnInit(): void {
     this.getAllCostCenter();

@@ -40,7 +40,7 @@
       <button mat-icon-button color="primary" (click)="getSearchStrAdd(no.value, storeId.value, date.value)">
         <mat-icon>search</mat-icon>
       </button>
-      <button mat-icon-button color="primary" (click)="print()">
+      <button mat-icon-button color="primary" (click)="print(no.value, storeId.value, date.value)">
         <mat-icon>print</mat-icon>
       </button>
     </div>
@@ -181,11 +181,11 @@
               <button mat-icon-button class=" editbtn" (click)="editMasterForm(row)">
                 <mat-icon>visibility</mat-icon>
               </button>
-              <button mat-icon-button class=" successbtn">
+              <button mat-icon-button class=" successbtn" (click)="editMasterForm(row)">
                 <mat-icon>done_outline</mat-icon>
               </button>
               <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
-                <mat-icon>close</mat-icon>
+                <mat-icon>delete_forever</mat-icon>
               </button>
             </td>
           </ng-container>

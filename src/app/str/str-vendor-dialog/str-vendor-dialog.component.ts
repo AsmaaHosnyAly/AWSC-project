@@ -48,7 +48,7 @@ export class StrVendorDialogComponent {
     }
   }
 
-  addProduct(){
+  addVendor(){
     if(!this.editData){
       this.vendorsForm.controls['transactionUserId'].setValue(this.transactionUserId);
       console.log("hhhhhh",this.transactionUserId);

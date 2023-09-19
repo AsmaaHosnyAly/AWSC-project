@@ -1,7 +1,4 @@
-// import { FileUploadComponent } from './../file-upload/file-upload.component';
-// import { FileUploadDialogComponent } from 'module';
-import { FileUploadDialogComponent } from '../../file-upload-dialog/file-upload-dialog.component';
-// import { FileUploadComponent } from "./FileUploadComponent,";
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { StrGroupDialogComponent } from '../str-group-dialog/str-group-dialog.component';
@@ -13,7 +10,7 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { StrProductDialogComponent } from '../str-product-dialog/str-product-dialog.component';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-// import { GlobalService } from '../services/global.service';
+
 
 @Component({
   selector: 'app-str-product',
@@ -29,20 +26,27 @@ export class StrProductComponent implements OnInit {
   loading: boolean = false; // Flag variable
   file:any
   File = null;
-  displayedColumns: string[] = ['name', 'itemId', 'vendorId', 'modelId','attachment', 'action'];
+  displayedColumns: string[] = ['name', 'itemName', 'vendorName', 'modelName','attachment', 'action'];
 
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) {
+  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
+    global.getPermissionUserRoles(
+      1,
+      'stores',
+      'المنتجات',
+      ''
+    );
    }
 
   ngOnInit(): void {
     this.getAllProducts();
     // console.log("shortlink",this.shortLink)
+  
   }
 
   applyFilter(event: Event) {
@@ -86,7 +90,7 @@ export class StrProductComponent implements OnInit {
 // }
   openDialog() {
     this.dialog.open(StrProductDialogComponent, {
-      width: '30%'
+      width: '47%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllProducts();
@@ -109,7 +113,7 @@ export class StrProductComponent implements OnInit {
   editProduct(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(StrProductDialogComponent, {
-      width: '30%',
+      width: '47%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {
@@ -137,17 +141,30 @@ export class StrProductComponent implements OnInit {
       this.api.deleteStrProduct(id)
         .subscribe({
           next: (res) => {
-            this.toastrDeleteSuccess();
-            // alert("تم حذف المنتج بنجاح");
+            if(res == 'Succeeded'){
+              console.log("res of deletestore:",res)
+            alert('تم الحذف بنجاح');
+            // this.toastrDeleteSuccess();
+
             this.getAllProducts()
+
+  
+    
+          }else{
+            alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+          }
+            // this.toastrDeleteSuccess();
+            // alert("تم حذف المنتج بنجاح");
+            // this.getAllProducts()
           },
-          // error: () => {
-          //   alert("خطأ أثناء حذف المنتج !!");
-          // }
+          error: () => {
+            alert('خطأ فى حذف العنصر');
+          },
         })
     }
 
   }
+
 
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");

@@ -1104,7 +1104,23 @@ export class ApiService {
     date: any,
     fiscalYear: any,
     itemId: any
-  ) {
+  ) 
+  
+  {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      storeId,
+      'date: ',
+      date,
+      'fiscalYear: ',
+      fiscalYear,
+      'item:',
+      itemId
+    
+    );
+
     this.mycondition = `${this.url}/STROpeningStock/search?`;
 
     if (!no == false) {
@@ -1120,7 +1136,7 @@ export class ApiService {
       this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`;
     }
     if (!itemId == false) {
-      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
     }
 
     console.log('url', this.mycondition);
@@ -1309,7 +1325,7 @@ export class ApiService {
         HeaderId
     );
   }
-  
+
   getStrEmployeeExchangeSearach(
     no: any,
     costCenterId: any,
@@ -1543,10 +1559,15 @@ export class ApiService {
     );
   }
   getStrEmployeeOpenDetailsByMasterId(id: any) {
-    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`);
+    return this.http.get<any>(
+      `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
+    );
   }
   putStEmp(data: any) {
-    return this.http.put<any>(`${this.url}/STREmployeeOpeningCustody/update`, data);
+    return this.http.put<any>(
+      `${this.url}/STREmployeeOpeningCustody/update`,
+      data
+    );
   }
   // getStrOpenDetailsByMasterId(id: any) {
   //   return this.http.get<any>(`${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`);
@@ -2577,7 +2598,7 @@ export class ApiService {
       "' distEmployee: '",
       itemId
     );
-    this.mycondition=`${this.url}/STREmployeeOpeningCustody/search?`
+    this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
 
     if (!no == false) {

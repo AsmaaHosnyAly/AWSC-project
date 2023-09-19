@@ -1606,7 +1606,7 @@ alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save' || val === 'update') {
+        if (val === 'Save' || val === 'Update') {
           this.getAllDetailsForms();
         }
       });

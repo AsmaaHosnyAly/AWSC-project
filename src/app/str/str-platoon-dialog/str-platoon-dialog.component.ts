@@ -52,7 +52,7 @@ export class STRPlatoonDialogComponent implements OnInit {
   actionBtn: string = 'حفظ';
   Code: any;
   dataSource!: MatTableDataSource<any>;
-
+  existingNames: string[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
@@ -79,6 +79,7 @@ export class STRPlatoonDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getExistingNames(); // Fetch existing names
     this.platoonForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       code: [''],
@@ -207,7 +208,25 @@ export class STRPlatoonDialogComponent implements OnInit {
     });
   }
 
+  getExistingNames() {
+    this.api.getPlatoon().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+
   addPlatoon() {
+
+    const enteredName = this.platoonForm.get('name')?.value;
+
+    if (this.existingNames.includes(enteredName)) {
+      alert('هذا الاسم موجود من قبل، قم بتغييره');
+      return;
+    }
     // this.platoonForm.controls['code'].setValue(this.Code);
     if (!this.editData) {
       this.platoonForm.removeControl('id');

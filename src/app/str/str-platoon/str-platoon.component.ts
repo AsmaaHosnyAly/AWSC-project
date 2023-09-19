@@ -82,7 +82,7 @@ export class STRPlatoonComponent implements OnInit {
       map((value) => this._filterGrades(value))
     );
 
-    global.getPermissionUserRoles(7,'stores', 'فصيلة', '')
+    global.getPermissionUserRoles(7,'stores', 'الفصيلة', '')
   }
   ngOnInit(): void {
     this.getAllPlatoons();
@@ -190,19 +190,28 @@ export class STRPlatoonComponent implements OnInit {
       });
   }
   daletePlatoon(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح الفصيلة ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePlatoon(id).subscribe({
+      this.api.deletePlatoon(id)
+  .subscribe({
         next: (res) => {
-          alert('Product deleted successfully');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
           this.getAllPlatoons();
+
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('error while deleting the product!!');
+          alert('خطأ فى حذف العنصر');
         },
       });
     }
   }
+  
 
 
   clearFields() {  

@@ -36,7 +36,7 @@
             <div style="display: flex; flex-direction: column;margin-left: 10px; ">
                 <mat-label>السنة المالية:</mat-label>
               
-                <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
+                <mat-form-field appearance="outline" class="child-num" style="width: 180px;">
                   <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
                       (valueChange)="fiscalYearValueChanges($event)">
                       <mat-option [value]="fiscalYear.id"
@@ -44,6 +44,8 @@
                   </mat-select>
               </mat-form-field>
                </div>
+
+               
                <div style="display: flex; flex-direction: column;margin-left: 10px; ">
                 <mat-label>الرقم:</mat-label>
                 <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
@@ -53,12 +55,11 @@
               </mat-form-field>
               
               </div>
-
             
               <div style="display: flex; flex-direction: column;margin-left: 10px; ">
                 <mat-label >اسم الموظف  :</mat-label>
 
-            <mat-form-field appearance="outline" style="width: 120px;">
+            <mat-form-field appearance="outline" style="width: 180px;margin-left: 5px;">
                 <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
                     (click)="openAutoEmployee()"
                     placeholder="{{editData ? editData.employeeName : ''}}" required />
@@ -72,7 +73,7 @@
           </div>
 
            
-          <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px; ">
             <mat-label >مركز التكلفة :</mat-label>
 
             <mat-form-field appearance="outline" style="width: 120px;">
@@ -86,19 +87,41 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-        </div>
-        <div style="display: flex; flex-direction: column;margin-left: 10px; ">
-    
-    <mat-label>التاريخ</mat-label>
+        </div> -->
 
-    <mat-form-field appearance="outline" class="example-full-width" style="width: 150px;">
-        <input matInput [matDatepicker]="picker" formControlName="date">
-        <mat-datepicker-toggle matIconSuffix [for]="picker">
-            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-        </mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-</div>
+
+        <div style="display: flex; flex-direction: column;margin-left: 10px;">
+            <mat-label >مركز التكلفة :</mat-label>
+        
+            <mat-form-field appearance="outline" style="width: 180px;margin-left: 5px;">
+        
+              <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter" [formControl]="costCenterCtrl"
+                placeholder="{{editData ? editData.costCenterName : ''}}" (click)="openAutoCostCenter()" required />
+              <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId 
+                [displayWith]="displayCostCenterName" (optionSelected)="costCenterSelected($event)">
+                <mat-option *ngFor="let costcenter of filteredCostCenters | async" [value]="costcenter">
+                  {{ costcenter.name }} | {{ costcenter.id }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+           </div>
+
+
+
+           <div style="display: flex; flex-direction: column; margin-left: 10px;"> 
+    
+            <mat-label>التاريخ:</mat-label>
+            <mat-form-field appearance="outline" style="width:100%">
+                    
+                      <input matInput [matDatepicker]="picker" formControlName="date">
+                      <mat-datepicker-toggle matIconSuffix [for]="picker">
+                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                          
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field></div>
+
+
 <!-- 
             <mat-form-field appearance="outline" class="groupInput" style="width: 140px;">
                 <mat-label>الاجمالى</mat-label>
@@ -108,7 +131,7 @@
         </div>
         <div dir="ltr">
             <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
-            [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
+            [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
         </div>
       
     </form>

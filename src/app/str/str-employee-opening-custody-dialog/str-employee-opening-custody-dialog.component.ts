@@ -472,7 +472,7 @@ storeSelectedId: any;
       width: '98%',
       height: '95%'
     }).afterClosed().subscribe(val => {
-      if (val === 'save' || val === 'update') {
+      if (val === 'Save' || val === 'Update') {
         this.getAllDetailsForms();
       }
     })
