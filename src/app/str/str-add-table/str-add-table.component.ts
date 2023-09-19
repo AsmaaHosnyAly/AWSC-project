@@ -586,8 +586,13 @@ export class STRAddTableComponent implements OnInit {
     localStorage.setItem('store-data', JSON.stringify(data));
   }
 
-  print(no: any, store: any, date: any) {
-    this.api.getStrAddSearach(no, store, date).subscribe({
+  print(no: any,  date: any,fiscalyear:any) {
+
+    let employee = this.groupMasterForm.getRawValue().employeeId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
+    let store = this.groupMasterForm.getRawValue().storeId;
+
+    this.api.getStrAddSearach(no, date,fiscalyear,employee ,item,store).subscribe({
       next: (res) => {
         console.log('search addStock res: ', res);
 
