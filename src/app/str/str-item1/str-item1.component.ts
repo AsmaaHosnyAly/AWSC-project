@@ -385,19 +385,26 @@ export class STRItem1Component implements OnInit {
       });
   }
   deleteItem(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح الصنف ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteItems(id).subscribe({
         next: (res) => {
-          alert('Product deleted successfully');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
           this.getAllItems();
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('error while deleting the product!!');
+          alert('خطأ فى حذف العنصر');
         },
       });
     }
   }
+  
+  
   
   async getSearchItems(name: any, fullCode: any, type: any) {
     let commodity = this.itemForm.getRawValue().commodityId;

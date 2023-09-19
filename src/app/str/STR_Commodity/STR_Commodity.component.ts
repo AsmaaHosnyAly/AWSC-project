@@ -30,7 +30,7 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatSort) sort!: MatSort;
 
 constructor(private dialog: MatDialog, private api: ApiService, shared:SharedService,private global:GlobalService) {
-  this.global.getPermissionUserRoles(5, 'stores', '  السلعة ', '');
+  this.global.getPermissionUserRoles(5, 'stores', ' إذن إضافة ', '');
 }
 
 ngOnInit(): void {
@@ -74,25 +74,17 @@ editcommodity(row: any) {
 }
 
 deletecommodity(id:number){
-  var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
-  if (result) {
-    this.api.deleteCommodity(id)
+  if (confirm("هل انت متأكد من الحذف؟"))
+this.api.deleteCommodity(id)
 .subscribe({
-      next: (res) => {
-        if(res == 'Succeeded'){
-          console.log("res of deletestore:",res)
-        alert('تم الحذف بنجاح');
-        this.getAllcommodity();
-
-      }else{
-        alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-      }
-      },
-      error: () => {
-        alert('خطأ فى حذف العنصر');
-      },
-    });
-  }
+next:(res)=>{
+alert("تم الحذف");
+this.getAllcommodity();
+},
+error:()=>{
+alert("خطأ في الحذف")
+}
+})
 }
 
 applyFilter(event: Event) {

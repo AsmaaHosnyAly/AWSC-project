@@ -1326,7 +1326,7 @@ export class ApiService {
         HeaderId
     );
   }
-  
+
   getStrEmployeeExchangeSearach(
     no: any,
     costCenterId: any,
@@ -1560,10 +1560,15 @@ export class ApiService {
     );
   }
   getStrEmployeeOpenDetailsByMasterId(id: any) {
-    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`);
+    return this.http.get<any>(
+      `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
+    );
   }
   putStEmp(data: any) {
-    return this.http.put<any>(`${this.url}/STREmployeeOpeningCustody/update`, data);
+    return this.http.put<any>(
+      `${this.url}/STREmployeeOpeningCustody/update`,
+      data
+    );
   }
   // getStrOpenDetailsByMasterId(id: any) {
   //   return this.http.get<any>(`${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`);
@@ -2461,6 +2466,9 @@ export class ApiService {
   postPrGroupRole(data: any) {
     return this.http.post<any>(`${this.url}/PRGroupRole/add`, data);
   }
+  getPrGroupByUserId(userId: any) {
+    return this.http.get<any>(`${this.url}/PRUser/get/with/group/${userId}`);
+  }
   putPrGroupRole(data: any) {
     console.log('PrGroupRole data: ', data);
     return this.http.put<any>(`${this.url}/PRGroupRole/update/`, data);
@@ -2473,6 +2481,9 @@ export class ApiService {
   ///////////////////////////////// PR-User & PR-UserGroup /////////////////////////////
   postPrUser(data: any) {
     return this.http.post<any>(`${this.url}/PRUser/Add`, data);
+  }
+  PrUserCheckAuthenticate(name: any, password: any) {
+    return this.http.post<any>(`${this.url}/PRUser/authenticate?username=admin&password=admin`, name, password);
   }
   getPrUser() {
     return this.http.get<any>(`${this.url}/PRUser/get/all`);
@@ -2621,7 +2632,7 @@ export class ApiService {
       "' distEmployee: '",
       itemId
     );
-    this.mycondition=`${this.url}/STREmployeeOpeningCustody/search?`
+    this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
 
     if (!no == false) {

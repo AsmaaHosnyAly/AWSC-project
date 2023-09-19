@@ -49,7 +49,7 @@ export class STRGroup1Component implements OnInit{
   }
   openDialog() {
     this.dialog.open(STRGroup1DialogComponent, {
-      width: '30%'
+      width: '47%'
     }).afterClosed().subscribe(val=>{
       if(val === 'save'){
         this.getAllGroups();
@@ -77,7 +77,7 @@ export class STRGroup1Component implements OnInit{
   editPlatoon(row : any){
     console.log("data : " , row)
     this.dialog.open(STRGroup1DialogComponent,{
-      width:'30%',
+      width:'47%',
       data:row
     }).afterClosed().subscribe(val=>{
       if(val === 'update'){

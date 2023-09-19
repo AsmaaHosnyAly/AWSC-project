@@ -22,6 +22,7 @@
 
             <mat-form-field appearance="outline" class="groupInput" style="width:  150px;">
               <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
+<<<<<<< HEAD
                   <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
                       *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
                       store.storeName}}</mat-option> 
@@ -30,6 +31,15 @@
           </div>
 
 
+=======
+                <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
+                  *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
+                  store.storeName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+>>>>>>> 5a718e47fb0f11143f303432b289a554072030db
 
           <div style="display: flex; flex-direction: column;margin-left: 10px; ">
             <mat-label>السنة المالية:</mat-label>
@@ -85,6 +95,7 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
+<<<<<<< HEAD
           <div style="display: flex; flex-direction: column; margin-left: 10px;"> 
     
             <mat-label>التاريخ:</mat-label>
@@ -97,12 +108,17 @@
                       </mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field></div>
+=======
+          <!-- </div> -->
+>>>>>>> 5a718e47fb0f11143f303432b289a554072030db
         </div>
           
           
 
 
+        <!-- <div class="row"> -->
 
+<<<<<<< HEAD
        <div style="display: flex;flex-direction: row;">
 
 
@@ -126,10 +142,34 @@
           </mat-select>
         </mat-form-field>
             
+=======
+        <!-- <mat-label>اختر الاسم</mat-label> -->
+
+
+        <div style="display: flex;flex-direction: row;">
+          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px;width: 10rem; ">
+            <mat-label>النوع</mat-label>
+
+            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+              <mat-select placeholder="النوع" formControlName="addTypeId">
+                <mat-option [value]="type.id" *ngFor="let type of typeList">{{type.type}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+
+
+          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px;width: 10rem; ">
+            <mat-label>سند الاضافه</mat-label>
+
+            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+              <mat-select placeholder="سند الاضافه" formControlName="addReceiptId">
+                <mat-option [value]="Receipt.id"
+                  *ngFor="let Receipt of ReceiptList">{{Receipt.addReceipts}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+>>>>>>> 5a718e47fb0f11143f303432b289a554072030db
           </div>
-
-
-          
+        </div> -->
 
       </div>
       <!-- <mat-form-field appearance="outline" class="groupInput">
@@ -139,6 +179,7 @@
       <!-- </div> -->
     </div>
 
+<<<<<<< HEAD
 
 
 
@@ -150,6 +191,12 @@
 
 
 
+=======
+    <button style="text-align: left !;" mat-raised-button color="primary" (click)="nextToAddFormDetails()"
+      class="follow-btn"
+      [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>
+  </form>
+>>>>>>> 5a718e47fb0f11143f303432b289a554072030db
 
   <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
@@ -167,10 +214,9 @@
         <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
         <!-- </div> -->
 
-        
-        <div class="groupAction" style="margin-left: 20px;">
-            <button mat-raised-button class="savebtn"
-                (click)="addNewDetails()">اضافة بيان</button>
+
+        <div class="groupAction">
+          <button mat-raised-button class="savebtn" (click)="addNewDetails()">اضافة بيان</button>
 
         </div>
 
@@ -227,6 +273,7 @@
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
+<<<<<<< HEAD
           </ng-container>
       
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
@@ -234,6 +281,27 @@
         </table>
       </div>
         <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+=======
+          </ng-container> -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef id="action-header">الاجراء</th>
+              <td mat-cell *matCellDef="let row" id="buttn">
+                <button mat-icon-button class="editbtn" (click)="editDetailsForm(row)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
+                  <mat-icon>delete_forever</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+
+          </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+>>>>>>> 5a718e47fb0f11143f303432b289a554072030db
       </div>
 
   </form>

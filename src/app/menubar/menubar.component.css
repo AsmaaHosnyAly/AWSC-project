@@ -32,7 +32,14 @@
   padding:50px 10px ;
   
 }
-
+@media screen and (max-width: 600px) {
+.mat-toolbar.mat-primary {
+  background:var( --bg-primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+padding: 50px 2px;
+    width: 100%;}}
 .list-btn,
 .mat-expansion-panel-header{
   font-family: 'Droid Arabic Kufi', serif;
