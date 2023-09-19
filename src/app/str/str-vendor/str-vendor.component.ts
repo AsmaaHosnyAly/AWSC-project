@@ -5,6 +5,7 @@ import { StrVendorDialogComponent } from '../str-vendor-dialog/str-vendor-dialog
 import { ApiService } from '../../services/api.service';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
+import { GlobalService } from '../../services/global.service';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 
 @Component({
@@ -19,7 +20,10 @@ export class StrVendorComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService){}
+  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService){
+    global.getPermissionUserRoles(15,'stores', 'المصنع', '')
+
+  }
   ngOnInit(): void {
     this.getAllVendors();
   }
@@ -59,9 +63,10 @@ export class StrVendorComponent {
     })
   }
   daleteVendor(id:number){
-    if(confirm("Are you sure to delete ")) {
+    var result = confirm('هل تريد تأكيد الحذف ');
+    if(result)  {
       console.log("Implement delete functionality here");
-    }
+    
     this.api.daleteVendor(id)
     .subscribe({
       next:(res)=>{
@@ -72,7 +77,7 @@ export class StrVendorComponent {
         alert("خطأ عند الحذف")
       }
     })
-  }
+  }}
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

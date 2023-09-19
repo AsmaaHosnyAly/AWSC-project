@@ -9,6 +9,8 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormGroup, FormBuilder, Validator, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { GlobalService } from '../../services/global.service';
+import { ToastrService } from 'ngx-toastr';
 import { map, startWith } from 'rxjs/operators';
 
 export class Commodity {
@@ -38,7 +40,8 @@ export class STRGroup1Component implements OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService){
+  constructor(private dialog : MatDialog, private api : ApiService, private toastr: ToastrService,private global:GlobalService){
+    global.getPermissionUserRoles(8,'stores', 'المجموعة', '')
   
   }
   ngOnInit(): void {
@@ -83,20 +86,29 @@ export class STRGroup1Component implements OnInit{
     })
   }
   daletePlatoon(id:number){
-    var result = confirm("هل ترغب بتاكيد مسح المجموعة ؟ ");
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-    this.api.deleteGroups(id)
-    .subscribe({
-      next:(res)=>{
-        alert("Product deleted successfully");
-        this.getAllGroups();
-      },
-      error:()=>{
-        alert("error while deleting the product!!")
-      }
-    })
-  }
+      this.api.deleteGroups(id)
+
+  .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
+          this.getAllGroups();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر');
+        },
+      });
+    }
 }
+
+
 
 
   

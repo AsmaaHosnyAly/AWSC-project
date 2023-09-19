@@ -13,7 +13,7 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { StrProductDialogComponent } from '../str-product-dialog/str-product-dialog.component';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-// import { GlobalService } from '../services/global.service';
+
 
 @Component({
   selector: 'app-str-product',
@@ -36,8 +36,9 @@ export class StrProductComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) {
+  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,private global:GlobalService) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
+    global.getPermissionUserRoles(12,'stores', 'المنتجات', '')
    }
 
   ngOnInit(): void {

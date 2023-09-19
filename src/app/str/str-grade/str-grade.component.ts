@@ -91,8 +91,13 @@ export class STRGradeComponent implements OnInit {
     if (result) {
       this.api.deleteGrade(id).subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           alert('تم الحذف بنجاح');
           this.getAllGrades();
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -100,6 +105,7 @@ export class STRGradeComponent implements OnInit {
       });
     }
   }
+
 
 
   applyFilter(event: Event) {
