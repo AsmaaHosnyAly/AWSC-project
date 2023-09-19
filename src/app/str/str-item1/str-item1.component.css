@@ -65,7 +65,7 @@ th {
 
 .search {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 .search button,
@@ -123,9 +123,9 @@ th {
 } */
 .print-display {
   display: flex;
-  justify-content: start;
-  align-items: start;
-  margin-right: 90px;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 .filter-search {

@@ -21,6 +21,19 @@ mat-form-field{
   
 }
 
+form{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.child1{
+  width: 47%;
+  display: flex;
+  flex-direction: column;
+}
+
 .close:hover{
   background-color: red;
   color:#ffff;
