@@ -132,13 +132,14 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
       },
       error: () => {
-        alert('خطأ أثناء جلب سجلات المجموعة !!');
+        // alert('خطأ أثناء جلب سجلات المجموعة !!');
       },
     });
   }
   openEmployeeingStockDialog() {
     this.dialog.open(STREmployeeOpeningCustodyDialogComponent, {
-      width: '70%'
+      width: '98%',
+      height: '95%',
     }).afterClosed().subscribe(val => {
       if (val === 'Save') {
         // alert("refreshhhh")
@@ -149,7 +150,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(STREmployeeOpeningCustodyDialogComponent, {
-        width: '70%',
+        width: '98%',
+      height: '95%',
         data: row,
       })
       .afterClosed()
@@ -256,7 +258,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         
         this.api. deleteStrEmployeeOpen(id).subscribe({
           next: (res) => {
-  
+ 
             this.http
               .get<any>('http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all')
               .subscribe(
@@ -269,11 +271,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
                   // for (let i = 0; i < this.matchedIds.length; i++) {
                   //   this.deleteFormDetails(this.matchedIds[i].id);
                   // }
-                  alert("تم حذف الاذن بنجاح");
+                  // alert("تم حذف الاذن بنجاح");
   
                 },
                 (err) => {
-                  alert('خطا اثناء تحديد المجموعة !!');
+                  // alert('خطا اثناء تحديد المجموعة !!');
                 }
               );
   
@@ -281,7 +283,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
             this.getAllMasterForms();
           },
           error: () => {
-            alert('خطأ أثناء حذف المجموعة !!');
+            // alert('خطأ أثناء حذف المجموعة !!');
           },
         });
       }
@@ -300,7 +302,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب المخازن !');
+        // alert('خطا اثناء جلب المخازن !');
       },
     });
   }
@@ -326,7 +328,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch employees data err: ", err);
-          alert("خطا اثناء جلب الموظفين !");
+          // alert("خطا اثناء جلب الموظفين !");
         }
       })
   }
@@ -339,7 +341,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch employees data err: ", err);
-          alert("خطا اثناء جلب الموظفين !");
+          // alert("خطا اثناء جلب الموظفين !");
         }
       })
   }
@@ -352,7 +354,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch employees data err: ", err);
-          alert("خطا اثناء جلب الموظفين !");
+          // alert("خطا اثناء جلب الموظفين !");
         }
       })
   }
@@ -557,7 +559,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     // });
   },
   error: (err) => {
-    alert("Error")
+    // alert("Error")
   }
 })
   }

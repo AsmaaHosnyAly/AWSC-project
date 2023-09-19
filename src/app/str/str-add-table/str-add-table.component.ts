@@ -9,6 +9,7 @@ import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.componen
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { GlobalService } from 'src/app/services/global.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-str-add-table',
@@ -52,7 +53,8 @@ export class STRAddTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private global: GlobalService,
-    private dialog: MatDialog,
+    private dialog: MatDialog,    private toastr: ToastrService,
+
     private http: HttpClient,
     private router: Router,
     @Inject(LOCALE_ID) private locale: string
@@ -87,7 +89,7 @@ export class STRAddTableComponent implements OnInit {
         this.loadDataToLocalStorage(res);
       },
       error: () => {
-        alert('خطأ أثناء جلب سجلات المجموعة !!');
+        // alert('خطأ أثناء جلب سجلات المجموعة !!');
       },
     });
   }
@@ -155,14 +157,14 @@ export class STRAddTableComponent implements OnInit {
                 }
               },
               (err) => {
-                alert('خطا اثناء تحديد المجموعة !!');
+                // alert('خطا اثناء تحديد المجموعة !!');
               }
             );
 
           this.getAllMasterForms();
         },
         error: () => {
-          alert('خطأ أثناء حذف المجموعة !!');
+          // alert('خطأ أثناء حذف المجموعة !!');
         },
       });
     }
@@ -171,12 +173,13 @@ export class STRAddTableComponent implements OnInit {
   deleteFormDetails(id: number) {
     this.api.deleteStrAdd(id).subscribe({
       next: (res) => {
-        alert('تم حذف الصنف بنجاح');
+        // alert('تم حذف الصنف بنجاح');
+        this.toastrDeleteSuccess();
         this.getAllMasterForms();
       },
       error: (err) => {
         // console.log("delete details err: ", err)
-        alert('خطأ أثناء حذف الصنف !!');
+        // alert('خطأ أثناء حذف الصنف !!');
       },
     });
   }
@@ -189,7 +192,7 @@ export class STRAddTableComponent implements OnInit {
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب المخازن !');
+        // alert('خطا اثناء جلب المخازن !');
       },
     });
   }
@@ -340,7 +343,7 @@ export class STRAddTableComponent implements OnInit {
         this.loadDataToLocalStorage(res);
       },
       error: (err) => {
-        alert('Error');
+        // alert('Error');
       },
     });
   }
@@ -365,7 +368,15 @@ export class STRAddTableComponent implements OnInit {
       },
     });
   }
-
+  toastrSuccess(): void {
+    this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
   loadDataToLocalStorage(data: any): void {
     localStorage.removeItem('store-data');
     localStorage.setItem('store-data', JSON.stringify(data));

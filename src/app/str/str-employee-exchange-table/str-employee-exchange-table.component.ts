@@ -224,7 +224,6 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
                     next: (res) => {
                       this.api.deleteStrEmployeeExchange(id).subscribe({
                         next: (res) => {
-                          this.toastrDeleteSuccess();
                           this.getAllMasterForms();
                         },
                         error: () => {
@@ -237,12 +236,12 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
                     },
                   });
               }
-            }
+            }                          this.toastrDeleteSuccess();
+
           } else {
             if (result) {
               this.api.deleteStrEmployeeExchange(id).subscribe({
                 next: (res) => {
-                  this.toastrDeleteSuccess();
                   this.getAllMasterForms();
                 },
                 error: () => {
@@ -560,5 +559,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 }

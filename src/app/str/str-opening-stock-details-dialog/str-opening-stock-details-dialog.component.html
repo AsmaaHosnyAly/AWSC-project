@@ -54,10 +54,10 @@
 
                 <!-- <div style="display: flex; flex-direction: column; width: 15%; "> -->
                  <div style="display: flex;flex-direction: row;">
-                    <div style="display: flex;flex-direction: column; width: 18rem;">
+                    <div style="display: flex;flex-direction: column; width: 21rem;">
                         <mat-label>الكمية*</mat-label>
 
-                    <mat-form-field appearance="outline" class=" child-num" style="width: 92%;">
+                    <mat-form-field appearance="outline" class=" child-num" style="width: 93%;">
                         <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
                             [value]="editData ? editData.qty : '1'">
                     </mat-form-field>
@@ -65,10 +65,10 @@
                 <!-- </div> -->
 
                 <!-- <div style="display: flex; flex-direction: column; width: 20%;"> -->
-                   <div style="display: flex;flex-direction: column;width: 25rem;">
+                   <div style="display: flex;flex-direction: column;width: 21rem;">
                     <mat-label>متوسط السعر*</mat-label>
 
-                    <mat-form-field appearance="outline" class="child-num" style="width: 92%;">
+                    <mat-form-field appearance="outline" class="child-num" style="width: 93%;">
                         <input matInput placeholder="الرقم" type="number" min="0"
                             [value]="editData ? editData.price : ''" formControlName="price"
                             [readonly]="isReadOnly">

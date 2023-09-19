@@ -584,7 +584,7 @@ export class StrWithdrawDialogComponent implements OnInit {
           console.log('mastered res: ', this.getMasterRowId.id);
           this.MasterGroupInfoEntered = true;
 
-          alert('تم الحفظ بنجاح');
+          // alert('تم الحفظ بنجاح');
           this.toastrSuccess();
           this.getAllDetailsForms();
           this.updateDetailsForm();
@@ -864,7 +864,8 @@ export class StrWithdrawDialogComponent implements OnInit {
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
-                alert('تمت إضافة المجموعة بنجاح');
+                // alert('تمت إضافة المجموعة بنجاح');
+                this.toastrSuccess();
 
                 // this.getAllMasterForms();
                 // this.dialogRef.close('save');
@@ -975,7 +976,8 @@ export class StrWithdrawDialogComponent implements OnInit {
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
                 this.getDetailedRowData = '';
-                alert('تم التعديل بنجاح');
+                // alert('تم التعديل بنجاح');
+                this.toastrEditSuccess();
 
                 // this.dialogRef.close('update');
               },
@@ -1084,7 +1086,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     if (result) {
       this.api.deleteStrWithdrawDetails(id).subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          // alert('تم الحذف بنجاح');
           this.toastrDeleteSuccess();
           this.getAllDetailsForms();
           // this.getAllMasterForms();
@@ -1418,6 +1420,9 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 
   displayListName(list: any): string {

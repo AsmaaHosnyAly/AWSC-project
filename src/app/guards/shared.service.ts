@@ -8,11 +8,11 @@ export class SharedService {
   pageTitle: any
   stores=true
   roles=true
-  accounts=true
+  accounts=false
   time=true
   Benefits=true
   costs=true
-  hr=true
+  hr=false
   MechanicalCampaign=true
   labs=true
   LegalAffairs=true
