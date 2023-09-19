@@ -129,17 +129,19 @@
   
 <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
   <div class="groupAction">
-      <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل الاساسي</button>
+      <button mat-raised-button class="savebtn"
+          (click)="updateMaster()">تعديل الاذن</button>
 
   </div>
 
   <!-- <div class="sum-label-parent"> -->
-  <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
+      <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
   <!-- </div> -->
 
-
+  
   <div class="groupAction">
-      <button mat-raised-button class="savebtn" (click)="addNewDetails()">اضافة تفاصيل</button>
+      <button mat-raised-button class="savebtn"
+          (click)="addNewDetails()">اضافة بيان</button>
 
   </div>
 

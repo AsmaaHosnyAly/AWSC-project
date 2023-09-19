@@ -80,7 +80,7 @@ export class StrWithdrawDetailsDialogComponent {
   stateName: any;
   // notesName:any;
   withDrawNoName: any;
-  isReadOnly: any = false;
+  // isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
   userIdFromStorage: any;
   deleteConfirmBtn: any;
@@ -107,7 +107,7 @@ export class StrWithdrawDetailsDialogComponent {
   ];
 
   // isReadOnlyEmployee: any = false;
-  isReadOnlyPercentage: any = false;
+  isReadOnlyPercentage: any = true;
   deststoresList: any;
   // deststoreCtrl: FormControl<any>;
   // filtereddeststore: Observable<deststore[]>;
@@ -210,7 +210,7 @@ export class StrWithdrawDetailsDialogComponent {
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: ['', Validators.required], //MasterId
       qty: ['1', Validators.required],
-      percentage: ['', Validators.required],
+      percentage: ['100', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: [1, Validators.required],
@@ -221,7 +221,7 @@ export class StrWithdrawDetailsDialogComponent {
       // withDrawNoId: ['' ],
 
       itemName: [''],
-      avgPrice: [''],
+      // avgPrice: [''],
 
       stateName: [''],
 
@@ -250,6 +250,26 @@ export class StrWithdrawDetailsDialogComponent {
       this.groupDetailsForm.controls['state'].setValue(this.editData.state);
       this.groupDetailsForm.controls['total'].setValue(this.editData.total);
       this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+
+
+      // if (this.groupDetailsForm.getRawValue().price == 0 || this.editData?.price == 0) {
+      //   this.isReadOnly = false;
+      //   console.log("change readOnly to enable here");
+      // }
+      // else {
+      //   this.isReadOnly = true;
+      //   console.log("change readOnly to disable here");
+      // }
+
+      console.log('state value changed: ', this.groupDetailsForm.getRawValue().state);
+      if (this.groupDetailsForm.getRawValue().state == false) {
+        this.isReadOnlyPercentage = false;
+        this.groupDetailsForm.controls['state'].setValue(this.groupDetailsForm.getRawValue().state);
+      } else {
+        this.isReadOnlyPercentage = true;
+        this.groupDetailsForm.controls['state'].setValue(this.groupDetailsForm.getRawValue().state);
+        this.groupDetailsForm.controls['percentage'].setValue(100);
+      }
 
       //   this.isEdit = true;
       //   this.groupMasterForm.controls['no'].setValue(this.editData.no);
@@ -495,7 +515,15 @@ export class StrWithdrawDetailsDialogComponent {
         next: (res) => {
           // this.priceCalled = res;
           // this.groupDetailsForm.controls['avgPrice'].setValue(res);
-          this.groupDetailsForm.controls['price'].setValue(res)
+          this.groupDetailsForm.controls['price'].setValue(res);
+          // if (this.groupDetailsForm.getRawValue().price == 0 || this.editData?.price == 0) {
+          //   this.isReadOnly = false;
+          //   console.log("change readOnly to enable here");
+          // }
+          // else {
+          //   this.isReadOnly = true;
+          //   console.log("change readOnly to disable here");
+          // }
           console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
         },
         error: (err) => {
@@ -643,14 +671,23 @@ export class StrWithdrawDetailsDialogComponent {
     // this.isReadOnly = true;
     console.log("itemId: ", itemEvent)
 
-    if (this.groupDetailsForm.getRawValue().avgPrice == 0) {
-      this.isReadOnly = false;
-      console.log("change readOnly to enable");
-    }
-    else {
-      this.isReadOnly = true;
-      console.log("change readOnly to disable");
-    }
+    // if (this.groupDetailsForm.getRawValue().avgPrice == 0) {
+    //   this.isReadOnly = false;
+    //   console.log("change readOnly to enable");
+    // }
+    // else {
+    //   this.isReadOnly = true;
+    //   console.log("change readOnly to disable");
+    // }
+
+    // if (this.groupDetailsForm.getRawValue().price == 0 || this.editData?.price == 0) {
+    //   this.isReadOnly = false;
+    //   console.log("change readOnly to enable here");
+    // }
+    // else {
+    //   this.isReadOnly = true;
+    //   console.log("change readOnly to disable here");
+    // }
 
     this.getAvgPrice(
       this.getMasterRowStoreId,
@@ -773,7 +810,17 @@ export class StrWithdrawDetailsDialogComponent {
   // }
 
   getAllDetailsForms() {
-    // console.log("mastered row get all data: ", this.getMasterRowId)
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+      //   if(this.actionBtnMaster=='save'){
+      //     this.dialogRef.close('save');
+      // }
+      // else{
+      //   this.dialogRef.close('update');
+
+      // }
+      // this.closeDialog();
+      this.dialogRef.close('Save');
     if (this.getMasterRowId) {
       this.api.getStrWithdrawDetails().subscribe(
         (res) => {
@@ -807,8 +854,13 @@ export class StrWithdrawDetailsDialogComponent {
           // alert('حدث خطا ما !!');
         }
       );
-    }
+    }}
   }
+
+  closeDetailsDialog() {
+    this.dialogRef.close('save');
+  }
+
   async addDetailsInfo() {
     // console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "main id: ", this.getMasterRowId.id);
     console.log('masterrow', this.getMasterRowId);
@@ -834,6 +886,8 @@ export class StrWithdrawDetailsDialogComponent {
           parseFloat(this.groupDetailsForm.getRawValue().qty)
         );
 
+        this.groupDetailsForm.removeControl('id')
+
         console.log("form details after item: ", this.groupDetailsForm.value)
 
         if (this.groupDetailsForm.valid) {
@@ -849,12 +903,12 @@ export class StrWithdrawDetailsDialogComponent {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.updateDetailsForm();
-                this.getAllDetailsForms();
+                // this.getAllDetailsForms();
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
                 // alert('تمت إضافة المجموعة بنجاح');
-                this.dialogRef.close('save');
+                // this.dialogRef.close('save');
 
                 // this.getAllMasterForms();
                 // this.dialogRef.close('save');
@@ -1040,7 +1094,7 @@ export class StrWithdrawDetailsDialogComponent {
         this.getDetailedRowData.percentage
       );
 
-      this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
+      // this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
 
       this.groupDetailsForm.controls['total'].setValue(
         parseFloat(this.groupDetailsForm.getRawValue().price) *
@@ -1210,6 +1264,7 @@ export class StrWithdrawDetailsDialogComponent {
     this.itemByFullCodeValue = '';
     this.itemCtrl.setValue('');
     this.groupDetailsForm.controls['qty'].setValue(1);
+    this.groupDetailsForm.controls['percentage'].setValue(100);
   }
   getDestStores() {
     this.api.getStore().subscribe({
