@@ -117,7 +117,7 @@
         getSearchStrAdd(no.value, date.value, fiscalYear.value)
           " class="icons" title="بحث">search</mat-icon>
 
-        <mat-icon class="icons" title="عرض"  (click)="print()"
+        <mat-icon class="icons" title="عرض"  (click)="print(no.value, date.value, fiscalYear.value)"
           class="icons" title="تحميل">print</mat-icon>
 <!-- 
         <mat-icon (click)="downloadPrint(no.value, date.value, fiscalYear.value)" class="icons"
@@ -138,12 +138,7 @@
         (click)="print(no.value, storeId.value, date.value)"
       >
         <mat-icon>print</mat-icon>
-<<<<<<< HEAD
-      </button>
-      
-=======
       </button> -->
->>>>>>> 5f21f01742efa22f3d30365c3ed1c22a9715fc11
     </div>
   </mat-expansion-panel>
 </mat-accordion>
