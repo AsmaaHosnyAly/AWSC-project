@@ -293,3 +293,18 @@ footer h3 {
   transform: translateY(-0.05em);
   font-size: 25px;
 }
+
+.print-display {
+  display: block;
+  display: flex;
+  position: relative;
+  /* left: -482px; */
+  top: 15px;
+}
+
+
+.searchLabels{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

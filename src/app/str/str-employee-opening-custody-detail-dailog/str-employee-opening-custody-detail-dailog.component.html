@@ -1,13 +1,13 @@
 <!-- <p>str-add-details-dialog works!</p> -->
 <div class="cdk-overlay-pane  ">
-    <button class="close" mat-button (click)="addDetailsInfo()" mat-dialog-close> <mat-icon>
+    <button class="close" mat-button (click)="getAllDetailsForms()" mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
   </div>
   <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
   
   
     <div style="overflow: hidden !important;">
-        <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل اذن الاضافة </h1>
+        <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل افتتاحي العهد  </h1>
   
         <div class="detailsForm" dir="rtl" style="overflow: hidden !important;">
             <!-- <div class="row"> -->
@@ -68,8 +68,8 @@
         <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
         <mat-radio-group style="display: flex;flex-direction: row;" aria-label="Select an option" formControlName="state"
           >
-            <mat-radio-button value="true">جديد</mat-radio-button>
-            <mat-radio-button value="false">مستعمل</mat-radio-button>
+            <mat-radio-button value="جديد">جديد</mat-radio-button>
+            <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
         </mat-radio-group>
     </div>
     <div style="display: flex;flex-direction: column;width: 12rem;margin-right: 24%;">

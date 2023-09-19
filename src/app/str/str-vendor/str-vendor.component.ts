@@ -16,7 +16,7 @@ export class StrVendorComponent {
   title = 'angular13crud';
   displayedColumns: string[] = [ 'name', 'action'];
   dataSource!: MatTableDataSource<any>;
-
+loading : boolean= false ;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog, private api : ApiService){}
@@ -24,24 +24,30 @@ export class StrVendorComponent {
     this.getAllVendors();
   }
   openDialog() {
+    
     this.dialog.open(StrVendorDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val=>{
+     
       if(val === 'save'){
         this.getAllVendors();
       }
+      
     })
   }
   getAllVendors(){
+    this.loading=true;
     this.api.getVendor()
     .subscribe({
       next:(res)=>{
+        this.loading=false;
         console.log("res get vendor: ", res)
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },
       error:(err)=>{
+        this.loading=false;
         console.log("err get vendor: ", err)
         alert("خطأ عند استدعاء البيانات");
       }
@@ -59,16 +65,19 @@ export class StrVendorComponent {
     })
   }
   daleteVendor(id:number){
+    this.loading=true;
     if(confirm("Are you sure to delete ")) {
       console.log("Implement delete functionality here");
     }
     this.api.daleteVendor(id)
     .subscribe({
       next:(res)=>{
+        this.loading=false;
         alert("تأكيد حذف الوحدة");
         this.getAllVendors();
       },
       error:()=>{
+        this.loading=false;
         alert("خطأ عند الحذف")
       }
     })

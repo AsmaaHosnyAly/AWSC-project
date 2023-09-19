@@ -9,7 +9,7 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
-import { LoadingService } from 'src/app/loading.service';
+
 import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -43,7 +43,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   // employeesList: any;
   itemList:any;
   fiscalYearsList: any;
-  loading$ = this.loader.loading$;
+
   groupMasterForm !: FormGroup;
 
 
@@ -53,7 +53,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   costcenterCtrl: FormControl<any>;
   filteredcostcenter: Observable<costcenter[]>;
   selectedcostcenter: costcenter | undefined;
-
+loading :boolean=false;
 
 
   employeesList: Employee[] = [];
@@ -69,7 +69,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     private api: ApiService,
     private dialog: MatDialog,private formBuilder: FormBuilder,
     private http: HttpClient,
-    public loader:LoadingService,
+   
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
@@ -122,8 +122,10 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
 
   getAllMasterForms() {
+    this.loading=true
     this.api.getStrEmployeeOpen().subscribe({
       next: (res) => {
+        this.loading=false
         console.log('response of get all getGroup from api: ', res);
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
@@ -132,6 +134,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
       },
       error: () => {
+        this.loading=false;
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
       },
     });
@@ -252,13 +255,14 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   // }
 
     deleteBothForms(id: number) {
+    
       var result = confirm('تاكيد الحذف ؟ ');
   console.log(" id in delete:",id)
       if (result) {
         
         this.api. deleteStrEmployeeOpen(id).subscribe({
           next: (res) => {
- 
+
             this.http
               .get<any>('http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all')
               .subscribe(
@@ -275,6 +279,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   
                 },
                 (err) => {
+                 
                   // alert('خطا اثناء تحديد المجموعة !!');
                 }
               );

@@ -64,11 +64,13 @@
 }
 
 .groupAction {
+  
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   /* padding: 5%; */
 }
+
 
 .groupAction button {
   background-color: rgb(60, 202, 252);

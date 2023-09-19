@@ -242,7 +242,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
-                this.dialogRef.close('save');
+                // this.dialogRef.close('save');
 
                 // this.updateDetailsForm()
                 // this.getAllDetailsForms();
@@ -384,6 +384,54 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
   //       }
   //     })
   // }
+  getAllDetailsForms() {
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+      //   if(this.actionBtnMaster=='save'){
+      //     this.dialogRef.close('save');
+      // }
+      // else{
+      //   this.dialogRef.close('update');
+
+      // }
+      // this.closeDialog();
+      this.dialogRef.close('Save');
+    console.log("master Id: ", this.getMasterRowId.id)
+
+    if (this.getMasterRowId.id) {
+   
+      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            // this.itemsList = res;
+            this.matchedIds = res[1].strEmployeeOpeningCustodyDetailsGetVM;
+
+            if (this.matchedIds) {
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[1].strEmployeeOpeningCustodyDetailsGetVM);
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+                // this.updateMaster();
+              }
+            }
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
+          }
+        })}
+      // }
+    }
+
+
+  }
 
   async updateDetailsForm() {
     // this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
@@ -410,7 +458,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-            
+           console.log('aa',res)
             this.toastrSuccess();
             this.groupDetailsForm.reset();
             this.itemCtrl.setValue('');
@@ -422,7 +470,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
             this.groupDetailsForm.controls['qty'].setValue(1);
            
             this.dialogRef.close('save');
-
+            
           },
           error: (err) => {
             console.log("update err: ", err)
