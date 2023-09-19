@@ -1,21 +1,21 @@
-<form [formGroup]="vendorsForm" dir="rtl">
-  <h1 mat-dialog-title>المصنع</h1>
+
+  <div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مصنع   ' : 'إضافة مصنع جديد'}}</h1>
+  <form [formGroup]="vendorsForm" dir="rtl">
   <div mat-dialog-content>
-    <form [formGroup]="vendorsForm">
-      
+    <form [formGroup]="vendorsForm">     
     
       <mat-form-field appearance="outline">
         <mat-label>اسم المصنع</mat-label>
         <input formControlName="name" matInput placeholder="اسم المصنع">
       </mat-form-field>
-   
-       
-       
     </form>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-  <button mat-raised-button color="primary" (click)="addProduct()" style="margin-left: 8px;">{{actionBtn}}</button> 
+    <!-- <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button> -->
+  <button mat-raised-button  class="savebtn" (click)="addVendor()" style="margin-left: 8px;">{{actionBtn}}</button> 
   </div>
 </form>
 

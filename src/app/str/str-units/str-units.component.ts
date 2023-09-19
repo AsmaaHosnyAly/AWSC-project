@@ -24,7 +24,7 @@ export class STRUnitsComponent {
   constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , public loader:LoadingService, private http:HttpClient){
     global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
     
-
+ 
   }
   ngOnInit(): void {
     this.getAllUnits();
@@ -66,20 +66,30 @@ export class STRUnitsComponent {
     })
   }
   daleteunit(id:number){
-    var result = confirm('هل تريد تأكيد الحذف ');
-    if(result) {  
-    this.api.deleteunit(id)
-    .subscribe({
-      next:(res)=>{
-        alert("تأكيد حذف الوحدة");
-        this.getAllUnits();
-      },
-      error:()=>{
-        alert("خطأ عند الحذف")
-      }
-    })
-  }
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.deleteunit(id)
+
+  .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
+          this.getAllUnits();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر');
+        },
+      });
+    }
 }
+
+
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

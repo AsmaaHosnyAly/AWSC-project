@@ -127,7 +127,7 @@ export class STRItem1Component implements OnInit {
     global.getPermissionUserRoles(
       1,
       'stores',
-      'إدارة المخازن وحسابات المخازن-الاصناف',
+      'الأصناف',
       ''
     );
     this.unitCtrl = new FormControl();

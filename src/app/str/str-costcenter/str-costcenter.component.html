@@ -11,7 +11,7 @@
 <div class="search">
    
   <mat-form-field appearance="outline">
-      <mat-label>المركز</mat-label>
+      <mat-label>المركز</mat-label> 
       
 
       <mat-select [(ngModel)]="costcenter.id" #costcenter plceholder="اختر المركز" >
@@ -21,8 +21,18 @@
       
   </mat-form-field>
 
-    <button (click)=" getSearchProducts(costcenter.value)" >عرض</button> 
-    <button (click)=" getAllCostCenter()" >الغاء</button>
+    
+    <mat-icon (click)=" getSearchProducts(costcenter.value)" class="icons"
+    title="عرض قيم البحث">search</mat-icon>
+    
+    <mat-icon
+    (click)="getAllCostCenter()"
+    class="icons"
+    title="حذف قيم البحث"
+    >restore</mat-icon
+  >
+  
+    <!-- <button (click)=" getAllCostCenter()" >الغاء</button> -->
 
   </div>
   </mat-expansion-panel>
