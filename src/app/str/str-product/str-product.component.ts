@@ -36,14 +36,20 @@ export class StrProductComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,private global:GlobalService) {
+  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
-    global.getPermissionUserRoles(12,'stores', 'المنتجات', '')
+    global.getPermissionUserRoles(
+      1,
+      'stores',
+      'الأصناف',
+      ''
+    );
    }
 
   ngOnInit(): void {
     this.getAllProducts();
     // console.log("shortlink",this.shortLink)
+  
   }
 
   applyFilter(event: Event) {
