@@ -601,11 +601,111 @@ export class STRAddTableComponent implements OnInit {
     this.toastr.success('تم التعديل بنجاح');
   }
   loadDataToLocalStorage(data: any): void {
+    console.log(data);
     localStorage.removeItem('store-data');
     localStorage.setItem('store-data', JSON.stringify(data));
   }
 
-  print() {
+  print(no: any, store: any, date: any) {
+    this.api.getStrAddSearach(no, store, date).subscribe({
+      next: (res) => {
+        console.log('search addStock res: ', res);
+
+        //enter no.
+        if (no != '' && !store && !date) {
+          // console.log("enter no. ")
+          // console.log("no. : ", no, "store: ", store, "date: ", date)
+          this.dataSource2 = res.filter((res: any) => res.no == no!);
+          console.log('data after if :', this.dataSource2);
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter store
+        else if (!no && store && !date) {
+          // console.log("enter store. ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter((res: any) => res.storeId == store);
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter date
+        else if (!no && !store && date) {
+          // console.log("enter date. ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter no. & store
+        else if (no && store && !date) {
+          // console.log("enter no & store ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) => res.no == no! && res.storeId == store
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter no. & date
+        else if (no && !store && date) {
+          // console.log("enter no & date ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) =>
+              res.no == no! &&
+              formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter store & date
+        else if (!no && store && date) {
+          // console.log("enter store & date ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) =>
+              res.storeId == store &&
+              formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //enter all data
+        else if (no != '' && store != '' && date != '') {
+          // console.log("enter all data. ")
+          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          this.dataSource2 = res.filter(
+            (res: any) =>
+              res.no == no! &&
+              res.storeId == store &&
+              formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          );
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        //didn't enter any data
+        else {
+          // console.log("enter no data ")
+          this.dataSource2 = res;
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        }
+
+        this.loadDataToLocalStorage(res);
+      },
+      error: (err) => {
+        alert('Error');
+      },
+    });
     this.router.navigate(['/add-item-report']);
   }
 }

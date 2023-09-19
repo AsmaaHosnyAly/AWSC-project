@@ -18,50 +18,62 @@
   <section id="content">
     <header>
       <div class="top">
-        <h2>اذن إضافة</h2>
-      </div>
-      <div class="bottom">
-        <div class="section1">
-          <p>مخزن : {{ storeName }}</p>
-          <p>التاريخ : {{ myDate | date : "shortDate" }}</p>
-          <p></p>
+        <div class="header-one">
+          <p>تقرير أذن إضافة</p>
         </div>
-        <div class="section2">
-          <p>وارد من : {{ sourceStoreName }}</p>
+        <div class="header-two">
+          <img src="../assets/images/water logo.png" />
+          <p>شركة مياه الشرب والصرف الصحى بأسوان</p>
         </div>
       </div>
     </header>
-    <table id="my-table" mat-table [dataSource]="dataSource" matSort>
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم السجل</th>
-        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-      </ng-container>
-      <ng-container matColumnDef="itemName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>الصنف</th>
-        <td mat-cell *matCellDef="let row">{{ row.itemName }}</td>
-      </ng-container>
-      <ng-container matColumnDef="qty">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>الكمية</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.qty }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>السعر</th>
-        <td mat-cell *matCellDef="let row">{{ row.price }}</td>
-      </ng-container>
-      <ng-container matColumnDef="total">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>الأجمالى</th>
-        <td mat-cell *matCellDef="let row">{{ row.total }}</td>
-      </ng-container>
+    <div class="table-container" *ngFor="let item of storeDetails">
+      <div class="table-header">
+        <div class="section1">
+          <p>مخزن : {{ item.storeName }}</p>
+          <p>التاريخ : {{ item.date | date : "shortDate" }}</p>
+        </div>
+        <div class="section2">
+          <p>وارد من : {{ item.sourceStoreName }}</p>
+        </div>
+      </div>
+      <table
+        id="my-table"
+        mat-table
+        [dataSource]="item.strAddDetailsGetVM"
+        matSort
+      >
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>رقم السجل</th>
+          <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الصنف</th>
+          <td mat-cell *matCellDef="let row">{{ row.itemName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="qty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الكمية</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.qty }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>السعر</th>
+          <td mat-cell *matCellDef="let row">{{ row.price }}</td>
+        </ng-container>
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>الأجمالى</th>
+          <td mat-cell *matCellDef="let row">{{ row.total }}</td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">لا توجد بيانات""</td>
-      </tr>
-    </table>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">لا توجد بيانات""</td>
+        </tr>
+      </table>
+    </div>
   </section>
   <footer></footer>
 </div>

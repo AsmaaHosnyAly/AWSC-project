@@ -90,7 +90,7 @@ export class StrProductComponent implements OnInit {
 // }
   openDialog() {
     this.dialog.open(StrProductDialogComponent, {
-      width: '30%'
+      width: '47%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllProducts();
@@ -113,7 +113,7 @@ export class StrProductComponent implements OnInit {
   editProduct(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(StrProductDialogComponent, {
-      width: '30%',
+      width: '47%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {
