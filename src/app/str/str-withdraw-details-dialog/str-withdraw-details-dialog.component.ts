@@ -166,7 +166,7 @@ export class StrWithdrawDetailsDialogComponent {
     private dialogRef: MatDialogRef<StrWithdrawDetailsDialogComponent>,
     private route: ActivatedRoute
   ) {
-    this.stateDefaultValue = true;
+    this.stateDefaultValue = "جديد";
     // this.costcenterCtrl = new FormControl();
     // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
     //   startWith(''),
@@ -262,7 +262,7 @@ export class StrWithdrawDetailsDialogComponent {
       // }
 
       console.log('state value changed: ', this.groupDetailsForm.getRawValue().state);
-      if (this.groupDetailsForm.getRawValue().state == false) {
+      if (this.groupDetailsForm.getRawValue().state == "مستعمل") {
         this.isReadOnlyPercentage = false;
         this.groupDetailsForm.controls['state'].setValue(this.groupDetailsForm.getRawValue().state);
       } else {
@@ -699,7 +699,7 @@ export class StrWithdrawDetailsDialogComponent {
 
   set_Percentage(state: any) {
     console.log('state value changed: ', state.value);
-    if (state.value == false) {
+    if (state.value == "مستعمل") {
       this.isReadOnlyPercentage = false;
       this.groupDetailsForm.controls['state'].setValue(state.value);
     } else {

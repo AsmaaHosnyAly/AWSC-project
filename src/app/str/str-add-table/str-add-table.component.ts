@@ -29,6 +29,10 @@ export class STRAddTableComponent implements OnInit {
     'typeName',
     'Action',
   ];
+  displayedPendingColumns: string[] = [
+    'no',
+    'Action',
+  ];
   matchedIds: any;
   storeList: any;
   typeList: any;
