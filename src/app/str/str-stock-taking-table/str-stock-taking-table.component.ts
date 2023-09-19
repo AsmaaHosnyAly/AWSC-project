@@ -1,3 +1,6 @@
+
+
+
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -32,11 +35,11 @@ export class item {
 
 
 @Component({
-  selector: 'app-str-employee-opening-custody-table',
-  templateUrl: './str-employee-opening-custody-table.component.html',
-  styleUrls: ['./str-employee-opening-custody-table.component.css'],
+  selector: 'app-str-stock-taking-table',
+  templateUrl: './str-stock-taking-table.component.html',
+  styleUrls: ['./str-stock-taking-table.component.css']
 })
-export class STREmployeeOpeningCustodyTableComponent implements OnInit {
+export class StrStockTakingTableComponent implements OnInit {
   displayedColumns: string[] = ['no', 'employeeName','costCenterName','fiscalyear', 'date', 'Action'];
   matchedIds: any;
   storeList: any;

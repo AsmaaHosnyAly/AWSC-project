@@ -9,7 +9,8 @@
         <mat-icon>search</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <div class="search">
+    <form [formGroup]="groupMasterForm">
+      <div class="search">
     
       <div class="searchLabels">
         <mat-label>الرقم</mat-label>
@@ -42,8 +43,8 @@
     <mat-label>السنة المالية</mat-label>
 
       <mat-form-field appearance="outline"  style="width: 90%;margin-left: 1rem;"  >
-        <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalyear">
-          <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.fiscalyear">{{
+        <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalYear">
+          <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.id">{{
             fiscalYear.fiscalyear }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -69,7 +70,7 @@
       <mat-label >الصنف:</mat-label>
 
       <mat-form-field appearance="outline"  style="width: 90%;margin-left: 1rem;" >
-        <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
+        <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl" formControlName="itemName"
           (keydown)="getsearch($event)" (click)="openAutoitem()" required />
         <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
           (optionSelected)="itemSelected($event)">
@@ -96,7 +97,7 @@
       </mat-form-field>
      </div>
 
-     <div class="searchLabels">
+     <!-- <div class="searchLabels">
      <mat-label >مركز التكلفة :</mat-label>
 
       <mat-form-field appearance="outline"  style="width: 90%;margin-left: 1rem;" >
@@ -109,7 +110,7 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-    </div>
+    </div> -->
 
       <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
       <div class="print-display">
@@ -134,13 +135,9 @@
       </button>
       <button mat-icon-button color="primary" (click)="print()">
         <mat-icon>print</mat-icon>
-<<<<<<< HEAD
-      </button>
-      
-=======
       </button> -->
->>>>>>> 5f21f01742efa22f3d30365c3ed1c22a9715fc11
     </div>
+   </form>
   </mat-expansion-panel>
 </mat-accordion>
 
@@ -180,6 +177,8 @@
     [dataSource]="dataSource2"
     dir="rtl"
   >
+
+  
     <!-- No Column -->
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>الرقم</th>
@@ -244,6 +243,11 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        لا توجد بيانات للبحث !!{{ input.value }}"
+      </td>
+    </tr>
   </table>
 </div >
 

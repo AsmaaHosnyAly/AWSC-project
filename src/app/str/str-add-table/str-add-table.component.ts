@@ -19,6 +19,7 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
+import { FiscalYear } from '../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 
 
 
@@ -79,6 +80,7 @@ export class STRAddTableComponent implements OnInit {
   pdfurl = '';
 
   groupMasterForm!: FormGroup;
+  groupDetailsForm!: FormGroup;
 
 
   costcentersList: costcenter[] = [];
@@ -110,6 +112,7 @@ export class STRAddTableComponent implements OnInit {
     private api: ApiService,
     private global: GlobalService,
     private dialog: MatDialog,    private toastr: ToastrService,
+    private formBuilder: FormBuilder,
 
     private http: HttpClient,
     private router: Router,
@@ -145,12 +148,52 @@ export class STRAddTableComponent implements OnInit {
     this.getAllMasterForms();
     this.getFiscalYears();
     this.getCostCenters();
-    
+    this.getItems();
     this.getStores();
     this.getTypes();
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
+
+
+    this.groupMasterForm = this.formBuilder.group({
+      no: [''],
+      employee: [''],
+      costcenter: [''],
+      // :[''],
+      //  costcentersList:[''],
+      costCenterId: [''],
+      item: [''],
+      fiscalYear: [''],
+      date: [''],
+      store: [''],
+      storeId: [''],
+      employeeId: [''],
+      employeeName: [''],
+      itemId:['']
+    });
+
+    this.groupDetailsForm = this.formBuilder.group({
+      stR_WithdrawId: [''], //MasterId
+      employeeId:[''],
+      qty: [''],
+      percentage: [''],
+      price: [''],
+      total: [''],
+      transactionUserId: [1],
+      destStoreUserId: [1],
+      itemId: [''],
+      stateId: [''],
+
+      // withDrawNoId: ['' ],
+
+      itemName: [''],
+      // avgPrice: [''],
+
+      stateName: [''],
+
+      // notesName: [''],
+    });
   }
 
   applyFilter(event: Event) {
@@ -161,7 +204,10 @@ export class STRAddTableComponent implements OnInit {
       this.dataSource2.paginator.firstPage();
     }
   }
+
+
   getAllMasterForms() {
+
     this.api.getStrAdd().subscribe({
       next: (res) => {
         console.log('response of get all getGroup from api: ', res);
@@ -169,6 +215,7 @@ export class STRAddTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.loadDataToLocalStorage(res);
+        this.groupMasterForm.reset();
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -302,6 +349,18 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
+  getItems() {
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.itemsList = res;
+        // console.log("items res: ", this.itemsList);
+      },
+      error: (err) => {
+        // console.log("fetch items data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   getsearch(code: any) {
     if (code.keyCode == 13) {
       this.getAllMasterForms();
@@ -346,8 +405,8 @@ export class STRAddTableComponent implements OnInit {
   getEmployees() {
     this.api.getEmployee().subscribe({
       next: (res) => {
-        this.employeeList = res;
-        console.log("employeeeeeeeeee res: ", this.storeList);
+        this.employeesList = res;
+        console.log("employeeeeeeeeee res: ", this.employeesList);
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
@@ -426,8 +485,8 @@ export class STRAddTableComponent implements OnInit {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item;
-    this.groupMasterForm.patchValue({ itemId: item.id });
-    console.log('item in form: ', this.groupMasterForm.getRawValue().itemId);
+    this.groupDetailsForm.patchValue({ itemId: item.id });
+    console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
@@ -468,105 +527,22 @@ export class STRAddTableComponent implements OnInit {
     this.storeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrAdd(no: any, store: any, date: any) {
-    console.log('no. : ', no, 'store : ', store, 'date: ', date);
-    this.api.getStrAddSearach(no, store, date).subscribe({
+  getSearchStrAdd(no: any,  date: any,fiscalyear:any) {
+    console.log('fiscalyear in searchhhhh : ', fiscalyear,'itemId',);
+    // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    let employee = this.groupMasterForm.getRawValue().employeeId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
+    let store = this.groupMasterForm.getRawValue().storeId;
+
+
+    this.api.getStrAddSearach(no, date,fiscalyear,employee ,item,store) .subscribe({
       next: (res) => {
-        console.log('search addStock res: ', res);
-
-        //enter no.
-        if (no != '' && !store && !date) {
-          // console.log("enter no. ")
-          // console.log("no. : ", no, "store: ", store, "date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.no == no!);
-          console.log('data after if :', this.dataSource2);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter store
-        else if (!no && store && !date) {
-          // console.log("enter store. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.storeId == store);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter date
-        else if (!no && !store && date) {
-          // console.log("enter date. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter no. & store
-        else if (no && store && !date) {
-          // console.log("enter no & store ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => res.no == no! && res.storeId == store
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter no. & date
-        else if (no && !store && date) {
-          // console.log("enter no & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter store & date
-        else if (!no && store && date) {
-          // console.log("enter store & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter all data
-        else if (no != '' && store != '' && date != '') {
-          // console.log("enter all data. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //didn't enter any data
-        else {
-          // console.log("enter no data ")
-          this.dataSource2 = res;
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        this.loadDataToLocalStorage(res);
+        this.dataSource2 = res;
+        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.sort = this.sort;
       },
       error: (err) => {
-        // alert('Error');
+        console.log('eroorr', err);
       },
     });
   }
