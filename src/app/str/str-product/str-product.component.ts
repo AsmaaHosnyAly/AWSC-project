@@ -1,7 +1,4 @@
-// import { FileUploadComponent } from './../file-upload/file-upload.component';
-// import { FileUploadDialogComponent } from 'module';
-import { FileUploadDialogComponent } from '../../file-upload-dialog/file-upload-dialog.component';
-// import { FileUploadComponent } from "./FileUploadComponent,";
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { StrGroupDialogComponent } from '../str-group-dialog/str-group-dialog.component';
