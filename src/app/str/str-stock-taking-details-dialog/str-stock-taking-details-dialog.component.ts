@@ -66,7 +66,7 @@ export class StrStockTakingDetailsDialogComponent {
   selectedItem: Item | undefined;
   formcontrol = new FormControl('');
 
-  displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'percentage',  'price', 'qty','systemQty','balance', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -98,12 +98,28 @@ export class StrStockTakingDetailsDialogComponent {
     console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
 
+
+    this.groupMasterForm = this.formBuilder.group({
+      no: ['', Validators.required],
+      storeId: ['', Validators.required],
+      storeName: ['', Validators.required],
+      
+      transactionUserId: [1, Validators.required],
+      total: ['', Validators.required],
+      fiscalYearId: ['', Validators.required],
+      systemQty:['',Validators.required],
+      balance:['',Validators.required],
+    });
+
+
     this.groupDetailsForm = this.formBuilder.group({
       strStockTakingId: ['', Validators.required], //MasterId
+      systemQty:['', Validators.required],
+      balance:['', Validators.required],
       qty: ['1', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
-      state: ['', Validators.required],
+      // state: ['', Validators.required],
       percentage: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
@@ -112,6 +128,8 @@ export class StrStockTakingDetailsDialogComponent {
 
 
     console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
+    this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('StoreId');
+
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
     this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
@@ -129,7 +147,9 @@ export class StrStockTakingDetailsDialogComponent {
 
       this.groupDetailsForm.controls['qty'].setValue(this.editData.qty);
       this.groupDetailsForm.controls['price'].setValue(this.editData.price);
-      this.groupDetailsForm.controls['state'].setValue(this.editData.state);
+      this.groupDetailsForm.controls['systemQty'].setValue(this.editData.systemQty);
+      this.groupDetailsForm.controls['balance'].setValue(this.editData.balance);
+      // this.groupDetailsForm.controls['state'].setValue(this.editData.state);
       this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
       // this.groupDetailsForm.controls['date'].setValue(this.editData.date);
       // this.groupDetailsForm.controls['total'].setValue(this.editData.total);
@@ -178,6 +198,26 @@ export class StrStockTakingDetailsDialogComponent {
     console.log("item in form: ", this.groupDetailsForm.getRawValue().itemId);
     // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
     this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
+
+    this.api.getSumQuantity(
+      this.getMasterRowStoreId,
+      this.groupDetailsForm.getRawValue().itemId,
+    )
+
+      .subscribe({
+        next: (res) => {
+          // this.priceCalled = res;
+          console.log("systemqty res:",res)
+          this.groupDetailsForm.controls['systemQty'].setValue(res);
+          console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().systemQty);
+        },
+        error: (err) => {
+          console.log("fetch fiscalYears data err: ", err);
+          alert("خطا اثناء جلب الكمية الحالية  !");
+        }
+      })
+
+
   }
   openAutoItem() {
     this.itemCtrl.setValue(''); // Clear the input field value
@@ -189,8 +229,9 @@ export class StrStockTakingDetailsDialogComponent {
 
   async addDetailsInfo() {
     this.groupDetailsForm.controls['strStockTakingId'].setValue(this.getMasterRowId);
+console.log("strStockTakingId:",this.getMasterRowId)
 
-
+this.groupDetailsForm.controls['balance'].setValue((parseFloat(this.groupDetailsForm.getRawValue().systemQty) - parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
     if (this.groupDetailsForm.getRawValue().itemId) {
@@ -222,8 +263,10 @@ export class StrStockTakingDetailsDialogComponent {
         }
 
         this.groupDetailsForm.controls['strStockTakingId'].setValue(this.getMasterRowId);
+        this.groupDetailsForm.controls['balance'].setValue((parseFloat(this.groupDetailsForm.getRawValue().systemQty) - parseFloat(this.groupDetailsForm.getRawValue().qty)));
+
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
-        console.log("post d: ", this.groupDetailsForm.value, "ooo:", !this.getDetailedRowData);
+        console.log("post d: ", this.groupDetailsForm.valid, "getDetailedRowData:", !this.getDetailedRowData);
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
@@ -233,6 +276,8 @@ export class StrStockTakingDetailsDialogComponent {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
+                this.groupDetailsForm.controls['systemQty'].setValue(1);
+
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
@@ -362,15 +407,12 @@ export class StrStockTakingDetailsDialogComponent {
               for (let i = 0; i < this.matchedIds.length; i++) {
                 this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
                 this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                // alert('totalll: '+ this.sumOfTotals)
-                // this.updateBothForms();
-                // this.updateMaster();
+         
               }
             }
           },
           error: (err) => {
-            // console.log("fetch items data err: ", err);
-            // alert("خطا اثناء جلب العناصر !");
+      
           }
         })}
       // }
@@ -392,6 +434,8 @@ export class StrStockTakingDetailsDialogComponent {
 
     this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
     this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+    this.groupDetailsForm.controls['balance'].setValue((parseFloat(this.groupDetailsForm.getRawValue().systemQty) - parseFloat(this.groupDetailsForm.getRawValue().qty)));
+
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
     this.isEdit = false;
@@ -414,7 +458,8 @@ export class StrStockTakingDetailsDialogComponent {
             // this.getAllDetailsForms();
             // this.getDetailedRowData = '';
             this.groupDetailsForm.controls['qty'].setValue(1);
-           
+            this.groupDetailsForm.controls['systemQty'].setValue(1);
+
             this.dialogRef.close('save');
 
           },

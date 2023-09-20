@@ -487,6 +487,26 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.selecteditem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
+
+    this.api.getAvgPrice(
+      this.groupMasterForm.getRawValue().storeId,
+      this.groupMasterForm.getRawValue().fiscalYearId,
+      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+      this.groupDetailsForm.getRawValue().itemId
+    )
+      .subscribe({
+        next: (res) => {
+          // this.priceCalled = res;
+          // this.groupDetailsForm.controls['avgPrice'].setValue(res);
+          this.groupDetailsForm.controls['price'].setValue(res)
+          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
@@ -605,7 +625,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   set_Employee_Null(deststoreId: any) {
-    alert("deststoreId in null fun:" + deststoreId)
+    // alert("deststoreId in null fun:" + deststoreId)
 
     this.groupMasterForm.controls['employeeId'].setValue(null);
     this.isReadOnlyEmployee = true;
@@ -942,7 +962,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       );
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
       this.groupMasterForm.controls['deststoreId'].setValue(this.editData.deststoreId);
-alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
+// alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
       console.log('data item Name in edit: ', this.groupMasterForm.value);
     }
     if (this.getDetailedRowData) {
@@ -982,7 +1002,7 @@ alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
                 this.fullCodeValue = '';
                 this.getDetailedRowData = '';
                 // alert('تم التعديل بنجاح');
-                this.toastrEditSuccess();
+                // this.toastrEditSuccess();
 
                 // this.dialogRef.close('update');
               },
@@ -1448,7 +1468,7 @@ alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
     } else {
       this.groupMasterForm.patchValue({ deststoreId: list.id });
       this.groupMasterForm.patchValue({ desstoreName: list.name });
-      alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
+      // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
       this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
     }
   }
@@ -1635,7 +1655,6 @@ alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
     this.api.putStrWithdraw(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
-
           this.groupDetailsForm.reset();
           // this.itemCtrl.setValue('');
 

@@ -17,7 +17,9 @@ import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/for
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
-
+export class store {
+  constructor(public id: number, public name: string) {}
+}
 
 
 // export class Employee {
@@ -42,10 +44,15 @@ export class item {
 export class StrStockTakingTableComponent implements OnInit {
   displayedColumns: string[] = ['no','storeName', 'fiscalyear', 'date', 'Action'];
   matchedIds: any;
-  storeList: any;
+  // storeList: any;
   storeName: any;
   // costCentersList: any;
-  
+
+
+  storeList: store[] = [];
+  storeCtrl: FormControl;
+  filteredstore: Observable<store[]>;
+  selectedstore: store | undefined;
   // employeesList: any;
   // itemList:any;
   fiscalYearsList: any;
@@ -84,6 +91,12 @@ export class StrStockTakingTableComponent implements OnInit {
     private toastr: ToastrService
   ) {
 
+    this.storeCtrl = new FormControl();
+    this.filteredstore = this.storeCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterstores(value))
+    );
+
     // this.costcenterCtrl = new FormControl();
     // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
     //   startWith(''),
@@ -110,6 +123,7 @@ export class StrStockTakingTableComponent implements OnInit {
     this.getFiscalYears();
     // this.getEmployees();
     this.getItme();
+    this.getStores()
     // this.getcostCenter();
 
     this.groupMasterForm = this.formBuilder.group({
@@ -121,14 +135,18 @@ export class StrStockTakingTableComponent implements OnInit {
 
       itemName:[''],
       itemId:[''],
-      fiscalyear:[''],
+      fiscalYear:[''],
       date:[''],
-      store:['']
+      store:[''],
+      storeId:['']
        });
+
+
 
        this.groupDetailsForm = this.formBuilder.group({
         stR_WithdrawId: [''], //MasterId
-        employeeId:[''],
+        systemQty:[''],
+        balance:[''],
         qty: [''],
         percentage: [''],
         price: [''],
@@ -156,7 +174,31 @@ export class StrStockTakingTableComponent implements OnInit {
       this.getAllMasterForms();
      }
   }
+  displaystoreName(store: any): string {
+    return store && store.name ? store.name : '';
+  }
+  storeSelected(event: MatAutocompleteSelectedEvent): void {
+    const store = event.option.value as store;
+    console.log('store selected: ', store);
+    this.selectedstore = store;
+    console.log('selectedstore: ', this.selectedstore);
 
+    this.groupMasterForm.patchValue({ storeId: store.id });
+    console.log('store in form: ', this.groupMasterForm.getRawValue().storeId);
+  }
+  private _filterstores(value: string): store[] {
+    const filterValue = value;
+    return this.storeList.filter((store: { name: string }) =>
+      store.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutostore() {
+    this.storeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.storeCtrl.updateValueAndValidity();
+  }
 
   getAllMasterForms() {
     this.api.getStrStockTaking().subscribe({
@@ -171,6 +213,19 @@ export class StrStockTakingTableComponent implements OnInit {
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
+      },
+    });
+  }
+
+  getStores() {
+    this.api.getStore().subscribe({
+      next: (res) => {
+        this.storeList = res;
+        // console.log("store res: ", this.storeList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert('خطا اثناء جلب المخازن !');
       },
     });
   }
@@ -202,92 +257,6 @@ export class StrStockTakingTableComponent implements OnInit {
   }
 
 
-  // deleteBothForms(id: number) {
-  //   var result = confirm('تاكيد الحذف ؟ ');
-
-  //   this.http.get<any>("http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all")
-  //     .subscribe(res => {
-  //       this.matchedIds = res.filter((a: any) => {
-  //         console.log("matched Id &  : ", a.custodyId === id)
-  //         return a.custodyId === id
-  //       });
-
-        
-  //       alert("تم حذف الاذن بنجاح");
-
-  //       // var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
-
-  //       // if (this.matchedIds.length) {
-  //       //   for (let i = 0; i < this.matchedIds.length; i++) {
-
-  //       //     console.log("matchedIds details in loop: ", this.matchedIds[i].id)
-
-  //       //     if (result) {
-  //       //       this.api. deleteStrEmployeeOpenDetails(this.matchedIds[i].id)
-  //       //         .subscribe({
-  //       //           next: (res) => {
-  //       //             // alert("تم الحذف التفاصيل بنجاح");
-
-  //       //             // var resultMaster = confirm("هل ترغب بتاكيد حذف الرئيسي؟");
-  //       //             // if (resultMaster) {
-  //       //             console.log("master id to be deleted: ", id)
-
-  //       //             this.api.deleteStrEmployeeOpen(id)
-  //       //               .subscribe({
-  //       //                 next: (res) => {
-  //       //                   // alert("تم حذف الرئيسي بنجاح");
-  //       //                   this.toastrDeleteSuccess();
-  //       //                   this.getAllMasterForms();
-  //       //                 },
-  //       //                 error: () => {
-  //       //                   alert("خطأ أثناء حذف الرئيسي !!");
-  //       //                 }
-  //       //               })
-  //       //             // }
-
-  //       //           },
-  //       //           error: () => {
-  //       //             alert("خطأ أثناء حذف التفاصيل !!");
-  //       //           }
-  //       //         })
-  //       //     }
-
-  //       //   }
-  //       // }
-  //       // else {
-  //       //   if (result) {
-  //       //     console.log("master id to be deleted: ", id)
-
-  //       //     this.api.deleteStrEmployeeOpen(id)
-  //       //       .subscribe({
-  //       //         next: (res) => {
-  //       //           // alert("تم حذف الرئيسي بنجاح");
-  //       //           this.toastrDeleteSuccess();
-  //       //           this.getAllMasterForms();
-  //       //         },
-  //       //         error: () => {
-  //       //           alert("خطأ أثناء حذف الرئيسي !!");
-  //       //         }
-  //       //       })
-  //       //   }
-  //       // }
-
-  //     }, (err) => {
-  //       alert('خطا اثناء تحديد المجموعة !!');
-  //     }
-  //     );
-  //     this.toastrDeleteSuccess();
-  //     this.getAllMasterForms();
-
-
-
-
-
-  //   }
-  // ref(){
-  //   let selet: any = document.querySelectorAll('mat-select');
-  //   selet.value ="";
-  // }
 
     deleteBothForms(id: number) {
       var result = confirm('تاكيد الحذف ؟ ');
@@ -357,19 +326,7 @@ export class StrStockTakingTableComponent implements OnInit {
       },
     });
   }
-  // getEmployees() {
-  //   this.api.getHrEmployees()
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.employeesList = res;
-  //         console.log("employees res: ", this.employeesList);
-  //       },
-  //       error: (err) => {
-  //         console.log("fetch employees data err: ", err);
-  //         // alert("خطا اثناء جلب الموظفين !");
-  //       }
-  //     })
-  // }
+  
   getItme() {
     this.api.getItems()
       .subscribe({
@@ -383,19 +340,7 @@ export class StrStockTakingTableComponent implements OnInit {
         }
       })
   }
-  // getcostCenter() {
-  //   this.api.getCostCenter()
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.costCentersList = res;
-  //         // console.log("item res: ", this.itemList);
-  //       },
-  //       error: (err) => {
-  //         console.log("fetch employees data err: ", err);
-  //         // alert("خطا اثناء جلب الموظفين !");
-  //       }
-  //     })
-  // }
+ 
 
 
 
@@ -425,70 +370,10 @@ export class StrStockTakingTableComponent implements OnInit {
 
 
 
-//   displaycostcenterName(costcenter: any): string {
-//     return costcenter && costcenter.name ? costcenter.name : '';
-//   }
-//   costcenterSelected(event: MatAutocompleteSelectedEvent): void {
-//     const costcenter = event.option.value as costcenter;
-//     console.log("costcenter selected: ", costcenter);
-//     this.selectedcostcenter = costcenter;
-//     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-//     console.log("costcenter in form: ", this.groupMasterForm.getRawValue().costCenterId);
-
-//     // this.getSearchStrWithdraw()
-//     // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
-//     // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-
-//   }
-//   private _filtercostcenters(value: string): costcenter[] {
-//     const filterValue = value;
-//     return this.costCentersList.filter(costcenter =>
-//       costcenter.name.toLowerCase().includes(filterValue) 
-//     );
-//   }
-//   openAutocostcenter() {
-//     this.costcenterCtrl.setValue(''); // Clear the input field value
-
-//     // Open the autocomplete dropdown by triggering the value change event
-//     this.costcenterCtrl.updateValueAndValidity();
-
-//   }
-
-// /////employeee
-
-//   displayEmployeeName(employee: any): string {
-//     return employee && employee.name ? employee.name : '';
-//   }
-//   employeeSelected(event: MatAutocompleteSelectedEvent): void {
-//     const employee = event.option.value as Employee;
-//     console.log("employee selected: ", employee);
-//     this.selectedEmployee = employee;
-//     this.groupMasterForm.patchValue({ employeeId: employee.id });
-//     console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
-
-//     // this.getSearchStrWithdraw()
-//     // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
-//     // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
-
-//   }
-//   private _filteremployees(value: string): Employee[] {
-//     const filterValue = value;
-//     return this.employeesList.filter(employee =>
-//       employee.name.toLowerCase().includes(filterValue) 
-//     );
-//   }
-//   openAutoEmployee() {
-//     this.employeeCtrl.setValue(''); // Clear the input field value
-
-//     // Open the autocomplete dropdown by triggering the value change event
-//     this.employeeCtrl.updateValueAndValidity();
-
-//   }
 
 
 
-
-  getSearchStrOpen(no: any,date: any, fiscalYear: any) {
+getSearchStrStockTaking(no: any,date: any, fiscalYear: any) {
     console.log(
       'no. : ',
       no,
@@ -500,15 +385,15 @@ export class StrStockTakingTableComponent implements OnInit {
     );
 
 
-    let costCenterId=this.groupMasterForm.getRawValue().costCenterId
-    let employeeId=this.groupMasterForm.getRawValue().employeeId
+   
     let itemId=this.groupDetailsForm.getRawValue().itemId
+    let storeId=this.groupMasterForm.getRawValue().storeId
 
 
 
 
 
-    this.api.getStrEmployeeOpenSearach(no, costCenterId, employeeId,itemId, date, fiscalYear )
+    this.api.getSearchStrStockTaking( no,storeId, fiscalYear,itemId   )
     .subscribe({
       next: (res) => {
         console.log("search employeeExchange 4res: ", res);

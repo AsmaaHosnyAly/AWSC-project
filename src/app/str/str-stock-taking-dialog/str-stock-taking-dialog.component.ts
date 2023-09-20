@@ -177,10 +177,13 @@ storeSelectedId: any;
       date: [dateNow, Validators.required],
       total: ['', Validators.required],
       fiscalYearId: ['', Validators.required],
+    
     });
     
     this.groupDetailsForm = this.formBuilder.group({
       custodyId: ['', Validators.required], //MasterId
+      systemQty:['',Validators.required],
+      balance:['',Validators.required],
       qty: ['', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
@@ -199,6 +202,8 @@ storeSelectedId: any;
       
     });
     this.userIdFromStorage = localStorage.getItem('transactionUserId');
+
+    alert("transactionuserId::::"+this.userIdFromStorage)
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
 
@@ -357,7 +362,7 @@ storeSelectedId: any;
   }
   }
   addNewDetails() {
-    this.router.navigate(['/StockTaking'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId,itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
+    this.router.navigate(['/StrStockTaking'], { queryParams: {StoreId:this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId,itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrStockTakingDetailsDialogComponent, {
       width: '98%',
       height: '95%'
@@ -384,6 +389,7 @@ storeSelectedId: any;
           this.fullCodeValue = '';
           this.getDetailedRowData = '';
           this.groupDetailsForm.controls['qty'].setValue(1);
+          this.toastrEditSuccess();
         },
 
       })}
@@ -412,6 +418,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
 
 
       console.log("Master add form : ", this.groupMasterForm.value)
+
       this.api.postStrStockTaking(this.groupMasterForm.value)
         .subscribe({
           next: (res) => {
@@ -518,6 +525,22 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
     this.selectedItem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
     this.groupDetailsForm.patchValue({ itemName: item.name });
+
+    this.api.getSumQuantity(
+      this.groupMasterForm.getRawValue().storeId,
+      this.groupDetailsForm.getRawValue().itemId,
+    )
+      .subscribe({
+        next: (res) => {
+          // this.priceCalled = res;
+          this.groupDetailsForm.controls['systemQty'].setValue(res);
+          console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().systemQty);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          alert("خطا اثناء جلب الرصيد الحالى  !");
+        }
+      })
   }
   private _filterItems(value: string): Item[] {
     const filterValue = value;
@@ -542,17 +565,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
       if (this.getMasterRowId.id) {
         console.log("form  headerId: ", this.getMasterRowId, "details form: ", this.groupDetailsForm.value)
 
-        // if (this.groupDetailsForm.getRawValue().itemId) {
-        //   // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-        //   this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-        //   // this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
-        //   this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-        // }
-
-        // this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.getMasterRowId.id);
-        // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
-
-        // console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
+        
         if (this.groupDetailsForm.getRawValue().itemId) {
           this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
           this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
@@ -593,7 +606,8 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
                 this.getAllDetailsForms();
                 // this.dialogRef.close('save');
               },
-              error: () => {
+              error: (err) => {
+                console.log("error in post details:",err)
                 // alert("حدث خطأ أثناء إضافة مجموعة")
               }
             })

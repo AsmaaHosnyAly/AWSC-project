@@ -1098,6 +1098,46 @@ export class ApiService {
       `${this.url}/STRAddDetails/get/Avg/Price/${storeid}/${FiscalYearid}/${Date}/${itemid}`
     );
   }
+  getSearchStrStockTaking(
+    no: any,
+    storeId: any,
+    fiscalYear: any,
+    itemId: any){
+      console.log(
+        'no. : ',
+        no,
+        'store : ',
+        storeId,
+       
+        'fiscalYear: ',
+        fiscalYear,
+        'item:',
+        itemId
+      
+      );
+  
+      this.mycondition = `${this.url}/StrStockTaking/search?`;
+  
+      if (!no == false) {
+        this.mycondition = ` ${this.mycondition}&No=${no}`;
+      }
+      if (!storeId == false) {
+        this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+      }
+     
+      if (!fiscalYear == false) {
+        this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+      }
+      if (!itemId == false) {
+        this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
+      }
+  
+      console.log('url', this.mycondition);
+  
+      return this.http.get<any>(`${this.mycondition}`);
+    }
+
+
 
   getStrOpenSearach(
     no: any,
@@ -2106,18 +2146,20 @@ export class ApiService {
   }
 
   postStrStockTaking(data:any){
-    return this.http.get<any>(`${this.url}/StrStockTaking/Add`,data)
+    console.log("data in posttt:",data)
+    return this.http.post<any>(`${this.url}/StrStockTaking/Add`,data)
   }
   putStrStockTaking(data:any){
-    return this.http.get<any>( `${this.url}/StrStockTaking/update`,data)
+    return this.http.put<any>( `${this.url}/StrStockTaking/update`,data)
   }
 
   postStrStockTakingDetails(data:any){
-    return this.http.get<any>( `${this.url}/StrStockTakingDetails/Add`,data)
+    console.log("data in post details:",data)
+    return this.http.post<any>( `${this.url}/StrStockTakingDetails/Add`,data)
   }
 
   putStrStockTakingDetails(data:any){
-    return this.http.get<any>( `${this.url}/StrStockTakingDetails/update/`,data)
+    return this.http.put<any>( `${this.url}/StrStockTakingDetails/update/`,data)
   }
 
   deleteStockTakingDetails(id:any){
