@@ -361,7 +361,6 @@ import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
     NgxExtendedPdfViewerModule,
     MatTabsModule,
     HotkeyModule.forRoot()
-    // HotkeyModule,
     // FontAwesomeModule,
   ],
   providers: [

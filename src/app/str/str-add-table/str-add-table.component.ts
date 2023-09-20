@@ -12,16 +12,13 @@ import { GlobalService } from 'src/app/services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { HotkeysService } from 'angular2-hotkeys';
-import { Hotkey } from 'angular2-hotkeys';
+
 import {
   FormControl,
   FormControlName,
   FormBuilder,
   FormGroup,
-  Validators,
 } from '@angular/forms';
-import { FiscalYear } from '../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 
 
 
@@ -88,10 +85,10 @@ export class STRAddTableComponent implements OnInit {
   employeeName: any;
   TypeName: any;
   dataSource2!: MatTableDataSource<any>;
+  dataSourcePendingWithdraws!: MatTableDataSource<any>;
   pdfurl = '';
 
   groupMasterForm!: FormGroup;
-  groupDetailsForm!: FormGroup;
 
 
   costcentersList: costcenter[] = [];
@@ -109,8 +106,8 @@ export class STRAddTableComponent implements OnInit {
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
 
-  storeList: any;
   // storeList: store[] = [];
+  storeList: any;
   storeCtrl: FormControl;
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
@@ -119,20 +116,18 @@ export class STRAddTableComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   dataSource!: MatTableDataSource<any>;
-  dataSourcePendingWithdraws!: MatTableDataSource<any>;
+  groupDetailsForm !: FormGroup;
   userRoles: any;
-
+ 
   constructor(
     private api: ApiService,
     private global: GlobalService,
-    private hotkeysService: HotkeysService,
-    private dialog: MatDialog,    private toastr: ToastrService,
-    // private formBuilder: FormBuilder,
+    private dialog: MatDialog, private toastr: ToastrService,
 
     private http: HttpClient,
     private router: Router,
     @Inject(LOCALE_ID) private locale: string,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) {
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
@@ -164,34 +159,16 @@ export class STRAddTableComponent implements OnInit {
     this.getAllMasterForms();
     this.getFiscalYears();
     this.getCostCenters();
-    this.getItems();
+
     this.getStores();
     this.getTypes();
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
 
-
-    this.groupMasterForm = this.formBuilder.group({
-      no: [''],
-      employee: [''],
-      costcenter: [''],
-      // :[''],
-      //  costcentersList:[''],
-      costCenterId: [''],
-      item: [''],
-      fiscalYear: [''],
-      date: [''],
-      store: [''],
-      storeId: [''],
-      employeeId: [''],
-      employeeName: [''],
-      itemId:['']
-    });
-
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: [''], //MasterId
-      employeeId:[''],
+      employeeId: [''],
       qty: [''],
       percentage: [''],
       price: [''],
@@ -210,11 +187,11 @@ export class STRAddTableComponent implements OnInit {
 
       // notesName: [''],
     });
-    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.openAddDialog();
-      return false; // Prevent the default browser behavior
-    }));
+    // this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+    //   // Call the deleteGrade() function in the current component
+    //   this.openAddDialog();
+    //   return false; // Prevent the default browser behavior
+    // }));
   }
 
   applyFilter(event: Event) {
@@ -225,18 +202,16 @@ export class STRAddTableComponent implements OnInit {
       this.dataSource2.paginator.firstPage();
     }
   }
-
   applyPendingWithdrawFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourcePendingWithdraws.filter = filterValue.trim().toLowerCase();
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSourcePendingWithdraws.paginator) {
-      this.dataSourcePendingWithdraws.paginator.firstPage();
+    if (this.dataSource2.paginator) {
+      this.dataSource2.paginator.firstPage();
     }
   }
 
   getAllMasterForms() {
-
     this.api.getStrAdd().subscribe({
       next: (res) => {
         console.log('response of get all getGroup from api: ', res);
@@ -244,7 +219,6 @@ export class STRAddTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.loadDataToLocalStorage(res);
-        this.groupMasterForm.reset();
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -264,6 +238,19 @@ export class STRAddTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
+  }
+
+  getAllGroups() {
+    this.api.getGroup().subscribe({
+      next: (res) => {
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: () => {
+        // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      },
+    });
   }
 
   editMasterForm(row: any) {
@@ -353,6 +340,19 @@ export class STRAddTableComponent implements OnInit {
       },
     });
   }
+  // getStores() {
+  //   this.api.getStore().subscribe({
+  //     next: (res) => {
+  //       this.storeList = res;
+  //       // console.log("store res: ", this.storeList);
+  //     },
+  //     error: (err) => {
+  //       // console.log("fetch store data err: ", err);
+  //       // alert('خطا اثناء جلب المخازن !');
+  //     },
+  //   });
+  // }
+
   getStores() {
     this.userRoles = localStorage.getItem('userRoles');
     console.log('userRoles manager: ', this.userRoles.includes('15'))
@@ -386,18 +386,7 @@ export class STRAddTableComponent implements OnInit {
 
   }
 
-  getItems() {
-    this.api.getItems().subscribe({
-      next: (res) => {
-        this.itemsList = res;
-        // console.log("items res: ", this.itemsList);
-      },
-      error: (err) => {
-        // console.log("fetch items data err: ", err);
-        // alert("خطا اثناء جلب العناصر !");
-      },
-    });
-  }
+
   getsearch(code: any) {
     if (code.keyCode == 13) {
       this.getAllMasterForms();
@@ -442,8 +431,8 @@ export class STRAddTableComponent implements OnInit {
   getEmployees() {
     this.api.getEmployee().subscribe({
       next: (res) => {
-        this.employeesList = res;
-        console.log("employeeeeeeeeee res: ", this.employeesList);
+        this.employeeList = res;
+        console.log("employeeeeeeeeee res: ", this.storeList);
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
@@ -522,8 +511,8 @@ export class STRAddTableComponent implements OnInit {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item;
-    this.groupDetailsForm.patchValue({ itemId: item.id });
-    console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
+    this.groupMasterForm.patchValue({ itemId: item.id });
+    console.log('item in form: ', this.groupMasterForm.getRawValue().itemId);
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
@@ -564,15 +553,15 @@ export class STRAddTableComponent implements OnInit {
     this.storeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrAdd(no: any,  date: any,fiscalyear:any) {
-    console.log('fiscalyear in searchhhhh : ', fiscalyear,'itemId',);
+  getSearchStrAdd(no: any, date: any, fiscalyear: any) {
+    console.log('fiscalyear in searchhhhh : ', fiscalyear, 'itemId',);
     // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
 
-    this.api.getStrAddSearach(no, date,fiscalyear,employee ,item,store) .subscribe({
+    this.api.getStrAddSearach(no, date, fiscalyear, employee, item, store).subscribe({
       next: (res) => {
         this.dataSource2 = res;
         this.dataSource2.paginator = this.paginator;
@@ -729,7 +718,7 @@ export class STRAddTableComponent implements OnInit {
 
   storeValueChanges(storeId: any) {
     console.log("storeId selected to get pending withdraw: ", storeId);
-    this.groupMasterForm.controls['storeId'].setValue(storeId);
+    // this.groupMasterForm.controls['storeId'].setValue(storeId);
 
     this.getAllWithDrawByDestStore(storeId);
 
@@ -756,6 +745,4 @@ export class STRAddTableComponent implements OnInit {
       },
     });
   }
-
-
 }
