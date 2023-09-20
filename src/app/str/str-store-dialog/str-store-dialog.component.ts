@@ -10,6 +10,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 export class Keeper {
   constructor(public id: number, public name: string, public code: any) {}
 }
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-store-dialog',
   templateUrl: './str-store-dialog.component.html',
@@ -26,6 +28,7 @@ export class StrStoreDialogComponent implements OnInit {
   autoCode:any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<StrStoreDialogComponent>) { 
       this.storeKeeperCtrl = new FormControl();
@@ -47,6 +50,11 @@ export class StrStoreDialogComponent implements OnInit {
     this.api.getEmployees().subscribe((keepers) => {
       this.keepers = keepers;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addStores();
+      return false; // Prevent the default browser behavior
+    }));
 
     if (this.editData) {
       this.actionBtn = "تحديث";

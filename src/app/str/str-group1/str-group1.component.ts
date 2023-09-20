@@ -13,6 +13,9 @@ import { GlobalService } from '../../services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import { map, startWith } from 'rxjs/operators';
 
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -40,12 +43,17 @@ export class STRGroup1Component implements OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService, private toastr: ToastrService,private global:GlobalService){
+  constructor(private dialog : MatDialog, private api : ApiService, private toastr: ToastrService,private global:GlobalService,private hotkeysService: HotkeysService){
     global.getPermissionUserRoles(8,'stores', 'المجموعة', '')
   
   }
   ngOnInit(): void {
-    this.getAllGroups();    
+    this.getAllGroups();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));    
   }
   openDialog() {
     this.dialog.open(STRGroup1DialogComponent, {

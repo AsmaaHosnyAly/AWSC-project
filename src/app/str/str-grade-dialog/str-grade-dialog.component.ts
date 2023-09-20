@@ -16,6 +16,8 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -47,6 +49,7 @@ export class STRGradeDialogComponent {
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<STRGradeDialogComponent>
@@ -59,7 +62,11 @@ export class STRGradeDialogComponent {
   }
   ngOnInit(): void {
     this.getExistingNames(); // Fetch existing names
-
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addGrade();
+      return false; // Prevent the default browser behavior
+    }));
     this.gradeForm = this.formBuilder.group({
       //define the components of the form
       transactionUserId: ['', Validators.required],
@@ -150,8 +157,8 @@ export class STRGradeDialogComponent {
       },
       error: (err) => {
         console.log('Error fetching existing names:', err);
-      },
-    });
+      }
+    }); 
   }
   addGrade() {
 

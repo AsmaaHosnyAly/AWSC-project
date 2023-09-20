@@ -12,6 +12,8 @@ export class Category {
   constructor(public id: number, public name: string) {}
 }
 
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-costcenter-dialog',
   templateUrl: './str-costcenter-dialog.component.html',
@@ -28,6 +30,7 @@ export class StrCostcenterDialogComponent  implements OnInit {
   autoCode:any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<StrCostcenterDialogComponent>) { 
       this.centerCategoryCtrl = new FormControl();
@@ -52,6 +55,11 @@ export class StrCostcenterDialogComponent  implements OnInit {
       this.categories = categories;
     });
 
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addCostCenter();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.actionBtn = "تحديث";
       this.getCostCenterData = this.editData;
