@@ -5,17 +5,28 @@
   <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مخزن   ' : ' إضافة  مخزن جديد'}}</h1>
 <div dir="rtl">
    <div mat-dilog-content>
-   <form [formGroup]="productForm" style="padding: 20px;" >
-       <!-- <mat-form-field appearance="outline" >
+   <form [formGroup]="storeForm" style="padding: 20px;" >
+       <mat-form-field appearance="outline" >
            <mat-label>الكود </mat-label>
-           <input formControlName="STRcode" matInput placeholder="ادخل كود المخزن" type="number">
+           <input formControlName="code" matInput placeholder="ادخل كود المخزن" [value]="editData ? editData.code : autoCode" readonly>
            
-       </mat-form-field> -->
+       </mat-form-field>
        <mat-form-field appearance="outline">
-           <mat-label>المخزن</mat-label>
-           <input formControlName="name" matInput placeholder="ادخل المخزن" type="text">
+           <mat-label>اسم المخزن</mat-label>
+           <input formControlName="name" matInput placeholder="ادخل اسم المخزن" type="text">
    
        </mat-form-field>
+       <mat-label>أمين المخزن</mat-label>
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="keeper" [matAutocomplete]="autoStoreKeeper" [formControl]="storeKeeperCtrl"
+          placeholder="{{getStoreData ? getStoreData.storekeeperName : 'اختر سلعة'}}" (click)="openStoreKeeper()" required />
+        <mat-autocomplete #autoStoreKeeper="matAutocomplete" [displayWith]="displayStoreKeeper"
+          (optionSelected)="keeperSelected($event)">
+          <mat-option *ngFor="let keeper of filteredStoreKeepers| async" [value]="keeper">
+            {{ keeper.name }} | {{ keeper.code }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
        <button s mat-raised-button class="savebtn" (click)="addStores()">{{actionBtn}}</button>
 
    </form>
