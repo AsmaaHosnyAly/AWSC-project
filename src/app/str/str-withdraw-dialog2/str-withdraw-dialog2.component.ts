@@ -253,6 +253,9 @@ export class StrWithdrawDialogComponent implements OnInit {
       // notesName: [''],
     });
 
+
+
+
     if (this.editData) {
       // console.log("")
       this.isEdit = true;
@@ -517,9 +520,9 @@ export class StrWithdrawDialogComponent implements OnInit {
     // console.log("deststoreId in add",this.groupMasterForm.getRawValue().deststoreId)
 
     // alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
-    this.costcenterName = await this.getcostcenterByID(
-      this.groupMasterForm.getRawValue().costCenterId
-    );
+    // this.costcenterName = await this.getcostcenterByID(
+    //   this.groupMasterForm.getRawValue().costCenterId
+    // );
 
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
     console.log(

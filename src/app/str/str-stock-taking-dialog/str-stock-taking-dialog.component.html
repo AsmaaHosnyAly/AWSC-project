@@ -9,6 +9,18 @@
 
         <div class="headerForm">
 
+            <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+                <mat-label>المخازن:</mat-label>
+      
+                <mat-form-field appearance="outline" class="groupInput" style="width:  150px;">
+                  <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
+                    <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
+                      *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
+                      store.storeName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
 
             <div style="display: flex; flex-direction: column;margin-left: 10px; ">
                 <mat-label>السنة المالية:</mat-label>
@@ -33,41 +45,6 @@
               
               </div>
             
-              <div style="display: flex; flex-direction: column;margin-left: 10px; ">
-                <mat-label >اسم الموظف  :</mat-label>
-
-            <mat-form-field appearance="outline" style="width: 180px;margin-left: 5px;">
-                <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
-                    (click)="openAutoEmployee()"
-                    placeholder="{{editData ? editData.employeeName : ''}}" required />
-                <mat-autocomplete #autoemployee="matAutocomplete" [displayWith]="displayEmployeeName"
-                    (optionSelected)="employeeSelected($event)">
-                    <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
-                        {{ employee.name }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-          </div>
-
-           
-      
-
-
-        <div style="display: flex; flex-direction: column;margin-left: 10px;">
-            <mat-label >مركز التكلفة :</mat-label>
-        
-            <mat-form-field appearance="outline" style="width: 180px;margin-left: 5px;">
-        
-              <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter" [formControl]="costCenterCtrl"
-                placeholder="{{editData ? editData.costCenterName : ''}}" (click)="openAutoCostCenter()" required />
-              <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId 
-                [displayWith]="displayCostCenterName" (optionSelected)="costCenterSelected($event)">
-                <mat-option *ngFor="let costcenter of filteredCostCenters | async" [value]="costcenter">
-                  {{ costcenter.name }} | {{ costcenter.id }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-           </div>
 
 
 
@@ -85,12 +62,7 @@
                   </mat-form-field></div>
 
 
-<!-- 
-            <mat-form-field appearance="outline" class="groupInput" style="width: 140px;">
-                <mat-label>الاجمالى</mat-label>
-                <input matInput type="number"
-                    [value]="groupMasterForm ? groupMasterForm.getRawValue().total : sumOfTotals" readonly>
-            </mat-form-field> -->
+
         </div>
         <div dir="ltr">
             <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
@@ -155,6 +127,18 @@
                     <ng-container matColumnDef="price" >
                         <th mat-header-cell *matHeaderCellDef > السعر </th>
                         <td mat-cell *matCellDef="let row"> {{row.price}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="systemQty" >
+                        <th mat-header-cell *matHeaderCellDef > كمية السيستم </th>
+                        <td mat-cell *matCellDef="let row"> {{row.systemQty}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="balance" >
+                        <th mat-header-cell *matHeaderCellDef > المتوسط </th>
+                        <td mat-cell *matCellDef="let row"> {{row.balance}} </td>
                     </ng-container>
 
                     <!-- qty Column -->

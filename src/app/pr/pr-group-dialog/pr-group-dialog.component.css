@@ -105,7 +105,7 @@
 }
 
 .child-num {
-  width: 10%;
+  /* width: 10%; */
   text-align: right;
 }
 
@@ -140,6 +140,7 @@
 }
 
 .headerTable {
+  margin-top: -1%;
   align-items: center;
 }
 
@@ -223,4 +224,13 @@ th {
 
 .editbtn{
   --mat-icon-color:rgb(129, 135, 138);
+}
+
+table {
+  width: 100%;
+}
+
+.tableFixHead {
+  height: 200px;
+  overflow: auto;
 }

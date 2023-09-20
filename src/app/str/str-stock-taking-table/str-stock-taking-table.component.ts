@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
-import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
+import { StrStockTakingDialogComponent } from '../str-stock-taking-dialog/str-stock-taking-dialog.component';
 import { LoadingService } from 'src/app/loading.service';
 import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
@@ -20,13 +20,13 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 
 
-export class Employee {
-  constructor(public id: number, public name: string, public code: string) { }
-}
+// export class Employee {
+//   constructor(public id: number, public name: string, public code: string) { }
+// }
 
-export class costcenter {
-  constructor(public id: number, public name: string) { }
-}
+// export class costcenter {
+//   constructor(public id: number, public name: string) { }
+// }
 export class item {
   constructor(public id: number, public name: string) {}
 }
@@ -40,7 +40,7 @@ export class item {
   styleUrls: ['./str-stock-taking-table.component.css']
 })
 export class StrStockTakingTableComponent implements OnInit {
-  displayedColumns: string[] = ['no', 'employeeName','costCenterName','fiscalyear', 'date', 'Action'];
+  displayedColumns: string[] = ['no','storeName', 'fiscalyear', 'date', 'Action'];
   matchedIds: any;
   storeList: any;
   storeName: any;
@@ -55,10 +55,10 @@ export class StrStockTakingTableComponent implements OnInit {
 
 
   
-  costCentersList: costcenter[] = [];
-  costcenterCtrl: FormControl<any>;
-  filteredcostcenter: Observable<costcenter[]>;
-  selectedcostcenter: costcenter | undefined;
+  // costCentersList: costcenter[] = [];
+  // costcenterCtrl: FormControl<any>;
+  // filteredcostcenter: Observable<costcenter[]>;
+  // selectedcostcenter: costcenter | undefined;
 
 
   itemsList: item[] = [];
@@ -66,10 +66,10 @@ export class StrStockTakingTableComponent implements OnInit {
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
 
-  employeesList: Employee[] = [];
-  employeeCtrl: FormControl<any>;
-  filteredEmployee: Observable<Employee[]>;
-  selectedEmployee: Employee | undefined;
+  // employeesList: Employee[] = [];
+  // employeeCtrl: FormControl<any>;
+  // filteredEmployee: Observable<Employee[]>;
+  // selectedEmployee: Employee | undefined;
   dataSource2!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -84,11 +84,11 @@ export class StrStockTakingTableComponent implements OnInit {
     private toastr: ToastrService
   ) {
 
-    this.costcenterCtrl = new FormControl();
-    this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filtercostcenters(value))
-    );
+    // this.costcenterCtrl = new FormControl();
+    // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filtercostcenters(value))
+    // );
 
     this.itemCtrl = new FormControl();
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
@@ -97,27 +97,27 @@ export class StrStockTakingTableComponent implements OnInit {
     );
 
 
-    this.employeeCtrl = new FormControl();
-    this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filteremployees(value))
-    );
+    // this.employeeCtrl = new FormControl();
+    // this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filteremployees(value))
+    // );
   }
 
   ngOnInit(): void {
     this.getAllMasterForms();
-    this.getAllEmployees();
+    // this.getAllEmployees();
     this.getFiscalYears();
-    this.getEmployees();
+    // this.getEmployees();
     this.getItme();
-    this.getcostCenter();
+    // this.getcostCenter();
 
     this.groupMasterForm = this.formBuilder.group({
       no:[''],
-      employee:[''],
-      costcenter:[],
-      costCenterId:[''],
-      employeeId:[''],
+      // employee:[''],
+      // costcenter:[],
+      // costCenterId:[''],
+      // employeeId:[''],
 
       itemName:[''],
       itemId:[''],
@@ -159,7 +159,7 @@ export class StrStockTakingTableComponent implements OnInit {
 
 
   getAllMasterForms() {
-    this.api.getStrEmployeeOpen().subscribe({
+    this.api.getStrStockTaking().subscribe({
       next: (res) => {
         console.log('response of get all getGroup from api: ', res);
         this.dataSource2 = new MatTableDataSource(res);
@@ -174,8 +174,8 @@ export class StrStockTakingTableComponent implements OnInit {
       },
     });
   }
-  openEmployeeingStockDialog() {
-    this.dialog.open(STREmployeeOpeningCustodyDialogComponent, {
+  openStockTkingkDialog() {
+    this.dialog.open(StrStockTakingDialogComponent, {
       width: '98%',
       height: '95%',
     }).afterClosed().subscribe(val => {
@@ -187,7 +187,7 @@ export class StrStockTakingTableComponent implements OnInit {
   }
   editMasterForm(row: any) {
     this.dialog
-      .open(STREmployeeOpeningCustodyDialogComponent, {
+      .open(StrStockTakingDialogComponent, {
         width: '98%',
       height: '95%',
         data: row,
@@ -294,11 +294,11 @@ export class StrStockTakingTableComponent implements OnInit {
   console.log(" id in delete:",id)
       if (result) {
         
-        this.api. deleteStrEmployeeOpen(id).subscribe({
+        this.api. deleteStrStockTking(id).subscribe({
           next: (res) => {
   
             this.http
-              .get<any>('http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all')
+              .get<any>('http://ims.aswan.gov.eg/api/StrStockTaking/get/all')
               .subscribe(
                 (res) => {
                   this.matchedIds = res.filter((a: any) => {
@@ -357,19 +357,19 @@ export class StrStockTakingTableComponent implements OnInit {
       },
     });
   }
-  getEmployees() {
-    this.api.getHrEmployees()
-      .subscribe({
-        next: (res) => {
-          this.employeesList = res;
-          console.log("employees res: ", this.employeesList);
-        },
-        error: (err) => {
-          console.log("fetch employees data err: ", err);
-          // alert("خطا اثناء جلب الموظفين !");
-        }
-      })
-  }
+  // getEmployees() {
+  //   this.api.getHrEmployees()
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.employeesList = res;
+  //         console.log("employees res: ", this.employeesList);
+  //       },
+  //       error: (err) => {
+  //         console.log("fetch employees data err: ", err);
+  //         // alert("خطا اثناء جلب الموظفين !");
+  //       }
+  //     })
+  // }
   getItme() {
     this.api.getItems()
       .subscribe({
@@ -383,19 +383,19 @@ export class StrStockTakingTableComponent implements OnInit {
         }
       })
   }
-  getcostCenter() {
-    this.api.getCostCenter()
-      .subscribe({
-        next: (res) => {
-          this.costCentersList = res;
-          // console.log("item res: ", this.itemList);
-        },
-        error: (err) => {
-          console.log("fetch employees data err: ", err);
-          // alert("خطا اثناء جلب الموظفين !");
-        }
-      })
-  }
+  // getcostCenter() {
+  //   this.api.getCostCenter()
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.costCentersList = res;
+  //         // console.log("item res: ", this.itemList);
+  //       },
+  //       error: (err) => {
+  //         console.log("fetch employees data err: ", err);
+  //         // alert("خطا اثناء جلب الموظفين !");
+  //       }
+  //     })
+  // }
 
 
 
@@ -423,65 +423,67 @@ export class StrStockTakingTableComponent implements OnInit {
     this.itemCtrl.updateValueAndValidity();
   }
 
-  displaycostcenterName(costcenter: any): string {
-    return costcenter && costcenter.name ? costcenter.name : '';
-  }
-  costcenterSelected(event: MatAutocompleteSelectedEvent): void {
-    const costcenter = event.option.value as costcenter;
-    console.log("costcenter selected: ", costcenter);
-    this.selectedcostcenter = costcenter;
-    this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-    console.log("costcenter in form: ", this.groupMasterForm.getRawValue().costCenterId);
 
-    // this.getSearchStrWithdraw()
-    // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
-    // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
 
-  }
-  private _filtercostcenters(value: string): costcenter[] {
-    const filterValue = value;
-    return this.costCentersList.filter(costcenter =>
-      costcenter.name.toLowerCase().includes(filterValue) 
-    );
-  }
-  openAutocostcenter() {
-    this.costcenterCtrl.setValue(''); // Clear the input field value
+//   displaycostcenterName(costcenter: any): string {
+//     return costcenter && costcenter.name ? costcenter.name : '';
+//   }
+//   costcenterSelected(event: MatAutocompleteSelectedEvent): void {
+//     const costcenter = event.option.value as costcenter;
+//     console.log("costcenter selected: ", costcenter);
+//     this.selectedcostcenter = costcenter;
+//     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+//     console.log("costcenter in form: ", this.groupMasterForm.getRawValue().costCenterId);
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.costcenterCtrl.updateValueAndValidity();
+//     // this.getSearchStrWithdraw()
+//     // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
+//     // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
 
-  }
+//   }
+//   private _filtercostcenters(value: string): costcenter[] {
+//     const filterValue = value;
+//     return this.costCentersList.filter(costcenter =>
+//       costcenter.name.toLowerCase().includes(filterValue) 
+//     );
+//   }
+//   openAutocostcenter() {
+//     this.costcenterCtrl.setValue(''); // Clear the input field value
 
-/////employeee
+//     // Open the autocomplete dropdown by triggering the value change event
+//     this.costcenterCtrl.updateValueAndValidity();
 
-  displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
-  }
-  employeeSelected(event: MatAutocompleteSelectedEvent): void {
-    const employee = event.option.value as Employee;
-    console.log("employee selected: ", employee);
-    this.selectedEmployee = employee;
-    this.groupMasterForm.patchValue({ employeeId: employee.id });
-    console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+//   }
 
-    // this.getSearchStrWithdraw()
-    // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
-    // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
+// /////employeee
 
-  }
-  private _filteremployees(value: string): Employee[] {
-    const filterValue = value;
-    return this.employeesList.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) 
-    );
-  }
-  openAutoEmployee() {
-    this.employeeCtrl.setValue(''); // Clear the input field value
+//   displayEmployeeName(employee: any): string {
+//     return employee && employee.name ? employee.name : '';
+//   }
+//   employeeSelected(event: MatAutocompleteSelectedEvent): void {
+//     const employee = event.option.value as Employee;
+//     console.log("employee selected: ", employee);
+//     this.selectedEmployee = employee;
+//     this.groupMasterForm.patchValue({ employeeId: employee.id });
+//     console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.employeeCtrl.updateValueAndValidity();
+//     // this.getSearchStrWithdraw()
+//     // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
+//     // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
 
-  }
+//   }
+//   private _filteremployees(value: string): Employee[] {
+//     const filterValue = value;
+//     return this.employeesList.filter(employee =>
+//       employee.name.toLowerCase().includes(filterValue) 
+//     );
+//   }
+//   openAutoEmployee() {
+//     this.employeeCtrl.setValue(''); // Clear the input field value
+
+//     // Open the autocomplete dropdown by triggering the value change event
+//     this.employeeCtrl.updateValueAndValidity();
+
+//   }
 
 
 

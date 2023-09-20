@@ -97,13 +97,9 @@ export class StrStockTakingDetailsDialogComponent {
 
     console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
-    // this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
-    // this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
-    // this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
-    // console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate);
 
     this.groupDetailsForm = this.formBuilder.group({
-      custodyId: ['', Validators.required], //MasterId
+      strStockTakingId: ['', Validators.required], //MasterId
       qty: ['1', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
@@ -128,7 +124,7 @@ export class StrStockTakingDetailsDialogComponent {
       console.log("nnnnnnnnnnnnnnnnnnn edit d before: ", this.editData);
 
       this.actionBtnMaster = "Update";
-      this.groupDetailsForm.controls['custodyId'].setValue(this.editData.custodyId);
+      this.groupDetailsForm.controls['strStockTakingId'].setValue(this.editData.strStockTakingId);
       this.groupDetailsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
       this.groupDetailsForm.controls['qty'].setValue(this.editData.qty);
@@ -192,13 +188,9 @@ export class StrStockTakingDetailsDialogComponent {
 
 
   async addDetailsInfo() {
-    this.groupDetailsForm.controls['custodyId'].setValue(this.getMasterRowId);
+    this.groupDetailsForm.controls['strStockTakingId'].setValue(this.getMasterRowId);
 
-    // console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
-    // this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
-    // this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
-    // this.getMasterRowId = this.route.snapshot.queryParamMap.get('fiscalYear');
-    // this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
+
 
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
     if (this.groupDetailsForm.getRawValue().itemId) {
@@ -229,13 +221,13 @@ export class StrStockTakingDetailsDialogComponent {
           this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
         }
 
-        this.groupDetailsForm.controls['custodyId'].setValue(this.getMasterRowId);
+        this.groupDetailsForm.controls['strStockTakingId'].setValue(this.getMasterRowId);
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
         console.log("post d: ", this.groupDetailsForm.value, "ooo:", !this.getDetailedRowData);
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
-          this.api.postStrEmployeeOpenDetails(this.groupDetailsForm.value)
+          this.api.postStrStockTakingDetails(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
                 this.toastrSuccess();
@@ -255,12 +247,7 @@ export class StrStockTakingDetailsDialogComponent {
               }
             })
         }
-        // else {
-        //   console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
-
-        //   this.updateBothForms();
-        // }
-
+       
       }
 
     }
@@ -274,14 +261,7 @@ export class StrStockTakingDetailsDialogComponent {
   }
 
 
-  // resetControls() {
-  //   this.groupDetailsForm.reset();
-  //   this.fullCodeValue = '';
-  //   this.itemByFullCodeValue = '';
-  //   this.itemCtrl.setValue('');
-  //   this.groupDetailsForm.controls['qty'].setValue(1);
 
-  // }
 
   getItems() {
     this.api.getItems()
@@ -356,53 +336,17 @@ export class StrStockTakingDetailsDialogComponent {
   }
 
 
-  // async itemOnChange(itemEvent: any) {
-  //   console.log("itemEvent change value: ", itemEvent);
-  //   console.log("get avg values: ", this.getMasterRowStoreId, "year: ", this.getMasterRowFiscalYearId, "date: ", formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale));
-  //   await this.api.getAvgPrice(
-  //     this.getMasterRowStoreId,
-  //     this.getMasterRowFiscalYearId,
-  //     formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
-  //     itemEvent)
 
-  //     .subscribe({
-  //       next: async (res) => {
-  //         await this.groupDetailsForm.controls['price'].setValue(res);
-  //         console.log("price passed: ", res);
-
-  //         console.log("price: ", this.groupDetailsForm.getRawValue().price);
-  //         if (this.groupDetailsForm.getRawValue().price == 0 || this.editData?.price == 0) {
-  //           this.isReadOnly = false;
-  //           console.log("change readOnly to enable here");
-  //         }
-  //         else {
-  //           this.isReadOnly = true;
-  //           console.log("change readOnly to disable here");
-  //         }
-  //       },
-  //       error: (err) => {
-  //         console.log("fetch fiscalYears data err: ", err);
-  //         // alert("خطا اثناء جلب متوسط السعر !");
-  //       }
-  //     })
-  // }
   getAllDetailsForms() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
-      //   if(this.actionBtnMaster=='save'){
-      //     this.dialogRef.close('save');
-      // }
-      // else{
-      //   this.dialogRef.close('update');
-
-      // }
-      // this.closeDialog();
+     
       this.dialogRef.close('Save');
     console.log("master Id: ", this.getMasterRowId.id)
 
     if (this.getMasterRowId.id) {
    
-      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+      this.api.getStrStockTakingDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
@@ -457,7 +401,7 @@ export class StrStockTakingDetailsDialogComponent {
     //   next: (res) => {
     if (this.groupDetailsForm.valid) {
       
-      this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
+      this.api.putStrStockTakingDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
             

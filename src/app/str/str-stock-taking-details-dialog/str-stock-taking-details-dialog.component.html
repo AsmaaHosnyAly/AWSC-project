@@ -45,7 +45,9 @@
           <!-- </div> -->
   
           <!-- <div style="display: flex; flex-direction: column; width: 20%;"> -->
-             <div style="display: flex;flex-direction: column;width: 18rem;">
+
+
+             <div style="display: flex;flex-direction: column;width: 17rem;">
               <mat-label>السعر</mat-label>
   
               <mat-form-field appearance="outline" class="groupInput" style="width: 94%;">
@@ -53,7 +55,12 @@
                       [value]="editData ? editData.price : ''">
               </mat-form-field>
              </div>
-           </div>
+
+
+        
+            </div>
+           
+         <!-- </div> -->
   <div style="display: flex;flex-direction: row;">
     <div class="radio " style="display: flex;flex-direction: row;margin-top: 3%;">
         <mat-label style="margin-top: 9px;"> حالةالصنف*</mat-label>
@@ -73,6 +80,26 @@
     </mat-form-field>
     </div>
   </div>
+  
+  <div style="display: flex;flex-direction: row;">
+    <div style="display: flex;flex-direction: column;width: 18rem;">
+        <mat-label>كمية السيستم</mat-label>
+
+        <mat-form-field appearance="outline" class="groupInput" style="width: 94%;">
+            <input type="number" min="0" matInput  formControlName="systemQty"
+                [value]="editData ? editData.systemQty : ''">
+        </mat-form-field>
+       </div>
+     <div style="display: flex;flex-direction: column;width: 18rem;">
+        <mat-label>المتوسط</mat-label>
+
+        <mat-form-field appearance="outline" class="groupInput" style="width: 94%;">
+            <input type="number" min="0" matInput  formControlName="balance"
+                [value]="editData ? editData.balance : ''">
+        </mat-form-field>
+       </div>
+
+   </div>
   
             <div mat-dialog-action [align]="'end'">
                 <div class="groupAction">

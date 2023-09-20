@@ -6,14 +6,14 @@
 
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل المجموعة ' : ' إضافة مجموعة جديدة'}}</h1>
 <!-- <h1 mat-dialog-title dir="rtl">اضافة مجموعة </h1> -->
-<div mat-dialog-content dir="rtl" style="padding: 30px;">
+<div mat-dialog-content dir="rtl" style="overflow: hidden;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
-        <div class="headerForm">
+        <div class="headerForm" style="width: 22rem;margin-right: 35%;">
             <mat-label>اسم المجموعة*</mat-label>
 
-            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                <input matInput placeholder="اسم المجموعة" formControlName="name">
+            <mat-form-field appearance="outline" class="groupInput" style="width: 90%;">
+                <input matInput formControlName="name">
             </mat-form-field>
 
         </div>
@@ -25,7 +25,7 @@
     <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
         <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
-            <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل المجموعة </h1>
+            <h1 mat-dialog-title class="add-h1" style="margin-top: -3%;">  تفاصيل المجموعة </h1>
 
             <div class="detailsForm">
 
@@ -36,10 +36,12 @@
                         <mat-option [value]="prRole.id" *ngFor="let prRole of prRoleList">{{prRole.name}}</mat-option>
                     </mat-select>
                 </mat-form-field> -->
+<div style="display: flex;flex-direction: row;">
 
-                <div style="display: flex; flex-direction: column; width: 100%;">
+
+                <div style="display: flex; flex-direction:column;width: 50rem; ">
                     <mat-label>الصلاحية*</mat-label>
-                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <mat-form-field appearance="outline" class="child-num" style="width: 55%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="roleId" [formControl]="prRoleCtrl"
                             placeholder="{{getDetailedRowData ? getDetailedRowData.roleName : ''}}"
                             (click)="openAutoPrRole()" required />
@@ -51,18 +53,18 @@
                         </mat-autocomplete>
                     </mat-form-field>
                 </div>
-
-              
-            </div>
-            <div mat-dialog-action [align]="'end'" style="margin-top: 5%;">
-                <div class="groupAction">
-                    <button mat-raised-button class="savebtn"
-                        (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
-                        'اضافة':'تعديل'}}</button>
-                   
+                <div mat-dialog-action [align]="'end'" style="margin-top: 3%;">
+                    <div class="groupAction">
+                        <button mat-raised-button class="savebtn"
+                            (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
+                            'اضافة':'تعديل'}}</button>
+                       
+                    </div>
                 </div>
             </div>
-            <div>
+         
+            </div>
+            <div class="tableFixHead">
                 <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
                     <!-- groupName Column -->
@@ -103,11 +105,11 @@
                         </td>
                     </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
 
                 </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+                <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
             </div>
         </div>
 

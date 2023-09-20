@@ -2093,6 +2093,44 @@ export class ApiService {
   // getFiscalYears() {
   //   return this.http.get<any>("http://ims.aswan.gov.eg/api/STRFiscalYear/get/all");
   // }
+  getStrStockTaking(){
+    console.log('Avg price inputs to backend');
+    return this.http.get<any>(`${this.url}/StrStockTaking/get/all`);
+  }
+
+
+  getStrStockTakingDetailsByMasterId(id:any){
+    return this.http.get<any>(
+      `${this.url}/StrStockTakingDetails/get/${id}`)
+
+  }
+
+  postStrStockTaking(data:any){
+    return this.http.get<any>(`${this.url}/StrStockTaking/Add`,data)
+  }
+  putStrStockTaking(data:any){
+    return this.http.get<any>( `${this.url}/StrStockTaking/update`,data)
+  }
+
+  postStrStockTakingDetails(data:any){
+    return this.http.get<any>( `${this.url}/StrStockTakingDetails/Add`,data)
+  }
+
+  putStrStockTakingDetails(data:any){
+    return this.http.get<any>( `${this.url}/StrStockTakingDetails/update/`,data)
+  }
+
+  deleteStockTakingDetails(id:any){
+    return this.http.delete<any>(`${this.url}/StrStockTakingDetails/delete/` + id);
+  }
+
+  deleteStrStockTking(id:any){
+    return this.http.delete<any>(`${this.url}/StrStockTaking/delete/` + id);
+  }
+
+
+
+
 
   getStrAddSearach( no: any,
    
