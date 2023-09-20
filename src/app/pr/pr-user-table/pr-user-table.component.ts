@@ -76,7 +76,8 @@ export class PrUserTableComponent implements OnInit {
   }
   openDialog() {
     this.dialog.open(PrUserDialogComponent, {
-      width: '50%'
+      width: '98%',
+      height:'90%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllMasterForms();
@@ -86,8 +87,9 @@ export class PrUserTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(PrUserDialogComponent, {
-        width: '50%',
-        data: row,
+        width: '98%',
+        height:'90%',
+     data: row,
       })
       .afterClosed()
       .subscribe((val) => {

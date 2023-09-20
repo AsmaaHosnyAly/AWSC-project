@@ -11,7 +11,8 @@ import { ParseSourceSpan } from '@angular/compiler';
 import { PipesModule } from "../../pipes/pipes.module";
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Item {
   constructor(public id: number, public name: string) { }
 }
@@ -66,6 +67,7 @@ export class StrProductDialogComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any, private http: HttpClient,
     private dialogRef: MatDialogRef<StrProductDialogComponent>,
     private toastr: ToastrService) {
@@ -109,7 +111,11 @@ export class StrProductDialogComponent implements OnInit {
       // id: [''],
 
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addProduct();
+      return false; // Prevent the default browser behavior
+    }));
     console.log("edit data", this.editData);
     if (this.editData) {
       this.actionBtn = "Update";

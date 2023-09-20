@@ -1,9 +1,4 @@
 
-
-
-
-
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import {StrCostcenterDialogComponent } from '../str-costcenter-dialog/str-costcenter-dialog.component'; 
@@ -14,7 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { GlobalService } from '../../services/global.service';
 import { ApiService } from '../../services/api.service';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 
 
@@ -26,7 +22,7 @@ import { ApiService } from '../../services/api.service';
 export class StrCostcenterComponent  implements OnInit {
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['code', 'name','action'];
+  displayedColumns: string[] = ['code', 'name','costCenterCategoryName','action'];
   dataSource!: MatTableDataSource<any>;
   costcenterlist:any;
   costcenter: any = {
@@ -38,7 +34,8 @@ export class StrCostcenterComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService
+    ,private hotkeysService: HotkeysService){
     global.getPermissionUserRoles(14,'stores', 'مركز التكلفة', '')
   }
   ngOnInit(): void {
@@ -47,6 +44,11 @@ export class StrCostcenterComponent  implements OnInit {
       this.costcenterlist = data;
       console.log(this.costcenterlist)
     })
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog.open(StrCostcenterDialogComponent, {

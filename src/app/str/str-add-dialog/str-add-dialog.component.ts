@@ -14,7 +14,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ApiService } from 'src/app/services/api.service';
 import { StrAddDetailsDialogComponent } from '../str-add-details-dialog/str-add-details-dialog.component';
 import { Router } from '@angular/router';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 export class Seller {
   constructor(public id: number, public name: string) { }
@@ -109,6 +110,7 @@ export class STRAddDialogComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
 
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
@@ -196,7 +198,11 @@ export class STRAddDialogComponent implements OnInit {
     this.api.getAllItems().subscribe((items) => {
       this.items = items;
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.nextToAddFormDetails();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.isEdit = true;
       this.getAddData = this.editData;

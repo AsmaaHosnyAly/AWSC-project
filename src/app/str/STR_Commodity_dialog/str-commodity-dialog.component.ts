@@ -4,6 +4,9 @@ import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { publishFacade } from '@angular/compiler';
 
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
 
 @Component({
     selector: 'app-str-commodity-dialog',
@@ -19,12 +22,18 @@ export class StrCommodityDialogComponent implements OnInit {
   autoCode:any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<StrCommodityDialogComponent>) { }
 
   ngOnInit(): void {
     this.getCommodityAutoCode();
     this.getExistingNames(); // Fetch existing names
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addCommodity();
+      return false; // Prevent the default browser behavior
+    }));
     this.commodityForm = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],

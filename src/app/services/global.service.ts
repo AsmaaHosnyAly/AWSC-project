@@ -45,9 +45,9 @@ export class GlobalService {
 
   login(obj: any): Observable<any> {
     console.log('obj ', obj);
-    return this.http.post(
-      `${this.url}/PRUser/authenticate?username=${obj.name}&password=${obj.password}`,null
-     
+    return this.http.get(
+      `${this.url}/PRUser/authenticate?username=${obj.name}&password=${obj.password}`
+      
     );
   }
 

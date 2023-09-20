@@ -20,6 +20,9 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global.service';
 import { Item1DialogComponent } from 'src/app/str/item1-dialog/item1-dialog.component';
+
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -122,7 +125,8 @@ export class STRItem1Component implements OnInit {
     private api: ApiService,
     private datePipe: DatePipe,
     private router: Router,
-    private global: GlobalService
+    private global: GlobalService,
+    private hotkeysService: HotkeysService
   ) {
     global.getPermissionUserRoles(
       1,
@@ -183,7 +187,11 @@ export class STRItem1Component implements OnInit {
     this.api.getAllGroupsi().subscribe((groups) => {
       this.groups = groups;
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
     this.itemForm = this.formBuilder.group({
       itemName: [''],
       fullCode: [''],

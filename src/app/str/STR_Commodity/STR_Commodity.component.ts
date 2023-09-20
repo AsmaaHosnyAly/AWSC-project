@@ -14,6 +14,9 @@ import {NgIf} from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { SharedService } from '../../guards/shared.service';
 import { GlobalService } from '../../services/global.service';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
 @Component({
   selector: 'app-str-commodity',
     templateUrl: './STR_Commodity.component.html',
@@ -29,12 +32,17 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private dialog: MatDialog, private api: ApiService, shared:SharedService,private global:GlobalService) {
+constructor(private dialog: MatDialog, private api: ApiService, shared:SharedService,private global:GlobalService,private hotkeysService: HotkeysService) {
   this.global.getPermissionUserRoles(5, 'stores', ' إذن إضافة ', '');
 }
 
 ngOnInit(): void {
   this.getAllcommodity();
+  this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+    // Call the deleteGrade() function in the current component
+    this.openDialog();
+    return false; // Prevent the default browser behavior
+  }));
 }
 openDialog() {
   this.dialog.open(StrCommodityDialogComponent, {
