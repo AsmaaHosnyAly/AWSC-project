@@ -852,6 +852,12 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/FICostCenter/Add`, data);
   }
 
+  getAllCategories(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/FiCostCenterCategory/get/all'
+    );
+  }
+
   getCostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
   }
@@ -862,6 +868,12 @@ export class ApiService {
 
   deleteCostCenter(id: number) {
     return this.http.delete<any>(`${this.url}/FICostCenter/delete/` + id);
+  }
+
+  getCostCenterAutoCode() {
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/FICostCenter/GetLastCode`
+    );
   }
 
   // crud items
@@ -935,6 +947,18 @@ export class ApiService {
 
   deleteStore(id: number) {
     return this.http.delete<any>(`${this.url}/STRStore/delete/` + id);
+  }
+
+  getEmployees(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/HREmployee/get/all'
+    );
+  }
+
+  getStoreAutoCode() {
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/STRStore/AutoCode`
+    );
   }
   //  commodity
   postCommodity(data: any) {

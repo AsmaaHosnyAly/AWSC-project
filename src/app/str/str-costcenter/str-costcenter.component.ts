@@ -22,7 +22,7 @@ import { Hotkey } from 'angular2-hotkeys';
 export class StrCostcenterComponent  implements OnInit {
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['code', 'name','action'];
+  displayedColumns: string[] = ['code', 'name','costCenterCategoryName','action'];
   dataSource!: MatTableDataSource<any>;
   costcenterlist:any;
   costcenter: any = {
