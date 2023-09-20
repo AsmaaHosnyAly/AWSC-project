@@ -11,6 +11,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Vendor {
   constructor(public id: number, public name: string) {}
 }
@@ -49,6 +51,7 @@ storeList: any;
 vendorName: any;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,
+    private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<StrModelDailogComponent>){
@@ -72,7 +75,11 @@ vendorName: any;
       this.api.getAllVendor().subscribe((vendores)=>{
         this.vendores = vendores;
       });
-      
+      this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addModel();
+        return false; // Prevent the default browser behavior
+      }));
   
       if(this.editData){
         this.actionBtn = "تعديل";

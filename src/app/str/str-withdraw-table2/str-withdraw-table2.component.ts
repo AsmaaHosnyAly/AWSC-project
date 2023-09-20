@@ -14,7 +14,8 @@ import { GlobalService } from '../../services/global.service';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { WithdrawPrintDialogComponent } from 'src/app/str/withdraw-print-dialog/withdraw-print-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 import {
   FormControl,
   FormControlName,
@@ -106,6 +107,7 @@ export class StrWithdrawTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
+    private hotkeysService: HotkeysService,
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
@@ -195,6 +197,12 @@ export class StrWithdrawTableComponent implements OnInit {
 
       // notesName: [''],
     });
+    
+   this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+    // Call the deleteGrade() function in the current component
+    this.openWithdrawDialog();
+    return false; // Prevent the default browser behavior
+  }));
   }
 
   applyFilter(event: Event) {

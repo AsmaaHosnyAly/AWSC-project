@@ -9,7 +9,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { publishFacade } from '@angular/compiler';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-store-dialog',
   templateUrl: './str-store-dialog.component.html',
@@ -22,6 +23,7 @@ export class StrStoreDialogComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<StrStoreDialogComponent>) { }
 
@@ -32,6 +34,11 @@ export class StrStoreDialogComponent implements OnInit {
       transactionUserId:[1]
       
     });
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addStores();
+      return false; // Prevent the default browser behavior
+    }));
 
     if (this.editData) {
       this.actionBtn = "تحديث";
