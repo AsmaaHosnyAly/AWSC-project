@@ -360,7 +360,7 @@ import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
     MatProgressSpinnerModule,
     NgxExtendedPdfViewerModule,
     MatTabsModule,
-    HotkeyModule.forRoot(),
+    HotkeyModule.forRoot()
     // FontAwesomeModule,
   ],
   providers: [

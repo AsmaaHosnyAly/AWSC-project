@@ -377,7 +377,10 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
   async itemOnChange(itemEvent: any) {
     console.log("itemEvent change value: ", itemEvent);
+   
     console.log("get avg values: ", this.getMasterRowStoreId, "year: ", this.getMasterRowFiscalYearId, "date: ", formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale));
+    
+    
     await this.api.getAvgPrice(
       this.getMasterRowStoreId,
       this.getMasterRowFiscalYearId,

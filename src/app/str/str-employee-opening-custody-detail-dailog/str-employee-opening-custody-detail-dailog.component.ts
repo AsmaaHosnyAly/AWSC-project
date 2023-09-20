@@ -57,6 +57,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
   currentData: any;
   fullCodeValue: any;
   itemByFullCodeValue: any;
+  isReadOnlyPercentage: any = false;
 
   itemsList: Item[] = [];
   itemCtrl: FormControl;
@@ -356,7 +357,20 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
 
   }
+  set_Percentage(state: any) {
 
+    console.log("state value changed: ", state.value);
+    this.groupDetailsForm.controls['state'].setValue(state.value);
+
+    if (this.groupDetailsForm.getRawValue().state == "مستعمل") {
+      this.isReadOnlyPercentage = false;
+    }
+    else {
+      this.isReadOnlyPercentage = true;
+      this.groupDetailsForm.controls['percentage'].setValue(100);
+    }
+
+  }
 
   // async itemOnChange(itemEvent: any) {
   //   console.log("itemEvent change value: ", itemEvent);

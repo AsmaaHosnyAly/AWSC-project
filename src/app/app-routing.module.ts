@@ -264,7 +264,7 @@ const routes: Routes = [
   { path: 'fi-home', component: StrAccountsComponent },
 
 
-  {path:'stock-taking',component: StrStockTakingContainerComponent}
+  {path:'StrStockTaking',component: StrStockTakingContainerComponent}
       // { path: '**', component: ErrorComponent },
     ],
   },

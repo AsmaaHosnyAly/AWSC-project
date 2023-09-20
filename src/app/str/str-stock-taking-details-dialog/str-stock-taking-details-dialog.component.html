@@ -45,34 +45,52 @@
           <!-- </div> -->
   
           <!-- <div style="display: flex; flex-direction: column; width: 20%;"> -->
-             <div style="display: flex;flex-direction: column;width: 18rem;">
-              <mat-label>السعر</mat-label>
+
+
+             
+            <div style="display: flex;flex-direction: column; width: 17rem;">
+                <mat-label>كمية السيستم</mat-label>
+        
+                <mat-form-field appearance="outline" class="groupInput" style="width: 94%;">
+                    <input type="number" min="0" matInput placeholder=" الكمية في السيستم"  formControlName="systemQty" readonly=""
+                        [value]="editData ? editData.systemQty : '1'">
+                </mat-form-field>
+               </div>
+
+
+        
+            </div>
+           
+         <!-- </div> -->
+  <div style="display: flex;flex-direction: row;width: 15rem;">
   
-              <mat-form-field appearance="outline" class="groupInput" style="width: 94%;">
-                  <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
-                      [value]="editData ? editData.price : ''">
-              </mat-form-field>
-             </div>
-           </div>
-  <div style="display: flex;flex-direction: row;">
-    <div class="radio " style="display: flex;flex-direction: row;margin-top: 3%;">
-        <mat-label style="margin-top: 9px;"> حالةالصنف*</mat-label>
-        <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
-        <mat-radio-group style="display: flex;flex-direction: row;" aria-label="Select an option" formControlName="state"
-          >
-            <mat-radio-button value="جديد">جديد</mat-radio-button>
-            <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
-        </mat-radio-group>
-    </div>
-    <div style="display: flex;flex-direction: column;width: 12rem;margin-right: 24%;">
+    <div style="display: flex;flex-direction: column;">
         <mat-label> النسبة*</mat-label>
   
-    <mat-form-field appearance="outline" class="groupInput" style="width:90% ;">
+    <mat-form-field appearance="outline" class="groupInput" style="width:60% ;">
         <input matInput type="number"  min="0" placeholder="النسبة" formControlName="percentage"
             [value]="editData ? editData.percentage : ''" >
     </mat-form-field>
     </div>
-  </div>
+    <div style="display: flex;flex-direction: column;width: 17rem;">
+        <mat-label>السعر</mat-label>
+
+        <mat-form-field appearance="outline" class="groupInput" style="width: 59%;">
+            <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
+                [value]="editData ? editData.price : ''">
+        </mat-form-field>
+       </div>
+   
+     <div style="display: flex;flex-direction: column;">
+        <mat-label>فرق الكمية</mat-label>
+
+        <mat-form-field appearance="outline" class="groupInput" style="width: 59%;">
+            <input type="number" min="0" matInput placeholder="فرق الكمية"  formControlName="balance"
+                [value]="editData ? editData.balance : ''">
+        </mat-form-field>
+       </div>
+
+   </div>
   
             <div mat-dialog-action [align]="'end'">
                 <div class="groupAction">
