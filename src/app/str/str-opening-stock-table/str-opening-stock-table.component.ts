@@ -104,11 +104,12 @@ export class StrOpeningStockTableComponent implements OnInit {
       no: [''],
       employee: [''],
       // costcenter:[],
-      item: [''],
-      fiscalyear: [''],
+      itemName: [''],
+      fiscalYear: [''],
       date: [''],
       store: [''],
       storeId: [''],
+      itemId:['']
     });
   }
   
@@ -135,6 +136,7 @@ export class StrOpeningStockTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
+        this.groupDetailsForm.reset();
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -400,7 +402,7 @@ export class StrOpeningStockTableComponent implements OnInit {
 
   getSearchStrOpen(no: any, date: any, fiscalYear: any) {
     let store = this.groupMasterForm.getRawValue().storeId;
-    let item = this.groupMasterForm.getRawValue().itemId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
 
     this.api.getStrOpenSearach(no, store, date, fiscalYear, item).subscribe({
       next: (res) => {

@@ -1,4 +1,5 @@
-import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
+// import { FiscalYear } from './../str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
+// import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -1133,7 +1134,7 @@ export class ApiService {
       this.mycondition = ` ${this.mycondition}&Date=${date}`;
     }
     if (!fiscalYear == false) {
-      this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`;
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${fiscalYear}`;
     }
     if (!itemId == false) {
       this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
@@ -1671,10 +1672,10 @@ export class ApiService {
       this.mycondition = ` ${this.mycondition}&Date=${date}`;
     }
     if (!fiscalYear == false) {
-      this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`;
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
     }
     if (!itemId == false) {
-      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
     }
     if (!employeeId == false) {
       this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
@@ -2093,19 +2094,52 @@ export class ApiService {
   //   return this.http.get<any>("http://ims.aswan.gov.eg/api/STRFiscalYear/get/all");
   // }
 
-  getStrAddSearach(no: any, storeId: any, date: any) {
+  getStrAddSearach( no: any,
+   
+    date: any,
+    fiscalYear: any,
+   
+   
+    employeeId: any,  itemId: any,store: any) {
     //enter no.
+
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      store,
+      'date: ',
+      date,
+      'fiscalYear: ',
+      fiscalYear,
+      'item:',
+      itemId,
+      'employee: ',
+      employeeId,
+     
+    );
     this.mycondition = `${this.url}/STRAdd/search?`;
+
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
-    if (!storeId == false) {
-      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${store}`;
     }
     if (!date == false) {
       this.mycondition = ` ${this.mycondition}&Date=${date}`;
     }
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+    }
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+    }
+    if (!employeeId == false) {
+      this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
+    }
+  
 
     console.log('url', this.mycondition);
 
@@ -2432,6 +2466,9 @@ export class ApiService {
   postPrGroupRole(data: any) {
     return this.http.post<any>(`${this.url}/PRGroupRole/add`, data);
   }
+  getPrGroupByUserId(userId: any) {
+    return this.http.get<any>(`${this.url}/PRUser/get/with/group/${userId}`);
+  }
   putPrGroupRole(data: any) {
     console.log('PrGroupRole data: ', data);
     return this.http.put<any>(`${this.url}/PRGroupRole/update/`, data);
@@ -2444,6 +2481,9 @@ export class ApiService {
   ///////////////////////////////// PR-User & PR-UserGroup /////////////////////////////
   postPrUser(data: any) {
     return this.http.post<any>(`${this.url}/PRUser/Add`, data);
+  }
+  PrUserCheckAuthenticate(name: any, password: any) {
+    return this.http.post<any>(`${this.url}/PRUser/authenticate?username=admin&password=admin`, name, password);
   }
   getPrUser() {
     return this.http.get<any>(`${this.url}/PRUser/get/all`);
@@ -2576,9 +2616,9 @@ export class ApiService {
   getStrEmployeeOpenSearach(
     no: any,
     costCenterId: any,
-    employeeId: any,
+    employeeId: any, itemId: any,
     date: any,
-    itemId: any
+   FiscalYear:any
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -2604,13 +2644,17 @@ export class ApiService {
     }
 
     if (!itemId == false) {
-      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
     }
     if (!employeeId == false) {
       this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
     }
     if (!costCenterId == false) {
       this.mycondition = ` ${this.mycondition}&costCenterId=${costCenterId}`;
+    }
+
+    if (!FiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${FiscalYear}`;
     }
 
     console.log('url', this.mycondition);

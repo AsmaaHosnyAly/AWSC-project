@@ -12,7 +12,7 @@ mat-card {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color: #47afd5;
+  color: rgb(60, 202, 252);
 }
 
 mat-card-header {
@@ -30,15 +30,6 @@ mat-card-header .child1 {
 
 .mat-mdc-card-header {
   padding: 0;
-}
-
-.page-title {
-  font-family: "Cairo", sans-serif;
-  font-weight: bold;
-  font-size: 25px;
-  text-align: center;
-  padding-bottom: 25px;
-  color: #47afd5;
 }
 th {
   background-color: rgb(60, 202, 252) !important;
@@ -76,39 +67,11 @@ th {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.search button,
-.print button {
-  width: 250px;
-  font-size: 15px;
-  font-family: "Cairo", sans-serif;
-  background-color: rgb(60, 202, 252);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 30px;
-  height: 50px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 .display button {
   background: linear-gradient(rgb(252, 248, 248), rgb(146, 141, 141));
   color: #111010;
   font-weight: bold;
-}
-.icons {
-  font-size: 23px;
-  color: white;
-  background-color: rgb(60, 202, 252);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin-left: 15px;
 }
 
 .editbtn {
@@ -285,36 +248,69 @@ footer h3 {
   padding: 0px !important;
   border: none !important;
   box-shadow: none !important;
-  
 }
 
-.pageTab{
+.icons {
+  font-size: 23px;
+  color: white;
+  background-color: rgb(60, 202, 252);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   display: flex;
-  flex-direction: row;
-  /* padding: 5%; */
-  /* background: #fdef24 !important; */
-  width: 180%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 15px;
+}
+.icons:hover {
+  background-color: #72d9ff;
+
+  color: white;
+  box-shadow: 0 0.5em 0.5em -0.4em #a1c9d8;
+  transform: translateY(-0.05em);
+  font-size: 25px;
 }
 
-.pageTab mat-icon{
-  font-size: 1.2rem;
-  padding: 2%;
-  margin-top: 1%;
-  color: rgb(60, 202, 252);
+.print-display {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  margin-right: 90px;
 }
 
-.pageTabContent{
-  margin: 5%;
-}
-
-.successbtn {
-  --mat-icon-color: rgb(5, 238, 187);
-}
 .searchLabels{
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
+
+
+
+.buttonSearch{
+  display: flex;
+}
+
+.search button,
+.print button {
+  width: 142px;
+  font-size: 19px;
+  font-family: "Cairo", sans-serif;
+  background-color: rgb(60, 202, 252);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  height: 36px;
+  /* text-align: center; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-left: 2rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
 .print-display {
   display: block;
   display: flex;
@@ -322,4 +318,3 @@ footer h3 {
   /* left: -482px; */
   top: 15px;
 }
-

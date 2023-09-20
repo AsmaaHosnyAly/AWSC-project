@@ -166,6 +166,12 @@ import { PrHomeComponent } from './pr/pr-home/pr-home.component';
 import { StrEmployeeExchangeDetailsDialogComponent } from './str/str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
 import { StrAddDetailsDialogComponent } from './str/str-add-details-dialog/str-add-details-dialog.component';
 import { StrWithdrawDetailsDialogComponent } from './str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
+// import { StockTakingComponent } from './stock-taking/stock-taking.component';
+import { StrStockTakingContainerComponent } from './str/str-stock-taking-container/str-stock-taking-container.component';
+import { StrStockTakingDetailsDialogComponent } from './str/str-stock-taking-details-dialog/str-stock-taking-details-dialog.component';
+import { StrStockTakingDialogComponent } from './str/str-stock-taking-dialog/str-stock-taking-dialog.component';
+import { StrStockTakingTableComponent } from './str/str-stock-taking-table/str-stock-taking-table.component';
+// import { PrUsedrDetailsDialogComponent } from './pr/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
@@ -307,7 +313,13 @@ import { StrWithdrawDetailsDialogComponent } from './str/str-withdraw-details-di
     PrHomeComponent,
     StrEmployeeExchangeDetailsDialogComponent,
     StrAddDetailsDialogComponent,
-    StrWithdrawDetailsDialogComponent
+    StrWithdrawDetailsDialogComponent,
+
+    StrStockTakingContainerComponent,
+    StrStockTakingDetailsDialogComponent,
+    StrStockTakingDialogComponent,
+    StrStockTakingTableComponent,
+   
   ],
   imports: [
     BrowserModule,

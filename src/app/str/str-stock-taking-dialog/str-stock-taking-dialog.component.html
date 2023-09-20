@@ -2,36 +2,13 @@
     <button class="close" mat-button  (click)="getAllMasterForms()" > <mat-icon> clear</mat-icon></button>
 </div>
 
-<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل إفتتاحي عهد ' : ' إضافة إفتتاحي عهد  جديد'}}</h1>
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل الجرد اليدوي ' : ' إضافة  جرد يدوي  جديد'}}</h1>
 
 <div mat-dialog-content dir="rtl" style="padding: 30px;overflow: hidden;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
         <div class="headerForm">
 
-            <!-- <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>المخازن</mat-label>
-                <mat-select placeholder="المخازن" formControlName="storeId">
-                    <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
-            <!-- <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
-                    <mat-option [value]="fiscalYear.id"
-                        *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
-            <!-- <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
-                <mat-label>السنة المالية</mat-label>
-                <mat-select  formControlName="fiscalYearId"
-                    (valueChange)="fiscalYearValueChanges($event)">
-                    <mat-option [value]="fiscalYear.id"
-                        *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
 
             <div style="display: flex; flex-direction: column;margin-left: 10px; ">
                 <mat-label>السنة المالية:</mat-label>
@@ -73,21 +50,7 @@
           </div>
 
            
-          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px; ">
-            <mat-label >مركز التكلفة :</mat-label>
-
-            <mat-form-field appearance="outline" style="width: 120px;">
-                <input matInput aria-label="costCenter" [matAutocomplete]="autoCostCenter" [formControl]="costCenterCtrl"
-                    (click)="openAutoCostCenter()"
-                    placeholder="{{editData ? editData.costCenterName : ''}}" required />
-                <mat-autocomplete #autoCostCenter="matAutocomplete" [displayWith]="displayCostCenterName"
-                    (optionSelected)="costCenterSelected($event)">
-                    <mat-option *ngFor="let costCenter of filteredCostCenters | async" [value]="costCenter">
-                        {{ costCenter.name }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </div> -->
+      
 
 
         <div style="display: flex; flex-direction: column;margin-left: 10px;">
@@ -147,7 +110,7 @@
                 <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
                     <div class="groupAction">
                         <button mat-raised-button class="savebtn"
-                            (click)="updateMaster()">تعديل الاذن</button>
+                            (click)="updateMaster()">تعديل الجرد</button>
             
                     </div>
             

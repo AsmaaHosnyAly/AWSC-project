@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit, Inject, ViewChild, LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,11 +18,11 @@ export class Item {
 }
 
 @Component({
-  selector: 'app-str-employee-opening-custody-detail-dailog',
-  templateUrl: './str-employee-opening-custody-detail-dailog.component.html',
-  styleUrls: ['./str-employee-opening-custody-detail-dailog.component.css']
+  selector: 'app-str-stock-taking-details-dialog',
+  templateUrl: './str-stock-taking-details-dialog.component.html',
+  styleUrls: ['./str-stock-taking-details-dialog.component.css']
 })
-export class StrEmployeeOpeningCustodyDetailDailogComponent {
+export class StrStockTakingDetailsDialogComponent {
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -68,7 +70,6 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  stateDefaultValue: string;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -77,13 +78,11 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<StrEmployeeOpeningCustodyDetailDailogComponent>,
+    private dialogRef: MatDialogRef<StrStockTakingDetailsDialogComponent>,
     private toastr: ToastrService,
     private route: ActivatedRoute) {
 
     // this.currentData = new Date;
-    this.stateDefaultValue = 'جديد';
-    ;
 
     this.itemCtrl = new FormControl();
     this.filteredItem = this.itemCtrl.valueChanges.pipe(
@@ -108,7 +107,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       qty: ['1', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
-      state: [this.stateDefaultValue, Validators.required],
+      state: ['', Validators.required],
       percentage: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
@@ -242,7 +241,6 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
-                this.groupDetailsForm.controls['state'].setValue('جديد');
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
@@ -458,11 +456,11 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     // .subscribe({
     //   next: (res) => {
     if (this.groupDetailsForm.valid) {
-
+      
       this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-
+            
             this.toastrSuccess();
             this.groupDetailsForm.reset();
             this.itemCtrl.setValue('');
@@ -472,9 +470,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
             // this.getAllDetailsForms();
             // this.getDetailedRowData = '';
             this.groupDetailsForm.controls['qty'].setValue(1);
-            this.groupDetailsForm.controls['state'].setValue('جديد');
-
-
+           
             this.dialogRef.close('save');
 
           },
@@ -495,4 +491,5 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     this.toastr.success("تم الحفظ بنجاح");
   }
 }
+
 
