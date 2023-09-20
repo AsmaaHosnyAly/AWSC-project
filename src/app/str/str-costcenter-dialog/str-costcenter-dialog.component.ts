@@ -5,7 +5,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { publishFacade } from '@angular/compiler';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-costcenter-dialog',
   templateUrl: './str-costcenter-dialog.component.html',
@@ -18,6 +19,7 @@ export class StrCostcenterDialogComponent  implements OnInit {
   autoCode:any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<StrCostcenterDialogComponent>) { }
 
@@ -29,7 +31,11 @@ export class StrCostcenterDialogComponent  implements OnInit {
 
       
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addCostCenter();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.actionBtn = "تحديث";
       this.productForm.controls['code'].setValue(this.editData.autoCode);

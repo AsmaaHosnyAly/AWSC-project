@@ -19,6 +19,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { GlobalService } from '../../services/global.service';
 import { StrModelDailogComponent } from '../str-model-dailog/str-model-dailog.component';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class vendor {
   constructor(public id: number, public name: string,public global:GlobalService) {}
 }
@@ -42,7 +44,7 @@ export class StrModelComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     this.vendorCtrl = new FormControl();
     this.filteredVendores = this.vendorCtrl.valueChanges.pipe(
       startWith(''),
@@ -58,6 +60,11 @@ export class StrModelComponent {
     this.api.getAllVendor().subscribe((vendores) => {
       this.vendores = vendores;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
