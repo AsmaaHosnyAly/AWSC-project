@@ -18,25 +18,26 @@ import {
   FormControlName,
   FormBuilder,
   FormGroup,
+  Validators,
 } from '@angular/forms';
 
 
 
 
 export class item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 
 export class costcenter {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 export class store {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 
@@ -61,6 +62,11 @@ export class STRAddTableComponent implements OnInit {
   ];
   displayedPendingColumns: string[] = [
     'no',
+    'costCenterName',
+    'storeName',
+    'desstoreName',
+    'fiscalyear',
+    'date',
     'Action',
   ];
 
@@ -100,7 +106,8 @@ export class STRAddTableComponent implements OnInit {
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
 
-  storeList: store[] = [];
+  storeList: any;
+  // storeList: store[] = [];
   storeCtrl: FormControl;
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
@@ -109,15 +116,18 @@ export class STRAddTableComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   dataSource!: MatTableDataSource<any>;
+  dataSourcePendingWithdraws!: MatTableDataSource<any>;
+  userRoles: any;
 
   constructor(
     private api: ApiService,
     private global: GlobalService,
-    private dialog: MatDialog,    private toastr: ToastrService,
+    private dialog: MatDialog, private toastr: ToastrService,
 
     private http: HttpClient,
     private router: Router,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private formBuilder: FormBuilder,
   ) {
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
@@ -149,12 +159,16 @@ export class STRAddTableComponent implements OnInit {
     this.getAllMasterForms();
     this.getFiscalYears();
     this.getCostCenters();
-    
+
     this.getStores();
     this.getTypes();
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
+
+    this.groupMasterForm = this.formBuilder.group({
+      storeId: ['', Validators.required],
+    });
   }
 
   applyFilter(event: Event) {
@@ -165,6 +179,16 @@ export class STRAddTableComponent implements OnInit {
       this.dataSource2.paginator.firstPage();
     }
   }
+
+  applyPendingWithdrawFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourcePendingWithdraws.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourcePendingWithdraws.paginator) {
+      this.dataSourcePendingWithdraws.paginator.firstPage();
+    }
+  }
+
   getAllMasterForms() {
     this.api.getStrAdd().subscribe({
       next: (res) => {
@@ -184,7 +208,8 @@ export class STRAddTableComponent implements OnInit {
     this.dialog
       .open(STRAddDialogComponent, {
         width: '98%',
-        height:'95%',      })
+        height: '95%',
+      })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
@@ -193,24 +218,11 @@ export class STRAddTableComponent implements OnInit {
       });
   }
 
-  getAllGroups() {
-    this.api.getGroup().subscribe({
-      next: (res) => {
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: () => {
-        // alert("خطأ أثناء جلب سجلات المجموعة !!");
-      },
-    });
-  }
-
   editMasterForm(row: any) {
     this.dialog
       .open(STRAddDialogComponent, {
         width: '98%',
-        height:'95%',
+        height: '95%',
         data: row,
       })
       .afterClosed()
@@ -294,16 +306,36 @@ export class STRAddTableComponent implements OnInit {
     });
   }
   getStores() {
-    this.api.getStore().subscribe({
-      next: (res) => {
-        this.storeList = res;
-        // console.log("store res: ", this.storeList);
-      },
-      error: (err) => {
-        // console.log("fetch store data err: ", err);
-        // alert('خطا اثناء جلب المخازن !');
-      },
-    });
+    this.userRoles = localStorage.getItem('userRoles');
+    console.log('userRoles manager: ', this.userRoles.includes('15'))
+
+    if (this.userRoles.includes('15')) {
+      this.api.getStore().subscribe({
+        next: (res) => {
+          this.storeList = res;
+          console.log("stores res: ", this.storeList);
+        },
+        error: (err) => {
+          // console.log("fetch store data err: ", err);
+          // alert('خطا اثناء جلب المخازن !');
+        },
+      });
+    }
+    else {
+      console.log('userRoles stores by userID: ', localStorage.getItem('transactionUserId'))
+      this.api.getUserStores(localStorage.getItem('transactionUserId'))
+        .subscribe({
+          next: async (res) => {
+            this.storeList = res;
+            console.log("user stores res: ", this.storeList);
+          },
+          error: (err) => {
+            console.log("fetch userStore data err: ", err);
+            // alert(" خطا اثناء جلب مخازن المستخدم !");
+          }
+        })
+    }
+
   }
 
   getsearch(code: any) {
@@ -712,4 +744,36 @@ export class STRAddTableComponent implements OnInit {
     });
     this.router.navigate(['/add-item-report']);
   }
+
+  storeValueChanges(storeId: any) {
+    console.log("storeId selected to get pending withdraw: ", storeId);
+    this.groupMasterForm.controls['storeId'].setValue(storeId);
+
+    this.getAllWithDrawByDestStore(storeId);
+
+  }
+
+  getAllWithDrawByDestStore(storeId: any) {
+    let newRes: any[] | undefined = [];
+    this.api.GetWithDrawByDestStore(storeId).subscribe({
+      next: (res) => {
+        console.log("pending withdraws: ", res);
+
+        for (let i = 0; i < res.length; i++) {
+          newRes?.push(res[i].strWithdrawGetVM);
+        }
+        
+        console.log("pending withdraws new res: ", newRes);
+        this.dataSourcePendingWithdraws = new MatTableDataSource(newRes);
+        this.dataSourcePendingWithdraws.paginator = this.paginator;
+        this.dataSourcePendingWithdraws.sort = this.sort;
+
+      },
+      error: () => {
+        // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      },
+    });
+  }
+
+
 }

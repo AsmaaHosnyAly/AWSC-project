@@ -286,10 +286,21 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
   // }
 
   getItems() {
+    let itemArr: any[] = [];
     this.api.getItems()
       .subscribe({
         next: (res) => {
-          this.itemsList = res;
+          res.forEach((element: any) => {
+            if (element.type.includes('عهد')) {
+              itemArr.push(element);
+              // console.log("item list in loop check type: ", itemArr);
+
+            }
+          });
+          this.itemsList = itemArr;
+          // console.log("item list after check type: ", this.itemsList);
+          // this.itemsList = res 
+
         },
         error: (err) => {
           // console.log("fetch items data err: ", err);
@@ -297,6 +308,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
         }
       })
   }
+
 
   getItemByID(id: any) {
     return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)

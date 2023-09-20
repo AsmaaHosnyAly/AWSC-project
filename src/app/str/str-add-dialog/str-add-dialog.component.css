@@ -106,6 +106,16 @@
   display: none;
 }
 
+
+.editStrAddData {
+  display: block;
+}
+
+.editStrWithDrawData {
+  display: none;
+}
+
+
 .headerForm {
   display: flex;
   justify-content: space-between;
