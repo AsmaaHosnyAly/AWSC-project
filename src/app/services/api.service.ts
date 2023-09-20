@@ -2029,6 +2029,10 @@ export class ApiService {
 
   // ----Start Add----
 
+  GetWithDrawByDestStore(storeId: any) {
+    return this.http.get<any>(`${this.url}/STRWithdraw/GetWithDrawByDestStore/${storeId}`);
+  }
+
   getStrAddAutoNo() {
     return this.http.get<any>(`${this.url}/STRAdd/get/AutoNo`);
   }
