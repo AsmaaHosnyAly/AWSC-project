@@ -371,7 +371,7 @@ import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
       
 
     },
-    []
+    [HotkeysService]
   ],
   bootstrap: [AppComponent],
   

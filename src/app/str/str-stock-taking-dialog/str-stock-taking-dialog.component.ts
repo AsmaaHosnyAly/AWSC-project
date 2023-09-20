@@ -22,17 +22,6 @@ import { GlobalService } from '../../services/global.service';
 import { StrStockTakingDetailsDialogComponent } from '../str-stock-taking-details-dialog/str-stock-taking-details-dialog.component';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
-<<<<<<< HEAD
-
-
-
-// export class Employee {
-//   constructor(public id: number, public name: string) {}
-// }
-// export class CostCenter {
-//   constructor(public id: number, public name: string) {}
-// }
-=======
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
@@ -41,7 +30,6 @@ export class Employee {
 export class CostCenter {
   constructor(public id: number, public name: string) {}
 }
->>>>>>> 9a0b125e16cf1f5b6fd9d6cfc6ef72b8186334f7
 export class Item {
   constructor(public id: number, public name: string) {}
 }
