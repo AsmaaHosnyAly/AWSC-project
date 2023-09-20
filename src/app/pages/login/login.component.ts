@@ -60,12 +60,9 @@ export class LoginComponent {
       this.global.login(this.loginForm.value).subscribe({
         next: (res) => {
           localStorage.setItem('transactionUserId', res.id);
-          console.log(
-            'handelres',
-            localStorage.setItem('transactionUserId', res.id)
-          );
           this.global.isLogIn = true;
           localStorage.setItem('userRoles', res.roles);
+          localStorage.setItem('modules', res.modules);
           this.toastrloginSuccess();
           this.router.navigate(['/home']);
         },

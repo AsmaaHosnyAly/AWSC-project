@@ -171,6 +171,7 @@ import { StrStockTakingContainerComponent } from './str/str-stock-taking-contain
 import { StrStockTakingDetailsDialogComponent } from './str/str-stock-taking-details-dialog/str-stock-taking-details-dialog.component';
 import { StrStockTakingDialogComponent } from './str/str-stock-taking-dialog/str-stock-taking-dialog.component';
 import { StrStockTakingTableComponent } from './str/str-stock-taking-table/str-stock-taking-table.component';
+import { PageRolesComponent } from './pages/page-roles/page-roles.component';
 // import { PrUsedrDetailsDialogComponent } from './pr/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -319,6 +320,7 @@ import { StrStockTakingTableComponent } from './str/str-stock-taking-table/str-s
     StrStockTakingDetailsDialogComponent,
     StrStockTakingDialogComponent,
     StrStockTakingTableComponent,
+    PageRolesComponent,
    
   ],
   imports: [

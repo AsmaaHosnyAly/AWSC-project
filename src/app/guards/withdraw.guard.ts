@@ -29,26 +29,22 @@ export class withdrawGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split(',');
-
-    //     userRole.forEach(element => {
-    //     if( element==1)
-    //       return true
-    //     else
-    //     window.alert('You dont have the permission to visit this page')
-    //     this.router.navigateByUrl('login')
-    //     return false;
-    // })
-
-    for (let i = 0; i < userRole!.length; i++) {
-      let role = userRole![i];
-      if (role == '1' ) 
-      {
-        this.shared.withdraw = true;
-        return this.shared.withdraw;
-      } 
-    }
-
-    return true;
-  }
+      let roles = route.data['withdraw'] as Array<string>;
+      let userRoles = localStorage.getItem('userRoles')?.split(',');
+      console.log('roles',roles)
+      console.log("userRole: ",localStorage.getItem('userRoles')?.split(','), "role compare: ",roles)
+      console.log("condtion",localStorage.getItem('userRoles')?.split(',').filter((element: string) => roles.includes(element)))
+     let condtion:any
+       if (localStorage.getItem('userRoles')?.split(',').filter((element: string) => roles.includes(element))){
+              this.shared.withdraw=true
+              console.log('stores', this.shared.withdraw)
+             return true
+       }
+       else if(condtion === undefined || condtion.length == 0){
+        alert('you dont have the permisstion to visit this page')
+         return false
+       }
+       alert('you dont have the permisstion to visit this page')
+ return false;
+}
 }
