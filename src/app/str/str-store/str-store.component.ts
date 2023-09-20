@@ -24,13 +24,8 @@ import { Hotkey } from 'angular2-hotkeys';
 export class StrStoreComponent  implements OnInit {
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name','action'];
+  displayedColumns: string[] = [ 'code','name','storekeeperName','action'];
   dataSource!: MatTableDataSource<any>;
-  store: any = {
-    id: 0,
-    name: ''
-
-  }
   storelist: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
