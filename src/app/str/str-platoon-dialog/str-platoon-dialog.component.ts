@@ -17,6 +17,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -61,6 +63,7 @@ export class STRPlatoonDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<STRPlatoonDialogComponent>
@@ -98,7 +101,11 @@ export class STRPlatoonDialogComponent implements OnInit {
     this.api.getAllGrades().subscribe((grades) => {
       this.grades = grades;
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addPlatoon();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       console.log('edit:', this.editData);
 

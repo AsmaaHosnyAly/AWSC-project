@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 import {
   FormControl,
   FormControlName,
@@ -66,6 +68,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     private api: ApiService,
     private dialog: MatDialog,
     private http: HttpClient,
+    private hotkeysService: HotkeysService,
     private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
@@ -111,6 +114,11 @@ export class StrOpeningStockTableComponent implements OnInit {
       storeId: [''],
       itemId:['']
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openOpeningStockDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   
 

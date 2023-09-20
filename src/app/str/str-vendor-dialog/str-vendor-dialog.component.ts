@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-str-vendor-dialog',
@@ -24,6 +25,7 @@ export class StrVendorDialogComponent {
 
   constructor(private formBuilder : FormBuilder,
      private api : ApiService,
+     private hotkeysService: HotkeysService,
      private readonly route:ActivatedRoute,
      @Inject(MAT_DIALOG_DATA) public editData : any,
      private dialogRef : MatDialogRef<StrVendorDialogComponent>){
@@ -34,7 +36,11 @@ export class StrVendorDialogComponent {
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addVendor();
+      return false; // Prevent the default browser behavior
+    }));
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";

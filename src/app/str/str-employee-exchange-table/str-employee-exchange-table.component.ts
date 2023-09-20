@@ -11,7 +11,8 @@ import { formatDate } from '@angular/common';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EmployeeExchangePrintDialogComponent } from 'src/app/str/employee-exchange-print-dialog/employee-exchange-print-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 import {
   FormControl,
   FormControlName,
@@ -78,6 +79,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
+    private hotkeysService: HotkeysService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
@@ -124,6 +126,11 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       store: [''],
       distEmployee: [''],
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openEmployeeExchangeDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {

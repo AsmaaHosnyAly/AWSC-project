@@ -22,6 +22,7 @@ import { GlobalService } from '../../services/global.service';
 import { StrStockTakingDetailsDialogComponent } from '../str-stock-taking-details-dialog/str-stock-taking-details-dialog.component';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
+<<<<<<< HEAD
 
 
 
@@ -31,6 +32,16 @@ import { formatDate } from '@angular/common';
 // export class CostCenter {
 //   constructor(public id: number, public name: string) {}
 // }
+=======
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+export class Employee {
+  constructor(public id: number, public name: string) {}
+}
+export class CostCenter {
+  constructor(public id: number, public name: string) {}
+}
+>>>>>>> 9a0b125e16cf1f5b6fd9d6cfc6ef72b8186334f7
 export class Item {
   constructor(public id: number, public name: string) {}
 }
@@ -112,6 +123,7 @@ storeSelectedId: any;
   employeeName: any;
   // toastr: any;
   constructor(private formBuilder: FormBuilder,
+    private hotkeysService: HotkeysService,
     private api: ApiService,global:GlobalService,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,private toastr: ToastrService,
     private http: HttpClient,private dialog: MatDialog, private router: Router, private dialogRef: MatDialogRef<StrStockTakingDialogComponent>,
@@ -201,6 +213,11 @@ storeSelectedId: any;
       this.items = items;
       
     });
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.nextToAddFormDetails();
+      return false; // Prevent the default browser behavior
+    }));
     this.userIdFromStorage = localStorage.getItem('transactionUserId');
 
     alert("transactionuserId::::"+this.userIdFromStorage)

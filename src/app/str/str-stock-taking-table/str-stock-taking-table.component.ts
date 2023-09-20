@@ -17,8 +17,18 @@ import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/for
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
+<<<<<<< HEAD
 export class store {
   constructor(public id: number, public name: string) {}
+=======
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
+
+
+export class Employee {
+  constructor(public id: number, public name: string, public code: string) { }
+>>>>>>> 9a0b125e16cf1f5b6fd9d6cfc6ef72b8186334f7
 }
 
 
@@ -86,6 +96,7 @@ export class StrStockTakingTableComponent implements OnInit {
     private api: ApiService,
     private dialog: MatDialog,private formBuilder: FormBuilder,
     private http: HttpClient,
+    private hotkeysService: HotkeysService,
     public loader:LoadingService,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
@@ -165,6 +176,11 @@ export class StrStockTakingTableComponent implements OnInit {
   
         // notesName: [''],
       });
+      this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.openEmployeeingStockDialog();
+        return false; // Prevent the default browser behavior
+      }));
     
   }
 

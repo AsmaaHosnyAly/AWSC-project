@@ -78,6 +78,7 @@ import { storesGuard } from './guards/stores.guard';
 import { strPlatoonGuard } from './guards/str-platoon.guard';
 import { vendorGuard } from './guards/vendor.guard';
 import { PrHomeComponent } from './pr/pr-home/pr-home.component';
+import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import {StrStockTakingContainerComponent} from './str/str-stock-taking-container/str-stock-taking-container.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -282,8 +283,9 @@ const routes: Routes = [
   // {path:'fi-home',component:StrAccountsComponent},
 ];
 
-@NgModule({
+@NgModule({  
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+ 
 })
 export class AppRoutingModule {}

@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { StrProductDialogComponent } from '../str-product-dialog/str-product-dialog.component';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-str-product',
@@ -33,7 +35,7 @@ export class StrProductComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService) {
+  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService,private hotkeysService: HotkeysService) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
     global.getPermissionUserRoles(
       1,
@@ -46,7 +48,11 @@ export class StrProductComponent implements OnInit {
   ngOnInit(): void {
     this.getAllProducts();
     // console.log("shortlink",this.shortLink)
-  
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {

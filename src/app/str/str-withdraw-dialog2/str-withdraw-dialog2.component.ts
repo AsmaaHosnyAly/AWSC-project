@@ -22,7 +22,8 @@ import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
 import { StrWithdrawDetailsDialogComponent } from '../str-withdraw-details-dialog/str-withdraw-details-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class deststore {
   constructor(public id: number, public name: string) { }
 }
@@ -161,6 +162,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     @Inject(LOCALE_ID) private locale: string,
@@ -252,6 +254,11 @@ export class StrWithdrawDialogComponent implements OnInit {
 
       // notesName: [''],
     });
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.nextToAddFormDetails();
+      return false; // Prevent the default browser behavior
+    }));
 
 
 
