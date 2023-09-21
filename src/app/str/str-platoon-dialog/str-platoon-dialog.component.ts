@@ -228,14 +228,15 @@ export class STRPlatoonDialogComponent implements OnInit {
 
   addPlatoon() {
 
-    const enteredName = this.platoonForm.get('name')?.value;
-
-    if (this.existingNames.includes(enteredName)) {
-      alert('هذا الاسم موجود من قبل، قم بتغييره');
-      return;
-    }
+  
     // this.platoonForm.controls['code'].setValue(this.Code);
     if (!this.editData) {
+      const enteredName = this.platoonForm.get('name')?.value;
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
       this.platoonForm.removeControl('id');
       // this.platoonForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.platoonForm.controls['gradeId'].setValue(this.selectedOption.id);
