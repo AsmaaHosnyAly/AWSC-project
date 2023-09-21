@@ -52,7 +52,7 @@ export class StrStoreDialogComponent implements OnInit {
     this.api.getEmployees().subscribe((keepers) => {
       this.keepers = keepers;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addStores();
       return false; // Prevent the default browser behavior

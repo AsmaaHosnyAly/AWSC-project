@@ -101,7 +101,7 @@ export class STRPlatoonDialogComponent implements OnInit {
     this.api.getAllGrades().subscribe((grades) => {
       this.grades = grades;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addPlatoon();
       return false; // Prevent the default browser behavior

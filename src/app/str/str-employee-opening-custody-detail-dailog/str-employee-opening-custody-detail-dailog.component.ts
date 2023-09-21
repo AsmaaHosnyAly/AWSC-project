@@ -114,6 +114,8 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
+      notes: [''],
+      description: [''],
     });
 
 
@@ -143,6 +145,10 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       this.groupDetailsForm.controls['total'].setValue(this.editData.total);
 
       this.groupDetailsForm.controls['itemId'].setValue(this.editData.itemId);
+
+      this.groupDetailsForm.controls['notes'].setValue(this.editData.notes);
+      this.groupDetailsForm.controls['description'].setValue(this.editData.description);
+
       // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
       // this.getItemByCode(this.groupDetailsForm.getRawValue().itemId);
       console.log("nnnnnnnnnnnnnnnnnnn edit d after: ", this.editData);

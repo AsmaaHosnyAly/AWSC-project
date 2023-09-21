@@ -99,6 +99,9 @@ export class STRAddDialogComponent implements OnInit {
   getAddData: any;
   sourceSelected: any;
   isEdit: boolean = false;
+
+  btnDisabled: boolean = false;
+
   displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -198,7 +201,7 @@ export class STRAddDialogComponent implements OnInit {
     this.api.getAllItems().subscribe((items) => {
       this.items = items;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.nextToAddFormDetails();
       return false; // Prevent the default browser behavior
@@ -345,39 +348,75 @@ export class STRAddDialogComponent implements OnInit {
     // console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
 
-      console.log("check if details belongs to strAdd or strWithdraw: ", this.editData.hasOwnProperty('strWithDrawDetailsGetVM'));
+      if (this.editData) {
+        // console.log("check if details belongs to strAdd or strWithdraw: ", this.editData.hasOwnProperty('strWithDrawDetailsGetVM'));
 
-      if (this.editData.hasOwnProperty('strWithDrawDetailsGetVM')) {
-        this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
-          .subscribe({
-            next: (res) => {
-              // this.itemsList = res;
-              console.log("enter getAllDetails: ", res);
-              // if(res[0].includes('strWithDrawDetailsGetVM'))
-              this.matchedIds = res[0].strWithDrawDetailsGetVM;
+        if (this.editData.hasOwnProperty('strWithDrawDetailsGetVM')) {
+          this.btnDisabled = true;
+          this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
+            .subscribe({
+              next: (res) => {
+                // this.itemsList = res;
+                console.log("enter getAllDetails: ", res);
+                // if(res[0].includes('strWithDrawDetailsGetVM'))
+                this.matchedIds = res[0].strWithDrawDetailsGetVM;
 
-              if (this.matchedIds) {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
-                this.dataSource = new MatTableDataSource(this.matchedIds);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
+                if (this.matchedIds) {
+                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+                  this.dataSource = new MatTableDataSource(this.matchedIds);
+                  this.dataSource.paginator = this.paginator;
+                  this.dataSource.sort = this.sort;
 
-                this.sumOfTotals = 0;
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                  // alert('totalll: '+ this.sumOfTotals)
-                  // this.updateBothForms();
+                  this.sumOfTotals = 0;
+                  for (let i = 0; i < this.matchedIds.length; i++) {
+                    this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                    this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                    // alert('totalll: '+ this.sumOfTotals)
+                    // this.updateBothForms();
 
-                  this.updateMaster();
+                    this.updateMaster();
+                  }
                 }
+              },
+              error: (err) => {
+                // console.log("fetch items data err: ", err);
+                // alert("خطا اثناء جلب العناصر !");
               }
-            },
-            error: (err) => {
-              // console.log("fetch items data err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
-            }
-          })
+            })
+        }
+        else {
+          this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
+            .subscribe({
+              next: (res) => {
+                // this.itemsList = res;
+                console.log("enter getAllDetails: ", res);
+                // if(res[0].includes('strWithDrawDetailsGetVM'))
+                this.matchedIds = res[0].strAddDetailsGetVM;
+
+                if (this.matchedIds) {
+                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
+                  this.dataSource = new MatTableDataSource(this.matchedIds);
+                  this.dataSource.paginator = this.paginator;
+                  this.dataSource.sort = this.sort;
+
+                  this.sumOfTotals = 0;
+                  for (let i = 0; i < this.matchedIds.length; i++) {
+                    this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                    this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                    // alert('totalll: '+ this.sumOfTotals)
+                    // this.updateBothForms();
+
+                    this.updateMaster();
+                  }
+                }
+              },
+              error: (err) => {
+                // console.log("fetch items data err: ", err);
+                // alert("خطا اثناء جلب العناصر !");
+              }
+            })
+        }
+        
       }
       else {
         this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
@@ -411,6 +450,7 @@ export class STRAddDialogComponent implements OnInit {
             }
           })
       }
+
 
     }
 

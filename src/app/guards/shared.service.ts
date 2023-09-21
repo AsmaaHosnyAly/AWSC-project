@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 export class SharedService {
   userRoles :any
   pageTitle: any
-  stores=true
-  roles=true
+  stores=false
+  roles=false
   accounts=false
   time=true
   Benefits=true
@@ -18,12 +18,12 @@ export class SharedService {
   LegalAffairs=true
   CentralWater=true
 training=true
-  withdraw=true;
+  withdraw=false;
   STRAdd=true;
   openingStock=true;
   employeeOpening=true;
   employeeOpeningCustody=true
-  commodity=true
+  commodity=false
   grade=true
   strPlatoon=true
   group1=true

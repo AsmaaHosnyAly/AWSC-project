@@ -111,7 +111,7 @@ export class STRGroup1DialogComponent implements OnInit {
     this.api.getAllPlatoonsg().subscribe((platoons) => {
       this.platoons = platoons;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addGroup();
       return false; // Prevent the default browser behavior

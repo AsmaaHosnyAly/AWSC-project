@@ -104,7 +104,7 @@ export class StrProductDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       vendorId: ['', Validators.required],
       modelId: ['', Validators.required],
-      attachment: ['', Validators.required],
+      attachment: [''],
 
       // platoonName: [''],
       transactionUserId: [''],
@@ -112,7 +112,7 @@ export class StrProductDialogComponent implements OnInit {
       // id: [''],
 
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addProduct();
       return false; // Prevent the default browser behavior
@@ -292,9 +292,9 @@ export class StrProductDialogComponent implements OnInit {
           .subscribe({
             next: (res) => {
               console.log("add product res: ", res);
-              // this.productIdToEdit = res.id;
+              this.productIdToEdit = res.id;
 
-              // this.toastrSuccess();
+              this.toastrSuccess();
               alert("تمت إضافة المنتج بنجاح");
               this.productForm.reset();
 

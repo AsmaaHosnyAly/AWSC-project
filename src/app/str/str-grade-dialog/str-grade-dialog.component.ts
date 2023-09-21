@@ -62,7 +62,7 @@ export class STRGradeDialogComponent {
   }
   ngOnInit(): void {
     this.getExistingNames(); // Fetch existing names
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addGrade();
       return false; // Prevent the default browser behavior

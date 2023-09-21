@@ -120,7 +120,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.nextToAddFormDetails();
       return false; // Prevent the default browser behavior

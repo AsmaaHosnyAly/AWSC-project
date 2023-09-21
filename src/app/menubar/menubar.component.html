@@ -69,7 +69,7 @@
       </mat-list-item> -->
 
 <!-- start stores -->
-<mat-expansion-panel dir="rtl" *ngIf="this.shared.stores">
+<mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)">
   
   <mat-expansion-panel-header >
     <mat-panel-title>
@@ -90,50 +90,56 @@
         <mat-panel-title> التكويد </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-nav-list>
-        <a  *ngIf="this.shared.commodity"
+        <a   *ngIf="hasAccessRole(pageEnums.COMMODITY)"
           mat-list-item
           class="sideNavSubItems"
           routerLink="/commodity"
           ><p class="font" >السلعة</p></a
         >
         <a mat-list-item class="sideNavSubItems" routerLink="/grade"
+        *ngIf="hasAccessRole(pageEnums.GRADE)"
           ><p class="font">النوعية</p></a
         >
-        <a *ngIf="this.shared.strPlatoon"
+        <a  *ngIf="hasAccessRole(pageEnums.STR_PLATOON)"
           mat-list-item
           class="sideNavSubItems"
           routerLink="/str-platoon"
           ><p class="font">الفصيلة</p></a
         >
-        <a *ngIf="this.shared.group1"
+        <a  *ngIf="hasAccessRole(pageEnums.GROUP1)"
           mat-list-item
           routerLink="/group1"
           class="sideNavSubItems"
           ><p class="font">المجموعة</p></a
         >
         <a mat-list-item class="sideNavSubItems" routerLink="/unit"
+        *ngIf="hasAccessRole(pageEnums.UNIT)"
           ><p class="font">الوحدة</p></a
         >
         <a
           mat-list-item
           class="sideNavSubItems"
           routerLink="/items1"
+          *ngIf="hasAccessRole(pageEnums.ITEMES1)"
           ><p class="font">الاصناف</p></a
         >
         <a
           mat-list-item
           class="sideNavSubItems"
           routerLink="/products"
+          *ngIf="hasAccessRole(pageEnums.PRODUCTS)"
         >
           <p class="font">المنتجات</p></a
         >
         <a mat-list-item class="sideNavSubItems" routerLink="/store"
+        *ngIf="hasAccessRole(pageEnums.STORE)"
           ><p class="font">المخازن</p></a
         >
         <a
           mat-list-item
           class="sideNavSubItems"
           routerLink="/str-vendor"
+          *ngIf="hasAccessRole(pageEnums.STR_VENDOR)"
         >
           <p class="font"> المصنع</p></a
         >
@@ -141,6 +147,7 @@
           mat-list-item
           class="sideNavSubItems"
           routerLink="/str-model"
+          *ngIf="hasAccessRole(pageEnums.MODEL)"
         >
           <p class="font"> الموديل</p></a
         >
@@ -148,6 +155,7 @@
           mat-list-item
           class="sideNavSubItems"
           routerLink="/costCenter"
+          *ngIf="hasAccessRole(pageEnums.COST_CENTER)"
         >
           <p class="font">مركز التكلفة</p></a
         >
@@ -155,11 +163,11 @@
         
       </mat-nav-list>
     </mat-expansion-panel>
-    <a
+    <a  *ngIf="hasAccessRole(pageEnums.WITHDRAW)"
       mat-list-item
       class="sideNavSubItems"
       routerLink="/withdraw"
-      *ngIf="this.shared.withdraw"
+      
     >
       <p class="font">اذن صرف</p></a
     >
@@ -167,7 +175,7 @@
       mat-list-item
       class="sideNavSubItems"
       routerLink="/STRAdd"
-      *ngIf="this.shared.STRAdd==true"
+      *ngIf="hasAccessRole(pageEnums.STRAdd)"
     
     >
       <p class="font">اذن اضافة</p></a
@@ -176,7 +184,7 @@
       mat-list-item
       routerLink="/str-openingStock"
       class="sideNavSubItems"
-      *ngIf="this.shared.openingStock==true"
+      *ngIf="hasAccessRole(pageEnums.STR_OPENING_STOCK)"
     
     >
       <p class="font">الرصيد الافتتاحى</p></a
@@ -186,7 +194,7 @@
       mat-list-item
       routerLink="/employeeOpening"
       class="sideNavSubItems"
-      *ngIf="this.shared.employeeOpening==true"
+      *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING)"
     >
       <p class="font">نقل عهدة</p></a
     >
@@ -195,7 +203,7 @@
     mat-list-item
     routerLink="/EmployeeOpeningCustody"
     class="sideNavSubItems"
-    *ngIf="this.shared.employeeOpeningCustody==true"
+    *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)"
   >
     <p class="font"> الإفتتاحي العهد</p></a
   >
@@ -205,7 +213,7 @@
      
         <!--start accounts -->
 
-        <mat-expansion-panel dir="rtl"  *ngIf="this.shared.accounts==true">
+        <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.ACCOUNTS)">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <img
@@ -393,7 +401,7 @@
             <!-- end Hr -->
             <!-- start roles -->
             <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
-            <mat-expansion-panel dir="rtl" *ngIf="this.shared.roles" >
+            <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(1)" >
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary"  class="ms-2">store</mat-icon>
@@ -417,9 +425,11 @@
                       mat-list-item
                       class="sideNavSubItems"
                       routerLink="/pr-user"
+                      *ngIf="hasAccessRole(pageEnums.PR_USER)"
                       ><p class="font" >المستخدمين</p></a
                     >
                     <a mat-list-item class="sideNavSubItems" routerLink="/pr-group"
+                    *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
                       ><p class="font" >المجموعات</p></a
                     >
                   </mat-nav-list>
