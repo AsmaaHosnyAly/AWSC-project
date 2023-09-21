@@ -34,30 +34,32 @@ export class storeGuard implements CanActivate {
     | UrlTree {
    
     let condtion: any;
-    console.log('condition',localStorage.getItem('modules')?.split(',').includes('2')||localStorage.getItem('modules')?.split(',').includes('4'))
-    if (localStorage.getItem('modules')?.split(',').includes('7')) {
+    let flag:Boolean =false
+    // console.log('condition',localStorage.getItem('modules')?.split(',').includes('2'))
+    if (localStorage.getItem('modules')?.split(',').includes('1')) {
+
       this.shared.roles= true;
       console.log('roles', this.shared.roles);
-      return true;
+      flag=true
     }
-    else if (localStorage.getItem('modules')?.split(',').includes('2')) {
+    if(localStorage.getItem('modules')?.split(',').includes('2')) {
       this.shared.stores= true;
+      // this.shared.roles= true;
       console.log('stores', this.shared.stores);
+      flag=true
+    }
+    if(localStorage.getItem('modules')?.split(',').includes('3')) {
+      this.shared.accounts= true;
+      console.log('accounts', this.shared.accounts);
+      flag=true
+    }
+    if(flag===true){
       return true;
     }
-    else if (localStorage.getItem('modules')?.split(',').includes('3')) {
-      this.shared.stores= true;
-      console.log('roles', this.shared.stores);
-      return true;
-    } else if (localStorage.getItem('modules')?.split(',').includes('4')) {
-      this.shared.stores= true;
-      console.log('roles', this.shared.stores);
-      return true;
-    }
-    else if (condtion === undefined || condtion.length == 0) {
-      this.shared.stores = false;
+   
+    else  {
       return false;
     }
-    return false;
+    
   }
 }

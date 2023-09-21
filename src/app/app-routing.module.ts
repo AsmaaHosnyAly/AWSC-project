@@ -80,6 +80,9 @@ import { vendorGuard } from './guards/vendor.guard';
 import { PrHomeComponent } from './pr/pr-home/pr-home.component';
 import { StrStockTakingContainerComponent } from './str/str-stock-taking-container/str-stock-taking-container.component';
 import { PageRolesComponent } from './pages/page-roles/page-roles.component';
+import { HotkeyModule } from 'angular2-hotkeys/public-api';
+import { PagesEnums } from './core/enums/pages.enum';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -87,8 +90,7 @@ const routes: Routes = [
   {
     path: '',
     component: MenubarComponent,
-    canActivate: [
-      storeGuard,
+    canActivate: [      storeGuard,     
     ],
     data: { 
           },
@@ -99,7 +101,7 @@ const routes: Routes = [
         path: 'withdraw',
         component: StrWithdrawContainerComponent,
         canActivate: [withdrawGuard],
-        data: { withdraw: [1] },
+        data: { PageLsit: [PagesEnums.WITHDRAW] },
       },
 
       {
@@ -233,6 +235,8 @@ const routes: Routes = [
       { path: 'fi-home', component: StrAccountsComponent },
 
       { path: 'stock-taking', component: StrStockTakingContainerComponent },
+
+  {path:'StrStockTaking',component: StrStockTakingContainerComponent}
       // { path: '**', component: ErrorComponent },
     ],
   },
@@ -252,8 +256,9 @@ const routes: Routes = [
   // },
 ];
 
-@NgModule({
+@NgModule({  
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+ 
 })
 export class AppRoutingModule {}

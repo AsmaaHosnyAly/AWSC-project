@@ -852,6 +852,12 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/FICostCenter/Add`, data);
   }
 
+  getAllCategories(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/FiCostCenterCategory/get/all'
+    );
+  }
+
   getCostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
   }
@@ -862,6 +868,12 @@ export class ApiService {
 
   deleteCostCenter(id: number) {
     return this.http.delete<any>(`${this.url}/FICostCenter/delete/` + id);
+  }
+
+  getCostCenterAutoCode() {
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/FICostCenter/GetLastCode`
+    );
   }
 
   // crud items
@@ -935,6 +947,18 @@ export class ApiService {
 
   deleteStore(id: number) {
     return this.http.delete<any>(`${this.url}/STRStore/delete/` + id);
+  }
+
+  getEmployees(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/HREmployee/get/all'
+    );
+  }
+
+  getStoreAutoCode() {
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/STRStore/AutoCode`
+    );
   }
   //  commodity
   postCommodity(data: any) {
@@ -1098,6 +1122,46 @@ export class ApiService {
       `${this.url}/STRAddDetails/get/Avg/Price/${storeid}/${FiscalYearid}/${Date}/${itemid}`
     );
   }
+  getSearchStrStockTaking(
+    no: any,
+    storeId: any,
+    fiscalYear: any,
+    itemId: any){
+      console.log(
+        'no. : ',
+        no,
+        'store : ',
+        storeId,
+       
+        'fiscalYear: ',
+        fiscalYear,
+        'item:',
+        itemId
+      
+      );
+  
+      this.mycondition = `${this.url}/StrStockTaking/search?`;
+  
+      if (!no == false) {
+        this.mycondition = ` ${this.mycondition}&No=${no}`;
+      }
+      if (!storeId == false) {
+        this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+      }
+     
+      if (!fiscalYear == false) {
+        this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+      }
+      if (!itemId == false) {
+        this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
+      }
+  
+      console.log('url', this.mycondition);
+  
+      return this.http.get<any>(`${this.mycondition}`);
+    }
+
+
 
   getStrOpenSearach(
     no: any,
@@ -1965,6 +2029,10 @@ export class ApiService {
 
   // ----Start Add----
 
+  GetWithDrawByDestStore(storeId: any) {
+    return this.http.get<any>(`${this.url}/STRWithdraw/GetWithDrawByDestStore/${storeId}`);
+  }
+
   getStrAddAutoNo() {
     return this.http.get<any>(`${this.url}/STRAdd/get/AutoNo`);
   }
@@ -2093,6 +2161,46 @@ export class ApiService {
   // getFiscalYears() {
   //   return this.http.get<any>("http://ims.aswan.gov.eg/api/STRFiscalYear/get/all");
   // }
+  getStrStockTaking(){
+    console.log('Avg price inputs to backend');
+    return this.http.get<any>(`${this.url}/StrStockTaking/get/all`);
+  }
+
+
+  getStrStockTakingDetailsByMasterId(id:any){
+    return this.http.get<any>(
+      `${this.url}/StrStockTakingDetails/get/${id}`)
+
+  }
+
+  postStrStockTaking(data:any){
+    console.log("data in posttt:",data)
+    return this.http.post<any>(`${this.url}/StrStockTaking/Add`,data)
+  }
+  putStrStockTaking(data:any){
+    return this.http.put<any>( `${this.url}/StrStockTaking/update`,data)
+  }
+
+  postStrStockTakingDetails(data:any){
+    console.log("data in post details:",data)
+    return this.http.post<any>( `${this.url}/StrStockTakingDetails/Add`,data)
+  }
+
+  putStrStockTakingDetails(data:any){
+    return this.http.put<any>( `${this.url}/StrStockTakingDetails/update/`,data)
+  }
+
+  deleteStockTakingDetails(id:any){
+    return this.http.delete<any>(`${this.url}/StrStockTakingDetails/delete/` + id);
+  }
+
+  deleteStrStockTking(id:any){
+    return this.http.delete<any>(`${this.url}/StrStockTaking/delete/` + id);
+  }
+
+
+
+
 
   getStrAddSearach( no: any,
    

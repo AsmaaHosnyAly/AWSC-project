@@ -55,7 +55,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
   currentDate: any;
   stateDefaultValue: any;
   itemByFullCodeValue: any;
-  fullCodeValue:any;
+  fullCodeValue: any;
 
   formcontrol = new FormControl('');
   itemsList: Item[] = [];
@@ -152,10 +152,21 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
 
   getItems() {
+    let itemArr: any[] = [];
     this.api.getItems()
       .subscribe({
         next: (res) => {
-          this.itemsList = res;
+          res.forEach((element: any) => {
+            if (element.type.includes('عهد')) {
+              itemArr.push(element);
+              console.log("item list in loop check type: ", itemArr);
+
+            }
+          });
+          this.itemsList = itemArr;
+          console.log("item list after check type: ", this.itemsList);
+          // this.itemsList = res 
+
         },
         error: (err) => {
           // console.log("fetch items data err: ", err);
@@ -285,37 +296,38 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
       // }
       // this.closeDialog();
       this.dialogRef.close('Save');
-    console.log("master Id: ", this.getMasterRowId.id)
+      console.log("master Id: ", this.getMasterRowId.id)
 
-    if (this.getMasterRowId.id) {
-   
-      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
-        .subscribe({
-          next: (res) => {
-            // this.itemsList = res;
-            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+      if (this.getMasterRowId.id) {
 
-            if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
-              this.dataSource = new MatTableDataSource(this.matchedIds);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
+        this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+          .subscribe({
+            next: (res) => {
+              // this.itemsList = res;
+              this.matchedIds = res[0].strOpeningStockDetailsGetVM;
 
-              this.sumOfTotals = 0;
-              for (let i = 0; i < this.matchedIds.length; i++) {
-                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                // alert('totalll: '+ this.sumOfTotals)
-                // this.updateBothForms();
-                // this.updateMaster();
+              if (this.matchedIds) {
+                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+                this.dataSource = new MatTableDataSource(this.matchedIds);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+
+                this.sumOfTotals = 0;
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                  // alert('totalll: '+ this.sumOfTotals)
+                  // this.updateBothForms();
+                  // this.updateMaster();
+                }
               }
+            },
+            error: (err) => {
+              // console.log("fetch items data err: ", err);
+              // alert("خطا اثناء جلب العناصر !");
             }
-          },
-          error: (err) => {
-            // console.log("fetch items data err: ", err);
-            // alert("خطا اثناء جلب العناصر !");
-          }
-        })}
+          })
+      }
       // }
     }
 
@@ -355,6 +367,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.groupDetailsForm.controls['state'].setValue('جديد');
+                this.itemsCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
 
@@ -422,9 +435,10 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
           this.groupDetailsForm.reset();
           this.groupDetailsForm.controls['qty'].setValue(1);
           this.groupDetailsForm.controls['state'].setValue('جديد');
+          this.itemsCtrl.setValue('');
           this.itemByFullCodeValue = '';
           this.fullCodeValue = '';
-          
+
           this.dialogRef.close('save');
 
           // this.getAllDetailsForms();

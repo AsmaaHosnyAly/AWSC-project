@@ -65,10 +65,10 @@
                 </div>
             </div>
             <div style="display: flex;flex-direction: row;">
-                <div class="radio " style="display: flex;flex-direction: row;margin-top: 3%;">
+                <div class="radio " style="display: flex;flex-direction: column;width: 52%;">
                     <mat-label style="margin-top: 9px;"> حالةالصنف*</mat-label>
                     <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
-                    <mat-radio-group style="display: flex;flex-direction: column;" aria-label="Select an option"
+                    <mat-radio-group style="display: flex;flex-direction: row;" aria-label="Select an option"
                         formControlName="state" (change)="set_Percentage($event)"
                         [value]="editData ? editData.state : stateDefaultValue">
                         <mat-radio-button value="جديد">جديد</mat-radio-button>
@@ -76,15 +76,18 @@
                         <mat-radio-button value="قابل للاصلاح">قابل للاصلاح</mat-radio-button>
                         <mat-radio-button value="كهنة و خردة">كهنة و خردة</mat-radio-button>
                     </mat-radio-group>
-                </div>
-                <div style="display: flex;flex-direction: column;width: 12rem;margin-right: 24%;">
-                    <mat-label> النسبة*</mat-label>
 
-                    <mat-form-field appearance="outline" class="groupInput" style="width:90% ;">
+                </div>
+
+                <div style="display: flex;flex-direction: column;width: 9rem;">
+                    <mat-label > النسبة*</mat-label>
+
+                    <mat-form-field appearance="outline" class="groupInput" style="width:100% ;">
                         <input matInput type="number" min="0" placeholder="النسبة" formControlName="percentage"
                             [value]="editData ? editData.percentage : ''" [readonly]="isReadOnlyPercentage">
                     </mat-form-field>
                 </div>
+           
             </div>
 
             <!-- </div> -->

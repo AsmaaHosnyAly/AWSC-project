@@ -172,6 +172,9 @@ import { StrStockTakingDetailsDialogComponent } from './str/str-stock-taking-det
 import { StrStockTakingDialogComponent } from './str/str-stock-taking-dialog/str-stock-taking-dialog.component';
 import { StrStockTakingTableComponent } from './str/str-stock-taking-table/str-stock-taking-table.component';
 import { PageRolesComponent } from './pages/page-roles/page-roles.component';
+import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
+// import { StrProudctSerialComponent } from './str/str-proudct-serial/str-proudct-serial.component';
+// import { StrProudctSerialDialogComponent } from './str/str-proudct-serial-dialog/str-proudct-serial-dialog.component';
 // import { PrUsedrDetailsDialogComponent } from './pr/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -321,6 +324,9 @@ import { PageRolesComponent } from './pages/page-roles/page-roles.component';
     StrStockTakingDialogComponent,
     StrStockTakingTableComponent,
     PageRolesComponent,
+    // StrProudctSerialComponent,
+    // StrProudctSerialDialogComponent
+
    
   ],
   imports: [
@@ -361,6 +367,7 @@ import { PageRolesComponent } from './pages/page-roles/page-roles.component';
     MatProgressSpinnerModule,
     NgxExtendedPdfViewerModule,
     MatTabsModule,
+    HotkeyModule.forRoot()
     // FontAwesomeModule,
   ],
   providers: [
@@ -368,8 +375,12 @@ import { PageRolesComponent } from './pages/page-roles/page-roles.component';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
+      
+
     },
+    [HotkeysService]
   ],
   bootstrap: [AppComponent],
+  
 })
 export class AppModule {}

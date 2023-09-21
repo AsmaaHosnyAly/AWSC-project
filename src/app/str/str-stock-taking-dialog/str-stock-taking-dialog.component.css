@@ -103,7 +103,7 @@ table {
 }
 
 .headerForm {
-  margin-right: 5%;
+  margin-right: 12%;
     display: flex;
     /* justify-content: space-between; */
     flex-wrap: wrap;

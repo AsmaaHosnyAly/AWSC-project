@@ -57,6 +57,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
   currentData: any;
   fullCodeValue: any;
   itemByFullCodeValue: any;
+  isReadOnlyPercentage: any = false;
 
   itemsList: Item[] = [];
   itemCtrl: FormControl;
@@ -286,10 +287,21 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
   // }
 
   getItems() {
+    let itemArr: any[] = [];
     this.api.getItems()
       .subscribe({
         next: (res) => {
-          this.itemsList = res;
+          res.forEach((element: any) => {
+            if (element.type.includes('عهد')) {
+              itemArr.push(element);
+              // console.log("item list in loop check type: ", itemArr);
+
+            }
+          });
+          this.itemsList = itemArr;
+          // console.log("item list after check type: ", this.itemsList);
+          // this.itemsList = res 
+
         },
         error: (err) => {
           // console.log("fetch items data err: ", err);
@@ -297,6 +309,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
         }
       })
   }
+
 
   getItemByID(id: any) {
     return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
@@ -356,7 +369,20 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
 
   }
+  set_Percentage(state: any) {
 
+    console.log("state value changed: ", state.value);
+    this.groupDetailsForm.controls['state'].setValue(state.value);
+
+    if (this.groupDetailsForm.getRawValue().state == "مستعمل") {
+      this.isReadOnlyPercentage = false;
+    }
+    else {
+      this.isReadOnlyPercentage = true;
+      this.groupDetailsForm.controls['percentage'].setValue(100);
+    }
+
+  }
 
   // async itemOnChange(itemEvent: any) {
   //   console.log("itemEvent change value: ", itemEvent);

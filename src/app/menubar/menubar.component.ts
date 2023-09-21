@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { GlobalService } from '../services/global.service';
 import { SharedService } from '../guards/shared.service';
+import { Router } from '@angular/router';
+import { PagesEnums } from '../core/enums/pages.enum';
 
 @Component({
   selector: 'app-menubar',
@@ -17,7 +19,8 @@ export class MenubarComponent {
   transactionUserId = localStorage.getItem('transactionUserId');
   user: any;
   sharedStores: any;
-  constructor(public global: GlobalService,  public shared: SharedService) {
+  pageEnums = PagesEnums
+  constructor(public global: GlobalService,  public shared: SharedService,  private router: Router) {
     // this.refresh()
    
   
@@ -57,15 +60,32 @@ export class MenubarComponent {
     });
   }
 
+ 
+
   handleLogOut() {
+    localStorage.setItem('transactionUserId','')
     localStorage.removeItem('userRoles');
+    localStorage.removeItem('modules');
     this.global.isLogIn = false;
+    
   }
 
 refresh(){
   
     window.location.reload();
   }
+
+  hasAccessModule(id:number):boolean{
+    const MODULES_LOCAL_STORAGE = window.localStorage.getItem('modules') 
+    const MODULES : Array<any> =MODULES_LOCAL_STORAGE!.split(',')
+    return MODULES.some((i:any)=>i == id)
+  }
+  hasAccessRole(id:number):boolean{
+    const USER_ROLES_LOCAL_STORAGE = window.localStorage.getItem('userRoles') 
+    const USER_ROLES : Array<any> = USER_ROLES_LOCAL_STORAGE!.split(',')
+    return USER_ROLES.some((i:any)=>i == id)
+  }
+
    
  
   }

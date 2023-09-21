@@ -18,7 +18,8 @@ import {
 } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
 }
@@ -81,6 +82,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
+    private hotkeysService: HotkeysService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
     public loader: LoadingService,
@@ -150,7 +152,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
       // notesName: [''],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openEmployeeingStockDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   getsearch(code: any) {

@@ -9,6 +9,8 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { GlobalService } from '../../services/global.service';
 import { LoadingService } from 'src/app/loading.service';
 import { HttpClient } from '@angular/common/http';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-units',
   templateUrl: './str-units.component.html',
@@ -21,13 +23,18 @@ export class STRUnitsComponent {
  loading$ = this.loader.loading$;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , public loader:LoadingService, private http:HttpClient){
+  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , public loader:LoadingService, private http:HttpClient,private hotkeysService: HotkeysService){
     global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
     
  
   }
   ngOnInit(): void {
     this.getAllUnits();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   
   openDialog() {

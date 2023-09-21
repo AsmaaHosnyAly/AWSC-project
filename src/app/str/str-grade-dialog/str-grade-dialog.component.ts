@@ -1,5 +1,11 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  FormArray,
+} from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +16,8 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -32,13 +40,16 @@ export class STRGradeDialogComponent {
   selectedOption: any;
   dataSource!: MatTableDataSource<any>;
   existingNames: string[] = [];
+  existingCommodity: string[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
   accordion!: MatAccordion;
+  allGrades: any;
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<STRGradeDialogComponent>
@@ -51,7 +62,11 @@ export class STRGradeDialogComponent {
   }
   ngOnInit(): void {
     this.getExistingNames(); // Fetch existing names
-
+    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addGrade();
+      return false; // Prevent the default browser behavior
+    }));
     this.gradeForm = this.formBuilder.group({
       //define the components of the form
       transactionUserId: ['', Validators.required],
@@ -138,26 +153,24 @@ export class STRGradeDialogComponent {
   getExistingNames() {
     this.api.getAllGrades().subscribe({
       next: (res) => {
-        this.existingNames = res.map((item: any) => item.name);
+        this.allGrades = res;
       },
       error: (err) => {
         console.log('Error fetching existing names:', err);
       }
-    });
+    }); 
   }
   addGrade() {
-    // this.gradeForm.controls['code'].setValue(this.gradeForm.value.code);
+
     const enteredName = this.gradeForm.get('name')?.value;
-
-    if (this.existingNames.includes(enteredName)) {
-      alert('هذا الاسم موجود من قبل، قم بتغييره');
-      return;
-    }
-
     if (!this.editData) {
       this.gradeForm.removeControl('id');
-      // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
-      console.log('add: ', this.gradeForm.value);
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
+
       this.gradeForm.controls['transactionUserId'].setValue(
         this.transactionUserId
       );
@@ -178,17 +191,27 @@ export class STRGradeDialogComponent {
     }
   }
 
-
   updateGrade() {
-    this.api.putGrade(this.gradeForm.value).subscribe({
-      next: (res) => {
-        alert('تم التحديث بنجاح');
-        this.gradeForm.reset();
-        this.dialogRef.close('update');
-      },
-      error: () => {
-        alert('خطأ عند تحديث البيانات');
-      },
-    });
+    if (
+      this.allGrades.find(
+        (grade: { name: any; commodityId: any }) =>
+          grade.commodityId == this.gradeForm.getRawValue().commodityId &&
+          grade.name == this.gradeForm.getRawValue().name
+      )
+    ) {
+      alert('هذا الاسم موجود من قبل، قم بتغييره');
+      return;
+    } else {
+      this.api.putGrade(this.gradeForm.value).subscribe({
+        next: (res) => {
+          alert('تم التحديث بنجاح');
+          this.gradeForm.reset();
+          this.dialogRef.close('update');
+        },
+        error: () => {
+          alert('خطأ عند تحديث البيانات');
+        },
+      });
+    }
   }
 }
