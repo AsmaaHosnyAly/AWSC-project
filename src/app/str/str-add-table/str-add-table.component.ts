@@ -751,24 +751,51 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
-  acceptPendingWithdraw(rowId: any) {
-    console.log("pending withdraw row: ", rowId, "userId: ", localStorage.getItem('transactionUserId'));
+  acceptPendingWithdraw(row: any) {
+    console.log("pending withdraw row: ", row.id, "userId: ", localStorage.getItem('transactionUserId'));
     let acceptId = 1;
     let userId = parseInt(localStorage.getItem('transactionUserId')!);
 
-    console.log("type of row: ", typeof (rowId), "userId: ", typeof (userId), "acceptId: ", typeof (acceptId));
+    console.log("type of row: ", typeof (row.id), "userId: ", typeof (userId), "acceptId: ", typeof (acceptId));
 
     let dataPending = {
-      'id': rowId,
-      'user': userId,
-      'status': acceptId
+      'userId': userId,
+      'withDrawId': row.id,
+      'state': acceptId
     };
 
     this.api.postAcceptOrRejectWithDrawByDestStore(dataPending)
       .subscribe({
         next: (res) => {
           console.log("res after accept or reject pending withdraw: ", res);
-          // this.getAllWithDrawByDestStore();
+          this.getAllWithDrawByDestStore(row.storeId);
+        },
+        error: (err) => {
+          console.log("post err after accept or reject pending withdraw: ", err);
+          // alert("حدث خطأ أثناء إضافة مجموعة")
+        }
+      })
+  }
+
+
+  rejectPendingWithdraw(row: any) {
+    console.log("pending withdraw row: ", row.id, "userId: ", localStorage.getItem('transactionUserId'));
+    let rejectId = 0;
+    let userId = parseInt(localStorage.getItem('transactionUserId')!);
+
+    console.log("type of row: ", typeof (row.id), "userId: ", typeof (userId), "rejectId: ", typeof (rejectId));
+
+    let dataPending = {
+      'userId': userId,
+      'withDrawId': row.id,
+      'state': rejectId
+    };
+
+    this.api.postAcceptOrRejectWithDrawByDestStore(dataPending)
+      .subscribe({
+        next: (res) => {
+          console.log("res after accept or reject pending withdraw: ", res);
+          this.getAllWithDrawByDestStore(row.storeId);
         },
         error: (err) => {
           console.log("post err after accept or reject pending withdraw: ", err);
