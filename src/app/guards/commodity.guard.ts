@@ -27,16 +27,23 @@ export class commodityGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split(',');
-    for (let i = 0; i < userRole!.length; i++) {
-      let role = userRole![i];
-      if (role == '6' || role=='17') 
-      {
-        this.shared.commodity = true;
-        return this.shared.commodity;
-      } 
-    }
 
-    return true;
-  }
+      let roles = route.data['commodity'] as Array<string>;
+      let userRoles = localStorage.getItem('userRoles')?.split(',');
+      console.log('roles',roles)
+      console.log("userRole: ",localStorage.getItem('userRoles')?.split(','), "role compare: ",roles)
+      console.log("condtion",localStorage.getItem('userRoles')?.split(',').filter((element: string) => roles.includes(element)))
+     let condtion:any
+       if (localStorage.getItem('userRoles')?.split(',').filter((element: string) => roles.includes(element))){
+              this.shared.commodity=true
+              this.shared.stores=true
+              console.log('stores', this.shared.commodity)
+             return true
+       }
+       else if(condtion === undefined || condtion.length == 0){
+         this.shared.commodity=false
+         return false
+       }
+ return false;
+}
 }

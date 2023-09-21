@@ -262,7 +262,7 @@
 
 
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator #paginatorLegal="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 
   </mat-tab>
 
@@ -281,12 +281,9 @@
 
       <mat-card-header dir="ltr" class="parent-search">
 
-
         <div>
           <input matInput class="filter-search" (keyup)="applyPendingWithdrawFilter($event)" placeholder="بحث" #input />
         </div>
-
-
 
       </mat-card-header>
 
@@ -302,69 +299,72 @@
         </mat-form-field>
       </div>
 
-
-          <div class="div-table">
-            <table mat-table [dataSource]="dataSourcePendingWithdraws" dir="rtl">
-
-
-              <!-- No Column -->
-              <ng-container matColumnDef="no">
-                <th mat-header-cell *matHeaderCellDef>الرقم</th>
-                <td mat-cell *matCellDef="let row">{{ row.no }}</td>
-              </ng-container>
-
-              
-
-               <!-- storeName Column -->
-               <ng-container matColumnDef="storeName">
-                <th mat-header-cell *matHeaderCellDef>الرقم</th>
-                <td mat-cell *matCellDef="let row">{{ row.storeName }}</td>
-              </ng-container>
-
-              <!-- desstoreName Column -->
-              <ng-container matColumnDef="desstoreName">
-                <th mat-header-cell *matHeaderCellDef>الرقم</th>
-                <td mat-cell *matCellDef="let row">{{ row.desstoreName }}</td>
-              </ng-container>
+      <div class="div-table">
+        <table mat-table [dataSource]="dataSourcePendingWithdraws" dir="rtl">
 
 
-              <!-- fiscalyear Column -->
-              <ng-container matColumnDef="fiscalyear">
-                <th mat-header-cell *matHeaderCellDef>الرقم</th>
-                <td mat-cell *matCellDef="let row">{{ row.fiscalyear }}</td>
-              </ng-container>
-              
+          <!-- No Column -->
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef>الرقم</th>
+            <td mat-cell *matCellDef="let row">{{ row.no }}</td>
+          </ng-container>
 
-              <!-- date Column -->
-              <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef>الرقم</th>
-                <td mat-cell *matCellDef="let row">{{ row.date | date}}</td>
-              </ng-container>
-              
-              <!-- Action Column -->
-              <ng-container matColumnDef="Action">
-                <th mat-header-cell *matHeaderCellDef>الاجراء</th>
-                <td mat-cell *matCellDef="let row">
-                  <button mat-icon-button class=" editbtn" (click)="editMasterForm(row)">
-                    <mat-icon>visibility</mat-icon>
-                  </button>
-                  <button mat-icon-button class=" successbtn" >
-                    <mat-icon>done_outline</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" >
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </td>
-              </ng-container>
+          <!-- costCenterName Column -->
+          <ng-container matColumnDef="costCenterName">
+            <th mat-header-cell *matHeaderCellDef>مركز التكلفة</th>
+            <td mat-cell *matCellDef="let row">{{ row.costCenterName }}</td>
+          </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedPendingColumns"></tr>
-            </table>
-          </div>
-        <!-- </table> -->
+          <!-- storeName Column -->
+          <ng-container matColumnDef="storeName">
+            <th mat-header-cell *matHeaderCellDef>المخزن الحالى</th>
+            <td mat-cell *matCellDef="let row">{{ row.storeName }}</td>
+          </ng-container>
+
+          <!-- desstoreName Column -->
+          <ng-container matColumnDef="desstoreName">
+            <th mat-header-cell *matHeaderCellDef>مخزن الوجهة</th>
+            <td mat-cell *matCellDef="let row">{{ row.desstoreName }}</td>
+          </ng-container>
+
+
+          <!-- fiscalyear Column -->
+          <ng-container matColumnDef="fiscalyear">
+            <th mat-header-cell *matHeaderCellDef>السنة المالية</th>
+            <td mat-cell *matCellDef="let row">{{ row.fiscalyear }}</td>
+          </ng-container>
+
+
+          <!-- date Column -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>التاريخ</th>
+            <td mat-cell *matCellDef="let row">{{ row.date | date}}</td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <ng-container matColumnDef="Action">
+            <th mat-header-cell *matHeaderCellDef>الاجراء</th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button class=" editbtn" (click)="editMasterForm(row)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button class=" successbtn" (click)="acceptPendingWithdraw(row.id)">
+                <mat-icon>done_outline</mat-icon>
+              </button>
+              <button mat-icon-button color="warn">
+                <mat-icon>close</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedPendingColumns"></tr>
+        </table>
       </div>
+      <!-- </table> -->
+    </div>
     <!-- </div> -->
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator #paginatorGSTN="matPaginator" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 
   </mat-tab>
 

@@ -115,13 +115,18 @@ export class STRAddTableComponent implements OnInit {
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginatorPendingWithdraw!: MatPaginator;
+  @ViewChild('paginatorLegal')
+  paginatorLegal!: MatPaginator;
+  @ViewChild('paginatorGSTN')
+  paginatorGSTN!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   dataSource!: MatTableDataSource<any>;
   groupDetailsForm !: FormGroup;
   userRoles: any;
- 
+
   constructor(
     private api: ApiService,
     private global: GlobalService,
@@ -236,10 +241,10 @@ export class STRAddTableComponent implements OnInit {
   }
   applyPendingWithdrawFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource2.filter = filterValue.trim().toLowerCase();
+    this.dataSourcePendingWithdraws.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource2.paginator) {
-      this.dataSource2.paginator.firstPage();
+    if (this.dataSourcePendingWithdraws.paginator) {
+      this.dataSourcePendingWithdraws.paginator.firstPage();
     }
   }
 
@@ -248,7 +253,7 @@ export class STRAddTableComponent implements OnInit {
       next: (res) => {
         console.log('response of get all getGroup from api: ', res);
         this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.paginator = this.paginatorLegal;
         this.dataSource2.sort = this.sort;
         this.loadDataToLocalStorage(res);
         this.groupMasterForm.reset();
@@ -277,7 +282,7 @@ export class STRAddTableComponent implements OnInit {
     this.api.getGroup().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.paginatorLegal;
         this.dataSource.sort = this.sort;
       },
       error: () => {
@@ -613,7 +618,7 @@ export class STRAddTableComponent implements OnInit {
     this.api.getStrAddSearach(no,  fiscalyear, employee, item, store,StartDate,EndDate).subscribe({
       next: (res) => {
         this.dataSource2 = res;
-        this.dataSource2.paginator = this.paginator;
+        this.dataSource2.paginator = this.paginatorLegal;
         this.dataSource2.sort = this.sort;
       },
       error: (err) => {
@@ -837,10 +842,10 @@ export class STRAddTableComponent implements OnInit {
         for (let i = 0; i < res.length; i++) {
           newRes?.push(res[i].strWithdrawGetVM);
         }
-        
+
         console.log("pending withdraws new res: ", newRes);
         this.dataSourcePendingWithdraws = new MatTableDataSource(newRes);
-        this.dataSourcePendingWithdraws.paginator = this.paginator;
+        this.dataSourcePendingWithdraws.paginator = this.paginatorGSTN;
         this.dataSourcePendingWithdraws.sort = this.sort;
 
       },
@@ -848,5 +853,31 @@ export class STRAddTableComponent implements OnInit {
         // alert("خطأ أثناء جلب سجلات المجموعة !!");
       },
     });
+  }
+
+  acceptPendingWithdraw(rowId: any) {
+    console.log("pending withdraw row: ", rowId, "userId: ", localStorage.getItem('transactionUserId'));
+    let acceptId = 1;
+    let userId = parseInt(localStorage.getItem('transactionUserId')!);
+
+    console.log("type of row: ", typeof (rowId), "userId: ", typeof (userId), "acceptId: ", typeof (acceptId));
+
+    let dataPending = {
+      'id': rowId,
+      'user': userId,
+      'status': acceptId
+    };
+
+    this.api.postAcceptOrRejectWithDrawByDestStore(dataPending)
+      .subscribe({
+        next: (res) => {
+          console.log("res after accept or reject pending withdraw: ", res);
+          // this.getAllWithDrawByDestStore();
+        },
+        error: (err) => {
+          console.log("post err after accept or reject pending withdraw: ", err);
+          // alert("حدث خطأ أثناء إضافة مجموعة")
+        }
+      })
   }
 }
