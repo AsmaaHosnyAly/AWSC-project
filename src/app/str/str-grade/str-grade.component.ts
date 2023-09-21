@@ -108,7 +108,7 @@ export class STRGradeComponent implements OnInit {
         }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }

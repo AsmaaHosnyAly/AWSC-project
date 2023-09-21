@@ -55,7 +55,7 @@ export class StrCostcenterDialogComponent  implements OnInit {
       this.categories = categories;
     });
 
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addCostCenter();
       return false; // Prevent the default browser behavior

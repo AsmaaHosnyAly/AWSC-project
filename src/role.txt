@@ -1,3 +1,10 @@
+modules
+1-stores
+2-it
+3-accounts
+
+
+
 ****************stores*******************
 1-withdraw اذن صرف 
 2-STRAdd اذن اضافة

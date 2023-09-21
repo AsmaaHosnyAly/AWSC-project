@@ -72,6 +72,7 @@ export class STRItem1DialogComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
   accordion!: MatAccordion;
+  existingNames: string[] = [];
   
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -114,7 +115,7 @@ export class STRItem1DialogComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.getExistingNames(); // Fetch existing names
     this.itemForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       fullCode: [''],
@@ -158,7 +159,7 @@ export class STRItem1DialogComponent implements OnInit {
     this.api.getAllGroupsi().subscribe((groups) => {
       this.groups = groups;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addItem();
       return false; // Prevent the default browser behavior
@@ -351,6 +352,17 @@ export class STRItem1DialogComponent implements OnInit {
     });
   }
 
+  getExistingNames() {
+    this.api.getItem().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+
   addItem() {
     this.fullCode =
     this.itemForm.value.commoditycode.toString()+
@@ -365,6 +377,13 @@ export class STRItem1DialogComponent implements OnInit {
       this.transactionUserId
     );
     if (!this.editData) {
+      const enteredName = this.itemForm.get('name')?.value;
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
+
       this.itemForm.removeControl('id')
       // this.itemForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.itemForm.controls['gradeId'].setValue(this.selectedOption.id);
