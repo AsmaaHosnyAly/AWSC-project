@@ -155,7 +155,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { Item1DialogComponent } from './str/item1-dialog/item1-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { StrEmployeeOpeningCustodyDetailDailogComponent } from './str/str-employee-opening-custody-detail-dailog/str-employee-opening-custody-detail-dailog.component';
-import { WithdrawPrintDialogComponent } from './str/withdraw-print-dialog/withdraw-print-dialog.component';
+import { PrintDialogComponent } from './str/print-dialog/print-dialog.component';
 import { EmployeeExchangePrintDialogComponent } from './str/employee-exchange-print-dialog/employee-exchange-print-dialog.component';
 import { EmployeeCustodyPrintDialogComponent } from './str/employee-custody-print-dialog/employee-custody-print-dialog.component';
 import { StrAddPrintDialogComponent } from './str/str-add-print-dialog/str-add-print-dialog.component';
@@ -172,6 +172,9 @@ import { StrStockTakingDetailsDialogComponent } from './str/str-stock-taking-det
 import { StrStockTakingDialogComponent } from './str/str-stock-taking-dialog/str-stock-taking-dialog.component';
 import { StrStockTakingTableComponent } from './str/str-stock-taking-table/str-stock-taking-table.component';
 import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
+// import { StrProudctSerialComponent } from "./str/str-proudct-serial/str-proudct-serial.component";
+// import { StrProudctSerialDialogComponent } from "./str/str-proudct-serial-dialog/str-proudct-serial-dialog.component";
+
 // import { PrUsedrDetailsDialogComponent } from './pr/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -306,7 +309,7 @@ import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
                      PrHomeComponent,
                 StrEmployeeExchangeDetailsDialogComponent,
                 StrAddDetailsDialogComponent,
-    WithdrawPrintDialogComponent,
+                PrintDialogComponent,
     EmployeeExchangePrintDialogComponent,
     EmployeeCustodyPrintDialogComponent,
     StrAddPrintDialogComponent,
@@ -320,6 +323,7 @@ import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
     StrStockTakingDetailsDialogComponent,
     StrStockTakingDialogComponent,
     StrStockTakingTableComponent,
+
    
   ],
   imports: [

@@ -1,3 +1,4 @@
+import { PrintDialogComponent } from './../print-dialog/print-dialog.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,7 +13,7 @@ import { GlobalService } from 'src/app/services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+// import {  PrintDialogComponent} from "p";
 import {
   FormControl,
   FormControlName,
@@ -31,9 +32,9 @@ export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
 }
 
-export class costcenter {
-  constructor(public id: number, public name: string) { }
-}
+// export class costcenter {
+//   constructor(public id: number, public name: string) { }
+// }
 
 export class store {
   constructor(public id: number, public name: string) { }
@@ -61,7 +62,7 @@ export class STRAddTableComponent implements OnInit {
   ];
   displayedPendingColumns: string[] = [
     'no',
-    'costCenterName',
+    
     'storeName',
     'desstoreName',
     'fiscalyear',
@@ -76,7 +77,7 @@ export class STRAddTableComponent implements OnInit {
   typeList: any;
   ReceiptList: any;
   sourceStoreList: any;
-  employeeList: any;
+  // employeeList: any;
   sellerList: any;
   storeName: any;
   sourceStoreName: any;
@@ -91,12 +92,12 @@ export class STRAddTableComponent implements OnInit {
   groupMasterForm!: FormGroup;
 
 
-  costcentersList: costcenter[] = [];
-  costcenterCtrl: FormControl<any>;
-  filteredcostcenter: Observable<costcenter[]>;
-  selectedcostcenter: costcenter | undefined;
+  // costcentersList: costcenter[] = [];
+  // costcenterCtrl: FormControl<any>;
+  // filteredcostcenter: Observable<costcenter[]>;
+  // selectedcostcenter: costcenter | undefined;
 
-  employeesList: Employee[] = [];
+  employeeList: Employee[] = [];
   employeeCtrl: FormControl<any>;
   filteredEmployee: Observable<Employee[]>;
   selectedEmployee: Employee | undefined;
@@ -106,8 +107,10 @@ export class STRAddTableComponent implements OnInit {
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
 
-  // storeList: store[] = [];
-  storeList: any;
+
+  selectedReportName: string | undefined;
+  storeList: store[] = [];
+  // storeList: any;
   storeCtrl: FormControl;
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
@@ -129,11 +132,14 @@ export class STRAddTableComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
     private formBuilder: FormBuilder
   ) {
-    this.costcenterCtrl = new FormControl();
-    this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filtercostcenters(value))
-    );
+
+
+
+    // this.costcenterCtrl = new FormControl();
+    // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map((value) => this._filtercostcenters(value))
+    // );
 
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
@@ -156,15 +162,41 @@ export class STRAddTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.selectedReportName="STRWithdrawReport";
+
     this.getAllMasterForms();
     this.getFiscalYears();
-    this.getCostCenters();
+    // this.getCostCenters();
 
     this.getStores();
     this.getTypes();
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
+    this.getItems();
+
+    this.groupMasterForm = this.formBuilder.group({
+      no: [''],
+      employee: [''],
+      // costcenter: [''],
+      // :[''],
+      //  costcentersList:[''],
+      // costCenterId: [''],
+      item: [''],
+      fiscalYear: [''],
+      StartDate: [''],
+      EndDate: [''],
+
+      store: [''],
+      storeId: [''],
+      employeeId: [''],
+      employeeName: [''],
+      itemId:[''],
+      report:[''],
+      reportType:['']
+    });
+
 
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: [''], //MasterId
@@ -219,6 +251,7 @@ export class STRAddTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.loadDataToLocalStorage(res);
+        this.groupMasterForm.reset();
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -316,18 +349,18 @@ export class STRAddTableComponent implements OnInit {
       },
     });
   }
-  getCostCenters() {
-    this.api.getCostCenter().subscribe({
-      next: (res) => {
-        this.costcentersList = res;
-        console.log('costcenter res: ', this.costcentersList);
-      },
-      error: (err) => {
-        // console.log("fetch store data err: ", err);
-        // alert('خطا اثناء جلب مركز التكلفة !');
-      },
-    });
-  }
+  // getCostCenters() {
+  //   this.api.getCostCenter().subscribe({
+  //     next: (res) => {
+  //       this.costcentersList = res;
+  //       console.log('costcenter res: ', this.costcentersList);
+  //     },
+  //     error: (err) => {
+  //       // console.log("fetch store data err: ", err);
+  //       // alert('خطا اثناء جلب مركز التكلفة !');
+  //     },
+  //   });
+  // }
   getFiscalYears() {
     this.api.getFiscalYears().subscribe({
       next: (res) => {
@@ -428,6 +461,22 @@ export class STRAddTableComponent implements OnInit {
       },
     });
   }
+
+  getItems(){
+    this.api.getItem().subscribe({
+      next: (res) => {
+        this.itemsList = res;
+        console.log("itemss res: ", this.itemsList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert("خطا اثناء جلب المخازن !");
+      },
+    });
+  }
+
+
+
   getEmployees() {
     this.api.getEmployee().subscribe({
       next: (res) => {
@@ -441,35 +490,35 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
-  displaycostcenterName(costcenter: any): string {
-    return costcenter && costcenter.name ? costcenter.name : '';
-  }
-  costcenterSelected(event: MatAutocompleteSelectedEvent): void {
-    const costcenter = event.option.value as costcenter;
-    console.log('costcenter selected: ', costcenter);
-    this.selectedcostcenter = costcenter;
-    this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-    console.log(
-      'costcenter in form: ',
-      this.groupMasterForm.getRawValue().costCenterId
-    );
+  // displaycostcenterName(costcenter: any): string {
+  //   return costcenter && costcenter.name ? costcenter.name : '';
+  // }
+  // costcenterSelected(event: MatAutocompleteSelectedEvent): void {
+  //   const costcenter = event.option.value as costcenter;
+  //   console.log('costcenter selected: ', costcenter);
+  //   this.selectedcostcenter = costcenter;
+  //   this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+  //   console.log(
+  //     'costcenter in form: ',
+  //     this.groupMasterForm.getRawValue().costCenterId
+  //   );
 
-    // this.getSearchStrWithdraw()
-    // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
-    // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-  }
-  private _filtercostcenters(value: string): costcenter[] {
-    const filterValue = value;
-    return this.costcentersList.filter((costcenter) =>
-      costcenter.name.toLowerCase().includes(filterValue)
-    );
-  }
-  openAutocostcenter() {
-    this.costcenterCtrl.setValue(''); // Clear the input field value
+  //   // this.getSearchStrWithdraw()
+  //   // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
+  //   // return     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+  // }
+  // private _filtercostcenters(value: string): costcenter[] {
+  //   const filterValue = value;
+  //   return this.costcentersList.filter((costcenter) =>
+  //     costcenter.name.toLowerCase().includes(filterValue)
+  //   );
+  // }
+  // openAutocostcenter() {
+  //   this.costcenterCtrl.setValue(''); // Clear the input field value
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.costcenterCtrl.updateValueAndValidity();
-  }
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.costcenterCtrl.updateValueAndValidity();
+  // }
 
   /////employeee
 
@@ -492,7 +541,7 @@ export class STRAddTableComponent implements OnInit {
   }
   private _filteremployees(value: string): Employee[] {
     const filterValue = value;
-    return this.employeesList.filter((employee) =>
+    return this.employeeList.filter((employee) =>
       employee.name.toLowerCase().includes(filterValue)
     );
   }
@@ -511,8 +560,8 @@ export class STRAddTableComponent implements OnInit {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item;
-    this.groupMasterForm.patchValue({ itemId: item.id });
-    console.log('item in form: ', this.groupMasterForm.getRawValue().itemId);
+    this.groupDetailsForm.patchValue({ itemId: item.id });
+    console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
@@ -536,8 +585,8 @@ export class STRAddTableComponent implements OnInit {
     const store = event.option.value as store;
     console.log('store selected: ', store);
     this.selectedstore = store;
-    this.groupMasterForm.patchValue({ storeId: store.id });
-    console.log('store in form: ', this.groupMasterForm.getRawValue().storeId);
+    this.groupDetailsForm.patchValue({ storeId: store.id });
+    console.log('store in form: ', this.groupDetailsForm.getRawValue().storeId);
   }
   private _filterstores(value: string): store[] {
     const filterValue = value;
@@ -553,7 +602,7 @@ export class STRAddTableComponent implements OnInit {
     this.storeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrAdd(no: any, date: any, fiscalyear: any) {
+  getSearchStrAdd(no: any, StartDate: any,EndDate:any, fiscalyear: any) {
     console.log('fiscalyear in searchhhhh : ', fiscalyear, 'itemId',);
     // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
@@ -561,7 +610,7 @@ export class STRAddTableComponent implements OnInit {
     let store = this.groupMasterForm.getRawValue().storeId;
 
 
-    this.api.getStrAddSearach(no, date, fiscalyear, employee, item, store).subscribe({
+    this.api.getStrAddSearach(no,  fiscalyear, employee, item, store,StartDate,EndDate).subscribe({
       next: (res) => {
         this.dataSource2 = res;
         this.dataSource2.paginator = this.paginator;
@@ -573,26 +622,26 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
-  downloadPdf(no: any, store: any, date: any) {
-    console.log('no. : ', no, 'store : ', store, 'date: ', date);
-    this.api.strAdd(no, store, date).subscribe({
-      next: (res) => {
-        console.log('search:', res);
-        const url: any = res.url;
-        window.open(url);
-        // let blob: Blob = res.body as Blob;
-        // let url = window.URL.createObjectURL(blob);
+  // downloadPdf(no: any, store: any, date: any) {
+  //   console.log('no. : ', no, 'store : ', store, 'date: ', date);
+  //   this.api.strAdd(no, store, date).subscribe({
+  //     next: (res) => {
+  //       console.log('search:', res);
+  //       const url: any = res.url;
+  //       window.open(url);
+  //       // let blob: Blob = res.body as Blob;
+  //       // let url = window.URL.createObjectURL(blob);
 
-        // this.dataSource = res;
-        // this.dataSource.paginator = this.paginator;
-        // this.dataSource.sort = this.sort;
-      },
-      error: (err) => {
-        console.log('eroorr', err);
-        window.open(err.url);
-      },
-    });
-  }
+  //       // this.dataSource = res;
+  //       // this.dataSource.paginator = this.paginator;
+  //       // this.dataSource.sort = this.sort;
+  //     },
+  //     error: (err) => {
+  //       console.log('eroorr', err);
+  //       window.open(err.url);
+  //     },
+  //   });
+  // }
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
   }
@@ -608,113 +657,113 @@ export class STRAddTableComponent implements OnInit {
     localStorage.setItem('store-data', JSON.stringify(data));
   }
 
-  print(no: any,  date: any,fiscalyear:any) {
+  // print(no: any,  date: any,fiscalyear:any) {
 
-    let employee = this.groupMasterForm.getRawValue().employeeId;
-    let item = this.groupDetailsForm.getRawValue().itemId;
-    let store = this.groupMasterForm.getRawValue().storeId;
+  //   let employee = this.groupMasterForm.getRawValue().employeeId;
+  //   let item = this.groupDetailsForm.getRawValue().itemId;
+  //   let store = this.groupMasterForm.getRawValue().storeId;
 
-    this.api.getStrAddSearach(no, date,fiscalyear,employee ,item,store).subscribe({
-      next: (res) => {
-        console.log('search addStock res: ', res);
+  //   this.api.getStrAddSearach(no, date,fiscalyear,employee ,item,store).subscribe({
+  //     next: (res) => {
+  //       console.log('search addStock res: ', res);
 
-        //enter no.
-        if (no != '' && !store && !date) {
-          // console.log("enter no. ")
-          // console.log("no. : ", no, "store: ", store, "date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.no == no!);
-          console.log('data after if :', this.dataSource2);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  //       //enter no.
+  //       if (no != '' && !store && !date) {
+  //         // console.log("enter no. ")
+  //         // console.log("no. : ", no, "store: ", store, "date: ", date)
+  //         this.dataSource2 = res.filter((res: any) => res.no == no!);
+  //         console.log('data after if :', this.dataSource2);
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       }
 
-        //enter store
-        else if (!no && store && !date) {
-          // console.log("enter store. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.storeId == store);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  //       //enter store
+  //       else if (!no && store && !date) {
+  //         // console.log("enter store. ")
+  //         // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+  //         this.dataSource2 = res.filter((res: any) => res.storeId == store);
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       }
 
-        //enter date
-        else if (!no && !store && date) {
-          // console.log("enter date. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  //       //enter date
+  //       else if (!no && !store && date) {
+  //         // console.log("enter date. ")
+  //         // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+  //         this.dataSource2 = res.filter(
+  //           (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
+  //         );
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       }
 
-        //enter no. & store
-        else if (no && store && !date) {
-          // console.log("enter no & store ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => res.no == no! && res.storeId == store
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  //       //enter no. & store
+  //       else if (no && store && !date) {
+  //         // console.log("enter no & store ")
+  //         // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+  //         this.dataSource2 = res.filter(
+  //           (res: any) => res.no == no! && res.storeId == store
+  //         );
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       }
 
-        //enter no. & date
-        else if (no && !store && date) {
-          // console.log("enter no & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  //       //enter no. & date
+  //       else if (no && !store && date) {
+  //         // console.log("enter no & date ")
+  //         // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+  //         this.dataSource2 = res.filter(
+  //           (res: any) =>
+  //             res.no == no! &&
+  //             formatDate(res.date, 'M/d/yyyy', this.locale) == date
+  //         );
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       }
 
-        //enter store & date
-        else if (!no && store && date) {
-          // console.log("enter store & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  //       //enter store & date
+  //       else if (!no && store && date) {
+  //         // console.log("enter store & date ")
+  //         // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+  //         this.dataSource2 = res.filter(
+  //           (res: any) =>
+  //             res.storeId == store &&
+  //             formatDate(res.date, 'M/d/yyyy', this.locale) == date
+  //         );
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       }
 
-        //enter all data
-        else if (no != '' && store != '' && date != '') {
-          // console.log("enter all data. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  //       //enter all data
+  //       else if (no != '' && store != '' && date != '') {
+  //         // console.log("enter all data. ")
+  //         // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+  //         this.dataSource2 = res.filter(
+  //           (res: any) =>
+  //             res.no == no! &&
+  //             res.storeId == store &&
+  //             formatDate(res.date, 'M/d/yyyy', this.locale) == date
+  //         );
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       }
 
-        //didn't enter any data
-        else {
-          // console.log("enter no data ")
-          this.dataSource2 = res;
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
+  //       //didn't enter any data
+  //       else {
+  //         // console.log("enter no data ")
+  //         this.dataSource2 = res;
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       }
 
-        this.loadDataToLocalStorage(res);
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
-    this.router.navigate(['/add-item-report']);
-  }
+  //       this.loadDataToLocalStorage(res);
+  //     },
+  //     error: (err) => {
+  //       alert('Error');
+  //     },
+  //   });
+  //   this.router.navigate(['/add-item-report']);
+  // }
 
   storeValueChanges(storeId: any) {
     console.log("storeId selected to get pending withdraw: ", storeId);
@@ -722,6 +771,61 @@ export class STRAddTableComponent implements OnInit {
 
     this.getAllWithDrawByDestStore(storeId);
 
+  }
+  downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+    let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    let employee = this.groupMasterForm.getRawValue().employeeId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
+    let store = this.groupMasterForm.getRawValue().storeId;
+
+    this.api
+    .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+    .subscribe({
+        next: (res) => {
+          console.log('search:', res);
+          const url: any = res.url;
+          window.open(url);
+          // let blob: Blob = res.body as Blob;
+          // let url = window.URL.createObjectURL(blob);
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
+  }
+  previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+    let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    let employee = this.groupMasterForm.getRawValue().employeeId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
+    let store = this.groupMasterForm.getRawValue().storeId;
+
+    this.api
+      .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+      .subscribe({
+        next: (res) => {
+          let blob: Blob = res.body as Blob;
+          console.log(blob);
+          let url = window.URL.createObjectURL(blob);
+          localStorage.setItem('url', JSON.stringify(url));
+          this.pdfurl = url;
+          this.dialog.open(PrintDialogComponent, {
+            width: '50%',
+          });
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
   }
 
   getAllWithDrawByDestStore(storeId: any) {

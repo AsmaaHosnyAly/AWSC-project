@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-withdraw-print-dialog',
-  templateUrl: './withdraw-print-dialog.component.html',
-  styleUrls: ['./withdraw-print-dialog.component.css'],
+  selector: 'app-print-dialog',
+  templateUrl: './print-dialog.component.html',
+  styleUrls: ['./print-dialog.component.css'],
 })
-export class WithdrawPrintDialogComponent {
+export class PrintDialogComponent {
   pdfurl: any = '';
   url: any;
   ngOnInit(): void {

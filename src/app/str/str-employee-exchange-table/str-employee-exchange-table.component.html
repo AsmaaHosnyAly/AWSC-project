@@ -15,17 +15,26 @@
         <div class="searchLabels">
           <mat-label>الرقم</mat-label>
 
-          <mat-form-field appearance="outline" style="width: 100px;margin-left: 1rem;">
+          <mat-form-field appearance="outline">
             <input #no matInput formControlName="no" (keydown)="getsearch($event)" type="number" min="0" />
 
           </mat-form-field>
         </div>
+        <div class="searchLabels">
+          <mat-label>السنة المالية</mat-label>
 
+          <mat-form-field appearance="outline" >
+            <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalYear">
+              <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.id">{{
+                fiscalYear.fiscalyear }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
         <div class="searchLabels">
 
           <mat-label >الموظف:</mat-label>
-         <mat-form-field appearance="outline" style="width: 90%;margin-left: 1rem;" >
+         <mat-form-field appearance="outline" >
             <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" (keydown)="getsearch($event)"
               [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
             <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
@@ -36,10 +45,27 @@
             </mat-autocomplete>
           </mat-form-field>
          </div>
+         <div class="searchLabels">
+  
+          <mat-label >
+            الموظف المحول اليه:</mat-label>
+        
+          <mat-form-field appearance="outline" >
+            <input matInput aria-label="commodity" [matAutocomplete]="autodistEmployee" (keydown)="getsearch($event)"
+              [formControl]="distEmployeeCtrl" formControlName="distEmployee" (click)="openAutodistEmployee()" required />
+            <mat-autocomplete #autodistEmployee="matAutocomplete" #distEmployeeId [displayWith]="displaydistEmployeeName"
+              (optionSelected)="distEmployeeSelected($event)">
+              <mat-option *ngFor="let distEmployee of filtereddistEmployee | async" [value]="distEmployee">
+                {{ distEmployee.name }} | {{ distEmployee.code }} |
+                {{ distEmployee.id }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
 
          <div class="searchLabels">
          <mat-label >مركز التكلفة :</mat-label>
-        <mat-form-field appearance="outline"  style="width: 90%;margin-left: 1rem;" >
+        <mat-form-field appearance="outline"  >
             <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter" (keydown)="getsearch($event)"
               [formControl]="costcenterCtrl" formControlName="costcenter" (click)="openAutocostcenter()" required />
             <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId [displayWith]="displaycostcenterName"
@@ -53,48 +79,83 @@
 
 
 
+        <div class="searchLabels">
 
+          <mat-label>الصنف:</mat-label>
+
+          <mat-form-field appearance="outline" >
+            <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
+              formControlName="itemName" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
+            <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
+              (optionSelected)="itemSelected($event)">
+              <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+                {{ item.name }} | {{ item.id }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
      
+    
+
+        
         <div class="searchLabels">
-  
-  <mat-label >
-    الموظف المحول اليه:</mat-label>
+          <mat-label> تاريخ البداية</mat-label>
+          <mat-form-field appearance="outline" class="searchForm">
 
-  <mat-form-field appearance="outline" style="width: 150px; margin-left: 5px">
-    <input matInput aria-label="commodity" [matAutocomplete]="autodistEmployee" (keydown)="getsearch($event)"
-      [formControl]="distEmployeeCtrl" formControlName="distEmployee" (click)="openAutodistEmployee()" required />
-    <mat-autocomplete #autodistEmployee="matAutocomplete" #distEmployeeId [displayWith]="displaydistEmployeeName"
-      (optionSelected)="distEmployeeSelected($event)">
-      <mat-option *ngFor="let distEmployee of filtereddistEmployee | async" [value]="distEmployee">
-        {{ distEmployee.name }} | {{ distEmployee.code }} |
-        {{ distEmployee.id }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</div>
-
-        <div class="searchLabels">
-          <mat-label>التاريخ</mat-label>
-
-          <mat-form-field appearance="outline" class="example-full-width"  style="width: 100%;margin-left: 1rem;"  >
-            <input #date matInput [matDatepicker]="picker" formControlName="date" />
+            <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate">
             <mat-datepicker-toggle matIconSuffix [for]="picker">
               <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+
             </mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="searchLabels">
+          <mat-label>تاريخ النهاية</mat-label>
+          <mat-form-field appearance="outline" class="searchForm" >
+
+            <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate">
+            <mat-datepicker-toggle matIconSuffix [for]="picke">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+
+            </mat-datepicker-toggle>
+            <mat-datepicker #picke></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="searchLabels">
+          <mat-label> التقارير</mat-label>
+
+          <mat-form-field appearance="outline" class="searchForm" >
+            <mat-select  #report  formControlName="report">
+              <mat-option value="STRItemsReport">تقرير 1</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="searchLabels">
+          <mat-label> نوع التقرير</mat-label>
+
+          <mat-form-field appearance="outline" class="searchForm" >
+            <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
+              <mat-option value="pdf"> .PDF  </mat-option>
+              <mat-option value="txt">.TXT </mat-option>
+              <mat-option value="ppt"> .PPT</mat-option>
+
+
+            </mat-select>
           </mat-form-field>
         </div>
 
 
         <div class="print-display">
-          <mat-icon (click)="getSearchStrOpen(no.value, date.value)" class="icons" title="بحث">search</mat-icon>
+          <mat-icon (click)="getSearchStrOpen(no.value,  StartDate.value,EndDate.value,fiscalYear.value)" class="icons" title="بحث">search</mat-icon>
 
-          <mat-icon (click)="previewPdf(no.value, date.value)" class="icons" title="عرض">print</mat-icon>
+          <mat-icon (click)="previewPdf(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons" title="عرض">print</mat-icon>
 
           <!-- <mat-icon (click)="printReport()" class="icons" title="عرض"
             >print</mat-icon
           > -->
-          <mat-icon (click)="downloadPdf(no.value, date.value)" class="icons" title="تحميل">get_app</mat-icon>
+          <mat-icon (click)="downloadPdf(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons" title="تحميل">get_app</mat-icon>
 
           <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
         </div>
