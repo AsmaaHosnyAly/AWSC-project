@@ -20,7 +20,7 @@ export class StrVendorDialogComponent {
   actionBtn : string = "حفظ";
   userIdFromStorage: any;
   transactionUserId=localStorage.getItem('transactionUserId')
-  
+  existingNames: string[] = [];
   // groupEditId: any;
 
   constructor(private formBuilder : FormBuilder,
@@ -31,6 +31,7 @@ export class StrVendorDialogComponent {
      private dialogRef : MatDialogRef<StrVendorDialogComponent>){
      }
   ngOnInit(): void {
+    this.getExistingNames(); // Fetch existing names
     this.vendorsForm = this.formBuilder.group({
       transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
@@ -54,8 +55,25 @@ export class StrVendorDialogComponent {
     }
   }
 
+  getExistingNames() {
+    this.api.getVendor().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+
   addVendor(){
     if(!this.editData){
+      const enteredName = this.vendorsForm.get('name')?.value;
+
+    if (this.existingNames.includes(enteredName)) {
+      alert('هذا الاسم موجود من قبل، قم بتغييره');
+      return;
+    }
       this.vendorsForm.controls['transactionUserId'].setValue(this.transactionUserId);
       console.log("hhhhhh",this.transactionUserId);
 

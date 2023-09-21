@@ -26,6 +26,7 @@ export class StrStoreDialogComponent implements OnInit {
   storeForm !: FormGroup;
   actionBtn: string = "حفظ"
   autoCode:any;
+  existingNames: string[] = [];
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
@@ -39,6 +40,7 @@ export class StrStoreDialogComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.getExistingNames(); // Fetch existing names
     this.getStoreAutoCode();
     this.storeForm = this.formBuilder.group({
       code: ['', Validators.required],
@@ -99,9 +101,25 @@ export class StrStoreDialogComponent implements OnInit {
     this.storeKeeperCtrl.updateValueAndValidity();
   }
 
+  getExistingNames() {
+    this.api.getStore().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
 
   addStores() {
     if (!this.editData) {
+      const enteredName = this.storeForm.get('name')?.value;
+
+    if (this.existingNames.includes(enteredName)) {
+      alert('هذا الاسم موجود من قبل، قم بتغييره');
+      return;
+    }
       if (this.storeForm.getRawValue().code) {
         this.storeForm.controls['code'].setValue(this.autoCode);
       }

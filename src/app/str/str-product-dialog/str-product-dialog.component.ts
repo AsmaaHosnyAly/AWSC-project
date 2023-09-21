@@ -37,7 +37,7 @@ export class StrProductDialogComponent implements OnInit {
   file: any;
   File = null; // Variable to store file
   freshnessList = ["Brand new", "Second Hand", "Refurbished"];
-  groupForm !: FormGroup;
+  productForm !: FormGroup;
   actionBtn: string = "Save";
   groupSelectedSearch: any;
   basketballPlayers: any;
@@ -48,7 +48,7 @@ export class StrProductDialogComponent implements OnInit {
   itemName: any;
   productIdToEdit: any;
   userIdFromStorage: any;
-
+  existingNames: string[] = [];
   itemsList: Item[] = [];
   itemCtrl: FormControl;
   filteredItem: Observable<Item[]>;
@@ -93,11 +93,12 @@ export class StrProductDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getExistingNames(); // Fetch existing names
     this.getItems();
     this.getVendors();
     this.getModels();
 
-    this.groupForm = this.formBuilder.group({
+    this.productForm = this.formBuilder.group({
       // code: ['', Validators.required],
       name: ['', Validators.required],
       itemId: ['', Validators.required],
@@ -119,23 +120,23 @@ export class StrProductDialogComponent implements OnInit {
     console.log("edit data", this.editData);
     if (this.editData) {
       this.actionBtn = "Update";
-      // this.groupForm.controls['code'].setValue(this.editData.code);
-      this.groupForm.controls['name'].setValue(this.editData.name);
-      this.groupForm.controls['itemId'].setValue(this.editData.itemId);
-      this.groupForm.controls['vendorId'].setValue(this.editData.vendorId);
-      this.groupForm.controls['modelId'].setValue(this.editData.modelId);
-      this.groupForm.controls['attachment'].setValue(this.editData.attachment);
+      // this.productForm.controls['code'].setValue(this.editData.code);
+      this.productForm.controls['name'].setValue(this.editData.name);
+      this.productForm.controls['itemId'].setValue(this.editData.itemId);
+      this.productForm.controls['vendorId'].setValue(this.editData.vendorId);
+      this.productForm.controls['modelId'].setValue(this.editData.modelId);
+      this.productForm.controls['attachment'].setValue(this.editData.attachment);
 
       // console.log("attachhh",this.editData.attachement
       // )
 
-      // this.groupForm.controls['platoonId'].setValue(this.editData.platoonId);
+      // this.productForm.controls['platoonId'].setValue(this.editData.platoonId);
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
 
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-      // this.groupForm.controls['id'].setValue(this.editData.id);
-      this.groupForm.addControl('id', new FormControl('', Validators.required));
-      this.groupForm.controls['id'].setValue(this.editData.id);
+      this.productForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      // this.productForm.controls['id'].setValue(this.editData.id);
+      this.productForm.addControl('id', new FormControl('', Validators.required));
+      this.productForm.controls['id'].setValue(this.editData.id);
 
     }
 
@@ -154,8 +155,8 @@ export class StrProductDialogComponent implements OnInit {
     const item = event.option.value as Item;
     console.log("item selected: ", item);
     this.selectedItem = item;
-    this.groupForm.patchValue({ itemId: item.id });
-    console.log("item in form: ", this.groupForm.getRawValue().itemId);
+    this.productForm.patchValue({ itemId: item.id });
+    console.log("item in form: ", this.productForm.getRawValue().itemId);
   }
   openAutoItem() {
     this.itemCtrl.setValue(''); // Clear the input field value
@@ -178,8 +179,8 @@ export class StrProductDialogComponent implements OnInit {
     const vendor = event.option.value as Vendor;
     console.log("vendor selected: ", vendor);
     this.selectedItem = vendor;
-    this.groupForm.patchValue({ vendorId: vendor.id });
-    console.log("vendor in form: ", this.groupForm.getRawValue().vendorId);
+    this.productForm.patchValue({ vendorId: vendor.id });
+    console.log("vendor in form: ", this.productForm.getRawValue().vendorId);
   }
   openAutoVendor() {
     this.vendorCtrl.setValue(''); // Clear the input field value
@@ -202,8 +203,8 @@ export class StrProductDialogComponent implements OnInit {
     const model = event.option.value as Model;
     console.log("model selected: ", model);
     this.selectedItem = model;
-    this.groupForm.patchValue({ modelId: model.id });
-    console.log("model in form: ", this.groupForm.getRawValue().modelId);
+    this.productForm.patchValue({ modelId: model.id });
+    console.log("model in form: ", this.productForm.getRawValue().modelId);
   }
   openAutoModel() {
     this.modelCtrl.setValue(''); // Clear the input field value
@@ -212,33 +213,6 @@ export class StrProductDialogComponent implements OnInit {
     this.modelCtrl.updateValueAndValidity();
   }
 
-  //   onChange(event:any) {
-  //     this.file = event.target.files[0];
-  //     console.log(event)
-  // }
-
-
-  // // OnClick of button Upload
-  // onUpload() {
-  //   const fd=new FormData;
-  //   fd.append('IMAGES',this.file,this.file.name);
-  //   this.api.upload(this.file).subscribe(event=>{console.log(event)
-
-  //   })
-  //     // this.loading = !this.loading;
-  //     // console.log(this.file);
-  //     // this.api.upload(this.file).subscribe(
-  //     //     (event: any) => {
-  //     //         if (typeof (event) === 'object') {
-
-  //     //             // Short link via api response
-  //     //             this.shortLink = event.link;
-
-  //     //             this.loading = false; // Flag variable 
-  //     //         }
-  //     //     }
-  //     // );
-  // }
   onChange(event: any) {
     this.file = event.target.files[0];
     console.log("file", this.file);
@@ -251,7 +225,7 @@ export class StrProductDialogComponent implements OnInit {
     let formdata = new FormData;
     formdata.set("name", this.file.name)
     formdata.set("file", this.file)
-    this.groupForm.controls['attachment'].setValue(formdata);
+    this.productForm.controls['attachment'].setValue(formdata);
     console.log("form data", formdata)
 
 
@@ -270,30 +244,51 @@ export class StrProductDialogComponent implements OnInit {
 
           this.loading = false; // Flag variable 
           console.log("shortlink", this.shortLink)
-          this.groupForm.controls['attachment'].setValue(this.shortLink);
-          alert("display link: " + this.groupForm.getRawValue().attachment)
+          this.productForm.controls['attachment'].setValue(this.shortLink);
+          alert("display link: " + this.productForm.getRawValue().attachment)
         }
       }
     );
   }
+
+  getExistingNames() {
+    this.api.getStrProduct().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+
   async addProduct() {
     // console.log("att",this.editData.attachement)
 
-    console.log("form entered values", this.groupForm.value);
+    console.log("form entered values", this.productForm.value);
     if (!this.editData) {
-      this.groupForm.removeControl('id')
 
-      // if (this.groupForm.getRawValue().platoonId) {
-      // this.itemName = await this.getItemByID(this.groupForm.getRawValue().platoonId);
-      // this.groupForm.controls['platoonName'].setValue(this.platoonName);
+      const enteredName = this.productForm.get('name')?.value;
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
+  
+
+      this.productForm.removeControl('id')
+
+      // if (this.productForm.getRawValue().platoonId) {
+      // this.itemName = await this.getItemByID(this.productForm.getRawValue().platoonId);
+      // this.productForm.controls['platoonName'].setValue(this.platoonName);
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.productForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
-      console.log("form add product value: ", this.groupForm.value)
+      console.log("form add product value: ", this.productForm.value)
 
-      console.log("if state: ", this.groupForm.valid)
-      if (this.groupForm.valid) {
-        this.api.postStrProduct(this.groupForm.value)
+      if (this.productForm.valid) {
+
+        this.api.postStrProduct(this.productForm.value)
           .subscribe({
             next: (res) => {
               console.log("add product res: ", res);
@@ -301,7 +296,7 @@ export class StrProductDialogComponent implements OnInit {
 
               this.toastrSuccess();
               alert("تمت إضافة المنتج بنجاح");
-              this.groupForm.reset();
+              this.productForm.reset();
 
               this.dialogRef.close('save');
             },
@@ -320,13 +315,13 @@ export class StrProductDialogComponent implements OnInit {
   }
 
   updateProduct() {
-    console.log("update product last values, id: ", this.groupForm.value)
-    this.api.putStrProduct(this.groupForm.value)
+    console.log("update product last values, id: ", this.productForm.value)
+    this.api.putStrProduct(this.productForm.value)
       .subscribe({
         next: (res) => {
           alert("تم تحديث المنتج بنجاح");
           this.toastrSuccess();
-          this.groupForm.reset();
+          this.productForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
