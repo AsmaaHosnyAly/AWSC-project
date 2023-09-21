@@ -111,7 +111,7 @@ export class StrProductDialogComponent implements OnInit {
       // id: [''],
 
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addProduct();
       return false; // Prevent the default browser behavior

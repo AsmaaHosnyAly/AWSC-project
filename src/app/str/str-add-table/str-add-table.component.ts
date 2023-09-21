@@ -13,6 +13,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
 import {
   FormControl,
   FormControlName,
@@ -127,6 +130,7 @@ export class STRAddTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private global: GlobalService,
+    private hotkeysService: HotkeysService,
     private dialog: MatDialog, private toastr: ToastrService,
 
     private http: HttpClient,
@@ -192,11 +196,11 @@ export class STRAddTableComponent implements OnInit {
 
       // notesName: [''],
     });
-    // this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-    //   // Call the deleteGrade() function in the current component
-    //   this.openAddDialog();
-    //   return false; // Prevent the default browser behavior
-    // }));
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openAddDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {

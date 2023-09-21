@@ -75,7 +75,7 @@ vendorName: any;
       this.api.getAllVendor().subscribe((vendores)=>{
         this.vendores = vendores;
       });
-      this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
         // Call the deleteGrade() function in the current component
         this.addModel();
         return false; // Prevent the default browser behavior

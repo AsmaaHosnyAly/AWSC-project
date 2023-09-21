@@ -34,7 +34,7 @@ export class STRUnitsDialogComponent {
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addUnits();
       return false; // Prevent the default browser behavior

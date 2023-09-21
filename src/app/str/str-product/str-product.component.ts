@@ -10,7 +10,7 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { StrProductDialogComponent } from '../str-product-dialog/str-product-dialog.component';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-
+import { HttpClient } from '@angular/common/http';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 
@@ -35,7 +35,7 @@ export class StrProductComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService,private hotkeysService: HotkeysService) {
+  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService,private hotkeysService: HotkeysService,private http: HttpClient) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
     global.getPermissionUserRoles(
       1,
@@ -94,6 +94,13 @@ export class StrProductComponent implements OnInit {
 //         }
 //     );
 // }
+onDownload() {
+  this.http.get('http://192.168.100.213/files/str-uploads', { responseType: 'blob' })
+    .subscribe(response => {
+      const downloadUrl = URL.createObjectURL(response);
+      window.open(downloadUrl);
+    });
+}
   openDialog() {
     this.dialog.open(StrProductDialogComponent, {
       width: '47%'
@@ -154,8 +161,6 @@ export class StrProductComponent implements OnInit {
 
             this.getAllProducts()
 
-  
-    
           }else{
             alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
           }
