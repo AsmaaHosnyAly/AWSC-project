@@ -7,8 +7,8 @@
 
 
     <div style="overflow: hidden !important;">
-        <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل افتتاحي العهد  </h1>
-  
+        <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل افتتاحي العهد </h1>
+
         <div class="detailsForm" dir="rtl" style="overflow: hidden !important;">
             <!-- <div class="row"> -->
 
@@ -30,7 +30,7 @@
                 </mat-form-field> -->
 
 
-                
+
             <mat-label> الصنف*</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput" style="width: 70%;">
@@ -54,7 +54,7 @@
                             [value]="editData ? editData.qty : '1'">
                     </mat-form-field>
                 </div>
-              
+
 
 
                 <div style="display: flex;flex-direction: column;width: 17rem;">
@@ -82,33 +82,30 @@
                 </div>
 
                 <div style="display: flex;flex-direction: column;width: 9rem;">
-                    <mat-label > النسبة*</mat-label>
+                    <mat-label> النسبة*</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput" style="width:100% ;">
                         <input matInput type="number" min="0" placeholder="النسبة" formControlName="percentage"
                             [value]="editData ? editData.percentage : ''" [readonly]="isReadOnlyPercentage">
                     </mat-form-field>
                 </div>
-           
+
             </div>
-            <!-- </div> -->
-            <!-- <div class="row"> -->
+           
 
+            <div style="display: flex;flex-direction: column; width: 70%;">
 
+                <mat-form-field appearance="outline">
+                    <mat-label>الوصف</mat-label>
+                    <textarea formControlName="description" matInput placeholder="الوصف ..."></textarea>
+                </mat-form-field>
 
-
-
-
-
-
-
-            <!-- <mat-label>الرصيد الحالى*</mat-label>
-  
-            <mat-form-field appearance="outline" class="groupInput">
-                <input matInput type="number"  min="0" placeholder="الرصيد" formControlName="balanceQty"
-                    [value]="editData ? editData.balanceQty : ''" readonly>
-            </mat-form-field> -->
-            <!-- </div> -->
+                <mat-form-field appearance="outline">
+                    <mat-label>ملاحظات</mat-label>
+                    <textarea formControlName="notes" matInput placeholder="ملاحظات ..."></textarea>
+                </mat-form-field>
+ 
+            </div>
 
 
             <div mat-dialog-action [align]="'end'">
