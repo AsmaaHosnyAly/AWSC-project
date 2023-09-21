@@ -103,21 +103,27 @@ export class StrCostcenterComponent  implements OnInit {
   }
 
   deleteCostCenter(id:number){
-    if (confirm("هل انت متأكد من الحذف؟"))
-this.api.deleteCostCenter(id)
-.subscribe({
-next:(res)=>{
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.deleteCostCenter(id).subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
+          this.getAllCostCenter();
 
- if(res == 'Success'){
-  console.log("res of deletestore:",res)
-alert("تم الحذف");
-this.getAllCostCenter();
-}else{
-  alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-
-}}
-})
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر'); 
+        },
+      });
+    }
 }
+
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
