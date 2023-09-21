@@ -1,0 +1,60 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مسلسل منتج   ' :  'اضافة مسلسل  النتج'}}</h1>
+  <form [formGroup]="gradeForm" dir="rtl">
+   
+    <div mat-dialog-content>
+      <form [formGroup]="gradeForm">
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>كود النوعية</mat-label>
+          <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود النوعية">
+          <mat-error *ngIf="gradeForm.get('code')?.invalid && gradeForm.get('code')?.touched">
+             كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
+          </mat-error>
+        </mat-form-field> -->
+        <mat-label>مسلسل</mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="serial" matInput placeholder="مسلسل">
+        </mat-form-field>
+        
+        <mat-label>  تاريخ الانتاج</mat-label>
+        <mat-form-field appearance="outline" style="width:100%">
+                
+                  <input matInput [matDatepicker]="picker" formControlName="productionDate">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker">
+                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              
+            <mat-label>تاريخ الانتهاء</mat-label>
+            <mat-form-field appearance="outline" style="width:100%">
+                    
+                      <input matInput [matDatepicker]="picke" formControlName="expireDate">
+                      <mat-datepicker-toggle matIconSuffix [for]="picke">
+                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                          
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picke></mat-datepicker>
+                  </mat-form-field>
+        <mat-label>اسم النتج</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput aria-label="product" [matAutocomplete]="autoProduct" [formControl]="productCtrl"
+            placeholder="{{getGradeData ? getGradeData.productName : 'اختر سلعة'}}" (click)="openAutoProduct()" required />
+          <mat-autocomplete #autoProduct="matAutocomplete" [displayWith]="displaProductName"
+            (optionSelected)="productSelected($event)">
+            <mat-option *ngFor="let product of filteredProductes | async" [value]="product">
+              {{ product.name }} 
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button mat-raised-button class="savebtn" (click)="addProductserail()" >{{actionBtn}}</button>
+      </form>
+    </div>
+     
+      
+    
+  </form>
