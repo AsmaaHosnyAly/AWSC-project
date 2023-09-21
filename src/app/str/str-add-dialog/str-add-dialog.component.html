@@ -10,7 +10,7 @@
   <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
     <div class="headerForm">
-   
+
 
 
       <div style="display: flex; flex-direction: column;">
@@ -53,7 +53,7 @@
           </div>
 
 
-       
+
           <div style="display: flex; flex-direction: column;margin-left: 10px; ">
             <mat-label>المصدر</mat-label>
 
@@ -84,21 +84,22 @@
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <div style="display: flex; flex-direction: column; margin-left: 10px;"> 
-    
+          <div style="display: flex; flex-direction: column; margin-left: 10px;">
+
             <mat-label>التاريخ:</mat-label>
             <mat-form-field appearance="outline" style="width:160px">
-                    
-                      <input matInput [matDatepicker]="picker" formControlName="date">
-                      <mat-datepicker-toggle matIconSuffix [for]="picker">
-                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                          
-                      </mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field></div>
+
+              <input matInput [matDatepicker]="picker" formControlName="date">
+              <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
         </div>
-          
-          
+
+
 
 
         <!-- <div class="row"> -->
@@ -130,22 +131,23 @@
           </div>
         </div> -->
 
-      </div>
-      <!-- <mat-form-field appearance="outline" class="groupInput">
+        </div>
+        <!-- <mat-form-field appearance="outline" class="groupInput">
           <mat-label>الاجمالى</mat-label>
           <input matInput placeholder="الرقم" type="number" [value]="sumOfTotals" readonly>
         </mat-form-field> -->
-      <!-- </div> -->
+        <!-- </div> -->
+      </div>
+
+
+
+
+      <button style="text-align: left !;" mat-raised-button color="primary" (click)="nextToAddFormDetails()"
+        class="follow-btn"
+        [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
+
     </div>
-
-
-
-
-    <button style="text-align: left !;" mat-raised-button color="primary" (click)="nextToAddFormDetails()" class="follow-btn"
-      [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
- 
-    </div>
-    </form>
+  </form>
 
 
 
@@ -157,9 +159,9 @@
 
 
       <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
-        <div class="groupAction"
-          [ngClass]="editData ? this.editData.hasOwnProperty('strWithDrawDetailsGetVM') ? 'editStrWithDrawData' : 'editStrAddData'  : 'editStrAddData' ">
-          <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل الاذن</button>
+        <div class="groupAction">
+          <button mat-raised-button class="savebtn" (click)="updateMaster()" [disabled]="btnDisabled">تعديل
+            الاذن</button>
 
         </div>
 
@@ -168,9 +170,9 @@
         <!-- </div> -->
 
 
-        <div class="groupAction"
-          [ngClass]="editData ? this.editData.hasOwnProperty('strWithDrawDetailsGetVM') ? 'editStrWithDrawData' : 'editStrAddData'  : 'editStrAddData' ">
-          <button mat-raised-button class="savebtn" (click)="addNewDetails()">اضافة بيان</button>
+        <div class="groupAction">
+          <button mat-raised-button class="savebtn" (click)="addNewDetails()" [disabled]="btnDisabled">اضافة
+            بيان</button>
 
         </div>
 
@@ -178,63 +180,62 @@
 
 
 
-      <div  class="tableFixHead">
-        <table id="my-table"  mat-table [dataSource]="dataSource"  class="headerTable">
+      <div class="tableFixHead">
+        <table id="my-table" mat-table [dataSource]="dataSource" class="headerTable">
           <!-- itemName Column -->
           <ng-container matColumnDef="itemName">
-            <th mat-header-cell *matHeaderCellDef >الصنف</th>
+            <th mat-header-cell *matHeaderCellDef>الصنف</th>
             <td mat-cell *matCellDef="let row">{{ row.itemName }}</td>
           </ng-container>
           <ng-container matColumnDef="state">
-            <th mat-header-cell *matHeaderCellDef >السعر</th>
+            <th mat-header-cell *matHeaderCellDef>السعر</th>
             <td mat-cell *matCellDef="let row">{{ row.state }}</td>
           </ng-container>
           <!-- price Column -->
           <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef >السعر</th>
+            <th mat-header-cell *matHeaderCellDef>السعر</th>
             <td mat-cell *matCellDef="let row">{{ row.price }}</td>
           </ng-container>
-      
+
           <!-- qty Column -->
           <ng-container matColumnDef="qty">
-            <th mat-header-cell *matHeaderCellDef >الكمية</th>
+            <th mat-header-cell *matHeaderCellDef>الكمية</th>
             <td mat-cell *matCellDef="let row">{{ row.qty }}</td>
           </ng-container>
-           
+
           <!-- <ng-container matColumnDef="percentage">
             <th mat-header-cell *matHeaderCellDef >النسبة</th>
             <td mat-cell *matCellDef="let row">{{ row.percentage }}</td>
           </ng-container> -->
-      
-      
+
+
           <!-- total Column -->
-          <ng-container matColumnDef="total" >
-            <th mat-header-cell *matHeaderCellDef  style="text-align: center;">المجموع</th>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center;">المجموع</th>
             <td mat-cell *matCellDef="let row">{{ row.total }}</td>
           </ng-container>
-      
+
           <!-- action Column -->
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef >الاجراء</th>
+            <th mat-header-cell *matHeaderCellDef>الاجراء</th>
             <td mat-cell *matCellDef="let row">
-              <button type="button" mat-icon-button color="primary" (click)="editDetailsForm(row)">
+              <button type="button" mat-icon-button color="primary" (click)="editDetailsForm(row)"
+                [disabled]="btnDisabled">
                 <mat-icon>edit</mat-icon>
               </button>
-      
-      
-      
-              <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
+
+              <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)" [disabled]="btnDisabled">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
           </ng-container>
-      
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
         </table>
       </div>
-        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
-      </div>
+      <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+    </div>
 
   </form>
 </div>
