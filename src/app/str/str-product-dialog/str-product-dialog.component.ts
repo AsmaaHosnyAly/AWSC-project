@@ -291,15 +291,15 @@ export class StrProductDialogComponent implements OnInit {
 
       console.log("form add product value: ", this.groupForm.value)
 
+      console.log("if state: ", this.groupForm.valid)
       if (this.groupForm.valid) {
-
         this.api.postStrProduct(this.groupForm.value)
           .subscribe({
             next: (res) => {
               console.log("add product res: ", res);
-              // this.productIdToEdit = res.id;
+              this.productIdToEdit = res.id;
 
-              // this.toastrSuccess();
+              this.toastrSuccess();
               alert("تمت إضافة المنتج بنجاح");
               this.groupForm.reset();
 
