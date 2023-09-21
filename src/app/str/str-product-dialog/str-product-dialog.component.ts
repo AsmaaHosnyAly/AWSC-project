@@ -103,7 +103,7 @@ export class StrProductDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       vendorId: ['', Validators.required],
       modelId: ['', Validators.required],
-      attachment: ['', Validators.required],
+      attachment: [''],
 
       // platoonName: [''],
       transactionUserId: [''],
