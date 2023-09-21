@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
   url = 'http://ims.aswan.gov.eg/api';
   mycondition: any;
@@ -1126,40 +1126,40 @@ export class ApiService {
     no: any,
     storeId: any,
     fiscalYear: any,
-    itemId: any){
-      console.log(
-        'no. : ',
-        no,
-        'store : ',
-        storeId,
-       
-        'fiscalYear: ',
-        fiscalYear,
-        'item:',
-        itemId
-      
-      );
-  
-      this.mycondition = `${this.url}/StrStockTaking/search?`;
-  
-      if (!no == false) {
-        this.mycondition = ` ${this.mycondition}&No=${no}`;
-      }
-      if (!storeId == false) {
-        this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
-      }
-     
-      if (!fiscalYear == false) {
-        this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
-      }
-      if (!itemId == false) {
-        this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
-      }
-  
-      console.log('url', this.mycondition);
-  
-      return this.http.get<any>(`${this.mycondition}`);
+    itemId: any) {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      storeId,
+
+      'fiscalYear: ',
+      fiscalYear,
+      'item:',
+      itemId
+
+    );
+
+    this.mycondition = `${this.url}/StrStockTaking/search?`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
+    if (!storeId == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+    }
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    return this.http.get<any>(`${this.mycondition}`);
+  }
 
 
 
@@ -1169,9 +1169,7 @@ export class ApiService {
     date: any,
     fiscalYear: any,
     itemId: any
-  ) 
-  
-  {
+  ) {
     console.log(
       'no. : ',
       no,
@@ -1183,7 +1181,7 @@ export class ApiService {
       fiscalYear,
       'item:',
       itemId
-    
+
     );
 
     this.mycondition = `${this.url}/STROpeningStock/search?`;
@@ -1387,7 +1385,7 @@ export class ApiService {
     console.log('deleted row id: ', HeaderId);
     return this.http.delete<any>(
       `${this.url}/STREmployeeExchangeDetails/delete/by/EmployeeExchange/` +
-        HeaderId
+      HeaderId
     );
   }
 
@@ -1613,7 +1611,7 @@ export class ApiService {
     console.log('deleted row id: ', HeaderId);
     return this.http.delete<any>(
       'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/delete/' +
-        HeaderId
+      HeaderId
     );
   }
   putStrEmployeeOpenDetail(data: any, id: number) {
@@ -2032,6 +2030,11 @@ export class ApiService {
   GetWithDrawByDestStore(storeId: any) {
     return this.http.get<any>(`${this.url}/STRWithdraw/GetWithDrawByDestStore/${storeId}`);
   }
+  postAcceptOrRejectWithDrawByDestStore(data: any) {
+    console.log("dataaa: ", data);
+    
+    return this.http.post<any>(`${this.url}/STRAdd/AddFromStore`, data);
+  }
 
   getStrAddAutoNo() {
     return this.http.get<any>(`${this.url}/STRAdd/get/AutoNo`);
@@ -2161,40 +2164,40 @@ export class ApiService {
   // getFiscalYears() {
   //   return this.http.get<any>("http://ims.aswan.gov.eg/api/STRFiscalYear/get/all");
   // }
-  getStrStockTaking(){
+  getStrStockTaking() {
     console.log('Avg price inputs to backend');
     return this.http.get<any>(`${this.url}/StrStockTaking/get/all`);
   }
 
 
-  getStrStockTakingDetailsByMasterId(id:any){
+  getStrStockTakingDetailsByMasterId(id: any) {
     return this.http.get<any>(
       `${this.url}/StrStockTakingDetails/get/${id}`)
 
   }
 
-  postStrStockTaking(data:any){
-    console.log("data in posttt:",data)
-    return this.http.post<any>(`${this.url}/StrStockTaking/Add`,data)
+  postStrStockTaking(data: any) {
+    console.log("data in posttt:", data)
+    return this.http.post<any>(`${this.url}/StrStockTaking/Add`, data)
   }
-  putStrStockTaking(data:any){
-    return this.http.put<any>( `${this.url}/StrStockTaking/update`,data)
-  }
-
-  postStrStockTakingDetails(data:any){
-    console.log("data in post details:",data)
-    return this.http.post<any>( `${this.url}/StrStockTakingDetails/Add`,data)
+  putStrStockTaking(data: any) {
+    return this.http.put<any>(`${this.url}/StrStockTaking/update`, data)
   }
 
-  putStrStockTakingDetails(data:any){
-    return this.http.put<any>( `${this.url}/StrStockTakingDetails/update/`,data)
+  postStrStockTakingDetails(data: any) {
+    console.log("data in post details:", data)
+    return this.http.post<any>(`${this.url}/StrStockTakingDetails/Add`, data)
   }
 
-  deleteStockTakingDetails(id:any){
+  putStrStockTakingDetails(data: any) {
+    return this.http.put<any>(`${this.url}/StrStockTakingDetails/update/`, data)
+  }
+
+  deleteStockTakingDetails(id: any) {
     return this.http.delete<any>(`${this.url}/StrStockTakingDetails/delete/` + id);
   }
 
-  deleteStrStockTking(id:any){
+  deleteStrStockTking(id: any) {
     return this.http.delete<any>(`${this.url}/StrStockTaking/delete/` + id);
   }
 
@@ -2202,13 +2205,13 @@ export class ApiService {
 
 
 
-  getStrAddSearach( no: any,
-   
+  getStrAddSearach(no: any,
+
     date: any,
     fiscalYear: any,
-   
-   
-    employeeId: any,  itemId: any,store: any) {
+
+
+    employeeId: any, itemId: any, store: any) {
     //enter no.
 
     console.log(
@@ -2224,7 +2227,7 @@ export class ApiService {
       itemId,
       'employee: ',
       employeeId,
-     
+
     );
     this.mycondition = `${this.url}/STRAdd/search?`;
 
@@ -2247,7 +2250,7 @@ export class ApiService {
     if (!employeeId == false) {
       this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
     }
-  
+
 
     console.log('url', this.mycondition);
 
@@ -2726,7 +2729,7 @@ export class ApiService {
     costCenterId: any,
     employeeId: any, itemId: any,
     date: any,
-   FiscalYear:any
+    FiscalYear: any
   ) {
     console.log(
       "values search passed: 'no: '",
