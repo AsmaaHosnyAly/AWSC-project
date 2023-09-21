@@ -157,7 +157,8 @@
 
 
       <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
-        <div class="groupAction">
+        <div class="groupAction"
+          [ngClass]="editData ? this.editData.hasOwnProperty('strWithDrawDetailsGetVM') ? 'editStrWithDrawData' : 'editStrAddData'  : 'editStrAddData' ">
           <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل الاذن</button>
 
         </div>
@@ -167,7 +168,8 @@
         <!-- </div> -->
 
 
-        <div class="groupAction">
+        <div class="groupAction"
+          [ngClass]="editData ? this.editData.hasOwnProperty('strWithDrawDetailsGetVM') ? 'editStrWithDrawData' : 'editStrAddData'  : 'editStrAddData' ">
           <button mat-raised-button class="savebtn" (click)="addNewDetails()">اضافة بيان</button>
 
         </div>
