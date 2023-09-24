@@ -101,7 +101,9 @@ th {
 .editbtn{
   --mat-icon-color:rgb(129, 135, 138);
 }
-
+.load{
+  --mat-icon-color:#247489;
+}
 .print {
   display: flex;
   justify-content: center;
