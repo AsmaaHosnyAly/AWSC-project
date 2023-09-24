@@ -37,12 +37,8 @@ export class StrProductComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService,private hotkeysService: HotkeysService,private http: HttpClient) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
-    global.getPermissionUserRoles(
-      1,
-      'stores',
-      'المنتجات',
-      ''
-    );
+ 
+    global.getPermissionUserRoles(12, 'stores', 'المنتجات', '')
    }
 
   ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
@@ -165,6 +165,8 @@ export class STRItem1Component implements OnInit {
     );
 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+
+ 
   }
   ngOnInit(): void {
     this.getAllItems();
@@ -192,6 +194,11 @@ export class STRItem1Component implements OnInit {
       this.openDialog();
       return false; // Prevent the default browser behavior
     }));
+
+  
+   
+
+    
     this.itemForm = this.formBuilder.group({
       itemName: [''],
       fullCode: [''],
