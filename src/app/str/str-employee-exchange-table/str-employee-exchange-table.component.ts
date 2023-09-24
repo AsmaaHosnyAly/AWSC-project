@@ -32,6 +32,10 @@ export class distEmployee {
   constructor(public id: number, public name: string, public code: string) {}
 }
 
+export class item {
+  constructor(public id: number, public name: string) { }
+}
+
 @Component({
   selector: 'app-str-employee-exchange-table',
   templateUrl: './str-employee-exchange-table.component.html',
@@ -54,7 +58,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   // employeesList: any;
   // costCentersList: any;
   groupMasterForm!: FormGroup;
-
+  groupDetailsForm!: FormGroup;
   costcentersList: costcenter[] = [];
   costcenterCtrl: FormControl<any>;
   filteredcostcenter: Observable<costcenter[]>;
@@ -69,6 +73,13 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   distEmployeeCtrl: FormControl<any>;
   filtereddistEmployee: Observable<distEmployee[]>;
   selecteddistEmployee: distEmployee | undefined;
+
+
+  itemsList: item[] = [];
+  itemCtrl: FormControl;
+  filtereditem: Observable<item[]>;
+  selecteditem: item | undefined;
+
 
   dataSource2!: MatTableDataSource<any>;
   pdfurl = '';
@@ -91,6 +102,14 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       map((value) => this._filtercostcenters(value))
     );
 
+
+    this.itemCtrl = new FormControl();
+    this.filtereditem = this.itemCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filteritems(value))
+    );
+
+
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
@@ -109,11 +128,16 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.getStores();
     this.getFiscalYears();
     this.getEmployees();
+    this.getDistEmployees();
+    this.getItems();
+
     this.getCostCenters();
+
+
 
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
-      employee: [''],
+      employee: [''],employeeId:[''],
       costcenter: [],
       costCenterId: [],
 
@@ -125,7 +149,38 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       date: [''],
       store: [''],
       distEmployee: [''],
+      fiscalYear:[''],   report:[''],
+      reportType:[''],
+      StartDate: [''],
+      EndDate: [''],
     });
+
+
+    this.groupDetailsForm = this.formBuilder.group({
+      // stR_WithdrawId: [''], //MasterId
+      employeeId: [''],
+      qty: [''],
+      percentage: [''],
+      price: [''],
+      total: [''],
+      transactionUserId: [1],
+      destStoreUserId: [1],
+      itemId: [''],
+      stateId: [''],
+
+      // withDrawNoId: ['' ],
+
+      itemName: [''],
+      // avgPrice: [''],
+
+      stateName: [''],
+
+      // notesName: [''],
+    });
+
+
+
+
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openEmployeeExchangeDialog();
@@ -288,6 +343,31 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     });
   }
 
+  getItems(){
+    this.api.getItem().subscribe({
+      next: (res) => {
+        this.itemsList = res;
+        console.log("itemss res: ", this.itemsList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert("خطا اثناء جلب المخازن !");
+      },
+    });
+  }
+
+  getDistEmployees() {
+    this.api.getHrEmployees().subscribe({
+      next: (res) => {
+        this.distEmployeesList = res;
+      },
+      error: (err) => {
+        // console.log("fetch employees data err: ", err);
+        // alert("خطا اثناء جلب الموظفين !");
+      },
+    });
+  }
+
   getCostCenters() {
     this.api.getFiCostCenter().subscribe({
       next: (res) => {
@@ -334,6 +414,30 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     // Open the autocomplete dropdown by triggering the value change event
     this.costcenterCtrl.updateValueAndValidity();
   }
+  displayitemName(item: any): string {
+    return item && item.name ? item.name : '';
+  }
+  itemSelected(event: MatAutocompleteSelectedEvent): void {
+    const item = event.option.value as item;
+    console.log('item selected: ', item);
+    this.selecteditem = item;
+    this.groupDetailsForm.patchValue({ itemId: item.id });
+    console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
+  }
+  private _filteritems(value: string): item[] {
+    const filterValue = value;
+    return this.itemsList.filter((item: { name: string }) =>
+      item.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutoitem() {
+    this.itemCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.itemCtrl.updateValueAndValidity();
+  }
+
 
   /////employeee
 
@@ -357,7 +461,9 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   private _filteremployees(value: string): Employee[] {
     const filterValue = value;
     return this.employeesList.filter((employee) =>
-      employee.name.toLowerCase().includes(filterValue)
+      employee.name.toLowerCase().includes(filterValue),
+      console.log("employee in filteremployee:",this.employeesList)
+
     );
   }
   openAutoEmployee() {
@@ -398,7 +504,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.distEmployeeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrOpen(no: any, date: any) {
+  getSearchStrOpen(no: any, StartDate: any,EndDate:any, fiscalyear: any) {
+    console.log("fiscal year in ts:",fiscalyear)
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
@@ -408,8 +515,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
         no,
         costCenterId,
         employeeId,
-        date,
-        distEmployee
+      
+        distEmployee,StartDate,EndDate,fiscalyear,
       )
       .subscribe({
         next: (res) => {
@@ -423,19 +530,16 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       });
   }
 
-  downloadPdf(no: any, date: any) {
+  downloadPdf(no: any, StartDate: any,EndDate:any,Fiscalyear:any,report:any,reportType:any) {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
 
     this.api
-      .getStrEmployeeExchangeItem(
-        no,
-        costCenterId,
-        employeeId,
-        date,
-        distEmployee
-      )
+    .getStrEmployeeExchangeItem(
+      no,distEmployee,  StartDate,EndDate, Fiscalyear, item, employeeId, costCenterId,report,reportType
+    )
       .subscribe({
         next: (res) => {
           console.log('search:', res);
@@ -455,18 +559,15 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       });
   }
 
-  previewPdf(no: any, date: any) {
+  previewPdf(no: any, StartDate: any,EndDate:any,Fiscalyear:any,report:any,reportType:any) {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
 
     this.api
       .getStrEmployeeExchangeItem(
-        no,
-        costCenterId,
-        employeeId,
-        date,
-        distEmployee
+        no,distEmployee,  StartDate,EndDate, Fiscalyear, item, employeeId, costCenterId,report,reportType
       )
       .subscribe({
         next: (res) => {
