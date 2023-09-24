@@ -12,7 +12,7 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { StrStockTakingDialogComponent } from '../str-stock-taking-dialog/str-stock-taking-dialog.component';
-import { LoadingService } from 'src/app/loading.service';
+
 import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -66,7 +66,7 @@ export class StrStockTakingTableComponent implements OnInit {
   // employeesList: any;
   // itemList:any;
   fiscalYearsList: any;
-  loading$ = this.loader.loading$;
+
   groupMasterForm !: FormGroup;
   groupDetailsForm !: FormGroup;
 
@@ -97,7 +97,7 @@ export class StrStockTakingTableComponent implements OnInit {
     private dialog: MatDialog,private formBuilder: FormBuilder,
     private http: HttpClient,
     private hotkeysService: HotkeysService,
-    public loader:LoadingService,
+  
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {

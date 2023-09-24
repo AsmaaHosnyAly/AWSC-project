@@ -9,7 +9,7 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
-import { LoadingService } from 'src/app/loading.service';
+
 import {
   FormControl,
   FormControlName,
@@ -53,7 +53,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   // employeesList: any;
   // itemList:any;
   fiscalYearsList: any;
-  loading$ = this.loader.loading$;
+
   groupMasterForm !: FormGroup;
   groupDetailsForm !: FormGroup;
 
@@ -85,7 +85,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    public loader: LoadingService,
+
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {

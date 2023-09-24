@@ -7,7 +7,7 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { GlobalService } from '../../services/global.service';
-import { LoadingService } from 'src/app/loading.service';
+
 import { HttpClient } from '@angular/common/http';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
@@ -20,10 +20,10 @@ export class STRUnitsComponent {
   title = 'angular13crud';
   displayedColumns: string[] = [ 'name', 'action'];
   dataSource!: MatTableDataSource<any>;
- loading$ = this.loader.loading$;
+ 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , public loader:LoadingService, private http:HttpClient,private hotkeysService: HotkeysService){
+  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , private http:HttpClient,private hotkeysService: HotkeysService){
     global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
     
  
