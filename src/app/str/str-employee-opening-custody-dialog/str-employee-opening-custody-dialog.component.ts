@@ -1,12 +1,12 @@
-import { Component, OnInit, Inject, ViewChild , LOCALE_ID} from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-import { MatDialogRef} from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -23,13 +23,13 @@ import { formatDate } from '@angular/common';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class CostCenter {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class Item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 @Component({
@@ -37,7 +37,7 @@ export class Item {
   templateUrl: './str-employee-opening-custody-dialog.component.html',
   styleUrls: ['./str-employee-opening-custody-dialog.component.css']
 })
-export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
+export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = 'Save';
@@ -60,16 +60,16 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit{
   userIdFromStorage: any;
   deleteConfirmBtn: any;
   dialogRefDelete: any;
-autoNo: any;
-price:any;
-fiscalYearSelectedId:any;
-defaultFiscalYearSelectValue: any;
-isReadOnly: boolean = true;
-storeSelectedId: any;
+  autoNo: any;
+  price: any;
+  fiscalYearSelectedId: any;
+  defaultFiscalYearSelectValue: any;
+  isReadOnly: boolean = true;
+  storeSelectedId: any;
 
-  selectedOption:any;
+  selectedOption: any;
   getGradeData: any;
-  formcontrol = new FormControl('');  
+  formcontrol = new FormControl('');
 
   employeeCtrl: FormControl;
   filteredEmployees: Observable<Employee[]>;
@@ -90,9 +90,9 @@ storeSelectedId: any;
   isEdit: boolean = false;
   fullCodeValue: any;
   itemByFullCodeValue: any;
-  getCustodyData:any;
+  getCustodyData: any;
   userRoles: any;
-  
+
   defaultStoreSelectValue: any;
   displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'qty', 'total', 'action'];
 
@@ -100,7 +100,7 @@ storeSelectedId: any;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
   accordion!: MatAccordion;
-  
+
   employeeName: any;
   // toastr: any;
   constructor(private formBuilder: FormBuilder,
@@ -109,30 +109,30 @@ storeSelectedId: any;
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,private toastr: ToastrService,
     private http: HttpClient,private dialog: MatDialog, private router: Router, private dialogRef: MatDialogRef<STREmployeeOpeningCustodyDialogComponent>,
     // private toastr: ToastrService){}
-   
-    @Inject(LOCALE_ID) private locale: string,
-    @Inject(MAT_DIALOG_DATA) public editData: any){
-      
-      this.employeeCtrl = new FormControl();
-      this.filteredEmployees = this.employeeCtrl.valueChanges.pipe(
-        startWith(''),
-        map((value) => this._filterEmployees(value))
-      );
 
-      this.costCenterCtrl = new FormControl();
-      this.filteredCostCenters = this.costCenterCtrl.valueChanges.pipe(
-        startWith(''),
-        map((value) => this._filterCostCenters(value))
-      );  
-      this.itemCtrl = new FormControl();
-      this.filteredItems = this.itemCtrl.valueChanges.pipe(
-        startWith(''),
-        map((value) => this._filterItems(value))
-      );    
-    }  
-   
-    
- 
+    @Inject(LOCALE_ID) private locale: string,
+    @Inject(MAT_DIALOG_DATA) public editData: any) {
+
+    this.employeeCtrl = new FormControl();
+    this.filteredEmployees = this.employeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterEmployees(value))
+    );
+
+    this.costCenterCtrl = new FormControl();
+    this.filteredCostCenters = this.costCenterCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterCostCenters(value))
+    );
+    this.itemCtrl = new FormControl();
+    this.filteredItems = this.itemCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterItems(value))
+    );
+  }
+
+
+
 
 
   ngOnInit(): void {
@@ -143,7 +143,7 @@ storeSelectedId: any;
     this.getStrEmployeeOpenAutoNo();
     // this.getCostCenters();
     // this.getPrice(); 
-    let  dateNow: Date = new Date()
+    let dateNow: Date = new Date()
     console.log('Date = ' + dateNow)
     // this.distEmployeesList = [
     //   {
@@ -156,7 +156,7 @@ storeSelectedId: any;
     //   }
     // ]
 
-    
+
 
 
     this.getMasterRowId = this.editData;
@@ -165,16 +165,16 @@ storeSelectedId: any;
       no: ['', Validators.required],
       // storeId: ['', Validators.required],
       // storeName: ['', Validators.required],
-      employeName : ['',Validators.required],
+      employeName: ['', Validators.required],
       employeeId: ['', Validators.required],
-      costCenterName: ['',Validators.required],
+      costCenterName: ['', Validators.required],
       costCenterId: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       date: [dateNow, Validators.required],
       total: ['', Validators.required],
       fiscalYearId: ['', Validators.required],
     });
-    
+
     this.groupDetailsForm = this.formBuilder.group({
       custodyId: ['', Validators.required], //MasterId
       qty: ['', Validators.required],
@@ -189,20 +189,20 @@ storeSelectedId: any;
 
     this.api.getAllEmployees().subscribe((employees) => {
       this.employees = employees;
-     
+
     });
-    
+
     this.api.getFiCostCenter().subscribe((costCenters) => {
-    
-      
+
+
       this.costCenters = costCenters;
-      
+
     });
     this.api.getItems().subscribe((items) => {
-    
-      
+
+
       this.items = items;
-      
+
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
@@ -245,9 +245,9 @@ storeSelectedId: any;
     // this.groupMasterForm.controls['itemName'].setValue(this.editData.itemName);
     // this.groupMasterForm.controls['itemId'].setValue(this.editData.itemId);
   }
- 
 
-  
+
+
   // getStores() {
   //   this.api.getStore()
   //     .subscribe({
@@ -262,22 +262,22 @@ storeSelectedId: any;
   //     })
   // }
   getAllMasterForms() {
-   
-      this.dialogRef.close('Save');
-      this.api.getStrEmployeeOpen()
-        .subscribe({
-          next: (res) => {
-            // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-            this.dataSource = new MatTableDataSource(res);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          },
-          error: () => {
-            // alert("خطأ أثناء جلب سجلات المجموعة !!");
-          }
-        })
-    
-      }
+
+    this.dialogRef.close('Save');
+    this.api.getStrEmployeeOpen()
+      .subscribe({
+        next: (res) => {
+          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+          this.dataSource = new MatTableDataSource(res);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: () => {
+          // alert("خطأ أثناء جلب سجلات المجموعة !!");
+        }
+      })
+
+  }
 
   getItems() {
     this.api.getItems()
@@ -306,7 +306,7 @@ storeSelectedId: any;
         }
       })
   }
- 
+
   getCostCenters() {
     this.api.getFiCostCenter()
       .subscribe({
@@ -317,11 +317,11 @@ storeSelectedId: any;
         error: (err) => {
           console.log("fetch costCenter data err: ", err);
           // alert("خطا اثناء جلب مراكز التكلفة !");
-          
+
         }
       })
   }
-  
+
   // getPrice(){
   //   this.api.getAvgPrice(storeid: any, FiscalYearid: any, Date: any, itemid: any)
 
@@ -335,7 +335,7 @@ storeSelectedId: any;
   //         alert("خطا اثناء جلب الموظفين !");
   //       }
   //     })
- 
+
   // getFiscalYears() {
   //   this.api.getFiscalYears()
   //     .subscribe({
@@ -420,62 +420,62 @@ storeSelectedId: any;
       //     this.matchedIds = res.filter((a: any) => {
       //       // console.log("matchedIds: ", a.employee_ExchangeId == this.getMasterRowId.id, "res: ", this.matchedIds)
       //       return a.custodyId == this.getMasterRowId.id
-          
-          
 
-    //       if (this.matchedIds) {
 
-    //         this.dataSource = new MatTableDataSource(this.matchedIds);
-    //         this.dataSource.paginator = this.paginator;
-    //         this.dataSource.sort = this.sort;
 
-    //         this.sumOfTotals = 0;
-    //         for (let i = 0; i < this.matchedIds.length; i++) {
-    //           this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-    //           this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-    //           this.updateBothForms();
-    //         }
+      //       if (this.matchedIds) {
 
-    //       }
-    //     }
-    //       , () => {
-    //         alert("حدث خطا ما !!")
-    //       }
-    //     )
-    // }
+      //         this.dataSource = new MatTableDataSource(this.matchedIds);
+      //         this.dataSource.paginator = this.paginator;
+      //         this.dataSource.sort = this.sort;
 
-    this.api.getStrEmployeeOpenDetailsByMasterId(this.getMasterRowId.id)
-    .subscribe({
-      next: (res) => {
-        // this.itemsList = res;
-        this.matchedIds = res[0].strEmployeeOpeningCustodyDetailsGetVM;
+      //         this.sumOfTotals = 0;
+      //         for (let i = 0; i < this.matchedIds.length; i++) {
+      //           this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+      //           this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+      //           this.updateBothForms();
+      //         }
 
-        if (this.matchedIds) {
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strEmployeeOpeningCustodyDetailsGetVM);
-          this.dataSource = new MatTableDataSource(this.matchedIds);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+      //       }
+      //     }
+      //       , () => {
+      //         alert("حدث خطا ما !!")
+      //       }
+      //     )
+      // }
 
-          this.sumOfTotals = 0;
-          for (let i = 0; i < this.matchedIds.length; i++) {
-            this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-            this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-            // alert('totalll: '+ this.sumOfTotals)
-            // this.updateBothForms();
-            this.updateMaster();
+      this.api.getStrEmployeeOpenDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            // this.itemsList = res;
+            this.matchedIds = res[0].strEmployeeOpeningCustodyDetailsGetVM;
+
+            if (this.matchedIds) {
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strEmployeeOpeningCustodyDetailsGetVM);
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+                this.updateMaster();
+              }
+            }
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
           }
-        }
-      },
-      error: (err) => {
-        // console.log("fetch items data err: ", err);
-        // alert("خطا اثناء جلب العناصر !");
-      }
-    })
+        })
 
-  }
+    }
   }
   addNewDetails() {
-    this.router.navigate(['/EmployeeOpeningCustody'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId,itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
+    this.router.navigate(['/EmployeeOpeningCustody'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrEmployeeOpeningCustodyDetailDailogComponent, {
       width: '98%',
       height: '95%'
@@ -504,13 +504,14 @@ storeSelectedId: any;
           this.groupDetailsForm.controls['qty'].setValue(1);
         },
 
-      })}
+      })
+  }
 
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')
-    
-this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
+
+    this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
     // this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
 
     // alert("store name in add: " + this.storeName)
@@ -521,7 +522,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
     if (this.groupMasterForm.getRawValue().no) {
       console.log("no changed: ", this.groupMasterForm.getRawValue().no)
     }
-    else{
+    else {
       this.groupMasterForm.controls['no'].setValue(this.autoNo);
       console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
     }
@@ -595,34 +596,34 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
 
   openAutoEmployee() {
     this.employeeCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.employeeCtrl.updateValueAndValidity();
   }
 
   displayCostCenterName(costCenter: any): string {
     return costCenter && costCenter.name ? costCenter.name : '';
-   
+
   }
   costCenterSelected(event: MatAutocompleteSelectedEvent): void {
     const costCenter = event.option.value as CostCenter;
     this.selectedCostCenter = costCenter;
     this.groupMasterForm.patchValue({ costCenterId: costCenter.id });
     this.groupMasterForm.patchValue({ costCenterName: costCenter.name });
-   
+
   }
   private _filterCostCenters(value: string): CostCenter[] {
     const filterValue = value;
     return this.costCenters.filter(costCenter =>
-      costCenter.name.toLowerCase().includes(filterValue) 
-      
+      costCenter.name.toLowerCase().includes(filterValue)
+
     );
-    
+
   }
 
   openAutoCostCenter() {
     this.costCenterCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.costCenterCtrl.updateValueAndValidity();
   }
@@ -644,7 +645,7 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
 
   openAutoItem() {
     this.itemCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.itemCtrl.updateValueAndValidity();
   }
@@ -799,14 +800,14 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
     }
     console.log("check update d, ", this.groupMasterForm.value);
 
-    if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().costCenterId != ''&&this.groupMasterForm.getRawValue().employeeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
+    if (this.groupMasterForm.getRawValue().no != '' && this.groupMasterForm.getRawValue().costCenterId != '' && this.groupMasterForm.getRawValue().employeeId != '' && this.groupMasterForm.getRawValue().fiscalYearId != '' && this.groupMasterForm.getRawValue().date != '') {
       console.log("change readOnly to enable, ", this.groupMasterForm.value);
 
       if (!this.autoNo) {
         this.autoNo = this.editData.no;
 
       }
-   
+
 
       this.groupDetailsForm.controls['custodyId'].setValue(this.getMasterRowId.id);
       // this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
@@ -851,11 +852,11 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
   }
 
 
-  
-   
 
 
-  
+
+
+
 
   getStrEmployeeOpenAutoNo() {
     this.api.getStrEmployeeOpenAutoNo()
@@ -873,21 +874,27 @@ this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
   deleteFormDetails(id: number) {
     // this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
     // this.groupDetailsForm.controls['id'].setValue(this.editData.id);
-    console.log("details id: ", id)
+    console.log("details idhhhh: ", id)
 
     var result = confirm("هل ترغب بتاكيد الحذف ؟");
+    console.log('res',result)
     if (result) {
       this.api.deleteStrEmployeeOpenDetails(id)
-        .subscribe({
-          next: () => {
-            // alert("تم الحذف بنجاح");
+        .subscribe(
+     res => {
+            console.log('res',res)
+            alert("تم الحذف بنجاح");
             this.toastrDeleteSuccess();
-            this.getAllDetailsForms()
+            this.getAllDetailsForms();
+            //  this.dialogRef
+            console.log('tttttttttttttt: ', res);
+
           },
-          error: () => {
-            // alert("خطأ أثناء حذف التفاصيل !!");
-          }
-        })
+          // error: (err) => {
+          //   alert("خطأ أثناء حذف التفاصيل !!");
+          //   console.log("delete err: ", err);
+          // }
+        )
     }
 
   }

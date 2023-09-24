@@ -69,7 +69,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   costcenterCtrl: FormControl<any>;
   filteredcostcenter: Observable<costcenter[]>;
   selectedcostcenter: costcenter | undefined;
-
+loading :boolean=false;
 
   itemsList: item[] = [];
   itemCtrl: FormControl;
@@ -91,7 +91,6 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
@@ -174,8 +173,10 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   }
 
   getAllMasterForms() {
+    this.loading=true
     this.api.getStrEmployeeOpen().subscribe({
       next: (res) => {
+        this.loading=false
         console.log('response of get all getGroup from api: ', res);
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
@@ -185,6 +186,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
       },
       error: () => {
+        this.loading=false;
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
       },
     });

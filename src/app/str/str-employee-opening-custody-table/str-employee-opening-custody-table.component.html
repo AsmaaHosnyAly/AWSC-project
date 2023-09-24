@@ -129,7 +129,7 @@
 
 
         <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
-        <div class="print-display">
+        <div class="print-display" *ngIf="!loading">
           <mat-icon (click)="
           getSearchStrOpen(
             no.value,  StartDate.value,EndDate.value,fiscalYear.value
@@ -228,4 +228,7 @@
   </section>
   <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 </div>
+<!-- <div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div> -->
 
