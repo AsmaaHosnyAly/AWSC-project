@@ -244,6 +244,8 @@ export class StrWithdrawDialogComponent implements OnInit {
       deststoreId: [''],
       desstoreName: [''],
       ListId: ['', Validators.required],
+      productionDate: ['', Validators.required],
+     expireDate: ['', Validators.required],
     });
 
     this.groupDetailsForm = this.formBuilder.group({
@@ -309,7 +311,8 @@ export class StrWithdrawDialogComponent implements OnInit {
       this.actionBtnMaster = 'Update';
 
       console.log('employeeId in edittttt', this.editData.employeeId);
-
+      this.groupMasterForm.controls['productionDate'].setValue(this.editData.productionDate)
+      this.groupMasterForm.controls['expireDate'].setValue(this.editData.expireDate)
       this.employeeName = this.getemployeeByID(this.editData.employeeId);
       console.log('desstore id in edit data', this.editData.destStoreId);
       this.desstoreName = this.getDestStoreById(this.editData.destStoreId);
