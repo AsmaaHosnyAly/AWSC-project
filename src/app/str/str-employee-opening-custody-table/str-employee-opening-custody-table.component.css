@@ -12,7 +12,7 @@ mat-card {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color: rgb(60, 202, 252);
+  color: var(--bg-primary-color)  ;
 }
 
 mat-card-header {
@@ -32,14 +32,14 @@ mat-card-header .child1 {
   padding: 0;
 }
 th {
-  background-color: rgb(60, 202, 252) !important;
+  background-color: var(--bg-primary-color)   !important;
   color: white;
   font-family: "Cairo", sans-serif;
   font-size: 16px;
 }
 
 .add {
-  background: linear-gradient(rgb(122, 205, 235), rgb(60, 202, 252));
+  background: linear-gradient(var(--add-btn-color), rgb(60, 202, 252));
   color: white;
   font-family: "Cairo", sans-serif;
   padding: 5px 35px;
@@ -57,14 +57,15 @@ th {
   text-align: right;
 }
 .search mat-form-field {
-  width: 250px;
+  width: 180px;
+  margin-left: 10px;
 
   padding: 0 !important;
 }
 
 .search {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
 }
 
@@ -118,7 +119,7 @@ mat-panel-description {
 
 .header div {
   height: 100px;
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color)  ;
   color: white;
   /* color: #04365f; */
 }
@@ -253,7 +254,7 @@ footer h3 {
 .icons {
   font-size: 23px;
   color: white;
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color)  ;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -295,7 +296,7 @@ footer h3 {
   width: 142px;
   font-size: 19px;
   font-family: "Cairo", sans-serif;
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color)  ;
   color: white;
   border: none;
   border-radius: 5px;

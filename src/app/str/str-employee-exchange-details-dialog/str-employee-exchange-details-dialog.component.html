@@ -14,16 +14,18 @@
 
             <!-- <div style="display: flex; width: 100%; justify-content: space-between;"> -->
 
-                <!-- <div  > -->
-                    <mat-label>بحث بالكود*</mat-label>
+            <!-- <div  > -->
+            <mat-label>بحث بالكود*</mat-label>
 
-                    <mat-form-field appearance="outline" class=" child-num" style="width: 80%;">
-                        <input matInput placeholder="الكود" (keydown)="getItemByCode($event)" placeholder="{{editData ? editData.fullCode : ''}}" [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
-                    </mat-form-field>
-                <!-- </div> -->
+            <mat-form-field appearance="outline" class=" child-num" style="width: 80%;">
+                <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"
+                    placeholder="{{editData ? editData.fullCode : ''}}"
+                    [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
+            </mat-form-field>
+            <!-- </div> -->
 
 
-                <!-- <mat-form-field appearance="outline" class="groupInput">
+            <!-- <mat-form-field appearance="outline" class="groupInput">
                     <mat-label> الصنف</mat-label>
                     <mat-select placeholder="الصنف" formControlName="itemId"
                         [value]="editData ? editData.itemId : ''"
@@ -32,69 +34,71 @@
                     </mat-select>
                 </mat-form-field> -->
 
-                <!-- <div style="display: flex; flex-direction: column; width: 30%;"> -->
-                    <mat-label>الصنف*</mat-label>
-                    <mat-form-field appearance="outline" style="width: 80%;">
-                        <input matInput aria-label="commodity" [matAutocomplete]="itemId" [formControl]="itemsCtrl"
-                            placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
-                            (click)="openAutoItem()" required />
-                        <mat-autocomplete #itemId="matAutocomplete" [displayWith]="displayItemName"
-                            (optionSelected)="ItemSelected($event)">
-                            <mat-option *ngFor="let item of filtereditems | async" [value]="item">
-                                {{ item.name }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                <!-- </div> -->
+            <!-- <div style="display: flex; flex-direction: column; width: 30%;"> -->
+            <mat-label>الصنف*</mat-label>
+            <mat-form-field appearance="outline" style="width: 80%;">
+                <input matInput aria-label="commodity" [matAutocomplete]="itemId" [formControl]="itemsCtrl"
+                    placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
+                    (click)="openAutoItem()" required />
+                <mat-autocomplete #itemId="matAutocomplete" [displayWith]="displayItemName"
+                    (optionSelected)="ItemSelected($event)">
+                    <mat-option *ngFor="let item of filtereditems | async" [value]="item">
+                        {{ item.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <!-- </div> -->
 
 
-                <!-- <div style="display: flex; flex-direction: column; width: 15%; "> -->
-                 <div style="display: flex;flex-direction: row;">
-                    <div style="display: flex;flex-direction: column; width: 23rem;">
-                        <mat-label>الكمية*</mat-label>
+            <!-- <div style="display: flex; flex-direction: column; width: 15%; "> -->
+            <div style="display: flex;flex-direction: row;">
+                <div style="display: flex;flex-direction: column; width: 23rem;">
+                    <mat-label>الكمية*</mat-label>
 
                     <mat-form-field appearance="outline" class=" child-num" style="width: 94%;">
                         <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
                             [value]="editData ? editData.qty : '1'">
                     </mat-form-field>
-                    </div>
+                </div>
                 <!-- </div> -->
 
                 <!-- <div style="display: flex; flex-direction: column; width: 20%;"> -->
-                   <div style="display: flex;flex-direction: column;width: 23rem;">
+                <div style="display: flex;flex-direction: column;width: 23rem;">
                     <mat-label>السعر</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput" style="width: 94%;">
                         <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
                             [value]="editData ? editData.price : ''">
                     </mat-form-field>
-                   </div>
-                 </div>
-                <!-- </div> -->
+                </div>
+            </div>
+            <!-- </div> -->
 
-                <!-- <div style="margin-top: 5%; margin-right: 2%;">
+            <!-- <div style="margin-top: 5%; margin-right: 2%;">
                     <button mat-raised-button color="warn"
                         (click)="resetControls()">مسح</button>
                 </div> -->
             <!-- </div> -->
 
-<div>
-    <mat-label>الحالة</mat-label>
+            <div>
+                <mat-label>الحالة</mat-label>
 
-    <mat-radio-group aria-label="Select an option" formControlName="state"
-    [value]="editData ? editData.state : stateDefaultValue">
-    <div class="statusRadioBtns">
-        <mat-radio-button value="جديد">جديد</mat-radio-button>
-        <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
-    </div>
-</mat-radio-group>
-</div>
+                <mat-radio-group aria-label="Select an option" formControlName="state"
+                    [value]="editData ? editData.state : stateDefaultValue">
+                    <div class="statusRadioBtns">
+                        <mat-radio-button value="جديد">جديد</mat-radio-button>
+                        <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
+                        <mat-radio-button value="قابل للاصلاح">قابل للاصلاح</mat-radio-button>
+                        <mat-radio-button value="كهنة و خردة">كهنة و خردة</mat-radio-button>
+                    </div>
+                </mat-radio-group>
+            </div>
 
         </div>
         <div mat-dialog-action [align]="'end'" style="display: flex; margin-right: -5%;margin-top: 0%;">
             <div class="groupAction">
-                <button mat-raised-button class="savebtn"
-                    (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
+                <button mat-raised-button class="savebtn" (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase()
+                    =='save' ?
                     'اضافة':'تعديل'}}</button>
 
             </div>

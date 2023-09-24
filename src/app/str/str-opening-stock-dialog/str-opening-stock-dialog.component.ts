@@ -12,6 +12,8 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { StrOpeningStockDetailsDialogComponent } from 'src/app/str/str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { Router } from '@angular/router';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 // export class Item {
 //   constructor(public id: number, public name: string) { }
@@ -70,6 +72,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(LOCALE_ID) private locale: string,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
@@ -117,7 +120,11 @@ export class StrOpeningStockDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.nextToAddFormDetails();
+      return false; // Prevent the default browser behavior
+    }));
     // globalTransactionUserId
     this.userIdFromStorage = localStorage.getItem('transactionUserId');
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);

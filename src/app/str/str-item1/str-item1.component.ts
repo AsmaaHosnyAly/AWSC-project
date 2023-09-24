@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
@@ -20,6 +20,9 @@ import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { GlobalService } from '../../services/global.service';
 import { Item1DialogComponent } from 'src/app/str/item1-dialog/item1-dialog.component';
+
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -122,12 +125,13 @@ export class STRItem1Component implements OnInit {
     private api: ApiService,
     private datePipe: DatePipe,
     private router: Router,
-    private global: GlobalService
+    private global: GlobalService,
+    private hotkeysService: HotkeysService
   ) {
     global.getPermissionUserRoles(
       1,
       'stores',
-      'إدارة المخازن وحسابات المخازن-الاصناف',
+      'الأصناف',
       ''
     );
     this.unitCtrl = new FormControl();
@@ -161,6 +165,8 @@ export class STRItem1Component implements OnInit {
     );
 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+
+ 
   }
   ngOnInit(): void {
     this.getAllItems();
@@ -183,7 +189,16 @@ export class STRItem1Component implements OnInit {
     this.api.getAllGroupsi().subscribe((groups) => {
       this.groups = groups;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
 
+  
+   
+
+    
     this.itemForm = this.formBuilder.group({
       itemName: [''],
       fullCode: [''],
@@ -385,19 +400,26 @@ export class STRItem1Component implements OnInit {
       });
   }
   deleteItem(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح الصنف ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteItems(id).subscribe({
         next: (res) => {
-          alert('Product deleted successfully');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
           this.getAllItems();
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('error while deleting the product!!');
+          alert('خطأ فى حذف العنصر');
         },
       });
     }
   }
+  
+  
   
   async getSearchItems(name: any, fullCode: any, type: any) {
     let commodity = this.itemForm.getRawValue().commodityId;

@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import {
-  FormGroup,
   FormBuilder,
-  Validator,
-  Validators,
   FormControl,
+  FormGroup,
+  Validators,
+  FormArray,
 } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,10 +16,8 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatOptionSelectionChange } from '@angular/material/core';
-// import { publishFacade } from '@angular/compiler';
-// import { STRGradeComponent } from '../str-grade/str-grade.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -41,17 +39,17 @@ export class STRGradeDialogComponent {
   actionBtn: string = 'حفظ';
   selectedOption: any;
   dataSource!: MatTableDataSource<any>;
-
+  existingNames: string[] = [];
+  existingCommodity: string[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
   accordion!: MatAccordion;
-  commoditylist: any;
-  storeList: any;
-  commodityName: any;
+  allGrades: any;
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<STRGradeDialogComponent>
@@ -63,6 +61,12 @@ export class STRGradeDialogComponent {
     );
   }
   ngOnInit(): void {
+    this.getExistingNames(); // Fetch existing names
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addGrade();
+      return false; // Prevent the default browser behavior
+    }));
     this.gradeForm = this.formBuilder.group({
       //define the components of the form
       transactionUserId: ['', Validators.required],
@@ -146,11 +150,30 @@ export class STRGradeDialogComponent {
       },
     });
   }
-
+  getExistingNames() {
+    this.api.getGrade().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+  
+  
   addGrade() {
-    // this.gradeForm.controls['code'].setValue(this.gradeForm.value.code);
+    
+    this.gradeForm.controls['code'].setValue(this.gradeForm.value.code);
 
     if (!this.editData) {
+      const enteredName = this.gradeForm.get('name')?.value;
+    
+    if (this.existingNames.includes(enteredName)) {
+      alert('هذا الاسم موجود من قبل، قم بتغييره');
+      return;
+    }
+    
       this.gradeForm.removeControl('id');
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
       console.log('add: ', this.gradeForm.value);

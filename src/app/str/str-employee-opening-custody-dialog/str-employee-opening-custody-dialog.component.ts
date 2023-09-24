@@ -20,6 +20,8 @@ import { GlobalService } from '../../services/global.service';
 import { StrEmployeeOpeningCustodyDetailDailogComponent } from '../str-employee-opening-custody-detail-dailog/str-employee-opening-custody-detail-dailog.component';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
   constructor(public id: number, public name: string) { }
 }
@@ -102,9 +104,10 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
   employeeName: any;
   // toastr: any;
   constructor(private formBuilder: FormBuilder,
-    private api: ApiService, global: GlobalService,
-    @Inject(MAT_DIALOG_DATA) public editDataDetails: any, private toastr: ToastrService,
-    private http: HttpClient, private dialog: MatDialog, private router: Router, private dialogRef: MatDialogRef<STREmployeeOpeningCustodyDialogComponent>,
+    private api: ApiService,
+    private hotkeysService: HotkeysService,global:GlobalService,
+    @Inject(MAT_DIALOG_DATA) public editDataDetails: any,private toastr: ToastrService,
+    private http: HttpClient,private dialog: MatDialog, private router: Router, private dialogRef: MatDialogRef<STREmployeeOpeningCustodyDialogComponent>,
     // private toastr: ToastrService){}
 
     @Inject(LOCALE_ID) private locale: string,
@@ -201,6 +204,11 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
       this.items = items;
 
     });
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.nextToAddFormDetails();
+      return false; // Prevent the default browser behavior
+    }));
     this.userIdFromStorage = localStorage.getItem('transactionUserId');
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
     if (this.editData) {

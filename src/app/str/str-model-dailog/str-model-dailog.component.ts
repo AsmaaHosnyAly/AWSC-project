@@ -11,6 +11,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Vendor {
   constructor(public id: number, public name: string) {}
 }
@@ -29,7 +31,7 @@ export class StrModelDailogComponent {
   vendores: Vendor[] = [];
   selectedVendor: Vendor | undefined;
   formcontrol = new FormControl('');  
-  gradeForm !:FormGroup;
+  modelForm !:FormGroup;
   actionBtn : string = "حفظ"
   selectedOption:any;
   getModelData: any;
@@ -39,7 +41,7 @@ export class StrModelDailogComponent {
 }
 commname:any;
 dataSource!: MatTableDataSource<any>;
-
+existingNames: string[] = [];
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
 @ViewChild(MatAccordion)
@@ -49,6 +51,7 @@ storeList: any;
 vendorName: any;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,
+    private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<StrModelDailogComponent>){
@@ -59,12 +62,15 @@ vendorName: any;
       );
     }
     ngOnInit(): void {
-      this.gradeForm = this.formBuilder.group({
+      this.getExistingNames(); // Fetch existing names
+      this.modelForm = this.formBuilder.group({
         //define the components of the form
       transactionUserId : ['',Validators.required],
       
       name : ['',Validators.required],
       vendorId : ['',Validators.required],
+      vendorName : [''],
+
       id : ['',Validators.required],
       // matautocompleteFieldName : [''],
       });
@@ -72,19 +78,26 @@ vendorName: any;
       this.api.getAllVendor().subscribe((vendores)=>{
         this.vendores = vendores;
       });
-      
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addModel();
+        return false; // Prevent the default browser behavior
+      }));
   
       if(this.editData){
         this.actionBtn = "تعديل";
+        console.log("")
       this.getModelData = this.editData;
-      this.gradeForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.modelForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
         
-      this.gradeForm.controls['name'].setValue(this.editData.name);
+      this.modelForm.controls['name'].setValue(this.editData.name);
       
-      this.gradeForm.controls['vendorId'].setValue(this.editData.vendorId);
-      // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
-      this.gradeForm.addControl('id', new FormControl('', Validators.required));
-      this.gradeForm.controls['id'].setValue(this.editData.id);
+      this.modelForm.controls['vendorId'].setValue(this.editData.vendorId);
+      this.modelForm.controls['vendorName'].setValue(this.editData.vendorName);
+
+      // console.log("commodityId: ", this.modelForm.controls['commodityId'].value)
+      this.modelForm.addControl('id', new FormControl('', Validators.required));
+      this.modelForm.controls['id'].setValue(this.editData.id);
       }
     }
 
@@ -95,8 +108,8 @@ vendorName: any;
     vendorSelected(event: MatAutocompleteSelectedEvent): void {
       const vendor = event.option.value as Vendor;
       this.selectedVendor = vendor;
-      this.gradeForm.patchValue({ vendorId: vendor.id });
-      this.gradeForm.patchValue({ vendorName: vendor.name });
+      this.modelForm.patchValue({ vendorId: vendor.id });
+      this.modelForm.patchValue({ vendorName: vendor.name });
     }
 
     private _filterVendores(value: string): Vendor[] {
@@ -113,21 +126,35 @@ vendorName: any;
       this.vendorCtrl.updateValueAndValidity();
     }
 
-    
+    getExistingNames() {
+      this.api.getModel().subscribe({
+        next: (res) => {
+          this.existingNames = res.map((item: any) => item.name);
+        },
+        error: (err) => {
+          console.log('Error fetching existing names:', err);
+        }
+      });
+    }
 
   addModel(){
     if(!this.editData){
-      
-      this.gradeForm.removeControl('id')
-      // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
-      console.log("add: ", this.gradeForm.value);
-      this.gradeForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      if(this.gradeForm.valid){
-        this.api.postModel(this.gradeForm.value)
+      const enteredName = this.modelForm.get('name')?.value;
+
+    if (this.existingNames.includes(enteredName)) {
+      alert('هذا الاسم موجود من قبل، قم بتغييره');
+      return;
+    }
+      this.modelForm.removeControl('id')
+      // this.modelForm.controls['commodityId'].setValue(this.selectedOption.id);
+      console.log("add: ", this.modelForm.value);
+      this.modelForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      if(this.modelForm.valid){
+        this.api.postModel(this.modelForm.value)
         .subscribe({
           next:(res)=>{
             alert("تمت الاضافة بنجاح");
-            this.gradeForm.reset();
+            this.modelForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -145,11 +172,11 @@ vendorName: any;
 
   }
       updateModel(){
-        this.api.putModel(this.gradeForm.value)
+        this.api.putModel(this.modelForm.value)
         .subscribe({
           next:(res)=>{
             alert("تم التحديث بنجاح");
-            this.gradeForm.reset();
+            this.modelForm.reset();
             this.dialogRef.close('update');
           },
           error:()=>{

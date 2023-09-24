@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { StrGroupHomeComponent } from './str/str-group-home/str-group-home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ErrorComponent } from './pages/error/error.component';
-import { authGuard } from './guards/auth.guard';
+import { storeGuard } from './guards/store.guard';
 import { STRUnitsComponent } from './str/str-units/str-units.component';
 import { STRGradeComponent } from './str/str-grade/str-grade.component';
 import { StrCostcenterComponent } from './str/str-costcenter/str-costcenter.component';
@@ -78,108 +78,92 @@ import { storesGuard } from './guards/stores.guard';
 import { strPlatoonGuard } from './guards/str-platoon.guard';
 import { vendorGuard } from './guards/vendor.guard';
 import { PrHomeComponent } from './pr/pr-home/pr-home.component';
+import { StrStockTakingContainerComponent } from './str/str-stock-taking-container/str-stock-taking-container.component';
+import { PageRolesComponent } from './pages/page-roles/page-roles.component';
+import { HotkeyModule } from 'angular2-hotkeys/public-api';
+import { PagesEnums } from './core/enums/pages.enum';
+import { StrProudctSerialComponent } from "../app/str/str-proudct-serial/str-proudct-serial.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent
-    },
+  { path: 'login', component: LoginComponent },
 
   {
     path: '',
     component: MenubarComponent,
-    canActivate: [
-      
-      // sTRAddGuard,
-     
-     
-      // withdrawGuard,
-      // strOpeningStockGuard,
-      // employeeOpeningGuard,
-      // employeeOpeningCustodyGuard,
-      // prUserGuard,
-      // unitGuard,
-      // commodityGuard,
-      // costCenterGuard,
-      // gradeGuard,
-      // group1Guard,
-      // items1Guard,
-      // modelGuard,
-      // productsGuard,
-      // storesGuard,
-      // strPlatoonGuard,
-      // vendorGuard,
-      // prUserGuard,
-      // prGroupGuard,
-
+    canActivate: [      storeGuard,     
     ],
+    data: { 
+          },
+    // data2:{roles:['18','19']},
     children: [
+    
       {
         path: 'withdraw',
         component: StrWithdrawContainerComponent,
-      
+        canActivate: [withdrawGuard],
+        data: { PageLsit: [PagesEnums.WITHDRAW] },
       },
+
       {
         path: 'STRAdd',
         component: STRAddContainerComponent,
-     
+        canActivate:[sTRAddGuard],
+        data: { PageLsit: [PagesEnums.STRAdd] },
       }, //table filter done
       {
         path: 'str-openingStock',
         component: StrOpeningStockContainerComponent,
-       
+        canActivate:[strOpeningStockGuard],
+        data: { PageLsit: [PagesEnums.STR_OPENING_STOCK] },
       },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
-      
+        canActivate:[employeeOpeningGuard],
+        data: { PageLsit: [PagesEnums.EMPLOYEE_OPENING] },
+
       },
       {
         path: 'commodity',
         component: StrCommodityComponent,
-        
+        canActivate: [commodityGuard],
+        data: { PageLsit: [PagesEnums.COMMODITY] },
       },
-      { path: 'grade', component: STRGradeComponent,  },
+      { path: 'grade', component: STRGradeComponent },
       {
         path: 'str-platoon',
         component: STRPlatoonComponent,
-      
       },
       {
         path: 'group1',
         component: STRGroup1Component,
-       
       },
       { path: 'unit', component: STRUnitsComponent },
       {
         path: 'items1',
         component: STRItem1Component,
-        
       },
       {
         path: 'products',
         component: StrProductComponent,
-       
       },
       {
         path: 'home',
         component: StrGroupHomeComponent,
-        
       },
-      { path: 'store', component: StrStoreComponent,  },
+      { path: 'store', component: StrStoreComponent },
       {
         path: 'costCenter',
         component: StrCostcenterComponent,
-      
       },
       {
         path: 'EmployeeOpeningCustody',
         component: STREmployeeOpeningCustodyComponent,
-        
       },
       {
         path: 'groupBannel',
         component: StrGroupComponent,
-       
       },
 
       // { path: 'items', component: StrItemComponent },
@@ -206,8 +190,7 @@ const routes: Routes = [
       { path: 'WorkPlace', component: HrWorkPlaceComponent },
       { path: 'specialization', component: HrSpecializationComponent },
 
-      { path: 'withdraw', component: StrWithdrawContainerComponent },
-      { path: 'commodity', component: StrCommodityComponent },
+      
 
       { path: 'home', component: StrGroupHomeComponent },
       // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
@@ -219,7 +202,7 @@ const routes: Routes = [
 
       { path: 'grade', component: STRGradeComponent },
       { path: 'home', component: StrGroupHomeComponent },
-      { path: 'pr-home', component: PrHomeComponent},
+      { path: 'pr-home', component: PrHomeComponent },
       // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
       {
         path: 'employeeOpening',
@@ -254,33 +237,40 @@ const routes: Routes = [
         component: HrEmployeeDisciplinaryComponent,
       },
 
+      // main screens
+      { path: 'str-home', component: STRHomeComponent },
+      { path: 'hr-home', component: StrEmployeesComponent },
+      { path: 'fi-home', component: StrAccountsComponent },
+
+      { path: 'stock-taking', component: StrStockTakingContainerComponent },
       { path: 'pr-group', component: PrGroupTableComponent },
       { path: 'pr-user', component: PrUserTableComponent },
       
-  // main screens
-  { path: 'str-home', component: STRHomeComponent },
-  { path: 'hr-home', component: StrEmployeesComponent },
-  { path: 'fi-home', component: StrAccountsComponent },
+      { path: 'product-serial', component: StrProudctSerialComponent },
+
+
+  {path:'StrStockTaking',component: StrStockTakingContainerComponent}
       // { path: '**', component: ErrorComponent },
     ],
   },
-
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
-  // {path:'fi-home',component:StrAccountsComponent},
+  // {
+  //   path: 'it',
+  //   component: PageRolesComponent,
+  //   canActivate: [
+  //     rolesGuard
+  //   ],
+  //   data: {  role2: ['18'] },
+  //   // data2:{roles:['18','19']},
+  //   children: [
+      
+  //   
+  //   ],
+  // },
 ];
 
-@NgModule({
+@NgModule({  
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+ 
 })
 export class AppRoutingModule {}

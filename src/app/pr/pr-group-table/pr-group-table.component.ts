@@ -73,7 +73,8 @@ export class PrGroupTableComponent implements OnInit {
   }
   openDialog() {
     this.dialog.open(PrGroupDialogComponent, {
-      width: '30%'
+      width: '80%',
+      height:'80%',
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllMasterForms();
@@ -83,8 +84,9 @@ export class PrGroupTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(PrGroupDialogComponent, {
-        width: '30%',
-        data: row,
+        width: '80%',
+        height:'80%',
+                data: row,
       })
       .afterClosed()
       .subscribe((val) => {

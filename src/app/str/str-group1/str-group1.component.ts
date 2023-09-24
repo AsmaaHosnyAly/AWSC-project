@@ -9,7 +9,12 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { FormGroup, FormBuilder, Validator, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { GlobalService } from '../../services/global.service';
+import { ToastrService } from 'ngx-toastr';
 import { map, startWith } from 'rxjs/operators';
+
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
@@ -38,15 +43,21 @@ export class STRGroup1Component implements OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService){
+  constructor(private dialog : MatDialog, private api : ApiService, private toastr: ToastrService,private global:GlobalService,private hotkeysService: HotkeysService){
+    global.getPermissionUserRoles(8,'stores', 'المجموعة', '')
   
   }
   ngOnInit(): void {
-    this.getAllGroups();    
+    this.getAllGroups();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));    
   }
   openDialog() {
     this.dialog.open(STRGroup1DialogComponent, {
-      width: '30%'
+      width: '47%'
     }).afterClosed().subscribe(val=>{
       if(val === 'save'){
         this.getAllGroups();
@@ -74,7 +85,7 @@ export class STRGroup1Component implements OnInit{
   editPlatoon(row : any){
     console.log("data : " , row)
     this.dialog.open(STRGroup1DialogComponent,{
-      width:'30%',
+      width:'47%',
       data:row
     }).afterClosed().subscribe(val=>{
       if(val === 'update'){
@@ -83,20 +94,29 @@ export class STRGroup1Component implements OnInit{
     })
   }
   daletePlatoon(id:number){
-    var result = confirm("هل ترغب بتاكيد مسح المجموعة ؟ ");
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-    this.api.deleteGroups(id)
-    .subscribe({
-      next:(res)=>{
-        alert("Product deleted successfully");
-        this.getAllGroups();
-      },
-      error:()=>{
-        alert("error while deleting the product!!")
-      }
-    })
-  }
+      this.api.deleteGroups(id)
+
+  .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
+          this.getAllGroups();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر');
+        },
+      });
+    }
 }
+
+
 
 
   

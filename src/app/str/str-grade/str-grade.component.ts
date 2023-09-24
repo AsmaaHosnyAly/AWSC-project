@@ -18,8 +18,10 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { GlobalService } from '../../services/global.service';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public code: string,public global:GlobalService,private hotkeysService: HotkeysService) {}
 }
 @Component({
   selector: 'app-str-grade',
@@ -36,14 +38,20 @@ export class STRGradeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
+  
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     
     global.getPermissionUserRoles(4, 'stores', ' النوعية', '')
   }
   ngOnInit(): void {
-    // console.log(productForm)
-    
     this.getAllGrades();
+    // console.log(productForm)
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
+  
   }
   openDialog() {
     this.dialog
@@ -87,19 +95,25 @@ export class STRGradeComponent implements OnInit {
   }
 
   deleteGrade(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteGrade(id).subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           alert('تم الحذف بنجاح');
           this.getAllGrades();
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
 
 
   applyFilter(event: Event) {

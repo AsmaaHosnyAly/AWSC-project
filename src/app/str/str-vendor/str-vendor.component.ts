@@ -5,8 +5,10 @@ import { StrVendorDialogComponent } from '../str-vendor-dialog/str-vendor-dialog
 import { ApiService } from '../../services/api.service';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
+import { GlobalService } from '../../services/global.service';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-vendor',
   templateUrl: './str-vendor.component.html',
@@ -19,9 +21,17 @@ export class StrVendorComponent {
 loading : boolean= false ;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService){}
+  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService,private hotkeysService: HotkeysService){
+    global.getPermissionUserRoles(15,'stores', 'المصنع', '')
+
+  }
   ngOnInit(): void {
     this.getAllVendors();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     
@@ -65,23 +75,30 @@ loading : boolean= false ;
     })
   }
   daleteVendor(id:number){
-    this.loading=true;
-    if(confirm("Are you sure to delete ")) {
-      console.log("Implement delete functionality here");
-    }
-    this.api.daleteVendor(id)
-    .subscribe({
-      next:(res)=>{
-        this.loading=false;
-        alert("تأكيد حذف الوحدة");
-        this.getAllVendors();
-      },
-      error:()=>{
-        this.loading=false;
-        alert("خطأ عند الحذف")
-      }
-    })
-  }
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.daleteVendor(id)
+
+  .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
+          this.getAllVendors();
+
+
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر');
+        },
+      });
+    }}
+
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

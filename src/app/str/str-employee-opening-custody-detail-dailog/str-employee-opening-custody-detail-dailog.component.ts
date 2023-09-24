@@ -57,6 +57,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
   currentData: any;
   fullCodeValue: any;
   itemByFullCodeValue: any;
+  isReadOnlyPercentage: any = false;
 
   itemsList: Item[] = [];
   itemCtrl: FormControl;
@@ -68,6 +69,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  stateDefaultValue: string;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -81,6 +83,8 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     private route: ActivatedRoute) {
 
     // this.currentData = new Date;
+    this.stateDefaultValue = 'جديد';
+    ;
 
     this.itemCtrl = new FormControl();
     this.filteredItem = this.itemCtrl.valueChanges.pipe(
@@ -105,11 +109,13 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       qty: ['1', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
-      state: ['', Validators.required],
+      state: [this.stateDefaultValue, Validators.required],
       percentage: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
+      notes: [''],
+      description: [''],
     });
 
 
@@ -139,6 +145,10 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       this.groupDetailsForm.controls['total'].setValue(this.editData.total);
 
       this.groupDetailsForm.controls['itemId'].setValue(this.editData.itemId);
+
+      this.groupDetailsForm.controls['notes'].setValue(this.editData.notes);
+      this.groupDetailsForm.controls['description'].setValue(this.editData.description);
+
       // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
       // this.getItemByCode(this.groupDetailsForm.getRawValue().itemId);
       console.log("nnnnnnnnnnnnnnnnnnn edit d after: ", this.editData);
@@ -239,6 +249,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
+                this.groupDetailsForm.controls['state'].setValue('جديد');
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
@@ -282,10 +293,21 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
   // }
 
   getItems() {
+    let itemArr: any[] = [];
     this.api.getItems()
       .subscribe({
         next: (res) => {
-          this.itemsList = res;
+          res.forEach((element: any) => {
+            if (element.type.includes('عهد')) {
+              itemArr.push(element);
+              // console.log("item list in loop check type: ", itemArr);
+
+            }
+          });
+          this.itemsList = itemArr;
+          // console.log("item list after check type: ", this.itemsList);
+          // this.itemsList = res 
+
         },
         error: (err) => {
           // console.log("fetch items data err: ", err);
@@ -293,6 +315,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
         }
       })
   }
+
 
   getItemByID(id: any) {
     return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
@@ -352,7 +375,20 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
 
   }
+  set_Percentage(state: any) {
 
+    console.log("state value changed: ", state.value);
+    this.groupDetailsForm.controls['state'].setValue(state.value);
+
+    if (this.groupDetailsForm.getRawValue().state == "مستعمل") {
+      this.isReadOnlyPercentage = false;
+    }
+    else {
+      this.isReadOnlyPercentage = true;
+      this.groupDetailsForm.controls['percentage'].setValue(100);
+    }
+
+  }
 
   // async itemOnChange(itemEvent: any) {
   //   console.log("itemEvent change value: ", itemEvent);
@@ -454,11 +490,10 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
     // .subscribe({
     //   next: (res) => {
     if (this.groupDetailsForm.valid) {
-      
+
       this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-           console.log('aa',res)
             this.toastrSuccess();
             this.groupDetailsForm.reset();
             this.itemCtrl.setValue('');
@@ -468,7 +503,9 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
             // this.getAllDetailsForms();
             // this.getDetailedRowData = '';
             this.groupDetailsForm.controls['qty'].setValue(1);
-           
+            this.groupDetailsForm.controls['state'].setValue('جديد');
+
+
             this.dialogRef.close('save');
             
           },

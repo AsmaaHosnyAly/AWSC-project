@@ -45,9 +45,9 @@ export class GlobalService {
 
   login(obj: any): Observable<any> {
     console.log('obj ', obj);
-    return this.http.post(
-      `${this.url}/PRUser/authenticate?username=${obj.name}&password=${obj.password}`,null
-     
+    return this.http.get(
+      `${this.url}/PRUser/authenticate?username=${obj.name}&password=${obj.password}`
+      
     );
   }
 
@@ -90,42 +90,42 @@ export class GlobalService {
     for (let i = 0; i < this.userRoles!.length; i++) {
       if (role == this.userRoles![i]) {
         this.pageTitle = pageTitle;
-        if (
-          role == '1' ||
-          role == '2' ||
-          role == '3' ||
-          role == '4' ||
-          role == '5' ||
-          role == '6' ||
-          role == '7' ||
-          role == '8' ||
-          role == '9' ||
-          role == '10' ||
-          role == '11' ||
-          role == '12' ||
-          role == '13' ||
-          role == '14' ||
-          role == '15' ||
-          role == '16' ||
-          role == '17'
-        ) {
-          this.shared.stores = true;
+        // if (
+        //   role == '1' ||
+        //   role == '2' ||
+        //   role == '3' ||
+        //   role == '4' ||
+        //   role == '5' ||
+        //   role == '6' ||
+        //   role == '7' ||
+        //   role == '8' ||
+        //   role == '9' ||
+        //   role == '10' ||
+        //   role == '11' ||
+        //   role == '12' ||
+        //   role == '13' ||
+        //   role == '14' ||
+        //   role == '15' ||
+        //   role == '16' ||
+        //   role == '17'
+        // ) {
+        //   this.shared.stores = true;
     
           
-          // if (background == 'stores')
-          //   this.bgColor = document
-          //     .querySelector('section')
-          //     ?.setAttribute('class', 'role1');
+        //   // if (background == 'stores')
+        //   //   this.bgColor = document
+        //   //     .querySelector('section')
+        //   //     ?.setAttribute('class', 'role1');
 
-          // if (background == 'acounts')
-          //   this.bgColor = document
-          //     .querySelector('section')
-          //     ?.setAttribute('class', 'role2');
-          // else
-          // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
+        //   // if (background == 'acounts')
+        //   //   this.bgColor = document
+        //   //     .querySelector('section')
+        //   //     ?.setAttribute('class', 'role2');
+        //   // else
+        //   // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
 
         
-        }
+        // }
       }
     
       // window.alert('You dont have the permission to visit this page');
@@ -133,30 +133,30 @@ export class GlobalService {
       // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
     }
   }
-  getPermissionRolesScreens(
-    role: any,
-    pageTitle: any,
-    icon: any
-  ) {
-    console.log('userrole', this.userRoles)
-    for (let i = 0; i < this.userRoles!.length; i++) {
-      if (role == this.userRoles![i]) {
-        this.pageTitle = pageTitle;
-        if (
+  // getPermissionRolesScreens(
+  //   role: any,
+  //   pageTitle: any,
+  //   icon: any
+  // ) {
+  //   console.log('userrole', this.userRoles)
+  //   for (let i = 0; i < this.userRoles!.length; i++) {
+  //     if (role == this.userRoles![i]) {
+  //       this.pageTitle = pageTitle;
+  //       if (
           
-          role == '18' ||
-          role == '19'
-        ) {
-          this.shared.roles = true;
-          this.router.navigate(['/pr-home']);
-        }
-      }
+  //         role == '18' ||
+  //         role == '19'
+  //       ) {
+  //         this.shared.roles = true;
+  //         this.router.navigate(['/pr-home']);
+  //       }
+  //     }
       
-      // window.alert('You dont have the permission to visit this page');
-      // this.router.navigate(['/home']);
-      // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
-    }
-  }
+  //     // window.alert('You dont have the permission to visit this page');
+  //     // this.router.navigate(['/home']);
+  //     // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
+  //   }
+  // }
 
   
 }

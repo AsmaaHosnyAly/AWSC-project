@@ -1,6 +1,6 @@
 
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { StrCommodityDialogComponent } from '../STR_Commodity_dialog/str-commodity-dialog.component';
 import { ApiService } from '../../services/api.service';
@@ -14,6 +14,9 @@ import {NgIf} from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { SharedService } from '../../guards/shared.service';
 import { GlobalService } from '../../services/global.service';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
 @Component({
   selector: 'app-str-commodity',
     templateUrl: './STR_Commodity.component.html',
@@ -29,13 +32,21 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private dialog: MatDialog, private api: ApiService, shared:SharedService,private global:GlobalService) {
-  this.global.getPermissionUserRoles(5, 'stores', ' إذن إضافة ', '');
+constructor(private dialog: MatDialog, private api: ApiService, shared:SharedService,private global:GlobalService,private hotkeysService: HotkeysService) {
+  this.global.getPermissionUserRoles(5, 'stores', ' السلعة', '');
 }
 
 ngOnInit(): void {
   this.getAllcommodity();
+  this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+    // Call the deleteGrade() function in the current component
+    this.openDialog();
+    return false; // Prevent the default browser behavior
+  }));
+  
 }
+
+
 openDialog() {
   this.dialog.open(StrCommodityDialogComponent, {
     width: '30%'
@@ -74,18 +85,27 @@ editcommodity(row: any) {
 }
 
 deletecommodity(id:number){
-  if (confirm("هل انت متأكد من الحذف؟"))
-this.api.deleteCommodity(id)
-.subscribe({
-next:(res)=>{
-alert("تم الحذف");
-this.getAllcommodity();
-},
-error:()=>{
-alert("خطأ في الحذف")
+  var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+  if (result) {
+    this.api.deleteCommodity(id).subscribe({
+      next: (res) => {
+        if(res == 'Succeeded'){
+          console.log("res of deletestore:",res)
+        alert('تم الحذف بنجاح');
+        this.getAllcommodity();
+      }else{
+        alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+      }
+      },
+      error: () => {
+        alert('خطأ فى حذف العنصر'); 
+      },
+    });
+  }
 }
-})
-}
+
+
+
 
 applyFilter(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
@@ -95,4 +115,5 @@ applyFilter(event: Event) {
     this.dataSource.paginator.firstPage();
   }
 }
+
 }

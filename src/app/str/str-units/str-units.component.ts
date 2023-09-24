@@ -7,8 +7,10 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { GlobalService } from '../../services/global.service';
-import { LoadingService } from 'src/app/loading.service';
+
 import { HttpClient } from '@angular/common/http';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-units',
   templateUrl: './str-units.component.html',
@@ -18,16 +20,21 @@ export class STRUnitsComponent {
   title = 'angular13crud';
   displayedColumns: string[] = [ 'name', 'action'];
   dataSource!: MatTableDataSource<any>;
- loading$ = this.loader.loading$;
+ 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , public loader:LoadingService, private http:HttpClient){
+  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , private http:HttpClient,private hotkeysService: HotkeysService){
     global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
     
-
+ 
   }
   ngOnInit(): void {
     this.getAllUnits();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   
   openDialog() {
@@ -66,23 +73,30 @@ export class STRUnitsComponent {
     })
   }
   daleteunit(id:number){
-    var result = confirm('هل ترغب بتاكيد المسح  ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-    this.api.deleteunit(id)
-    .subscribe({
-      next:(res)=>{
-        alert("تأكيد حذف الوحدة");
-        this.getAllUnits();
-      },
-      error:()=>{
-        alert("خطأ عند الحذف")
-      }
-    })
-  }
+      this.api.deleteunit(id)
+
+  .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
+          this.getAllUnits();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر');
+        },
+      });
+    }
 }
-  // fetchuser(){
-  //   this.http.get('https://api.github.com/users/thisiszaoib').subscribe((res)=>(console.log(res)))
-  // }
+
+
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

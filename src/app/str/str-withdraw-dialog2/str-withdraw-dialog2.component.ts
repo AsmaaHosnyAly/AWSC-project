@@ -22,31 +22,32 @@ import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Router } from '@angular/router';
 import { StrWithdrawDetailsDialogComponent } from '../str-withdraw-details-dialog/str-withdraw-details-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class deststore {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 // export class store {
 //   constructor(public id: number, public name: string) { }
 // }
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 // export class FiscalYear {
 //   constructor(public id: number, public FiscalYear: string) { }
 // }
 
 export class item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export interface Source {
   name: string;
 }
 export class List {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class costcenter {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 @Component({
@@ -161,6 +162,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     @Inject(LOCALE_ID) private locale: string,
@@ -217,7 +219,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       storeName: ['', Validators.required],
       transactionUserId: [1, Validators.required],
       destStoreUserId: [1, Validators.required],
-      source: ['', Validators.required],
+      type: ['', Validators.required],
       sourceInput: [''],
 
       date: [dateNow, Validators.required],
@@ -229,11 +231,13 @@ export class StrWithdrawDialogComponent implements OnInit {
       deststoreId: [''],
       desstoreName: [''],
       ListId: ['', Validators.required],
+      productionDate: ['', Validators.required],
+     expireDate: ['', Validators.required],
     });
 
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: ['', Validators.required], //MasterId
-      employeeId:['', Validators.required],
+      employeeId: ['', Validators.required],
       qty: ['', Validators.required],
       percentage: ['', Validators.required],
       price: ['', Validators.required],
@@ -252,6 +256,14 @@ export class StrWithdrawDialogComponent implements OnInit {
 
       // notesName: [''],
     });
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.nextToAddFormDetails();
+      return false; // Prevent the default browser behavior
+    }));
+
+
+
 
     if (this.editData) {
       // console.log("")
@@ -262,7 +274,7 @@ export class StrWithdrawDialogComponent implements OnInit {
         this.actionName = 'sss';
         console.log('action btnnnnnnnnnnnnn', this.actionName);
 
-        this.groupMasterForm.controls['source'].setValue('المخزن');
+        this.groupMasterForm.controls['type'].setValue('المخزن');
         this.groupMasterForm.controls['sourceInput'].setValue(
           this.groupMasterForm.getRawValue().desstoreName
         );
@@ -270,7 +282,7 @@ export class StrWithdrawDialogComponent implements OnInit {
         // alert("deststore in edit:"+this.editData.deststoreId)
       } else {
         this.actionName = 'choose';
-        this.groupMasterForm.controls['source'].setValue('الموظف');
+        this.groupMasterForm.controls['type'].setValue('الموظف');
         this.groupMasterForm.controls['sourceInput'].setValue(
           this.groupMasterForm.getRawValue().employeeName
         );
@@ -286,10 +298,11 @@ export class StrWithdrawDialogComponent implements OnInit {
       this.actionBtnMaster = 'Update';
 
       console.log('employeeId in edittttt', this.editData.employeeId);
-
+      this.groupMasterForm.controls['productionDate'].setValue(this.editData.productionDate)
+      this.groupMasterForm.controls['expireDate'].setValue(this.editData.expireDate)
       this.employeeName = this.getemployeeByID(this.editData.employeeId);
-      console.log('desstore id in edit data', this.editData.deststoreId);
-      this.desstoreName = this.getDestStoreById(this.editData.deststoreId);
+      console.log('desstore id in edit data', this.editData.destStoreId);
+      this.desstoreName = this.getDestStoreById(this.editData.destStoreId);
 
       console.log('employeename in edit', this.employeeName);
 
@@ -329,7 +342,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       // this.groupMasterForm.controls['itemId'].setValue(this.editData.itemId);
 
       this.groupMasterForm.controls['deststoreId'].setValue(
-        this.editData.deststoreId
+        this.editData.destStoreId
       );
 
       console.log('costcenter:', this.editData.costCenterId);
@@ -484,6 +497,26 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.selecteditem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
+
+    this.api.getAvgPrice(
+      this.groupMasterForm.getRawValue().storeId,
+      this.groupMasterForm.getRawValue().fiscalYearId,
+      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+      this.groupDetailsForm.getRawValue().itemId
+    )
+      .subscribe({
+        next: (res) => {
+          // this.priceCalled = res;
+          // this.groupDetailsForm.controls['avgPrice'].setValue(res);
+          this.groupDetailsForm.controls['price'].setValue(res)
+          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          alert("خطا اثناء جلب متوسط السعر !");
+        }
+      })
+
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
@@ -517,9 +550,9 @@ export class StrWithdrawDialogComponent implements OnInit {
     // console.log("deststoreId in add",this.groupMasterForm.getRawValue().deststoreId)
 
     // alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
-    this.costcenterName = await this.getcostcenterByID(
-      this.groupMasterForm.getRawValue().costCenterId
-    );
+    // this.costcenterName = await this.getcostcenterByID(
+    //   this.groupMasterForm.getRawValue().costCenterId
+    // );
 
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
     console.log(
@@ -602,7 +635,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   set_Employee_Null(deststoreId: any) {
-    // alert("deststoreId in null fun:"+ deststoreId)
+    // alert("deststoreId in null fun:" + deststoreId)
 
     this.groupMasterForm.controls['employeeId'].setValue(null);
     this.isReadOnlyEmployee = true;
@@ -840,7 +873,7 @@ export class StrWithdrawDialogComponent implements OnInit {
         );
         this.groupDetailsForm.controls['total'].setValue(
           parseFloat(this.groupDetailsForm.getRawValue().price) *
-            parseFloat(this.groupDetailsForm.getRawValue().qty)
+          parseFloat(this.groupDetailsForm.getRawValue().qty)
         );
 
         // console.log("form details after item: ", this.groupDetailsForm.value, "DetailedRowData: ", !this.getDetailedRowData)
@@ -908,7 +941,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       this.groupMasterForm.getRawValue().costCenterId
     );
 
-    this.desstoreName = await this.getDestStoreById(this.editData.deststoreId);
+    // this.desstoreName = await this.getDestStoreById(this.editData.deststoreId);
 
     // console.log("data storeName in edit: ", this.groupMasterForm.value)
 
@@ -925,7 +958,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     );
 
     this.groupMasterForm.controls['deststoreId'].setValue(
-      this.groupMasterForm.getRawValue().deststoreId
+      this.editData.deststoreId
     );
     // alert("deststoreId::::::::"+this.groupMasterForm.getRawValue().deststoreId)
     // console.log("values master form: ", this.groupMasterForm.value)
@@ -938,6 +971,8 @@ export class StrWithdrawDialogComponent implements OnInit {
         new FormControl('', Validators.required)
       );
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
+      this.groupMasterForm.controls['deststoreId'].setValue(this.editData.deststoreId);
+// alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
       console.log('data item Name in edit: ', this.groupMasterForm.value);
     }
     if (this.getDetailedRowData) {
@@ -977,7 +1012,7 @@ export class StrWithdrawDialogComponent implements OnInit {
                 this.fullCodeValue = '';
                 this.getDetailedRowData = '';
                 // alert('تم التعديل بنجاح');
-                this.toastrEditSuccess();
+                // this.toastrEditSuccess();
 
                 // this.dialogRef.close('update');
               },
@@ -1015,7 +1050,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       );
       this.groupDetailsForm.controls['total'].setValue(
         parseFloat(this.groupDetailsForm.getRawValue().price) *
-          parseFloat(this.groupDetailsForm.getRawValue().qty)
+        parseFloat(this.groupDetailsForm.getRawValue().qty)
       );
 
       this.updateDetailsForm();
@@ -1142,7 +1177,7 @@ export class StrWithdrawDialogComponent implements OnInit {
           console.log(
             'result ',
             res)
-          
+
           if (this.editData) {
             this.groupMasterForm.controls['storeId'].setValue(
               this.editData.storeId
@@ -1347,7 +1382,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
 
-  
+
   async getFiscalYears() {
     this.api.getFiscalYears().subscribe({
       next: async (res) => {
@@ -1443,7 +1478,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     } else {
       this.groupMasterForm.patchValue({ deststoreId: list.id });
       this.groupMasterForm.patchValue({ desstoreName: list.name });
-      // alert("deststoreId::::"+ this.groupMasterForm.getRawValue().desstoreName)
+      // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
       this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
     }
   }
@@ -1462,9 +1497,9 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.listCtrl.updateValueAndValidity();
   }
 
-  getListCtrl(source: any) {
-    this.sourceSelected = source;
-    // if(source==="المورد"){
+  getListCtrl(type: any) {
+    this.sourceSelected = type;
+    // if(type==="المورد"){
 
     //   this.api.getAllSellers().subscribe((lists)=>{
     //     this.lists = lists;
@@ -1474,7 +1509,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
     //   });
     // }
-    if (source === 'الموظف') {
+    if (type === 'الموظف') {
       this.api.getEmployee().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['deststoreId'].setValue(null);
@@ -1594,8 +1629,8 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   addNewDetails() {
     this.router.navigate(['/withdraw'], {
-      queryParams: { masterId: this.getMasterRowId.id , fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date },
-     
+      queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date },
+
     });
     this.dialog
       .open(StrWithdrawDetailsDialogComponent, {
@@ -1613,97 +1648,23 @@ export class StrWithdrawDialogComponent implements OnInit {
   async updateMaster() {
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
 
-    // // if (this.getMasterRowId.id) {
-    // //   if (this.getMasterRowId.id) {
 
-    // //     if (this.groupDetailsForm.getRawValue().itemId) {
+    this.groupMasterForm.controls['desstoreName'].setValue(
+      this.groupMasterForm.getRawValue().desstoreName
+    );
 
-    // // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-    // // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-    // this.groupDetailsForm.controls['transactionUserId'].setValue(
-    //   this.userIdFromStorage
-    // );
-    // // }
+    this.groupMasterForm.controls['deststoreId'].setValue(
+      this.groupMasterForm.getRawValue().deststoreId
+    );
+    // alert("deststoreId in updateeee: "+ this.groupMasterForm.getRawValue().deststoreId);
 
-    // // this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
-    // // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
-    // // console.log("post d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
-
-    // // if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
-
-    // //   this.api.postStrOpenDetails(this.groupDetailsForm.value)
-    // //     .subscribe({
-    // //       next: (res) => {
-    // //         this.toastrSuccess();
-    // //         this.groupDetailsForm.reset();
-    // //         this.groupDetailsForm.controls['qty'].setValue(1);
-    // //         this.itemCtrl.setValue('');
-    // //         this.itemByFullCodeValue = '';
-    // //         this.fullCodeValue = '';
-
-    // //         this.updateDetailsForm()
-    // //         this.getAllDetailsForms();
-    // //       },
-    // //       error: () => {
-    // //         // alert("حدث خطأ أثناء إضافة مجموعة")
-    // //       }
-    // //     })
-    // // }
-    // // else {
-    // console.log(
-    //   'update both: ',
-    //   this.groupDetailsForm.valid,
-    //   'ooo:',
-    //   !this.getDetailedRowData
-    // );
-    // console.log('edit : ', this.groupDetailsForm.value);
-    // this.api.putStrEmployeeExchange(this.groupMasterForm.value).subscribe({
-    //   next: (res) => {
-    //     // if (this.groupDetailsForm.value && this.getDetailedRowData) {
-    //     // this.api.putStrOpenDetails(this.groupDetailsForm.value, this.getDetailedRowData.id)
-    //     //   .subscribe({
-    //     //     next: (res) => {
-
-    //     // this.toastrSuccess();
-    //     this.groupDetailsForm.reset();
-    //     // this.itemCtrl.setValue('');
-
-    //     // this.getAllDetailsForms();
-    //     this.getDetailedRowData = '';
-    //     this.groupDetailsForm.controls['qty'].setValue(1);
-
-    //     //   },
-    //     //   error: (err) => {
-    //     //     console.log("update err: ", err)
-    //     //     // alert("خطأ أثناء تحديث سجل المجموعة !!")
-    //     //   }
-    //     // })
-    //     // }
-    //   },
-    // });
-    // // this.updateBothForms();
-    // //     }
-
-    // //   }
-
-    // // }
-    // // else {
-    // //   console.log("update d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
-
-    // //   this.updateDetailsForm();
-    // // }
-
-
-    console.log("nnnvvvvvvvvvv: ", this.groupMasterForm.value);
-    
     this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-   
+
     console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
     console.log("edit : ", this.groupDetailsForm.value)
     this.api.putStrWithdraw(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
-          
           this.groupDetailsForm.reset();
           // this.itemCtrl.setValue('');
 

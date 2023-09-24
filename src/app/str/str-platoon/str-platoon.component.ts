@@ -18,7 +18,8 @@ import {
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { GlobalService } from '../../services/global.service';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -69,7 +70,7 @@ export class STRPlatoonComponent implements OnInit {
 
   
   // selectedGrade: any;
-  constructor(private formBuilder : FormBuilder,private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
+  constructor(private formBuilder : FormBuilder,private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -82,7 +83,7 @@ export class STRPlatoonComponent implements OnInit {
       map((value) => this._filterGrades(value))
     );
 
-    global.getPermissionUserRoles(7,'stores', 'فصيلة', '')
+    global.getPermissionUserRoles(7,'stores', 'الفصيلة', '')
   }
   ngOnInit(): void {
     this.getAllPlatoons();
@@ -93,6 +94,11 @@ export class STRPlatoonComponent implements OnInit {
     this.api.getAllGrades().subscribe((grades) => {
       this.grades = grades;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -190,19 +196,28 @@ export class STRPlatoonComponent implements OnInit {
       });
   }
   daletePlatoon(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح الفصيلة ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePlatoon(id).subscribe({
+      this.api.deletePlatoon(id)
+  .subscribe({
         next: (res) => {
-          alert('Product deleted successfully');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          alert('تم الحذف بنجاح');
           this.getAllPlatoons();
+
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('error while deleting the product!!');
+          alert('خطأ فى حذف العنصر');
         },
       });
     }
   }
+  
 
 
   clearFields() {  

@@ -14,7 +14,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ApiService } from 'src/app/services/api.service';
 import { StrAddDetailsDialogComponent } from '../str-add-details-dialog/str-add-details-dialog.component';
 import { Router } from '@angular/router';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 export class Seller {
   constructor(public id: number, public name: string) { }
@@ -98,6 +99,9 @@ export class STRAddDialogComponent implements OnInit {
   getAddData: any;
   sourceSelected: any;
   isEdit: boolean = false;
+
+  btnDisabled: boolean = false;
+
   displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -109,6 +113,7 @@ export class STRAddDialogComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
 
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
@@ -196,7 +201,11 @@ export class STRAddDialogComponent implements OnInit {
     this.api.getAllItems().subscribe((items) => {
       this.items = items;
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.nextToAddFormDetails();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.isEdit = true;
       this.getAddData = this.editData;
@@ -252,10 +261,10 @@ export class STRAddDialogComponent implements OnInit {
   }
 
   addNewDetails() {
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().type} })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().type } })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
-      height:'95%',
+      height: '95%',
     }).afterClosed().subscribe(val => {
       if (val === 'Save' || val === 'Update') {
         this.getAllDetailsForms();
@@ -318,7 +327,7 @@ export class STRAddDialogComponent implements OnInit {
             console.log("mastered res: ", this.getMasterRowId.id)
             this.MasterGroupInfoEntered = true;
 
-this.toastrSuccess();
+            this.toastrSuccess();
             this.getAllDetailsForms();
             // this.updateDetailsForm();
             // this.addDetailsInfo();
@@ -339,73 +348,110 @@ this.toastrSuccess();
     // console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
 
-      // if(this.groupMasterForm.getRawValue().employeeId || this.groupMasterForm.getRawValue().sourceStoreId){
-      //   this.isReadOnlyEmployee = false;
-      // }
-      // else{
-      //   this.isReadOnlyEmployee = true;
-      // }
+      if (this.editData) {
+        // console.log("check if details belongs to strAdd or strWithdraw: ", this.editData.hasOwnProperty('strWithDrawDetailsGetVM'));
 
-      // this.http.get<any>("http://ims.aswan.gov.eg/api/STRAddDetails/get/all")
-      //   .subscribe(res => {
-      //     console.log("res to get all details form: ", res, "masterRowId: ", this.getMasterRowId.id);
+        if (this.editData.hasOwnProperty('strWithDrawDetailsGetVM')) {
+          this.btnDisabled = true;
+          this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
+            .subscribe({
+              next: (res) => {
+                // this.itemsList = res;
+                console.log("enter getAllDetails: ", res);
+                // if(res[0].includes('strWithDrawDetailsGetVM'))
+                this.matchedIds = res[0].strWithDrawDetailsGetVM;
 
-      //     this.matchedIds = res.filter((a: any) => {
-      //       console.log("matchedIds: ", a.addId == this.getMasterRowId.id, "res: ", this.matchedIds)
-      //       return a.addId == this.getMasterRowId.id
-      //     })
+                if (this.matchedIds) {
+                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+                  this.dataSource = new MatTableDataSource(this.matchedIds);
+                  this.dataSource.paginator = this.paginator;
+                  this.dataSource.sort = this.sort;
 
-      //     if (this.matchedIds) {
+                  this.sumOfTotals = 0;
+                  for (let i = 0; i < this.matchedIds.length; i++) {
+                    this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                    this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                    // alert('totalll: '+ this.sumOfTotals)
+                    // this.updateBothForms();
 
-      //       this.dataSource = new MatTableDataSource(this.matchedIds);
-      //       this.dataSource.paginator = this.paginator;
-      //       this.dataSource.sort = this.sort;
-
-      //       this.sumOfTotals = 0;
-      //       for (let i = 0; i < this.matchedIds.length; i++) {
-      //         this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-
-      //       }
-      //       this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-      //       this.updateBothForms();
-
-      //     }
-      //   }
-      //     , err => {
-      //       alert("حدث خطا ما !!")
-      //     }
-      //   )
-
-
-      this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
-      .subscribe({
-        next: (res) => {
-          // this.itemsList = res;
-          console.log("enter getAllDetails: ", res)
-          this.matchedIds = res[0].strAddDetailsGetVM;
-
-          if (this.matchedIds) {
-            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-
-            this.sumOfTotals = 0;
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-              // alert('totalll: '+ this.sumOfTotals)
-              // this.updateBothForms();
-
-              this.updateMaster();
-            }
-          }
-        },
-        error: (err) => {
-          // console.log("fetch items data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
+                    this.updateMaster();
+                  }
+                }
+              },
+              error: (err) => {
+                // console.log("fetch items data err: ", err);
+                // alert("خطا اثناء جلب العناصر !");
+              }
+            })
         }
-      })
+        else {
+          this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
+            .subscribe({
+              next: (res) => {
+                // this.itemsList = res;
+                console.log("enter getAllDetails: ", res);
+                // if(res[0].includes('strWithDrawDetailsGetVM'))
+                this.matchedIds = res[0].strAddDetailsGetVM;
+
+                if (this.matchedIds) {
+                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
+                  this.dataSource = new MatTableDataSource(this.matchedIds);
+                  this.dataSource.paginator = this.paginator;
+                  this.dataSource.sort = this.sort;
+
+                  this.sumOfTotals = 0;
+                  for (let i = 0; i < this.matchedIds.length; i++) {
+                    this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                    this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                    // alert('totalll: '+ this.sumOfTotals)
+                    // this.updateBothForms();
+
+                    this.updateMaster();
+                  }
+                }
+              },
+              error: (err) => {
+                // console.log("fetch items data err: ", err);
+                // alert("خطا اثناء جلب العناصر !");
+              }
+            })
+        }
+        
+      }
+      else {
+        this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
+          .subscribe({
+            next: (res) => {
+              // this.itemsList = res;
+              console.log("enter getAllDetails: ", res);
+              // if(res[0].includes('strWithDrawDetailsGetVM'))
+              this.matchedIds = res[0].strAddDetailsGetVM;
+
+              if (this.matchedIds) {
+                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
+                this.dataSource = new MatTableDataSource(this.matchedIds);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+
+                this.sumOfTotals = 0;
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                  // alert('totalll: '+ this.sumOfTotals)
+                  // this.updateBothForms();
+
+                  this.updateMaster();
+                }
+              }
+            },
+            error: (err) => {
+              // console.log("fetch items data err: ", err);
+              // alert("خطا اثناء جلب العناصر !");
+            }
+          })
+      }
+
+
     }
 
 
@@ -413,7 +459,7 @@ this.toastrSuccess();
 
   async updateMaster() {
     console.log("nnnvvvvvvvvvv: ", this.groupMasterForm.value);
-    
+
     // if (this.getMasterRowId.id) {
     //   if (this.getMasterRowId.id) {
 
@@ -492,7 +538,7 @@ this.toastrSuccess();
     // }
   }
 
-  
+
   async addDetailsInfo() {
     this.groupDetailsForm.removeControl('id')
     console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "main id: ", this.getMasterRowId.id);
@@ -736,10 +782,10 @@ this.toastrSuccess();
 
     // }
 
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date,  sourceStoreName: this.groupMasterForm.getRawValue().type,} })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().type, } })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
-      height:'95%',
+      height: '95%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
@@ -1441,7 +1487,7 @@ this.toastrSuccess();
       });
     }
 
-    
+
   }
 
 

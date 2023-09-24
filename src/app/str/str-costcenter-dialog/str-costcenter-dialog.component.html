@@ -5,19 +5,26 @@
   <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مركز تكلفة   ' : ' إضافة  مركز تكلفة جديد'}}</h1>
 <div dir="rtl">
    <div mat-dilog-content>
-   <form [formGroup]="productForm" style="padding: 20px;" >
-       <mat-form-field appearance="outline" >
-           <mat-label>الكود </mat-label>
-           <input formControlName="code" matInput placeholder="ادخل كودالمركز" >
-           <mat-error *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched">
-            كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
-         </mat-error>
-       </mat-form-field>
+   <form [formGroup]="costcenterForm" style="padding: 20px;" >
+    <mat-form-field appearance="outline" >
+      <mat-label>الكود </mat-label>
+      <input formControlName="code" matInput placeholder="ادخل كود المخزن" [value]="editData ? editData.code : autoCode" readonly>
+        </mat-form-field>
        <mat-form-field appearance="outline">
            <mat-label>المركز</mat-label>
-           <input formControlName="name" matInput placeholder="ادخل اسم المركز" type="text">
-   
+           <input formControlName="name" matInput placeholder="ادخل اسم المركز" type="text">   
        </mat-form-field>
+       <mat-label>التصنيف</mat-label>
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="CostCenter" [matAutocomplete]="autoCenterCategory" [formControl]="centerCategoryCtrl"
+          placeholder="{{getCostCenterData ? getCostCenterData.costCenterCategoryName : 'اختر سلعة'}}" (click)="openCenterCategory()" required />
+        <mat-autocomplete #autoCenterCategory="matAutocomplete" [displayWith]="displayCenterCategory"
+          (optionSelected)="centerCategorySelected($event)">
+          <mat-option *ngFor="let category of filteredCategories| async" [value]="category">
+            {{ category.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
        <button  mat-raised-button class="savebtn" (click)="addCostCenter()">{{actionBtn}}</button>
 
    </form>

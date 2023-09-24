@@ -1,4 +1,5 @@
-import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
+// import { FiscalYear } from './../str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
+// import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
   url = 'http://ims.aswan.gov.eg/api';
   mycondition: any;
@@ -477,9 +478,31 @@ export class ApiService {
     });
   }
 
-  strAdd(no: any, store: any, date: any) {
-    ('http://ims.aswan.gov.eg/api/STRAdd/getReport?reportName=STRAddReport&reportType=pdf');
-    this.mycondition = `${this.url}/STRAdd/getReport?reportName=STRAddReport&reportType=pdf`;
+
+
+  strAdd(
+    no: any,
+    store: any,
+    StartDate: any,EndDate:any,
+    fiscalYear: any,
+    item: any,
+    employee: any,
+    costCenter: any,report:any,reportType:any
+  ) {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      store,
+      'date: ',
+      StartDate,
+      'fiscalYear: ',
+      fiscalYear,
+      'reportName:',report,'reportType:',reportType
+      
+    );
+    'http://ims.aswan.gov.eg/api/STRAdd/getReport?';
+    this.mycondition = `${this.url}/STRAdd/getReport?`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
@@ -487,41 +510,35 @@ export class ApiService {
     if (!store == false) {
       this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
     }
-
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
     }
 
-    console.log('url', this.mycondition);
-
-    // return this.http.get<any>(`${this.mycondition}`);
-    return this.http.get(`${this.mycondition}`, {
-      observe: 'response',
-      responseType: 'blob',
-    });
-  }
-
-  openingStock(no: any, store: any, date: any, fiscalYear: any, item: any) {
-    'http://ims.aswan.gov.eg/api/STROpeningStock/getReport?reportName=OpeningStockReport&reportType=pdf';
-    this.mycondition = `${this.url}/STROpeningStock/getReport?reportName=OpeningStockReport&reportType=pdf`;
-
-    if (!no == false) {
-      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
     }
-    if (!store == false) {
-      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+
+
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
     }
 
     if (!fiscalYear == false) {
-      this.mycondition = ` ${this.mycondition}&Type=${fiscalYear}`;
-    }
-
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+      this.mycondition = ` ${this.mycondition}&CommodityId=${fiscalYear}`;
     }
     if (!item == false) {
       this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
     }
+    if (!employee == false) {
+      this.mycondition = ` ${this.mycondition}&PlatoonId=${employee}`;
+    }
+    if (!costCenter == false) {
+      this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
+    }
+
     console.log('url', this.mycondition);
 
     // return this.http.get<any>(`${this.mycondition}`);
@@ -531,32 +548,120 @@ export class ApiService {
     });
   }
 
-  getStrEmployeeCustody(
+  openingStock(
     no: any,
-    costCenterId: any,
-    employeeId: any,
-    date: any,
-    itemId: any
+    store: any,
+    StartDate: any,EndDate:any,
+    fiscalYear: any,
+    item: any,
+    employee: any,
+    costCenter: any,report:any,reportType:any
   ) {
-    'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustody/getReport?reportName=EmployeeOpeningReport&reportType=pdf';
-    this.mycondition = `${this.url}/STREmployeeOpeningCustody/getReport?reportName=EmployeeOpeningReport&reportType=pdf`;
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      store,
+      'date: ',
+      StartDate,
+      'fiscalYear: ',
+      fiscalYear,
+      'reportName:',report,'reportType:',reportType
+      
+    );
+    'http://ims.aswan.gov.eg/api/STROpeningStock/getReport?';
+    this.mycondition = `${this.url}/STROpeningStock/getReport?`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
     }
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    }
+
+
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${fiscalYear}`;
+    }
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    }
+    if (!employee == false) {
+      this.mycondition = ` ${this.mycondition}&PlatoonId=${employee}`;
+    }
+    if (!costCenter == false) {
+      this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  getStrEmployeeCustodyReport(
+    no: any,StartDate:any,EndDate:any,fiscalYear:any,itemId: any,  employeeId: any,
+    costCenterId: any,report:any,reportType:any
+  
+  ) {
+
+    console.log(
+      'no. : ',
+      no,
+      'employee',employeeId,'costcenter:',costCenterId,
+      'date: ',
+      StartDate,
+      'fiscalYear: ',
+      fiscalYear,
+      'reportName:',report,'reportType:',reportType
+      
+    );
+    
+    'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustody/getReport?';
+    this.mycondition = `${this.url}/STREmployeeOpeningCustody/getReport?`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
     if (!costCenterId == false) {
-      this.mycondition = ` ${this.mycondition}&FullCode=${costCenterId}`;
+      this.mycondition = ` ${this.mycondition}&CostCenterId=${costCenterId}`;
     }
 
     if (!employeeId == false) {
-      this.mycondition = ` ${this.mycondition}&Type=${employeeId}`;
+      this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
     }
 
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
     }
     if (!itemId == false) {
-      this.mycondition = ` ${this.mycondition}&GradeId=${itemId}`;
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
     }
 
     console.log('url', this.mycondition);
@@ -569,31 +674,44 @@ export class ApiService {
   }
 
   getStrEmployeeExchangeItem(
-    no: any,
-    costCenterId: any,
-    employeeId: any,
-    date: any,
-    distEmployee: any
+    no: any,distEmployee: any,StartDate:any,EndDate:any,Fiscalyear:any,item:any,
+    employeeId: any, costCenterId: any,report:any,reportType:any
+ 
   ) {
-    'http://ims.aswan.gov.eg/api/STRItem/getReport?reportName=STRItemsReport&reportType=pdf';
-    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+    'http://ims.aswan.gov.eg/api/STRItem/getReport?';
+    this.mycondition = `${this.url}/STRItem/getReport?`;
 
     if (!no == false) {
-      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
     if (!costCenterId == false) {
-      this.mycondition = ` ${this.mycondition}&FullCode=${costCenterId}`;
+      this.mycondition = ` ${this.mycondition}&CostCenterId=${costCenterId}`;
     }
 
     if (!employeeId == false) {
-      this.mycondition = ` ${this.mycondition}&Type=${employeeId}`;
+      this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
     }
 
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&CommodityId=${date}`;
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+    if (!Fiscalyear == false) {
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${Fiscalyear}`;
+    }
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&ItemId=${item}`;
+    }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
     }
     if (!distEmployee == false) {
-      this.mycondition = ` ${this.mycondition}&GradeId=${distEmployee}`;
+      this.mycondition = ` ${this.mycondition}&DestEmployeeId=${distEmployee}`;
     }
 
     console.log('url', this.mycondition);
@@ -608,14 +726,26 @@ export class ApiService {
   getStr(
     no: any,
     store: any,
-    date: any,
+    StartDate: any,EndDate:any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any
+    costCenter: any,report:any,reportType:any
   ) {
-    'http://ims.aswan.gov.eg/api/STRWithdraw/getReport?reportName=STRWithdrawReport&reportType=pdf';
-    this.mycondition = `${this.url}/STRWithdraw/getReport?reportName=STRWithdrawReport&reportType=pdf`;
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      store,
+      'date: ',
+      StartDate,
+      'fiscalYear: ',
+      fiscalYear,
+      'reportName:',report,'reportType:',reportType
+      
+    );
+    'http://ims.aswan.gov.eg/api/STRWithdraw/getReport??';
+    this.mycondition = `${this.url}/STRWithdraw/getReport??`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
@@ -623,9 +753,20 @@ export class ApiService {
     if (!store == false) {
       this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
     }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
 
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&Type=${date}`;
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    }
+
+
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
     }
 
     if (!fiscalYear == false) {
@@ -851,6 +992,12 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/FICostCenter/Add`, data);
   }
 
+  getAllCategories(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/FiCostCenterCategory/get/all'
+    );
+  }
+
   getCostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
   }
@@ -861,6 +1008,12 @@ export class ApiService {
 
   deleteCostCenter(id: number) {
     return this.http.delete<any>(`${this.url}/FICostCenter/delete/` + id);
+  }
+
+  getCostCenterAutoCode() {
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/FICostCenter/GetLastCode`
+    );
   }
 
   // crud items
@@ -934,6 +1087,18 @@ export class ApiService {
 
   deleteStore(id: number) {
     return this.http.delete<any>(`${this.url}/STRStore/delete/` + id);
+  }
+
+  getEmployees(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/HREmployee/get/all'
+    );
+  }
+
+  getStoreAutoCode() {
+    return this.http.get<any>(
+      `http://ims.aswan.gov.eg/api/STRStore/AutoCode`
+    );
   }
   //  commodity
   postCommodity(data: any) {
@@ -1097,13 +1262,53 @@ export class ApiService {
       `${this.url}/STRAddDetails/get/Avg/Price/${storeid}/${FiscalYearid}/${Date}/${itemid}`
     );
   }
+  getSearchStrStockTaking(
+    no: any,
+    storeId: any,
+    fiscalYear: any,
+    itemId: any) {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      storeId,
+
+      'fiscalYear: ',
+      fiscalYear,
+      'item:',
+      itemId
+
+    );
+
+    this.mycondition = `${this.url}/StrStockTaking/search?`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    if (!storeId == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+    }
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    return this.http.get<any>(`${this.mycondition}`);
+  }
+
+
 
   getStrOpenSearach(
     no: any,
     storeId: any,
-    date: any,
+    
     fiscalYear: any,
-    itemId: any
+    itemId: any,StartDate:any,EndDate:any
   ) 
   
   {
@@ -1112,12 +1317,13 @@ export class ApiService {
       no,
       'store : ',
       storeId,
-      'date: ',
-      date,
+      'StartDate: ',
+      StartDate,
       'fiscalYear: ',
       fiscalYear,
       'item:',
-      itemId
+      itemId,'EndDate: ',
+      EndDate
     
     );
 
@@ -1129,11 +1335,14 @@ export class ApiService {
     if (!storeId == false) {
       this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
     }
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&Date=${date}`;
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
     }
     if (!fiscalYear == false) {
-      this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`;
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${fiscalYear}`;
     }
     if (!itemId == false) {
       this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
@@ -1322,16 +1531,16 @@ export class ApiService {
     console.log('deleted row id: ', HeaderId);
     return this.http.delete<any>(
       `${this.url}/STREmployeeExchangeDetails/delete/by/EmployeeExchange/` +
-        HeaderId
+      HeaderId
     );
   }
-  
+
   getStrEmployeeExchangeSearach(
     no: any,
     costCenterId: any,
     employeeId: any,
-    date: any,
-    distEmployee: any
+    
+    distEmployee: any,StartDate:any,EndDate:any,Fiscalyaer:any
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -1340,10 +1549,12 @@ export class ApiService {
       costCenterId,
       "' employeeId: '",
       employeeId,
-      "' date: '",
-      date,
+      "' StartDate: '",
+      StartDate,
       "' distEmployee: '",
-      distEmployee
+      distEmployee,
+      "' EndDate: '",
+      EndDate,'fiscalyear:',Fiscalyaer
     );
     this.mycondition;
     this.mycondition = `${this.url}/STREmployeExchange/search?`;
@@ -1352,8 +1563,14 @@ export class ApiService {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
 
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&Date=${date}`;
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+    if (!Fiscalyaer == false) {
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${Fiscalyaer}`;
     }
 
     if (!distEmployee == false) {
@@ -1548,7 +1765,7 @@ export class ApiService {
     console.log('deleted row id: ', HeaderId);
     return this.http.delete<any>(
       'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/delete/' +
-        HeaderId
+      HeaderId
     );
   }
   putStrEmployeeOpenDetail(data: any, id: number) {
@@ -1559,10 +1776,15 @@ export class ApiService {
     );
   }
   getStrEmployeeOpenDetailsByMasterId(id: any) {
-    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`);
+    return this.http.get<any>(
+      `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
+    );
   }
   putStEmp(data: any) {
-    return this.http.put<any>(`${this.url}/STREmployeeOpeningCustody/update`, data);
+    return this.http.put<any>(
+      `${this.url}/STREmployeeOpeningCustody/update`,
+      data
+    );
   }
   // getStrOpenDetailsByMasterId(id: any) {
   //   return this.http.get<any>(`${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`);
@@ -1630,7 +1852,7 @@ export class ApiService {
   getStrWithdrawSearch(
     no: any,
     store: any,
-    date: any,
+    StartDate: any,EndDate:any,
     fiscalYear: any,
     itemId: any,
     employeeId: any,
@@ -1643,7 +1865,7 @@ export class ApiService {
       'store : ',
       store,
       'date: ',
-      date,
+      StartDate,
       'fiscalYear: ',
       fiscalYear,
       'item:',
@@ -1662,14 +1884,17 @@ export class ApiService {
     if (!store == false) {
       this.mycondition = ` ${this.mycondition}&StoreId=${store}`;
     }
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&Date=${date}`;
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
     }
     if (!fiscalYear == false) {
-      this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`;
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
     }
     if (!itemId == false) {
-      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
     }
     if (!employeeId == false) {
       this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
@@ -1959,6 +2184,15 @@ export class ApiService {
 
   // ----Start Add----
 
+  GetWithDrawByDestStore(storeId: any) {
+    return this.http.get<any>(`${this.url}/STRWithdraw/GetWithDrawByDestStore/${storeId}`);
+  }
+  postAcceptOrRejectWithDrawByDestStore(data: any) {
+    console.log("dataaa: ", data);
+    
+    return this.http.post<any>(`${this.url}/STRAdd/AddFromStore`, data);
+  }
+
   getStrAddAutoNo() {
     return this.http.get<any>(`${this.url}/STRAdd/get/AutoNo`);
   }
@@ -2087,20 +2321,98 @@ export class ApiService {
   // getFiscalYears() {
   //   return this.http.get<any>("http://ims.aswan.gov.eg/api/STRFiscalYear/get/all");
   // }
+  getStrStockTaking() {
+    console.log('Avg price inputs to backend');
+    return this.http.get<any>(`${this.url}/StrStockTaking/get/all`);
+  }
 
-  getStrAddSearach(no: any, storeId: any, date: any) {
+
+  getStrStockTakingDetailsByMasterId(id: any) {
+    return this.http.get<any>(
+      `${this.url}/StrStockTakingDetails/get/${id}`)
+
+  }
+
+  postStrStockTaking(data: any) {
+    console.log("data in posttt:", data)
+    return this.http.post<any>(`${this.url}/StrStockTaking/Add`, data)
+  }
+  putStrStockTaking(data: any) {
+    return this.http.put<any>(`${this.url}/StrStockTaking/update`, data)
+  }
+
+  postStrStockTakingDetails(data: any) {
+    console.log("data in post details:", data)
+    return this.http.post<any>(`${this.url}/StrStockTakingDetails/Add`, data)
+  }
+
+  putStrStockTakingDetails(data: any) {
+    return this.http.put<any>(`${this.url}/StrStockTakingDetails/update/`, data)
+  }
+
+  deleteStockTakingDetails(id: any) {
+    return this.http.delete<any>(`${this.url}/StrStockTakingDetails/delete/` + id);
+  }
+
+  deleteStrStockTking(id: any) {
+    return this.http.delete<any>(`${this.url}/StrStockTaking/delete/` + id);
+  }
+
+
+
+
+
+  getStrAddSearach( no: any,
+   
+   
+    fiscalYear: any,
+   
+   
+    employeeId: any,  itemId: any,store: any,StartDate:any,EndDate:any) {
     //enter no.
+
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      store,
+      'startdate: ',
+      StartDate,
+      'fiscalYear: ',
+      fiscalYear,
+      'item:',
+      itemId,
+      'employee: ',
+      employeeId,
+      'enddate: ',
+      EndDate,
+     
+    );
     this.mycondition = `${this.url}/STRAdd/search?`;
+
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
-    if (!storeId == false) {
-      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${store}`;
     }
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&Date=${date}`;
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
     }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+    }
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+    }
+    if (!employeeId == false) {
+      this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
+    }
+
 
     console.log('url', this.mycondition);
 
@@ -2427,6 +2739,9 @@ export class ApiService {
   postPrGroupRole(data: any) {
     return this.http.post<any>(`${this.url}/PRGroupRole/add`, data);
   }
+  getPrGroupByUserId(userId: any) {
+    return this.http.get<any>(`${this.url}/PRUser/get/with/group/${userId}`);
+  }
   putPrGroupRole(data: any) {
     console.log('PrGroupRole data: ', data);
     return this.http.put<any>(`${this.url}/PRGroupRole/update/`, data);
@@ -2439,6 +2754,9 @@ export class ApiService {
   ///////////////////////////////// PR-User & PR-UserGroup /////////////////////////////
   postPrUser(data: any) {
     return this.http.post<any>(`${this.url}/PRUser/Add`, data);
+  }
+  PrUserCheckAuthenticate(name: any, password: any) {
+    return this.http.post<any>(`${this.url}/PRUser/authenticate?username=admin&password=admin`, name, password);
   }
   getPrUser() {
     return this.http.get<any>(`${this.url}/PRUser/get/all`);
@@ -2571,9 +2889,12 @@ export class ApiService {
   getStrEmployeeOpenSearach(
     no: any,
     costCenterId: any,
-    employeeId: any,
-    date: any,
-    itemId: any
+    employeeId: any, itemId: any,
+    StartDate:any,EndDate:any,
+   FiscalYear:any
+
+
+   
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -2582,30 +2903,37 @@ export class ApiService {
       costCenterId,
       "' employeeId: '",
       employeeId,
-      "' date: '",
-      date,
-      "' distEmployee: '",
-      itemId
+      "' startdate: '",
+      StartDate,
+      "' item: '",
+      itemId,"fiscalyear",FiscalYear
     );
-    this.mycondition=`${this.url}/STREmployeeOpeningCustody/search?`
+    this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
 
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&Date=${date}`;
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
     }
 
     if (!itemId == false) {
-      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
     }
     if (!employeeId == false) {
       this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
     }
     if (!costCenterId == false) {
       this.mycondition = ` ${this.mycondition}&costCenterId=${costCenterId}`;
+    }
+
+    if (!FiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${FiscalYear}`;
     }
 
     console.log('url', this.mycondition);
@@ -2746,6 +3074,58 @@ export class ApiService {
   getAllCostCenters() {
     return this.http.get<any>(
       'http://ims.aswan.gov.eg/api/FICostCenter/get/all'
+    );
+  }
+
+
+  //////product serialll
+
+
+  // getAllProductes(){
+    
+  //   return this.http.get<any>(
+  //     `${this.url}/STRProductSerial/get/all`
+  //   );
+  // }
+
+  // postProductserail(data:any){
+  //   return this.http.post<any>(
+  //     `${this.url}/STRProductSerial/Add`,
+  //     data
+  //   );
+  // }
+
+  // putProductserail(data:any){
+  //   return this.http.post<any>(
+  //     `${this.url}/STRProductSerial/update`,
+  //     data
+  //   );
+  // }
+
+  postProductserail(data: any) {
+    return this.http.post<any>(
+      'http://ims.aswan.gov.eg/api/STRProductSerial/Add',
+      data
+    );
+  }
+  getProductserail() {
+    return this.http.get<any>('http://ims.aswan.gov.eg/api/STRProductSerial/get/all');
+  }
+  putProductserail(data: any) {
+    console.log("")
+    return this.http.put<any>(
+      'http://ims.aswan.gov.eg/api/STRProductSerial/update',
+      data
+    );
+  }
+  deleteProductserail(id: number) {
+    return this.http.delete<any>(
+      `http://ims.aswan.gov.eg/api/STRProductSerial/Delete/${id}`
+    );
+  }
+  getAllProductes(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/STRProduct/get/all'
     );
   }
 }

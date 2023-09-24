@@ -148,24 +148,56 @@ export class PrUserDialogComponent implements OnInit {
 
     if (this.groupMasterForm.valid) {
 
-
-      this.api.postPrUser(this.groupMasterForm.value)
+      this.api.PrUserCheckAuthenticate(this.groupMasterForm.getRawValue().name, this.groupMasterForm.getRawValue().password)
         .subscribe({
           next: (res) => {
-            this.getMasterRowId = {
-              "id": res
-            };
-            this.MasterGroupInfoEntered = true;
-
-            this.toastrSuccess();
-            this.getAllDetailsForms();
-            this.addDetailsInfo();
+            console.log("user already exist: ", res);
+            this.toastrUserWarning();
+            this.groupMasterForm.reset();
+            // this.getAllDetailsForms();
+            // this.addDetailsInfo();
           },
           error: (err) => {
-            // console.log("header post err: ", err);
+            console.log("add new user: ", err);
             // alert("حدث خطأ أثناء إضافة مجموعة")
+            this.api.postPrUser(this.groupMasterForm.value)
+              .subscribe({
+                next: (res) => {
+                  this.getMasterRowId = {
+                    "id": res
+                  };
+                  this.MasterGroupInfoEntered = true;
+
+                  this.toastrSuccess();
+                  this.getAllDetailsForms();
+                  this.addDetailsInfo();
+                },
+                error: (err) => {
+                  // console.log("header post err: ", err);
+                  // alert("حدث خطأ أثناء إضافة مجموعة")
+                }
+              })
           }
+
         })
+
+      // this.api.postPrUser(this.groupMasterForm.value)
+      //   .subscribe({
+      //     next: (res) => {
+      //       this.getMasterRowId = {
+      //         "id": res
+      //       };
+      //       this.MasterGroupInfoEntered = true;
+
+      //       this.toastrSuccess();
+      //       this.getAllDetailsForms();
+      //       this.addDetailsInfo();
+      //     },
+      //     error: (err) => {
+      //       // console.log("header post err: ", err);
+      //       // alert("حدث خطأ أثناء إضافة مجموعة")
+      //     }
+      //   })
     }
 
   }
@@ -173,24 +205,42 @@ export class PrUserDialogComponent implements OnInit {
   getAllDetailsForms() {
 
     if (this.getMasterRowId) {
-      this.http.get<any>("http://ims.aswan.gov.eg/api/PRUserGroup/get/all")
-        .subscribe(res => {
+      // this.http.get<any>("http://ims.aswan.gov.eg/api/PRUserGroup/get/all")
+      //   .subscribe(res => {
 
-          this.matchedIds = res.filter((a: any) => {
-            return a.userId == this.getMasterRowId.id
-          })
+      //     this.matchedIds = res.filter((a: any) => {
+      //       return a.userId == this.getMasterRowId.id
+      //     })
 
-          if (this.matchedIds) {
+      //     if (this.matchedIds) {
 
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+      //       this.dataSource = new MatTableDataSource(this.matchedIds);
+      //       this.dataSource.paginator = this.paginator;
+      //       this.dataSource.sort = this.sort;
+      //     }
+      //   }
+      //     , err => {
+      //       alert("حدث خطا ما !!")
+      //     }
+      //   )
+
+      this.api.getPrGroupByUserId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            this.matchedIds = res.user_Group;
+            console.log("matched groups: ", this.matchedIds);
+            if (this.matchedIds) {
+
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            //       alert("حدث خطا ما !!")
           }
-        }
-          , err => {
-            alert("حدث خطا ما !!")
-          }
-        )
+        })
     }
 
 
@@ -210,22 +260,56 @@ export class PrUserDialogComponent implements OnInit {
         this.groupDetailsForm.controls['userId'].setValue(this.getMasterRowId.id);
         // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
+
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
-          this.api.postPrUserGroup(this.groupDetailsForm.value)
-            .subscribe({
-              next: (res) => {
-                // console.log("res details: ", res)
-                this.toastrSuccess();
-                this.groupDetailsForm.reset();
-                this.prGroupCtrl.setValue('');
-                this.updateDetailsForm()
-                this.getAllDetailsForms();
-              },
-              error: () => {
-                // alert("حدث خطأ أثناء إضافة مجموعة")
-              }
-            })
+          // console.log("groupId selected: ", this.prGroupCtrl.value);
+
+          if (this.matchedIds) {
+          console.log("check if group is added before: ", this.matchedIds.find((userGroup: { groupId: any; }) => userGroup.groupId == this.groupDetailsForm.getRawValue().groupId));
+
+            if (!this.matchedIds.find((userGroup: { groupId: any; }) => userGroup.groupId == this.groupDetailsForm.getRawValue().groupId)) {
+              this.api.postPrUserGroup(this.groupDetailsForm.value)
+                .subscribe({
+                  next: (res) => {
+                    // console.log("res details: ", res)
+                    this.toastrSuccess();
+                    this.groupDetailsForm.reset();
+                    this.prGroupCtrl.setValue('');
+                    this.updateDetailsForm()
+                    this.getAllDetailsForms();
+                  },
+                  error: () => {
+                    // alert("حدث خطأ أثناء إضافة مجموعة")
+                  }
+                })
+
+            }
+            else {
+              this.groupDetailsForm.reset();
+              this.prGroupCtrl.setValue('');
+              this.toastrGroupWarning();
+              this.getAllDetailsForms();
+
+            }
+          }
+          else {
+            this.api.postPrUserGroup(this.groupDetailsForm.value)
+              .subscribe({
+                next: (res) => {
+                  // console.log("res details: ", res)
+                  this.toastrSuccess();
+                  this.groupDetailsForm.reset();
+                  this.prGroupCtrl.setValue('');
+                  this.updateDetailsForm()
+                  this.getAllDetailsForms();
+                },
+                error: () => {
+                  // alert("حدث خطأ أثناء إضافة مجموعة")
+                }
+              })
+          }
+
         } else {
           this.updateBothForms();
         }
@@ -374,6 +458,12 @@ export class PrUserDialogComponent implements OnInit {
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrUserWarning(): void {
+    this.toastr.warning("المستخدم موجود بالفعل");
+  }
+  toastrGroupWarning(): void {
+    this.toastr.warning("المجموعة موجودة بالفعل");
   }
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");

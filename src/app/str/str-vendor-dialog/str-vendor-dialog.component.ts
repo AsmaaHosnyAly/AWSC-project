@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-str-vendor-dialog',
@@ -19,22 +20,28 @@ export class StrVendorDialogComponent {
   actionBtn : string = "حفظ";
   userIdFromStorage: any;
   transactionUserId=localStorage.getItem('transactionUserId')
-  
+  existingNames: string[] = [];
   // groupEditId: any;
 
   constructor(private formBuilder : FormBuilder,
      private api : ApiService,
+     private hotkeysService: HotkeysService,
      private readonly route:ActivatedRoute,
      @Inject(MAT_DIALOG_DATA) public editData : any,
      private dialogRef : MatDialogRef<StrVendorDialogComponent>){
      }
   ngOnInit(): void {
+    this.getExistingNames(); // Fetch existing names
     this.vendorsForm = this.formBuilder.group({
       transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addVendor();
+      return false; // Prevent the default browser behavior
+    }));
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
@@ -48,8 +55,25 @@ export class StrVendorDialogComponent {
     }
   }
 
-  addProduct(){
+  getExistingNames() {
+    this.api.getVendor().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+
+  addVendor(){
     if(!this.editData){
+      const enteredName = this.vendorsForm.get('name')?.value;
+
+    if (this.existingNames.includes(enteredName)) {
+      alert('هذا الاسم موجود من قبل، قم بتغييره');
+      return;
+    }
       this.vendorsForm.controls['transactionUserId'].setValue(this.transactionUserId);
       console.log("hhhhhh",this.transactionUserId);
 

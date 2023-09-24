@@ -11,6 +11,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) { }
 }
@@ -49,7 +51,7 @@ export class STRGroup1DialogComponent implements OnInit {
   actionBtn: string = "حفظ"
   Code:any;
   dataSource!: MatTableDataSource<any>;
-
+  existingNames: string[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
@@ -57,6 +59,7 @@ export class STRGroup1DialogComponent implements OnInit {
   gradeName: any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<STRGroup1DialogComponent>) {
@@ -82,7 +85,7 @@ export class STRGroup1DialogComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.getExistingNames(); // Fetch existing names
     this.groupForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       code: [''],
@@ -108,6 +111,11 @@ export class STRGroup1DialogComponent implements OnInit {
     this.api.getAllPlatoonsg().subscribe((platoons) => {
       this.platoons = platoons;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addGroup();
+      return false; // Prevent the default browser behavior
+    }));
 
     if (this.editData) {
       this.actionBtn = "تعديل";
@@ -225,9 +233,27 @@ export class STRGroup1DialogComponent implements OnInit {
     });
   }
 
+  getExistingNames() {
+    this.api.getGroups().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+
   addGroup() {
     // this.groupForm.controls['code'].setValue(this.Code);
     if (!this.editData) {
+      const enteredName = this.groupForm.get('name')?.value;
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
+
       this.groupForm.removeControl('id')
       // this.groupForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.groupForm.controls['gradeId'].setValue(this.selectedOption.id);

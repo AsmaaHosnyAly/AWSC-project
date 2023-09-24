@@ -12,7 +12,7 @@ mat-card {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color: #47afd5;
+  color:var(--bg-primary-color) !important;
 }
 
 mat-card-header {
@@ -38,17 +38,19 @@ mat-card-header .child1 {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color: #47afd5;
+  color:var(--bg-primary-color) !important;
+  /* background-color: var(--bg-primary-color) !important; */
 }
 th {
-  background-color: rgb(60, 202, 252) !important;
+  background-color: var(--bg-primary-color) !important;
   color: white;
   font-family: "Cairo", sans-serif;
   font-size: 16px;
 }
 
+
 .add {
-  background: linear-gradient(rgb(122, 205, 235), rgb(60, 202, 252));
+  background: linear-gradient(var(--add-btn-color), rgb(60, 202, 252));
   color: white;
   font-family: "Cairo", sans-serif;
   padding: 5px 35px;
@@ -66,14 +68,15 @@ th {
   text-align: right;
 }
 .search mat-form-field {
-  width: 250px;
+  width: 180px;
+  margin-left: 10px;
 
   padding: 0 !important;
 }
 
 .search {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
 }
 .search button,
@@ -81,8 +84,7 @@ th {
   width: 250px;
   font-size: 15px;
   font-family: "Cairo", sans-serif;
-  background-color: rgb(60, 202, 252);
-  color: white;
+  background-color: var(--bg-primary-color) !important;  color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 30px;
@@ -100,8 +102,7 @@ th {
 .icons {
   font-size: 23px;
   color: white;
-  background-color: rgb(60, 202, 252);
-  border-radius: 50%;
+  background-color: var(--bg-primary-color) !important;  border-radius: 50%;
   width: 50px;
   height: 50px;
   display: flex;
@@ -155,8 +156,7 @@ mat-panel-description {
 
 .header div {
   height: 100px;
-  background-color: rgb(60, 202, 252);
-  color: white;
+  background-color: var(--bg-primary-color) !important;  color: white;
   /* color: #04365f; */
 }
 
@@ -221,8 +221,7 @@ td {
 }
 
 .print-btn {
-  background-color: #147a9f;
-  color: white;
+  background-color: var(--bg-primary-color) !important;  color: white;
   font-family: "Droid Arabic Kufi", serif;
   font-size: 15px;
   padding: 15px;
@@ -232,7 +231,7 @@ td {
   width: 10%;
 }
 .show-btn {
-  background-color: #147a9f;
+  background-color:var(--bg-primary-color) !important;
   color: white;
   font-family: "Droid Arabic Kufi", serif;
   font-size: 15px;
@@ -244,8 +243,7 @@ td {
 }
 
 .print-btn:hover {
-  background-color: #47afd5;
-  font-size: 17px;
+  background-color: var(--bg-primary-color) !important;  font-size: 17px;
   color: white;
   box-shadow: 0 0.5em 0.5em -0.4em #c7f0ff;
   transform: translateY(-0.25em);
@@ -286,6 +284,29 @@ footer h3 {
   border: none !important;
   box-shadow: none !important;
   
+}
+
+.pageTab{
+  display: flex;
+  flex-direction: row;
+  /* padding: 5%; */
+  /* background: #fdef24 !important; */
+  width: 180%;
+}
+
+.pageTab mat-icon{
+  font-size: 1.2rem;
+  padding: 2%;
+  margin-top: 1%;
+  color: var(--bg-primary-color) !important;
+}
+
+.pageTabContent{
+  margin: 5%;
+}
+
+.successbtn {
+  --mat-icon-color: rgb(5, 238, 187);
 }
 .searchLabels{
   display: flex;

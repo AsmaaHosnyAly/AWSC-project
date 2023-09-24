@@ -171,7 +171,8 @@
                 <mat-option></mat-option>
               </mat-select>
             </mat-form-field>
-            <div class="print-display">
+          </div>
+            <div class="print-display" >
               <mat-icon
                 (click)="getSearchItems(item.value, code.value, type.value)"
                 class="icons"
@@ -202,7 +203,7 @@
                 >restore</mat-icon
               >
             </div>
-          </div>
+          
         </mat-expansion-panel>
       </mat-accordion>
     </form>
@@ -237,10 +238,10 @@
         <table matSort mat-table [dataSource]="dataSource">
           <!-- Item fullCode Column -->
           <ng-container matColumnDef="fullCode">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header >
               الكود
             </th>
-            <td mat-cell *matCellDef="let row" class="code">
+            <td mat-cell *matCellDef="let row" >
               {{ row.fullCode }}
             </td>
           </ng-container>
@@ -315,7 +316,7 @@
                 mat-icon-button
                 id="button1"
                 (click)="editItem(row)"
-                class="editbtn"
+                class="editbtn" 
               >
                 <mat-icon>edit</mat-icon>
               </button>

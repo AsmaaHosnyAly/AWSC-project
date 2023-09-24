@@ -16,7 +16,7 @@ mat-card {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color: rgb(60, 202, 252);
+  color: var(--bg-primary-color) !important;
 }
 
 mat-card-header {
@@ -36,14 +36,14 @@ mat-card-header .child1 {
   padding: 0;
 }
 th {
-  background-color: rgb(60, 202, 252) !important;
+  background-color: var(--bg-primary-color) !important;
   color: white;
   font-family: "Cairo", sans-serif;
   font-size: 16px;
 }
 
 .add {
-  background: linear-gradient(rgb(122, 205, 235), rgb(60, 202, 252));
+  background: linear-gradient(var(--add-btn-color), rgb(60, 202, 252));
   color: white;
   font-family: "Cairo", sans-serif;
   padding: 5px 35px;
@@ -61,14 +61,14 @@ th {
   text-align: right;
 }
 .search mat-form-field {
-  width: 250px;
-
+  width: 180px;
+margin-left: 10px;
   padding: 0 !important;
 }
 
 .search {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
 }
 .search button,
@@ -76,7 +76,7 @@ th {
   width: 250px;
   font-size: 15px;
   font-family: "Cairo", sans-serif;
-  background-color: rgb(60, 202, 252);
+  background-color:var(--bg-primary-color) !important;
   color: white;
   border: none;
   border-radius: 5px;
@@ -133,7 +133,7 @@ mat-panel-description {
 
 .header div {
   height: 100px;
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color) !important;
   color: white;
   /* color: #04365f; */
 }
@@ -199,7 +199,7 @@ td {
 }
 
 .print-btn {
-  background-color: #147a9f;
+  background-color:var(--bg-primary-color) !important;
   color: white;
   font-family: "Droid Arabic Kufi", serif;
   font-size: 15px;
@@ -210,7 +210,7 @@ td {
   width: 10%;
 }
 .show-btn {
-  background-color: #147a9f;
+  background-color: var(--bg-primary-color) !important;
   color: white;
   font-family: "Droid Arabic Kufi", serif;
   font-size: 15px;
@@ -222,7 +222,7 @@ td {
 }
 
 .print-btn:hover {
-  background-color: #47afd5;
+  background-color: var(--bg-primary-color) !important;
   font-size: 17px;
   color: white;
   box-shadow: 0 0.5em 0.5em -0.4em #c7f0ff;
@@ -268,7 +268,7 @@ footer h3 {
 .icons {
   font-size: 23px;
   color: white;
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color) !important;
   border-radius: 50%;
   width: 50px;
   height: 50px;

@@ -1,7 +1,4 @@
-// import { FileUploadComponent } from './../file-upload/file-upload.component';
-// import { FileUploadDialogComponent } from 'module';
-import { FileUploadDialogComponent } from '../../file-upload-dialog/file-upload-dialog.component';
-// import { FileUploadComponent } from "./FileUploadComponent,";
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { StrGroupDialogComponent } from '../str-group-dialog/str-group-dialog.component';
@@ -13,7 +10,9 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { StrProductDialogComponent } from '../str-product-dialog/str-product-dialog.component';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-// import { GlobalService } from '../services/global.service';
+import { HttpClient } from '@angular/common/http';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-str-product',
@@ -29,20 +28,27 @@ export class StrProductComponent implements OnInit {
   loading: boolean = false; // Flag variable
   file:any
   File = null;
-  displayedColumns: string[] = ['name', 'itemId', 'vendorId', 'modelId','attachment', 'action'];
+  displayedColumns: string[] = ['name', 'itemName', 'vendorName', 'modelName','attachment', 'action'];
 
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) {
+  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService,private hotkeysService: HotkeysService,private http: HttpClient) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
+ 
+    global.getPermissionUserRoles(12, 'stores', 'المنتجات', '')
    }
 
   ngOnInit(): void {
     this.getAllProducts();
     // console.log("shortlink",this.shortLink)
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {
@@ -84,9 +90,16 @@ export class StrProductComponent implements OnInit {
 //         }
 //     );
 // }
+onDownload() {
+  this.http.get('http://192.168.100.213/files/str-uploads', { responseType: 'blob' })
+    .subscribe(response => {
+      const downloadUrl = URL.createObjectURL(response);
+      window.open(downloadUrl);
+    });
+}
   openDialog() {
     this.dialog.open(StrProductDialogComponent, {
-      width: '30%'
+      width: '47%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllProducts();
@@ -109,7 +122,7 @@ export class StrProductComponent implements OnInit {
   editProduct(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(StrProductDialogComponent, {
-      width: '30%',
+      width: '47%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {
@@ -137,17 +150,28 @@ export class StrProductComponent implements OnInit {
       this.api.deleteStrProduct(id)
         .subscribe({
           next: (res) => {
-            this.toastrDeleteSuccess();
-            // alert("تم حذف المنتج بنجاح");
+            if(res == 'Succeeded'){
+              console.log("res of deletestore:",res)
+            alert('تم الحذف بنجاح');
+            // this.toastrDeleteSuccess();
+
             this.getAllProducts()
+
+          }else{
+            alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+          }
+            // this.toastrDeleteSuccess();
+            // alert("تم حذف المنتج بنجاح");
+            // this.getAllProducts()
           },
-          // error: () => {
-          //   alert("خطأ أثناء حذف المنتج !!");
-          // }
+          error: () => {
+            alert('خطأ فى حذف العنصر');
+          },
         })
     }
 
   }
+
 
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");

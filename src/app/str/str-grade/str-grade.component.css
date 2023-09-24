@@ -13,7 +13,7 @@ mat-card {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color:  rgb(60, 202, 252);
+  color:  var(--bg-primary-color);
 }
 
 
@@ -36,7 +36,7 @@ mat-card-header .child1{
   padding: 0;
 }
 th {
-  background-color:rgb(60, 202, 252) !important;
+  background-color: var(--bg-primary-color) !important;
   color: white;
   font-family: 'Cairo', sans-serif;
   font-size: 16px;
@@ -44,7 +44,7 @@ th {
 }
 
 .add {
-  background: linear-gradient(rgb(122, 205, 235),rgb(60, 202, 252));
+  background: linear-gradient(rgb(122, 205, 235), var(--bg-primary-color));
   color: white;
   font-family: 'Cairo', sans-serif;
   padding: 5px 35px;
@@ -144,7 +144,7 @@ mat-panel-description {
 
 .header div {
   height: 100px;
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color);
   color: white;
   /* color: #04365f; */
 }

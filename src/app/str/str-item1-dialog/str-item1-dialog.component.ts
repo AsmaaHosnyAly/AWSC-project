@@ -10,7 +10,8 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Unit {
   constructor(public id: number, public name: string) { }
 }
@@ -71,10 +72,12 @@ export class STRItem1DialogComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
   accordion!: MatAccordion;
+  existingNames: string[] = [];
   
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     private readonly route: ActivatedRoute,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<STRItem1DialogComponent>) {
 
@@ -112,7 +115,7 @@ export class STRItem1DialogComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.getExistingNames(); // Fetch existing names
     this.itemForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       fullCode: [''],
@@ -156,7 +159,11 @@ export class STRItem1DialogComponent implements OnInit {
     this.api.getAllGroupsi().subscribe((groups) => {
       this.groups = groups;
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addItem();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.actionBtn = "تعديل";
       this.getItemData = this.editData;
@@ -345,6 +352,17 @@ export class STRItem1DialogComponent implements OnInit {
     });
   }
 
+  getExistingNames() {
+    this.api.getItem().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+
   addItem() {
     this.fullCode =
     this.itemForm.value.commoditycode.toString()+
@@ -359,6 +377,13 @@ export class STRItem1DialogComponent implements OnInit {
       this.transactionUserId
     );
     if (!this.editData) {
+      const enteredName = this.itemForm.get('name')?.value;
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
+
       this.itemForm.removeControl('id')
       // this.itemForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.itemForm.controls['gradeId'].setValue(this.selectedOption.id);

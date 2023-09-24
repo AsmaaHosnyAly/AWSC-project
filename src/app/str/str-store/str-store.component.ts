@@ -9,8 +9,10 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { GlobalService } from '../../services/global.service';
 import { ApiService } from '../../services/api.service';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 
 
@@ -22,18 +24,14 @@ import { ApiService } from '../../services/api.service';
 export class StrStoreComponent  implements OnInit {
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name','action'];
+  displayedColumns: string[] = [ 'code','name','storekeeperName','action'];
   dataSource!: MatTableDataSource<any>;
-  store: any = {
-    id: 0,
-    name: ''
-
-  }
   storelist: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+    global.getPermissionUserRoles(13,'stores', 'المخازن', '')
 
   }
   ngOnInit(): void {
@@ -42,6 +40,11 @@ export class StrStoreComponent  implements OnInit {
       this.storelist = data;
       console.log(this.storelist)
     })
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   
   openDialog() {
@@ -101,13 +104,13 @@ deleteStore(id:number){
 this.api.deletestores(id)
 .subscribe({
 next:(res)=>{
-  if(res == 'Success'){
+  if(res == 'Succeeded'){
   console.log("res of deletestore:",res)
 alert("تم الحذف");
 this.getAllStores();
 }else{
   alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-
+ 
 }
 },
 

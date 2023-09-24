@@ -19,6 +19,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { GlobalService } from '../../services/global.service';
 import { StrModelDailogComponent } from '../str-model-dailog/str-model-dailog.component';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class vendor {
   constructor(public id: number, public name: string,public global:GlobalService) {}
 }
@@ -42,14 +44,14 @@ export class StrModelComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     this.vendorCtrl = new FormControl();
     this.filteredVendores = this.vendorCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterVendores(value))
     );
 
-    global.getPermissionUserRoles(4, 'stores', ' النوعية', '')
+    global.getPermissionUserRoles(4, 'stores', ' الموديل', '')
   }
   ngOnInit(): void {
     // console.log(productForm)
@@ -58,6 +60,11 @@ export class StrModelComponent {
     this.api.getAllVendor().subscribe((vendores) => {
       this.vendores = vendores;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -116,12 +123,18 @@ export class StrModelComponent {
   }
 
   deleteModel(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteModel(id).subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           alert('تم الحذف بنجاح');
           this.getAllModels();
+
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -129,6 +142,8 @@ export class StrModelComponent {
       });
     }
   }
+  
+
   openAutoVendor() {
     this.vendorCtrl.setValue(''); // Clear the input field value
   
