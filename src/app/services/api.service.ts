@@ -744,8 +744,8 @@ export class ApiService {
       'reportName:',report,'reportType:',reportType
       
     );
-    'http://ims.aswan.gov.eg/api/STRAdd/getReport??';
-    this.mycondition = `${this.url}/STRAdd/getReport??`;
+    'http://ims.aswan.gov.eg/api/STRWithdraw/getReport??';
+    this.mycondition = `${this.url}/STRWithdraw/getReport??`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;

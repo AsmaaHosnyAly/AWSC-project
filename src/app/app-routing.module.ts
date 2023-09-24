@@ -82,6 +82,7 @@ import { StrStockTakingContainerComponent } from './str/str-stock-taking-contain
 import { PageRolesComponent } from './pages/page-roles/page-roles.component';
 import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
+import { StrProudctSerialComponent } from "../app/str/str-proudct-serial/str-proudct-serial.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -235,6 +236,9 @@ const routes: Routes = [
       { path: 'fi-home', component: StrAccountsComponent },
 
       { path: 'stock-taking', component: StrStockTakingContainerComponent },
+      
+      { path: 'product-serial', component: StrProudctSerialComponent },
+
 
   {path:'StrStockTaking',component: StrStockTakingContainerComponent}
       // { path: '**', component: ErrorComponent },

@@ -20,7 +20,7 @@
           <div style="display: flex; flex-direction: column;margin-left: 10px; ">
             <mat-label>المخازن:</mat-label>
 
-            <mat-form-field appearance="outline" class="groupInput" style="width:  150px;">
+            <mat-form-field appearance="outline" class="groupInput" style="width: 90% !important;">
               <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
                 <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
                   *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :

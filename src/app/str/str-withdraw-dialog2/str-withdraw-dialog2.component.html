@@ -12,7 +12,7 @@
         <div class="searchLabels">
           <mat-label>المخازن:</mat-label>
 
-          <mat-form-field appearance="outline" class="groupInput" >
+          <mat-form-field appearance="outline" class="groupInput" style="width: 90% !important;" >
             <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
               <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
                 *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
