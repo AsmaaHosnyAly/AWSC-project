@@ -54,7 +54,7 @@
       <span>Check voice mail</span>
     </button> -->
     <button mat-menu-item (click)="handleLogOut()" routerLink="login">
-      <mat-icon>notifications_off</mat-icon>
+      <mat-icon>exit_to_app</mat-icon>
       <span >تسجيل الخروج</span>
     </button>
   </mat-menu>
@@ -69,7 +69,7 @@
       </mat-list-item> -->
 
 <!-- start stores -->
-<mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)">
+<mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(1)">
   
   <mat-expansion-panel-header >
     <mat-panel-title>
@@ -123,14 +123,7 @@
           *ngIf="hasAccessRole(pageEnums.ITEMES1)"
           ><p class="font">الاصناف</p></a
         >
-        <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/products"
-          *ngIf="hasAccessRole(pageEnums.PRODUCTS)"
-        >
-          <p class="font">المنتجات</p></a
-        >
+       
         <a mat-list-item class="sideNavSubItems" routerLink="/store"
         *ngIf="hasAccessRole(pageEnums.STORE)"
           ><p class="font">المخازن</p></a
@@ -159,6 +152,23 @@
         >
           <p class="font">مركز التكلفة</p></a
         >
+        <a
+        mat-list-item
+        class="sideNavSubItems"
+        routerLink="/products"
+        *ngIf="hasAccessRole(pageEnums.PRODUCTS)"
+      >
+        <p class="font">المنتجات</p></a>
+        <a
+        mat-list-item
+        class="sideNavSubItems"
+        routerLink="/product-serial"
+        *ngIf="hasAccessRole(pageEnums.PRODUCT_SERIAL)"
+      >
+        <p class="font">مسلسل المنتج</p></a
+
+      
+      >
         
         
       </mat-nav-list>
@@ -401,7 +411,7 @@
             <!-- end Hr -->
             <!-- start roles -->
             <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
-            <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(1)" >
+            <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)" >
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary"  class="ms-2">store</mat-icon>

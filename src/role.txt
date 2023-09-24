@@ -2,6 +2,7 @@ modules
 1-stores
 2-it
 3-accounts
+4-hr
 
 
 
@@ -29,4 +30,3 @@ modules
 19-pr-group
 
 
-name :aly_it pass:it  roles:(18,19)
