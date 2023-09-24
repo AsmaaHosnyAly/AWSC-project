@@ -1,6 +1,10 @@
-
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { publishFacade } from '@angular/compiler';
@@ -15,7 +19,7 @@ import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-store-dialog',
   templateUrl: './str-store-dialog.component.html',
-  styleUrls: ['./str-store-dialog.component.css']
+  styleUrls: ['./str-store-dialog.component.css'],
 })
 export class StrStoreDialogComponent implements OnInit {
   storeKeeperCtrl: FormControl;
@@ -23,21 +27,23 @@ export class StrStoreDialogComponent implements OnInit {
   keepers: Keeper[] = [];
   getStoreData: any;
   selectedKeeper: Keeper | undefined;
-  storeForm !: FormGroup;
-  actionBtn: string = "حفظ"
-  autoCode:any;
+  storeForm!: FormGroup;
+  actionBtn: string = 'حفظ';
+  autoCode: any;
   existingNames: string[] = [];
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<StrStoreDialogComponent>) { 
-      this.storeKeeperCtrl = new FormControl();
+    private dialogRef: MatDialogRef<StrStoreDialogComponent>
+  ) {
+    this.storeKeeperCtrl = new FormControl();
     this.filteredStoreKeepers = this.storeKeeperCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterStoreKeepers(value))
     );
-    }
+  }
 
   ngOnInit(): void {
     this.getExistingNames(); // Fetch existing names
@@ -46,31 +52,34 @@ export class StrStoreDialogComponent implements OnInit {
       code: ['', Validators.required],
       name: ['', Validators.required],
       storekeeperId: ['', Validators.required],
-      transactionUserId:[1]
+      transactionUserId: [1],
     });
 
     this.api.getEmployees().subscribe((keepers) => {
       this.keepers = keepers;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.addStores();
-      return false; // Prevent the default browser behavior
-    }));
+    this.hotkeysService.add(
+      new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addStores();
+        return false; // Prevent the default browser behavior
+      })
+    );
 
     if (this.editData) {
-      this.actionBtn = "تحديث";
+      this.actionBtn = 'تحديث';
       this.getStoreData = this.editData;
       // alert( this.storeForm.controls['name'].setValue(this.editData.name))
       this.storeForm.controls['code'].setValue(this.editData.code);
       this.storeForm.controls['name'].setValue(this.editData.name);
       this.storeForm.controls['storekeeperId'].setValue(
         this.editData.storekeeperId
-      );          
-      this.storeForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      );
+      this.storeForm.controls['transactionUserId'].setValue(
+        this.editData.transactionUserId
+      );
       this.storeForm.addControl('id', new FormControl('', Validators.required));
       this.storeForm.controls['id'].setValue(this.editData.id);
-
     }
   }
 
@@ -89,8 +98,8 @@ export class StrStoreDialogComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.keepers.filter(
       (keeper) =>
-      keeper.name.toLowerCase().includes(filterValue) ||
-      keeper.code.toLowerCase().includes(filterValue)
+        keeper.name.toLowerCase().includes(filterValue) ||
+        keeper.code.toLowerCase().includes(filterValue)
     );
   }
 
@@ -108,7 +117,7 @@ export class StrStoreDialogComponent implements OnInit {
       },
       error: (err) => {
         console.log('Error fetching existing names:', err);
-      }
+      },
     });
   }
 
@@ -116,62 +125,56 @@ export class StrStoreDialogComponent implements OnInit {
     if (!this.editData) {
       const enteredName = this.storeForm.get('name')?.value;
 
-    if (this.existingNames.includes(enteredName)) {
-      alert('هذا الاسم موجود من قبل، قم بتغييره');
-      return;
-    }
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
       if (this.storeForm.getRawValue().code) {
         this.storeForm.controls['code'].setValue(this.autoCode);
-      }
-      else{
+      } else {
         this.storeForm.controls['code'].setValue(this.autoCode);
       }
-      this.storeForm.removeControl('id')
+      this.storeForm.removeControl('id');
       if (this.storeForm.valid) {
-        this.api.postStore(this.storeForm.value)
-          .subscribe({
-            next: (res) => {
-              alert("تم اضافة المخزن");
-              this.storeForm.reset();
-              this.dialogRef.close('حفظ');
-            },
-            error: (err) => {
-             alert("!خطأ في العملية")
-              
-            }
-          })
+        this.api.postStore(this.storeForm.value).subscribe({
+          next: (res) => {
+            alert('تم اضافة المخزن');
+            this.storeForm.reset();
+            this.dialogRef.close('حفظ');
+          },
+          error: (err) => {
+            alert('!خطأ في العملية');
+          },
+        });
       }
-    }else{
-      this.updateProduct()
+    } else {
+      this.updateProduct();
     }
   }
 
-  updateProduct(){
-    this.api.putStore(this.storeForm.value)
-    .subscribe({
-      next:(res)=>{
-        alert("تم التحديث بنجاح");
+  updateProduct() {
+    this.api.putStore(this.storeForm.value).subscribe({
+      next: (res) => {
+        alert('تم التحديث بنجاح');
         this.storeForm.reset();
         this.dialogRef.close('تحديث');
       },
-      error:()=>{
-        alert("خطأ في التحديث");
-      }
-    })
+      error: () => {
+        alert('خطأ في التحديث');
+      },
+    });
   }
 
   getStoreAutoCode() {
-    this.api.getStoreAutoCode()
-      .subscribe({
-        next: (res) => {
-          this.autoCode = res;
-          return res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getStoreAutoCode().subscribe({
+      next: (res) => {
+        this.autoCode = res;
+        return res;
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
-
 }
