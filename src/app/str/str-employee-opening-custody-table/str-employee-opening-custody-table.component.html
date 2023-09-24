@@ -138,18 +138,23 @@
           <!-- <mat-icon class="icons" title="عرض" (click)="previewPrint(no.value, date.value,itemId.value)"
             class="icons" title="تحميل">print</mat-icon>
 
-          <mat-icon (click)="downloadPrint(no.value, date.value, itemId.value)" class="icons"
-            title="تحميل">get_app</mat-icon> -->
 
+            <mat-icon (click)="downloadPrint(no.value, date.value, itemId.value)" class="icons"
+              title="تحميل">get_app</mat-icon> -->
           <mat-icon
             class="icons"
             title="عرض"
-            (click)="printReport()"
+            (click)="previewPdf(no.value, date.value, itemId.value)"
             class="icons"
             title="تحميل"
             >print</mat-icon
           >
-
+          <mat-icon
+            (click)="printPdf(no.value, date.value, itemId.value)"
+            class="icons"
+            title="تحميل"
+            >get_app</mat-icon
+          >
           <!-- <button mat-icon-button color="primary" (click)="printReport()">
               <mat-icon>print</mat-icon>
             </button> -->
@@ -200,7 +205,6 @@
   </div>
 
   <div>
-    <<<<<<< HEAD
     <input
       matInput
       class="filter-search"
@@ -208,15 +212,6 @@
       placeholder="بحث"
       #input
     />
-    =======
-    <input
-      matInput
-      class="filter-search"
-      (keyup)="applyFilter($event)"
-      placeholder="بحث"
-      #input
-    />
-    >>>>>>> 23ec26440860147b5f6ae66cab36407e60e0ceed
   </div>
 </mat-card-header>
 <div class="div-table">

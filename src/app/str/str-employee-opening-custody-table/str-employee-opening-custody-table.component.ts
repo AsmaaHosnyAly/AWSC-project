@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Item1DialogComponent } from 'src/app/str/item1-dialog/item1-dialog.component';
 
 export class Employee {
   constructor(public id: number, public name: string, public code: string) {}
@@ -65,6 +66,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  pdfurl = '';
 
   constructor(
     private api: ApiService,
@@ -580,5 +583,55 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     window.print();
     document.body.innerHTML = originalContent;
     location.reload();
+  }
+
+  previewPdf(no: any, date: any, itemId: any) {
+    let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
+    let employeeId = this.groupMasterForm.getRawValue().employeeId;
+
+    this.api
+      .printStrEmployeeCustody(no, costCenterId, employeeId, date, itemId)
+      .subscribe({
+        next: (res) => {
+          let blob: Blob = res.body as Blob;
+          console.log(blob);
+          let url = window.URL.createObjectURL(blob);
+          localStorage.setItem('url', JSON.stringify(url));
+          this.pdfurl = url;
+          this.dialog.open(Item1DialogComponent, {
+            width: '70%',
+          });
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
+  }
+
+  printPdf(no: any, date: any, itemId: any) {
+    let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
+    let employeeId = this.groupMasterForm.getRawValue().employeeId;
+
+    this.api
+      .printStrEmployeeCustody(no, costCenterId, employeeId, date, itemId)
+      .subscribe({
+        next: (res) => {
+          const url: any = res.url;
+          window.open(url);
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
   }
 }

@@ -12,16 +12,13 @@ import { GlobalService } from 'src/app/services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { Item1DialogComponent } from 'src/app/str/item1-dialog/item1-dialog.component';
 import {
   FormControl,
   FormControlName,
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-
-
-
 
 export class item {
   constructor(public id: number, public name: string) {}
@@ -38,8 +35,6 @@ export class costcenter {
 export class store {
   constructor(public id: number, public name: string) {}
 }
-
-
 
 @Component({
   selector: 'app-str-add-table',
@@ -80,7 +75,6 @@ export class STRAddTableComponent implements OnInit {
 
   groupMasterForm!: FormGroup;
 
-
   costcentersList: costcenter[] = [];
   costcenterCtrl: FormControl<any>;
   filteredcostcenter: Observable<costcenter[]>;
@@ -109,7 +103,8 @@ export class STRAddTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private global: GlobalService,
-    private dialog: MatDialog,    private toastr: ToastrService,
+    private dialog: MatDialog,
+    private toastr: ToastrService,
 
     private http: HttpClient,
     private router: Router,
@@ -145,7 +140,7 @@ export class STRAddTableComponent implements OnInit {
     this.getAllMasterForms();
     this.getFiscalYears();
     this.getCostCenters();
-    
+
     this.getStores();
     this.getTypes();
     this.getSellers();
@@ -180,7 +175,8 @@ export class STRAddTableComponent implements OnInit {
     this.dialog
       .open(STRAddDialogComponent, {
         width: '98%',
-        height:'95%',      })
+        height: '95%',
+      })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
@@ -206,7 +202,7 @@ export class STRAddTableComponent implements OnInit {
     this.dialog
       .open(STRAddDialogComponent, {
         width: '98%',
-        height:'95%',
+        height: '95%',
         data: row,
       })
       .afterClosed()
@@ -347,7 +343,7 @@ export class STRAddTableComponent implements OnInit {
     this.api.getEmployee().subscribe({
       next: (res) => {
         this.employeeList = res;
-        console.log("employeeeeeeeeee res: ", this.storeList);
+        console.log('employeeeeeeeeee res: ', this.storeList);
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
@@ -571,13 +567,18 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
-  downloadPdf(no: any, store: any, date: any) {
+  preview(no: any, store: any, date: any) {
     console.log('no. : ', no, 'store : ', store, 'date: ', date);
-    this.api.strAdd(no, store, date).subscribe({
+    this.api.printReportStrAdd(no, store, date).subscribe({
       next: (res) => {
-        console.log('search:', res);
-        const url: any = res.url;
-        window.open(url);
+        let blob: Blob = res.body as Blob;
+        console.log(blob);
+        let url = window.URL.createObjectURL(blob);
+        localStorage.setItem('url', JSON.stringify(url));
+        this.pdfurl = url;
+        this.dialog.open(Item1DialogComponent, {
+          width: '70%',
+        });
         // let blob: Blob = res.body as Blob;
         // let url = window.URL.createObjectURL(blob);
 
@@ -592,10 +593,10 @@ export class STRAddTableComponent implements OnInit {
     });
   }
   toastrSuccess(): void {
-    this.toastr.success("تم الحفظ بنجاح");
+    this.toastr.success('تم الحفظ بنجاح');
   }
   toastrDeleteSuccess(): void {
-    this.toastr.success("تم الحذف بنجاح");
+    this.toastr.success('تم الحذف بنجاح');
   }
   toastrEditSuccess(): void {
     this.toastr.success('تم التعديل بنجاح');
@@ -607,105 +608,17 @@ export class STRAddTableComponent implements OnInit {
   }
 
   print(no: any, store: any, date: any) {
-    this.api.getStrAddSearach(no, store, date).subscribe({
+    this.api.printReportStrAdd(no, store, date).subscribe({
       next: (res) => {
         console.log('search addStock res: ', res);
 
         //enter no.
-        if (no != '' && !store && !date) {
-          // console.log("enter no. ")
-          // console.log("no. : ", no, "store: ", store, "date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.no == no!);
-          console.log('data after if :', this.dataSource2);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter store
-        else if (!no && store && !date) {
-          // console.log("enter store. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter((res: any) => res.storeId == store);
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter date
-        else if (!no && !store && date) {
-          // console.log("enter date. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter no. & store
-        else if (no && store && !date) {
-          // console.log("enter no & store ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) => res.no == no! && res.storeId == store
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter no. & date
-        else if (no && !store && date) {
-          // console.log("enter no & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter store & date
-        else if (!no && store && date) {
-          // console.log("enter store & date ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //enter all data
-        else if (no != '' && store != '' && date != '') {
-          // console.log("enter all data. ")
-          // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          this.dataSource2 = res.filter(
-            (res: any) =>
-              res.no == no! &&
-              res.storeId == store &&
-              formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          );
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        //didn't enter any data
-        else {
-          // console.log("enter no data ")
-          this.dataSource2 = res;
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        }
-
-        this.loadDataToLocalStorage(res);
+        const url: any = res.url;
+        window.open(url);
       },
       error: (err) => {
         alert('Error');
       },
     });
-    this.router.navigate(['/add-item-report']);
   }
 }

@@ -139,7 +139,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
         width: '98%',
-        height: '95%'
+        height: '95%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -147,7 +147,6 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
- 
   }
 
   getAllMasterForms() {
@@ -200,7 +199,6 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
- 
   }
 
   deleteBothForms(id: number) {
@@ -236,8 +234,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
                     },
                   });
               }
-            }                          this.toastrDeleteSuccess();
-
+            }
+            this.toastrDeleteSuccess();
           } else {
             if (result) {
               this.api.deleteStrEmployeeExchange(id).subscribe({
@@ -422,7 +420,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
 
     this.api
-      .getStrEmployeeExchangeItem(
+      .printStrEmployeeExchangeItem(
         no,
         costCenterId,
         employeeId,
@@ -454,7 +452,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
 
     this.api
-      .getStrEmployeeExchangeItem(
+      .printStrEmployeeExchangeItem(
         no,
         costCenterId,
         employeeId,

@@ -89,7 +89,6 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.getFiscalYears();
     this.getItems();
 
-
     this.groupDetailsForm = this.formBuilder.group({
       stR_Opening_StockId: [''], //MasterId
       qty: ['1'],
@@ -111,7 +110,6 @@ export class StrOpeningStockTableComponent implements OnInit {
       storeId: [''],
     });
   }
-  
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -415,7 +413,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupMasterForm.getRawValue().itemId;
 
-    this.api.openingStock(no, store, date, fiscalYear, item).subscribe({
+    this.api.printStrOpeningStock(no, store, date, fiscalYear, item).subscribe({
       next: (res) => {
         console.log('search:', res);
         const url: any = res.url;
@@ -437,7 +435,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupMasterForm.getRawValue().itemId;
 
-    this.api.openingStock(no, store, date, fiscalYear, item).subscribe({
+    this.api.printStrOpeningStock(no, store, date, fiscalYear, item).subscribe({
       next: (res) => {
         let blob: Blob = res.body as Blob;
         console.log(blob);

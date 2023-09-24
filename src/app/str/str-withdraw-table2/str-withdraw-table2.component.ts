@@ -182,13 +182,15 @@ export class StrWithdrawTableComponent implements OnInit {
     }
   }
   openWithdrawDialog() {
-    this.dialog.open(StrWithdrawDialogComponent, {
-      width: '95%',
-      height: '95%'
-      
-    }).afterClosed().subscribe(val => {
-      if (val === 'Save') {
-        // alert("refresh")
+    this.dialog
+      .open(StrWithdrawDialogComponent, {
+        width: '95%',
+        height: '95%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'Save') {
+          // alert("refresh")
 
           this.getAllMasterForms();
         }
@@ -280,7 +282,6 @@ export class StrWithdrawTableComponent implements OnInit {
                 //   this.deleteFormDetails(this.matchedIds[i].id);
                 // }
                 // alert('تم حذف الاذن بنجاح');
-                
               },
               (err) => {
                 // alert('خطا اثناء تحديد المجموعة !!');
@@ -300,7 +301,7 @@ export class StrWithdrawTableComponent implements OnInit {
   deleteFormDetails(id: number) {
     this.api.deleteStrWithdrawDetails(id).subscribe({
       next: (res) => {
-this.toastrDeleteSuccess();
+        this.toastrDeleteSuccess();
         this.getAllMasterForms();
       },
       error: (err) => {
@@ -543,7 +544,15 @@ this.toastrDeleteSuccess();
     let store = this.groupMasterForm.getRawValue().storeId;
 
     this.api
-      .getStr(no, store, date, fiscalYear, item, employee, costCenter)
+      .printReportStrWithdraw(
+        no,
+        store,
+        date,
+        fiscalYear,
+        item,
+        employee,
+        costCenter
+      )
       .subscribe({
         next: (res) => {
           console.log('search:', res);
@@ -607,7 +616,15 @@ this.toastrDeleteSuccess();
     let store = this.groupMasterForm.getRawValue().storeId;
 
     this.api
-      .getStr(no, store, date, fiscalYear, item, employee, costCenter)
+      .printReportStrWithdraw(
+        no,
+        store,
+        date,
+        fiscalYear,
+        item,
+        employee,
+        costCenter
+      )
       .subscribe({
         next: (res) => {
           let blob: Blob = res.body as Blob;
@@ -616,7 +633,7 @@ this.toastrDeleteSuccess();
           localStorage.setItem('url', JSON.stringify(url));
           this.pdfurl = url;
           this.dialog.open(WithdrawPrintDialogComponent, {
-            width: '50%',
+            width: '70%',
           });
 
           // this.dataSource = res;
