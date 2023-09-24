@@ -103,7 +103,10 @@ export class StrWithdrawTableComponent implements OnInit {
   formcontrol = new FormControl('');
   dataSource2!: MatTableDataSource<any>;
   pdfurl = '';
-
+  reportNameList: any;
+  selectedReportNameTitle: any;
+  reportTypeList:any;
+  selectedReportTypeTitle: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -122,6 +125,19 @@ export class StrWithdrawTableComponent implements OnInit {
     //   name: [''],
     //   email: ['']
     // });
+
+    this.reportNameList = [{
+      'titleval': 'STRWithdrawReport',
+
+    }];
+
+    this.reportTypeList = [{
+      'titleval': 'pdf',
+      'titleval1': 'txt',
+      'titleval2': 'ppt',
+
+    }];
+    
 
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
@@ -153,6 +169,12 @@ export class StrWithdrawTableComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.selectedReportNameTitle = this.reportNameList[0].titleval;
+    console.log("select report name: ", this.selectedReportNameTitle);
+    
+    this.selectedReportTypeTitle = this.reportTypeList[0].titleval;
+    console.log("select report type: ", this.selectedReportTypeTitle);
+
     this.getDestStores();
     this.getFiscalYears();
     this.getItems();

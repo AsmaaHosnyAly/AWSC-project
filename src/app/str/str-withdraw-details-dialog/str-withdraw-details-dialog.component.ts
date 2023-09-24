@@ -36,7 +36,7 @@ export class Employee {
 // }
 
 export class item {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string,  public fullCode: string) { }
 }
 export interface Source {
   name: string;
@@ -148,6 +148,9 @@ export class StrWithdrawDetailsDialogComponent {
   sourceSelected: any;
 
   userRoles: any;
+  productsList: any;
+  itemSearchWay: any;
+  activeItemSearchWay: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -166,7 +169,10 @@ export class StrWithdrawDetailsDialogComponent {
     private dialogRef: MatDialogRef<StrWithdrawDetailsDialogComponent>,
     private route: ActivatedRoute
   ) {
+
     this.stateDefaultValue = "جديد";
+    this.itemSearchWay = 'searchByItemCode';
+
     // this.costcenterCtrl = new FormControl();
     // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
     //   startWith(''),
@@ -189,6 +195,7 @@ export class StrWithdrawDetailsDialogComponent {
   ngOnInit(): void {
     // this.getStores();
     this.getItems();
+    this.getProducts();
     // this.getFiscalYears();
     // this.getEmployees();
     // this.getCostCenters();
@@ -500,6 +507,7 @@ export class StrWithdrawDetailsDialogComponent {
     console.log('item selected: ', item);
     this.selecteditem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
+    this.groupDetailsForm.patchValue({ fullCode: item.fullCode });
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
     this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
@@ -821,40 +829,41 @@ export class StrWithdrawDetailsDialogComponent {
       // }
       // this.closeDialog();
       this.dialogRef.close('Save');
-    if (this.getMasterRowId) {
-      this.api.getStrWithdrawDetails().subscribe(
-        (res) => {
-          console.log(
-            'res to get all details form: ',
-            res,
-            'masterRowId: ',
-            this.getMasterRowId.id
-          );
+      if (this.getMasterRowId) {
+        this.api.getStrWithdrawDetails().subscribe(
+          (res) => {
+            console.log(
+              'res to get all details form: ',
+              res,
+              'masterRowId: ',
+              this.getMasterRowId.id
+            );
 
-          this.matchedIds = res.filter((a: any) => {
-            // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
-            return a.stR_WithdrawId == this.getMasterRowId.id;
-          });
+            this.matchedIds = res.filter((a: any) => {
+              // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
+              return a.stR_WithdrawId == this.getMasterRowId.id;
+            });
 
-          if (this.matchedIds) {
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+            if (this.matchedIds) {
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
 
-            this.sumOfTotals = 0;
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfTotals =
-                this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-              this.updateBothForms();
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals =
+                  this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                this.updateBothForms();
+              }
             }
+          },
+          (err) => {
+            // alert('حدث خطا ما !!');
           }
-        },
-        (err) => {
-          // alert('حدث خطا ما !!');
-        }
-      );
-    }}
+        );
+      }
+    }
   }
 
   closeDetailsDialog() {
@@ -983,10 +992,12 @@ export class StrWithdrawDetailsDialogComponent {
       'id',
       new FormControl('', Validators.required)
     );
-    this.groupDetailsForm.controls['id'].setValue(this.editData.id);
-    console.log('data item Name in edit: ', this.groupDetailsForm.value);
-    // }
-    this.groupDetailsForm.controls['price'].setValue(this.editData.price);
+    if (this.editData) {
+      this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+      console.log('data item Name in edit: ', this.groupDetailsForm.value);
+      // }
+      this.groupDetailsForm.controls['price'].setValue(this.editData.price);
+    }
 
     // if (this.getDetailedRowData) {
     console.log('details foorm: ', this.groupDetailsForm.value);
@@ -1385,6 +1396,7 @@ export class StrWithdrawDetailsDialogComponent {
       this.itemsList.filter((a: any) => {
         if (a.fullCode === code.target.value) {
           this.groupDetailsForm.controls['itemId'].setValue(a.id);
+          this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
           console.log("item by code: ", a.name);
           this.itemCtrl.setValue(a.name);
           if (a.name) {
@@ -1665,4 +1677,73 @@ export class StrWithdrawDetailsDialogComponent {
   //     }
   //   }
   // }
+
+  getProducts() {
+    this.api.getStrProduct().subscribe({
+      next: (res) => {
+        this.productsList = res;
+        console.log("productsList res: ", this.productsList);
+      },
+      error: (err) => {
+        // console.log("fetch products data err: ", err);
+        // alert("خطا اثناء جلب المنتجات !");
+      },
+    });
+  }
+
+  getItemSearchWay(searchWayEvent: any) {
+    console.log("searchWayEvent: ", searchWayEvent.source.value);
+    this.itemSearchWay = searchWayEvent.source.value;
+
+    if (this.itemSearchWay == 'searchByItemCode') {
+      this.activeItemSearchWay = false;
+    }
+    else {
+      this.activeItemSearchWay = true;
+    }
+
+  }
+
+  getItemByProductId(productEvent: any) {
+    console.log("productEvent: ", productEvent);
+
+    this.productsList.filter((a: any) => {
+      if (a.id === productEvent) {
+        this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
+        this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+
+        console.log("item by code: ", a.itemName);
+        this.itemCtrl.setValue(a.itemName);
+        if (a.itemName) {
+          this.itemByFullCodeValue = a.itemName;
+
+          this.api.getAvgPrice(
+            this.getMasterRowStoreId,
+            this.getMasterRowFiscalYearId,
+            formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+            this.groupDetailsForm.getRawValue().itemId
+          )
+            .subscribe({
+              next: (res) => {
+                // this.priceCalled = res;
+                // this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                this.groupDetailsForm.controls['price'].setValue(res)
+                console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+              },
+              error: (err) => {
+                // console.log("fetch fiscalYears data err: ", err);
+                // alert("خطا اثناء جلب متوسط السعر !");
+              }
+            })
+
+        }
+        else {
+          this.itemByFullCodeValue = '-';
+        }
+        this.itemByFullCodeValue = a.itemName;
+      }
+    })
+  }
+
+
 }

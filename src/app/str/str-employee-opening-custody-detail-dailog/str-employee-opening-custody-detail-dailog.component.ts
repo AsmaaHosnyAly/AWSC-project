@@ -440,10 +440,10 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
-            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+            this.matchedIds = res[1].strEmployeeOpeningCustodyDetailsGetVM;
 
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[1].strEmployeeOpeningCustodyDetailsGetVM);
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
@@ -494,7 +494,6 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       this.api.putStrEmployeeOpenDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-
             this.toastrSuccess();
             this.groupDetailsForm.reset();
             this.itemCtrl.setValue('');
@@ -508,7 +507,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
 
             this.dialogRef.close('save');
-
+            
           },
           error: (err) => {
             console.log("update err: ", err)

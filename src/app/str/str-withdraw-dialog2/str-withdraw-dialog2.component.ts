@@ -154,6 +154,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   sourceSelected: any;
 
   userRoles: any;
+  selectedTitle: any;
+  titleList: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -172,6 +174,15 @@ export class StrWithdrawDialogComponent implements OnInit {
     private router: Router,
     private dialogRef: MatDialogRef<StrWithdrawDialogComponent>
   ) {
+
+    this.titleList = [{
+      'titleval': 'كشف العجز',
+      'titleval1': 'سند خصم الاصناف فتقدة او تالفة',
+      'titleval2': 'محضر بيع',
+      'titleval3': 'طلب تشغيل',
+      'titleval4': 'اهداءات ليست النشاط الرئيسي للجهة',
+    }];
+
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
       startWith(''),
@@ -192,6 +203,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedTitle = this.titleList[0].titleval;
+
     this.getStores();
     this.getItems();
     this.getFiscalYears();
