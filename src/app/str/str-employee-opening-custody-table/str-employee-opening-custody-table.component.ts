@@ -579,6 +579,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       let employee = this.groupMasterForm.getRawValue().employeeId;
       let item = this.groupDetailsForm.getRawValue().itemId;
       let store = this.groupMasterForm.getRawValue().storeId;
+  if(report!=null){
+
   
       this.api
         .getStrEmployeeCustodyReport(no,  StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
@@ -601,7 +603,9 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
             console.log('eroorr', err);
             window.open(err.url);
           },
-        });
+        });}
+        else{
+          alert("ادخل التقرير و نوع التقرير!")   }
     }
 
 
