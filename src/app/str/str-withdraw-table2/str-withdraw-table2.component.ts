@@ -13,7 +13,7 @@ import { SharedService } from '../../guards/shared.service';
 import { GlobalService } from '../../services/global.service';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { WithdrawPrintDialogComponent } from 'src/app/str/withdraw-print-dialog/withdraw-print-dialog.component';
+import { PrintDialogComponent } from 'src/app/str/print-dialog/print-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import {
@@ -45,6 +45,9 @@ export class store {
   styleUrls: ['./str-withdraw-table2.component.css'],
 })
 export class StrWithdrawTableComponent implements OnInit {
+
+  selectedValue='STRWithdrawReport';
+  selectedValueType='pdf';
   displayedColumns: string[] = [
     'no',
     'storeName',
@@ -147,6 +150,8 @@ export class StrWithdrawTableComponent implements OnInit {
     this.sharedStores = shared.stores;
   }
 
+  
+
   ngOnInit(): void {
     this.getDestStores();
     this.getFiscalYears();
@@ -167,12 +172,17 @@ export class StrWithdrawTableComponent implements OnInit {
       costCenterId: [''],
       item: [''],
       fiscalYear: [''],
-      date: [''],
+      StartDate: [''],
+      EndDate: [''],
+
       store: [''],
       storeId: [''],
       employeeId: [''],
       employeeName: [''],
-      itemId:['']
+      itemId:[''],
+      report:[''],
+      reportType:['']
+      // item:['']
     });
 
     
@@ -186,7 +196,7 @@ export class StrWithdrawTableComponent implements OnInit {
       transactionUserId: [1],
       destStoreUserId: [1],
       itemId: [''],
-      stateId: [''],
+      stateId: [''],item:[''],
 
       // withDrawNoId: ['' ],
 
@@ -215,7 +225,7 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   getsearch(code: any) {
     if (code.keyCode == 13) {
-      this.getAllMasterForms();
+      // this.getSearchStrWithdraw()    
     }
   }
   openWithdrawDialog() {
@@ -547,7 +557,7 @@ this.toastrDeleteSuccess();
     this.storeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrWithdraw(no: any, date: any, fiscalYear: any) {
+  getSearchStrWithdraw(no: any, StartDate: any,EndDate:any, fiscalYear: any) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
@@ -559,7 +569,7 @@ this.toastrDeleteSuccess();
       .getStrWithdrawSearch(
         no,
         store,
-        date,
+        StartDate,EndDate,
         fiscalYear,
         item,
         employee,
@@ -576,15 +586,15 @@ this.toastrDeleteSuccess();
         },
       });
   }
-  downloadPrint(no: any, date: any, fiscalYear: any) {
+  downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
     this.api
-      .getStr(no, store, date, fiscalYear, item, employee, costCenter)
-      .subscribe({
+    .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+    .subscribe({
         next: (res) => {
           console.log('search:', res);
           const url: any = res.url;
@@ -640,14 +650,14 @@ this.toastrDeleteSuccess();
   //   location.reload();
   // }
 
-  previewPrint(no: any, date: any, fiscalYear: any) {
+  previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
     this.api
-      .getStr(no, store, date, fiscalYear, item, employee, costCenter)
+      .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
       .subscribe({
         next: (res) => {
           let blob: Blob = res.body as Blob;
@@ -655,7 +665,7 @@ this.toastrDeleteSuccess();
           let url = window.URL.createObjectURL(blob);
           localStorage.setItem('url', JSON.stringify(url));
           this.pdfurl = url;
-          this.dialog.open(WithdrawPrintDialogComponent, {
+          this.dialog.open(PrintDialogComponent, {
             width: '50%',
           });
 

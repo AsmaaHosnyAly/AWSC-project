@@ -44,6 +44,9 @@
   text-align: left;
   padding: 5px 20px;
   font-size: 20px;
+  position: relative;
+    left: 1%;
+    top: 82px;
 }
 
 .example-radio-group {

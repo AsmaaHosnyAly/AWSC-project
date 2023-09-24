@@ -196,3 +196,10 @@
     font-weight: bold;
   
   }
+  .searchLabels{
+    /* width: 83%; */
+    margin-left: 3%;
+    width: 17rem;
+    display: flex;
+    flex-direction: column;
+  }
