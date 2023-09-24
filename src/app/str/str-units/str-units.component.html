@@ -40,7 +40,7 @@
         <ng-container matColumnDef="action" >
           <th mat-header-cell *matHeaderCellDef  style="width: 15%;">الإجراء</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button (click)="editunit(row)" color="primary" >
+            <button mat-icon-button (click)="editunit(row)" class="editbtn" >
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="daleteunit(row.id)">
@@ -71,4 +71,3 @@
     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
   </mat-card-footer>
 </mat-card>
-<mat-progress-spinner [mode]="'indeterminate'" *ngIf="loading$ | async"></mat-progress-spinner>

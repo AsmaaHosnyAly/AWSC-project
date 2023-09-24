@@ -18,7 +18,7 @@ export class StrVendorComponent {
   title = 'angular13crud';
   displayedColumns: string[] = [ 'name', 'action'];
   dataSource!: MatTableDataSource<any>;
-
+loading : boolean= false ;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService,private hotkeysService: HotkeysService){
@@ -34,24 +34,30 @@ export class StrVendorComponent {
     }));
   }
   openDialog() {
+    
     this.dialog.open(StrVendorDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val=>{
+     
       if(val === 'save'){
         this.getAllVendors();
       }
+      
     })
   }
   getAllVendors(){
+    this.loading=true;
     this.api.getVendor()
     .subscribe({
       next:(res)=>{
+        this.loading=false;
         console.log("res get vendor: ", res)
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },
       error:(err)=>{
+        this.loading=false;
         console.log("err get vendor: ", err)
         alert("خطأ عند استدعاء البيانات");
       }

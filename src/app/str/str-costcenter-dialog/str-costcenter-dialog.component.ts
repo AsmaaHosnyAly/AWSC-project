@@ -1,7 +1,10 @@
-
-
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { publishFacade } from '@angular/compiler';
@@ -17,57 +20,68 @@ import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-str-costcenter-dialog',
   templateUrl: './str-costcenter-dialog.component.html',
-  styleUrls: ['./str-costcenter-dialog.component.css']
+  styleUrls: ['./str-costcenter-dialog.component.css'],
 })
-export class StrCostcenterDialogComponent  implements OnInit {
+export class StrCostcenterDialogComponent implements OnInit {
   centerCategoryCtrl: FormControl;
   filteredCategories: Observable<Category[]>;
   categories: Category[] = [];
   getCostCenterData: any;
   selectedCategory: Category | undefined;
-  costcenterForm !: FormGroup;
-  actionBtn: string = "حفظ"
-  autoCode:any;
-  constructor(private formBuilder: FormBuilder,
+  costcenterForm!: FormGroup;
+  actionBtn: string = 'حفظ';
+  autoCode: any;
+  existingNames: string[] = [];
+  constructor(
+    private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<StrCostcenterDialogComponent>) { 
-      this.centerCategoryCtrl = new FormControl();
+    private dialogRef: MatDialogRef<StrCostcenterDialogComponent>
+  ) {
+    this.centerCategoryCtrl = new FormControl();
     this.filteredCategories = this.centerCategoryCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterCategories(value))
     );
-    }
+  }
 
   ngOnInit(): void {
+    this.getExistingNames(); // Fetch existing names
     this.getCostCenterAutoCode();
     this.costcenterForm = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
       costCenterCategoryId: ['', Validators.required],
       transactionUserId: [1],
-
-      
     });
 
     this.api.getAllCategories().subscribe((categories) => {
       this.categories = categories;
     });
 
-    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.addCostCenter();
-      return false; // Prevent the default browser behavior
-    }));
+    this.hotkeysService.add(
+      new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addCostCenter();
+        return false; // Prevent the default browser behavior
+      })
+    );
     if (this.editData) {
-      this.actionBtn = "تحديث";
+      this.actionBtn = 'تحديث';
       this.getCostCenterData = this.editData;
       this.costcenterForm.controls['code'].setValue(this.editData.code);
       this.costcenterForm.controls['name'].setValue(this.editData.name);
-      this.costcenterForm.controls['costCenterCategoryId'].setValue(this.editData.costCenterCategoryId);    
-      this.costcenterForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-      this.costcenterForm.addControl('id', new FormControl('', Validators.required));
+      this.costcenterForm.controls['costCenterCategoryId'].setValue(
+        this.editData.costCenterCategoryId
+      );
+      this.costcenterForm.controls['transactionUserId'].setValue(
+        this.editData.transactionUserId
+      );
+      this.costcenterForm.addControl(
+        'id',
+        new FormControl('', Validators.required)
+      );
       this.costcenterForm.controls['id'].setValue(this.editData.id);
     }
   }
@@ -85,8 +99,7 @@ export class StrCostcenterDialogComponent  implements OnInit {
 
   private _filterCategories(value: string): Category[] {
     const filterValue = value.toLowerCase();
-    return this.categories.filter(
-      (category) =>
+    return this.categories.filter((category) =>
       category.name.toLowerCase().includes(filterValue)
     );
   }
@@ -98,61 +111,72 @@ export class StrCostcenterDialogComponent  implements OnInit {
     this.centerCategoryCtrl.updateValueAndValidity();
   }
 
+  getExistingNames() {
+    this.api.getCostCenter().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      },
+    });
+  }
+
+
   addCostCenter() {
     if (!this.editData) {
+      const enteredName = this.costcenterForm.get('name')?.value;
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
       if (this.costcenterForm.getRawValue().code) {
         this.costcenterForm.controls['code'].setValue(this.autoCode);
-      }
-      else{
+      } else {
         this.costcenterForm.controls['code'].setValue(this.autoCode);
       }
-      this.costcenterForm.removeControl('id')
-
+      this.costcenterForm.removeControl('id');
       if (this.costcenterForm.valid) {
-        this.api.postCostCenter(this.costcenterForm.value)
-          .subscribe({
-            next: (res) => {
-              alert("تم اضافة المركز");
-              this.costcenterForm.reset();
-              this.dialogRef.close('حفظ');
-            },
-            error: (err) => {
-             alert("!خطأ في العملية")
-              
-            }
-          })
+        this.api.postCostCenter(this.costcenterForm.value).subscribe({
+          next: (res) => {
+            alert('تم اضافة المخزن');
+            this.costcenterForm.reset();
+            this.dialogRef.close('حفظ');
+          },
+          error: (err) => {
+            alert('!خطأ في العملية');
+          },
+        });
       }
-    }else{
-      this.updateCostCenter()
+    } else {
+      this.updateCostCenter();
     }
   }
 
-  updateCostCenter(){
-    this.api.putCostCenter(this.costcenterForm.value)
-    .subscribe({
-      next:(res)=>{
-        alert("تم التحديث بنجاح");
+  updateCostCenter() {
+    this.api.putCostCenter(this.costcenterForm.value).subscribe({
+      next: (res) => {
+        alert('تم التحديث بنجاح');
         this.costcenterForm.reset();
         this.dialogRef.close('تحديث');
       },
-      error:()=>{
-        alert("خطأ في التحديث");
-      }
-    })
+      error: () => {
+        alert('خطأ في التحديث');
+      },
+    });
   }
 
   getCostCenterAutoCode() {
-    this.api.getCostCenterAutoCode()
-      .subscribe({
-        next: (res) => {
-          this.autoCode = res;
-          return res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getCostCenterAutoCode().subscribe({
+      next: (res) => {
+        this.autoCode = res;
+        return res;
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
-
 }

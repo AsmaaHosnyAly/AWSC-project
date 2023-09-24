@@ -6,7 +6,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
-import { GlobalService } from 'src/app/services/global.service';
+// import { GlobalService } from 'src/app/services/global.service';
 
 
 
@@ -23,9 +23,9 @@ export class STREmployeeOpeningCustodyComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private dialog: MatDialog, private api: ApiService,global:GlobalService){
-  global.getPermissionUserRoles(5, 'stores', 'إدارة المخازن وحسابات المخازن - الإفتتاحي العهد     ', '')
-}
+constructor(private dialog: MatDialog, private api: ApiService){}
+//   global.getPermissionUserRoles(5, 'stores', 'إدارة المخازن وحسابات المخازن - الإفتتاحي العهد     ', '')
+// }
 
 ngOnInit(): void {
   // this.getAllGroups();

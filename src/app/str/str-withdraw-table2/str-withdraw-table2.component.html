@@ -143,7 +143,7 @@
           <mat-label> التقارير</mat-label>
 
           <mat-form-field appearance="outline" class="searchForm" >
-            <mat-select [(ngModel)]="selectedReportNameTitle" #report plceholder="اختر  التقرير" formControlName="report">
+            <mat-select  #report plceholder="اختر  التقرير" formControlName="report">
               <mat-option value="STRWithdrawReport">تقرير 1</mat-option>
 
             </mat-select>
@@ -154,7 +154,7 @@
           <mat-label> نوع التقرير</mat-label>
 
           <mat-form-field appearance="outline" class="searchForm" >
-            <mat-select [(ngModel)]="selectedReportTypeTitle" #reportType plceholder="اختر  النوع" formControlName="reportType">
+            <mat-select  #reportType plceholder="اختر  النوع" formControlName="report">
               <mat-option value="pdf"> .PDF  </mat-option>
               <mat-option value="txt">.TXT </mat-option>
               <mat-option value="ppt"> .PPT</mat-option>

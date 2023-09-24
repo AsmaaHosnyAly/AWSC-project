@@ -36,7 +36,7 @@ mat-card-header .child1{
   padding: 0;
 }
 th {
-  background-color:rgb(60, 202, 252) !important;
+  background-color :var(--bg-primary-color) !important;
   color: white;
   font-family: 'Cairo', sans-serif;
   font-size: 16px;

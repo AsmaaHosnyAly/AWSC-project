@@ -14,44 +14,64 @@
              كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
           </mat-error>
         </mat-form-field> -->
-        <mat-label>مسلسل</mat-label>
-        <mat-form-field appearance="outline">
-          <input formControlName="serial" matInput placeholder="مسلسل">
-        </mat-form-field>
-        
-        <mat-label>  تاريخ الانتاج</mat-label>
+   <div>
+
+
+ <div class="searchLabels">
+  <mat-label>مسلسل رقمي</mat-label>
+  <mat-form-field appearance="outline">
+    <input formControlName="serial" matInput placeholder="مسلسل">
+  </mat-form-field>
+ </div>
+    
+ <div class="searchLabels">
+  <mat-label>  تاريخ الانتاج</mat-label>
+    <mat-form-field appearance="outline" style="width:100%">
+            
+              <input matInput [matDatepicker]="picker" formControlName="productionDate">
+              <mat-datepicker-toggle matIconSuffix [for]="picker">
+                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                  
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+    </div>
+          
+ <div class="searchLabels">
+        <mat-label>تاريخ الانتهاء</mat-label>
         <mat-form-field appearance="outline" style="width:100%">
                 
-                  <input matInput [matDatepicker]="picker" formControlName="productionDate">
-                  <mat-datepicker-toggle matIconSuffix [for]="picker">
+                  <input matInput [matDatepicker]="picke" formControlName="expireDate">
+                  <mat-datepicker-toggle matIconSuffix [for]="picke">
                       <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                       
                   </mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-datepicker #picke></mat-datepicker>
               </mat-form-field>
-              
-            <mat-label>تاريخ الانتهاء</mat-label>
-            <mat-form-field appearance="outline" style="width:100%">
-                    
-                      <input matInput [matDatepicker]="picke" formControlName="expireDate">
-                      <mat-datepicker-toggle matIconSuffix [for]="picke">
-                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                          
-                      </mat-datepicker-toggle>
-                      <mat-datepicker #picke></mat-datepicker>
-                  </mat-form-field>
-        <mat-label>اسم النتج</mat-label>
-        <mat-form-field appearance="outline">
-          <input matInput aria-label="product" [matAutocomplete]="autoProduct" [formControl]="productCtrl"
-            placeholder="{{getGradeData ? getGradeData.productName : 'اختر سلعة'}}" (click)="openAutoProduct()" required />
-          <mat-autocomplete #autoProduct="matAutocomplete" [displayWith]="displaProductName"
-            (optionSelected)="productSelected($event)">
-            <mat-option *ngFor="let product of filteredProductes | async" [value]="product">
-              {{ product.name }} 
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+       </div>
+
+
+       <div class="searchLabels">
+         
+    <mat-label>اسم النتج</mat-label>
+    <mat-form-field appearance="outline">
+      <input matInput aria-label="product" [matAutocomplete]="autoProduct" [formControl]="productCtrl"
+        placeholder="{{getGradeData ? getGradeData.productName : 'اختر سلعة'}}" (click)="openAutoProduct()" required />
+      <mat-autocomplete #autoProduct="matAutocomplete" [displayWith]="displaProductName"
+        (optionSelected)="productSelected($event)">
+        <mat-option *ngFor="let product of filteredProductes | async" [value]="product">
+          {{ product.name }} 
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    </div>
+
+
+
+   </div>
+       <div class="actionbtn">
         <button mat-raised-button class="savebtn" (click)="addProductserail()" >{{actionBtn}}</button>
+       </div>
       </form>
     </div>
      

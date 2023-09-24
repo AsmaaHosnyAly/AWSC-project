@@ -82,6 +82,7 @@ import { StrStockTakingContainerComponent } from './str/str-stock-taking-contain
 import { PageRolesComponent } from './pages/page-roles/page-roles.component';
 import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
+import { StrProudctSerialComponent } from "../app/str/str-proudct-serial/str-proudct-serial.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -107,20 +108,27 @@ const routes: Routes = [
       {
         path: 'STRAdd',
         component: STRAddContainerComponent,
+        canActivate:[sTRAddGuard],
+        data: { PageLsit: [PagesEnums.STRAdd] },
       }, //table filter done
       {
         path: 'str-openingStock',
         component: StrOpeningStockContainerComponent,
+        canActivate:[strOpeningStockGuard],
+        data: { PageLsit: [PagesEnums.STR_OPENING_STOCK] },
       },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
+        canActivate:[employeeOpeningGuard],
+        data: { PageLsit: [PagesEnums.EMPLOYEE_OPENING] },
+
       },
       {
         path: 'commodity',
         component: StrCommodityComponent,
         canActivate: [commodityGuard],
-        data: { commodity: [6] },
+        data: { PageLsit: [PagesEnums.COMMODITY] },
       },
       { path: 'grade', component: STRGradeComponent },
       {
@@ -235,6 +243,11 @@ const routes: Routes = [
       { path: 'fi-home', component: StrAccountsComponent },
 
       { path: 'stock-taking', component: StrStockTakingContainerComponent },
+      { path: 'pr-group', component: PrGroupTableComponent },
+      { path: 'pr-user', component: PrUserTableComponent },
+      
+      { path: 'product-serial', component: StrProudctSerialComponent },
+
 
   {path:'StrStockTaking',component: StrStockTakingContainerComponent}
       // { path: '**', component: ErrorComponent },
@@ -250,8 +263,7 @@ const routes: Routes = [
   //   // data2:{roles:['18','19']},
   //   children: [
       
-  //     { path: 'pr-group', component: PrGroupTableComponent },
-  //     { path: 'pr-user', component: PrUserTableComponent },
+  //   
   //   ],
   // },
 ];

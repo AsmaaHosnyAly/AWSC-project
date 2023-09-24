@@ -18,7 +18,7 @@ mat-card {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color: #47afd5;
+  color:var(--bg-primary-color) !important;
 }
 
 mat-card-header {
@@ -62,14 +62,11 @@ th {
 }
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: red;
+  /* color: red; */
   opacity: 1; /* Firefox */
 }
 
-:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: red;
-}
+
 
 ::-ms-input-placeholder {
   /* Microsoft Edge */
@@ -149,8 +146,7 @@ mat-panel-description {
 
 .header div {
   height: 100px;
-  background-color: rgb(60, 202, 252);
-  color: white;
+  background-color: var(--bg-primary-color) !important;  color: white;
   /* color: #04365f; */
 }
 
@@ -281,26 +277,7 @@ footer h3 {
   border: none !important;
   box-shadow: none !important;
 }
-.search button,
-.print button {
-  width: 142px;
-  font-size: 19px;
-  font-family: "Cairo", sans-serif;
-  background-color: rgb(60, 202, 252);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 15px;
-  height: 36px;
-  /* text-align: center; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  margin-left: 2rem;
-  margin-top: 2rem;
-  text-align: left;
-}
+
 
 /* .actions {
   display: flex;
@@ -312,8 +289,7 @@ footer h3 {
 .icons {
   font-size: 23px;
   color: white;
-  background-color: rgb(60, 202, 252);
-  border-radius: 50%;
+  background-color: var(--bg-primary-color) !important;  border-radius: 50%;
   width: 50px;
   height: 50px;
   display: flex;
@@ -356,8 +332,7 @@ footer h3 {
   width: 250px;
   font-size: 15px;
   font-family: "Cairo", sans-serif;
-  background-color: rgb(60, 202, 252);
-  color: white;
+  background-color: var(--bg-primary-color) !important;  color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 30px;
@@ -375,8 +350,7 @@ footer h3 {
 .icons {
   font-size: 23px;
   color: white;
-  background-color: rgb(60, 202, 252);
-  border-radius: 50%;
+  background-color: var(--bg-primary-color) !important;  border-radius: 50%;
   width: 50px;
   height: 50px;
   display: flex;

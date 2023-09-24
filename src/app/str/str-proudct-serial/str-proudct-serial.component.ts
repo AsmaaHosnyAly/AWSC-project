@@ -66,7 +66,8 @@ export class StrProudctSerialComponent  implements OnInit{
   openDialog() {
     this.dialog
       .open(StrProudctSerialDialogComponent, {
-        width: '30%',
+        width: '98%',
+      height: '80%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -107,7 +108,8 @@ export class StrProudctSerialComponent  implements OnInit{
   editProductserail(row: any) {
     this.dialog
       .open(StrProudctSerialDialogComponent, {
-        width: '30%',
+        width: '98%',
+      height: '80%',
         data: row,
       })
       .afterClosed()
