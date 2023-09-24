@@ -29,7 +29,7 @@ export class StrCommodityDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getCommodityAutoCode();
     this.getExistingNames(); // Fetch existing names
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addCommodity();
       return false; // Prevent the default browser behavior

@@ -51,7 +51,7 @@ export class STRGroup1DialogComponent implements OnInit {
   actionBtn: string = "حفظ"
   Code:any;
   dataSource!: MatTableDataSource<any>;
-
+  existingNames: string[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
@@ -85,7 +85,7 @@ export class STRGroup1DialogComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.getExistingNames(); // Fetch existing names
     this.groupForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       code: [''],
@@ -111,7 +111,7 @@ export class STRGroup1DialogComponent implements OnInit {
     this.api.getAllPlatoonsg().subscribe((platoons) => {
       this.platoons = platoons;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addGroup();
       return false; // Prevent the default browser behavior
@@ -233,9 +233,27 @@ export class STRGroup1DialogComponent implements OnInit {
     });
   }
 
+  getExistingNames() {
+    this.api.getGroups().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+
   addGroup() {
     // this.groupForm.controls['code'].setValue(this.Code);
     if (!this.editData) {
+      const enteredName = this.groupForm.get('name')?.value;
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
+
       this.groupForm.removeControl('id')
       // this.groupForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.groupForm.controls['gradeId'].setValue(this.selectedOption.id);

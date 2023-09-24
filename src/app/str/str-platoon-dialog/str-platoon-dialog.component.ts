@@ -101,7 +101,7 @@ export class STRPlatoonDialogComponent implements OnInit {
     this.api.getAllGrades().subscribe((grades) => {
       this.grades = grades;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addPlatoon();
       return false; // Prevent the default browser behavior
@@ -228,14 +228,15 @@ export class STRPlatoonDialogComponent implements OnInit {
 
   addPlatoon() {
 
-    const enteredName = this.platoonForm.get('name')?.value;
-
-    if (this.existingNames.includes(enteredName)) {
-      alert('هذا الاسم موجود من قبل، قم بتغييره');
-      return;
-    }
+  
     // this.platoonForm.controls['code'].setValue(this.Code);
     if (!this.editData) {
+      const enteredName = this.platoonForm.get('name')?.value;
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
       this.platoonForm.removeControl('id');
       // this.platoonForm.controls['commodityId'].setValue(this.selectedOption.id);
       // this.platoonForm.controls['gradeId'].setValue(this.selectedOption.id);
