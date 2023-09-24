@@ -1,7 +1,7 @@
 <!-- Cards with media area -->
 <div class="routeContainer">
 
-    <mat-card class="example-card" *ngIf="this.shared.time ==true">
+    <!-- <mat-card class="example-card" *ngIf="hasAccessRole(pageEnums.COMMODITY)">
       <mat-card-title-group>
         <mat-card-title class="tt"><mat-icon>book</mat-icon></mat-card-title>
         <mat-card-subtitle>الحضور والانصراف</mat-card-subtitle>
@@ -13,16 +13,16 @@
         <mat-card-title class="tt"><mat-icon> money</mat-icon></mat-card-title>
         <mat-card-subtitle>الاستحقاقات</mat-card-subtitle>
       </mat-card-title-group>
-    </mat-card>
+    </mat-card> -->
 
-    <mat-card class="example-card"  *ngIf="this.shared.hr ==true">
+    <mat-card class="example-card"  *ngIf="hasAccessModule(pageEnums.HR)">
       <mat-card-title-group routerLink="/hr-home">
         <mat-card-title class="tt"><mat-icon>people</mat-icon></mat-card-title>
         <mat-card-subtitle>شئون العاملين</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card>
   
-    <mat-card class="example-card">
+    <!-- <mat-card class="example-card">
       <mat-card-title-group>
         <mat-card-title class="tt"><mat-icon> local_library</mat-icon></mat-card-title>
         <mat-card-subtitle>الموازنة العامة</mat-card-subtitle>
@@ -34,23 +34,23 @@
         <mat-card-title class="tt"><mat-icon>credit_card</mat-icon></mat-card-title>
         <mat-card-subtitle>التكاليف</mat-card-subtitle>
       </mat-card-title-group>
-    </mat-card>
+    </mat-card> -->
 
-    <mat-card class="example-card" *ngIf="this.shared.accounts ==true" >
+    <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.ACCOUNTS)" >
       <mat-card-title-group routerLink="/fi-home">
         <mat-card-title class="tt"><mat-icon> attach_money</mat-icon></mat-card-title>
         <mat-card-subtitle>الحسابات العامة</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card>
   
-    <mat-card class="example-card" *ngIf="this.shared.stores ==true" >
+    <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)" >
       <mat-card-title-group routerLink="/str-home">
         <mat-card-title class="tt"><mat-icon> store_mall_directory</mat-icon></mat-card-title>
         <mat-card-subtitle >المخازن و حسابات المخازن</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card>
 
-    <mat-card class="example-card" >
+    <!-- <mat-card class="example-card" >
       <mat-card-title-group>
         <mat-card-title class="tt"><mat-icon>donut_large</mat-icon></mat-card-title>
         <mat-card-subtitle>الصرف الصناعى</mat-card-subtitle>
@@ -98,9 +98,9 @@
         <mat-card-title class="tt"><mat-icon>verified_user</mat-icon></mat-card-title>
         <mat-card-subtitle>الادارة العامة للشئون القانونية</mat-card-subtitle>
       </mat-card-title-group>
-    </mat-card>
+    </mat-card> -->
 
-    <mat-card class="example-card" *ngIf="this.shared.roles==true">
+    <mat-card class="example-card"*ngIf="hasAccessModule(pageEnums.ROLES)">
       <mat-card-title-group routerLink="/pr-home">
         <mat-card-title class="tt"><mat-icon>verified_user</mat-icon></mat-card-title>
         <mat-card-subtitle> الصلاحيات</mat-card-subtitle>

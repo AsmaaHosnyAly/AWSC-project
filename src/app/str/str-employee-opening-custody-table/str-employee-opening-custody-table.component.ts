@@ -9,7 +9,7 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
-import { LoadingService } from 'src/app/loading.service';
+
 import {
   FormControl,
   FormControlName,
@@ -59,7 +59,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   // employeesList: any;
   // itemList:any;
   fiscalYearsList: any;
-  loading$ = this.loader.loading$;
+
   groupMasterForm !: FormGroup;
   groupDetailsForm !: FormGroup;
 
@@ -91,7 +91,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    public loader: LoadingService,
+
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
@@ -579,6 +579,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       let employee = this.groupMasterForm.getRawValue().employeeId;
       let item = this.groupDetailsForm.getRawValue().itemId;
       let store = this.groupMasterForm.getRawValue().storeId;
+  if(report!=null){
+
   
       this.api
         .getStrEmployeeCustodyReport(no,  StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
@@ -601,7 +603,9 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
             console.log('eroorr', err);
             window.open(err.url);
           },
-        });
+        });}
+        else{
+          alert("ادخل التقرير و نوع التقرير!")   }
     }
 
 

@@ -1,5 +1,6 @@
 import { Component ,OnInit} from '@angular/core';
 import { GlobalService } from '../../services/global.service';
+import { PagesEnums } from '../../core/enums/pages.enum';
 
 @Component({
   selector: 'app-str-home',
@@ -9,6 +10,13 @@ import { GlobalService } from '../../services/global.service';
 export class STRHomeComponent {
   
   userRole= localStorage.getItem('userRoles')
+  pageEnums = PagesEnums
+  
+  hasAccessRole(id:number):boolean{
+    const USER_ROLES_LOCAL_STORAGE = window.localStorage.getItem('userRoles') 
+    const USER_ROLES : Array<any> = USER_ROLES_LOCAL_STORAGE!.split(',')
+    return USER_ROLES.some((i:any)=>i == id)
+  }
 
   constructor(public global:GlobalService){
    
@@ -22,6 +30,7 @@ export class STRHomeComponent {
     // commit
 
  }
+
 
  
 }
