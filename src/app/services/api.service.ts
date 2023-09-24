@@ -3076,4 +3076,56 @@ export class ApiService {
       'http://ims.aswan.gov.eg/api/FICostCenter/get/all'
     );
   }
+
+
+  //////product serialll
+
+
+  // getAllProductes(){
+    
+  //   return this.http.get<any>(
+  //     `${this.url}/STRProductSerial/get/all`
+  //   );
+  // }
+
+  // postProductserail(data:any){
+  //   return this.http.post<any>(
+  //     `${this.url}/STRProductSerial/Add`,
+  //     data
+  //   );
+  // }
+
+  // putProductserail(data:any){
+  //   return this.http.post<any>(
+  //     `${this.url}/STRProductSerial/update`,
+  //     data
+  //   );
+  // }
+
+  postProductserail(data: any) {
+    return this.http.post<any>(
+      'http://ims.aswan.gov.eg/api/STRProductSerial/Add',
+      data
+    );
+  }
+  getProductserail() {
+    return this.http.get<any>('http://ims.aswan.gov.eg/api/STRProductSerial/get/all');
+  }
+  putProductserail(data: any) {
+    console.log("")
+    return this.http.put<any>(
+      'http://ims.aswan.gov.eg/api/STRProductSerial/update',
+      data
+    );
+  }
+  deleteProductserail(id: number) {
+    return this.http.delete<any>(
+      `http://ims.aswan.gov.eg/api/STRProductSerial/Delete/${id}`
+    );
+  }
+  getAllProductes(): Observable<any> {
+    return this.http.get<any>(
+      'http://ims.aswan.gov.eg/api/STRProduct/get/all'
+    );
+  }
 }

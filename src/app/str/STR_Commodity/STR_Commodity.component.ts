@@ -1,6 +1,6 @@
 
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { StrCommodityDialogComponent } from '../STR_Commodity_dialog/str-commodity-dialog.component';
 import { ApiService } from '../../services/api.service';
@@ -43,7 +43,10 @@ ngOnInit(): void {
     this.openDialog();
     return false; // Prevent the default browser behavior
   }));
+  
 }
+
+
 openDialog() {
   this.dialog.open(StrCommodityDialogComponent, {
     width: '30%'
@@ -82,18 +85,27 @@ editcommodity(row: any) {
 }
 
 deletecommodity(id:number){
-  if (confirm("هل انت متأكد من الحذف؟"))
-this.api.deleteCommodity(id)
-.subscribe({
-next:(res)=>{
-alert("تم الحذف");
-this.getAllcommodity();
-},
-error:()=>{
-alert("خطأ في الحذف")
+  var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+  if (result) {
+    this.api.deleteCommodity(id).subscribe({
+      next: (res) => {
+        if(res == 'Succeeded'){
+          console.log("res of deletestore:",res)
+        alert('تم الحذف بنجاح');
+        this.getAllcommodity();
+      }else{
+        alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+      }
+      },
+      error: () => {
+        alert('خطأ فى حذف العنصر'); 
+      },
+    });
+  }
 }
-})
-}
+
+
+
 
 applyFilter(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
@@ -103,4 +115,5 @@ applyFilter(event: Event) {
     this.dataSource.paginator.firstPage();
   }
 }
+
 }

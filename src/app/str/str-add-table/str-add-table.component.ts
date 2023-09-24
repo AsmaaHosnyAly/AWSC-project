@@ -13,7 +13,10 @@ import { GlobalService } from 'src/app/services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-// import {  PrintDialogComponent} from "p";
+
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
 import {
   FormControl,
   FormControlName,
@@ -130,6 +133,7 @@ export class STRAddTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private global: GlobalService,
+    private hotkeysService: HotkeysService,
     private dialog: MatDialog, private toastr: ToastrService,
 
     private http: HttpClient,
@@ -198,12 +202,13 @@ export class STRAddTableComponent implements OnInit {
       employeeId: [''],
       employeeName: [''],
       itemId:[''],
-      report:[''],
+      report:['STRWithdrawReport'],
       reportType:['']
     });
 
 
     this.groupDetailsForm = this.formBuilder.group({
+      
       stR_WithdrawId: [''], //MasterId
       employeeId: [''],
       qty: [''],
@@ -224,11 +229,11 @@ export class STRAddTableComponent implements OnInit {
 
       // notesName: [''],
     });
-    // this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-    //   // Call the deleteGrade() function in the current component
-    //   this.openAddDialog();
-    //   return false; // Prevent the default browser behavior
-    // }));
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openAddDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {
@@ -855,24 +860,51 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
-  acceptPendingWithdraw(rowId: any) {
-    console.log("pending withdraw row: ", rowId, "userId: ", localStorage.getItem('transactionUserId'));
+  acceptPendingWithdraw(row: any) {
+    console.log("pending withdraw row: ", row.id, "userId: ", localStorage.getItem('transactionUserId'));
     let acceptId = 1;
     let userId = parseInt(localStorage.getItem('transactionUserId')!);
 
-    console.log("type of row: ", typeof (rowId), "userId: ", typeof (userId), "acceptId: ", typeof (acceptId));
+    console.log("type of row: ", typeof (row.id), "userId: ", typeof (userId), "acceptId: ", typeof (acceptId));
 
     let dataPending = {
-      'id': rowId,
-      'user': userId,
-      'status': acceptId
+      'userId': userId,
+      'withDrawId': row.id,
+      'state': acceptId
     };
 
     this.api.postAcceptOrRejectWithDrawByDestStore(dataPending)
       .subscribe({
         next: (res) => {
           console.log("res after accept or reject pending withdraw: ", res);
-          // this.getAllWithDrawByDestStore();
+          this.getAllWithDrawByDestStore(row.storeId);
+        },
+        error: (err) => {
+          console.log("post err after accept or reject pending withdraw: ", err);
+          // alert("حدث خطأ أثناء إضافة مجموعة")
+        }
+      })
+  }
+
+
+  rejectPendingWithdraw(row: any) {
+    console.log("pending withdraw row: ", row.id, "userId: ", localStorage.getItem('transactionUserId'));
+    let rejectId = 0;
+    let userId = parseInt(localStorage.getItem('transactionUserId')!);
+
+    console.log("type of row: ", typeof (row.id), "userId: ", typeof (userId), "rejectId: ", typeof (rejectId));
+
+    let dataPending = {
+      'userId': userId,
+      'withDrawId': row.id,
+      'state': rejectId
+    };
+
+    this.api.postAcceptOrRejectWithDrawByDestStore(dataPending)
+      .subscribe({
+        next: (res) => {
+          console.log("res after accept or reject pending withdraw: ", res);
+          this.getAllWithDrawByDestStore(row.storeId);
         },
         error: (err) => {
           console.log("post err after accept or reject pending withdraw: ", err);

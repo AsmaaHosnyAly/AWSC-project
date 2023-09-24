@@ -20,7 +20,7 @@ export class STRUnitsDialogComponent {
   userIdFromStorage: any;
   transactionUserId=localStorage.getItem('transactionUserId')
   // groupEditId: any;
-
+  existingNames: string[] = [];
   constructor(private formBuilder : FormBuilder,
      private api : ApiService,
      private hotkeysService: HotkeysService,
@@ -29,12 +29,13 @@ export class STRUnitsDialogComponent {
      private dialogRef : MatDialogRef<STRUnitsDialogComponent>){
      }
   ngOnInit(): void {
+    this.getExistingNames(); // Fetch existing names
     this.unitsForm = this.formBuilder.group({
       transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
-    this.hotkeysService.add(new Hotkey('ctrl+p', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addUnits();
       return false; // Prevent the default browser behavior
@@ -54,10 +55,29 @@ export class STRUnitsDialogComponent {
     }
   }
 
+  getExistingNames() {
+    this.api.getunit().subscribe({
+      next: (res) => {
+        this.existingNames = res.map((item: any) => item.name);
+      },
+      error: (err) => {
+        console.log('Error fetching existing names:', err);
+      }
+    });
+  }
+  
+
   addUnits(){
+
+    const enteredName = this.unitsForm.get('name')?.value;
+
+    if (this.existingNames.includes(enteredName)) {
+      alert('هذا الاسم موجود من قبل، قم بتغييره');
+      return;
+    }
+
     if(!this.editData){
       this.unitsForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      console.log("hhhhhh",this.transactionUserId);
 
       this.unitsForm.removeControl('id')
       if(this.unitsForm.valid){

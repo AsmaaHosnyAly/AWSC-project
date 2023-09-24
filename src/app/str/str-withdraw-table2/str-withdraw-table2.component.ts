@@ -45,6 +45,9 @@ export class store {
   styleUrls: ['./str-withdraw-table2.component.css'],
 })
 export class StrWithdrawTableComponent implements OnInit {
+
+  selectedValue='STRWithdrawReport';
+  selectedValueType='pdf';
   displayedColumns: string[] = [
     'no',
     'storeName',
@@ -177,6 +180,8 @@ export class StrWithdrawTableComponent implements OnInit {
       employeeId: [''],
       employeeName: [''],
       itemId:[''],
+      report:[''],
+      reportType:['']
       // item:['']
     });
 
