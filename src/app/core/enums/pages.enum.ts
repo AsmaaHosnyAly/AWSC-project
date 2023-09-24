@@ -1,7 +1,7 @@
 export enum PagesEnums {
   ACCOUNTS = 3,
-  ROLES=2,
-  STORES=1,
+  ROLES=1,
+  STORES=2,
   HR=4,
   WITHDRAW = 1,
   STRAdd = 2,

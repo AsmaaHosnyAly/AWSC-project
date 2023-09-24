@@ -341,7 +341,7 @@ footer h3 {
   text-align: right;
 }
 .search mat-form-field {
-  width: 250px;
+  width: 180px;
 
   padding: 0 !important;
 }
@@ -405,6 +405,13 @@ footer h3 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.searchForm {
+  width: 15%;
+  /* background-color: #2b2727; */
+  /* width: 90%;
+  margin-left: 1rem; */
+
 }
 
 

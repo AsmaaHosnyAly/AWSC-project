@@ -66,14 +66,15 @@ th {
   text-align: right;
 }
 .search mat-form-field {
-  width: 250px;
+  width: 180px;
+  margin-left: 10px;
 
   padding: 0 !important;
 }
 
 .search {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
 }
 .search button,

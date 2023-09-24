@@ -24,9 +24,9 @@
 
 }
 
-.groupInput {
+/* .groupInput {
   width: 100%;
-}
+} */
 
 .add-h1 {
   text-align: center;
@@ -99,7 +99,7 @@
 
 .headerForm {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
 
 }
@@ -109,10 +109,10 @@
   text-align: right;
 }
 
-.headerForm .groupInput {
+/* .headerForm .groupInput {
   width: 19%;
 
-}
+} */
 
 .detailsForm {
   display: flex;
@@ -233,4 +233,16 @@ table {
   padding-top: 5px;
   height: 200px;
   overflow: auto;
+}
+
+.searchLabels{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.headerForm  mat-form-field {
+width:180px;
+  margin-left: 10px;
+  /* font-size: px !important; */
+  padding: 10 !important;
 }

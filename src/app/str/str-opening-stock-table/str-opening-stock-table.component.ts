@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { OpeningStockPrintDialogComponent } from 'src/app/str/opening-stock-print-dialog/opening-stock-print-dialog.component';
+import { PrintDialogComponent } from 'src/app/str/print-dialog/print-dialog.component';
 
 export class store {
   constructor(public id: number, public name: string) {}
@@ -112,7 +112,11 @@ export class StrOpeningStockTableComponent implements OnInit {
       date: [''],
       store: [''],
       storeId: [''],
-      itemId:['']
+      itemId:[''],
+      StartDate:[''],
+      EndDate:[''],
+      report:[''],
+      reportType:['']
     });
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
@@ -408,11 +412,11 @@ export class StrOpeningStockTableComponent implements OnInit {
     });
   }
 
-  getSearchStrOpen(no: any, date: any, fiscalYear: any) {
+  getSearchStrOpen(no: any, StartDate: any,EndDate:any, fiscalYear: any) {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
 
-    this.api.getStrOpenSearach(no, store, date, fiscalYear, item).subscribe({
+    this.api.getStrOpenSearach(no, store, fiscalYear, item,StartDate,EndDate).subscribe({
       next: (res) => {
         this.dataSource2 = res;
         this.dataSource2.paginator = this.paginator;
@@ -421,11 +425,13 @@ export class StrOpeningStockTableComponent implements OnInit {
     });
   }
 
-  downloadPdf(no: any, date: any, fiscalYear: any) {
+  downloadPdf(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupMasterForm.getRawValue().itemId;
+    let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    let employee = this.groupMasterForm.getRawValue().employeeId;
 
-    this.api.openingStock(no, store, date, fiscalYear, item).subscribe({
+    this.api.openingStock(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType).subscribe({
       next: (res) => {
         console.log('search:', res);
         const url: any = res.url;
@@ -443,30 +449,60 @@ export class StrOpeningStockTableComponent implements OnInit {
       },
     });
   }
-  previewPdf(no: any, date: any, fiscalYear: any) {
-    let store = this.groupMasterForm.getRawValue().storeId;
+  // previewPdf(no: any, date: any, fiscalYear: any) {
+  //   let store = this.groupMasterForm.getRawValue().storeId;
+  //   let item = this.groupMasterForm.getRawValue().itemId;
+
+  //   this.api.openingStock(no, store, date, fiscalYear, item).subscribe({
+  //     next: (res) => {
+  //       let blob: Blob = res.body as Blob;
+  //       console.log(blob);
+  //       let url = window.URL.createObjectURL(blob);
+  //       localStorage.setItem('url', JSON.stringify(url));
+  //       this.pdfurl = url;
+  //       this.dialog.open(PrintDialogComponent, {
+  //         width: '50%',
+  //       });
+
+  //       // this.dataSource = res;
+  //       // this.dataSource.paginator = this.paginator;
+  //       // this.dataSource.sort = this.sort;
+  //     },
+  //     error: (err) => {
+  //       console.log('eroorr', err);
+  //       window.open(err.url);
+  //     },
+  //   });
+  // }
+
+  previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+    let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupMasterForm.getRawValue().itemId;
+    let store = this.groupMasterForm.getRawValue().storeId;
 
-    this.api.openingStock(no, store, date, fiscalYear, item).subscribe({
-      next: (res) => {
-        let blob: Blob = res.body as Blob;
-        console.log(blob);
-        let url = window.URL.createObjectURL(blob);
-        localStorage.setItem('url', JSON.stringify(url));
-        this.pdfurl = url;
-        this.dialog.open(OpeningStockPrintDialogComponent, {
-          width: '50%',
-        });
+    this.api
+      .openingStock(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+      .subscribe({
+        next: (res) => {
+          let blob: Blob = res.body as Blob;
+          console.log(blob);
+          let url = window.URL.createObjectURL(blob);
+          localStorage.setItem('url', JSON.stringify(url));
+          this.pdfurl = url;
+          this.dialog.open(PrintDialogComponent, {
+            width: '50%',
+          });
 
-        // this.dataSource = res;
-        // this.dataSource.paginator = this.paginator;
-        // this.dataSource.sort = this.sort;
-      },
-      error: (err) => {
-        console.log('eroorr', err);
-        window.open(err.url);
-      },
-    });
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
   }
 
   toastrDeleteSuccess(): void {
