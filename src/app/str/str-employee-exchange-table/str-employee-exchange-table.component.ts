@@ -564,6 +564,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
+if(report !=null){
+
 
     this.api
       .getStrEmployeeExchangeItem(
@@ -588,7 +590,9 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           console.log('eroorr', err);
           window.open(err.url);
         },
-      });
+      });}
+      else{
+        alert("ادخل التقرير و نوع التقرير!")   }
   }
 
   // printReport() {
