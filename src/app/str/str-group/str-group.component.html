@@ -45,7 +45,7 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> الاجراء </th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button color="primary" (click)="editGroup(row)">
+            <button mat-icon-button class="editbtn" (click)="editGroup(row)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="deleteGroup(row.id)">
