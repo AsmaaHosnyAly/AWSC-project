@@ -229,3 +229,8 @@ th {
 .editbtn .mat-icon {
   --mat-icon-color: rgb(129, 135, 138);
 }
+
+.radiostyle{
+  display: flex;
+  flex-direction: column;
+}

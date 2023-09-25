@@ -102,7 +102,7 @@ export class STRAddDialogComponent implements OnInit {
 
   btnDisabled: boolean = false;
 
-  displayedColumns: string[] = ['itemName', 'state', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName','avgPrice',  'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -560,7 +560,7 @@ export class STRAddDialogComponent implements OnInit {
         // this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
         // this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
 
-        this.groupDetailsForm.controls['state'].setValue(this.groupDetailsForm.getRawValue().state);
+        this.groupDetailsForm.controls['avgPrice'].setValue(this.groupDetailsForm.getRawValue().avgPrice);
         this.groupDetailsForm.controls['addId'].setValue(this.getMasterRowId.id);
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
@@ -757,30 +757,6 @@ export class STRAddDialogComponent implements OnInit {
 
   editDetailsForm(row: any) {
 
-    // // console.log("test pass row: ", row)
-    // if (this.editDataDetails || row) {
-    //   this.getDetailedRowData = row;
-    //   console.log("getDetailedRowData before :", this.getDetailedRowData)
-    //   this.actionBtnDetails = "Update";
-    //   this.groupDetailsForm.controls['addId'].setValue(this.getDetailedRowData.addId);
-    //   this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
-    //   // this.groupDetailsForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
-    //   // this.groupDetailsForm.controls['fiscalYearId'].setValue(this.groupMasterForm.getRawValue().fiscalYearId);
-    //   // this.groupDetailsForm.controls['date'].setValue(this.groupMasterForm.getRawValue().date);
-
-    //   this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
-    //   this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
-    //   this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
-    //   this.groupDetailsForm.controls['balanceQty'].setValue(this.getDetailedRowData.balanceQty);
-    //   this.groupDetailsForm.controls['percentage'].setValue(this.getDetailedRowData.percentage);
-    //   this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
-    //   // console.log("groupDetailsForm after: ", this.groupDetailsForm);
-    //   console.log("itemid focus: ", this.matchedIds);
-
-    //   this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
-    //   // this.groupDetailsForm.controls['productId'].setValue(this.getDetailedRowData.productId);
-
-    // }
 
     this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().type, } })
     this.dialog.open(StrAddDetailsDialogComponent, {
@@ -788,7 +764,7 @@ export class STRAddDialogComponent implements OnInit {
       height: '95%',
       data: row
     }).afterClosed().subscribe(val => {
-      if (val === 'save' || val === 'update') {
+      if (val === 'Save' || val === 'Update') {
         this.getAllDetailsForms();
       }
     })

@@ -112,7 +112,7 @@ export class StrOpeningStockTableComponent implements OnInit {
       date: [''],
       store: [''],
       storeId: [''],
-      itemId:[''],
+      // itemId:[''],
       StartDate:[''],
       EndDate:[''],
       report:[''],
@@ -148,7 +148,7 @@ export class StrOpeningStockTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
-        this.groupDetailsForm.reset();
+        // this.groupDetailsForm.reset();
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -480,6 +480,8 @@ export class StrOpeningStockTableComponent implements OnInit {
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
+if(report!= null && reportType!=null){
+
 
     this.api
       .openingStock(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
@@ -502,7 +504,9 @@ export class StrOpeningStockTableComponent implements OnInit {
           console.log('eroorr', err);
           window.open(err.url);
         },
-      });
+      });}
+      else{
+        alert("ادخل التقرير و نوع التقرير!")   }
   }
 
   toastrDeleteSuccess(): void {
