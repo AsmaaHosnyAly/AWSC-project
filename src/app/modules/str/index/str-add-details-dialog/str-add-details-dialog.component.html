@@ -11,42 +11,70 @@
 
         <div class="detailsForm" dir="rtl" style="overflow: hidden !important;">
 
-            <div>
-                <mat-label>اختر طريقة البحث عن الصنف: </mat-label>
+            <mat-accordion class="example-headers-align" multi dir="rtl">
+                <div class="page-title">أذونات الاضافة</div>
 
-                <mat-radio-group aria-label="Select an option" [value]="itemSearchWay"
-                    (change)="getItemSearchWay($event)">
-                    <mat-radio-button value="searchByItemCode">بحث بكود الصنف</mat-radio-button>
-                    <mat-radio-button value="searchByProductName">بحث باسم المنتج</mat-radio-button>
-                </mat-radio-group>
-            </div>
+                <mat-expansion-panel style="width: 70%;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-description>
+                            بحث متقدم
+                            <mat-icon>search</mat-icon>
+                        </mat-panel-description>
 
-            <div style="display: flex; width: 70%; justify-content: space-between;">
+                    </mat-expansion-panel-header>
+                    <div>
+                        <mat-label>اختر طريقة البحث عن الصنف: </mat-label>
 
-                <div style="display: flex; flex-direction: column;">
-                    <mat-label>بحث بالكود </mat-label>
+                        <mat-radio-group aria-label="Select an option" [value]="itemSearchWay"
+                            (change)="getItemSearchWay($event)">
+                            <mat-radio-button value="searchByItemCode">بحث بكود الصنف</mat-radio-button>
+                            <mat-radio-button value="searchByProductName">بحث باسم المنتج</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
 
-                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                        <input matInput placeholder="{{editData ? editData.fullCode : ''}}"
-                            (keydown)="getItemByCode($event)"
-                            [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' "
-                            [disabled]="activeItemSearchWay">
-                    </mat-form-field>
+                    <div style="display: flex; width: 70%; justify-content: space-between;">
 
-                </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <mat-label>بحث بالكود </mat-label>
 
-                <div style="display: flex; flex-direction: column;">
-                    <mat-label>بحث بالمنتج </mat-label>
+                            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                                <input matInput placeholder="{{editData ? editData.fullCode : ''}}"
+                                    (keydown)="getItemByCode($event)"
+                                    [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' "
+                                    [disabled]="activeItemSearchWay">
+                            </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="groupInput">
-                        <mat-select [disabled]="!activeItemSearchWay" placeholder="بحث بالمنتج"
-                            (valueChange)="getItemByProductId($event)" lazy-load-options>
-                            <mat-option [value]="product.id"
-                                *ngFor="let product of productsList">{{product.name}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
+                        </div>
+
+                        <div>
+                            <div style="display: flex; flex-direction: column;">
+                                <mat-label>بحث بكود المنتج </mat-label>
+
+                                <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                                    <input matInput (keydown)="getItemByCode($event)"
+                                        [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' "
+                                        [disabled]="!activeItemSearchWay">
+                                </mat-form-field>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column;">
+                                <mat-label>بحث باسم المنتج </mat-label>
+
+                                <mat-form-field appearance="outline" class="groupInput">
+                                    <mat-select [disabled]="!activeItemSearchWay" placeholder="بحث باسم المنتج"
+                                        (valueChange)="getItemByProductId($event)" lazy-load-options>
+                                        <mat-option [value]="product.id"
+                                            *ngFor="let product of productsList">{{product.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+
 
 
             <!-- <mat-form-field appearance="outline" class="groupInput">
@@ -89,7 +117,8 @@
 
                     <mat-form-field appearance="outline" class="child-num" style="width: 90%;">
                         <input matInput placeholder="الرقم" type="number" min="0"
-                            [value]="editData ? editData.avgPrice : ''" formControlName="avgPrice" [readonly]="isReadOnly">
+                            [value]="editData ? editData.avgPrice : ''" formControlName="avgPrice"
+                            [readonly]="isReadOnly">
                     </mat-form-field>
                 </div>
 

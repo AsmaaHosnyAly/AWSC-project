@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ApiService } from '../../services/api.service'; 
+import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
@@ -285,7 +285,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   closeDialog() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
- 
+
       this.dialogRef.close('Save');
     }
   }
@@ -320,62 +320,132 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
-      this.itemsList.filter((a: any) => {
-        if (a.fullCode === code.target.value) {
-          this.groupDetailsForm.controls['itemId'].setValue(a.id);
-          this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
 
-          console.log("item by code: ", a.name);
-          this.itemCtrl.setValue(a.name);
-          if (a.name) {
+      if (this.itemSearchWay != 'searchByProductName') {
+
+        this.itemsList.filter((a: any) => {
+          console.log("enter product code case, ", "a.code: ", a.fullCode, " code target: ", code.target.value);
+
+          if (a.fullCode == code.target.value) {
+            console.log("enter product code case condition: ", a.fullCode === code.target.value);
+
+            this.groupDetailsForm.controls['itemId'].setValue(a.id);
+            this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
+
+            console.log("item by code: ", a.name);
+            this.itemCtrl.setValue(a.name);
+            if (a.name) {
+              this.itemByFullCodeValue = a.name;
+
+              this.api.getAvgPrice(
+                this.getMasterRowStoreId,
+                this.getMasterRowFiscalYearId,
+                formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+                this.groupDetailsForm.getRawValue().itemId
+              )
+                .subscribe({
+                  next: (res) => {
+                    // this.priceCalled = res;
+                    this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                    this.groupDetailsForm.controls['price'].setValue(res)
+                    console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+                    console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب متوسط السعر !");
+                  }
+                })
+
+
+              this.api.getSumQuantity(
+                this.getMasterRowStoreId,
+                this.groupDetailsForm.getRawValue().itemId,
+              )
+                .subscribe({
+                  next: (res) => {
+                    // this.priceCalled = res;
+                    this.groupDetailsForm.controls['balanceQty'].setValue(res);
+                    console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب الرصيد الحالى  !");
+                  }
+                })
+            }
+            else {
+              this.itemByFullCodeValue = '-';
+            }
             this.itemByFullCodeValue = a.name;
+            // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
-            this.api.getAvgPrice(
-              this.getMasterRowStoreId,
-              this.getMasterRowFiscalYearId,
-              formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
-              this.groupDetailsForm.getRawValue().itemId
-            )
-              .subscribe({
-                next: (res) => {
-                  // this.priceCalled = res;
-                  this.groupDetailsForm.controls['avgPrice'].setValue(res);
-                  this.groupDetailsForm.controls['price'].setValue(res)
-                  console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-                  console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
-
-                },
-                error: (err) => {
-                  // console.log("fetch fiscalYears data err: ", err);
-                  // alert("خطا اثناء جلب متوسط السعر !");
-                }
-              })
-
-
-            this.api.getSumQuantity(
-              this.getMasterRowStoreId,
-              this.groupDetailsForm.getRawValue().itemId,
-            )
-              .subscribe({
-                next: (res) => {
-                  // this.priceCalled = res;
-                  this.groupDetailsForm.controls['balanceQty'].setValue(res);
-                  console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
-                },
-                error: (err) => {
-                  // console.log("fetch fiscalYears data err: ", err);
-                  // alert("خطا اثناء جلب الرصيد الحالى  !");
-                }
-              })
           }
-          else {
-            this.itemByFullCodeValue = '-';
-          }
-          this.itemByFullCodeValue = a.name;
-          // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+        })
+      }
+      else {
+        this.productsList.filter((a: any) => {
+          console.log("enter product code case, ", "a.code: ", a.code, " code target: ", code.target.value);
+          if (a.code == code.target.value) {
+            console.log("enter product code case condition: ", a.code === code.target.value);
 
-        }
-      })
+            this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
+            this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+
+            console.log("item by code: ", a.itemName);
+            this.itemCtrl.setValue(a.itemName);
+            if (a.itemName) {
+              this.itemByFullCodeValue = a.itemName;
+
+              this.api.getAvgPrice(
+                this.getMasterRowStoreId,
+                this.getMasterRowFiscalYearId,
+                formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+                this.groupDetailsForm.getRawValue().itemId
+              )
+                .subscribe({
+                  next: (res) => {
+                    // this.priceCalled = res;
+                    this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                    this.groupDetailsForm.controls['price'].setValue(res)
+                    console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+                    console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب متوسط السعر !");
+                  }
+                })
+
+
+              this.api.getSumQuantity(
+                this.getMasterRowStoreId,
+                this.groupDetailsForm.getRawValue().itemId,
+              )
+                .subscribe({
+                  next: (res) => {
+                    // this.priceCalled = res;
+                    this.groupDetailsForm.controls['balanceQty'].setValue(res);
+                    console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب الرصيد الحالى  !");
+                  }
+                })
+            }
+            else {
+              this.itemByFullCodeValue = '-';
+            }
+            this.itemByFullCodeValue = a.itemName;
+            // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+
+          }
+        })
+      }
+
     }
 
 
@@ -432,39 +502,39 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
     //   // }
     //   // this.closeDialog();
-      this.dialogRef.close('Save');
-      console.log("master Id: ", this.getMasterRowId.id)
+    this.dialogRef.close('Save');
+    console.log("master Id: ", this.getMasterRowId.id)
 
-      if (this.getMasterRowId.id) {
+    if (this.getMasterRowId.id) {
 
-        this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
-          .subscribe({
-            next: (res) => {
-              // this.itemsList = res;
-              this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            // this.itemsList = res;
+            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
 
-              if (this.matchedIds) {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
-                this.dataSource = new MatTableDataSource(this.matchedIds);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
+            if (this.matchedIds) {
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
 
-                this.sumOfTotals = 0;
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                  // alert('totalll: '+ this.sumOfTotals)
-                  // this.updateBothForms();
-                  // this.updateMaster();
-                }
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+                // this.updateMaster();
               }
-            },
-            error: (err) => {
-              // console.log("fetch items data err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
             }
-          })
-      
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
+          }
+        })
+
       // }
     }
 
@@ -581,7 +651,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   }
 
   async updateDetailsForm() {
-  
+
 
     // console.log("values master form: ", this.groupMasterForm.value)
     console.log("values getMasterRowId: ", this.getMasterRowId)
