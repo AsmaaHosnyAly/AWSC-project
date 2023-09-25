@@ -483,11 +483,11 @@ export class ApiService {
   strAdd(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -498,8 +498,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     'http://ims.aswan.gov.eg/api/STRAdd/getReport?';
     this.mycondition = `${this.url}/STRAdd/getReport?`;
@@ -551,11 +551,11 @@ export class ApiService {
   openingStock(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -566,8 +566,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     'http://ims.aswan.gov.eg/api/STROpeningStock/getReport?';
     this.mycondition = `${this.url}/STROpeningStock/getReport?`;
@@ -617,23 +617,23 @@ export class ApiService {
   }
 
   getStrEmployeeCustodyReport(
-    no: any,StartDate:any,EndDate:any,fiscalYear:any,itemId: any,  employeeId: any,
-    costCenterId: any,report:any,reportType:any
-  
+    no: any, StartDate: any, EndDate: any, fiscalYear: any, itemId: any, employeeId: any,
+    costCenterId: any, report: any, reportType: any
+
   ) {
 
     console.log(
       'no. : ',
       no,
-      'employee',employeeId,'costcenter:',costCenterId,
+      'employee', employeeId, 'costcenter:', costCenterId,
       'date: ',
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
-    
+
     'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustody/getReport?';
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/getReport?`;
 
@@ -674,9 +674,9 @@ export class ApiService {
   }
 
   getStrEmployeeExchangeItem(
-    no: any,distEmployee: any,StartDate:any,EndDate:any,Fiscalyear:any,item:any,
-    employeeId: any, costCenterId: any,report:any,reportType:any
- 
+    no: any, distEmployee: any, StartDate: any, EndDate: any, Fiscalyear: any, item: any,
+    employeeId: any, costCenterId: any, report: any, reportType: any
+
   ) {
     'http://ims.aswan.gov.eg/api/STRItem/getReport?';
     this.mycondition = `${this.url}/STRItem/getReport?`;
@@ -726,11 +726,11 @@ export class ApiService {
   getStr(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -741,8 +741,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     'http://ims.aswan.gov.eg/api/STRWithdraw/getReport??';
     this.mycondition = `${this.url}/STRWithdraw/getReport??`;
@@ -1232,6 +1232,12 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRItem/get/all`);
   }
 
+  getItemById(id: any) {
+    // return this.http.get<any>(`${this.url}/STRItem/get/${id}`);
+    let url = `http://ims.aswan.gov.eg/api/STRItem/get/${id}`;
+    return url;
+  }
+
   getFiscalYears() {
     return this.http.get<any>(`${this.url}/STRFiscalYear/get/all`);
   }
@@ -1306,12 +1312,10 @@ export class ApiService {
   getStrOpenSearach(
     no: any,
     storeId: any,
-    
+
     fiscalYear: any,
-    itemId: any,StartDate:any,EndDate:any
-  ) 
-  
-  {
+    itemId: any, StartDate: any, EndDate: any
+  ) {
     console.log(
       'no. : ',
       no,
@@ -1322,9 +1326,9 @@ export class ApiService {
       'fiscalYear: ',
       fiscalYear,
       'item:',
-      itemId,'EndDate: ',
+      itemId, 'EndDate: ',
       EndDate
-    
+
     );
 
     this.mycondition = `${this.url}/STROpeningStock/search?`;
@@ -1539,8 +1543,8 @@ export class ApiService {
     no: any,
     costCenterId: any,
     employeeId: any,
-    
-    distEmployee: any,StartDate:any,EndDate:any,Fiscalyaer:any
+
+    distEmployee: any, StartDate: any, EndDate: any, Fiscalyaer: any
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -1554,7 +1558,7 @@ export class ApiService {
       "' distEmployee: '",
       distEmployee,
       "' EndDate: '",
-      EndDate,'fiscalyear:',Fiscalyaer
+      EndDate, 'fiscalyear:', Fiscalyaer
     );
     this.mycondition;
     this.mycondition = `${this.url}/STREmployeExchange/search?`;
@@ -1852,7 +1856,7 @@ export class ApiService {
   getStrWithdrawSearch(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     itemId: any,
     employeeId: any,
@@ -2189,7 +2193,7 @@ export class ApiService {
   }
   postAcceptOrRejectWithDrawByDestStore(data: any) {
     console.log("dataaa: ", data);
-    
+
     return this.http.post<any>(`${this.url}/STRAdd/AddFromStore`, data);
   }
 
@@ -2362,13 +2366,13 @@ export class ApiService {
 
 
 
-  getStrAddSearach( no: any,
-   
-   
+  getStrAddSearach(no: any,
+
+
     fiscalYear: any,
-   
-   
-    employeeId: any,  itemId: any,store: any,StartDate:any,EndDate:any) {
+
+
+    employeeId: any, itemId: any, store: any, StartDate: any, EndDate: any) {
     //enter no.
 
     console.log(
@@ -2386,7 +2390,7 @@ export class ApiService {
       employeeId,
       'enddate: ',
       EndDate,
-     
+
     );
     this.mycondition = `${this.url}/STRAdd/search?`;
 
@@ -2890,11 +2894,11 @@ export class ApiService {
     no: any,
     costCenterId: any,
     employeeId: any, itemId: any,
-    StartDate:any,EndDate:any,
-   FiscalYear:any
+    StartDate: any, EndDate: any,
+    FiscalYear: any
 
 
-   
+
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -2906,7 +2910,7 @@ export class ApiService {
       "' startdate: '",
       StartDate,
       "' item: '",
-      itemId,"fiscalyear",FiscalYear
+      itemId, "fiscalyear", FiscalYear
     );
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
@@ -3082,7 +3086,7 @@ export class ApiService {
 
 
   // getAllProductes(){
-    
+
   //   return this.http.get<any>(
   //     `${this.url}/STRProductSerial/get/all`
   //   );

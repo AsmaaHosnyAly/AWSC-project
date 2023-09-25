@@ -665,9 +665,9 @@ export class StrAddDetailsDialogComponent implements OnInit {
     // })
   }
 
-  getItemByID(id: any) {
+  async getItemByID(id: any) {
     console.log("row item id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch item name by id res: ", json.name);
