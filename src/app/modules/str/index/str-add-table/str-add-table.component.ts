@@ -202,6 +202,7 @@ export class STRAddTableComponent implements OnInit {
       employeeId: [''],
       employeeName: [''],
       itemId:[''],
+      itemName:[''],
       report:['STRWithdrawReport'],
       reportType:['']
     });
@@ -595,8 +596,8 @@ export class STRAddTableComponent implements OnInit {
     const store = event.option.value as store;
     console.log('store selected: ', store);
     this.selectedstore = store;
-    this.groupDetailsForm.patchValue({ storeId: store.id });
-    console.log('store in form: ', this.groupDetailsForm.getRawValue().storeId);
+    this.groupMasterForm.patchValue({ storeId: store.id });
+    console.log('store in form: ', this.groupMasterForm.getRawValue().storeId);
   }
   private _filterstores(value: string): store[] {
     const filterValue = value;
@@ -813,7 +814,7 @@ export class STRAddTableComponent implements OnInit {
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
-if(report !=null){
+if(report !=null && reportType!=null){
     this.api
       .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
       .subscribe({

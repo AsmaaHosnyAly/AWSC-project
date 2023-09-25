@@ -521,7 +521,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
       height: '95%',
       data: row
     }).afterClosed().subscribe(val => {
-      if (val === 'save' || val === 'update') {
+      if (val === 'Save' || val === 'Update') {
         this.getAllDetailsForms();
       }
     })

@@ -1540,7 +1540,7 @@ export class ApiService {
   getStrEmployeeExchangeSearach(
     no: any,
     costCenterId: any,
-    employeeId: any,
+    employeeId: any,item:any,
     
     distEmployee: any,StartDate:any,EndDate:any,Fiscalyaer:any
   ) {
@@ -1563,6 +1563,10 @@ export class ApiService {
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}ItemId=${item}`;
     }
 
     if (!StartDate == false) {

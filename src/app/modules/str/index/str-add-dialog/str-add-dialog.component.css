@@ -40,7 +40,7 @@
 
 .follow-btn {
   background-color: var(--bg-primary-color) !important;
-  color: antiquewhite;
+  color:var(--bg-primary-color);
   text-align: left;
   padding: 5px 20px;
   font-size: 20px;
@@ -95,7 +95,7 @@
 }
 .follow-btn {
   background-color: var(--bg-primary-color) !important;
-  color: antiquewhite;
+  color: var(--bg-primary-color);
   text-align: left;
   padding: 5px 20px;
   font-size: 20px;

@@ -883,7 +883,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
         .subscribe(
      res => {
             console.log('res',res)
-            alert("تم الحذف بنجاح");
+            // alert("تم الحذف بنجاح");
             this.toastrDeleteSuccess();
             this.getAllDetailsForms();
             //  this.dialogRef

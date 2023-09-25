@@ -233,7 +233,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       transactionUserId: [1, Validators.required],
       destStoreUserId: [1, Validators.required],
       type: ['', Validators.required],
-      sourceInput: [''],
+      sourceInput: ['',Validators.required],
 
       date: [dateNow, Validators.required],
       fiscalYearId: ['', Validators.required],
@@ -1074,48 +1074,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   editDetailsForm(row: any) {
-    // this.goToPart();
-    // if (this.editDataDetails || row) {
-    //   this.getDetailedRowData = row;
-    //   console.log('dETAILS ROW: ', this.getDetailedRowData);
-
-    //   this.actionBtnDetails = 'Update';
-    //   this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
-    //     this.getDetailedRowData.stR_WithdrawId
-    //   );
-
-    //   this.groupDetailsForm.controls['qty'].setValue(
-    //     this.getDetailedRowData.qty
-    //   );
-    //   this.groupDetailsForm.controls['price'].setValue(
-    //     this.getDetailedRowData.price
-    //   );
-    //   this.groupDetailsForm.controls['percentage'].setValue(
-    //     this.getDetailedRowData.percentage
-    //   );
-
-    //   // this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
-
-    //   this.groupDetailsForm.controls['total'].setValue(
-    //     parseFloat(this.groupDetailsForm.getRawValue().price) *
-    //       parseFloat(this.groupDetailsForm.getRawValue().qty)
-    //   );
-
-    //   // console.log("itemid focus: ", this.matchedIds);
-
-    //   this.groupDetailsForm.controls['itemId'].setValue(
-    //     this.getDetailedRowData.itemId
-    //   );
-    //   this.groupDetailsForm.controls['itemName'].setValue(
-    //     this.getDetailedRowData.itemName
-    //   );
-
-    //   this.groupDetailsForm.controls['stateName'].setValue(
-    //     this.getDetailedRowData.stateName
-    //   );
-    //   // this.groupDetailsForm.controls['notesName'].setValue(this.getDetailedRowData.notes);
-    //   // this.groupDetailsForm.controls['withDrawNoName'].setValue(this.getDetailedRowData.withDrawNoName);
-    // }
+  
 
     this.router.navigate(['/withdraw'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrWithdrawDetailsDialogComponent, {
@@ -1123,7 +1082,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       height: '95%',
       data: row
     }).afterClosed().subscribe(val => {
-      if (val === 'save' || val === 'update') {
+      if (val === 'Save' || val === 'Update') {
         this.getAllDetailsForms();
       }
     })
@@ -1684,7 +1643,7 @@ export class StrWithdrawDialogComponent implements OnInit {
           // this.getAllDetailsForms();
           this.getDetailedRowData = '';
           this.groupDetailsForm.controls['qty'].setValue(1);
-
+// this.toastrEditSuccess();
           //   },
           //   error: (err) => {
           //     console.log("update err: ", err)

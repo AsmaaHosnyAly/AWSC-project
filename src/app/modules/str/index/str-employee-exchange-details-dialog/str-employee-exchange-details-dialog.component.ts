@@ -122,7 +122,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
       console.log("editData d before: ", this.editData)
 
-      this.actionBtnMaster = "Update";
+      this.actionBtnDetails = 'Update';
       // this.groupDetailsForm.controls['no'].setValue(this.editData.no);
 
       this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.editData.employee_ExchangeId);
@@ -227,7 +227,13 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
 
   }
-
+  closeDialog() {
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+ 
+      this.dialogRef.close('Save');
+    }
+  }
   getCodeByItem(item: any) {
     console.log("item by code: ", item, "code: ", this.itemsList);
 
@@ -285,16 +291,8 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
   // }
 
   getAllDetailsForms() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
-      //   if(this.actionBtnMaster=='save'){
-      //     this.dialogRef.close('save');
-      // }
-      // else{
-      //   this.dialogRef.close('update');
 
-      // }
-      // this.closeDialog();
+    
       this.dialogRef.close('Save');
       console.log("master Id: ", this.getMasterRowId.id)
 
@@ -316,9 +314,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
                 for (let i = 0; i < this.matchedIds.length; i++) {
                   this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
                   this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                  // alert('totalll: '+ this.sumOfTotals)
-                  // this.updateBothForms();
-                  // this.updateMaster();
+               
                 }
               }
             },
@@ -327,7 +323,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
               // alert("خطا اثناء جلب العناصر !");
             }
           })
-      }
+   
       // }
     }
 

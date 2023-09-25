@@ -1,6 +1,6 @@
 <!-- <p>str-add-details-dialog works!</p> -->
 <div class="cdk-overlay-pane  ">
-    <button class="close" mat-button (click)="getAllDetailsForms()" mat-dialog-close> <mat-icon>
+    <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
 </div>
 <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
@@ -11,40 +11,45 @@
 
         <div class="detailsForm" dir="rtl" style="overflow: hidden !important;">
 
-            <div>
+            <div class="radiostyle">
                 <mat-label>اختر طريقة البحث عن الصنف: </mat-label>
 
-                <mat-radio-group aria-label="Select an option" [value]="itemSearchWay"
-                    (change)="getItemSearchWay($event)">
-                    <mat-radio-button value="searchByItemCode">بحث بكود الصنف</mat-radio-button>
-                    <mat-radio-button value="searchByProductName">بحث باسم المنتج</mat-radio-button>
+                <mat-radio-group style="display: flex;flex-direction: column;" aria-label="Select an option"
+                    [value]="itemSearchWay" (change)="getItemSearchWay($event)">
+                    <div style="display: flex;flex-direction: row;">
+                        <mat-radio-button value="searchByItemCode">بحث بكود الصنف</mat-radio-button>
+                        <div style="display: flex; flex-direction: column;margin-right: 26%;">
+                            <mat-label>بحث بالكود </mat-label>
+                            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                                <input matInput placeholder="{{editData ? editData.fullCode : ''}}"
+                                    (keydown)="getItemByCode($event)"
+                                    [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' "
+                                    [disabled]="activeItemSearchWay">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div style="display: flex;flex-direction: row;">
+                        <mat-radio-button value="searchByProductName">بحث باسم المنتج</mat-radio-button>
+                        <div style="display: flex; flex-direction: column;margin-right: 26%;">
+                            <mat-label>بحث بالمنتج </mat-label>
+        
+                            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                                <mat-select [disabled]="!activeItemSearchWay" placeholder="بحث بالمنتج"
+                                    (valueChange)="getItemByProductId($event)" lazy-load-options>
+                                    <mat-option [value]="product.id"
+                                        *ngFor="let product of productsList">{{product.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </mat-radio-group>
             </div>
 
             <div style="display: flex; width: 70%; justify-content: space-between;">
-                <div style="display: flex; flex-direction: column;">
-                    <mat-label>بحث بالكود </mat-label>
-
-                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                        <input matInput placeholder="{{editData ? editData.fullCode : ''}}"
-                            (keydown)="getItemByCode($event)"
-                            [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' "
-                            [disabled]="activeItemSearchWay">
-                    </mat-form-field>
-                </div>
 
 
-                <div style="display: flex; flex-direction: column;">
-                    <mat-label>بحث بالمنتج </mat-label>
 
-                    <mat-form-field appearance="outline" class="groupInput">
-                        <mat-select [disabled]="!activeItemSearchWay" placeholder="بحث بالمنتج"
-                            (valueChange)="getItemByProductId($event)" lazy-load-options>
-                            <mat-option [value]="product.id"
-                                *ngFor="let product of productsList">{{product.name}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+               
 
             </div>
 
