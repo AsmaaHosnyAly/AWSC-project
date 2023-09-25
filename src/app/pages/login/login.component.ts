@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Injectable, Compiler } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SharedService } from 'src/app/guards/shared.service';
-import { GlobalService } from 'src/app/services/global.service';
+import { SharedService } from 'src/app/core/guards/shared.service';
+import { GlobalService } from '../services/global.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
