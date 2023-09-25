@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../services/global.service';
-import { SharedService } from '../../guards/shared.service';
+import { GlobalService } from '../services/global.service';
+import { SharedService } from '../../core/guards/shared.service';
 
 @Component({
   selector: 'app-page-roles',

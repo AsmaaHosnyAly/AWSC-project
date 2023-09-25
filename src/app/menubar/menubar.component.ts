@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../services/global.service';
-import { SharedService } from '../guards/shared.service';
+import { GlobalService } from '../pages/services/global.service'; 
+import { SharedService } from '../core/guards/shared.service';
 import { Router } from '@angular/router';
 import { PagesEnums } from '../core/enums/pages.enum';
 
