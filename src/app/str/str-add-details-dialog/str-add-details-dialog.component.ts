@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 
 export class Item {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public fullCode: string) { }
 }
 
 
@@ -69,7 +69,9 @@ export class StrAddDetailsDialogComponent implements OnInit {
   getMasterRowSourceName: any;
 
   stateDefaultValue: any;
-
+  productsList: any;
+  itemSearchWay: any;
+  activeItemSearchWay: any;
 
   itemCtrl: FormControl;
   filteredItem: Observable<Item[]>;
@@ -104,6 +106,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
     this.currentDate = new Date;
     this.stateDefaultValue = "جديد";
+    this.itemSearchWay = 'searchByItemCode';
 
 
     this.itemCtrl = new FormControl();
@@ -115,6 +118,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getItems();
+    this.getProducts();
 
     this.groupDetailsForm = this.formBuilder.group({
       addId: ['', Validators.required], //MasterId
@@ -132,6 +136,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
       // date: ['', Validators.required],
       // fiscalYearId: ['', Validators.required],
       state: [this.stateDefaultValue, Validators.required],
+      fullCode: [''],
 
 
     });
@@ -176,7 +181,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
       this.groupDetailsForm.controls['balanceQty'].setValue(this.editData.balanceQty);
       // console.log("edit d form before4: ", this.editData);
 
-      // this.groupDetailsForm.controls['fullCode'].setValue(this.editData.fullCode);
+      this.groupDetailsForm.controls['fullCode'].setValue(this.editData.fullCode);
       // console.log("edit d form before5: ", this.editData);
 
       this.groupDetailsForm.controls['itemId'].setValue(this.editData.itemId);
@@ -221,6 +226,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
     this.selectedItem = item;
     this.groupDetailsForm.patchValue({ itemId: item.id });
     this.groupDetailsForm.patchValue({ itemName: item.name });
+    this.groupDetailsForm.patchValue({ fullCode: item.fullCode });
 
     this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
 
@@ -245,6 +251,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
             console.log("change readOnly to disable here");
           }
           console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+          console.log("price called res: ", this.groupDetailsForm.getRawValue().price);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -306,6 +313,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
       this.itemsList.filter((a: any) => {
         if (a.fullCode === code.target.value) {
           this.groupDetailsForm.controls['itemId'].setValue(a.id);
+          this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
+
           console.log("item by code: ", a.name);
           this.itemCtrl.setValue(a.name);
           if (a.name) {
@@ -323,6 +332,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
                   this.groupDetailsForm.controls['avgPrice'].setValue(res);
                   this.groupDetailsForm.controls['price'].setValue(res)
                   console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+                  console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+
                 },
                 error: (err) => {
                   // console.log("fetch fiscalYears data err: ", err);
@@ -412,37 +423,38 @@ export class StrAddDetailsDialogComponent implements OnInit {
       // }
       // this.closeDialog();
       this.dialogRef.close('Save');
-    console.log("master Id: ", this.getMasterRowId.id)
+      console.log("master Id: ", this.getMasterRowId.id)
 
-    if (this.getMasterRowId.id) {
-   
-      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
-        .subscribe({
-          next: (res) => {
-            // this.itemsList = res;
-            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+      if (this.getMasterRowId.id) {
 
-            if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
-              this.dataSource = new MatTableDataSource(this.matchedIds);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
+        this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+          .subscribe({
+            next: (res) => {
+              // this.itemsList = res;
+              this.matchedIds = res[0].strOpeningStockDetailsGetVM;
 
-              this.sumOfTotals = 0;
-              for (let i = 0; i < this.matchedIds.length; i++) {
-                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                // alert('totalll: '+ this.sumOfTotals)
-                // this.updateBothForms();
-                // this.updateMaster();
+              if (this.matchedIds) {
+                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+                this.dataSource = new MatTableDataSource(this.matchedIds);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+
+                this.sumOfTotals = 0;
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                  // alert('totalll: '+ this.sumOfTotals)
+                  // this.updateBothForms();
+                  // this.updateMaster();
+                }
               }
+            },
+            error: (err) => {
+              // console.log("fetch items data err: ", err);
+              // alert("خطا اثناء جلب العناصر !");
             }
-          },
-          error: (err) => {
-            // console.log("fetch items data err: ", err);
-            // alert("خطا اثناء جلب العناصر !");
-          }
-        })}
+          })
+      }
       // }
     }
 
@@ -502,6 +514,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
               // this.priceCalled = res;
               this.groupDetailsForm.controls['avgPrice'].setValue(res);
               console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+              console.log("price called res2: ", this.groupDetailsForm.getRawValue().price);
+
             },
             error: (err) => {
               // console.log("fetch fiscalYears data err: ", err);
@@ -525,7 +539,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
                 // this.updateDetailsForm();
 
                 console.log("form details after remove controllers: ", this.groupDetailsForm.value)
-                
+
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.itemCtrl.setValue('');
@@ -664,6 +678,94 @@ export class StrAddDetailsDialogComponent implements OnInit {
         // alert("خطا اثناء جلب رقم العنصر !");
       });
   }
+
+
+  getProducts() {
+    this.api.getStrProduct().subscribe({
+      next: (res) => {
+        this.productsList = res;
+        console.log("productsList res: ", this.productsList);
+      },
+      error: (err) => {
+        // console.log("fetch products data err: ", err);
+        // alert("خطا اثناء جلب المنتجات !");
+      },
+    });
+  }
+
+  getItemSearchWay(searchWayEvent: any) {
+    console.log("searchWayEvent: ", searchWayEvent.source.value);
+    this.itemSearchWay = searchWayEvent.source.value;
+
+    if (this.itemSearchWay == 'searchByItemCode') {
+      this.activeItemSearchWay = false;
+    }
+    else {
+      this.activeItemSearchWay = true;
+    }
+
+  }
+
+  getItemByProductId(productEvent: any) {
+    console.log("productEvent: ", productEvent);
+
+    this.productsList.filter((a: any) => {
+      if (a.id === productEvent) {
+        this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
+        this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+
+        console.log("item by code: ", a.itemName);
+        this.itemCtrl.setValue(a.itemName);
+        if (a.itemName) {
+          this.itemByFullCodeValue = a.itemName;
+
+          this.api.getAvgPrice(
+            this.getMasterRowStoreId,
+            this.getMasterRowFiscalYearId,
+            formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+            this.groupDetailsForm.getRawValue().itemId
+          )
+            .subscribe({
+              next: (res) => {
+                // this.priceCalled = res;
+                this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                this.groupDetailsForm.controls['price'].setValue(res)
+                console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+                console.log("price called res3: ", this.groupDetailsForm.getRawValue().price);
+
+              },
+              error: (err) => {
+                // console.log("fetch fiscalYears data err: ", err);
+                // alert("خطا اثناء جلب متوسط السعر !");
+              }
+            })
+
+          this.api.getSumQuantity(
+            this.getMasterRowStoreId,
+            this.groupDetailsForm.getRawValue().itemId,
+          )
+            .subscribe({
+              next: (res) => {
+                // this.priceCalled = res;
+                this.groupDetailsForm.controls['balanceQty'].setValue(res);
+                console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+              },
+              error: (err) => {
+                // console.log("fetch fiscalYears data err: ", err);
+                // alert("خطا اثناء جلب الرصيد الحالى  !");
+              }
+            })
+
+        }
+        else {
+          this.itemByFullCodeValue = '-';
+        }
+        this.itemByFullCodeValue = a.itemName;
+      }
+    })
+  }
+
+
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
   }
