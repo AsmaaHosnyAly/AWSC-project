@@ -309,26 +309,25 @@ loading :boolean=false;
     if (result) {
       this.api.deleteStrEmployeeOpen(id).subscribe({
         next: (res) => {
-          this.http
-            .get<any>(
-              'http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all'
-            )
-            .subscribe(
-              (res) => {
-                this.matchedIds = res.filter((a: any) => {
-                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.custodyId === id;
-                });
+          this.api.getStrEmployeeOpenDetails()
+          .subscribe({
+            next: (res) => {
 
-                // for (let i = 0; i < this.matchedIds.length; i++) {
-                //   this.deleteFormDetails(this.matchedIds[i].id);
-                // }
-                // alert("تم حذف الاذن بنجاح");
-              },
-              (err) => {
-                // alert('خطا اثناء تحديد المجموعة !!');
+              this.matchedIds = res.filter((a: any) => {
+                // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                return a.custodyId === id;
+              });
+
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.deleteFormDetails(this.matchedIds[i].id);
               }
-            );
+
+            },
+            error: (err) => {
+              // alert('خطا اثناء تحديد المجموعة !!');
+
+            }
+          })
 
           this.toastrDeleteSuccess();
           this.getAllMasterForms();
@@ -338,6 +337,19 @@ loading :boolean=false;
         },
       });
     }
+  }
+
+  deleteFormDetails(id: number) {
+    this.api.deleteStrEmployeeOpenDetails(id).subscribe({
+      next: (res) => {
+        // alert('تم حذف الصنف بنجاح');
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        console.log('delete details err: ', err);
+        // alert('خطأ أثناء حذف الصنف !!');
+      },
+    });
   }
 
   getAllEmployees() {

@@ -833,7 +833,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   }
 
   getItemByID(id: any) {
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then(response => response.json())
       .then(json => {
         return json.name;

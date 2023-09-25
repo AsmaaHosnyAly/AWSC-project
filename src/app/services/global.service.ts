@@ -21,7 +21,8 @@ export class GlobalService {
   public navFlag: boolean = true;
   userRoles: any;
 
-  url = 'http://ims.aswan.gov.eg/api';
+  // url = '192.168.1.23/api';
+  url='http://ims.aswan.gov.eg/api'
 
   public reportData: [] = [];
 

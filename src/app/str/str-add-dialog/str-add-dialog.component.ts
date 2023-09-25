@@ -416,7 +416,7 @@ export class STRAddDialogComponent implements OnInit {
               }
             })
         }
-        
+
       }
       else {
         this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
@@ -938,7 +938,7 @@ export class STRAddDialogComponent implements OnInit {
 
   getStoreByID(id: any) {
     console.log("row stoooo id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
+    return fetch(this.api.getStoreById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch name by id res: ", json.name);
@@ -951,7 +951,7 @@ export class STRAddDialogComponent implements OnInit {
   }
   getEmployeeByID(id: any) {
     console.log("row store id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
+    return fetch(this.api.getHrEmployeeById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch name by id res: ", json.name);
@@ -965,7 +965,7 @@ export class STRAddDialogComponent implements OnInit {
 
   getTypeByID(id: any) {
     console.log("row type id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRAddType/get/${id}`)
+    return fetch(this.api.getTypeById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch name by id res: ", json.type);
@@ -978,7 +978,7 @@ export class STRAddDialogComponent implements OnInit {
   }
   getReceiptByID(id: any) {
     console.log("row rece id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRAddReceipt/get/${id}`)
+    return fetch(this.api.getRecieptById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch rece name by id res: ", json.addReceipts);
@@ -991,7 +991,7 @@ export class STRAddDialogComponent implements OnInit {
   }
   getSellerByID(id: any) {
     console.log("row seller id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/PRSeller/get/${id}`)
+    return fetch(this.api.getSellerById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch name by id res: ", json.name);
@@ -1004,7 +1004,7 @@ export class STRAddDialogComponent implements OnInit {
   }
   getSourceStoreByID(id: any) {
     console.log("row sourcestore id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
+    return fetch(this.api.getStoreById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch name by id res: ", json.name);
@@ -1033,7 +1033,7 @@ export class STRAddDialogComponent implements OnInit {
 
   getItemByID(id: any) {
     console.log("row item id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch item name by id res: ", json.name);
@@ -1092,19 +1092,6 @@ export class STRAddDialogComponent implements OnInit {
       })
   }
 
-  getFiscalYearsByID(id: any) {
-    console.log("row fiscalYear id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
-      .then(response => response.json())
-      .then(json => {
-        console.log("fetch fiscalYears name by id res: ", json.fiscalyear);
-        return json.fiscalyear;
-      })
-      .catch((err) => {
-        console.log("error in fetch fiscalYears name by id: ", err);
-        // alert("خطا اثناء جلب رقم العنصر !");
-      });
-  }
   storeValueChanges(storeId: any) {
     console.log("store: ", storeId)
     this.storeSelectedId = storeId;

@@ -188,37 +188,38 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
       // }
       // this.closeDialog();
       this.dialogRef.close('Save');
-    console.log("master Id: ", this.getMasterRowId.id)
+      console.log("master Id: ", this.getMasterRowId.id)
 
-    if (this.getMasterRowId.id) {
-   
-      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
-        .subscribe({
-          next: (res) => {
-            // this.itemsList = res;
-            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+      if (this.getMasterRowId.id) {
 
-            if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
-              this.dataSource = new MatTableDataSource(this.matchedIds);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
+        this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+          .subscribe({
+            next: (res) => {
+              // this.itemsList = res;
+              this.matchedIds = res[0].strOpeningStockDetailsGetVM;
 
-              this.sumOfTotals = 0;
-              for (let i = 0; i < this.matchedIds.length; i++) {
-                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                // alert('totalll: '+ this.sumOfTotals)
-                // this.updateBothForms();
-                // this.updateMaster();
+              if (this.matchedIds) {
+                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+                this.dataSource = new MatTableDataSource(this.matchedIds);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+
+                this.sumOfTotals = 0;
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                  // alert('totalll: '+ this.sumOfTotals)
+                  // this.updateBothForms();
+                  // this.updateMaster();
+                }
               }
+            },
+            error: (err) => {
+              // console.log("fetch items data err: ", err);
+              // alert("خطا اثناء جلب العناصر !");
             }
-          },
-          error: (err) => {
-            // console.log("fetch items data err: ", err);
-            // alert("خطا اثناء جلب العناصر !");
-          }
-        })}
+          })
+      }
       // }
     }
 
@@ -316,7 +317,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   }
 
   getItemByID(id: any) {
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then(response => response.json())
       .then(json => {
         return json.name;
@@ -377,10 +378,10 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
   async itemOnChange(itemEvent: any) {
     console.log("itemEvent change value: ", itemEvent);
-   
+
     console.log("get avg values: ", this.getMasterRowStoreId, "year: ", this.getMasterRowFiscalYearId, "date: ", formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale));
-    
-    
+
+
     await this.api.getAvgPrice(
       this.getMasterRowStoreId,
       this.getMasterRowFiscalYearId,

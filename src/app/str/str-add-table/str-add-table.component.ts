@@ -65,7 +65,7 @@ export class STRAddTableComponent implements OnInit {
   ];
   displayedPendingColumns: string[] = [
     'no',
-    
+
     'storeName',
     'desstoreName',
     'fiscalyear',
@@ -172,7 +172,7 @@ export class STRAddTableComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.selectedReportName="STRWithdrawReport";
+    this.selectedReportName = "STRWithdrawReport";
 
     this.getAllMasterForms();
     this.getFiscalYears();
@@ -201,14 +201,14 @@ export class STRAddTableComponent implements OnInit {
       storeId: [''],
       employeeId: [''],
       employeeName: [''],
-      itemId:[''],
-      report:['STRWithdrawReport'],
-      reportType:['']
+      itemId: [''],
+      report: ['STRWithdrawReport'],
+      reportType: ['']
     });
 
 
     this.groupDetailsForm = this.formBuilder.group({
-      
+
       stR_WithdrawId: [''], //MasterId
       employeeId: [''],
       qty: [''],
@@ -319,23 +319,43 @@ export class STRAddTableComponent implements OnInit {
         next: (res) => {
           // alert("تم حذف المجموعة بنجاح");
 
-          this.http
-            .get<any>('http://ims.aswan.gov.eg/api/STRAddDetails/get/all')
-            .subscribe(
-              (res) => {
+          // this.http
+          //   .get<any>('http://ims.aswan.gov.eg/api/STRAddDetails/get/all')
+          //   .subscribe(
+          //     (res) => {
+          //       this.matchedIds = res.filter((a: any) => {
+          //         // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+          //         return a.HeaderId === id;
+          //       });
+
+          //       for (let i = 0; i < this.matchedIds.length; i++) {
+          //         this.deleteFormDetails(this.matchedIds[i].id);
+          //       }
+          //     },
+          //     (err) => {
+          //       // alert('خطا اثناء تحديد المجموعة !!');
+          //     }
+          //   );
+
+          this.api.getStrAddDetails()
+            .subscribe({
+              next: (res) => {
+
                 this.matchedIds = res.filter((a: any) => {
                   // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.HeaderId === id;
+                  return a.addId === id;
                 });
 
                 for (let i = 0; i < this.matchedIds.length; i++) {
                   this.deleteFormDetails(this.matchedIds[i].id);
                 }
+
               },
-              (err) => {
+              error: (err) => {
                 // alert('خطا اثناء تحديد المجموعة !!');
+
               }
-            );
+            })
 
           this.getAllMasterForms();
         },
@@ -472,7 +492,7 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
-  getItems(){
+  getItems() {
     this.api.getItem().subscribe({
       next: (res) => {
         this.itemsList = res;
@@ -612,7 +632,7 @@ export class STRAddTableComponent implements OnInit {
     this.storeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrAdd(no: any, StartDate: any,EndDate:any, fiscalyear: any) {
+  getSearchStrAdd(no: any, StartDate: any, EndDate: any, fiscalyear: any) {
     console.log('fiscalyear in searchhhhh : ', fiscalyear, 'itemId',);
     // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
@@ -620,7 +640,7 @@ export class STRAddTableComponent implements OnInit {
     let store = this.groupMasterForm.getRawValue().storeId;
 
 
-    this.api.getStrAddSearach(no,  fiscalyear, employee, item, store,StartDate,EndDate).subscribe({
+    this.api.getStrAddSearach(no, fiscalyear, employee, item, store, StartDate, EndDate).subscribe({
       next: (res) => {
         this.dataSource2 = res;
         this.dataSource2.paginator = this.paginatorLegal;
@@ -782,15 +802,15 @@ export class STRAddTableComponent implements OnInit {
     this.getAllWithDrawByDestStore(storeId);
 
   }
-  downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+  downloadPrint(no: any, StartDate: any, EndDate: any, fiscalYear: any, report: any, reportType: any) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
     this.api
-    .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-    .subscribe({
+      .strAdd(no, store, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, reportType)
+      .subscribe({
         next: (res) => {
           console.log('search:', res);
           const url: any = res.url;
@@ -808,36 +828,38 @@ export class STRAddTableComponent implements OnInit {
         },
       });
   }
-  previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+  previewPrint(no: any, StartDate: any, EndDate: any, fiscalYear: any, report: any, reportType: any) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
-if(report !=null){
-    this.api
-      .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-      .subscribe({
-        next: (res) => {
-          let blob: Blob = res.body as Blob;
-          console.log(blob);
-          let url = window.URL.createObjectURL(blob);
-          localStorage.setItem('url', JSON.stringify(url));
-          this.pdfurl = url;
-          this.dialog.open(PrintDialogComponent, {
-            width: '50%',
-          });
+    if (report != null) {
+      this.api
+        .strAdd(no, store, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, reportType)
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '50%',
+            });
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-      });}
-      else{
-        alert("ادخل التقرير و نوع التقرير!")   }
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    }
+    else {
+      alert("ادخل التقرير و نوع التقرير!")
+    }
   }
 
   getAllWithDrawByDestStore(storeId: any) {

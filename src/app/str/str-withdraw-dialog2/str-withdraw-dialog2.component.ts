@@ -245,7 +245,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       desstoreName: [''],
       ListId: ['', Validators.required],
       productionDate: ['', Validators.required],
-     expireDate: ['', Validators.required],
+      expireDate: ['', Validators.required],
     });
 
     this.groupDetailsForm = this.formBuilder.group({
@@ -581,11 +581,27 @@ export class StrWithdrawDialogComponent implements OnInit {
       this.groupMasterForm.getRawValue().employeeId
     );
 
+    this.costcenterName = await this.getemployeeByID(
+      this.groupMasterForm.getRawValue().employeeId
+    );
     this.groupMasterForm.controls['employeeName'].setValue(
       this.groupMasterForm.getRawValue().employeeName
     );
+
+    this.costcenterName = await this.getcostcenterByID(
+      this.groupMasterForm.getRawValue().costCenterId
+    );
     this.groupMasterForm.controls['costcenterName'].setValue(
       this.costcenterName
+    );
+
+    // alert("deststore id"+this.groupMasterForm.getRawValue().deststoreId)
+
+    this.groupMasterForm.controls['deststoreId'].setValue(
+      this.groupMasterForm.getRawValue().deststoreId
+    );
+    this.costcenterName = await this.getDestStoreById(
+      this.groupMasterForm.getRawValue().deststoreId
     );
     console.log(
       'in next to add deststore name:',
@@ -593,11 +609,6 @@ export class StrWithdrawDialogComponent implements OnInit {
     );
     this.groupMasterForm.controls['desstoreName'].setValue(
       this.groupMasterForm.getRawValue().desstoreName
-    );
-    // alert("deststore id"+this.groupMasterForm.getRawValue().deststoreId)
-
-    this.groupMasterForm.controls['deststoreId'].setValue(
-      this.groupMasterForm.getRawValue().deststoreId
     );
 
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
@@ -985,7 +996,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       );
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
       this.groupMasterForm.controls['deststoreId'].setValue(this.editData.deststoreId);
-// alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
+      // alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
       console.log('data item Name in edit: ', this.groupMasterForm.value);
     }
     if (this.getDetailedRowData) {
@@ -1298,7 +1309,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   getDestStoreById(id: any) {
     console.log('row deststore id: ', id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
+    return fetch(this.api.getStoreById(id))
       .then((response) => response.json())
       .then((json) => {
         console.log('fetch deststore by id res: ', json.name);
@@ -1311,7 +1322,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
   getemployeeByID(id: any) {
     console.log('row employee id in getemployeebyid: ', id);
-    return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
+    return fetch(this.api.getHrEmployeeById(id))
       .then((response) => response.json())
       .then((json) => {
         console.log('fetch employee by id res: ', json.name);
@@ -1327,7 +1338,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   getcostcenterByID(id: any) {
     console.log('costcenter idddd: ', id);
-    return fetch(`http://ims.aswan.gov.eg/api/FICostCenter/get/${id}`)
+    return fetch(this.api.getCostCenterById(id))
       .then((response) => response.json())
       .then((json) => {
         console.log('fetch name by id res: ', json.name);
@@ -1341,7 +1352,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   getStoreByID(id: any) {
     console.log(' store: ', id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
+    return fetch(this.api.getStoreById(id))
       .then((response) => response.json())
       .then((json) => {
         // console.log("fetch name by id res: ", json.name);
@@ -1370,7 +1381,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
   getItemByID(id: any) {
     // console.log("row item id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then((response) => response.json())
       .then((json) => {
         console.log('fetch item name by id res: ', json.name);
@@ -1449,19 +1460,19 @@ export class StrWithdrawDialogComponent implements OnInit {
     });
   }
 
-  getFiscalYearsByID(id: any) {
-    console.log('row fiscalYear id: ', id);
-    return fetch(`https://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
-      .then((response) => response.json())
-      .then((json) => {
-        console.log('fetch fiscalYears name by id res: ', json.fiscalyear);
-        return json.fiscalyear;
-      })
-      .catch((err) => {
-        console.log('error in fetch fiscalYears name by id: ', err);
-        // alert("خطا اثناء جلب رقم العنصر !");
-      });
-  }
+  // getFiscalYearsByID(id: any) {
+  //   console.log('row fiscalYear id: ', id);
+  //   return fetch(`https://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
+  //     .then((response) => response.json())
+  //     .then((json) => {
+  //       console.log('fetch fiscalYears name by id res: ', json.fiscalyear);
+  //       return json.fiscalyear;
+  //     })
+  //     .catch((err) => {
+  //       console.log('error in fetch fiscalYears name by id: ', err);
+  //       // alert("خطا اثناء جلب رقم العنصر !");
+  //     });
+  // }
 
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
@@ -1527,6 +1538,7 @@ export class StrWithdrawDialogComponent implements OnInit {
         this.lists = lists;
         this.groupMasterForm.controls['deststoreId'].setValue(null);
         // this.groupMasterForm.controls['sellerId'].setValue(null);
+        this.groupMasterForm.controls['type'].setValue('الموظف');
         this.actionName = 'choose';
       });
     } else {
@@ -1534,6 +1546,7 @@ export class StrWithdrawDialogComponent implements OnInit {
         this.lists = lists;
         // this.groupMasterForm.controls['sellerId'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
+        this.groupMasterForm.controls['type'].setValue('المخزن');
         this.actionName = 'store';
       });
     }
