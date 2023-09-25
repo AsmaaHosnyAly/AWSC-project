@@ -11,7 +11,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
 
-  // url = '192.168.1.23/api';
+  // url = 'http://192.168.1.23/api';
   url = 'http://ims.aswan.gov.eg/api'
   mycondition: any;
 
