@@ -115,7 +115,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
       this.isEdit = true;
       console.log("nnnnnnnnnnnnnnnnnnn edit d before: ", this.editData);
 
-      this.actionBtnMaster = "Update";
+      this.actionBtnDetails = 'Update';
       this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.editData.stR_Opening_StockId);
       this.groupDetailsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
@@ -177,16 +177,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   }
 
   getAllDetailsForms() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
-      //   if(this.actionBtnMaster=='save'){
-      //     this.dialogRef.close('save');
-      // }
-      // else{
-      //   this.dialogRef.close('update');
-
-      // }
-      // this.closeDialog();
+ 
       this.dialogRef.close('Save');
     console.log("master Id: ", this.getMasterRowId.id)
 
@@ -218,7 +209,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
             // console.log("fetch items data err: ", err);
             // alert("خطا اثناء جلب العناصر !");
           }
-        })}
+        })
       // }
     }
 
@@ -259,9 +250,10 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
           this.api.postStrOpenDetails(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
-                this.toastrEditSuccess();
+                this.toastrSuccess();
                 this.groupDetailsForm.reset();
-                this.groupDetailsForm.controls['qty'].setValue(1);
+                this.updateDetailsForm();
+                // this.getAllDetailsForms();
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
@@ -326,7 +318,13 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
         // alert("خطا اثناء جلب رقم العنصر !");
       });
   }
-
+  closeDialog() {
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+ 
+      this.dialogRef.close('Save');
+    }
+  }
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
       this.itemsList.filter((a: any) => {
@@ -410,18 +408,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   }
 
   async updateDetailsForm() {
-    // this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
-    // this.groupMasterForm.controls['storeName'].setValue(this.storeName);
 
-    // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-
-    // if (this.editData) {
-    //   this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
-    //   this.groupMasterForm.controls['id'].setValue(this.editData.id);
-    // }
-
-    // this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
-    // this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
     this.isEdit = false;
@@ -439,10 +426,8 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
             this.itemByFullCodeValue = '';
             this.fullCodeValue = '';
 
-            // this.getAllDetailsForms();
-            // this.getDetailedRowData = '';
             this.groupDetailsForm.controls['qty'].setValue(1);
-            this.dialogRef.close('save');
+            this.dialogRef.close('Update');
 
           },
           error: (err) => {

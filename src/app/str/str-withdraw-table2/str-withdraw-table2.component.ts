@@ -202,6 +202,8 @@ export class StrWithdrawTableComponent implements OnInit {
       employeeId: [''],
       employeeName: [''],
       itemId:[''],
+      itemName: [''],
+
       report:[''],
       reportType:['']
       // item:['']

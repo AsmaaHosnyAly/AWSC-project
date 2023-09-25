@@ -132,7 +132,7 @@ loading :boolean=false;
       EndDate: [''],
       itemName: [''],
       itemId: [''],
-      fiscalyear: [''],
+      fiscalYear: [''],
       date: [''],
      report:[''],
       reportType:['']
@@ -221,87 +221,7 @@ loading :boolean=false;
       });
   }
 
-  // deleteBothForms(id: number) {
-  //   var result = confirm('تاكيد الحذف ؟ ');
 
-  //   this.http.get<any>("http://ims.aswan.gov.eg/api/STREmployeeOpeningCustodyDetails/get/all")
-  //     .subscribe(res => {
-  //       this.matchedIds = res.filter((a: any) => {
-  //         console.log("matched Id &  : ", a.custodyId === id)
-  //         return a.custodyId === id
-  //       });
-
-  //       alert("تم حذف الاذن بنجاح");
-
-  //       // var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
-
-  //       // if (this.matchedIds.length) {
-  //       //   for (let i = 0; i < this.matchedIds.length; i++) {
-
-  //       //     console.log("matchedIds details in loop: ", this.matchedIds[i].id)
-
-  //       //     if (result) {
-  //       //       this.api. deleteStrEmployeeOpenDetails(this.matchedIds[i].id)
-  //       //         .subscribe({
-  //       //           next: (res) => {
-  //       //             // alert("تم الحذف التفاصيل بنجاح");
-
-  //       //             // var resultMaster = confirm("هل ترغب بتاكيد حذف الرئيسي؟");
-  //       //             // if (resultMaster) {
-  //       //             console.log("master id to be deleted: ", id)
-
-  //       //             this.api.deleteStrEmployeeOpen(id)
-  //       //               .subscribe({
-  //       //                 next: (res) => {
-  //       //                   // alert("تم حذف الرئيسي بنجاح");
-  //       //                   this.toastrDeleteSuccess();
-  //       //                   this.getAllMasterForms();
-  //       //                 },
-  //       //                 error: () => {
-  //       //                   alert("خطأ أثناء حذف الرئيسي !!");
-  //       //                 }
-  //       //               })
-  //       //             // }
-
-  //       //           },
-  //       //           error: () => {
-  //       //             alert("خطأ أثناء حذف التفاصيل !!");
-  //       //           }
-  //       //         })
-  //       //     }
-
-  //       //   }
-  //       // }
-  //       // else {
-  //       //   if (result) {
-  //       //     console.log("master id to be deleted: ", id)
-
-  //       //     this.api.deleteStrEmployeeOpen(id)
-  //       //       .subscribe({
-  //       //         next: (res) => {
-  //       //           // alert("تم حذف الرئيسي بنجاح");
-  //       //           this.toastrDeleteSuccess();
-  //       //           this.getAllMasterForms();
-  //       //         },
-  //       //         error: () => {
-  //       //           alert("خطأ أثناء حذف الرئيسي !!");
-  //       //         }
-  //       //       })
-  //       //   }
-  //       // }
-
-  //     }, (err) => {
-  //       alert('خطا اثناء تحديد المجموعة !!');
-  //     }
-  //     );
-  //     this.toastrDeleteSuccess();
-  //     this.getAllMasterForms();
-
-  //   }
-  // ref(){
-  //   let selet: any = document.querySelectorAll('mat-select');
-  //   selet.value ="";
-  // }
 
   deleteBothForms(id: number) {
     var result = confirm('تاكيد الحذف ؟ ');

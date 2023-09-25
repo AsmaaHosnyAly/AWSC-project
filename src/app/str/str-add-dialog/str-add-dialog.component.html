@@ -159,14 +159,23 @@
       <div class="tableFixHead">
         <table id="my-table" mat-table [dataSource]="dataSource" class="headerTable">
           <!-- itemName Column -->
+          <!-- <ng-container matColumnDef="avgprice">
+            <th mat-header-cell *matHeaderCellDef>متوسط السعر</th>
+            <td mat-cell *matCellDef="let row">{{ row.avgprice }}</td>
+          </ng-container> -->
+
+
+          <ng-container matColumnDef="avgPrice">
+            <th mat-header-cell *matHeaderCellDef>متوسط اسعر</th>
+            <td mat-cell *matCellDef="let row">{{ row.avgPrice }}</td>
+          </ng-container>
+
+
           <ng-container matColumnDef="itemName">
             <th mat-header-cell *matHeaderCellDef>الصنف</th>
             <td mat-cell *matCellDef="let row">{{ row.itemName }}</td>
           </ng-container>
-          <ng-container matColumnDef="state">
-            <th mat-header-cell *matHeaderCellDef>السعر</th>
-            <td mat-cell *matCellDef="let row">{{ row.state }}</td>
-          </ng-container>
+        
           <!-- price Column -->
           <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef>السعر</th>

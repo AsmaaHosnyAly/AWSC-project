@@ -159,13 +159,15 @@ export class StrAddDetailsDialogComponent implements OnInit {
     if (this.editData) {
       this.isEdit = true;
       this.getAddData = this.editData;
+      this.actionBtnDetails = 'Update';
+
 
       // console.log("this.groupMasterForm.getRawValue().source: ", this.groupMasterForm.getRawValue().source);
 
       // this.getListCtrl(this.groupMasterForm.getRawValue().source);
 
       console.log("edit d form before: ", this.editData);
-      this.actionBtnMaster = "Update";
+      // this.actionBtnMaster = "Update";
       // console.log("edit d form before14: ", this.editData);
 
       // this.groupDetailsForm.controls['addData'].setValue(this.editData.addData);
@@ -279,6 +281,14 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
   }
 
+
+  closeDialog() {
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+ 
+      this.dialogRef.close('Save');
+    }
+  }
   private _filterItems(value: string): Item[] {
     const filterValue = value
     return this.items.filter(item =>
@@ -412,16 +422,16 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
   }
   getAllDetailsForms() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
-      //   if(this.actionBtnMaster=='save'){
-      //     this.dialogRef.close('save');
-      // }
-      // else{
-      //   this.dialogRef.close('update');
+    // let result = window.confirm('هل تريد اغلاق الطلب');
+    // if (result) {
+    //   //   if(this.actionBtnMaster=='save'){
+    //   //     this.dialogRef.close('save');
+    //   // }
+    //   // else{
+    //   //   this.dialogRef.close('update');
 
-      // }
-      // this.closeDialog();
+    //   // }
+    //   // this.closeDialog();
       this.dialogRef.close('Save');
       console.log("master Id: ", this.getMasterRowId.id)
 
@@ -454,7 +464,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
               // alert("خطا اثناء جلب العناصر !");
             }
           })
-      }
+      
       // }
     }
 
@@ -547,6 +557,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
                 this.fullCodeValue = '';
                 // this.dialogRef.close('save');
                 // this.dialogRef.close('save');
+                this.dialogRef.close('Update');
+
               },
               error: (err) => {
                 console.log("add details err: ", err)
@@ -569,34 +581,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   }
 
   async updateDetailsForm() {
-    // // alert("storeId: "+this.groupMasterForm.getRawValue().storeId)
-    // this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
-    // // alert("update Store name: " + this.storeName)
-    // this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-
-    // this.sourceStoreName = await this.getSourceStoreByID(this.groupMasterForm.getRawValue().sourceStoreId);
-    // // alert("update sourceStoreName name: " + this.sourceStoreName)
-    // this.groupMasterForm.controls['sourceStoreName'].setValue(this.sourceStoreName);
-
-    // this.employeeName = await this.getEmployeeByID(this.groupMasterForm.getRawValue().employeeId);
-    // // alert("update employeeName name: " + this.employeeName)
-    // this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
-
-    // this.typeName = await this.getTypeByID(this.groupMasterForm.getRawValue().addTypeId);
-    // // alert("update typeName name: " + this.typeName)
-    // this.groupMasterForm.controls['typeName'].setValue(this.typeName);
-    // // this.groupMasterForm.patchValue({typeName:this.typeName});
-
-    // this.receiptName = await this.getReceiptByID(this.groupMasterForm.getRawValue().addReceiptId);
-    // // alert("update receiptName name: " + this.receiptName)
-    // this.groupMasterForm.controls['receiptName'].setValue(this.receiptName);
-
-    // this.sellerName = await this.getSellerByID(this.groupMasterForm.getRawValue().sellerId);
-    // // alert("update sellerName name: " + this.sellerName)
-    // this.groupMasterForm.controls['sellerName'].setValue(this.sellerName);
-    // // console.log("data storeName in edit: ", this.groupMasterForm.value)
-
-    // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+  
 
     // console.log("values master form: ", this.groupMasterForm.value)
     console.log("values getMasterRowId: ", this.getMasterRowId)
@@ -648,7 +633,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
             this.fullCodeValue = '';
             // this.getAllDetailsForms();
             // this.getDetailedRowData = '';
-            this.dialogRef.close('save');
+            this.dialogRef.close('Update');
           },
           error: (err) => {
             // console.log("update err: ", err)
@@ -657,12 +642,6 @@ export class StrAddDetailsDialogComponent implements OnInit {
         })
     }
 
-    //     // this.dialogRef.close('update');
-    //   },
-    //   // error: () => {
-    //   //   alert("خطأ أثناء تحديث سجل الصنف !!")
-    //   // }
-    // })
   }
 
   getItemByID(id: any) {

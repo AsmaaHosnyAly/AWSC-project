@@ -246,6 +246,8 @@ export class StrWithdrawDetailsDialogComponent {
     console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate, "employeeId: ", this.getMasterRowEmployeeId);
 
     if (this.editData) {
+      this.actionBtnDetails = 'Update';
+
       console.log("edit Data: ", this.editData);
 
       this.groupDetailsForm.controls['fullCode'].setValue(this.editData.fullCode);
@@ -759,76 +761,17 @@ export class StrWithdrawDetailsDialogComponent {
   }
 
   closeDialog() {
-    this.dialogRef.close();
-  }
-
-  // getStrWithdrawAutoNo() {
-  //   console.log("storeId: ", this.storeSelectedId, " fiscalYearId: ", this.fiscalYearSelectedId)
-  //   if (this.groupMasterForm) {
-  //     if (this.editData && !this.fiscalYearSelectedId) {
-  //       console.log("change storeId only in updateHeader");
-
-  //       this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.editData.fiscalYearId)
-  //         .subscribe({
-  //           next: (res) => {
-  //             this.autoNo = res;
-  //             console.log("autoNo: ", this.autoNo);
-  //             return res;
-
-  //           },
-  //           error: (err) => {
-  //             console.log("fetch autoNo err: ", err);
-  //             // alert("خطا اثناء جلب العناصر !");
-  //           }
-  //         })
-  //     }
-  //     else if (this.editData && !this.storeSelectedId) {
-  //       console.log("change fiscalYearId only in updateHeader");
-  //       this.api.getStrWithdrawAutoNo(this.editData.storeId, this.groupMasterForm.getRawValue().fiscalYearId)
-  //         .subscribe({
-  //           next: (res) => {
-  //             this.autoNo = res;
-  //             console.log("autoNo: ", this.autoNo);
-  //             return res;
-  //           },
-  //           error: (err) => {
-  //             console.log("fetch autoNo err: ", err);
-  //             // alert("خطا اثناء جلب العناصر !");
-  //           }
-  //         })
-  //     }
-  //     else {
-  //       console.log("change both values in updateHeader",this.groupMasterForm.getRawValue().storeId,"fiscall", this.groupMasterForm.getRawValue().fiscalYearId);
-  //       this.api.getStrWithdrawAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
-  //         .subscribe({
-  //           next: (res) => {
-  //             this.autoNo = res;
-  //             console.log("autoNo: ", this.autoNo);
-  //             return res;
-  //           },
-  //           error: (err) => {
-  //             console.log("fetch autoNo err: ", err);
-  //             // alert("خطا اثناء جلب العناصر !");
-  //           }
-  //         })
-  //     }
-
-  //   }
-
-  // }
-
-  getAllDetailsForms() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
-      //   if(this.actionBtnMaster=='save'){
-      //     this.dialogRef.close('save');
-      // }
-      // else{
-      //   this.dialogRef.close('update');
-
-      // }
-      // this.closeDialog();
+ 
       this.dialogRef.close('Save');
+    }
+  }
+
+
+
+  getAllDetailsForms() {
+   
       if (this.getMasterRowId) {
         this.api.getStrWithdrawDetails().subscribe(
           (res) => {
@@ -863,7 +806,7 @@ export class StrWithdrawDetailsDialogComponent {
           }
         );
       }
-    }
+    
   }
 
   closeDetailsDialog() {
@@ -945,45 +888,7 @@ export class StrWithdrawDetailsDialogComponent {
       'store id in update:',
       this.getMasterRowStoreId
     );
-    // this.storeName = await this.getStoreByID(
-    //   this.groupMasterForm.getRawValue().storeId
-    // );
-    // alert("update Store name: " + this.storeName)
-    // this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-    // this.groupMasterForm.controls['storeId'].setValue(
-    //   this.groupMasterForm.getRawValue().storeId
-    // );
-    // this.groupMasterForm.controls['fiscalYearId'].setValue(
-    //   this.groupMasterForm.getRawValue().fiscalYearId
-    // );
 
-    // this.employeeName = await this.getemployeeByID(this.editData.employeeId);
-    // alert("update costcentr id: " + this.groupMasterForm.getRawValue().costcenterId)
-    // this.costcenterName = await this.getcostcenterByID(
-    //   this.groupMasterForm.getRawValue().costCenterId
-    // );
-
-    // this.desstoreName = await this.getDestStoreById(this.editData.deststoreId);
-
-    // console.log("data storeName in edit: ", this.groupMasterForm.value)
-
-    // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-    // this.groupMasterForm.controls['employeeName'].setValue(
-    //   this.groupMasterForm.getRawValue().employeeName
-    // );
-
-    // this.groupMasterForm.controls['costcenterName'].setValue(
-    //   this.costcenterName
-    // );
-    // this.groupMasterForm.controls['desstoreName'].setValue(
-    //   this.groupMasterForm.getRawValue().desstoreName
-    // );
-
-    // this.groupMasterForm.controls['deststoreId'].setValue(
-    //   this.groupMasterForm.getRawValue().deststoreId
-    // );
-    // alert("deststoreId::::::::"+this.groupMasterForm.getRawValue().deststoreId)
-    // console.log("values master form: ", this.groupMasterForm.value)
     console.log("values getMasterRowId: ", this.getMasterRowId)
     // console.log("values details form: ", this.groupDetailsForm.value)
 
@@ -1001,22 +906,7 @@ export class StrWithdrawDetailsDialogComponent {
 
     // if (this.getDetailedRowData) {
     console.log('details foorm: ', this.groupDetailsForm.value);
-    // this.groupDetailsForm.addControl(
-    //   'id',
-    //   new FormControl('', Validators.required)
-    // );
-    // this.groupDetailsForm.controls['id'].setValue(this.editData.id);
-    // this.groupDetailsForm.controls['state'].setValue(this.editData.id);
-    // this.groupDetailsForm.controls['avgPrice'].setValue(this.editData.avgPrice);
-    // }
-
-    // this.groupMasterForm.addControl(
-    //   'id',
-    //   new FormControl('', Validators.required)
-    // );
-    // this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
-
-    // console.log('put before', this.groupMasterForm.value);
+  
     this.isEdit = false;
 
     // this.api.putStrWithdraw(this.groupMasterForm.value).subscribe({
@@ -1038,7 +928,7 @@ export class StrWithdrawDetailsDialogComponent {
             // alert('تم التعديل بنجاح');
             this.toastrEditSuccess();
 
-            this.dialogRef.close('save');
+            this.dialogRef.close('Update');
           },
           error: (err) => {
             console.log("update err: ", err)

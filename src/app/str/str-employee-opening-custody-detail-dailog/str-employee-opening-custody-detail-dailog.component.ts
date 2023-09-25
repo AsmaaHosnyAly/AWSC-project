@@ -131,7 +131,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
       this.isEdit = true;
       console.log("nnnnnnnnnnnnnnnnnnn edit d before: ", this.editData);
 
-      this.actionBtnMaster = "Update";
+      this.actionBtnDetails = "Update";
       this.groupDetailsForm.controls['custodyId'].setValue(this.editData.custodyId);
       this.groupDetailsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 

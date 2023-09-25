@@ -137,7 +137,6 @@
             <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
               <mat-option value="pdf"> .PDF  </mat-option>
               <mat-option value="txt">.TXT </mat-option>
-              <mat-option value="ppt"> .PPT</mat-option>
 
 
             </mat-select>
@@ -256,6 +255,11 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              لا توجد بيانات للبحث !!{{ input.value }}"
+            </td>
+          </tr>
         </table>
       </div>
     </div>
@@ -288,7 +292,7 @@
       </mat-card-header>
 
       <div style="display: flex; flex-direction: column;margin-left: 10px; ">
-        <mat-label>المخازن*</mat-label>
+        <mat-label style="margin-top: 2%;">المخازن*</mat-label>
 
         <mat-form-field appearance="outline" class="groupInput" style="width: 30%;">
           <mat-select placeholder="المخازن" (valueChange)="storeValueChanges($event)">
@@ -359,6 +363,11 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedPendingColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedPendingColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              لا توجد بيانات للبحث !!{{ input.value }}"
+            </td>
+          </tr>
         </table>
       </div>
       <!-- </table> -->

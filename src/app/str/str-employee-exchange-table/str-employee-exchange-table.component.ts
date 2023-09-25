@@ -140,6 +140,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       employee: [''],employeeId:[''],
       costcenter: [],
       costCenterId: [],
+      itemName: [''],
 
       storeId: [''],
       itemId: [''],
@@ -509,12 +510,13 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
+    let item=this.groupDetailsForm.getRawValue().itemId;
 
     this.api
       .getStrEmployeeExchangeSearach(
         no,
         costCenterId,
-        employeeId,
+        employeeId,item,
       
         distEmployee,StartDate,EndDate,fiscalyear,
       )

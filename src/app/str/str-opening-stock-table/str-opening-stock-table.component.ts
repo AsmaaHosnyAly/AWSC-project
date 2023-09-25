@@ -112,7 +112,7 @@ export class StrOpeningStockTableComponent implements OnInit {
       date: [''],
       store: [''],
       storeId: [''],
-      itemId:[''],
+      // itemId:[''],
       StartDate:[''],
       EndDate:[''],
       report:[''],
@@ -148,7 +148,7 @@ export class StrOpeningStockTableComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
-        this.groupDetailsForm.reset();
+        // this.groupDetailsForm.reset();
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');

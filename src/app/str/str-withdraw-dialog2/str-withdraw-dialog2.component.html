@@ -50,12 +50,12 @@
           <mat-label>المصدر:</mat-label>
 
           <mat-form-field appearance="outline" class="groupInput" style="width: 120px;">
-            <mat-select [(ngModel)]="selectedTitle" formControlName="type" (valueChange)="getListCtrl($event)"
+            <mat-select  formControlName="type" (valueChange)="getListCtrl($event)"
               placeholder="{{editData ? editData.type : ''}}">
               <!-- <mat-option value="الموظف">الموظف</mat-option>
               <mat-option value="المخزن">المخزن</mat-option> -->
-              <mat-option value="كشف العجز">كشف العجز</mat-option>
-              <mat-option value="سند خصم الاصناف فاقدة او تالفة">سند خصم الاصناف فاقدة او تالفة</mat-option>
+              <mat-option value="الموظف">كشف العجز</mat-option>
+              <mat-option value="المخزن">سند خصم الاصناف فاقدة او تالفة</mat-option>
               <mat-option value="محضر بيع">محضر بيع</mat-option>
               <mat-option value="طلب تشغيل">طلب تشغيل</mat-option>
               <mat-option value="اهداءات ليست النشاط الرئيسي للجهة">اهداءات ليست النشاط الرئيسي للجهة</mat-option>
@@ -68,7 +68,6 @@
           <mat-label>{{ actionName.toLowerCase() == "choose" ?" موظف : " : " مخزن :" }}</mat-label>
 
           <mat-form-field appearance="outline" class="groupInput" >
-            <!-- <mat-placeholder class="placeholder">Search</mat-placeholder> -->
             <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
               [matAutocomplete]="autoList" [formControl]="listCtrl"
               placeholder="{{editData && editData.employeeName ? editData.employeeName : editData && editData.desstoreName ? editData.desstoreName : ''}}"
@@ -115,31 +114,7 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 </div>
-        <!-- <div class="searchLabels">
-          <mat-label>  تاريخ الانتاج</mat-label>
-          <mat-form-field appearance="outline" style="width:100%">
-                  
-                    <input matInput [matDatepicker]="picker" formControlName="productionDate">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker">
-                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                        
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-        </div>
 
-        <div style="display: flex; flex-direction: column;">
-          <mat-label>تاريخ الانتهاء</mat-label>
-        <mat-form-field appearance="outline" style="width:100%">
-                
-                  <input matInput [matDatepicker]="picke" formControlName="expireDate">
-                  <mat-datepicker-toggle matIconSuffix [for]="picke">
-                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                      
-                  </mat-datepicker-toggle>
-                  <mat-datepicker #picke></mat-datepicker>
-              </mat-form-field>
-      </div> -->
         </div>
 
 
