@@ -177,12 +177,12 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   }
 
   getAllDetailsForms() {
- 
-      this.dialogRef.close('Save');
+
+    this.dialogRef.close('Save');
     console.log("master Id: ", this.getMasterRowId.id)
 
     if (this.getMasterRowId.id) {
-   
+
       this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
@@ -210,6 +210,12 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
             // alert("خطا اثناء جلب العناصر !");
           }
         })
+          // ,
+          // error: (err) => {
+          //   // console.log("fetch items data err: ", err);
+          //   // alert("خطا اثناء جلب العناصر !");
+          // }
+        // })
       // }
     }
 
@@ -308,7 +314,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   }
 
   getItemByID(id: any) {
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then(response => response.json())
       .then(json => {
         return json.name;
@@ -321,7 +327,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   closeDialog() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
- 
+
       this.dialogRef.close('Save');
     }
   }
@@ -375,10 +381,10 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
   async itemOnChange(itemEvent: any) {
     console.log("itemEvent change value: ", itemEvent);
-   
+
     console.log("get avg values: ", this.getMasterRowStoreId, "year: ", this.getMasterRowFiscalYearId, "date: ", formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale));
-    
-    
+
+
     await this.api.getAvgPrice(
       this.getMasterRowStoreId,
       this.getMasterRowFiscalYearId,

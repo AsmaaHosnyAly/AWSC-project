@@ -156,7 +156,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     this.getAllDetailsForms();
 
- 
+
 
   }
 
@@ -425,8 +425,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
 
     this.isEdit = false;
-  this.toastrEditSuccess();
-// 
+    this.toastrEditSuccess();
+    // 
     // console.log("edit : ", this.groupDetailsForm.value, "row: ", this.getDetailedRowData.id)
     // this.api.putStrOpen(this.groupMasterForm.value)
     //   .subscribe({
@@ -617,7 +617,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   }
 
   getStoreByID(id: any) {
-    return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
+    return fetch(this.api.getStoreById(id))
       .then(response => response.json())
       .then(json => {
         return json.name;
@@ -642,7 +642,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   // }
 
   getItemByID(id: any) {
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then(response => response.json())
       .then(json => {
         return json.name;
@@ -745,19 +745,19 @@ export class StrOpeningStockDialogComponent implements OnInit {
       })
   }
 
-  getFiscalYearsByID(id: any) {
-    // console.log("row fiscalYear id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
-      .then(response => response.json())
-      .then(json => {
-        // console.log("fetch fiscalYears name by id res: ", json.fiscalyear);
-        return json.fiscalyear;
-      })
-      .catch((err) => {
-        console.log("error in fetch fiscalYears name by id: ", err);
-        // alert("خطا اثناء جلب رقم العنصر !");
-      });
-  }
+  // getFiscalYearsByID(id: any) {
+  //   // console.log("row fiscalYear id: ", id);
+  //   return fetch(`http://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
+  //     .then(response => response.json())
+  //     .then(json => {
+  //       // console.log("fetch fiscalYears name by id res: ", json.fiscalyear);
+  //       return json.fiscalyear;
+  //     })
+  //     .catch((err) => {
+  //       console.log("error in fetch fiscalYears name by id: ", err);
+  //       // alert("خطا اثناء جلب رقم العنصر !");
+  //     });
+  // }
 
   async itemOnChange(itemEvent: any) {
     console.log("itemEvent change value: ", itemEvent);

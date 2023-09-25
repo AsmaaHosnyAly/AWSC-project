@@ -21,15 +21,15 @@ import {
 } from '@angular/forms';
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 
 export class costcenter {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 export class distEmployee {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 
 export class item {
@@ -137,7 +137,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
-      employee: [''],employeeId:[''],
+      employee: [''], employeeId: [''],
       costcenter: [],
       costCenterId: [],
       itemName: [''],
@@ -150,8 +150,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       date: [''],
       store: [''],
       distEmployee: [''],
-      fiscalYear:[''],   report:[''],
-      reportType:[''],
+      fiscalYear: [''], report: [''],
+      reportType: [''],
       StartDate: [''],
       EndDate: [''],
     });
@@ -210,7 +210,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
- 
+
   }
 
   getAllMasterForms() {
@@ -263,61 +263,109 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
- 
+
   }
 
   deleteBothForms(id: number) {
-    this.http
-      .get<any>(
-        'http://ims.aswan.gov.eg/api/STREmployeeExchangeDetails/get/all'
-      )
-      .subscribe(
-        (res) => {
-          this.matchedIds = res.filter((a: any) => {
-            return a.employee_ExchangeId === id;
-          });
-          var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
+    // this.http
+    //   .get<any>(
+    //     'http://ims.aswan.gov.eg/api/STREmployeeExchangeDetails/get/all'
+    //   )
+    //   .subscribe(
+    //     (res) => {
+    //       this.matchedIds = res.filter((a: any) => {
+    //         return a.employee_ExchangeId === id;
+    //       });
+    //       var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
 
-          if (this.matchedIds.length) {
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              if (result) {
-                this.api
-                  .deleteStrEmployeeExchangeDetails(this.matchedIds[i].id)
-                  .subscribe({
-                    next: (res) => {
-                      this.api.deleteStrEmployeeExchange(id).subscribe({
-                        next: (res) => {
-                          this.getAllMasterForms();
-                        },
-                        error: () => {
-                          // alert("خطأ أثناء حذف الرئيسي !!");
-                        },
-                      });
-                    },
-                    error: () => {
-                      // alert("خطأ أثناء حذف التفاصيل !!");
-                    },
-                  });
+    //       if (this.matchedIds.length) {
+    //         for (let i = 0; i < this.matchedIds.length; i++) {
+    //           if (result) {
+    //             this.api
+    //               .deleteStrEmployeeExchangeDetails(this.matchedIds[i].id)
+    //               .subscribe({
+    //                 next: (res) => {
+    //                   this.api.deleteStrEmployeeExchange(id).subscribe({
+    //                     next: (res) => {
+    //                       this.getAllMasterForms();
+    //                     },
+    //                     error: () => {
+    //                       // alert("خطأ أثناء حذف الرئيسي !!");
+    //                     },
+    //                   });
+    //                 },
+    //                 error: () => {
+    //                   // alert("خطأ أثناء حذف التفاصيل !!");
+    //                 },
+    //               });
+    //           }
+    //         } this.toastrDeleteSuccess();
+
+    //       } else {
+    //         if (result) {
+    //           this.api.deleteStrEmployeeExchange(id).subscribe({
+    //             next: (res) => {
+    //               this.getAllMasterForms();
+    //             },
+    //             error: () => {
+    //               // alert("خطأ أثناء حذف الرئيسي !!");
+    //             },
+    //           });
+    //         }
+    //       }
+    //     },
+    //     (err) => {
+    //       // alert("خطا اثناء تحديد المجموعة !!")
+    //     }
+    //   );
+
+
+    var result = confirm('تاكيد الحذف ؟ ');
+    console.log(' id in delete:', id);
+    if (result) {
+      this.api.deleteStrEmployeeExchange(id).subscribe({
+        next: (res) => {
+          this.api.getStrEmployeeExchangeDetails()
+            .subscribe({
+              next: (res) => {
+
+                this.matchedIds = res.filter((a: any) => {
+                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                  return a.employee_ExchangeId === id;
+                });
+
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.deleteFormDetails(this.matchedIds[i].id);
+                }
+
+              },
+              error: (err) => {
+                // alert('خطا اثناء تحديد المجموعة !!');
+
               }
-            }                          this.toastrDeleteSuccess();
+            })
 
-          } else {
-            if (result) {
-              this.api.deleteStrEmployeeExchange(id).subscribe({
-                next: (res) => {
-                  this.getAllMasterForms();
-                },
-                error: () => {
-                  // alert("خطأ أثناء حذف الرئيسي !!");
-                },
-              });
-            }
-          }
+          this.toastrDeleteSuccess();
+          this.getAllMasterForms();
         },
-        (err) => {
-          // alert("خطا اثناء تحديد المجموعة !!")
-        }
-      );
+        error: () => {
+          // alert('خطأ أثناء حذف المجموعة !!');
+        },
+      });
+    }
+  }
+
+  deleteFormDetails(id: number) {
+    this.api.deleteStrEmployeeExchangeDetails(id).subscribe({
+      next: (res) => {
+        // alert('تم حذف الصنف بنجاح');
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        console.log('delete details err: ', err);
+        // alert('خطأ أثناء حذف الصنف !!');
+      },
+    });
   }
 
   getFiscalYears() {
@@ -344,7 +392,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     });
   }
 
-  getItems(){
+  getItems() {
     this.api.getItem().subscribe({
       next: (res) => {
         this.itemsList = res;
@@ -463,7 +511,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     const filterValue = value;
     return this.employeesList.filter((employee) =>
       employee.name.toLowerCase().includes(filterValue),
-      console.log("employee in filteremployee:",this.employeesList)
+      console.log("employee in filteremployee:", this.employeesList)
 
     );
   }
@@ -505,8 +553,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.distEmployeeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrOpen(no: any, StartDate: any,EndDate:any, fiscalyear: any) {
-    console.log("fiscal year in ts:",fiscalyear)
+  getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalyear: any) {
+    console.log("fiscal year in ts:", fiscalyear)
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
@@ -532,16 +580,16 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       });
   }
 
-  downloadPdf(no: any, StartDate: any,EndDate:any,Fiscalyear:any,report:any,reportType:any) {
+  downloadPdf(no: any, StartDate: any, EndDate: any, Fiscalyear: any, report: any, reportType: any) {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
 
     this.api
-    .getStrEmployeeExchangeItem(
-      no,distEmployee,  StartDate,EndDate, Fiscalyear, item, employeeId, costCenterId,report,reportType
-    )
+      .getStrEmployeeExchangeItem(
+        no, distEmployee, StartDate, EndDate, Fiscalyear, item, employeeId, costCenterId, report, reportType
+      )
       .subscribe({
         next: (res) => {
           console.log('search:', res);
@@ -561,7 +609,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       });
   }
 
-  previewPdf(no: any, StartDate: any,EndDate:any,Fiscalyear:any,report:any,reportType:any) {
+  previewPdf(no: any, StartDate: any, EndDate: any, Fiscalyear: any, report: any, reportType: any) {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
@@ -569,32 +617,34 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 if(report !=null && reportType!=null){
 
 
-    this.api
-      .getStrEmployeeExchangeItem(
-        no,distEmployee,  StartDate,EndDate, Fiscalyear, item, employeeId, costCenterId,report,reportType
-      )
-      .subscribe({
-        next: (res) => {
-          let blob: Blob = res.body as Blob;
-          console.log(blob);
-          let url = window.URL.createObjectURL(blob);
-          localStorage.setItem('url', JSON.stringify(url));
-          this.pdfurl = url;
-          this.dialog.open(EmployeeExchangePrintDialogComponent, {
-            width: '50%',
-          });
+      this.api
+        .getStrEmployeeExchangeItem(
+          no, distEmployee, StartDate, EndDate, Fiscalyear, item, employeeId, costCenterId, report, reportType
+        )
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(EmployeeExchangePrintDialogComponent, {
+              width: '50%',
+            });
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-      });}
-      else{
-        alert("ادخل التقرير و نوع التقرير!")   }
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    }
+    else {
+      alert("ادخل التقرير و نوع التقرير!")
+    }
   }
 
   // printReport() {

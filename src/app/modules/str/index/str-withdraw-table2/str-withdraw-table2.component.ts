@@ -336,25 +336,45 @@ export class StrWithdrawTableComponent implements OnInit {
     if (result) {
       this.api.deleteStrWithdraw(id).subscribe({
         next: (res) => {
-          this.http
-            .get<any>('http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all ')
-            .subscribe(
-              (res) => {
+          // this.http
+          //   .get<any>('http://ims.aswan.gov.eg/api/STRWithdrawDetails/get/all ')
+          //   .subscribe(
+          //     (res) => {
+          //       this.matchedIds = res.filter((a: any) => {
+          //         // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+          //         return a.HeaderId === id;
+          //       });
+
+          //       // for (let i = 0; i < this.matchedIds.length; i++) {
+          //       //   this.deleteFormDetails(this.matchedIds[i].id);
+          //       // }
+          //       // alert('تم حذف الاذن بنجاح');
+                
+          //     },
+          //     (err) => {
+          //       // alert('خطا اثناء تحديد المجموعة !!');
+          //     }
+          //   );
+
+          this.api.getStrWithdrawDetails()
+            .subscribe({
+              next: (res) => {
+
                 this.matchedIds = res.filter((a: any) => {
                   // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.HeaderId === id;
+                  return a.stR_WithdrawId === id;
                 });
 
-                // for (let i = 0; i < this.matchedIds.length; i++) {
-                //   this.deleteFormDetails(this.matchedIds[i].id);
-                // }
-                // alert('تم حذف الاذن بنجاح');
-                
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.deleteFormDetails(this.matchedIds[i].id);
+                }
+
               },
-              (err) => {
+              error: (err) => {
                 // alert('خطا اثناء تحديد المجموعة !!');
+
               }
-            );
+            })
 
           this.toastrDeleteSuccess();
           this.getAllMasterForms();
