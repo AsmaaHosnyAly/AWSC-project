@@ -655,7 +655,7 @@ this.toastrDeleteSuccess();
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
-if(report!= null){
+if(report!= null && reportType!=null){
     this.api
       .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
       .subscribe({

@@ -579,7 +579,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       let employee = this.groupMasterForm.getRawValue().employeeId;
       let item = this.groupDetailsForm.getRawValue().itemId;
       let store = this.groupMasterForm.getRawValue().storeId;
-  if(report!=null){
+  if(report!=null && reportType!=null){
 
   
       this.api

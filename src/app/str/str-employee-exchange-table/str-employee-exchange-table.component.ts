@@ -564,7 +564,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-if(report !=null){
+if(report !=null && reportType!=null){
 
 
     this.api

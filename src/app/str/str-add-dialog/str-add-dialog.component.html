@@ -100,52 +100,28 @@
         </div>
 
 
+        <button style="text-align: right !;background-color: var(--bg-primary-color);color: white; width: 20%;font-size: 20px;position: relative;right: 82%;top: 5%;" mat-raised-button color="primary" (click)="nextToAddFormDetails()"
+        
+        [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
 
 
-        <!-- <div class="row"> -->
-
-        <!-- <mat-label>اختر الاسم</mat-label> -->
 
 
-        <div style="display: flex;flex-direction: row;">
-          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px;width: 10rem; ">
-            <mat-label>النوع</mat-label>
-
-            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-              <mat-select placeholder="النوع" formControlName="addTypeId">
-                <mat-option [value]="type.id" *ngFor="let type of typeList">{{type.type}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div> -->
-
-
-          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px;width: 10rem; ">
-            <mat-label>سند الاضافه</mat-label>
-
-            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-              <mat-select placeholder="سند الاضافه" formControlName="addReceiptId">
-                <mat-option [value]="Receipt.id"
-                  *ngFor="let Receipt of ReceiptList">{{Receipt.addReceipts}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div> -->
-
-        </div>
-        <!-- <mat-form-field appearance="outline" class="groupInput">
-          <mat-label>الاجمالى</mat-label>
-          <input matInput placeholder="الرقم" type="number" [value]="sumOfTotals" readonly>
-        </mat-form-field> -->
-        <!-- </div> -->
+        
       </div>
 
 
+      <!-- <div dir="ltr" style="background-color: var(--bg-primary-color);color: white;">
+        <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
+      editDataDetails || MasterGroupInfoEntered
+        ? 'nextButtonEditHeaderDetails'
+        : 'nextButtonAddNewHeader'
+    ">
+      حفظ
+    </button>
+  </div> -->
 
-
-      <button style="text-align: left !;" mat-raised-button color="primary" (click)="nextToAddFormDetails()"
-        class="follow-btn"
-        [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
-
+    
     </div>
   </form>
 
