@@ -2741,6 +2741,9 @@ export class ApiService {
   postPrGroupRole(data: any) {
     return this.http.post<any>(`${this.url}/PRGroupRole/add`, data);
   }
+  getPrGroupRole() {
+    return this.http.get<any>(`${this.url}/PRGroupRole/get/all`);
+  }
   getPrGroupByUserId(userId: any) {
     return this.http.get<any>(`${this.url}/PRUser/get/with/group/${userId}`);
   }
@@ -2774,6 +2777,9 @@ export class ApiService {
 
   postPrUserGroup(data: any) {
     return this.http.post<any>(`${this.url}/PRUserGroup/add`, data);
+  }
+  getPrUserGroup() {
+    return this.http.get<any>(`${this.url}/PRUserGroup/get/all`);
   }
   putPrUserGroup(data: any) {
     console.log('PrGroupRole data: ', data);
