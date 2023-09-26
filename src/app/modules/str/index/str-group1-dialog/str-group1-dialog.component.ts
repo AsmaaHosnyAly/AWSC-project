@@ -14,11 +14,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: any) { }
 }
 
 export class Grade {
-  constructor(public id: number, public name: string, public code: string, public commodityId: number) { }
+  constructor(public id: number, public name: string, public code: any, public commodityId: number) { }
 }
 
 export class Platoon {
@@ -174,7 +174,7 @@ export class STRGroup1DialogComponent implements OnInit {
   private _filterCommodities(value: string): Commodity[] {
     const filterValue = value
     return this.commodities.filter(commodity =>
-      commodity.name.toLowerCase().includes(filterValue) || commodity.code.toLowerCase().includes(filterValue)
+      commodity.name.toLowerCase().includes(filterValue) ||commodity.code.toString().toLowerCase().includes(filterValue)
     );
   }
 
@@ -182,7 +182,7 @@ export class STRGroup1DialogComponent implements OnInit {
     const filterValue = value
     return this.grades.filter(
       grade =>
-        (grade.name.toLowerCase().includes(filterValue) || grade.code.toLowerCase().includes(filterValue)) &&
+        (grade.name.toLowerCase().includes(filterValue) || grade.code.toString().toLowerCase().includes(filterValue)) &&
         grade.commodityId === this.selectedCommodity?.id
     );
   }

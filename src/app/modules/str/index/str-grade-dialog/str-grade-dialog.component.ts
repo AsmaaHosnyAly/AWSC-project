@@ -19,7 +19,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: any) {}
+}
+
+export class Account {
+  constructor(public id: number, public name: string, public code: any) {}
 }
 
 @Component({
@@ -34,6 +38,10 @@ export class STRGradeDialogComponent {
   commodities: Commodity[] = [];
   getGradeData: any;
   selectedCommodity: Commodity | undefined;
+  accountCtrl: FormControl;
+  filteredAccounts: Observable<Account[]>;
+  accounts: Account[] = [];
+  selectedAccount:Account| undefined;
   formcontrol = new FormControl('');
   gradeForm!: FormGroup;
   actionBtn: string = 'حفظ';
@@ -59,6 +67,12 @@ export class STRGradeDialogComponent {
       startWith(''),
       map((value) => this._filterCommodities(value))
     );
+
+    this.accountCtrl = new FormControl();
+    this.filteredAccounts = this.accountCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterAccounts(value))
+    );
   }
   ngOnInit(): void {
     this.getExistingNames(); // Fetch existing names
@@ -73,12 +87,18 @@ export class STRGradeDialogComponent {
       code: [''],
       name: ['', Validators.required],
       commodityId: ['', Validators.required],
+      accountId: ['', Validators.required],
+
       id: ['', Validators.required],
       // matautocompleteFieldName : [''],
     });
 
     this.api.getAllCommodities().subscribe((commodities) => {
       this.commodities = commodities;
+    });
+
+    this.api.getAllAccount().subscribe((accounts) => {
+      this.accounts = accounts;
     });
 
     if (this.editData) {
@@ -92,6 +112,10 @@ export class STRGradeDialogComponent {
 
       this.gradeForm.controls['commodityId'].setValue(
         this.editData.commodityId
+      );
+
+      this.gradeForm.controls['accountId'].setValue(
+        this.editData.accountId
       );
       // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
       this.gradeForm.addControl('id', new FormControl('', Validators.required));
@@ -116,7 +140,7 @@ export class STRGradeDialogComponent {
     return this.commodities.filter(
       (commodity) =>
         commodity.name.toLowerCase().includes(filterValue) ||
-        commodity.code.toLowerCase().includes(filterValue)
+        commodity.code.toString().toLowerCase().includes(filterValue)
     );
   }
 
@@ -125,6 +149,33 @@ export class STRGradeDialogComponent {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.commodityCtrl.updateValueAndValidity();
+  }
+
+  displayAccountName(account: any): string {
+    return account && account.name ? account.name : '';
+  }
+
+  accountSelected(event: MatAutocompleteSelectedEvent): void {
+    const account = event.option.value as Account;
+    this.selectedAccount = account;
+    this.gradeForm.patchValue({ accountId: account.id });
+    this.gradeForm.patchValue({ accountName: account.name });
+  }
+
+  private _filterAccounts(value: string): Account[] {
+    const filterValue = value.toLowerCase();
+    return this.accounts.filter(
+      (account) =>
+        account.name.toLowerCase().includes(filterValue) ||
+        account.code.toString().toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutoAccount() {
+    this.accountCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.accountCtrl.updateValueAndValidity();
   }
 
   getCodeByCommodityId() {
