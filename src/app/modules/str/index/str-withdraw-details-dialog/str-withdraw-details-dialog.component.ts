@@ -936,6 +936,9 @@ export class StrWithdrawDetailsDialogComponent {
           // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
         }
+        else{
+          this.productIdValue = '';
+        }
       })
     }
   }
