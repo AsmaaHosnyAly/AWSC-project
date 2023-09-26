@@ -479,7 +479,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     this.router.navigate(['/EmployeeOpeningCustody'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrEmployeeOpeningCustodyDetailDailogComponent, {
       width: '98%',
-      height: '95%'
+      height: '85%'
     }).afterClosed().subscribe(val => {
       if (val === 'Save' || val === 'Update') {
         this.getAllDetailsForms();
@@ -843,7 +843,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     this.router.navigate(['/EmployeeOpeningCustody'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrEmployeeOpeningCustodyDetailDailogComponent, {
       width: '98%',
-      height: '95%',
+      height: '85%',
       data: row,
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
