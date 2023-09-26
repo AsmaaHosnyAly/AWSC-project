@@ -148,17 +148,17 @@ export class PrUserDialogComponent implements OnInit {
 
     if (this.groupMasterForm.valid) {
 
-      this.api.PrUserCheckAuthenticate(this.groupMasterForm.getRawValue().name, this.groupMasterForm.getRawValue().password)
-        .subscribe({
-          next: (res) => {
-            console.log("user already exist: ", res);
-            this.toastrUserWarning();
-            this.groupMasterForm.reset();
-            // this.getAllDetailsForms();
-            // this.addDetailsInfo();
-          },
-          error: (err) => {
-            console.log("add new user: ", err);
+      // this.api.PrUserCheckAuthenticate(this.groupMasterForm.getRawValue().name, this.groupMasterForm.getRawValue().password)
+      //   .subscribe({
+      //     next: (res) => {
+      //       console.log("user already exist: ", res);
+      //       this.toastrUserWarning();
+      //       this.groupMasterForm.reset();
+      //       // this.getAllDetailsForms();
+      //       // this.addDetailsInfo();
+      //     },
+      //     error: (err) => {
+            // console.log("add new user: ", err);
             // alert("حدث خطأ أثناء إضافة مجموعة")
             this.api.postPrUser(this.groupMasterForm.value)
               .subscribe({
@@ -177,9 +177,9 @@ export class PrUserDialogComponent implements OnInit {
                   // alert("حدث خطأ أثناء إضافة مجموعة")
                 }
               })
-          }
+          // }
 
-        })
+        // })
 
       // this.api.postPrUser(this.groupMasterForm.value)
       //   .subscribe({
