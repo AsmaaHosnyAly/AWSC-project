@@ -9,7 +9,7 @@ import { formatDate } from '@angular/common';
 // import { StrOpeningStockDialogComponent } from '../../str/str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { PrGroupDialogComponent } from '../pr-group-dialog/pr-group-dialog.component';
-import { GlobalService } from 'src/app/pages/services/global.service'; 
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-pr-group-table',
@@ -38,8 +38,8 @@ export class PrGroupTableComponent implements OnInit {
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    public global:GlobalService
-  ) { 
+    public global: GlobalService
+  ) {
     global.getPermissionUserRoles(1, 'stores', 'الصلاحيات-المجموعات', '')
   }
 
@@ -74,7 +74,7 @@ export class PrGroupTableComponent implements OnInit {
   openDialog() {
     this.dialog.open(PrGroupDialogComponent, {
       width: '80%',
-      height:'80%',
+      height: '80%',
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllMasterForms();
@@ -85,8 +85,8 @@ export class PrGroupTableComponent implements OnInit {
     this.dialog
       .open(PrGroupDialogComponent, {
         width: '80%',
-        height:'80%',
-                data: row,
+        height: '80%',
+        data: row,
       })
       .afterClosed()
       .subscribe((val) => {
@@ -97,67 +97,134 @@ export class PrGroupTableComponent implements OnInit {
   }
 
   deleteBothForms(id: number) {
-    this.http.get<any>("http://ims.aswan.gov.eg/api/PRGroupRole/get/all")
-      .subscribe(res => {
-        this.matchedIds = res.filter((a: any) => {
-          console.log("matched: ", a.groupId === id)
-          return a.groupId === id
-        })
-        var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+    this.api.getPrGroupRole()
+      .subscribe({
+        next: (res) => {
 
-        if (this.matchedIds.length) {
-          for (let i = 0; i < this.matchedIds.length; i++) {
+          this.matchedIds = res.filter((a: any) => {
+            // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+            return a.groupId === id
+          });
+
+          var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+
+          if (this.matchedIds.length) {
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              if (result) {
+                this.api.deletePrGroupRole(this.matchedIds[i].id)
+                  .subscribe({
+                    next: (res) => {
+
+                      this.api.deletePrGroup(id)
+                        .subscribe({
+                          next: (res) => {
+                            this.toastrDeleteSuccess();
+                            this.getAllMasterForms();
+                          },
+                          error: () => {
+                            // alert("خطأ أثناء حذف الرئيسي !!");
+                          }
+                        })
+
+                    },
+                    error: () => {
+                      // alert("خطأ أثناء حذف التفاصيل !!");
+                    }
+                  })
+              }
+
+            }
+          }
+          else {
             if (result) {
-              this.api.deletePrGroupRole(this.matchedIds[i].id)
+              this.api.deletePrGroup(id)
                 .subscribe({
                   next: (res) => {
+                    // res.code 
+                    // if(res.code == 'succeeded'){
+                    this.toastrDeleteSuccess();
+                    this.getAllMasterForms();
+                    // }
+                    // else{
+                    // alert("خطأ أثناء حذف الرئيسي !!!!!!!");
 
-                    this.api.deletePrGroup(id)
-                      .subscribe({
-                        next: (res) => {
-                          this.toastrDeleteSuccess();
-                          this.getAllMasterForms();
-                        },
-                        error: () => {
-                          // alert("خطأ أثناء حذف الرئيسي !!");
-                        }
-                      })
+                    // }
 
                   },
                   error: () => {
-                    // alert("خطأ أثناء حذف التفاصيل !!");
+                    alert("خطأ أثناء حذف الرئيسي !!");
                   }
                 })
             }
-
           }
-        }
-        else {
-          if (result) {
-            this.api.deletePrGroup(id)
-              .subscribe({
-                next: (res) => {
-                  // res.code 
-                  // if(res.code == 'succeeded'){
-                    this.toastrDeleteSuccess();
-                    this.getAllMasterForms();
-                  // }
-                  // else{
-                  // alert("خطأ أثناء حذف الرئيسي !!!!!!!");
+        },
+        error: (err) => {
+          // alert('خطا اثناء تحديد المجموعة !!');
 
-                  // }
-                  
-                },
-                error: () => {
-                  alert("خطأ أثناء حذف الرئيسي !!");
-                }
-              })
-          }
         }
-
-      }, err => {
-        // alert("خطا اثناء تحديد المجموعة !!")
       })
+
+    // this.http.get<any>("http://ims.aswan.gov.eg/api/PRGroupRole/get/all")
+    //   .subscribe(res => {
+    //     this.matchedIds = res.filter((a: any) => {
+    //       console.log("matched: ", a.groupId === id)
+    //       return a.groupId === id
+    //     })
+    //     var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+
+    //     if (this.matchedIds.length) {
+    //       for (let i = 0; i < this.matchedIds.length; i++) {
+    //         if (result) {
+    //           this.api.deletePrGroupRole(this.matchedIds[i].id)
+    //             .subscribe({
+    //               next: (res) => {
+
+    //                 this.api.deletePrGroup(id)
+    //                   .subscribe({
+    //                     next: (res) => {
+    //                       this.toastrDeleteSuccess();
+    //                       this.getAllMasterForms();
+    //                     },
+    //                     error: () => {
+    //                       // alert("خطأ أثناء حذف الرئيسي !!");
+    //                     }
+    //                   })
+
+    //               },
+    //               error: () => {
+    //                 // alert("خطأ أثناء حذف التفاصيل !!");
+    //               }
+    //             })
+    //         }
+
+    //       }
+    //     }
+    //     else {
+    //       if (result) {
+    //         this.api.deletePrGroup(id)
+    //           .subscribe({
+    //             next: (res) => {
+    //               // res.code 
+    //               // if(res.code == 'succeeded'){
+    //                 this.toastrDeleteSuccess();
+    //                 this.getAllMasterForms();
+    //               // }
+    //               // else{
+    //               // alert("خطأ أثناء حذف الرئيسي !!!!!!!");
+
+    //               // }
+
+    //             },
+    //             error: () => {
+    //               alert("خطأ أثناء حذف الرئيسي !!");
+    //             }
+    //           })
+    //       }
+    //     }
+
+    //   }, err => {
+    //     // alert("خطا اثناء تحديد المجموعة !!")
+    //   })
   }
 
   getItems() {
