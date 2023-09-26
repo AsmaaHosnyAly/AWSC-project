@@ -1136,7 +1136,7 @@ export class ApiService {
   deleteCommodity(id: number) {
     console.log('delete by id: ', id);
     return this.http.delete<any>(
-      '${this.url}/STRCommodity/delete/' + id
+      `${this.url}/STRCommodity/delete/` + id
     );
   }
 
