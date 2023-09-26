@@ -37,6 +37,8 @@
       </div>
     </form>
 
+
+    
     <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
         <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">

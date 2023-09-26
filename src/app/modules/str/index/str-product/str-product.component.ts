@@ -28,7 +28,7 @@ export class StrProductComponent implements OnInit {
   loading: boolean = false; // Flag variable
   file:any
   File = null;
-  displayedColumns: string[] = ['name', 'itemName', 'vendorName', 'modelName','attachment', 'action'];
+  displayedColumns: string[] = ['code','name', 'itemName', 'vendorName', 'modelName','attachment', 'action'];
 
   dataSource!: MatTableDataSource<any>;
 

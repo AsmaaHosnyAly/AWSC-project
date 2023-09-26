@@ -6,6 +6,12 @@
 
 <div mat-dialog-content dir="rtl" style="padding: 30px;">
     <form [formGroup]="productForm" >
+
+      <mat-form-field appearance="outline" >
+        <mat-label>الكود </mat-label>
+        <input formControlName="code" matInput placeholder="ادخل كود المخزن" [value]="editData ? editData.code : autoCode" readonly>
+        
+    </mat-form-field>
       <div class="child1">
           <mat-label>اسم المنتج</mat-label>
         <mat-form-field appearance="outline" class="groupInput">
@@ -81,17 +87,16 @@
         </div>
 
 
-        <div class="text-center" style="margin-bottom: 10px;">
-            <input class="form-control" type="file" (change)="onChange($event)" (change)="onUpload()">
+        <!-- <div class="text-center" style="margin-bottom: 10px;">
+            <input class="form-control" type="file" (change)="handleFileInput($event)">
 
 
-        </div>
+        </div> -->
+        <!-- <div class="text-center" style="margin-bottom: 10px;">
+          <input class="form-control" type="file" (change)="onChange($event)" (change)="onUpload()">
 
 
-
-        <div class="container" *ngIf="loading">
-            <h3>Loading ...</h3>
-        </div>
+      </div> -->
 
     </form>
 
