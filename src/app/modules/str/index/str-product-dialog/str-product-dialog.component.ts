@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GlobalService } from 'src/app/pages/services/global.service';
@@ -64,7 +64,7 @@ export class StrProductDialogComponent implements OnInit {
   modelCtrl: FormControl;
   filteredModel: Observable<Model[]>;
   selectedModel: Model | undefined;
-
+  fileToUpload: any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
@@ -105,6 +105,8 @@ export class StrProductDialogComponent implements OnInit {
       vendorId: ['', Validators.required],
       modelId: ['', Validators.required],
       attachment: [''],
+      altText: new FormControl(''),
+    description: new FormControl(''),
 
       // platoonName: [''],
       transactionUserId: [''],
@@ -262,6 +264,22 @@ export class StrProductDialogComponent implements OnInit {
     });
   }
 
+  handleFileInput(e: any) {
+    this.fileToUpload = e?.target?.files[0];
+  }
+  saveFileInfo()
+  {
+    debugger
+    const formData: FormData = new FormData();
+    formData.append('myFile', this.fileToUpload);
+    formData.append('altText', this.productForm.value.altText);
+    formData.append('description', this.productForm.value.description);
+    return this.http.post('http://localhost:48608/FileManager', formData,
+    {
+      headers : new HttpHeaders()})
+    .subscribe(() => alert("File uploaded"));
+  }
+
   async addProduct() {
     // console.log("att",this.editData.attachement)
 
@@ -287,7 +305,7 @@ export class StrProductDialogComponent implements OnInit {
       console.log("form add product value: ", this.productForm.value)
 
       if (this.productForm.valid) {
-
+        this.saveFileInfo()
         this.api.postStrProduct(this.productForm.value)
           .subscribe({
             next: (res) => {
