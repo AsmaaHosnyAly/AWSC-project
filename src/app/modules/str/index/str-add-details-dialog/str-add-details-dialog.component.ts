@@ -527,6 +527,9 @@ export class StrAddDetailsDialogComponent implements OnInit {
           // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
         }
+        else{
+          this.productIdValue = '';
+        }
       })
     }
   }
