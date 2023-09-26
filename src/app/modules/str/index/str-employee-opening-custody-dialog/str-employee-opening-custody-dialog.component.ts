@@ -396,19 +396,20 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
         }
       })
   }
-  getFiscalYearsByID(id: any) {
-    // console.log("row fiscalYear id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
-      .then(response => response.json())
-      .then(json => {
-        // console.log("fetch fiscalYears name by id res: ", json.fiscalyear);
-        return json.fiscalyear;
-      })
-      .catch((err) => {
-        console.log("error in fetch fiscalYears name by id: ", err);
-        // alert("خطا اثناء جلب رقم العنصر !");
-      });
-  }
+
+  // getFiscalYearsByID(id: any) {
+  //   // console.log("row fiscalYear id: ", id);
+  //   return fetch(`http://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
+  //     .then(response => response.json())
+  //     .then(json => {
+  //       // console.log("fetch fiscalYears name by id res: ", json.fiscalyear);
+  //       return json.fiscalyear;
+  //     })
+  //     .catch((err) => {
+  //       console.log("error in fetch fiscalYears name by id: ", err);
+  //       // alert("خطا اثناء جلب رقم العنصر !");
+  //     });
+  // }
   getAllDetailsForms() {
 
     console.log("mastered row get all data: ", this.getMasterRowId)
@@ -952,7 +953,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
 
   }
   getItemByID(id: any) {
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then(response => response.json())
       .then(json => {
         return json.name;

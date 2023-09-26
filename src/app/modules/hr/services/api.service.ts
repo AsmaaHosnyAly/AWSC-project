@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 export class ApiService {
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
-  
+
   // url = '192.168.1.23/api';
- url='http://ims.aswan.gov.eg/api'
+  url = 'http://ims.aswan.gov.eg/api'
   mycondition: any;
 
   // baseApiUrl = 'https://file.io';
@@ -91,9 +91,6 @@ export class ApiService {
 
   getStoreList() {
     return this.http.get<any>('http://localhost:3000/StoreList/');
-  }
-  getStoreByID(id: number) {
-    return this.http.get<any>('http://localhost:3000/StoreList/' + id);
   }
 
   // FIAccountHierarchy
@@ -485,11 +482,11 @@ export class ApiService {
   strAdd(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -500,8 +497,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     `${this.url}/STRAdd/getReport?`;
     this.mycondition = `${this.url}/STRAdd/getReport?`;
@@ -553,11 +550,11 @@ export class ApiService {
   openingStock(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -568,8 +565,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     `${this.url}/STROpeningStock/getReport?`;
     this.mycondition = `${this.url}/STROpeningStock/getReport?`;
@@ -619,23 +616,23 @@ export class ApiService {
   }
 
   getStrEmployeeCustodyReport(
-    no: any,StartDate:any,EndDate:any,fiscalYear:any,itemId: any,  employeeId: any,
-    costCenterId: any,report:any,reportType:any
-  
+    no: any, StartDate: any, EndDate: any, fiscalYear: any, itemId: any, employeeId: any,
+    costCenterId: any, report: any, reportType: any
+
   ) {
 
     console.log(
       'no. : ',
       no,
-      'employee',employeeId,'costcenter:',costCenterId,
+      'employee', employeeId, 'costcenter:', costCenterId,
       'date: ',
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
-    
+
     `${this.url}/STREmployeeOpeningCustody/getReport?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/getReport?`;
 
@@ -676,9 +673,9 @@ export class ApiService {
   }
 
   getStrEmployeeExchangeItem(
-    no: any,distEmployee: any,StartDate:any,EndDate:any,Fiscalyear:any,item:any,
-    employeeId: any, costCenterId: any,report:any,reportType:any
- 
+    no: any, distEmployee: any, StartDate: any, EndDate: any, Fiscalyear: any, item: any,
+    employeeId: any, costCenterId: any, report: any, reportType: any
+
   ) {
     `${this.url}/STRItem/getReport?`;
     this.mycondition = `${this.url}/STRItem/getReport?`;
@@ -728,11 +725,11 @@ export class ApiService {
   getStr(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -743,8 +740,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     `${this.url}/STRWithdraw/getReport??`;
     this.mycondition = `${this.url}/STRWithdraw/getReport??`;
@@ -969,6 +966,11 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
   }
 
+  getStoreById(id: any) {
+    let urlPassed = `${this.url}/STRStore/get/${id}`;
+    return urlPassed;
+  }
+
   putstores(data: any, id: number) {
     return this.http.put<any>(
       `${this.url}/STRStore/update` + id,
@@ -1004,6 +1006,10 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
   }
 
+  getCostCenterById(id: any) {
+    let urlPassed = `${this.url}/FICostCenter/get/${id}`;
+    return urlPassed;
+  }
   putCostCenter(data: any) {
     return this.http.put<any>(`${this.url}/FICostCenter/update`, data);
   }
@@ -1201,6 +1207,9 @@ export class ApiService {
   postStrOpenDetails(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStockDetails/Add`, data);
   }
+  getStrOpenAllDetails() {
+    return this.http.get<any>(`${this.url}/STROpeningStockDetails/get/all`);
+  }
   getStrOpenDetailsByMasterId(id: any) {
     return this.http.get<any>(
       `${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`
@@ -1232,6 +1241,11 @@ export class ApiService {
 
   getItems() {
     return this.http.get<any>(`${this.url}/STRItem/get/all`);
+  }
+
+  getItemById(id: any) {
+    let urlPassed = `${this.url}/STRItem/get/${id}`;
+    return urlPassed;
   }
 
   getFiscalYears() {
@@ -1308,12 +1322,10 @@ export class ApiService {
   getStrOpenSearach(
     no: any,
     storeId: any,
-    
+
     fiscalYear: any,
-    itemId: any,StartDate:any,EndDate:any
-  ) 
-  
-  {
+    itemId: any, StartDate: any, EndDate: any
+  ) {
     console.log(
       'no. : ',
       no,
@@ -1324,9 +1336,9 @@ export class ApiService {
       'fiscalYear: ',
       fiscalYear,
       'item:',
-      itemId,'EndDate: ',
+      itemId, 'EndDate: ',
       EndDate
-    
+
     );
 
     this.mycondition = `${this.url}/STROpeningStock/search?`;
@@ -1491,7 +1503,8 @@ export class ApiService {
   }
 
   getHrEmployeeById(id: any) {
-    return this.http.get<any>(`${this.url}/HREmployee/get/${id}`);
+    let urlPassed = `${this.url}/HREmployee/get/${id}`;
+    return urlPassed;
   }
 
   getFiCostCenter() {
@@ -1517,6 +1530,9 @@ export class ApiService {
       data
     );
   }
+  getStrEmployeeExchangeDetails() {
+    return this.http.get<any>(`${this.url}/STREmployeeExchangeDetails/get/all`);
+  }
   getStrEmployeeExchangeDetailsByMasterId(id: any) {
     return this.http.get<any>(
       `${this.url}/STREmployeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`
@@ -1541,8 +1557,8 @@ export class ApiService {
     no: any,
     costCenterId: any,
     employeeId: any,
-    
-    distEmployee: any,StartDate:any,EndDate:any,Fiscalyaer:any
+
+    distEmployee: any, StartDate: any, EndDate: any, Fiscalyaer: any
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -1556,7 +1572,7 @@ export class ApiService {
       "' distEmployee: '",
       distEmployee,
       "' EndDate: '",
-      EndDate,'fiscalyear:',Fiscalyaer
+      EndDate, 'fiscalyear:', Fiscalyaer
     );
     this.mycondition;
     this.mycondition = `${this.url}/STREmployeExchange/search?`;
@@ -1752,6 +1768,12 @@ export class ApiService {
       data
     );
   }
+
+  getStrEmployeeOpenDetails() {
+    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustodyDetails/get/all`);
+  }
+
+
   // getStrOpenDetails() {
   //   return this.http.get<any>("https://ims.aswan.gov.eg/api/STR_Opening_Stock/get-all-Opening_Stock_Details");
   // }
@@ -1854,7 +1876,7 @@ export class ApiService {
   getStrWithdrawSearch(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     itemId: any,
     employeeId: any,
@@ -1918,6 +1940,11 @@ export class ApiService {
       `${this.url}/PRSeller/get/all`
     );
     // return this.http.get<any>("http://localhost:3000/StoreList/");
+  }
+
+  getSellerById(id: any) {
+    let urlPassed = `${this.url}/PRSeller/get/${id}`;
+    return urlPassed;
   }
 
   // postStrOpen(data: any) {
@@ -2191,7 +2218,7 @@ export class ApiService {
   }
   postAcceptOrRejectWithDrawByDestStore(data: any) {
     console.log("dataaa: ", data);
-    
+
     return this.http.post<any>(`${this.url}/STRAdd/AddFromStore`, data);
   }
 
@@ -2238,6 +2265,9 @@ export class ApiService {
       `${this.url}/STRAddDetails/Add`,
       data
     );
+  }
+  getStrAddDetails() {
+    return this.http.get<any>(`${this.url}/STRAddDetails/get/all`);
   }
   getStrAddDetailsByAddId(id: any) {
     return this.http.get<any>(`${this.url}/STRAdd/GeTAddDetailsByAddId/${id}`);
@@ -2301,6 +2331,11 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRAddType/get/all`);
     // return this.http.get<any>("http://localhost:3000/StoreList/");
   }
+
+  getTypeById(id: any) {
+    let urlPassed = `${this.url}/STRAddType/get/${id}`;
+    return urlPassed;
+  }
   getSeller() {
     return this.http.get<any>(`${this.url}/PRSeller/get/all`);
     // return this.http.get<any>("http://localhost:3000/StoreList/");
@@ -2310,6 +2345,11 @@ export class ApiService {
       `${this.url}/STRAddReceipt/get/all`
     );
     // return this.http.get<any>("http://localhost:3000/StoreList/");
+  }
+
+  getRecieptById(id: any) {
+    let urlPassed = `${this.url}/STRAddReceipt/get/${id}`;
+    return urlPassed;
   }
   // getEmployee() {
   //   return this.http.get<any>("${this.url}/HREmployee/get/all");
@@ -2364,13 +2404,13 @@ export class ApiService {
 
 
 
-  getStrAddSearach( no: any,
-   
-   
+  getStrAddSearach(no: any,
+
+
     fiscalYear: any,
-   
-   
-    employeeId: any,  itemId: any,store: any,StartDate:any,EndDate:any) {
+
+
+    employeeId: any, itemId: any, store: any, StartDate: any, EndDate: any) {
     //enter no.
 
     console.log(
@@ -2388,7 +2428,7 @@ export class ApiService {
       employeeId,
       'enddate: ',
       EndDate,
-     
+
     );
     this.mycondition = `${this.url}/STRAdd/search?`;
 
@@ -2892,11 +2932,11 @@ export class ApiService {
     no: any,
     costCenterId: any,
     employeeId: any, itemId: any,
-    StartDate:any,EndDate:any,
-   FiscalYear:any
+    StartDate: any, EndDate: any,
+    FiscalYear: any
 
 
-   
+
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -2908,7 +2948,7 @@ export class ApiService {
       "' startdate: '",
       StartDate,
       "' item: '",
-      itemId,"fiscalyear",FiscalYear
+      itemId, "fiscalyear", FiscalYear
     );
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
@@ -3084,7 +3124,7 @@ export class ApiService {
 
 
   // getAllProductes(){
-    
+
   //   return this.http.get<any>(
   //     `${this.url}/STRProductSerial/get/all`
   //   );

@@ -36,7 +36,7 @@ export class Employee {
 // }
 
 export class item {
-  constructor(public id: number, public name: string,  public fullCode: string) { }
+  constructor(public id: number, public name: string, public fullCode: string) { }
 }
 export interface Source {
   name: string;
@@ -1185,7 +1185,7 @@ export class StrWithdrawDetailsDialogComponent {
 
   getDestStoreById(id: any) {
     console.log('row deststore id: ', id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
+    return fetch(this.api.getStoreById(id))
       .then((response) => response.json())
       .then((json) => {
         console.log('fetch deststore by id res: ', json.name);
@@ -1257,7 +1257,7 @@ export class StrWithdrawDetailsDialogComponent {
   }
   getItemByID(id: any) {
     // console.log("row item id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/STRItem/get/${id}`)
+    return fetch(this.api.getItemById(id))
       .then((response) => response.json())
       .then((json) => {
         console.log('fetch item name by id res: ', json.name);
