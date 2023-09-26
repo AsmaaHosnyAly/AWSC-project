@@ -505,7 +505,79 @@ export class FiEntryDialogComponent implements OnInit {
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
   }
+  getAllMasterForms() {
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+     
+      this.api.getFiEntry().subscribe({
+        next: (res) => {
+          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+          this.dataSource = new MatTableDataSource(res);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: () => {
+          // alert("خطأ أثناء جلب سجلات المجموعة !!");
+        },
+      });
+    }
+  }
 
+  // getAllMasterForms() {
+  //    let result = window.confirm('هل تريد اغلاق الطلب');
+  //   if (result) {
+  //   this.api.getFiEntry().subscribe({
+  //     next: (res) => {
+  //       console.log('fiEntry from api: ', res);
+  //       this.dataSource2 = new MatTableDataSource(res);
+  //       this.dataSource2.paginator = this.paginator;
+  //       this.dataSource2.sort = this.sort;
+  //     },
+  //     error: () => {
+  //       alert('خطأ أثناء جلب سجلات المدخلات !!');
+  //     },
+  //   });
+  // }
+
+  async updateMaster() {
+    console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
+
+
+    this.groupMasterForm.controls['desstoreName'].setValue(
+      this.groupMasterForm.getRawValue().desstoreName
+    );
+
+    this.groupMasterForm.controls['deststoreId'].setValue(
+      this.groupMasterForm.getRawValue().deststoreId
+    );
+    // alert("deststoreId in updateeee: "+ this.groupMasterForm.getRawValue().deststoreId);
+
+    this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+
+    console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
+    console.log("edit : ", this.groupDetailsForm.value)
+    this.api.putFiEntry(this.groupMasterForm.value)
+      .subscribe({
+        next: (res) => {
+          this.groupDetailsForm.reset();
+          // this.itemCtrl.setValue('');
+
+          // this.getAllDetailsForms();
+          this.getDetailedRowData = '';
+          this.groupDetailsForm.controls['qty'].setValue(1);
+// this.toastrEditSuccess();
+          //   },
+          //   error: (err) => {
+          //     console.log("update err: ", err)
+          //     // alert("خطأ أثناء تحديث سجل المجموعة !!")
+          //   }
+          // })
+          // }
+
+        },
+
+      })
+  }
   OpenDetailsDialog(){
     this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }])
     this.dialog.open(FiEntryDetailsDialogComponent, {

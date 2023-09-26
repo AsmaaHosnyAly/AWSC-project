@@ -246,6 +246,12 @@ export class ApiService {
       `${this.url}/STRCommodity/get/all`
     );
   }
+
+  getAllAccount(): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}/FIAccount/get/all`
+    );
+  }
   getAllGrades(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRGrade/get/all`);
   }
@@ -1995,6 +2001,12 @@ export class ApiService {
   deleteStrProduct(id: number) {
     console.log('delete product data from api, id: ', id);
     return this.http.delete<any>(`${this.url}/STRProduct/Delete/` + id);
+  }
+
+  getProductAutoCode() {
+    return this.http.get<any>(
+      `${this.url}/STRProduct/AutoCode`
+    );
   }
   ///////////////////////////////// STR-Product/////////////////////////////
   // postStrProduct(data: any) {
