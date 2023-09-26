@@ -32,14 +32,14 @@
   text-align: center;
   font-family: 'Cairo', sans-serif !important;
   font-weight: bold;
-  color: rgb(60, 202, 252);
+  color: var(--bg-primary-color);
   margin-top: 10px;
   box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
 
 }
 
 .follow-btn {
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color);
   color: antiquewhite;
   text-align: left;
   padding: 5px 20px;
@@ -71,7 +71,7 @@
 }
 
 .groupAction button {
-  background-color: rgb(60, 202, 252);
+  background-color:var(--bg-primary-color);
   color: aliceblue;
   font-family: 'Cairo', sans-serif !important;
   display: block;
@@ -79,8 +79,9 @@
   font-weight: bold;
   font-size: 15px;
   padding: 5px 30px;
+  position: relative;
+  left: 12%;
 }
-
 .restGroupInfo {
   display: block;
 }
@@ -115,12 +116,16 @@
 }
 
 .detailsForm {
+  /* margin-top: 2%; */
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  width: 65%;
+  margin: auto;
+  /* justify-content: space-between; */
 }
 
 .detailsForm .groupInput {
-  flex-basis: 19%;
+  flex-basis: 27%;
 }
 
 .detailsForm .third-parent {
@@ -199,7 +204,7 @@ td {
 }
 
 th {
-  background-color: rgb(60, 202, 252) !important;
+  background-color: var(--bg-primary-color) !important;
   color: white;
   font-family: 'Cairo', sans-serif;
   font-size: 16px;
@@ -233,4 +238,6 @@ table {
 .tableFixHead {
   height: 200px;
   overflow: auto;
+  width: 65%;
+    margin: auto;
 }

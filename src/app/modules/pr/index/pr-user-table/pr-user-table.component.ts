@@ -77,7 +77,7 @@ export class PrUserTableComponent implements OnInit {
   openDialog() {
     this.dialog.open(PrUserDialogComponent, {
       width: '98%',
-      height:'90%'
+      height:'85%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllMasterForms();
@@ -88,7 +88,7 @@ export class PrUserTableComponent implements OnInit {
     this.dialog
       .open(PrUserDialogComponent, {
         width: '98%',
-        height:'90%',
+        height:'85%',
      data: row,
       })
       .afterClosed()
