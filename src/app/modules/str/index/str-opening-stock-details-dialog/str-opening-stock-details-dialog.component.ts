@@ -418,7 +418,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
     this.isEdit = false;
-    console.log("edit : ", this.groupDetailsForm.value, "row: ", this.editData.id)
+    // console.log("edit : ", this.groupDetailsForm.value, "row: ", this.editData.id)
     // this.api.putStrOpen(this.groupMasterForm.value)
     // .subscribe({
     //   next: (res) => {

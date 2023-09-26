@@ -52,13 +52,8 @@
           <mat-form-field appearance="outline" class="groupInput" style="width: 120px;">
             <mat-select  formControlName="type" (valueChange)="getListCtrl($event)"
               placeholder="{{editData ? editData.type : ''}}">
-              <!-- <mat-option value="الموظف">الموظف</mat-option>
-              <mat-option value="المخزن">المخزن</mat-option> -->
-              <mat-option value="الموظف">كشف العجز</mat-option>
-              <mat-option value="المخزن">سند خصم الاصناف فاقدة او تالفة</mat-option>
-              <mat-option value="محضر بيع">محضر بيع</mat-option>
-              <mat-option value="طلب تشغيل">طلب تشغيل</mat-option>
-              <mat-option value="اهداءات ليست النشاط الرئيسي للجهة">اهداءات ليست النشاط الرئيسي للجهة</mat-option>
+              <mat-option value="الموظف">الموظف</mat-option>
+              <mat-option value="المخزن">المخزن</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
