@@ -1,3 +1,7 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل صنف حساب  ' : 'إضافة صنف حساب جديد'}}</h1>
 <form [formGroup]="accountItemForm" dir="rtl">
     <h1 mat-dialog-title>إضافة صنف حساب جديد  </h1>
     <div mat-dialog-content>
@@ -17,10 +21,20 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <mat-label>تصنيف الحساب</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput aria-label="itemcategory" [matAutocomplete]="itemcategory" [formControl]="accountItemCategoryCtrl"
+            placeholder="{{getAccountItemCategoryData ? getAccountItemCategoryData.accountItemCategoryName : ''}}" (click)="openAutoAccountItemCategory()" required />
+          <mat-autocomplete #itemcategory="matAutocomplete" [displayWith]="displayAccountItemCategory"
+            (optionSelected)="ItemCategorySelected($event)">
+            <mat-option *ngFor="let itemCategory of filteredAccountItemCategory | async" [value]="itemCategory">
+              {{ itemCategory.name }} | {{ itemCategory.id }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </form>
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-      <button mat-raised-button color="primary" (click)="addFiAccountItem()" style="margin-left: 8px;">{{actionBtn}}</button>
+      <button mat-raised-button class="savebtn" (click)="addFiAccountItem()" >{{actionBtn}}</button>
     </div>
   </form>

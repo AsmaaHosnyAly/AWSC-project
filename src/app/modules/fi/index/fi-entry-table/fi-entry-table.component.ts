@@ -90,17 +90,17 @@ export class FiEntryTableComponent implements OnInit {
 
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
-      employee: [''],
+    
       costcenter: [''],
       // :[''],
       //  costcentersList:[''],
       costCenterId: [''],
       item: [''],
       fiscalYear: [''],
-      StartDate: [''],
-      EndDate: [''],
+      date: [''],
+      account: [''],
 
-      store: [''],
+      type: [''],
       storeId: [''],
       employeeId: [''],
       employeeName: [''],
@@ -167,7 +167,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '85%'
+        height: '82%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -191,6 +191,7 @@ export class FiEntryTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset()
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المدخلات !!');
@@ -241,7 +242,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '85%',
+        height: '82%',
         data: row,
       })
       .afterClosed()

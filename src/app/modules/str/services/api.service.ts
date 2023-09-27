@@ -1974,7 +1974,7 @@ export class ApiService {
     // Make http post request over api
     // with formData as req
 
-    return this.http.post('http://192.168.100.213/files/str-uploads', formData);
+    return this.http.post(`${this.url}/STRProduct/UploadFile`, formData);
     // alert(this.baseApiUrl)
   }
   //  showfile(file:any){
@@ -2334,6 +2334,10 @@ export class ApiService {
   getAllItems() {
     console.log('Avg price inputs to backend');
     return this.http.get<any>(`${this.url}/STRItem/get/all/`);
+  }
+  getUpload(formData: any): Observable<any>  {
+    console.log('Avg price inputs to backend');
+    return this.http.get<any>(`${this.url}/STRProduct/UploadFile`);
   }
 
   // -------end add--------

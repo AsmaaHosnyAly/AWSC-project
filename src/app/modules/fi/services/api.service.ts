@@ -145,6 +145,10 @@ export class ApiService {
   getAllAccounts(): Observable<any> {
     return this.http.get<any>(`${this.url}/FIAccount/get/all`);
   }
+  
+  getAllAccountItemCategory(): Observable<any> {
+    return this.http.get<any>(`${this.url}/FIAccountItemCategory/get/all`);
+  }
   // FIJournal
   getFIJournal() {
     return this.http.get<any>(`${this.url}/FIJournal/get/all`);

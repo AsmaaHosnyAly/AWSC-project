@@ -289,17 +289,19 @@ footer h3 {
 
 
 
-.print-display {
-  display: block;
-  display: flex;
-  position: relative;
-  /* left: -482px; */
-  top: 15px;
-}
+
 
 
 .searchLabels{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.print-display {
+   
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
