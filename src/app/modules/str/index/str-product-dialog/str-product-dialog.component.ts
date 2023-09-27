@@ -18,6 +18,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { UploadService } from 'src/app/upload.service';
 export class Item {
   constructor(public id: number, public name: string) {}
 }
@@ -48,6 +49,7 @@ export class StrProductDialogComponent implements OnInit {
   basketballPlayers: any;
   fileToUpload: any;
   attachementList: any;
+  url = 'http://ims.aswan.gov.eg/api'
   itemName: any;
   productIdToEdit: any;
   userIdFromStorage: any;
@@ -75,7 +77,7 @@ export class StrProductDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private http: HttpClient,
     private dialogRef: MatDialogRef<StrProductDialogComponent>,
-    private toastr: ToastrService
+    private toastr: ToastrService,private uploadService: UploadService
   ) {
     this.itemCtrl = new FormControl();
     this.filteredItem = this.itemCtrl.valueChanges.pipe(
@@ -109,6 +111,11 @@ export class StrProductDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       vendorId: ['', Validators.required],
       modelId: ['', Validators.required],
+      attachment: [''],
+      altText: new FormControl(''),
+    description: new FormControl(''),
+
+      // platoonName: [''],
       // attachment: [''],
       transactionUserId: [''],
       // altText: [''],
@@ -220,36 +227,55 @@ export class StrProductDialogComponent implements OnInit {
     this.modelCtrl.updateValueAndValidity();
   }
 
-  onChange(event: any) {
-    this.file = event.target.files[0];
-    console.log('file', this.file);
-    alert('on change function');
-  }
+  // onChange(event: any) {
+  //   this.file = event.target.files[0];
+  //   console.log('file', this.file);
+  //   alert('on change function');
+  // }
 
-  // OnClick of button Upload
-  onUpload() {
-    let formdata = new FormData();
-    formdata.set('name', this.file.name);
-    formdata.set('file', this.file);
-    this.productForm.controls['attachment'].setValue(formdata);
-    console.log('form data', formdata);
+  // // OnClick of button Upload
+  // onUpload() {
+  //   let formdata = new FormData();
+  //   // formdata.set('name', this.file.name);
+  //   // formdata.set('file', this.file);
+  //   this.productForm.controls['attachment'].setValue(formdata);
+  //   console.log('form data', formdata);
 
-    // this.http.post("http://192.168.100.213/files/str-uploads",formdata).subscribe((response)=>{
+  //   // this.http.post("http://192.168.100.213/files/str-uploads",formdata).subscribe((response)=>{
 
-    // })
+  //   // })
 
-    // this.loading = !this.loading;
-    this.api.upload(this.file).subscribe((event: any) => {
-      if (typeof event === 'object') {
-        // Short link via api response
-        this.shortLink = event.link;
+  //   // this.loading = !this.loading;
+  //   this.api.upload(this.file).subscribe((event: any) => {
+  //     if (typeof event === 'object') {
+  //       // Short link via api response
+  //       this.shortLink = event.link;
 
-        this.loading = false; // Flag variable
-        console.log('shortlink', this.shortLink);
-        this.productForm.controls['attachment'].setValue(this.shortLink);
-        alert('display link: ' + this.productForm.getRawValue().attachment);
-      }
-    });
+  //       this.loading = false; // Flag variable
+  //       console.log('shortlink', this.shortLink);
+  //       this.productForm.controls['attachment'].setValue(this.shortLink);
+  //       alert('display link: ' + this.productForm.getRawValue().attachment);
+  //     }
+  //   });
+  // }
+
+  onFileSelected(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const files : FileList | null = inputElement.files;
+  
+    if (files && files.length > 0) {
+      const file: File = files[0];
+      this.uploadService.uploadFile(file).subscribe(
+        filePath => {
+          // File uploaded successfully, do something with the returned file path
+          console.log('File path:', filePath);
+        },
+        error => {
+          // Handle the error
+          console.error('File upload error:', error);
+        }
+      );
+    }
   }
 
   getExistingNames() {
@@ -263,23 +289,39 @@ export class StrProductDialogComponent implements OnInit {
     });
   }
 
-  handleFileInput(e: any) {
-    this.fileToUpload = e?.target?.files[0];
-  }
-  saveFileInfo()
-  {
-    debugger
-    const formData: FormData = new FormData();
-    formData.append('attachment', this.fileToUpload);
-    // formData.append('altText', this.productForm.value.altText);
-    // formData.append('description', this.productForm.value.description);
-    return this.http.post('http://localhost:48608/FileManager', formData,
-    {
-      headers : new HttpHeaders()})
-    .subscribe(() => alert("File uploaded"));
-  }
+  // handleFileInput(e: any) {
+  //   this.fileToUpload = e?.target?.files[0];
+  // }
+  // saveFileInfo()
+  // {
+  //   debugger
+  //   const formData: FormData = new FormData();
+  //   formData.append('file', this.fileToUpload);
+  //   // formData.append('altText', this.productForm.value.altText);
+  //   // formData.append('description', this.productForm.value.description);
+
+  //    // this.api.getUpload( )
+      
+  //       // .subscribe({
+  //       //   next: (res) => {
+  //       //     // this.priceCalled = res;
+  //       //     this.productForm.controls['attachement'].setValue(res);
+  //       //     // console.log("price avg called res: ", this.productForm.getRawValue().avgPrice);
+  //       //   },
+  //       //   error: (err) => {
+  //       //     // console.log("fetch fiscalYears data err: ", err);
+  //       //     // alert("خطا اثناء جلب متوسط السعر !");
+  //       //   }
+  //       // })
+
+  //   return this.http.post(`${this.url}/STRProduct/UploadFile`, formData,
+  //   {
+  //     headers : new HttpHeaders()})
+  //   .subscribe(() => alert("File uploaded"));
+  // }
 
   async addProduct() {
+    // this.saveFileInfo()
     // console.log("att",this.editData.attachement)
 
     console.log('form entered values', this.productForm.value);
@@ -309,8 +351,22 @@ export class StrProductDialogComponent implements OnInit {
 
       console.log('form add product value: ', this.productForm.value);
 
+            
+        // this.api.getUpload( )
+      
+        // .subscribe({
+        //   next: (res) => {
+        //     // this.priceCalled = res;
+        //     this.productForm.controls['attachement'].setValue(res);
+        //     // console.log("price avg called res: ", this.productForm.getRawValue().avgPrice);
+        //   },
+        //   error: (err) => {
+        //     // console.log("fetch fiscalYears data err: ", err);
+        //     // alert("خطا اثناء جلب متوسط السعر !");
+        //   }
+        // })
       if (this.productForm.valid) {
-        this.saveFileInfo()
+        
         this.api.postStrProduct(this.productForm.value).subscribe({
           next: (res) => {
             console.log('add product res: ', res);

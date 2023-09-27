@@ -1,11 +1,14 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل شجرة حساب  ' : ' إضافة شجرة حساب جديدة'}}</h1>
 <form [formGroup]="FIAccountForm" dir="rtl">
-    <h1 mat-dialog-title>إضافة شجرة حساب جديدة</h1>
     <div mat-dialog-content>
       <form [formGroup]="FIAccountForm">
-        <mat-form-field appearance="outline">
+        <!-- <mat-form-field appearance="outline">
           <mat-label>كود المستخدم</mat-label>
           <input formControlName="transactionUserId" matInput placeholder="كود المستخدم">
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field appearance="outline">
           <mat-label> اسم الحساب</mat-label>
           <input formControlName="name" matInput placeholder=" اسم الحساب">
@@ -17,8 +20,7 @@
       </form>
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addFIAccountHierarchy()" style="margin-left: 8px;">{{actionBtn}}</button> 
+    <button mat-raised-button class="savebtn" (click)="addFIAccountHierarchy()" >{{actionBtn}}</button> 
     </div>
     </form>
   
