@@ -265,11 +265,9 @@ td {
   margin-left: 3%;
 }
 .print-display {
-  display: block;
   display: flex;
-  position: relative;
-  /* left: -482px; */
-  top: 15px;
+  justify-content: center;
+  align-items: center;
 }
 
 .icons {
