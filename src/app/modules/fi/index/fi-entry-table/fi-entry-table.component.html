@@ -12,7 +12,7 @@
         <div class="search">
             <mat-form-field appearance="outline">
                 <mat-label>الرقم</mat-label>
-                <input #no matInput placeholder="ادخل الرقم" type="number">
+                <input #no matInput placeholder="ادخل الرقم" type="number" min="0">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -32,8 +32,17 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>التاريخ</mat-label>
-                <input #date matInput [matDatepicker]="picker">
+                <mat-label>تاريخ البداية</mat-label>
+                <input #startDate matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>تاريخ النهاية</mat-label>
+                <input #endDate matInput [matDatepicker]="picker">
                 <mat-datepicker-toggle matIconSuffix [for]="picker">
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -41,7 +50,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>النوع</mat-label>
+                <mat-label>نوع مصدر الادخال</mat-label>
                 <mat-select #sourceId plceholder="اختر النوع">
                     <mat-option *ngFor="let source of sourcesList"
                         [value]="source.id">{{source.name}}</mat-option>
@@ -49,7 +58,7 @@
             </mat-form-field>
 
             <button mat-icon-button color="primary"
-                (click)="getSearchFiEntry(no.value, journalId.value, accountId.value, date.value, sourceId.value)">
+                (click)="getSearchFiEntry(no.value, journalId.value, accountId.value, startDate.value, endDate.value, sourceId.value)">
                 <mat-icon>search</mat-icon>
             </button>
 
