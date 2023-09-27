@@ -121,20 +121,41 @@ export class FIAccountComponent implements OnInit {
       });
   }
 
-  deleteAccount(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح الحساب ؟ ');
+  // deleteAccount(id: number) {
+  //   var result = confirm('هل ترغب بتاكيد مسح الحساب ؟ ');
+  //   if (result) {
+  //     this.api.deleteAccount(id).subscribe({
+  //       next: (res) => {
+  //         alert('تم الحذف بنجاح');
+  //         this.getAllAccounts();
+  //       },
+  //       error: () => {
+  //         alert('خطأ فى حذف العنصر');
+  //       },
+  //     });
+  //   }
+  // }
+
+  deleteAccount(id:number){
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteAccount(id).subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deleteAccount:",res)
           alert('تم الحذف بنجاح');
           this.getAllAccounts();
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+  
   async getSearchAccounts(name: any) {
     this.api.getAccount().subscribe({
       next: (res) => {
