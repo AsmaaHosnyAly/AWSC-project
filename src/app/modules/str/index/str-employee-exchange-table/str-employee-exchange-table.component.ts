@@ -202,7 +202,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
         width: '98%',
-        height: '95%'
+        height: '85%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -254,7 +254,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
         width: '95%',
-        height: '95%',
+        height: '80%',
         data: row,
       })
       .afterClosed()

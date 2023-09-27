@@ -25,7 +25,7 @@ export class StrCommodityComponent implements OnInit {
 
 title = 'Angular13Crud';
 //define table fields which has to be same to api fields
-displayedColumns: string[] = ['code', 'name','action'];
+displayedColumns: string[] = ['code', 'name','accountName','action'];
 dataSource!: MatTableDataSource<any>;
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;

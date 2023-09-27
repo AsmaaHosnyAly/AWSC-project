@@ -246,6 +246,12 @@ export class ApiService {
       `${this.url}/STRCommodity/get/all`
     );
   }
+
+  getAllAccount(): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}/FIAccount/get/all`
+    );
+  }
   getAllGrades(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRGrade/get/all`);
   }
@@ -1136,7 +1142,7 @@ export class ApiService {
   deleteCommodity(id: number) {
     console.log('delete by id: ', id);
     return this.http.delete<any>(
-      '${this.url}/STRCommodity/delete/' + id
+      `${this.url}/STRCommodity/delete/` + id
     );
   }
 
@@ -1995,6 +2001,12 @@ export class ApiService {
   deleteStrProduct(id: number) {
     console.log('delete product data from api, id: ', id);
     return this.http.delete<any>(`${this.url}/STRProduct/Delete/` + id);
+  }
+
+  getProductAutoCode() {
+    return this.http.get<any>(
+      `${this.url}/STRProduct/AutoCode`
+    );
   }
   ///////////////////////////////// STR-Product/////////////////////////////
   // postStrProduct(data: any) {
@@ -3174,4 +3186,48 @@ export class ApiService {
       `${this.url}/STRProduct/get/all`
     );
   }
+
+  // userstore
+
+getAllUseres(): Observable<any> {
+  return this.http.get<any>(
+    `${this.url}/PRUser/get/all`
+  );
+}
+getAllStores(): Observable<any> {
+  return this.http.get<any>(
+   `${this.url}/STRStore/get/all`
+  );
+}
+getuserstoreCode(GradeId: any) {
+  console.log('gradeId:', GradeId);
+
+  return this.http.get<any>(
+    `${this.url}/STRPlatoon/AutoCode?GradeId=${GradeId}`
+  );
+}
+// dddd
+
+//  userstore
+postUserstore(data: any) {
+  return this.http.post<any>(
+    `${this.url}/StrUserStore/Add`,
+    data
+  );
+}
+getUserstore() {
+  return this.http.get<any>(`${this.url}/StrUserStore/get/all`);
+}
+putUserstore(data: any) {
+  console.log("")
+  return this.http.put<any>(
+    `${this.url}/StrUserStore/update`,
+    data
+  );
+}
+deleteUserstore(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/StrUserStore/delete/${id}`
+  );
+}
 }

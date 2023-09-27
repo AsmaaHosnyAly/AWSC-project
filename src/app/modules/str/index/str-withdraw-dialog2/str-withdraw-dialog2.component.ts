@@ -233,7 +233,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       transactionUserId: [1, Validators.required],
       destStoreUserId: [1, Validators.required],
       type: ['', Validators.required],
-      sourceInput: ['',Validators.required],
+      sourceInput: ['', Validators.required],
 
       date: [dateNow, Validators.required],
       fiscalYearId: ['', Validators.required],
@@ -1085,12 +1085,12 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   editDetailsForm(row: any) {
-  
+
 
     this.router.navigate(['/withdraw'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrWithdrawDetailsDialogComponent, {
       width: '95%',
-      height: '95%',
+      height: '85%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'Save' || val === 'Update') {
@@ -1620,7 +1620,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.dialog
       .open(StrWithdrawDetailsDialogComponent, {
         width: '95%',
-        height: '95%',
+        height: '85%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -1656,7 +1656,7 @@ export class StrWithdrawDialogComponent implements OnInit {
           // this.getAllDetailsForms();
           this.getDetailedRowData = '';
           this.groupDetailsForm.controls['qty'].setValue(1);
-// this.toastrEditSuccess();
+          // this.toastrEditSuccess();
           //   },
           //   error: (err) => {
           //     console.log("update err: ", err)

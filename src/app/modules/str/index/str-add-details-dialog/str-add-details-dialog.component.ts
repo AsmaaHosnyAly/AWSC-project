@@ -11,14 +11,16 @@ import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ApiService } from '../../services/api.service'; 
+import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
 export class Item {
   constructor(public id: number, public name: string, public fullCode: string) { }
 }
-
+export class Product {
+  constructor(public id: number, public name: string, public code: any) { }
+}
 
 @Component({
   selector: 'app-str-add-details-dialog',
@@ -69,7 +71,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   getMasterRowSourceName: any;
 
   stateDefaultValue: any;
-  productsList: any;
+  // productsList: any;
   itemSearchWay: any;
   activeItemSearchWay: any;
 
@@ -77,6 +79,11 @@ export class StrAddDetailsDialogComponent implements OnInit {
   filteredItem: Observable<Item[]>;
   items: Item[] = [];
   selectedItem: Item | undefined;
+
+  productsList: Product[] = [];
+  productCtrl: FormControl;
+  filteredProduct: Observable<Product[]>;
+  selectedProduct: Product | undefined;
 
   getAddData: any;
   sourceSelected: any;
@@ -90,6 +97,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   currentDate: any;
   itemByFullCodeValue: any;
   fullCodeValue: any;
+  productIdValue: any;
 
   constructor(private formBuilder: FormBuilder,
 
@@ -114,6 +122,19 @@ export class StrAddDetailsDialogComponent implements OnInit {
       startWith(''),
       map(value => this._filterItems(value))
     );
+
+    // this.productCtrl = new FormControl();
+    // // this.filteredProduct = this.productCtrl.valueChanges.pipe(
+    // //   startWith(''),
+    // //   map(value => this._filterProducts(value))
+    // // );
+
+
+    this.productCtrl = new FormControl();
+    this.filteredProduct = this.productCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterProducts(value))
+    );
   }
 
   ngOnInit(): void {
@@ -127,7 +148,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
       total: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
-      // productId: ['', Validators.required],
+      // productId: [''],
       itemName: ['', Validators.required],
       avgPrice: ['', Validators.required],
       balanceQty: ['', Validators.required],
@@ -285,7 +306,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   closeDialog() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
- 
+
       this.dialogRef.close('Save');
     }
   }
@@ -301,6 +322,47 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.itemCtrl.updateValueAndValidity();
+  }
+
+
+  private _filterProducts(value: string): Product[] {
+    const filterValue = value;
+    console.log("filterValue222:",filterValue);
+    
+    return this.productsList.filter(
+      (product) =>
+      product.name.toLowerCase().includes(filterValue) ||
+      product.code.toString().toLowerCase().includes(filterValue)
+    );
+  }
+
+
+  // private _filterProducts(value: string): Product[] {
+  //   const filterValue = value;
+  //   return this.productsList.filter((product: { code: string; name: string; }) =>
+  //     product.name.toLowerCase().includes(filterValue) 
+  //     // || product.code.toLowerCase().includes(filterValue)
+  //   );
+  // }
+  displayProductName(product: any): string {
+    return product && product.name ? product.name : '';
+  }
+  ProductSelected(event: MatAutocompleteSelectedEvent): void {
+    const product = event.option.value as Product;
+    console.log("product selected: ", product);
+    this.selectedProduct = product;
+    // this.groupDetailsForm.patchValue({ productId: product.id });
+    this.productIdValue = product.id;
+
+    console.log("product in form: ", this.productIdValue);
+    // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+    this.getItemByProductId(this.productIdValue);
+  }
+  openAutoProduct() {
+    this.productCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.productCtrl.updateValueAndValidity();
   }
 
 
@@ -320,15 +382,105 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
-      this.itemsList.filter((a: any) => {
-        if (a.fullCode === code.target.value) {
-          this.groupDetailsForm.controls['itemId'].setValue(a.id);
-          this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
 
-          console.log("item by code: ", a.name);
-          this.itemCtrl.setValue(a.name);
-          if (a.name) {
+      if (this.itemSearchWay != 'searchByProductName') {
+
+        this.itemsList.filter((a: any) => {
+          console.log("enter product code case, ", "a.code: ", a.fullCode, " code target: ", code.target.value);
+
+          if (a.fullCode == code.target.value) {
+            console.log("enter product code case condition: ", a.fullCode === code.target.value);
+
+            this.groupDetailsForm.controls['itemId'].setValue(a.id);
+            this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
+
+            console.log("item by code: ", a.name);
+            this.itemCtrl.setValue(a.name);
+            if (a.name) {
+              this.itemByFullCodeValue = a.name;
+
+              this.api.getAvgPrice(
+                this.getMasterRowStoreId,
+                this.getMasterRowFiscalYearId,
+                formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+                this.groupDetailsForm.getRawValue().itemId
+              )
+                .subscribe({
+                  next: (res) => {
+                    // this.priceCalled = res;
+                    this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                    this.groupDetailsForm.controls['price'].setValue(res)
+                    console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+                    console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب متوسط السعر !");
+                  }
+                })
+
+
+              this.api.getSumQuantity(
+                this.getMasterRowStoreId,
+                this.groupDetailsForm.getRawValue().itemId,
+              )
+                .subscribe({
+                  next: (res) => {
+                    // this.priceCalled = res;
+                    this.groupDetailsForm.controls['balanceQty'].setValue(res);
+                    console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب الرصيد الحالى  !");
+                  }
+                })
+            }
+            else {
+              this.itemByFullCodeValue = '-';
+            }
             this.itemByFullCodeValue = a.name;
+            // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+
+          }
+        })
+      }
+      // else {
+
+      // }
+
+    }
+
+
+  }
+
+  getItemByProductCode(code: any) {
+    if (code.keyCode == 13) {
+      this.productsList.filter((a: any) => {
+        console.log("enter product code case, ", "a.code: ", a.code, " code target: ", code.target.value);
+        if (a.code == code.target.value) {
+          console.log("enter product code case condition: ", a.code === code.target.value);
+
+          this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
+          // this.groupDetailsForm.controls['productId'].setValue(a.id);
+          this.productIdValue = a.name;
+          this.productCtrl.setValue(a.name);
+
+          // if(this.productCtrl){
+          //   this.itemByFullCodeValue = a.name;
+          // }
+          // this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+
+          // alert("productId: " + this.groupDetailsForm.getRawValue().productId);
+          // console.log("item by code: ", a.itemName);
+          // console.log("item FULLCODE: ", this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId).fullCode);
+          this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId).fullCode;
+          // alert("fullCode: " + this.fullCodeValue);
+
+          this.itemCtrl.setValue(a.itemName);
+          if (a.itemName) {
+            this.itemByFullCodeValue = a.itemName;
 
             this.api.getAvgPrice(
               this.getMasterRowStoreId,
@@ -371,14 +523,15 @@ export class StrAddDetailsDialogComponent implements OnInit {
           else {
             this.itemByFullCodeValue = '-';
           }
-          this.itemByFullCodeValue = a.name;
+          this.itemByFullCodeValue = a.itemName;
           // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
         }
+        else{
+          this.productIdValue = '';
+        }
       })
     }
-
-
   }
 
 
@@ -432,39 +585,39 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
     //   // }
     //   // this.closeDialog();
-      this.dialogRef.close('Save');
-      console.log("master Id: ", this.getMasterRowId.id)
+    this.dialogRef.close('Save');
+    console.log("master Id: ", this.getMasterRowId.id)
 
-      if (this.getMasterRowId.id) {
+    if (this.getMasterRowId.id) {
 
-        this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
-          .subscribe({
-            next: (res) => {
-              // this.itemsList = res;
-              this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            // this.itemsList = res;
+            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
 
-              if (this.matchedIds) {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
-                this.dataSource = new MatTableDataSource(this.matchedIds);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
+            if (this.matchedIds) {
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
 
-                this.sumOfTotals = 0;
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                  // alert('totalll: '+ this.sumOfTotals)
-                  // this.updateBothForms();
-                  // this.updateMaster();
-                }
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+                // this.updateMaster();
               }
-            },
-            error: (err) => {
-              // console.log("fetch items data err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
             }
-          })
-      
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
+          }
+        })
+
       // }
     }
 
@@ -581,7 +734,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   }
 
   async updateDetailsForm() {
-  
+
 
     // console.log("values master form: ", this.groupMasterForm.value)
     console.log("values getMasterRowId: ", this.getMasterRowId)
@@ -691,7 +844,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
     this.productsList.filter((a: any) => {
       if (a.id === productEvent) {
         this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
-        this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+        // this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+        this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId).fullCode;
 
         console.log("item by code: ", a.itemName);
         this.itemCtrl.setValue(a.itemName);

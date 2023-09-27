@@ -2032,6 +2032,9 @@ export class ApiService {
   postFiEntryDetails(data: any) {
     return this.http.post<any>(`${this.url}/FIEntryDetails/Add`, data);
   }
+  getFiEntryDetails() {
+    return this.http.get<any>(`${this.url}/FIEntryDetails/get/all`);
+  }
   putFiEntryDetails(data: any) {
     console.log('put fiEntryDetails data with id: ', data);
     return this.http.put<any>(`${this.url}/FIEntryDetails/update/`, data);

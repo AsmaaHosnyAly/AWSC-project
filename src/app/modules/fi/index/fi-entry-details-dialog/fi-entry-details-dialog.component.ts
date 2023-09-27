@@ -168,7 +168,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
         console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
 
-        alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
+        // alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
 
         console.log("add details second time, details form: ", this.groupDetailsForm.value)
         console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
@@ -182,9 +182,9 @@ export class FiEntryDetailsDialogComponent implements OnInit {
                   "id": res
                 };
                 console.log("Details res: ", this.getDetailsRowId.id)
-                alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
+                // alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
 
-                alert("تمت إضافة التفاصيل بنجاح");
+                // alert("تمت إضافة التفاصيل بنجاح");
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
 
@@ -211,7 +211,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
       this.api.putFiEntryDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-            alert("تم تحديث التفاصيل بنجاح");
+            // alert("تم تحديث التفاصيل بنجاح");
             this.toastrSuccess();
             // console.log("update res: ", res);
             this.groupDetailsForm.reset();
@@ -221,7 +221,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
           },
           error: (err) => {
             // console.log("update err: ", err)
-            alert("خطأ أثناء تحديث سجل المجموعة !!")
+            // alert("خطأ أثناء تحديث سجل المجموعة !!")
           }
         })
       this.groupDetailsForm.removeControl('id')
@@ -237,7 +237,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch accounts data err: ", err);
-          alert("خطا اثناء جلب الدفاتر !");
+          // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
@@ -251,7 +251,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch accountItems data err: ", err);
-          alert("خطا اثناء جلب الدفاتر !");
+          // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
@@ -314,6 +314,13 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
 
   // }
+  closeDialog() {
+    let result = window.confirm('هل تريد اغلاق الطلب');
+    if (result) {
+
+      this.dialogRef.close('Save');
+    }
+  }
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");

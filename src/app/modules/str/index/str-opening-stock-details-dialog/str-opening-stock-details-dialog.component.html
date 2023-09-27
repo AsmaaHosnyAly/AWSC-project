@@ -14,6 +14,52 @@
             <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل الرصيد الإفتتاحي </h1>
         <div class="detailsForm" dir="rtl">
 
+            <mat-accordion style="margin-bottom: 2%;" multi dir="rtl">
+
+                <mat-expansion-panel style="width: 80%;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-description>
+                        بحث بالمنتج
+                            <mat-icon style="text-align: left;">search</mat-icon>
+                        </mat-panel-description>
+
+                    </mat-expansion-panel-header>
+                
+
+                    <div class="searchbyproduct">
+
+                       
+                        <div style="display: flex; flex-direction: column;">
+                            <mat-label>بحث بكود المنتج </mat-label>
+
+                            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                                <input matInput (keydown)="getItemByProductCode($event)">
+                            </mat-form-field>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column;">
+                            <mat-label>بحث باسم المنتج </mat-label>
+                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                                <input matInput aria-label="commodity" [matAutocomplete]="autoProductId"
+                                    [formControl]="productCtrl" placeholder="{{productIdValue ? productIdValue : ''}}"
+                                    (click)="openAutoProduct()" required />
+                                <mat-autocomplete #autoProductId="matAutocomplete" [displayWith]="displayProductName"
+                                    (optionSelected)="ProductSelected($event)">
+                                    <mat-option *ngFor="let product of filteredProduct | async" [value]="product">
+                                        {{ product.name }} | {{ product.code }}
+                                        <!-- {{ product.name }} -->
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- </div> -->
+
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+
             <!-- <div style="display: flex; width: 100%; justify-content: space-between;"> -->
 
                 <!-- <div  > -->

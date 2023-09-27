@@ -22,30 +22,16 @@ import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 
-export class deststore {
-  constructor(public id: number, public name: string) { }
-}
-// export class store {
-//   constructor(public id: number, public name: string) { }
-// }
-export class Employee {
-  constructor(public id: number, public name: string, public code: string) { }
-}
-// export class FiscalYear {
-//   constructor(public id: number, public FiscalYear: string) { }
-// }
-
 export class item {
   constructor(public id: number, public name: string, public fullCode: string) { }
 }
-export interface Source {
-  name: string;
-}
+
 export class List {
   constructor(public id: number, public name: string) { }
 }
-export class costcenter {
-  constructor(public id: number, public name: string) { }
+
+export class Product {
+  constructor(public id: number, public name: string, public code: any) { }
 }
 
 @Component({
@@ -109,32 +95,27 @@ export class StrWithdrawDetailsDialogComponent {
   // isReadOnlyEmployee: any = false;
   isReadOnlyPercentage: any = true;
   deststoresList: any;
-  // deststoreCtrl: FormControl<any>;
-  // filtereddeststore: Observable<deststore[]>;
-  // selecteddeststore: deststore | undefined;
-  // formcontrol = new FormControl('');
+
 
   employeesList: any;
-  // employeeCtrl: FormControl<any>;
-  // filteredEmployee: Observable<Employee[]>;
-  // selectedEmployee: Employee | undefined;
-  // formcontrol = new FormControl('');
+
   fullCodeValue: any;
   itemByFullCodeValue: any;
 
   fiscalYearsList: any;
-  // fiscalYearCtrl: FormControl;
-  // filteredFiscalYear: Observable<FiscalYear[]>;
-  // selectedFiscalYear: FiscalYear | undefined;
-
-  // storeCtrl: FormControl;
-  // filteredstore: Observable<store[]>;
-  // selectedstore: store | undefined;
 
   itemsList: item[] = [];
   itemCtrl: FormControl;
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
+
+  productsList: Product[] = [];
+  productCtrl: FormControl;
+  filteredProduct: Observable<Product[]>;
+  selectedProduct: Product | undefined;
+
+  productIdValue: any;
+
   isEditDataReadOnly: boolean = true;
 
   isEdit: boolean = false;
@@ -148,7 +129,7 @@ export class StrWithdrawDetailsDialogComponent {
   sourceSelected: any;
 
   userRoles: any;
-  productsList: any;
+  // productsList: any;
   itemSearchWay: any;
   activeItemSearchWay: any;
 
@@ -173,43 +154,28 @@ export class StrWithdrawDetailsDialogComponent {
     this.stateDefaultValue = "جديد";
     this.itemSearchWay = 'searchByItemCode';
 
-    // this.costcenterCtrl = new FormControl();
-    // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map((value) => this._filtercostcenters(value))
-    // );
-
     this.itemCtrl = new FormControl();
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filteritems(value))
     );
 
-    // this.listCtrl = new FormControl();
-    // this.filteredList = this.listCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map((value) => this._filterLists(value))
-    // );
+    this.productCtrl = new FormControl();
+    this.filteredProduct = this.productCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterProducts(value))
+    );
+
   }
 
   ngOnInit(): void {
-    // this.getStores();
     this.getItems();
     this.getProducts();
-    // this.getFiscalYears();
-    // this.getEmployees();
-    // this.getCostCenters();
-    this.getDestStores();
-    // this.dialogRef.backdropClick().subscribe(() => { this.closeDialog; });
 
-    // this.dialogRef.disableClose = true;
-    // this.dialogRef.backdropClick().subscribe(async () => await this.safeClose());
-    // this.createForm();
+    this.getDestStores();
 
     let dateNow: Date = new Date();
     console.log('Date = ' + dateNow);
-    // this.employeeName();
-    // this.getStrWithdrawAutoNo();
 
     this.getMasterRowId = this.editData;
 
@@ -241,8 +207,6 @@ export class StrWithdrawDetailsDialogComponent {
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
     this.getMasterRowDate = formatDate(this.route.snapshot.queryParamMap.get('date')!, 'yyyy-MM-dd', this.locale);
 
-    // this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
-    // this.getMasterRowEmployeeId = this.route.snapshot.queryParamMap.get('employeeId');
     console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate, "employeeId: ", this.getMasterRowEmployeeId);
 
     if (this.editData) {
@@ -280,226 +244,10 @@ export class StrWithdrawDetailsDialogComponent {
         this.groupDetailsForm.controls['percentage'].setValue(100);
       }
 
-      //   this.isEdit = true;
-      //   this.groupMasterForm.controls['no'].setValue(this.editData.no);
 
-      //   if (this.editData.employeeId == null) {
-      //     this.actionName = 'sss';
-      //     console.log('action btnnnnnnnnnnnnn', this.actionName);
-      //     this.groupMasterForm.controls['source'].setValue('المخزن');
-      //     this.groupMasterForm.controls['sourceInput'].setValue(
-      //       this.groupMasterForm.getRawValue().desstoreName
-      //     );
-
-      //     // alert("deststore in edit:"+this.editData.deststoreId)
-      //   } else {
-      //     this.actionName = 'choose';
-      //     this.groupMasterForm.controls['source'].setValue('الموظف');
-      //     this.groupMasterForm.controls['sourceInput'].setValue(
-      //       this.groupMasterForm.getRawValue().employeeName
-      //     );
-      //     console.log(
-      //       'employee in edit:',
-      //       this.groupMasterForm.getRawValue().employeeName
-      //     );
-      //     // alert("employee in edit:"+this.editData.employeeId)
-      //   }
-
-      //   console.log('master edit form: ', this.editData);
-      //   // this.actionName= "ssss";
-      //   this.actionBtnMaster = 'Update';
-
-      //   console.log('employeeId in edittttt', this.editData.employeeId);
-
-      //   this.employeeName = this.getemployeeByID(this.editData.employeeId);
-      //   console.log('desstore id in edit data', this.editData.deststoreId);
-      //   this.desstoreName = this.getDestStoreById(this.editData.deststoreId);
-
-      //   console.log('employeename in edit', this.employeeName);
-
-      //   this.groupMasterForm.controls['employeeName'].setValue(
-      //     this.editData.employeeName
-      //   );
-
-      //   this.groupMasterForm.controls['desstoreName'].setValue(
-      //     this.editData.desstoreName
-      //   );
-      //   this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-      //   this.groupMasterForm.controls['storeName'].setValue(
-      //     this.editData.storeName
-      //   );
-
-      //   // alert("facialId before: "+ this.editData.fiscalYearId)
-      //   this.groupMasterForm.controls['fiscalYearId'].setValue(
-      //     this.editData.fiscalYearId
-      //   );
-
-      //   this.groupMasterForm.controls['date'].setValue(this.editData.date);
-      //   this.groupMasterForm.controls['transactionUserId'].setValue(
-      //     this.editData.transactionUserId
-      //   );
-      //   // this.groupMasterForm.controls['destStoreUserId'].setValue(this.editData.destStoreUserId);
-      //   // this.groupMasterForm.controls['destStoreUserName'].setValue(this.editData.destStoreUserName);
-
-      //   this.groupMasterForm.addControl(
-      //     'id',
-      //     new FormControl('', Validators.required)
-      //   );
-      //   this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
-      //   this.groupMasterForm.controls['employeeId'].setValue(
-      //     this.editData.employeeId
-      //   );
-
-      //   // this.groupMasterForm.controls['itemId'].setValue(this.editData.itemId);
-
-      //   this.groupMasterForm.controls['deststoreId'].setValue(
-      //     this.editData.deststoreId
-      //   );
-
-      //   console.log('costcenter:', this.editData.costCenterId);
-
-      //   this.groupMasterForm.controls['costCenterId'].setValue(
-      //     this.editData.costCenterId
-      //   );
-      //   this.groupMasterForm.controls['costcenterName'].setValue(
-      //     this.editData.costcenterName
-      //   );
-      //   this.isEditDataReadOnly = true;
-      // }
-
-
-      // this.getAllDetailsForms();
-
-      // localStorage.setItem('transactionUserId', JSON.stringify("mehrail"));
-      // this.userIdFromStorage = localStorage.getItem('transactionUserId');
-      // console.log("userIdFromStorage in localStorage: ", this.userIdFromStorage)
-      // console.log("userIdFromStorage after slice from string shape: ", this.userIdFromStorage?.slice(1, length - 1))
-      // this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
-      // this.groupMasterForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-      // console.log("transactionuser",this.editData.transactionUserId)
     }
   }
 
-  // displaydeststoreName(deststore: any): string {
-  //   return deststore && deststore.name ? deststore.name : '';
-  // }
-  // deststoreSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const deststore = event.option.value as deststore;
-  //   console.log("deststore selected: ", deststore);
-  //   this.selecteddeststore = deststore;
-  //   this.groupMasterForm.patchValue({ deststoreId: deststore.id });
-  //   console.log("deststore in form: ", this.groupMasterForm.getRawValue().deststoreId);
-
-  // }
-  // private _filterdeststores(value: string): deststore[] {
-  //   const filterValue = value;
-  //   return this.deststoresList.filter(deststore =>
-  //     deststore.name.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutodeststore() {
-  //   this.deststoreCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.deststoreCtrl.updateValueAndValidity();
-  // }
-
-  // private _filterFiscalYears(value: string): FiscalYear[] {
-  //   const filterValue = value;
-  //   return this.fiscalYearsList.filter(fiscalyearObj =>
-  //     fiscalyearObj.FiscalYear.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // displayFiscalYearName(vacation: any): string {
-  //   return vacation && vacation.fiscalyear ? vacation.fiscalyear : '';
-  // }
-  // fiscalYearSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const fiscalyear = event.option.value as FiscalYear;
-  //   console.log("vacation selected: ", fiscalyear);
-  //   this.selectedFiscalYear = fiscalyear;
-  //   this.groupMasterForm.patchValue({ fiscalYearId: fiscalyear.id });
-  //   console.log("vacation in form: ", this.groupMasterForm.getRawValue().fiscalYearId);
-  // }
-  // openAutoFiscalYear() {
-  //   this.fiscalYearCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.fiscalYearCtrl.updateValueAndValidity();
-  // }
-
-  // displayEmployeeName(employee: any): string {
-  //   return employee && employee.name ? employee.name : '';
-  // }
-  // employeeSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const employee = event.option.value as Employee;
-  //   console.log("employee selected: ", employee);
-  //   this.selectedEmployee = employee;
-  //   this.groupMasterForm.patchValue({ employeeId: employee.id });
-  //   console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
-  //   this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
-  // }
-  // private _filterEmployees(value: string): Employee[] {
-  //   const filterValue = value;
-  //   return this.employeesList.filter(employee =>
-  //     employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutoEmployee() {
-  //   this.employeeCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.employeeCtrl.updateValueAndValidity();
-  // }
-
-  // displaycostcenterName(costcenter: any): string {
-  //   return costcenter && costcenter.name ? costcenter.name : '';
-  // }
-  // costcenterSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const costcenter = event.option.value as costcenter;
-  //   console.log('costcenter selected: ', costcenter);
-  //   this.selectedcostcenter = costcenter;
-  //   this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
-  //   console.log(
-  //     'costcenter in form: ',
-  //     this.groupMasterForm.getRawValue().costCenterId
-  //   );
-  //   // this.set_store_Null(this.groupMasterForm.getRawValue().costCenterId);
-  // }
-  // private _filtercostcenters(value: string): costcenter[] {
-  //   const filterValue = value;
-  //   return this.costcentersList.filter((costcenter) =>
-  //     costcenter.name.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutocostcenter() {
-  //   this.costcenterCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.costcenterCtrl.updateValueAndValidity();
-  // }
-
-  // displaystoreName(store: any): string {
-  //   return store && store.name ? store.name : '';
-  // }
-  // storeSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const store = event.option.value as store;
-  //   console.log("store selected: ", store);
-  //   this.selectedstore = store;
-  //   this.groupMasterForm.patchValue({ storeId: store.id });
-  //   console.log("store in form: ", this.groupMasterForm.getRawValue().storeId);
-  // }
-  // private _filterstores(value: string): store[] {
-  //   const filterValue = value;
-  //   return this.storesList.filter(store =>
-  //     store.name.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutostore() {
-  //   this.storeCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.storeCtrl.updateValueAndValidity();
-  // }
 
   displayitemName(item: any): string {
     return item && item.name ? item.name : '';
@@ -557,117 +305,39 @@ export class StrWithdrawDetailsDialogComponent {
     this.itemCtrl.updateValueAndValidity();
   }
 
-  // async nextToAddFormDetails() {
-  //   this.groupMasterForm.removeControl('id');
-  //   console.log(
-  //     'in next to add storeId',
-  //     this.groupMasterForm.getRawValue().storeId
-  //   );
-  //   this.storeName = await this.getStoreByID(
-  //     this.groupMasterForm.getRawValue().storeId
-  //   );
 
-  //   // this.sellerName = await this.getsellerByID(this.groupMasterForm.getRawValue().sellerId );
-  //   // this.desstoreName =
+  private _filterProducts(value: string): Product[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
 
-  //   // this.groupDetailsForm.patchValue({ deststoreName: store.name  });
+    return this.productsList.filter(
+      (product) =>
+        product.name.toLowerCase().includes(filterValue) ||
+        product.code.toString().toLowerCase().includes(filterValue)
+    );
+  }
+  displayProductName(product: any): string {
+    return product && product.name ? product.name : '';
+  }
+  ProductSelected(event: MatAutocompleteSelectedEvent): void {
+    const product = event.option.value as Product;
+    console.log("product selected: ", product);
+    this.selectedProduct = product;
+    // this.groupDetailsForm.patchValue({ productId: product.id });
+    this.productIdValue = product.id;
 
-  //   // console.log("deststoreId in add",this.groupMasterForm.getRawValue().deststoreId)
+    console.log("product in form: ", this.productIdValue);
+    // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+    this.getItemByProductId(this.productIdValue);
+  }
+  openAutoProduct() {
+    this.productCtrl.setValue(''); // Clear the input field value
 
-  //   // alert("cost center id"+this.groupMasterForm.getRawValue().costCenterId)
-  //   this.costcenterName = await this.getcostcenterByID(
-  //     this.groupMasterForm.getRawValue().costCenterId
-  //   );
+    // Open the autocomplete dropdown by triggering the value change event
+    this.productCtrl.updateValueAndValidity();
+  }
 
-  //   this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-  //   console.log(
-  //     'in next to add employee name:',
-  //     this.groupMasterForm.getRawValue().employeeName
-  //   );
 
-  //   console.log(
-  //     'emoloyeeIddddd',
-  //     this.groupMasterForm.getRawValue().employeeId
-  //   );
-  //   this.groupMasterForm.controls['employeeId'].setValue(
-  //     this.groupMasterForm.getRawValue().employeeId
-  //   );
-
-  //   this.groupMasterForm.controls['employeeName'].setValue(
-  //     this.groupMasterForm.getRawValue().employeeName
-  //   );
-  //   this.groupMasterForm.controls['costcenterName'].setValue(
-  //     this.costcenterName
-  //   );
-  //   console.log(
-  //     'in next to add deststore name:',
-  //     this.groupMasterForm.getRawValue().desstoreName
-  //   );
-  //   this.groupMasterForm.controls['desstoreName'].setValue(
-  //     this.groupMasterForm.getRawValue().desstoreName
-  //   );
-  //   // alert("deststore id"+this.groupMasterForm.getRawValue().deststoreId)
-
-  //   this.groupMasterForm.controls['deststoreId'].setValue(
-  //     this.groupMasterForm.getRawValue().deststoreId
-  //   );
-
-  //   // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
-  //   // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
-  //   console.log('dataName: ', this.groupMasterForm.value);
-  //   if (this.groupMasterForm.getRawValue().no) {
-  //     console.log('no changed: ', this.groupMasterForm.getRawValue().no);
-  //     this.groupMasterForm.controls['no'].setValue(this.autoNo);
-  //   } else {
-  //     this.groupMasterForm.controls['no'].setValue(this.autoNo);
-  //     console.log(
-  //       'no took auto number: ',
-  //       this.groupMasterForm.getRawValue().no
-  //     );
-  //   }
-  //   console.log('Master add form : ', this.groupMasterForm.value);
-
-  //   if (this.groupMasterForm.getRawValue().storeId) {
-  //     // this.groupMasterForm.removeControl('id');
-  //     // alert("facialId in add: "+ this.editData.fiscalYearId)
-
-  //     console.log('Master add form in : ', this.groupMasterForm.value);
-  //     this.api.postStrWithdraw(this.groupMasterForm.value).subscribe({
-  //       next: (res) => {
-  //         console.log('res code: ', res.status);
-  //         // console.log("ID header after post req: ", res);
-  //         this.getMasterRowId = {
-  //           id: res,
-  //         };
-  //         console.log('mastered res: ', this.getMasterRowId.id);
-  //         this.MasterGroupInfoEntered = true;
-
-  //         alert('تم الحفظ بنجاح');
-  //         this.toastrSuccess();
-  //         this.getAllDetailsForms();
-  //         this.updateDetailsForm();
-  //         // this.addDetailsInfo();
-  //       },
-  //       error: (err) => {
-  //         console.log('header post err: ', err);
-  //         alert('من فضلك اكمل البيانات');
-  //       },
-  //     });
-  //   }
-  //   // else {
-  //   //   alert("تاكد من ادخال البيانات صحيحة")
-  //   // }
-  // }
-
-  // set_Employee_Null(deststoreId: any) {
-  //   // alert("deststoreId in null fun:"+ deststoreId)
-
-  //   this.groupMasterForm.controls['employeeId'].setValue(null);
-  //   this.isReadOnlyEmployee = true;
-  //   // this.employeeCtrl = null;
-  //   // this.deststoreValue=deststoreId;
-  //   this.isReadOnlyEmployee = true;
-  // }
   set_store_Null(employeeId: any) {
     // alert("employeeId in null fun:"+employeeId)
 
@@ -728,16 +398,7 @@ export class StrWithdrawDetailsDialogComponent {
 
     // this.getStrWithdrawAutoNo();
   }
-  // async fiscalYearValueChanges(fiscalyaerId: any) {
-  //   console.log('fiscalyaer: ', fiscalyaerId);
-  //   this.fiscalYearSelectedId = await fiscalyaerId;
-  //   this.groupMasterForm.controls['fiscalYearId'].setValue(
-  //     this.fiscalYearSelectedId
-  //   );
-  //   this.isEdit = false;
 
-  //   this.getStrWithdrawAutoNo();
-  // }
 
   getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
     console.log("Avg get inputs: ", "storeId: ", this.getMasterRowStoreId,
@@ -763,7 +424,7 @@ export class StrWithdrawDetailsDialogComponent {
   closeDialog() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
- 
+
       this.dialogRef.close('Save');
     }
   }
@@ -771,42 +432,42 @@ export class StrWithdrawDetailsDialogComponent {
 
 
   getAllDetailsForms() {
-   
-      if (this.getMasterRowId) {
-        this.api.getStrWithdrawDetails().subscribe(
-          (res) => {
-            console.log(
-              'res to get all details form: ',
-              res,
-              'masterRowId: ',
-              this.getMasterRowId.id
-            );
 
-            this.matchedIds = res.filter((a: any) => {
-              // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
-              return a.stR_WithdrawId == this.getMasterRowId.id;
-            });
+    if (this.getMasterRowId) {
+      this.api.getStrWithdrawDetails().subscribe(
+        (res) => {
+          console.log(
+            'res to get all details form: ',
+            res,
+            'masterRowId: ',
+            this.getMasterRowId.id
+          );
 
-            if (this.matchedIds) {
-              this.dataSource = new MatTableDataSource(this.matchedIds);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
+          this.matchedIds = res.filter((a: any) => {
+            // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
+            return a.stR_WithdrawId == this.getMasterRowId.id;
+          });
 
-              this.sumOfTotals = 0;
-              for (let i = 0; i < this.matchedIds.length; i++) {
-                this.sumOfTotals =
-                  this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                this.updateBothForms();
-              }
+          if (this.matchedIds) {
+            this.dataSource = new MatTableDataSource(this.matchedIds);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+
+            this.sumOfTotals = 0;
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              this.sumOfTotals =
+                this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+              this.updateBothForms();
             }
-          },
-          (err) => {
-            // alert('حدث خطا ما !!');
           }
-        );
-      }
-    
+        },
+        (err) => {
+          // alert('حدث خطا ما !!');
+        }
+      );
+    }
+
   }
 
   closeDetailsDialog() {
@@ -859,13 +520,6 @@ export class StrWithdrawDetailsDialogComponent {
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
-                // alert('تمت إضافة المجموعة بنجاح');
-                // this.dialogRef.close('save');
-
-                // this.getAllMasterForms();
-                // this.dialogRef.close('save');
-                // this.dialogRef.close();
-                // this.getAllMasterForms();
               },
               error: (err) => {
                 // alert("حدث خطأ أثناء إضافة مجموعة")
@@ -906,7 +560,7 @@ export class StrWithdrawDetailsDialogComponent {
 
     // if (this.getDetailedRowData) {
     console.log('details foorm: ', this.groupDetailsForm.value);
-  
+
     this.isEdit = false;
 
     // this.api.putStrWithdraw(this.groupMasterForm.value).subscribe({
@@ -916,9 +570,6 @@ export class StrWithdrawDetailsDialogComponent {
         .putStrWithdrawDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-            // alert("put")
-            // this.toastrSuccess();
-            // console.log("update res: ", res);
             this.groupDetailsForm.reset();
             this.getAllDetailsForms();
             this.itemCtrl.setValue('');
@@ -937,12 +588,6 @@ export class StrWithdrawDetailsDialogComponent {
         });
     }
 
-    // this.dialogRef.close('update');
-    // },
-    // error: () => {
-    //   alert("خطأ أثناء تحديث سجل الصنف !!")
-    // }
-    // });
   }
 
   updateBothForms() {
@@ -1130,35 +775,7 @@ export class StrWithdrawDetailsDialogComponent {
         });
     }
   }
-  // getEmployees() {
-  //   this.api.getEmployee().subscribe({
-  //     next: (res) => {
-  //       this.employeesList = res;
-  //       console.log('employee list: ', this.employeesList);
-  //       // this.employeeName =  this.getemployeeByID(this.groupMasterForm.getRawValue().employeeId);
-  //       // console.log("employeeId",this.groupMasterForm.getRawValue().employeeId)
-  //       // console.log('employeeName',this.employeeName.value)
-  //       // this.employeeName=this.editData(this.employeesList)
-  //     },
-  //     error: (err) => {
-  //       // console.log("fetch store data err: ", err);
-  //       // alert("خطا اثناء جلب المخازن !");
-  //     },
-  //   });
-  // }
 
-  // getCostCenters() {
-  //   this.api.getCostCenter().subscribe({
-  //     next: (res) => {
-  //       this.costcentersList = res;
-  //       console.log('costcenterrr res: ', this.costcentersList);
-  //     },
-  //     error: (err) => {
-  //       // console.log("fetch store data err: ", err);
-  //       // alert("خطا اثناء جلب المخازن !");
-  //     },
-  //   });
-  // }
   resetControls() {
     this.groupDetailsForm.reset();
     this.fullCodeValue = '';
@@ -1196,49 +813,7 @@ export class StrWithdrawDetailsDialogComponent {
         // alert("خطا اثناء جلب رقم المخزن !");
       });
   }
-  // getemployeeByID(id: any) {
-  //   console.log('row employee id in getemployeebyid: ', id);
-  //   return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       console.log('fetch employee by id res: ', json.name);
 
-  //       return json.name;
-  //       // console.log("json",json.name)
-  //     })
-  //     .catch((err) => {
-  //       // console.log("error in fetch name by id: ", err);
-  //       // alert("خطا اثناء جلب رقم المخزن !");
-  //     });
-  // }
-
-  // getcostcenterByID(id: any) {
-  //   console.log('costcenter idddd: ', id);
-  //   return fetch(`http://ims.aswan.gov.eg/api/FICostCenter/get/${id}`)
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       console.log('fetch name by id res: ', json.name);
-  //       return json.name;
-  //     })
-  //     .catch((err) => {
-  //       // console.log("error in fetch name by id: ", err);
-  //       // alert("خطا اثناء جلب رقم المخزن !");
-  //     });
-  // }
-
-  // getStoreByID(id: any) {
-  //   console.log(' store: ', id);
-  //   return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       // console.log("fetch name by id res: ", json.name);
-  //       return json.name;
-  //     })
-  //     .catch((err) => {
-  //       // console.log("error in fetch name by id: ", err);
-  //       // alert("خطا اثناء جلب رقم المخزن !");
-  //     });
-  // }
   goToPart(): void {
     this.router.navigate(['/formedit']);
   }
@@ -1268,18 +843,6 @@ export class StrWithdrawDetailsDialogComponent {
         // alert("خطا اثناء جلب رقم العنصر !");
       });
   }
-
-  // getItemByCode(code: any) {
-  //   if (code.keyCode == 13) {
-  //     // console.log("code: ", code.target.value);
-
-  //     this.itemsList.filter((a: any) => {
-  //       if (a.fullCode === code.target.value) {
-  //         this.groupDetailsForm.controls['itemId'].setValue(a.id);
-  //       }
-  //     });
-  //   }
-  // }
 
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
@@ -1311,22 +874,6 @@ export class StrWithdrawDetailsDialogComponent {
                 }
               })
 
-
-            // this.api.getSumQuantity(
-            //   this.getMasterRowStoreId,
-            //   this.groupDetailsForm.getRawValue().itemId,
-            // )
-            //   .subscribe({
-            //     next: (res) => {
-            //       // this.priceCalled = res;
-            //       this.groupDetailsForm.controls['balanceQty'].setValue(res);
-            //       console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
-            //     },
-            //     error: (err) => {
-            //       // console.log("fetch fiscalYears data err: ", err);
-            //       alert("خطا اثناء جلب الرصيد الحالى  !");
-            //     }
-            //   })
           }
           else {
             this.itemByFullCodeValue = '-';
@@ -1339,6 +886,61 @@ export class StrWithdrawDetailsDialogComponent {
     }
 
 
+  }
+
+  getItemByProductCode(code: any) {
+    if (code.keyCode == 13) {
+      this.productsList.filter((a: any) => {
+        console.log("enter product code case, ", "a.code: ", a.code, " code target: ", code.target.value);
+        if (a.code == code.target.value) {
+          console.log("enter product code case condition: ", a.code === code.target.value);
+
+          this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
+          // this.groupDetailsForm.controls['productId'].setValue(a.id);
+          this.productIdValue = a.name;
+          this.productCtrl.setValue(a.name);
+
+          // console.log("itemsList: ", this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode);
+          this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
+          // alert("fullCode: " + this.fullCodeValue);
+          this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
+
+          this.itemCtrl.setValue(a.itemName);
+          if (a.itemName) {
+            this.itemByFullCodeValue = a.name;
+
+            this.api.getAvgPrice(
+              this.getMasterRowStoreId,
+              this.getMasterRowFiscalYearId,
+              formatDate(this.getMasterRowDate, 'yyyy-MM-dd', this.locale),
+              this.groupDetailsForm.getRawValue().itemId
+            )
+              .subscribe({
+                next: (res) => {
+                  // this.priceCalled = res;
+                  // this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                  this.groupDetailsForm.controls['price'].setValue(res)
+                  console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+                },
+                error: (err) => {
+                  // console.log("fetch fiscalYears data err: ", err);
+                  // alert("خطا اثناء جلب متوسط السعر !");
+                }
+              })
+
+          }
+          else {
+            this.itemByFullCodeValue = '-';
+          }
+          this.itemByFullCodeValue = a.name;
+          // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+
+        }
+        else{
+          this.productIdValue = '';
+        }
+      })
+    }
   }
 
 
@@ -1366,73 +968,6 @@ export class StrWithdrawDetailsDialogComponent {
 
   }
 
-  // async getFiscalYears() {
-  //   this.api.getFiscalYears().subscribe({
-  //     next: async (res) => {
-  //       this.fiscalYearsList = res;
-
-  //       this.api.getLastFiscalYear().subscribe({
-  //         next: async (res) => {
-  //           // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
-  //           this.defaultFiscalYearSelectValue = await res;
-  //           console.log(
-  //             'selectedYearggggggggggggggggggg: ',
-  //             this.defaultFiscalYearSelectValue
-  //           );
-  //           if (this.editData) {
-  //             console.log(
-  //               'selectedYear id in get: ',
-  //               this.editData.fiscalYearId
-  //             );
-
-  //             this.groupMasterForm.controls['fiscalYearId'].setValue(
-  //               this.editData.fiscalYearId
-  //             );
-  //           } else {
-  //             this.groupMasterForm.controls['fiscalYearId'].setValue(
-  //               this.defaultFiscalYearSelectValue.id
-  //             );
-  //             this.getStrWithdrawAutoNo();
-  //           }
-  //         },
-  //         error: (err) => {
-  //           // console.log("fetch store data err: ", err);
-  //           // alert("خطا اثناء جلب المخازن !");
-  //         },
-  //       });
-
-  //       // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
-  //       // console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
-  //       // if (this.editData) {
-  //       //   this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-  //       // }
-  //       // else {
-  //       //   this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-  //       //   this.getStrOpenAutoNo();
-  //       // }
-  //       // this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
-  //     },
-  //     error: (err) => {
-  //       // console.log("fetch fiscalYears data err: ", err);
-  //       // alert("خطا اثناء جلب العناصر !");
-  //     },
-  //   });
-  // }
-
-  // getFiscalYearsByID(id: any) {
-  //   console.log('row fiscalYear id: ', id);
-  //   return fetch(`https://ims.aswan.gov.eg/api/STRFiscalYear/get/${id}`)
-  //     .then((response) => response.json())
-  //     .then((json) => {
-  //       console.log('fetch fiscalYears name by id res: ', json.fiscalyear);
-  //       return json.fiscalyear;
-  //     })
-  //     .catch((err) => {
-  //       console.log('error in fetch fiscalYears name by id: ', err);
-  //       // alert("خطا اثناء جلب رقم العنصر !");
-  //     });
-  // }
-
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
   }
@@ -1442,131 +977,6 @@ export class StrWithdrawDetailsDialogComponent {
   toastrEditSuccess(): void {
     this.toastr.success('تم التعديل بنجاح');
   }
-
-
-  // displayListName(list: any): string {
-  //   return list && list.name ? list.name : '';
-  // }
-
-  // listSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const list = event.option.value as List;
-  //   this.selectedList = list;
-  //   // if(this.sourceSelected === "المورد"){
-  //   //   this.groupMasterForm.patchValue({ sellerId: list.id });
-  //   // this.groupMasterForm.patchValue({ sellerName: list.name });
-  //   // }
-  //   if (this.sourceSelected === 'الموظف') {
-  //     this.groupMasterForm.patchValue({ employeeId: list.id });
-  //     this.groupMasterForm.patchValue({ employeeName: list.name });
-  //     this.set_store_Null(this.groupMasterForm.getRawValue().emolyeeId);
-  //   } else {
-  //     this.groupMasterForm.patchValue({ deststoreId: list.id });
-  //     this.groupMasterForm.patchValue({ desstoreName: list.name });
-  //     // alert("deststoreId::::"+ this.groupMasterForm.getRawValue().desstoreName)
-  //     this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
-  //   }
-  // }
-
-  // getStrWithdrawAutoNo() {
-  //   console.log(
-  //     'storeId: ',
-  //     this.storeSelectedId,
-  //     ' fiscalYearId: ',
-  //     this.fiscalYearSelectedId
-  //   );
-  //   console.log(
-  //     'get default selected storeId & fisclYearId: ',
-  //     this.defaultStoreSelectValue,
-  //     ' , ',
-  //     this.defaultFiscalYearSelectValue
-  //   );
-
-  //   if (this.groupMasterForm) {
-  //     if (this.editData && !this.fiscalYearSelectedId) {
-  //       console.log('change storeId only in updateHeader');
-  //       this.api
-  //         .getStrWithdrawAutoNo(
-  //           this.groupMasterForm.getRawValue().storeId,
-  //           this.editData.fiscalYearId
-  //         )
-  //         .subscribe({
-  //           next: (res) => {
-  //             this.autoNo = res;
-  //             console.log('autoNo: ', this.autoNo);
-  //             return res;
-  //           },
-  //           error: (err) => {
-  //             console.log('fetch autoNo err1: ', err);
-  //             // alert("خطا اثناء جلب العناصر !");
-  //           },
-  //         });
-  //     } else if (this.editData && !this.storeSelectedId) {
-  //       console.log('change fiscalYearId only in updateHeader');
-  //       this.api
-  //         .getStrWithdrawAutoNo(
-  //           this.editData.storeId,
-  //           this.groupMasterForm.getRawValue().fiscalYearId
-  //         )
-  //         .subscribe({
-  //           next: (res) => {
-  //             this.autoNo = res;
-  //             console.log('autoNo: ', this.autoNo);
-  //             return res;
-  //           },
-  //           error: (err) => {
-  //             console.log('fetch autoNo err2: ', err);
-  //             // alert("خطا اثناء جلب العناصر !");
-  //           },
-  //         });
-  //     } else if (this.editData) {
-  //       console.log('change both in edit data: ', this.isEdit);
-
-  //       this.api
-  //         .getStrWithdrawAutoNo(
-  //           this.groupMasterForm.getRawValue().storeId,
-  //           this.groupMasterForm.getRawValue().fiscalYearId
-  //         )
-  //         .subscribe({
-  //           next: (res) => {
-  //             this.autoNo = res;
-  //             // this.editData = null;
-  //             console.log('isEdit : ', this.isEdit);
-  //             // this.groupMasterForm.controls['no'].setValue(666);
-  //             console.log('autoNo: ', this.autoNo);
-  //             return res;
-  //           },
-  //           error: (err) => {
-  //             console.log('fetch autoNo err3: ', err);
-  //             // alert("خطا اثناء جلب العناصر !");
-  //           },
-  //         });
-  //     } else {
-  //       console.log(
-  //         'change both values in updateHeader, ',
-  //         this.groupMasterForm.getRawValue().storeId
-  //       );
-  //       this.api
-  //         .getStrWithdrawAutoNo(
-  //           this.groupMasterForm.getRawValue().storeId,
-  //           this.groupMasterForm.getRawValue().fiscalYearId
-  //         )
-  //         .subscribe({
-  //           next: (res) => {
-  //             this.autoNo = res;
-  //             // this.editData.no = res
-  //             console.log('isEdit : ', this.isEdit);
-
-  //             console.log('autoNo: ', this.autoNo);
-  //             return res;
-  //           },
-  //           error: (err) => {
-  //             console.log('fetch autoNo err4: ', err);
-  //             // alert("خطا اثناء جلب العناصر !");
-  //           },
-  //         });
-  //     }
-  //   }
-  // }
 
   getProducts() {
     this.api.getStrProduct().subscribe({
@@ -1600,7 +1010,9 @@ export class StrWithdrawDetailsDialogComponent {
     this.productsList.filter((a: any) => {
       if (a.id === productEvent) {
         this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
-        this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+        // this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+        this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
+        this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
 
         console.log("item by code: ", a.itemName);
         this.itemCtrl.setValue(a.itemName);
@@ -1615,8 +1027,6 @@ export class StrWithdrawDetailsDialogComponent {
           )
             .subscribe({
               next: (res) => {
-                // this.priceCalled = res;
-                // this.groupDetailsForm.controls['avgPrice'].setValue(res);
                 this.groupDetailsForm.controls['price'].setValue(res)
                 console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
               },

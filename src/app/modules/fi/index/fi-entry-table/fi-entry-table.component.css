@@ -27,14 +27,14 @@ mat-card-header .child1{
   padding: 0;
 }
 th {
-  background-color:rgb(60, 202, 252) !important;
+  background-color:var(--bg-primary-color)!important;
   color: white;
   font-family: 'Cairo', sans-serif;
   font-size: 16px;
 }
 
 .add {
-  background: linear-gradient(rgb(122, 205, 235),rgb(60, 202, 252));
+  background: linear-gradient(var(--add-btn-color), rgb(60, 202, 252));
   color: white;
   font-family: 'Cairo', sans-serif;
   padding: 5px 35px;
@@ -59,7 +59,7 @@ th {
   width: 250px;
   font-size: 15px;
   font-family: 'Cairo', sans-serif;
-  background-color:rgb(60, 202, 252);
+  background-color:var(--bg-primary-color);
   color: white;
   border: none;
   border-radius: 5px;
@@ -109,7 +109,7 @@ mat-panel-description {
 
 .header div {
   height: 100px;
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color);
   color: white;
   /* color: #04365f; */
 }
@@ -140,7 +140,7 @@ mat-panel-description {
 .header .header-two img {
   height: 80%;
 }
-
+/* 
 table {
   margin: 28px 0;
   overflow-y: scroll;
@@ -158,7 +158,8 @@ table, th, td {
   text-align: center;
   font-family: 'Cairo', sans-serif;
   font-weight: bold;
-}
+  
+} */
 
 footer {
   display: none;
@@ -194,5 +195,56 @@ footer h3 {
   border: none !important;
   box-shadow: none !important;
   
+}
+.filter-search {
+  padding: 0 !important;
+  font-size: 15px !important;
+  background-color: 0 !important;
+  outline: none;
+  border: none;
+  border-bottom: 1px #2b2727 solid;
+  width: 100%;
+  text-align: right;
+
+}
+
+
+.add {
+  background: linear-gradient(var(--add-btn-color), var(--bg-primary-color));
+  color: white;
+  font-family: "Cairo", sans-serif;
+  padding: 5px 35px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.div-table {
+  display: block;
+  /* overflow-y: scroll !important; */
+  width: 100%;
+}
+
+table {
+  margin: 28px 0;
+  width: 100%;
+  text-align: center;
+  /* overflow-y: auto; */
+}
+
+.mat-mdc-table {
+  --mat-table-row-item-outline-width: 1px;
+  table-layout: auto;
+  white-space: normal;
+  background-color: var(--mat-table-background-color);
+  font-family: "Cairo", sans-serif !important;
+  width: 100%;
+}
+table,
+th,
+td {
+  border: 1px rgb(161, 160, 160) solid;
+  text-align: center !important;
+  font-family: "Cairo", sans-serif;
+  font-weight: bold;
 }
 

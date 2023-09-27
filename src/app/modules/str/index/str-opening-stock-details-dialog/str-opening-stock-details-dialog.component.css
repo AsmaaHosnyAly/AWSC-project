@@ -4,6 +4,7 @@
 
 .cdk-overlay-pane {
   position: relative !important;
+  position: fixed;
 }
 
 .close {
@@ -203,4 +204,12 @@ th {
 overflow: hidden;
 
 
+}
+.searchbyproduct{
+  display: flex;
+  justify-content: space-between;
+}
+mat-panel-description{
+  color: rgb(68, 68, 68);
+  font-size: 17px;
 }
