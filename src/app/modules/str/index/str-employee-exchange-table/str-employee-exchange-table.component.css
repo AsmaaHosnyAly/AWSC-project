@@ -266,12 +266,7 @@ footer h3 {
   box-shadow: none !important;
 }
 
-.print-display {
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  margin-right: 90px;
-}
+
 
 .icons {
   font-size: 23px;
@@ -296,11 +291,11 @@ footer h3 {
 }
 
 .print-display {
-  display: block;
+
   display: flex;
-  position: relative;
-  /* left: -482px; */
-  top: 15px;
+  justify-content: center;
+  align-items: center;
+
 }
 
 

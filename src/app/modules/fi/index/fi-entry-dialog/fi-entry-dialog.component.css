@@ -50,6 +50,7 @@
     display: flex;
     /* justify-content: space-between; */
     flex-wrap: wrap;
+    margin-top: -2%;
   
   }
 
@@ -84,9 +85,10 @@ mat-radio-group{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    /* width: 100%; */
   }
   .headerForm  mat-form-field {
-  width:180px;
+  width:200px;
     margin-left: 10px;
     /* font-size: px !important; */
     padding: 10 !important;
@@ -128,8 +130,9 @@ mat-radio-group{
   }
   
   .tableFixHead {
-    padding-top: 5px;
-    height: 200px;
+    margin-top: 2%;
+    /* padding-top: 5px; */
+    height: 250px;
     overflow: auto;
   }
   .mat-mdc-table {

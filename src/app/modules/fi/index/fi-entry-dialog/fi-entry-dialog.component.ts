@@ -455,7 +455,7 @@ export class FiEntryDialogComponent implements OnInit {
   editDetailsForm(row: any) {
     this.dialog.open(FiEntryDetailsDialogComponent, {
       width: '95%',
-      height: '85%',
+      height: '78%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
@@ -545,7 +545,7 @@ export class FiEntryDialogComponent implements OnInit {
     this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }])
     this.dialog.open(FiEntryDetailsDialogComponent, {
       width: '95%',
-      height: '85%'
+      height: '78%'
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();
