@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PrGroupDialogComponent } from '../pr-group-dialog/pr-group-dialog.component';
 import { PrUserDialogComponent } from '../pr-user-dialog/pr-user-dialog.component';
 import { GlobalPositionStrategy } from '@angular/cdk/overlay';
-import { GlobalService } from 'src/app/pages/services/global.service'; 
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-pr-user-table',
@@ -41,8 +41,8 @@ export class PrUserTableComponent implements OnInit {
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    global:GlobalService
-  ) { 
+    global: GlobalService
+  ) {
     global.getPermissionUserRoles(1, 'stores', 'الصلاحيات-المستخدمين', '')
   }
 
@@ -77,7 +77,7 @@ export class PrUserTableComponent implements OnInit {
   openDialog() {
     this.dialog.open(PrUserDialogComponent, {
       width: '98%',
-      height:'90%'
+      height: '90%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getAllMasterForms();
@@ -88,8 +88,8 @@ export class PrUserTableComponent implements OnInit {
     this.dialog
       .open(PrUserDialogComponent, {
         width: '98%',
-        height:'90%',
-     data: row,
+        height: '90%',
+        data: row,
       })
       .afterClosed()
       .subscribe((val) => {
@@ -100,67 +100,137 @@ export class PrUserTableComponent implements OnInit {
   }
 
   deleteBothForms(id: number) {
-    this.http.get<any>("http://ims.aswan.gov.eg/api/PRUserGroup/get/all")
-      .subscribe(res => {
-        this.matchedIds = res.filter((a: any) => {
-          console.log("matched: ", a.userId === id)
-          return a.userId === id
-        })
-        var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+    this.api.getPrUserGroup()
+      .subscribe({
+        next: (res) => {
 
-        if (this.matchedIds.length) {
+          this.matchedIds = res.filter((a: any) => {
+            // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+            return a.userId === id;
+          });
+
           for (let i = 0; i < this.matchedIds.length; i++) {
-            if (result) {
-              this.api.deletePrUserGroup(this.matchedIds[i].id)
-                .subscribe({
-                  next: (res) => {
+            var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
 
-                    this.api.deletePrUser(id)
-                      .subscribe({
-                        next: (res) => {
-                          this.toastrDeleteSuccess();
-                          this.getAllMasterForms();
-                        },
-                        error: () => {
-                          // alert("خطأ أثناء حذف الرئيسي !!");
-                        }
-                      })
+            if (this.matchedIds.length) {
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                if (result) {
+                  this.api.deletePrUserGroup(this.matchedIds[i].id)
+                    .subscribe({
+                      next: (res) => {
 
-                  },
-                  error: () => {
-                    // alert("خطأ أثناء حذف التفاصيل !!");
-                  }
-                })
-            }
+                        this.api.deletePrUser(id)
+                          .subscribe({
+                            next: (res) => {
+                              this.toastrDeleteSuccess();
+                              this.getAllMasterForms();
+                            },
+                            error: () => {
+                              // alert("خطأ أثناء حذف الرئيسي !!");
+                            }
+                          })
 
-          }
-        }
-        else {
-          if (result) {
-            this.api.deletePrUser(id)
-              .subscribe({
-                next: (res) => {
-                  // res.code 
-                  // if(res.code == 'succeeded'){
-                  this.toastrDeleteSuccess();
-                  this.getAllMasterForms();
-                  // }
-                  // else{
-                  // alert("خطأ أثناء حذف الرئيسي !!!!!!!");
-
-                  // }
-
-                },
-                error: () => {
-                  alert("خطأ أثناء حذف الرئيسي !!");
+                      },
+                      error: () => {
+                        // alert("خطأ أثناء حذف التفاصيل !!");
+                      }
+                    })
                 }
-              })
-          }
-        }
 
-      }, err => {
-        // alert("خطا اثناء تحديد المجموعة !!")
+              }
+            }
+            else {
+              if (result) {
+                this.api.deletePrUser(id)
+                  .subscribe({
+                    next: (res) => {
+                      // res.code 
+                      // if(res.code == 'succeeded'){
+                      this.toastrDeleteSuccess();
+                      this.getAllMasterForms();
+                      // }
+                      // else{
+                      // alert("خطأ أثناء حذف الرئيسي !!!!!!!");
+
+                      // }
+
+                    },
+                    error: () => {
+                      alert("خطأ أثناء حذف الرئيسي !!");
+                    }
+                  })
+              }
+            }
+          }
+
+        },
+        error: (err) => {
+          // alert('خطا اثناء تحديد المجموعة !!');
+
+        }
       })
+
+    // this.http.get<any>("http://ims.aswan.gov.eg/api/PRUserGroup/get/all")
+    //   .subscribe(res => {
+    //     this.matchedIds = res.filter((a: any) => {
+    //       console.log("matched: ", a.userId === id)
+    //       return a.userId === id
+    //     })
+    //     var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+
+    //     if (this.matchedIds.length) {
+    //       for (let i = 0; i < this.matchedIds.length; i++) {
+    //         if (result) {
+    //           this.api.deletePrUserGroup(this.matchedIds[i].id)
+    //             .subscribe({
+    //               next: (res) => {
+
+    //                 this.api.deletePrUser(id)
+    //                   .subscribe({
+    //                     next: (res) => {
+    //                       this.toastrDeleteSuccess();
+    //                       this.getAllMasterForms();
+    //                     },
+    //                     error: () => {
+    //                       // alert("خطأ أثناء حذف الرئيسي !!");
+    //                     }
+    //                   })
+
+    //               },
+    //               error: () => {
+    //                 // alert("خطأ أثناء حذف التفاصيل !!");
+    //               }
+    //             })
+    //         }
+
+    //       }
+    //     }
+    //     else {
+    //       if (result) {
+    //         this.api.deletePrUser(id)
+    //           .subscribe({
+    //             next: (res) => {
+    //               // res.code 
+    //               // if(res.code == 'succeeded'){
+    //               this.toastrDeleteSuccess();
+    //               this.getAllMasterForms();
+    //               // }
+    //               // else{
+    //               // alert("خطأ أثناء حذف الرئيسي !!!!!!!");
+
+    //               // }
+
+    //             },
+    //             error: () => {
+    //               alert("خطأ أثناء حذف الرئيسي !!");
+    //             }
+    //           })
+    //       }
+    //     }
+
+    //   }, err => {
+    //     // alert("خطا اثناء تحديد المجموعة !!")
+    //   })
   }
 
   getItems() {

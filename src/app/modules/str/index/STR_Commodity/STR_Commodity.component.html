@@ -8,7 +8,7 @@
           class="add"
           (click)="openDialog()"
           dir="ltr"
-        >
+        > 
           <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
         </button>
       </div>
@@ -21,7 +21,7 @@
           placeholder="بحث"
           #input
         />
-      </div>
+      </div> 
     </mat-card-header>
 <div  class="div-table">
   <table matSort mat-table [dataSource]="dataSource" >
@@ -37,6 +37,12 @@
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef > السلعة </th>
       <td mat-cell *matCellDef="let row"> {{row.name}}</td>
+    </ng-container>
+
+    <!-- account Column -->
+    <ng-container matColumnDef="accountName">
+      <th mat-header-cell *matHeaderCellDef > الحساب </th>
+      <td mat-cell *matCellDef="let row"> {{row.accountName}}</td>
     </ng-container>
 
     <!-- action Column -->

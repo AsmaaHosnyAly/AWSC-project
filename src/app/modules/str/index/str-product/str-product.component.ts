@@ -28,8 +28,7 @@ export class StrProductComponent implements OnInit {
   loading: boolean = false; // Flag variable
   file:any
   File = null;
-  files: any = [];
-  displayedColumns: string[] = ['name', 'itemName', 'vendorName', 'modelName','attachment', 'action'];
+  displayedColumns: string[] = ['code','name', 'itemName', 'vendorName', 'modelName','attachment', 'action'];
 
   dataSource!: MatTableDataSource<any>;
 
@@ -44,7 +43,7 @@ export class StrProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllProducts();
-    this.getAllFiles();
+    // this.getAllFiles();
     // console.log("shortlink",this.shortLink)
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
@@ -110,15 +109,15 @@ onDownload() {
   }
 
 
-  getAllFiles()
-  {
-    debugger
-    return this.http.get('http://localhost:48608/FileManager')
-    .subscribe((result) => {
-      this.files = result;
-      console.log(result);
-  });
-  }
+  // getAllFiles()
+  // {
+  //   debugger
+  //   return this.http.get('http://localhost:48608/FileManager')
+  //   .subscribe((result) => {
+  //     this.files = result;
+  //     console.log(result);
+  // });
+  // }
   downloadFile(id: number, contentType: string)
   {
     return this.http.get(`http://localhost:48608/FileManager/${id}`, {responseType: 'blob'})

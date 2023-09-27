@@ -1,6 +1,6 @@
 <div class="cdk-overlay-pane  ">
   <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
-</div>
+</div> 
 
 <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل سلعة  ' : ' إضافة سلعة جديدة'}}</h1>
 
@@ -15,11 +15,23 @@
         <mat-form-field appearance="outline">
           <mat-label>السلعة</mat-label>
           <input formControlName="name" matInput placeholder="ادخل اسم السلعة"type="text">  
-      </mat-form-field>        
+      </mat-form-field>  
+      
+      <mat-label>الحساب</mat-label>
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="account" [matAutocomplete]="autoAccount" [formControl]="accountCtrl"
+          placeholder="{{getCommodityData ? getCommodityData.accountName : 'اختر حساب'}}" (click)="openAutoAccount()" required />
+        <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
+          (optionSelected)="accountSelected($event)">
+          <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
+            {{ account.name }} | {{ account.code }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
   
           <button mat-raised-button class="savebtn" (click)="addCommodity()" >{{actionBtn}}</button>
       
       </form>
-    </div>
+    </div> 
    
   </form>

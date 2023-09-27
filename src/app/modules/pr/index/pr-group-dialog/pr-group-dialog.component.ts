@@ -164,24 +164,29 @@ export class PrGroupDialogComponent implements OnInit {
   getAllDetailsForms() {
 
     if (this.getMasterRowId) {
-      this.http.get<any>("http://ims.aswan.gov.eg/api/PRGroupRole/get/all")
-        .subscribe(res => {
+      this.api.getPrGroupRole()
+        .subscribe({
+          next: (res) => {
 
-          this.matchedIds = res.filter((a: any) => {
-            return a.groupId == this.getMasterRowId.id
-          })
+            this.matchedIds = res.filter((a: any) => {
+              // console.log("matched Id & HeaderId : ", a.HeaderId === this.getMasterRowId.id)
+              return a.groupId === this.getMasterRowId.id;
+            });
 
-          if (this.matchedIds) {
+            if (this.matchedIds) {
+              
+              // alert("jjjjjj")
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
 
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-        }
-          , err => {
+          },
+          error: (err) => {
             alert("حدث خطا ما !!")
           }
-        )
+        })
+
     }
 
 
@@ -207,11 +212,12 @@ export class PrGroupDialogComponent implements OnInit {
             .subscribe({
               next: (res) => {
                 // console.log("res details: ", res)
-                this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.prRoleCtrl.setValue('');
                 this.updateDetailsForm()
                 this.getAllDetailsForms();
+                this.toastrSuccess();
+
               },
               error: () => {
                 // alert("حدث خطأ أثناء إضافة مجموعة")

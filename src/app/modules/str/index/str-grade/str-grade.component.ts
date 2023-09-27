@@ -20,9 +20,6 @@ import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/pages/services/global.service'; 
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-export class Commodity {
-  constructor(public id: number, public name: string, public code: string,public global:GlobalService,private hotkeysService: HotkeysService) {}
-}
 @Component({
   selector: 'app-str-grade',
   templateUrl: './str-grade.component.html',
@@ -32,7 +29,7 @@ export class STRGradeComponent implements OnInit {
   
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['code', 'name', 'commodityName', 'action'];
+  displayedColumns: string[] = ['code', 'name', 'commodityName', 'accountName', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
