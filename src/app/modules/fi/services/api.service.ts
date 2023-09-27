@@ -2059,7 +2059,8 @@ export class ApiService {
     no: any,
     journalId: any,
     accountId: any,
-    date: any,
+    startDate: any,
+    endDate: any,
     sourceId: any
   ) {
     console.log(
@@ -2069,8 +2070,10 @@ export class ApiService {
       journalId,
       "' accountId: '",
       accountId,
-      "' date: '",
-      date,
+      "' startDate: '",
+      startDate,
+      "' endDate: '",
+      endDate,
       'sourceId: ',
       sourceId
     );
@@ -2083,12 +2086,12 @@ export class ApiService {
     if (!journalId == false) {
       this.mycondition = ` ${this.mycondition}&JournalId=${journalId}`;
     }
-    if (!date == false) {
-      this.mycondition = ` ${this.mycondition}&Date=${date}`;
+    if (!startDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${startDate}`;
     }
-    // if (!EndDate == false) {
-    //   this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
-    // }
+    if (!endDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${endDate}`;
+    }
     if (!accountId == false) {
       this.mycondition = ` ${this.mycondition}&AccountId=${accountId}`;
     }

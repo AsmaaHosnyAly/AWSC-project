@@ -6,85 +6,65 @@
         <mat-expansion-panel-header>
             <mat-panel-description>
                 بحث متقدم
-                <mat-icon>search</mat-icon>
+                <mat-icon>account_circle</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <form [formGroup]="groupMasterForm">
-            <div class="search">
-            <div class="searchLabels">
+        <div class="search">
+            <mat-form-field appearance="outline">
                 <mat-label>الرقم</mat-label>
+                <input #no matInput placeholder="ادخل الرقم" type="number" min="0">
+            </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <input #no matInput placeholder="ادخل الرقم" type="number" formControlName="no">
-                </mat-form-field>
-            </div>
-
-            <div class="searchLabels">
+            <mat-form-field appearance="outline">
                 <mat-label> دفتر اليوميه </mat-label>
+                <mat-select #journalId plceholder="اختر مركز التكلفة">
+                    <mat-option *ngFor="let journal of journalsList"
+                        [value]="journal.id">{{journal.no}}</mat-option>
+                </mat-select>
+            </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-select #journalId plceholder="اختر مركز التكلفة" formControlName="costcenter">
-                        <mat-option *ngFor="let journal of journalsList"
-                            [value]="journal.id">{{journal.no}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="searchLabels">
+            <mat-form-field appearance="outline">
                 <mat-label> الحساب </mat-label>
+                <mat-select #accountId plceholder="اختر الموظف المحول اليه">
+                    <mat-option *ngFor="let account of accountsList"
+                        [value]="account.id">{{account.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-select #accountId plceholder="اختر الموظف المحول اليه" formControlName="account">
-                        <mat-option *ngFor="let account of accountsList"
-                            [value]="account.id">{{account.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>تاريخ البداية</mat-label>
+                <input #startDate matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
 
-            <div class="searchLabels">
-                <mat-label>التاريخ</mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>تاريخ النهاية</mat-label>
+                <input #endDate matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
 
-                <mat-form-field appearance="outline" class="example-full-width">
-                    <input #date matInput [matDatepicker]="picker" formControlName="date">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker">
-                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
+            <mat-form-field appearance="outline">
+                <mat-label>نوع مصدر الادخال</mat-label>
+                <mat-select #sourceId plceholder="اختر النوع">
+                    <mat-option *ngFor="let source of sourcesList"
+                        [value]="source.id">{{source.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
 
-            <div class="searchLabels">
-                <mat-label>النوع</mat-label>
-
-                <mat-form-field appearance="outline">
-                    <mat-select #sourceId plceholder="اختر النوع" formControlName="type">
-                        <mat-option *ngFor="let source of sourcesList" [value]="source.id">{{source.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <!-- <button mat-icon-button color="primary"
-                (click)="getSearchFiEntry(no.value, journalId.value, accountId.value, date.value, sourceId.value)">
+            <button mat-icon-button color="primary"
+                (click)="getSearchFiEntry(no.value, journalId.value, accountId.value, startDate.value, endDate.value, sourceId.value)">
                 <mat-icon>search</mat-icon>
-            </button> -->
-            <div class="print-display">
-                <mat-icon (click)="
-                getSearchFiEntry(no.value, journalId.value, accountId.value, date.value, sourceId.value)
-                    " class="icons" title="بحث">search</mat-icon>
-      
-                <!-- <mat-icon class="icons" title="عرض"
-                  (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
-                  title="تحميل">print</mat-icon>
-      
-                <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
-                  class="icons" title="تحميل">get_app</mat-icon> -->
-      
-                <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
-              </div>
+            </button>
 
-            <!-- <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary">
                 <mat-icon>print</mat-icon>
-            </button> -->
+            </button>
             <!-- <div class="print-display">
                 <mat-icon (click)="
                   getSearchStrWithdraw(no.value, StartDate.value,EndDate.value, fiscalYear.value)
@@ -102,26 +82,25 @@
 
 
         </div>
-     </form>
     </mat-expansion-panel>
 </mat-accordion>
 
 
 <mat-card-header dir="ltr" class="parent-search">
     <div class="child1">
-        <button mat-raised-button class="add" (click)="openFiEntryDialog()" dir="ltr">
-            <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
-        </button>
+      <button mat-raised-button class="add" (click)="openFiEntryDialog()" dir="ltr">
+        <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+      </button>
     </div>
 
     <div>
-        <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
+      <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
     </div>
-</mat-card-header>
+  </mat-card-header>
 
 
 <div class="div-table">
-    <table mat-table [dataSource]="dataSource2" dir="rtl">
+    <table mat-table [dataSource]="dataSource2"  dir="rtl">
 
         <!-- No Column -->
         <ng-container matColumnDef="no">
@@ -174,25 +153,20 @@
         <!-- Action Column -->
         <ng-container matColumnDef="Action">
             <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 15%">
-                الاجراء
+              الاجراء
             </th>
             <td mat-cell *matCellDef="let row" id="buttn">
-                <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
-                    <mat-icon>delete_forever</mat-icon>
-                </button>
+              <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
+                <mat-icon>delete_forever</mat-icon>
+              </button>
             </td>
-        </ng-container>
+          </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">
-              لا توجد بيانات للبحث !!{{ input.value }}"
-            </td>
-          </tr>
 
     </table>
 
