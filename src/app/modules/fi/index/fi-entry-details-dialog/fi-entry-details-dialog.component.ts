@@ -8,6 +8,16 @@ import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
 import { Params, Router } from '@angular/router';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+export class Account {
+  constructor(public id: number, public name: string) { }
+}
+
+export class AccountItem {
+  constructor(public id: number, public name: string) { }
+}
 
 @Component({
   selector: 'app-fi-entry-details-dialog',
@@ -32,8 +42,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
   getDetailsRowId: any;
   journalsList: any;
   sourcesList: any;
-  accountsList: any;
-  accountItemsList: any;
+ 
   employeesList: any;
   distEmployeesList: any;
   costCentersList: any;
@@ -45,6 +54,16 @@ export class FiEntryDetailsDialogComponent implements OnInit {
   deleteConfirmBtn: any;
   dialogRefDelete: any;
 
+  accountsList: Account[] = [];
+  accountCtrl: FormControl;
+  filteredAccount: Observable<Account[]>;
+  selectedAccount: Account | undefined;
+
+  accountItemsList: AccountItem[] = [];
+  accountItemCtrl: FormControl;
+  filteredAccountItem: Observable<AccountItem[]>;
+  selectedAccountItem: AccountItem | undefined;
+
   // displayedColumns: string[] = ['credit', 'debit', 'accountName', 'fiAccountItemId', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -55,12 +74,25 @@ export class FiEntryDetailsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
-    // private toastr: ToastrService,
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<FiEntryDetailsDialogComponent>,
 
     private toastr: ToastrService,
-    private route: Router) { }
+    private route: Router) {
+
+    this.accountCtrl = new FormControl();
+    this.filteredAccount = this.accountCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterAccounts(value))
+    );
+
+    this.accountItemCtrl = new FormControl();
+    this.filteredAccountItem = this.accountItemCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterAccountItems(value))
+    );
+
+  }
 
   ngOnInit(): void {
     this.getFiAccounts();
@@ -97,6 +129,63 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
   }
 
+  private _filterAccounts(value: string): Account[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
+
+    return this.accountsList.filter(
+      (account) =>
+        account.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayAccountName(account: any): string {
+    return account && account.name ? account.name : '';
+  }
+  AccountSelected(event: MatAutocompleteSelectedEvent): void {
+    const account = event.option.value as Account;
+    console.log("account selected: ", account);
+    this.selectedAccount = account;
+    this.groupDetailsForm.patchValue({ accountId: account.id });
+  }
+  openAutoAccount() {
+    this.accountCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.accountCtrl.updateValueAndValidity();
+  }
+
+
+
+  private _filterAccountItems(value: string): AccountItem[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
+
+    return this.accountItemsList.filter(
+      (accountItem) =>
+        accountItem.name.toLowerCase().includes(filterValue)
+      // ||
+      // accountItem.code.toString().toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayAccountItemName(accountItem: any): string {
+    return accountItem && accountItem.name ? accountItem.name : '';
+  }
+  AccountItemSelected(event: MatAutocompleteSelectedEvent): void {
+    const accountItem = event.option.value as AccountItem;
+    console.log("accountItem selected: ", accountItem);
+    this.selectedAccountItem = accountItem;
+    this.groupDetailsForm.patchValue({ fiAccountItemId: accountItem.id });
+ 
+  }
+  openAutoAccountItem() {
+    this.accountItemCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.accountItemCtrl.updateValueAndValidity();
+  }
+
   async addDetailsInfo() {
     this.getMasterRowId = this.route.url.split('=').pop();
     this.groupDetailsForm.controls['entryId'].setValue(this.getMasterRowId);
@@ -118,60 +207,29 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
             this.sumOfCreditTotals = this.sumOfCreditTotals + this.groupDetailsForm.getRawValue().credit;
             this.sumOfDebitTotals = this.sumOfDebitTotals + this.groupDetailsForm.getRawValue().debit;
-            // this.groupMasterForm.controls['creditTotal'].setValue(this.sumOfCreditTotals);
-            // this.groupMasterForm.controls['debitTotal'].setValue(this.sumOfDebitTotals);
+           
 
             if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
               this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
-              // this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
             }
             else {
               this.resultOfBalance = this.sumOfDebitTotals - this.sumOfCreditTotals;
-              // this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
             }
 
-            // if (this.resultOfBalance == 0) {
-            //   this.groupMasterForm.controls['state'].setValue('مغلق');
-            // }
-            // else {
-            //   this.groupMasterForm.controls['state'].setValue('مفتوح');
-            // }
           }
           else {
             console.log("found details withoutEdit: ", this.groupDetailsForm.value)
             this.sumOfCreditTotals = this.sumOfCreditTotals + this.groupDetailsForm.getRawValue().credit;
             this.sumOfDebitTotals = this.sumOfDebitTotals + this.groupDetailsForm.getRawValue().debit;
-            // this.groupMasterForm.controls['creditTotal'].setValue(this.sumOfCreditTotals)
-            // this.groupMasterForm.controls['debitTotal'].setValue(this.sumOfDebitTotals)
-
-            // if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
-            //   this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
-            //   this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
-            // }
-            // else {
-            //   this.resultOfBalance = this.sumOfDebitTotals - this.sumOfCreditTotals;
-            //   this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
-            // }
-
-            // if (this.resultOfBalance == 0) {
-            //   this.groupMasterForm.controls['state'].setValue('مغلق');
-            // }
-            // else {
-            //   this.groupMasterForm.controls['state'].setValue('مفتوح');
-            // }
+           
           }
 
         }
 
-        // this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-        // this.groupDetailsForm.controls['entryId'].setValue(this.getMasterRowId.id);
+        // console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
 
-        console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
-
-        // alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
-
-        console.log("add details second time, details form: ", this.groupDetailsForm.value)
-        console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
+        // console.log("add details second time, details form: ", this.groupDetailsForm.value)
+        // console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
@@ -182,16 +240,13 @@ export class FiEntryDetailsDialogComponent implements OnInit {
                   "id": res
                 };
                 console.log("Details res: ", this.getDetailsRowId.id)
-                // alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
-
+                
                 // alert("تمت إضافة التفاصيل بنجاح");
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
 
                 this.dialogRef.close('save');
 
-                // this.getAllDetailsForms();
-                // this.updateDetailsForm()
               },
               error: () => {
                 // alert("حدث خطأ أثناء إضافة مجموعة")
@@ -211,12 +266,8 @@ export class FiEntryDetailsDialogComponent implements OnInit {
       this.api.putFiEntryDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
-            // alert("تم تحديث التفاصيل بنجاح");
             this.toastrSuccess();
-            // console.log("update res: ", res);
             this.groupDetailsForm.reset();
-            // this.getAllDetailsForms();
-            // this.getDetailedRowData = '';
             this.dialogRef.close('save');
           },
           error: (err) => {
@@ -227,6 +278,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
       this.groupDetailsForm.removeControl('id')
     }
   }
+
 
   getFiAccounts() {
     this.api.getFiAccounts()
@@ -256,64 +308,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
       })
   }
 
-  // getAllDetailsForms() {
-
-  //   console.log("edddit get all data: ", this.editData)
-  //   console.log("mastered row get all data: ", this.getMasterRowId)
-  //   if (this.getMasterRowId) {
-  //     this.http.get<any>("http://ims.aswan.gov.eg/api/FIEntryDetails/get/all")
-  //       .subscribe(res => {
-  //         console.log("res to get all details form: ", res, "masterRowId: ", this.getMasterRowId.id);
-
-  //         this.matchedIds = res.filter((a: any) => {
-  //           // console.log("matchedIds: ", a.entryId == this.getMasterRowId.id, "res: ", this.matchedIds)
-  //           return a.entryId == this.getMasterRowId.id
-  //         })
-
-  //         if (this.matchedIds) {
-
-  //           this.dataSource = new MatTableDataSource(this.matchedIds);
-  //           this.dataSource.paginator = this.paginator;
-  //           this.dataSource.sort = this.sort;
-
-  //           // this.sumOfCreditTotals = 0;
-  //           // this.sumOfDebitTotals = 0;
-  //           // this.resultOfBalance = 0;
-  //           // for (let i = 0; i < this.matchedIds.length; i++) {
-  //           //   this.sumOfCreditTotals = this.sumOfCreditTotals + parseFloat(this.matchedIds[i].credit);
-  //           //   this.groupMasterForm.controls['creditTotal'].setValue(this.sumOfCreditTotals);
-  //           //   this.sumOfDebitTotals = this.sumOfDebitTotals + parseFloat(this.matchedIds[i].debit);
-  //           //   this.groupMasterForm.controls['debitTotal'].setValue(this.sumOfDebitTotals);
-
-  //           //   // if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
-  //           //   //   this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
-  //           //   //   this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
-  //           //   // }
-  //           //   // else {
-  //           //   //   this.resultOfBalance = this.sumOfDebitTotals - this.sumOfCreditTotals;
-  //           //   //   this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
-  //           //   // }
-
-  //           //   // if (this.resultOfBalance == 0) {
-  //           //   //   this.groupMasterForm.controls['state'].setValue('مغلق');
-  //           //   // }
-  //           //   // else {
-  //           //   //   this.groupMasterForm.controls['state'].setValue('مفتوح');
-  //           //   // }
-  //           //   // this.updateBothForms()
-
-  //           // }
-
-  //         }
-  //       }
-  //         , err => {
-  //           alert("حدث خطا ما !!")
-  //         }
-  //       )
-  //   }
-
-
-  // }
+ 
   closeDialog() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
