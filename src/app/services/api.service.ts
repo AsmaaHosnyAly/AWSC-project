@@ -998,7 +998,7 @@ export class ApiService {
     );
   }
 
-  getCostCenter() {
+  comostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
   }
 
@@ -3081,51 +3081,78 @@ export class ApiService {
   //////product serialll
 
 
-  // getAllProductes(){
-    
-  //   return this.http.get<any>(
-  //     `${this.url}/STRProductSerial/get/all`
-  //   );
-  // }
-
-  // postProductserail(data:any){
-  //   return this.http.post<any>(
-  //     `${this.url}/STRProductSerial/Add`,
-  //     data
-  //   );
-  // }
-
-  // putProductserail(data:any){
-  //   return this.http.post<any>(
-  //     `${this.url}/STRProductSerial/update`,
-  //     data
-  //   );
-  // }
+  getCostCenter() {
+    return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
+  }
 
   postProductserail(data: any) {
     return this.http.post<any>(
-      'http://ims.aswan.gov.eg/api/STRProductSerial/Add',
+      `${this.url}/STRProductSerial/Add`,
       data
     );
   }
   getProductserail() {
-    return this.http.get<any>('http://ims.aswan.gov.eg/api/STRProductSerial/get/all');
+    return this.http.get<any>(`${this.url}/STRProductSerial/get/all`);
   }
   putProductserail(data: any) {
     console.log("")
     return this.http.put<any>(
-      'http://ims.aswan.gov.eg/api/STRProductSerial/update',
+      `${this.url}/STRProductSerial/update`,
       data
     );
   }
   deleteProductserail(id: number) {
     return this.http.delete<any>(
-      `http://ims.aswan.gov.eg/api/STRProductSerial/Delete/${id}`
+      `${this.url}/STRProductSerial/Delete/${id}`
     );
   }
   getAllProductes(): Observable<any> {
     return this.http.get<any>(
-      'http://ims.aswan.gov.eg/api/STRProduct/get/all'
+      `${this.url}/STRProduct/get/all`
     );
   }
+// userstore
+
+getAllUseres(): Observable<any> {
+  return this.http.get<any>(
+    `${this.url}/PRUser/get/all`
+  );
+}
+getAllStores(): Observable<any> {
+  return this.http.get<any>(
+   `${this.url}/STRStore/get/all`
+  );
+}
+getuserstoreCode(GradeId: any) {
+  console.log('gradeId:', GradeId);
+
+  return this.http.get<any>(
+    `${this.url}/STRPlatoon/AutoCode?GradeId=${GradeId}`
+  );
+}
+// dddd
+
+//  userstore
+postUserstore(data: any) {
+  return this.http.post<any>(
+    `${this.url}/StrUserStore/Add`,
+    data
+  );
+}
+getUserstore() {
+  return this.http.get<any>(`${this.url}/StrUserStore/get/all`);
+}
+putUserstore(data: any) {
+  console.log("")
+  return this.http.put<any>(
+    `${this.url}/StrUserStore/update`,
+    data
+  );
+}
+deleteUserstore(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/StrUserStore/delete/${id}`
+  );
+}
+
 }
