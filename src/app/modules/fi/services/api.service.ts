@@ -156,6 +156,7 @@ export class ApiService {
     );
   }
   deleteFIJournal(id: number) {
+    console.log("id",id)
     return this.http.delete<any>(
       `${this.url}/FIJournal/delete/${id}`
     );
@@ -827,6 +828,7 @@ export class ApiService {
 
   //FiEntrySourceType
   postEntrySourceType(data: any) {
+    console.log("data",data)
     return this.http.post<any>(
       `${this.url}/FiEntrySourceType/Add`,
       data
@@ -838,6 +840,7 @@ export class ApiService {
     );
   }
   putEntrySourceType(data: any) {
+    console.log("data",data)
     return this.http.put<any>(
       `${this.url}/FiEntrySourceType/update`,
       data
@@ -873,6 +876,7 @@ export class ApiService {
     );
   }
   deleteEntrySource(id: number) {
+    console.log("id:",id)
     return this.http.delete<any>(
       `${this.url}/FiEntrySource/delete/${id}`
     );

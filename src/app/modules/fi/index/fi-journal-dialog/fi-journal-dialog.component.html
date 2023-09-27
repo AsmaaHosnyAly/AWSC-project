@@ -1,33 +1,51 @@
-<form [formGroup]="FIJournal" dir="rtl">
-    <h1 mat-dialog-title>إضافة يومية جديدة</h1>
-    <div mat-dialog-content>
-      <form [formGroup]="FIJournal">
+<form [formGroup]="FIJournal" dir="rtl" >
+  <div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+  </div>
+
+  <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل المصدر ' : 'إضافة مصدر جديد'}}</h1>
+  <div mat-dialog-content style="overflow: hidden;">
+    <form [formGroup]="FIJournal" >
+
+
+      <div class="DialogLabels">
+        <mat-label>كود المستخدم</mat-label>
+
         <mat-form-field appearance="outline">
-          <mat-label>كود المستخدم</mat-label>
           <input formControlName="transactionUserId" matInput placeholder="كود المستخدم">
         </mat-form-field>
+      </div>
+
+      <div class="DialogLabels">
+        <mat-label> رقم اليومية</mat-label>
         <mat-form-field appearance="outline">
-          <mat-label> رقم اليومية</mat-label>
           <input formControlName="no" matInput placeholder="  رقم اليومية">
         </mat-form-field>
+      </div>
+
+      <div class="DialogLabels">
+        <mat-label> الوصف</mat-label>
         <mat-form-field appearance="outline">
-          <mat-label> الوصف</mat-label>
           <input formControlName="description" matInput placeholder=" الوصف">
         </mat-form-field>
-     
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>التاريخ</mat-label>
-            <input #date matInput [matDatepicker]="picker" formControlName="date">
-            <mat-datepicker-toggle matIconSuffix [for]="picker">
-                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </form>
-    </div>
-    <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addFIJournals()" style="margin-left: 8px;">{{actionBtn}}</button> 
-    </div>
+      </div>
+
+
+     <div class="DialogLabels">
+      <mat-label>التاريخ</mat-label>
+
+      <mat-form-field appearance="outline" class="example-full-width">
+        <input #date matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+     </div>
     </form>
-  
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button  class="savebtn" (click)="addFIJournals()" style="margin-left: 8px;">{{actionBtn}}</button> 
+
+  </div>
+</form>

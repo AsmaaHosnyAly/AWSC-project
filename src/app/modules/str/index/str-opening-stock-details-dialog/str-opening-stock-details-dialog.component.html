@@ -1,8 +1,5 @@
 <!-- <p>str-opening-stock-details-dialog works!</p> -->
-<div class="cdk-overlay-pane  ">
-    <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
-            clear</mat-icon></button>
-</div>
+
 
 <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
@@ -10,8 +7,13 @@
     <div class="allform">
         <!-- <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'"> -->
         
-        
+         <div class="headerTitle">
+            <div class="cdk-overlay-pane  ">
+                <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
+                        clear</mat-icon></button>
+            </div>
             <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل الرصيد الإفتتاحي </h1>
+         </div>
         <div class="detailsForm" dir="rtl">
 
             <mat-accordion style="margin-bottom: 2%;" multi dir="rtl">
