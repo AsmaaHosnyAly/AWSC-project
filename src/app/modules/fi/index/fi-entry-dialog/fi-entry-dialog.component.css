@@ -84,12 +84,13 @@ mat-radio-group{
 .searchLabels{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    margin-left: 1%;
+
+    /* justify-content: space-between; */
     /* width: 100%; */
   }
   .headerForm  mat-form-field {
-  width:200px;
-    margin-left: 10px;
+  width:180px;
     /* font-size: px !important; */
     padding: 10 !important;
   }

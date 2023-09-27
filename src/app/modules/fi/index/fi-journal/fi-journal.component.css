@@ -7,7 +7,9 @@ mat-card {
   box-shadow: none;
   
 }
-
+form{
+  box-sizing: border-box;
+}
 
 mat-card-header{
   display: flex;
@@ -51,8 +53,13 @@ th {
 
 .search {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
+}
+.search mat-form-field {
+  width: 180px;
+
+  padding: 0 !important;
 }
 .search button,
 .print button{
@@ -216,5 +223,29 @@ mat-card-header .child1{
   padding-bottom: 25px;
   color:var(--bg-primary-color) !important;
 }
-
+.searchLabels{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-left:2px
+  /* margin-left: 2%; */
+  /* justify-content: space-between; */
+}
+.icons {
+  font-size: 23px;
+  color: white;
+  background-color: var(--bg-primary-color) !important;  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 15px;
+}
+.print-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 

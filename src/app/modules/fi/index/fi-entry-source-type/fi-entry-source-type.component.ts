@@ -17,6 +17,8 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+
 export class EntrySource {
   constructor(public id: number, public name: string) {}
 }
@@ -41,7 +43,7 @@ export class FIEntrySourceTypeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService) {
     this.entrySourceCtrl = new FormControl();
     this.filteredEntrySources = this.entrySourceCtrl.valueChanges.pipe(
       startWith(''),
@@ -187,5 +189,15 @@ export class FIEntrySourceTypeComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
+  
 }
 

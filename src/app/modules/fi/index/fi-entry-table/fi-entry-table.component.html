@@ -9,79 +9,113 @@
                 <mat-icon>account_circle</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <div class="search">
-            <mat-form-field appearance="outline">
-                <mat-label>الرقم</mat-label>
-                <input #no matInput placeholder="ادخل الرقم" type="number" min="0">
-            </mat-form-field>
+        <form [formGroup]="groupMasterForm">
+            <div class="search">
+        <div class="searchLabels">
+            <mat-label>الرقم</mat-label>
 
-            <mat-form-field appearance="outline">
-                <mat-label> دفتر اليوميه </mat-label>
-                <mat-select #journalId plceholder="اختر مركز التكلفة">
-                    <mat-option *ngFor="let journal of journalsList"
-                        [value]="journal.id">{{journal.no}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+        <mat-form-field appearance="outline">
+            <input #no matInput placeholder="ادخل الرقم" type="number" min="0">
+        </mat-form-field>
+       </div>
+       <div class="searchLabels">
+        <mat-label> دفتر اليوميه </mat-label>
 
-            <mat-form-field appearance="outline">
-                <mat-label> الحساب </mat-label>
+        <mat-form-field appearance="outline">
+            <mat-select #journalId plceholder="اختر مركز التكلفة">
+                <mat-option *ngFor="let journal of journalsList"
+                    [value]="journal.id">{{journal.no}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="searchLabels">
+        <mat-label> الحساب </mat-label>
+
+        <mat-form-field appearance="outline">
                 <mat-select #accountId plceholder="اختر الموظف المحول اليه">
                     <mat-option *ngFor="let account of accountsList"
                         [value]="account.id">{{account.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
-
-            <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>تاريخ البداية</mat-label>
-                <input #startDate matInput [matDatepicker]="picker">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>تاريخ النهاية</mat-label>
-                <input #endDate matInput [matDatepicker]="picker">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>نوع مصدر الادخال</mat-label>
-                <mat-select #sourceId plceholder="اختر النوع">
-                    <mat-option *ngFor="let source of sourcesList"
-                        [value]="source.id">{{source.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <button mat-icon-button color="primary"
-                (click)="getSearchFiEntry(no.value, journalId.value, accountId.value, startDate.value, endDate.value, sourceId.value)">
-                <mat-icon>search</mat-icon>
-            </button>
-
-            <button mat-icon-button color="primary">
-                <mat-icon>print</mat-icon>
-            </button>
-            <!-- <div class="print-display">
-                <mat-icon (click)="
-                  getSearchStrWithdraw(no.value, StartDate.value,EndDate.value, fiscalYear.value)
-                    " class="icons" title="بحث">search</mat-icon>
-      
-                <mat-icon class="icons" title="عرض"
-                  (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
-                  title="تحميل">print</mat-icon>
-      
-                <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
-                  class="icons" title="تحميل">get_app</mat-icon>
-      
-                <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
-              </div> -->
-
-
         </div>
+
+        <div class="searchLabels">
+            <mat-label>تاريخ البداية</mat-label>
+
+            <mat-form-field appearance="outline" class="example-full-width">
+            <input #startDate matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+     </div>
+
+     <div class="searchLabels">
+        <mat-label>تاريخ البداية</mat-label>
+
+        <mat-form-field appearance="outline" class="example-full-width">
+            <input #endDate matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+       <div class="searchLabels">
+        <mat-label>نوع مصدر الادخال</mat-label>
+
+        <mat-form-field appearance="outline">
+            <mat-select #sourceId plceholder="اختر النوع">
+                <mat-option *ngFor="let source of sourcesList"
+                    [value]="source.id">{{source.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+       </div>
+
+        <!-- <div class="print-display">
+            <mat-icon (click)="
+              getSearchStrWithdraw(no.value, StartDate.value,EndDate.value, fiscalYear.value)
+                " class="icons" title="بحث">search</mat-icon>
+  
+            <mat-icon class="icons" title="عرض"
+              (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
+              title="تحميل">print</mat-icon>
+  
+            <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+              class="icons" title="تحميل">get_app</mat-icon>
+  
+            <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+          </div> -->
+
+
+    </div>
+    <div class="print-display">
+        <mat-icon (click)="
+        getSearchFiEntry(no.value, journalId.value, accountId.value, startDate.value, endDate.value, sourceId.value)
+            " class="icons" title="بحث">search</mat-icon>
+
+        <!-- <mat-icon class="icons" title="عرض"
+          (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)" class="icons"
+          title="تحميل">print</mat-icon>
+
+        <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)"
+          class="icons" title="تحميل">get_app</mat-icon> -->
+
+        <mat-icon  class="icons" title="حذف قيم البحث">restore</mat-icon>
+      </div>
+</form>
+<!--         
+        <button mat-icon-button color="primary"
+        (click)="getSearchFiEntry(no.value, journalId.value, accountId.value, startDate.value, endDate.value, sourceId.value)">
+        <mat-icon>search</mat-icon>
+    </button> -->
+
+    <!-- <button mat-icon-button color="primary">
+        <mat-icon>print</mat-icon>
+    </button> -->
     </mat-expansion-panel>
 </mat-accordion>
 

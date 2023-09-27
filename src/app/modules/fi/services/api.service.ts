@@ -150,8 +150,42 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/FIAccountItemCategory/get/all`);
   }
   // FIJournal
-  getFIJournal() {
-    return this.http.get<any>(`${this.url}/FIJournal/get/all`);
+  getFIJournal(){
+        return this.http.get<any>(`${this.url}/FIJournal/get/all`);
+
+  }
+  getFIJournalSearch(no: any,Description:any, StartDate: any,EndDate:any, fiscalYear: any) {
+console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate,'fiscal',fiscalYear)
+    this.mycondition = `${this.url}/FIJournal/search?`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    if (!Description == false) {
+      this.mycondition = ` ${this.mycondition}&Description=${Description}`;
+    }
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+    }
+    // if (!itemId == false) {
+    //   this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
+    // }
+    // if (!employeeId == false) {
+    //   this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
+    // }
+    // if (!costCenterId == false) {
+    //   this.mycondition = ` ${this.mycondition}&costCenterId=${costCenterId}`;
+    // }
+
+    console.log('url', this.mycondition);
+
+    return this.http.get<any>(`${this.mycondition}`);
   }
   putFIJournal(data: any) {
     return this.http.put<any>(
