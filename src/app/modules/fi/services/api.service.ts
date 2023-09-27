@@ -10,9 +10,9 @@ import { Observable } from 'rxjs';
 export class ApiService {
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
-  
+
   // url = '192.168.1.23/api';
- url='http://ims.aswan.gov.eg/api'
+  url = 'http://ims.aswan.gov.eg/api'
   mycondition: any;
 
   // baseApiUrl = 'https://file.io';
@@ -160,6 +160,7 @@ export class ApiService {
     );
   }
   deleteFIJournal(id: number) {
+    console.log("id",id)
     return this.http.delete<any>(
       `${this.url}/FIJournal/delete/${id}`
     );
@@ -313,6 +314,10 @@ export class ApiService {
   }
   getItem() {
     return this.http.get<any>(`${this.url}/STRItem/get/all`);
+  }
+  getItemById(id: any) {
+    let urlPassed = `${this.url}/STRItem/get/${id}`;
+    return urlPassed;
   }
   putItem(data: any) {
     return this.http.put<any>(
@@ -489,11 +494,11 @@ export class ApiService {
   strAdd(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -504,8 +509,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     `${this.url}/STRAdd/getReport?`;
     this.mycondition = `${this.url}/STRAdd/getReport?`;
@@ -557,11 +562,11 @@ export class ApiService {
   openingStock(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -572,8 +577,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     `${this.url}/STROpeningStock/getReport?`;
     this.mycondition = `${this.url}/STROpeningStock/getReport?`;
@@ -623,23 +628,23 @@ export class ApiService {
   }
 
   getStrEmployeeCustodyReport(
-    no: any,StartDate:any,EndDate:any,fiscalYear:any,itemId: any,  employeeId: any,
-    costCenterId: any,report:any,reportType:any
-  
+    no: any, StartDate: any, EndDate: any, fiscalYear: any, itemId: any, employeeId: any,
+    costCenterId: any, report: any, reportType: any
+
   ) {
 
     console.log(
       'no. : ',
       no,
-      'employee',employeeId,'costcenter:',costCenterId,
+      'employee', employeeId, 'costcenter:', costCenterId,
       'date: ',
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
-    
+
     `${this.url}/STREmployeeOpeningCustody/getReport?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/getReport?`;
 
@@ -680,9 +685,9 @@ export class ApiService {
   }
 
   getStrEmployeeExchangeItem(
-    no: any,distEmployee: any,StartDate:any,EndDate:any,Fiscalyear:any,item:any,
-    employeeId: any, costCenterId: any,report:any,reportType:any
- 
+    no: any, distEmployee: any, StartDate: any, EndDate: any, Fiscalyear: any, item: any,
+    employeeId: any, costCenterId: any, report: any, reportType: any
+
   ) {
     `${this.url}/STRItem/getReport?`;
     this.mycondition = `${this.url}/STRItem/getReport?`;
@@ -732,11 +737,11 @@ export class ApiService {
   getStr(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any, report: any, reportType: any
   ) {
     console.log(
       'no. : ',
@@ -747,8 +752,8 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:', report, 'reportType:', reportType
+
     );
     `${this.url}/STRWithdraw/getReport??`;
     this.mycondition = `${this.url}/STRWithdraw/getReport??`;
@@ -827,6 +832,7 @@ export class ApiService {
 
   //FiEntrySourceType
   postEntrySourceType(data: any) {
+    console.log("data",data)
     return this.http.post<any>(
       `${this.url}/FiEntrySourceType/Add`,
       data
@@ -838,6 +844,7 @@ export class ApiService {
     );
   }
   putEntrySourceType(data: any) {
+    console.log("data",data)
     return this.http.put<any>(
       `${this.url}/FiEntrySourceType/update`,
       data
@@ -873,6 +880,7 @@ export class ApiService {
     );
   }
   deleteEntrySource(id: number) {
+    console.log("id:",id)
     return this.http.delete<any>(
       `${this.url}/FiEntrySource/delete/${id}`
     );
@@ -1312,12 +1320,10 @@ export class ApiService {
   getStrOpenSearach(
     no: any,
     storeId: any,
-    
+
     fiscalYear: any,
-    itemId: any,StartDate:any,EndDate:any
-  ) 
-  
-  {
+    itemId: any, StartDate: any, EndDate: any
+  ) {
     console.log(
       'no. : ',
       no,
@@ -1328,9 +1334,9 @@ export class ApiService {
       'fiscalYear: ',
       fiscalYear,
       'item:',
-      itemId,'EndDate: ',
+      itemId, 'EndDate: ',
       EndDate
-    
+
     );
 
     this.mycondition = `${this.url}/STROpeningStock/search?`;
@@ -1544,9 +1550,9 @@ export class ApiService {
   getStrEmployeeExchangeSearach(
     no: any,
     costCenterId: any,
-    employeeId: any,item:any,
-    
-    distEmployee: any,StartDate:any,EndDate:any,Fiscalyaer:any
+    employeeId: any, item: any,
+
+    distEmployee: any, StartDate: any, EndDate: any, Fiscalyaer: any
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -1560,7 +1566,7 @@ export class ApiService {
       "' distEmployee: '",
       distEmployee,
       "' EndDate: '",
-      EndDate,'fiscalyear:',Fiscalyaer
+      EndDate, 'fiscalyear:', Fiscalyaer
     );
     this.mycondition;
     this.mycondition = `${this.url}/STREmployeExchange/search?`;
@@ -1861,7 +1867,7 @@ export class ApiService {
   getStrWithdrawSearch(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any, EndDate: any,
     fiscalYear: any,
     itemId: any,
     employeeId: any,
@@ -2036,6 +2042,9 @@ export class ApiService {
   postFiEntryDetails(data: any) {
     return this.http.post<any>(`${this.url}/FIEntryDetails/Add`, data);
   }
+  getFiEntryDetails() {
+    return this.http.get<any>(`${this.url}/FIEntryDetails/get/all`);
+  }
   putFiEntryDetails(data: any) {
     console.log('put fiEntryDetails data with id: ', data);
     return this.http.put<any>(`${this.url}/FIEntryDetails/update/`, data);
@@ -2065,130 +2074,156 @@ export class ApiService {
       'sourceId: ',
       sourceId
     );
-    // enter no.
-    if (no != '' && !journalId && !accountId && !date && !sourceId) {
-      console.log('enter no. fiEntry search');
-      return this.http.get<any>(`${this.url}/FIEntry/search?No=${no}`);
+    this.mycondition = `${this.url}/FIEntry/search?`;
+
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
-    //enter journalId
-    else if (!no && journalId && !accountId && !date && !sourceId) {
-      console.log('enter journalId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?JournalId=${journalId}`
-      );
+    if (!journalId == false) {
+      this.mycondition = ` ${this.mycondition}&JournalId=${journalId}`;
     }
-    //enter accountId
-    else if (!no && !journalId && accountId && !date && !sourceId) {
-      console.log('enter accountId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?AccountId=${accountId}`
-      );
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&Date=${date}`;
     }
-    //enter date
-    else if (!no && !journalId && !accountId && date && !sourceId) {
-      console.log('enter date fiEntry search');
-      return this.http.get<any>(`${this.url}/FIEntry/search?Date=${date}`);
+    // if (!EndDate == false) {
+    //   this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    // }
+    if (!accountId == false) {
+      this.mycondition = ` ${this.mycondition}&AccountId=${accountId}`;
     }
-    //enter sourceId
-    else if (!no && !journalId && !accountId && !date && sourceId) {
-      console.log('enter sourceId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?FiEntrySourceTypeId=${sourceId}`
-      );
+    if (!sourceId == false) {
+      this.mycondition = ` ${this.mycondition}&FiEntrySourceTypeId=${sourceId}`;
     }
 
-    //enter no. & journalId
-    else if (no && journalId && !accountId && !date && !sourceId) {
-      console.log('enter no. & journalId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?No=${no}&JournalId=${journalId}`
-      );
-    }
-    //enter no. & accountId
-    else if (no && !journalId && accountId && !date && !sourceId) {
-      console.log('enter no. & accountId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?No=${no}&AccountId=${accountId}`
-      );
-    }
-    //enter no. & date
-    else if (no && !journalId && !accountId && date && !sourceId) {
-      console.log('enter no. & date fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?Date=${date}&No=${no}`
-      );
-    }
-    //enter no & sourceId
-    else if (no && !journalId && !accountId && !date && sourceId) {
-      console.log('enter no & sourceId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?No=${no}&FiEntrySourceTypeId=${sourceId}`
-      );
-    }
 
-    //enter journalId & accountId
-    else if (!no && journalId && accountId && !date && !sourceId) {
-      console.log('enter journalId & accountId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?JournalId=${journalId}&AccountId=${accountId}`
-      );
-    }
-    //enter journalId & date
-    else if (!no && journalId && !accountId && date && !sourceId) {
-      console.log('enter journalId & date fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?Date=${date}&JournalId=${journalId}`
-      );
-    }
-    //enter journalId & sourceId
-    else if (!no && journalId && !accountId && !date && sourceId) {
-      console.log('enter journalId & sourceId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?JournalId=${journalId}&FiEntrySourceTypeId=${sourceId}`
-      );
-    }
+    console.log('url', this.mycondition);
 
-    //enter accountId & date
-    else if (!no && !journalId && accountId && date && !sourceId) {
-      console.log('enter accountId & date fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?Date=${date}&AccountId=${accountId}`
-      );
-    }
-    //enter accountId & sourceId
-    else if (!no && !journalId && accountId && !date && sourceId) {
-      console.log('enter accountId & sourceId fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?FiEntrySourceTypeId=${sourceId}&AccountId=${accountId}`
-      );
-    }
+    return this.http.get<any>(`${this.mycondition}`);
+    // // enter no.
+    // if (no != '' && !journalId && !accountId && !date && !sourceId) {
+    //   console.log('enter no. fiEntry search');
+    //   return this.http.get<any>(`${this.url}/FIEntry/search?No=${no}`);
+    // }
+    // //enter journalId
+    // else if (!no && journalId && !accountId && !date && !sourceId) {
+    //   console.log('enter journalId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?JournalId=${journalId}`
+    //   );
+    // }
+    // //enter accountId
+    // else if (!no && !journalId && accountId && !date && !sourceId) {
+    //   console.log('enter accountId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?AccountId=${accountId}`
+    //   );
+    // }
+    // //enter date
+    // else if (!no && !journalId && !accountId && date && !sourceId) {
+    //   console.log('enter date fiEntry search');
+    //   return this.http.get<any>(`${this.url}/FIEntry/search?Date=${date}`);
+    // }
+    // //enter sourceId
+    // else if (!no && !journalId && !accountId && !date && sourceId) {
+    //   console.log('enter sourceId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?FiEntrySourceTypeId=${sourceId}`
+    //   );
+    // }
 
-    //enter sourceId & date
-    else if (!no && !journalId && !accountId && date && sourceId) {
-      console.log('enter sourceId & date fiEntry search');
-      return this.http.get<any>(
-        `${this.url}/FIEntry/search?Date=${date}&FiEntrySourceTypeId=${sourceId}`
-      );
-    }
+    // //enter no. & journalId
+    // else if (no && journalId && !accountId && !date && !sourceId) {
+    //   console.log('enter no. & journalId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?No=${no}&JournalId=${journalId}`
+    //   );
+    // }
+    // //enter no. & accountId
+    // else if (no && !journalId && accountId && !date && !sourceId) {
+    //   console.log('enter no. & accountId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?No=${no}&AccountId=${accountId}`
+    //   );
+    // }
+    // //enter no. & date
+    // else if (no && !journalId && !accountId && date && !sourceId) {
+    //   console.log('enter no. & date fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?Date=${date}&No=${no}`
+    //   );
+    // }
+    // //enter no & sourceId
+    // else if (no && !journalId && !accountId && !date && sourceId) {
+    //   console.log('enter no & sourceId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?No=${no}&FiEntrySourceTypeId=${sourceId}`
+    //   );
+    // }
 
-    //enter all data
-    else if (
-      no != '' &&
-      journalId != '' &&
-      accountId != '' &&
-      date != '' &&
-      sourceId != ''
-    ) {
-      console.log('enter all data strOpen search');
-      return this.http.get<any>(
-        `${this.url}/STR_Employe_Exchange/search?Date=${date}&No=${no}&JournalId=${journalId}&FiEntrySourceTypeId=${sourceId}&AccountId=${accountId}`
-      );
-    }
+    // //enter journalId & accountId
+    // else if (!no && journalId && accountId && !date && !sourceId) {
+    //   console.log('enter journalId & accountId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?JournalId=${journalId}&AccountId=${accountId}`
+    //   );
+    // }
+    // //enter journalId & date
+    // else if (!no && journalId && !accountId && date && !sourceId) {
+    //   console.log('enter journalId & date fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?Date=${date}&JournalId=${journalId}`
+    //   );
+    // }
+    // //enter journalId & sourceId
+    // else if (!no && journalId && !accountId && !date && sourceId) {
+    //   console.log('enter journalId & sourceId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?JournalId=${journalId}&FiEntrySourceTypeId=${sourceId}`
+    //   );
+    // }
 
-    console.log("didn't enter any condition search");
-    return this.http.get<any>(
-      `${this.url}/STR_Employe_Exchange/search?No=${0}`
-    );
+    // //enter accountId & date
+    // else if (!no && !journalId && accountId && date && !sourceId) {
+    //   console.log('enter accountId & date fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?Date=${date}&AccountId=${accountId}`
+    //   );
+    // }
+    // //enter accountId & sourceId
+    // else if (!no && !journalId && accountId && !date && sourceId) {
+    //   console.log('enter accountId & sourceId fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?FiEntrySourceTypeId=${sourceId}&AccountId=${accountId}`
+    //   );
+    // }
+
+    // //enter sourceId & date
+    // else if (!no && !journalId && !accountId && date && sourceId) {
+    //   console.log('enter sourceId & date fiEntry search');
+    //   return this.http.get<any>(
+    //     `${this.url}/FIEntry/search?Date=${date}&FiEntrySourceTypeId=${sourceId}`
+    //   );
+    // }
+
+    // //enter all data
+    // else if (
+    //   no != '' &&
+    //   journalId != '' &&
+    //   accountId != '' &&
+    //   date != '' &&
+    //   sourceId != ''
+    // ) {
+    //   console.log('enter all data strOpen search');
+    //   return this.http.get<any>(
+    //     `${this.url}/STR_Employe_Exchange/search?Date=${date}&No=${no}&JournalId=${journalId}&FiEntrySourceTypeId=${sourceId}&AccountId=${accountId}`
+    //   );
+    // }
+
+    // console.log("didn't enter any condition search");
+    // return this.http.get<any>(
+    //   `${this.url}/STR_Employe_Exchange/search?No=${0}`
+    // );
   }
 
   // ----Start Add----
@@ -2198,7 +2233,7 @@ export class ApiService {
   }
   postAcceptOrRejectWithDrawByDestStore(data: any) {
     console.log("dataaa: ", data);
-    
+
     return this.http.post<any>(`${this.url}/STRAdd/AddFromStore`, data);
   }
 
@@ -2371,13 +2406,13 @@ export class ApiService {
 
 
 
-  getStrAddSearach( no: any,
-   
-   
+  getStrAddSearach(no: any,
+
+
     fiscalYear: any,
-   
-   
-    employeeId: any,  itemId: any,store: any,StartDate:any,EndDate:any) {
+
+
+    employeeId: any, itemId: any, store: any, StartDate: any, EndDate: any) {
     //enter no.
 
     console.log(
@@ -2395,7 +2430,7 @@ export class ApiService {
       employeeId,
       'enddate: ',
       EndDate,
-     
+
     );
     this.mycondition = `${this.url}/STRAdd/search?`;
 
@@ -2899,11 +2934,11 @@ export class ApiService {
     no: any,
     costCenterId: any,
     employeeId: any, itemId: any,
-    StartDate:any,EndDate:any,
-   FiscalYear:any
+    StartDate: any, EndDate: any,
+    FiscalYear: any
 
 
-   
+
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -2915,7 +2950,7 @@ export class ApiService {
       "' startdate: '",
       StartDate,
       "' item: '",
-      itemId,"fiscalyear",FiscalYear
+      itemId, "fiscalyear", FiscalYear
     );
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
@@ -3091,7 +3126,7 @@ export class ApiService {
 
 
   // getAllProductes(){
-    
+
   //   return this.http.get<any>(
   //     `${this.url}/STRProductSerial/get/all`
   //   );

@@ -4,6 +4,7 @@
 
 .cdk-overlay-pane {
   position: relative !important;
+  position: fixed;
 }
 
 .close {
@@ -131,6 +132,8 @@
   color: var(--bg-primary-color) ;
   margin-top: 10px;
   box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
+  /* position: fixed;
+  z-index: 9999; */
 
 }
 
@@ -203,4 +206,17 @@ th {
 overflow: hidden;
 
 
+}
+.searchbyproduct{
+  display: flex;
+  justify-content: space-between;
+}
+mat-panel-description{
+  color: rgb(68, 68, 68);
+  font-size: 17px;
+}
+.headerTitle{
+  position:sticky;
+  z-index: 999;
+  background-color: aliceblue;
 }

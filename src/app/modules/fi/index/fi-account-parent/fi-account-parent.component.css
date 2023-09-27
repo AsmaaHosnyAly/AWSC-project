@@ -27,14 +27,14 @@ mat-card-header .child1{
   padding: 0;
 }
 th {
-  background-color:rgb(60, 202, 252) !important;
+  background-color:var(--bg-primary-color) !important;
   color: white;
   font-family: 'Cairo', sans-serif;
   font-size: 16px;
 }
 
 .add {
-  background: linear-gradient(rgb(122, 205, 235),rgb(60, 202, 252));
+  background: linear-gradient(rgb(122, 205, 235),var(--bg-primary-color));
   color: white;
   font-family: 'Cairo', sans-serif;
   padding: 5px 35px;
@@ -59,7 +59,7 @@ th {
   width: 250px;
   font-size: 15px;
   font-family: 'Cairo', sans-serif;
-  background-color:rgb(60, 202, 252);
+  background-color:var(--bg-primary-color);
   color: white;
   border: none;
   border-radius: 5px;
@@ -107,7 +107,7 @@ mat-panel-description {
 
 .header div {
   height: 100px;
-  background-color: rgb(60, 202, 252);
+  background-color: var(--bg-primary-color);
   color: white;
   /* color: #04365f; */
 }
@@ -155,6 +155,8 @@ table, th, td {
   border: 1px  rgb(161, 160, 160) solid;
   text-align: center;
   font-family: 'Cairo', sans-serif;
+  font-weight: bold;
+
 }
 
 footer {
@@ -191,5 +193,19 @@ footer h3 {
   border: none !important;
   box-shadow: none !important;
   
+}
+.add {
+  background: linear-gradient(rgb(122, 205, 235),var(--bg-primary-color));
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  padding: 5px 35px;
+  border-radius: 10px;
+  text-align: center;
+}
+mat-card-header .child1{
+  
+  width: 82%;
+  text-align: left;
+  /* background-color: aquamarine; */
 }
 

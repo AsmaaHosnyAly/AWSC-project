@@ -10,35 +10,79 @@
         <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل افتتاحي العهد </h1>
 
         <div class="detailsForm" dir="rtl" style="overflow: hidden !important;">
-            <!-- <div class="row"> -->
+            <mat-accordion style="margin-bottom: 2%;" multi dir="rtl">
 
-                <div style="display: flex;flex-direction: row;">
-               <div class="searchLabels" style="width: 17rem;">
-        <mat-label>بحث بالكود </mat-label>
+                <mat-expansion-panel style="width: 72%;">
+                    <mat-expansion-panel-header>
+                        <mat-panel-description>
+                        بحث بالمنتج
+                            <mat-icon style="text-align: left;">search</mat-icon>
+                        </mat-panel-description>
 
-        <mat-form-field appearance="outline" class="groupInput" style="width: 96%;">
-            <input matInput placeholder="{{editData ? editData.fullCode : ''}}" (keydown)="getItemByCode($event)"
-                [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
-        </mat-form-field>
-      </div>
+                    </mat-expansion-panel-header>
+                
+
+                    <div class="searchbyproduct">
+
+                       
+                        <div style="display: flex; flex-direction: column;">
+                            <mat-label>بحث بكود المنتج </mat-label>
+
+                            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                                <input matInput (keydown)="getItemByProductCode($event)">
+                            </mat-form-field>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column;">
+                            <mat-label>بحث باسم المنتج </mat-label>
+                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                                <input matInput aria-label="commodity" [matAutocomplete]="autoProductId"
+                                    [formControl]="productCtrl" placeholder="{{productIdValue ? productIdValue : ''}}"
+                                    (click)="openAutoProduct()" required />
+                                <mat-autocomplete #autoProductId="matAutocomplete" [displayWith]="displayProductName"
+                                    (optionSelected)="ProductSelected($event)">
+                                    <mat-option *ngFor="let product of filteredProduct | async" [value]="product">
+                                        {{ product.name }} | {{ product.code }}
+                                        <!-- {{ product.name }} -->
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                        </div>
+                        <!-- </div> -->
+
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <div style="display: flex;flex-direction: row;">
+                <div class="searchLabels" style="width: 17rem;">
+                    <mat-label>بحث بالكود </mat-label>
+
+                    <mat-form-field appearance="outline" class="groupInput" style="width: 96%;">
+                        <input matInput placeholder="{{editData ? editData.fullCode : ''}}"
+                            (keydown)="getItemByCode($event)"
+                            [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
+                    </mat-form-field>
+                </div>
 
 
-      <div class="searchLabels" style="width: 17rem;">
-        <mat-label> الصنف*</mat-label>
+                <div class="searchLabels" style="width: 17rem;">
+                    <mat-label> الصنف*</mat-label>
 
-        <mat-form-field appearance="outline" class="groupInput" style="width: 96%;">
-            <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
-                placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
-                (click)="openAutoItem()" required />
-            <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
-                (optionSelected)="ItemSelected($event)">
-                <mat-option *ngFor="let item of filteredItem | async" [value]="item">
-                    {{ item.name }}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-       </div>
-       </div>
+                    <mat-form-field appearance="outline" class="groupInput" style="width: 96%;">
+                        <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
+                            placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
+                            (click)="openAutoItem()" required />
+                        <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
+                            (optionSelected)="ItemSelected($event)">
+                            <mat-option *ngFor="let item of filteredItem | async" [value]="item">
+                                {{ item.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
 
             <div style="display: flex;flex-direction: row;">
                 <div class="searchLabels" style="width: 17rem;">
@@ -62,7 +106,7 @@
                 </div>
             </div>
             <div style="display: flex;flex-direction: row;">
-               
+
 
                 <!-- <div style="display: flex;flex-direction: column;width: 9rem;">
                     <mat-label> النسبة*</mat-label>
@@ -74,33 +118,33 @@
                 </div> -->
 
             </div>
-           
+
 
             <div style="display: flex;flex-direction: row;">
 
                 <div class="searchLabels" style="width: 17rem;">
                     <mat-label>الوصف</mat-label>
 
-                <mat-form-field appearance="outline" style="width:96% ;"> 
-                    <input formControlName="description" matInput placeholder="الوصف ...">
-                </mat-form-field>
-             </div>
+                    <mat-form-field appearance="outline" style="width:96% ;">
+                        <input formControlName="description" matInput placeholder="الوصف ...">
+                    </mat-form-field>
+                </div>
 
 
-             <div class="searchLabels" style="width: 17rem;">
-                <mat-label> النسبة*</mat-label>
+                <div class="searchLabels" style="width: 17rem;">
+                    <mat-label> النسبة*</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput" style="width:96% ;">
                         <input matInput type="number" min="0" placeholder="النسبة" formControlName="percentage"
                             [value]="editData ? editData.percentage : ''" [readonly]="isReadOnlyPercentage">
                     </mat-form-field>
                 </div>
-              
 
-               
- 
+
+
+
             </div>
-            <mat-form-field appearance="outline" style="width: 72%;" >
+            <mat-form-field appearance="outline" style="width: 72%;">
                 <mat-label>ملاحظات</mat-label>
                 <textarea formControlName="notes" matInput placeholder="ملاحظات ..."></textarea>
             </mat-form-field>

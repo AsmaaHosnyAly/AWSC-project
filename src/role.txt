@@ -1,12 +1,5 @@
 modules
-1-stores
-2-it
-3-accounts
-4-hr
-
-
-
-****************stores*******************
+****************module:1 stores المخازن*******************
 1-withdraw اذن صرف 
 2-STRAdd اذن اضافة
 3-str-openingStock الافتتاحية 
@@ -24,9 +17,35 @@ modules
 15-المصنع
 16-النوذج
 17- حسابات المخازن
-******************Roles************************
+20-PRODUCT_SERIAL مسلسل المنتج
+21-struserstore   المخازن المتاحة للموظف  
+****************** module:2 Roles الصلاحيات************************
 
-18-pr-user
-19-pr-group
+18-pr-user المستخدمين
+19-pr-group المجموعات
 
 
+**************** module:3-accounts الحسابات*******************
+22-addAccount اضافة حساب
+23-AccountHierarchy شجرة الحساب
+24-FiAccountItem صنف الحساب  
+25-AccountParent اضافة حساب اب 
+26-FIJournal اضافة صحيفة
+27-EntrySource مصدر دخل
+28-EntrySourceType نوع مصدر الدخل 
+29-fi-entry القيود
+
+****************module:4 hr شئون العاملين*******************
+30-hr-jobTitle المسمي الوظيفي
+31-hr-incentive الحوافز
+32-hr-hiringType نوع التوظيف
+33-SeveranceReason الانقطاع
+34-hr-MillitryState موقف التجنيد
+35-city المحافظات
+36-cityState المراكز
+37-Qualification المؤهل
+38-QualitativeGroup المجموعة النوعية
+39-WorkPlace مكان العمل 
+40-specialization التخصصات
+41-hr-vacation الاجازات
+42-hr-EmployeeDisciplinary الدرجة الوظيفية 

@@ -159,7 +159,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
         width: '98%',
-        height: '95%',
+        height: '85%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -172,7 +172,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
         width: '95%',
-        height: '95%',
+        height: '85%',
         data: row,
       })
       .afterClosed()

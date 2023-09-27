@@ -1,7 +1,7 @@
 // import { FiscalYear } from './../str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
 // import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -2008,6 +2008,17 @@ export class ApiService {
       `${this.url}/STRProduct/AutoCode`
     );
   }
+
+  // uploadFile(formData: FormData): Observable<HttpEvent<string[]>> {
+  //   return this.http.post<string[]>(`${this.url}/STRProduct/UploadFile`, formData, {
+  //     reportProgress: true,
+  //     observe: 'events'
+  //   });
+  // }
+
+  public uploadFile(payload: FormData) {
+    return this.http.post('${this.url}/STRProduct/UploadFile',payload);
+   }
   ///////////////////////////////// STR-Product/////////////////////////////
   // postStrProduct(data: any) {
   //   console.log('form add product data to backend: ', data);
@@ -3190,4 +3201,48 @@ export class ApiService {
       `${this.url}/STRProduct/get/all`
     );
   }
+
+  // userstore
+
+getAllUseres(): Observable<any> {
+  return this.http.get<any>(
+    `${this.url}/PRUser/get/all`
+  );
+}
+getAllStores(): Observable<any> {
+  return this.http.get<any>(
+   `${this.url}/STRStore/get/all`
+  );
+}
+getuserstoreCode(GradeId: any) {
+  console.log('gradeId:', GradeId);
+
+  return this.http.get<any>(
+    `${this.url}/STRPlatoon/AutoCode?GradeId=${GradeId}`
+  );
+}
+// dddd
+
+//  userstore
+postUserstore(data: any) {
+  return this.http.post<any>(
+    `${this.url}/StrUserStore/Add`,
+    data
+  );
+}
+getUserstore() {
+  return this.http.get<any>(`${this.url}/StrUserStore/get/all`);
+}
+putUserstore(data: any) {
+  console.log("")
+  return this.http.put<any>(
+    `${this.url}/StrUserStore/update`,
+    data
+  );
+}
+deleteUserstore(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/StrUserStore/delete/${id}`
+  );
+}
 }
