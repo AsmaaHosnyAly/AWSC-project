@@ -1,6 +1,10 @@
 <form [formGroup]="accountParentForm" dir="rtl">
-  <h1 mat-dialog-title>إضافة حساب</h1>
-  <div mat-dialog-content>
+  <div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل المصدر   ' : 'إضافة مصدر جديد'}}</h1> 
+   <div mat-dialog-content>
     <form [formGroup]="accountParentForm">
 
       <mat-label>الحساب</mat-label>
@@ -29,7 +33,7 @@
     </form>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addAccountParent()" style="margin-left: 8px;">{{actionBtn}}</button>
+    <button mat-raised-button  class="savebtn" (click)="addAccountParent()" style="margin-left: 8px;">{{actionBtn}}</button> 
+
   </div>
 </form>

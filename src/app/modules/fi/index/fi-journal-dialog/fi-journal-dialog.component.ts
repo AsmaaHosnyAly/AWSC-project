@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-fi-journal-dialog',
@@ -21,7 +22,7 @@ export class FIJournalDialogComponent {
 
   constructor(private formBuilder : FormBuilder,
      private api : ApiService,
-     private readonly route:ActivatedRoute,
+     private readonly route:ActivatedRoute, private toastr: ToastrService,
      @Inject(MAT_DIALOG_DATA) public editData : any,
      private dialogRef : MatDialogRef<FIJournalDialogComponent>){
      }
@@ -36,7 +37,7 @@ export class FIJournalDialogComponent {
 
     if(this.editData){
       console.log("edit data: ", this.editData)
-      this.actionBtn = "تعديل";
+      this.actionBtn = "تحديث";
       this.FIJournal.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.FIJournal.controls['no'].setValue(this.editData.no);
       this.FIJournal.controls['description'].setValue(this.editData.description);
@@ -56,12 +57,13 @@ export class FIJournalDialogComponent {
         this.api.postFIJournal(this.FIJournal.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            this.toastrSuccess();
+            // alert("تمت الاضافة بنجاح");
             this.FIJournal.reset();
-            this.dialogRef.close('save');
+            this.dialogRef.close('حفظ');
           },
           error:(err)=>{ 
-            alert("خطأ عند اضافة البيانات") 
+            // alert("خطأ عند اضافة البيانات") 
             console.log(err)
           }
         })
@@ -76,14 +78,26 @@ export class FIJournalDialogComponent {
       this.api.putFIJournal(this.FIJournal.value)
       .subscribe({
         next:(res)=>{
-          alert("تم التحديث بنجاح");
+          this.toastrEditSuccess()
+          // alert("تم التحديث بنجاح");
           this.FIJournal.reset();
-          this.dialogRef.close('update');
+          this.dialogRef.close('تحديث');
         },
         error:()=>{
           alert("خطأ عند تحديث البيانات");
         }
       })
     }
+
+    toastrSuccess(): void {
+      this.toastr.success('تم الحفظ بنجاح');
+    }
+    toastrDeleteSuccess(): void {
+      this.toastr.success('تم الحذف بنجاح');
+    }
+    toastrEditSuccess(): void {
+      this.toastr.success('تم التعديل بنجاح');
+    }
+  
 
 }
