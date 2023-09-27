@@ -83,7 +83,7 @@ import { PageRolesComponent } from './pages/page-roles/page-roles.component';
 import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component'; 
-
+import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -249,7 +249,8 @@ const routes: Routes = [
       { path: 'product-serial', component: StrProudctSerialComponent },
 
 
-  {path:'StrStockTaking',component: StrStockTakingContainerComponent}
+  {path:'StrStockTaking',component: StrStockTakingContainerComponent},
+  { path:'struserstore' ,component: StrUserstoreComponent},
       // { path: '**', component: ErrorComponent },
     ],
   },

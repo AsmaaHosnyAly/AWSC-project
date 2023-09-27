@@ -1000,7 +1000,7 @@ export class ApiService {
     );
   }
 
-  getCostCenter() {
+  comostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
   }
 
@@ -3089,26 +3089,9 @@ export class ApiService {
   //////product serialll
 
 
-  // getAllProductes(){
-    
-  //   return this.http.get<any>(
-  //     `${this.url}/STRProductSerial/get/all`
-  //   );
-  // }
-
-  // postProductserail(data:any){
-  //   return this.http.post<any>(
-  //     `${this.url}/STRProductSerial/Add`,
-  //     data
-  //   );
-  // }
-
-  // putProductserail(data:any){
-  //   return this.http.post<any>(
-  //     `${this.url}/STRProductSerial/update`,
-  //     data
-  //   );
-  // }
+  getCostCenter() {
+    return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
+  }
 
   postProductserail(data: any) {
     return this.http.post<any>(
@@ -3136,4 +3119,6 @@ export class ApiService {
       `${this.url}/STRProduct/get/all`
     );
   }
+
+
 }

@@ -172,8 +172,10 @@ import { StrStockTakingDialogComponent } from './modules/str/index/str-stock-tak
 import { StrStockTakingTableComponent } from './modules/str/index/str-stock-taking-table/str-stock-taking-table.component';
 import { PageRolesComponent } from './pages/page-roles/page-roles.component';
 import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
-import { StrProudctSerialComponent } from "./modules/str/index/str-proudct-serial/str-proudct-serial.component";
-import { StrProudctSerialDialogComponent } from "./modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component";
+import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component'; 
+import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component'; 
+import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
+import { StrUserstoreDialogComponent } from './modules/str/index/str-userstore-dialog/str-userstore-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -325,7 +327,9 @@ import { StrProudctSerialDialogComponent } from "./modules/str/index/str-proudct
     StrStockTakingTableComponent,
     PageRolesComponent,
     StrProudctSerialComponent,
-    StrProudctSerialDialogComponent
+    StrProudctSerialDialogComponent,
+    StrUserstoreComponent,
+    StrUserstoreDialogComponent
 
    
   ],
