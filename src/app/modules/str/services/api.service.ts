@@ -1,7 +1,7 @@
 // import { FiscalYear } from './../str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
 // import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -2008,6 +2008,17 @@ export class ApiService {
       `${this.url}/STRProduct/AutoCode`
     );
   }
+
+  // uploadFile(formData: FormData): Observable<HttpEvent<string[]>> {
+  //   return this.http.post<string[]>(`${this.url}/STRProduct/UploadFile`, formData, {
+  //     reportProgress: true,
+  //     observe: 'events'
+  //   });
+  // }
+
+  public uploadFile(payload: FormData) {
+    return this.http.post('${this.url}/STRProduct/UploadFile',payload);
+   }
   ///////////////////////////////// STR-Product/////////////////////////////
   // postStrProduct(data: any) {
   //   console.log('form add product data to backend: ', data);
