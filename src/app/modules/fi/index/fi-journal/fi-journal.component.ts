@@ -8,6 +8,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { FIAccountHierarchyDialogComponent } from '../fi-account-hierarchy-dialog/fi-account-hierarchy-dialog.component';
 import { FIJournalDialogComponent } from '../fi-journal-dialog/fi-journal-dialog.component';
 import { formatDate } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -17,13 +18,13 @@ import { formatDate } from '@angular/common';
 })
 export class FIJournalComponent {
   title = 'angular13crud';
-  displayedColumns: string[] = [ 'no','description','date', 'action'];
+  displayedColumns: string[] = [ 'no','description','startDate','endDate', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog,
-     private api : ApiService,
+     private api : ApiService,private toastr: ToastrService,
      @Inject(LOCALE_ID) private locale: string){}
   ngOnInit(): void {
     this.getFIJournals();
@@ -32,7 +33,7 @@ export class FIJournalComponent {
     this.dialog.open(FIJournalDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val=>{
-      if(val === 'save'){
+      if(val === 'حفظ'){
         this.getFIJournals();
       }
     })
@@ -46,7 +47,7 @@ export class FIJournalComponent {
         this.dataSource.sort = this.sort;
       },
       error:(err)=>{
-        alert("خطأ عند استدعاء البيانات");
+        // alert("خطأ عند استدعاء البيانات");
       }
       
     })
@@ -56,19 +57,21 @@ export class FIJournalComponent {
       width:'30%',
       data:row
     }).afterClosed().subscribe(val=>{
-      if(val === 'update'){
+      if(val === 'تحديث'){
         this.getFIJournals();
       }
     })
   }
   daleteFIJournals(id:number){
-    if(confirm("Are you sure to delete ")) {
+    if(confirm("هل انت متأكد من الحذف؟ ")) {
       console.log("Implement delete functionality here");
     }
+    
     this.api.deleteFIJournal(id)
     .subscribe({
+     
       next:(res)=>{
-        alert("تأكيد حذف الوحدة");
+      this.toastrDeleteSuccess();
         this.getFIJournals();
       },
       error:()=>{
@@ -77,7 +80,7 @@ export class FIJournalComponent {
     })
   }
 
-  async getSearchFIJournal(no :any,description:any,date:any) {
+  async getSearchFIJournal(no :any,description:any,startDate:any,endDate:any) {
     
   console.log("description: "+description,"no: "+no);
   
@@ -85,47 +88,47 @@ export class FIJournalComponent {
           .subscribe({
             next: (res) => {
               // 1-
-              if (no != '' && description == '' && date == ''  ){
+              if (no != '' && description == '' && startDate == ''  ){
             console.log("enter id only: ", "res : ", res, "input id: ", no)
   
                 this.dataSource = res.filter((res: any)=> res.no==no!) 
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
               }
-              else if (no != '' && description != ''&& date != ''){
+              else if (no != '' && description != ''&& startDate != ''){
             console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
   
                 // this.dataSource = res.filter((res: any)=> res.name==name!)
-                this.dataSource = res.filter((res: any)=> res.no==no! && res.description.toLowerCase().includes(description.toLowerCase()) && formatDate(res.date, 'M/d/yyyy', this.locale) == date)
+                this.dataSource = res.filter((res: any)=> res.no==no! && res.description.toLowerCase().includes(description.toLowerCase()) && formatDate(res.startDate, 'M/d/yyyy', this.locale) == startDate)
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
               }
             
-              else if (no == '' && description == ''&& date != ''){
+              else if (no == '' && description == ''&& startDate != ''){
                     console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
           
                         // this.dataSource = res.filter((res: any)=> res.name==name!)
-                        this.dataSource = res.filter((res: any)=>  formatDate(res.date, 'M/d/yyyy', this.locale) == date)
+                        this.dataSource = res.filter((res: any)=>  formatDate(res.date, 'M/d/yyyy', this.locale) == startDate)
                         this.dataSource.paginator = this.paginator;
                         this.dataSource.sort = this.sort;
               }
-              else if (no == '' && description != ''&& date != ''){
+              else if (no == '' && description != ''&& startDate != ''){
                         console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
               
                             // this.dataSource = res.filter((res: any)=> res.name==name!)
-                            this.dataSource = res.filter((res: any)=>  res.description.toLowerCase().includes(description.toLowerCase()) && formatDate(res.date, 'M/d/yyyy', this.locale) == date)
+                            this.dataSource = res.filter((res: any)=>  res.description.toLowerCase().includes(description.toLowerCase()) && formatDate(res.date, 'M/d/yyyy', this.locale) == startDate)
                             this.dataSource.paginator = this.paginator;
                             this.dataSource.sort = this.sort;
               }
-              else if (no != '' && description == ''&& date != ''){
+              else if (no != '' && description == ''&& startDate != ''){
                 console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
       
                     // this.dataSource = res.filter((res: any)=> res.name==name!)
-                    this.dataSource = res.filter((res: any)=> res.no==no!  && formatDate(res.date, 'M/d/yyyy', this.locale) == date)
+                    this.dataSource = res.filter((res: any)=> res.no==no!  && formatDate(res.date, 'M/d/yyyy', this.locale) == startDate)
                     this.dataSource.paginator = this.paginator;
                     this.dataSource.sort = this.sort;
               }
-              else if (no != '' && description != ''&& date == ''){
+              else if (no != '' && description != ''&& startDate == ''){
                 console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
 
             // this.dataSource = res.filter((res: any)=> res.name==name!)
@@ -133,7 +136,7 @@ export class FIJournalComponent {
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
               }
-              else if (no == '' && description != ''&& date == ''){
+              else if (no == '' && description != ''&& startDate == ''){
                 console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
            
                 this.dataSource = res.filter((res: any)=> res.description.toLowerCase().includes(description.toLowerCase()))
@@ -163,6 +166,10 @@ export class FIJournalComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
   }
 
 

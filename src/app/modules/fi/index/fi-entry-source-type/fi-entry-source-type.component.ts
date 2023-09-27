@@ -63,7 +63,7 @@ export class FIEntrySourceTypeComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save') {
+        if (val === 'حفظ') {
           this.getAllEntrySourceTypes();
         }
       });
@@ -113,7 +113,7 @@ export class FIEntrySourceTypeComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
+        if (val === 'تعديل') {
           this.getAllEntrySourceTypes();
         }
       });
