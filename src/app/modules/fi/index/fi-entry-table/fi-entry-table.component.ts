@@ -119,7 +119,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '95%'
+        height: '85%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -144,7 +144,7 @@ export class FiEntryTableComponent implements OnInit {
         this.dataSource2.sort = this.sort;
       },
       error: () => {
-        alert('خطأ أثناء جلب سجلات المدخلات !!');
+        // alert('خطأ أثناء جلب سجلات المدخلات !!');
       },
     });
   }
@@ -157,7 +157,7 @@ export class FiEntryTableComponent implements OnInit {
       },
       error: (err) => {
         console.log('fetch journals data err: ', err);
-        alert('خطا اثناء جلب الدفاتر !');
+        // alert('خطا اثناء جلب الدفاتر !');
       },
     });
   }
@@ -170,7 +170,7 @@ export class FiEntryTableComponent implements OnInit {
       },
       error: (err) => {
         console.log('fetch accounts data err: ', err);
-        alert('خطا اثناء جلب الدفاتر !');
+        // alert('خطا اثناء جلب الدفاتر !');
       },
     });
   }
@@ -183,7 +183,7 @@ export class FiEntryTableComponent implements OnInit {
       },
       error: (err) => {
         console.log('fetch sources data err: ', err);
-        alert('خطا اثناء جلب الدفاتر !');
+        // alert('خطا اثناء جلب الدفاتر !');
       },
     });
   }
@@ -192,7 +192,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-      height: '95%',
+      height: '85%',
         data: row,
       })
       .afterClosed()
@@ -228,17 +228,17 @@ export class FiEntryTableComponent implements OnInit {
 
                     this.api.deleteFiEntry(id).subscribe({
                       next: (res) => {
-                        alert('تم حذف الرئيسي بنجاح');
+                        // alert('تم حذف الرئيسي بنجاح');
                         this.toastrDeleteSuccess();
                         this.getAllMasterForms();
                       },
                       error: () => {
-                        alert('خطأ أثناء حذف الرئيسي !!');
+                        // alert('خطأ أثناء حذف الرئيسي !!');
                       },
                     });
                   },
                   error: () => {
-                    alert('خطأ أثناء حذف التفاصيل !!');
+                    // alert('خطأ أثناء حذف التفاصيل !!');
                   },
                 });
               }
@@ -249,19 +249,19 @@ export class FiEntryTableComponent implements OnInit {
 
               this.api.deleteFiEntry(id).subscribe({
                 next: (res) => {
-                  alert('تم حذف الرئيسي بنجاح');
+                  // alert('تم حذف الرئيسي بنجاح');
                   this.toastrDeleteSuccess();
                   this.getAllMasterForms();
                 },
                 error: () => {
-                  alert('خطأ أثناء حذف الرئيسي !!');
+                  // alert('خطأ أثناء حذف الرئيسي !!');
                 },
               });
             }
           }
         },
         (err) => {
-          alert('خطا اثناء تحديد المجموعة !!');
+          // alert('خطا اثناء تحديد المجموعة !!');
         }
       );
   }
@@ -296,7 +296,7 @@ export class FiEntryTableComponent implements OnInit {
           this.dataSource2.sort = this.sort;
         },
         error: (err) => {
-          alert('Error');
+          // alert('Error');
         },
       });
   }

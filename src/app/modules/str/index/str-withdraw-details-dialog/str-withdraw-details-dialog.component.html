@@ -10,21 +10,21 @@
         <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل اذن صرف </h1>
 
         <div class="detailsForm" dir="rtl" style="overflow: hidden !important;">
-            <mat-accordion class="example-headers-align" multi dir="rtl">
+            <mat-accordion style="margin-bottom: 2%;" multi dir="rtl">
 
                 <mat-expansion-panel style="width: 70%;">
                     <mat-expansion-panel-header>
                         <mat-panel-description>
-                            بحث متقدم
-                            <mat-icon>search</mat-icon>
+                        بحث بالمنتج
+                            <mat-icon style="text-align: left;">search</mat-icon>
                         </mat-panel-description>
 
                     </mat-expansion-panel-header>
+                
 
+                    <div class="searchbyproduct">
 
-                    <div style="display: flex; width: 70%; justify-content: space-between;">
-
-                        <!-- <div> -->
+                       
                         <div style="display: flex; flex-direction: column;">
                             <mat-label>بحث بكود المنتج </mat-label>
 
@@ -35,9 +35,7 @@
 
                         <div style="display: flex; flex-direction: column;">
                             <mat-label>بحث باسم المنتج </mat-label>
-
-
-                            <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                                 <input matInput aria-label="commodity" [matAutocomplete]="autoProductId"
                                     [formControl]="productCtrl" placeholder="{{productIdValue ? productIdValue : ''}}"
                                     (click)="openAutoProduct()" required />
@@ -45,6 +43,7 @@
                                     (optionSelected)="ProductSelected($event)">
                                     <mat-option *ngFor="let product of filteredProduct | async" [value]="product">
                                         {{ product.name }} | {{ product.code }}
+                                        <!-- {{ product.name }} -->
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
@@ -55,6 +54,7 @@
                     </div>
                 </mat-expansion-panel>
             </mat-accordion>
+
 
 
             <!-- <mat-form-field appearance="outline" class="groupInput">
