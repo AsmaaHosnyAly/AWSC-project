@@ -13,7 +13,11 @@ import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 export class Item {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public fullCode: string) { }
+}
+
+export class Product {
+  constructor(public id: number, public name: string, public code: any) { }
 }
 
 @Component({
@@ -65,6 +69,13 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   selectedItem: Item | undefined;
   formcontrol = new FormControl('');
 
+  productsList: Product[] = [];
+  productCtrl: FormControl;
+  filteredProduct: Observable<Product[]>;
+  selectedProduct: Product | undefined;
+
+  productIdValue: any;
+
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -89,10 +100,17 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
       map(value => this._filterItems(value))
     );
 
+    this.productCtrl = new FormControl();
+    this.filteredProduct = this.productCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterProducts(value))
+    );
+
   }
 
   ngOnInit(): void {
     this.getItems();
+    this.getProducts();
 
     console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
@@ -176,6 +194,37 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     this.itemCtrl.updateValueAndValidity();
   }
 
+
+  private _filterProducts(value: string): Product[] {
+    const filterValue = value;
+    console.log("filterValue222:",filterValue);
+    
+    return this.productsList.filter(
+      (product) =>
+      product.name.toLowerCase().includes(filterValue) ||
+      product.code.toString().toLowerCase().includes(filterValue)
+    );
+  }
+  displayProductName(product: any): string {
+    return product && product.name ? product.name : '';
+  }
+  ProductSelected(event: MatAutocompleteSelectedEvent): void {
+    const product = event.option.value as Product;
+    console.log("product selected: ", product);
+    this.selectedProduct = product;
+    this.productIdValue = product.id;
+
+    console.log("product in form: ", this.productIdValue);
+    this.getItemByProductId(this.productIdValue);
+  }
+  openAutoProduct() {
+    this.productCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.productCtrl.updateValueAndValidity();
+  }
+
+
   getAllDetailsForms() {
 
     this.dialogRef.close('Save');
@@ -210,12 +259,12 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
             // alert("خطا اثناء جلب العناصر !");
           }
         })
-          // ,
-          // error: (err) => {
-          //   // console.log("fetch items data err: ", err);
-          //   // alert("خطا اثناء جلب العناصر !");
-          // }
-        // })
+      // ,
+      // error: (err) => {
+      //   // console.log("fetch items data err: ", err);
+      //   // alert("خطا اثناء جلب العناصر !");
+      // }
+      // })
       // }
     }
 
@@ -324,6 +373,20 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
         // alert("خطا اثناء جلب رقم العنصر !");
       });
   }
+
+  getProducts() {
+    this.api.getStrProduct().subscribe({
+      next: (res) => {
+        this.productsList = res;
+        console.log("productsList res: ", this.productsList);
+      },
+      error: (err) => {
+        // console.log("fetch products data err: ", err);
+        // alert("خطا اثناء جلب المنتجات !");
+      },
+    });
+  }
+
   closeDialog() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
@@ -354,6 +417,30 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
   }
 
+  getItemByProductId(productEvent: any) {
+    console.log("productEvent: ", productEvent);
+
+    this.productsList.filter((a: any) => {
+      if (a.id === productEvent) {
+        this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
+        // this.groupDetailsForm.controls['fullCode'].setValue(a.code);
+        this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == (this.groupDetailsForm.getRawValue().itemId))?.fullCode;
+
+        console.log("item by code: ", a.itemName);
+        this.itemCtrl.setValue(a.itemName);
+        if (a.itemName) {
+          this.itemByFullCodeValue = a.itemName;
+
+        }
+        else {
+          this.itemByFullCodeValue = '-';
+        }
+        this.itemByFullCodeValue = a.itemName;
+        this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+      }
+    })
+  }
+
   getCodeByItem(item: any) {
     console.log("item by code: ", item, "code: ", this.itemsList);
 
@@ -378,6 +465,41 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
   }
 
+  getItemByProductCode(code: any) {
+    if (code.keyCode == 13) {
+      this.productsList.filter((a: any) => {
+        console.log("enter product code case, ", "a.code: ", a.code, " code target: ", code.target.value);
+        if (a.code == code.target.value) {
+          console.log("enter product code case condition: ", a.code === code.target.value);
+
+          this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
+        
+          this.productIdValue = a.name;
+          this.productCtrl.setValue(a.name);
+
+          console.log("itemslist: ", this.itemsList.find((item: { id: any; }) => item.id == (this.groupDetailsForm.getRawValue().itemId))?.fullCode );
+          this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == (this.groupDetailsForm.getRawValue().itemId))?.fullCode;
+       
+          // alert(this.fullCodeValue);
+          this.itemCtrl.setValue(a.itemName);
+          if (a.itemName) {
+            this.itemByFullCodeValue = a.itemName;
+
+          }
+          else {
+            this.itemByFullCodeValue = '-';
+          }
+          this.itemByFullCodeValue = a.itemName;
+          this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+
+
+        }
+        else{
+          this.productIdValue = '';
+        }
+      })
+    }
+  }
 
   async itemOnChange(itemEvent: any) {
     console.log("itemEvent change value: ", itemEvent);
@@ -418,7 +540,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
     this.isEdit = false;
-    console.log("edit : ", this.groupDetailsForm.value, "row: ", this.editData.id)
+    // console.log("edit : ", this.groupDetailsForm.value, "row: ", this.editData.id)
     // this.api.putStrOpen(this.groupMasterForm.value)
     // .subscribe({
     //   next: (res) => {

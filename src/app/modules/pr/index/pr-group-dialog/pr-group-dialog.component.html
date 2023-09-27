@@ -36,10 +36,10 @@
                         <mat-option [value]="prRole.id" *ngFor="let prRole of prRoleList">{{prRole.name}}</mat-option>
                     </mat-select>
                 </mat-form-field> -->
-<div style="display: flex;flex-direction: row;margin-top: -1%;">
+<div class="detailsForm">
 
 
-                <div style="display: flex; flex-direction:column;width: 50rem; ">
+                <div style="display: flex; flex-direction:column;width:100%;margin-right: -25%; ">
                     <mat-label>الصلاحية*</mat-label>
                     <mat-form-field appearance="outline" class="child-num" style="width: 55%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="roleId" [formControl]="prRoleCtrl"
