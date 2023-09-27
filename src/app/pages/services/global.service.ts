@@ -21,7 +21,7 @@ export class GlobalService {
   public navFlag: boolean = true;
   userRoles: any;
 
-  // url = '192.168.1.23/api';
+//  url = 'http://192.168.1.23/api';
   url='http://ims.aswan.gov.eg/api'
 
   public reportData: [] = [];
@@ -36,7 +36,7 @@ export class GlobalService {
 
   getUsers(): Observable<any> {
     return this.http.get(
-      `https://ims.aswan.gov.eg/api/AddReceipt/get-all-Receipt`
+      `${this.url}/api/AddReceipt/get-all-Receipt`
     );
   }
 

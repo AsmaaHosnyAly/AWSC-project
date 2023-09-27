@@ -115,7 +115,7 @@ import { HrCityDialogComponent } from './modules/hr/index/hr-city-dialog/hr-city
 import { HrCityStateComponent } from './modules/hr/index/hr-city-state/hr-city-state.component';
 import { HrCityStateDialogComponent } from './modules/hr/index/hr-city-state-dialog/hr-city-state-dialog.component';
 import { StrAccountsComponent } from './modules/str/index/str-accounts/str-accounts.component';
-import { StrEmployeesComponent } from './modules/str/index/str-employees/str-employees.component';
+import { StrEmployeesComponent } from './modules/hr/hr-home/str-employees.component';
 import { HrIncentiveAllowanceComponent } from './modules/hr/index/hr-incentive-allowance/hr-incentive-allowance.component';
 import { HrIncentiveAllowanceDialogComponent } from './modules/hr/index/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { HrHiringTypeComponent } from './modules/hr/index/hr-hiring-type/hr-hiring-type.component';

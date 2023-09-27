@@ -222,7 +222,7 @@
 
      
         <!--start accounts -->
-
+        <!-- *ngIf="hasAccessModule(pageEnums.ACCOUNTS)" -->
         <mat-expansion-panel dir="rtl">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -326,13 +326,6 @@
             <a
               mat-list-item
               class="sideNavSubItems"
-              routerLink="/withdraw"
-              (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
-              >اليومية
-            </a>
-            <a
-              mat-list-item
-              class="sideNavSubItems"
               routerLink="/fi-entry"
               (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
               >القيود
@@ -341,7 +334,7 @@
         </mat-expansion-panel>
         <!-- end accounts -->
              <!-- start الموراد البشرية-->
-             <mat-expansion-panel dir="rtl" *ngIf="this.shared.hr==true">
+             <mat-expansion-panel dir="rtl" >
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary" class="ms-2">people</mat-icon>
@@ -366,46 +359,122 @@
                     <a
                       mat-list-item
                       class="sideNavSubItems"
-                      routerLink="/account"
+                      routerLink="/hr-jobTitle"
                       (click)="
                         global.getPermissionUserRoles(1, 'acounts', '', '')
                       "
-                      >اضافة مورد</a
+                      >المسمي الوظيفي </a
                     >
                     <a
                       mat-list-item
                       class="sideNavSubItems"
-                      routerLink="/AccountHierarchy"
+                      routerLink="/hr-incentive"
                       (click)="
                         global.getPermissionUserRoles(1, 'acounts', '', '')
                       "
-                      >إضافة شجرة الحساب</a
+                      >  الحوافز</a
+                    >
+                  
+                    <a
+                      mat-list-item
+                      class="sideNavSubItems"
+                      routerLink="/hr-hiringType"
+                      (click)="
+                        global.getPermissionUserRoles(1, 'acounts', '', '')
+                      "
+                      >  نوع التوظيف</a
+                     
                     >
                     <a
                       mat-list-item
                       class="sideNavSubItems"
-                      routerLink="/FiAccountItem"
+                      routerLink="/SeveranceReason"
                       (click)="
                         global.getPermissionUserRoles(1, 'acounts', '', '')
                       "
-                      >إضافة صنف الحساب</a
+                      >  الانقطاع </a
+                     
                     >
+                    <a
+                      mat-list-item
+                      class="sideNavSubItems"
+                      routerLink="/hr-MillitryState"
+                      (click)="
+                        global.getPermissionUserRoles(1, 'acounts', '', '')
+                      "
+                      >موقف التجنيد</a
+                     
+                    >
+                    <a
+                    mat-list-item
+                    class="sideNavSubItems"
+                    routerLink="/city"
+                    (click)="
+                      global.getPermissionUserRoles(1, 'acounts', '', '')
+                    "
+                    >  المحافظات</a
+                   
+                  >
+                  <a
+                    mat-list-item
+                    class="sideNavSubItems"
+                    routerLink="/cityState"
+                    (click)="
+                      global.getPermissionUserRoles(1, 'acounts', '', '')
+                    "
+                    >  المراكز</a
+                   
+                  >
+                  <a
+                  mat-list-item
+                  class="sideNavSubItems"
+                  routerLink="/Qualification"
+                  (click)="
+                    global.getPermissionUserRoles(1, 'acounts', '', '')
+                  "
+                  >  المؤهل</a
+                 
+                >
+                <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/QualitativeGroup"
+                (click)="
+                  global.getPermissionUserRoles(1, 'acounts', '', '')
+                "
+                >  المجموعة النوعية</a
+               
+              >
+              <a
+              mat-list-item
+              class="sideNavSubItems"
+              routerLink="/WorkPlace"
+              (click)="
+                global.getPermissionUserRoles(1, 'acounts', '', '')
+              "
+              >   مكان العمل</a
+             
+            >
+            <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/specialization"
+            (click)="
+              global.getPermissionUserRoles(1, 'acounts', '', '')
+            "
+            >  التخصصات</a
+           
+          >
                   </mat-nav-list>
                 </mat-expansion-panel>
                 <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/withdraw"
-                  (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
-                  >اليومية
-                </a>
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/fi-entry"
-                  (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
-                  >القيود
-                </a>
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-vacation"
+                (click)="
+                  global.getPermissionUserRoles(1, 'acounts', '', '')
+                "
+                > الاجازات</a>
               </mat-nav-list>
             </mat-expansion-panel>
             <!-- end Hr -->
