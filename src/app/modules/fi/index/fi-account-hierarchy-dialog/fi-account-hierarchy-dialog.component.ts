@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-fi-account-hierarchy-dialog',
   templateUrl: './fi-account-hierarchy-dialog.component.html',
@@ -22,17 +23,22 @@ export class FIAccountHierarchyDialogComponent {
   constructor(private formBuilder : FormBuilder,
      private api : ApiService,
      private readonly route:ActivatedRoute,
+     private hotkeysService: HotkeysService,
      @Inject(MAT_DIALOG_DATA) public editData : any,
      private dialogRef : MatDialogRef<FIAccountHierarchyDialogComponent>){
      }
   ngOnInit(): void {
     this.FIAccountForm = this.formBuilder.group({
-      transactionUserId : ['',Validators.required],
+      transactionUserId : ['1',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
       level : ['',Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addFIAccountHierarchy();
+      return false; // Prevent the default browser behavior
+    }));
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";

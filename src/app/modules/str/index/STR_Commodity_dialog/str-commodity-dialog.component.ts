@@ -67,7 +67,7 @@ export class StrCommodityDialogComponent implements OnInit {
       this.getCommodityData = this.editData;
       this.commodityForm.controls['code'].setValue(this.editData.code);
       this.commodityForm.controls['name'].setValue(this.editData.name);  
-      this.commodityForm.controls['accountId'].setValue(
+      this.commodityForm.controls['accountId'].setValue( 
         this.editData.accountId
       );    
       this.commodityForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
