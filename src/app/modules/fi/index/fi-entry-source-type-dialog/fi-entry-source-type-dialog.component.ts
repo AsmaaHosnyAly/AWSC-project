@@ -50,14 +50,16 @@ accordion!: MatAccordion;
       map((value) => this._filterEntrySources(value))
     );
     }
+
+
     ngOnInit(): void {
       this.entrySourceTypeForm = this.formBuilder.group({
         //define the components of the form
-      transactionUserId : ['',Validators.required],
+      transactionUserId : [1,Validators.required],
       name : ['',Validators.required],
-      entrySourceId : ['',Validators.required],
       fiEntrySourceName : [''],
-      id : ['',Validators.required],
+      entrySourceId : ['',Validators.required],
+      id:['']
       // matautocompleteFieldName : [''],
       });
   
@@ -69,6 +71,7 @@ accordion!: MatAccordion;
       if(this.editData){
         this.actionBtn = "تعديل";
       this.getEntrySourceTypeData = this.editData;
+      console.log("edit dataa",this.editData)
       this.entrySourceTypeForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.entrySourceTypeForm.controls['name'].setValue(this.editData.name);            
       this.entrySourceTypeForm.controls['entrySourceId'].setValue(this.editData.entrySourceId);
@@ -116,7 +119,7 @@ accordion!: MatAccordion;
           next:(res)=>{
             alert("تمت الاضافة بنجاح");
             this.entrySourceTypeForm.reset();
-            this.dialogRef.close('save');
+            this.dialogRef.close('حفظ');
           },
           error:(err)=>{ 
             alert("خطأ عند اضافة البيانات") 
@@ -133,7 +136,7 @@ accordion!: MatAccordion;
           next:(res)=>{
             alert("تم التحديث بنجاح");
             this.entrySourceTypeForm.reset();
-            this.dialogRef.close('update');
+            this.dialogRef.close('تعديل');
           },
           error:()=>{
             alert("خطأ عند تحديث البيانات");
