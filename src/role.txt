@@ -26,7 +26,7 @@ modules
 
 
 **************** module:3-accounts الحسابات*******************
-22-account اضافة حساب
+22-addAccount اضافة حساب
 23-AccountHierarchy شجرة الحساب
 24-FiAccountItem صنف الحساب  
 25-AccountParent اضافة حساب اب 
@@ -47,5 +47,5 @@ modules
 38-QualitativeGroup المجموعة النوعية
 39-WorkPlace مكان العمل 
 40-specialization التخصصات
-40-hr-vacation الاجازات
-41-hr-EmployeeDisciplinary الدرجة الوظيفية 
+41-hr-vacation الاجازات
+42-hr-EmployeeDisciplinary الدرجة الوظيفية 
