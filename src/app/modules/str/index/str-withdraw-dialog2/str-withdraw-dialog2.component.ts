@@ -1090,7 +1090,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.router.navigate(['/withdraw'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrWithdrawDetailsDialogComponent, {
       width: '95%',
-      height: '95%',
+      height: '85%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'Save' || val === 'Update') {
@@ -1620,7 +1620,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.dialog
       .open(StrWithdrawDetailsDialogComponent, {
         width: '95%',
-        height: '95%',
+        height: '85%',
       })
       .afterClosed()
       .subscribe((val) => {

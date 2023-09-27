@@ -128,7 +128,7 @@ export class FiEntryDialogComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch journals data err: ", err);
-          alert("خطا اثناء جلب الدفاتر !");
+          // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
@@ -142,7 +142,7 @@ export class FiEntryDialogComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch accounts data err: ", err);
-          alert("خطا اثناء جلب الدفاتر !");
+          // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
@@ -156,7 +156,7 @@ export class FiEntryDialogComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch accountItems data err: ", err);
-          alert("خطا اثناء جلب الدفاتر !");
+          // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
@@ -170,7 +170,7 @@ export class FiEntryDialogComponent implements OnInit {
         },
         error: (err) => {
           console.log("fetch sourcesList data err: ", err);
-          alert("خطا اثناء جلب الانواع !");
+          // alert("خطا اثناء جلب الانواع !");
         }
       })
   }
@@ -226,7 +226,7 @@ export class FiEntryDialogComponent implements OnInit {
           }
         }
           , err => {
-            alert("حدث خطا ما !!")
+            // alert("حدث خطا ما !!")
           }
         )
     }
@@ -257,14 +257,14 @@ export class FiEntryDialogComponent implements OnInit {
             console.log("mastered res: ", this.getMasterRowId.id)
             this.MasterGroupInfoEntered = true;
 
-            alert("تم الحفظ بنجاح");
+            // alert("تم الحفظ بنجاح");
             this.toastrSuccess();
             this.getAllDetailsForms();
             this.addDetailsInfo();
           },
           error: (err) => {
             console.log("header post err: ", err);
-            alert("حدث خطأ أثناء إضافة مجموعة")
+            // alert("حدث خطأ أثناء إضافة مجموعة")
           }
         })
     }
@@ -336,7 +336,7 @@ export class FiEntryDialogComponent implements OnInit {
 
         console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
 
-        alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
+        // alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
 
         console.log("add details second time, details form: ", this.groupDetailsForm.value)
         console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
@@ -350,9 +350,9 @@ export class FiEntryDialogComponent implements OnInit {
                   "id": res
                 };
                 console.log("Details res: ", this.getDetailsRowId.id)
-                alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
+                // alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
 
-                alert("تمت إضافة التفاصيل بنجاح");
+                // alert("تمت إضافة التفاصيل بنجاح");
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.getAllDetailsForms();
@@ -410,7 +410,7 @@ export class FiEntryDialogComponent implements OnInit {
             this.api.putFiEntryDetails(this.groupDetailsForm.value)
               .subscribe({
                 next: (res) => {
-                  alert("تم تحديث التفاصيل بنجاح");
+                  // alert("تم تحديث التفاصيل بنجاح");
                   this.toastrSuccess();
                   // console.log("update res: ", res);
                   this.groupDetailsForm.reset();
@@ -419,7 +419,7 @@ export class FiEntryDialogComponent implements OnInit {
                 },
                 error: (err) => {
                   // console.log("update err: ", err)
-                  alert("خطأ أثناء تحديث سجل المجموعة !!")
+                  // alert("خطأ أثناء تحديث سجل المجموعة !!")
                 }
               })
             this.groupDetailsForm.removeControl('id')
@@ -428,7 +428,7 @@ export class FiEntryDialogComponent implements OnInit {
 
         },
         error: () => {
-          alert("خطأ أثناء تحديث سجل الصنف !!")
+          // alert("خطأ أثناء تحديث سجل الصنف !!")
         }
       })
   }
@@ -454,7 +454,8 @@ export class FiEntryDialogComponent implements OnInit {
 
     // }
     this.dialog.open(FiEntryDetailsDialogComponent, {
-      width: '70%',
+      width: '95%',
+      height: '85%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
@@ -581,7 +582,8 @@ export class FiEntryDialogComponent implements OnInit {
   OpenDetailsDialog(){
     this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }])
     this.dialog.open(FiEntryDetailsDialogComponent, {
-      width: '70%',
+      width: '95%',
+      height: '85%'
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();
