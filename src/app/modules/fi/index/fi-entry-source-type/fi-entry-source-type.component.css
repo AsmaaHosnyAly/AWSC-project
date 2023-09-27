@@ -145,6 +145,7 @@ table {
   margin: 28px 0;
   overflow-y: scroll;
   width: 80%;
+  text-align: center;
 }
 .mat-mdc-table {
   --mat-table-row-item-outline-width: 1px;
@@ -152,12 +153,15 @@ table {
   white-space: normal;
   background-color: var(--mat-table-background-color);
   font-family: 'Cairo', sans-serif !important;
+  
 }
 table, th, td {
   border: 1px  rgb(161, 160, 160) solid;
   text-align: center;
   font-family: 'Cairo', sans-serif;
   font-weight: bold;
+  align-items: center;
+  margin: auto !important;
 }
 
 footer {
@@ -208,5 +212,9 @@ mat-card-header .child1{
   width: 82%;
   text-align: left;
   /* background-color: aquamarine; */
+}
+
+mat-sort-header{
+  margin: auto !important;
 }
 

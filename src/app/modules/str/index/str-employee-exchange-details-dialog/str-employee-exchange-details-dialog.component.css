@@ -228,3 +228,12 @@ th {
 .editbtn .mat-icon {
   --mat-icon-color: rgb(129, 135, 138);
 }
+
+.searchbyproduct{
+  display: flex;
+  justify-content: space-between;
+}
+mat-panel-description{
+  color: rgb(68, 68, 68);
+  font-size: 17px;
+}
