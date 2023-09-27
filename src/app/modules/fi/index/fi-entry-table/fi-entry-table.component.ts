@@ -55,10 +55,10 @@ export class FiEntryTableComponent implements OnInit {
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
-    private http: HttpClient,private formBuilder: FormBuilder,
+    private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAllMasterForms();
@@ -68,32 +68,32 @@ export class FiEntryTableComponent implements OnInit {
 
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
-      employee: [''],
+    
       costcenter: [''],
       // :[''],
       //  costcentersList:[''],
       costCenterId: [''],
       item: [''],
       fiscalYear: [''],
-      StartDate: [''],
-      EndDate: [''],
+      date: [''],
+      account: [''],
 
-      store: [''],
+      type: [''],
       storeId: [''],
       employeeId: [''],
       employeeName: [''],
-      itemId:[''],
+      itemId: [''],
       itemName: [''],
 
-      report:[''],
-      reportType:['']
+      report: [''],
+      reportType: ['']
       // item:['']
     });
 
-    
+
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: [''], //MasterId
-      employeeId:[''],
+      employeeId: [''],
       qty: [''],
       percentage: [''],
       price: [''],
@@ -101,7 +101,7 @@ export class FiEntryTableComponent implements OnInit {
       transactionUserId: [1],
       destStoreUserId: [1],
       itemId: [''],
-      stateId: [''],item:[''],
+      stateId: [''], item: [''],
 
       // withDrawNoId: ['' ],
 
@@ -112,18 +112,19 @@ export class FiEntryTableComponent implements OnInit {
 
       // notesName: [''],
     });
-    
+
   }
 
   openFiEntryDialog() {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '85%'
+        height: '82%'
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save') {
+        if (val === 'save' || val === 'update') {
+          this.getAllMasterForms();
         }
       });
   }
@@ -142,6 +143,7 @@ export class FiEntryTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset()
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المدخلات !!');
@@ -192,26 +194,27 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-      height: '85%',
+        height: '82%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
+        if (val === 'update' || val === 'save') {
           this.getAllMasterForms();
         }
       });
   }
 
   deleteBothForms(id: number) {
-    this.http
-      .get<any>('http://ims.aswan.gov.eg/api/FIEntryDetails/get/all')
-      .subscribe(
-        (res) => {
+    this.api.getFiEntryDetails()
+      .subscribe({
+        next: (res) => {
+
           this.matchedIds = res.filter((a: any) => {
-            console.log('matched Id & entryId : ', a.entryId === id);
+            // console.log("matched Id & HeaderId : ", a.HeaderId === id)
             return a.entryId === id;
           });
+
           var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
 
           if (this.matchedIds.length) {
@@ -259,14 +262,18 @@ export class FiEntryTableComponent implements OnInit {
               });
             }
           }
+
         },
-        (err) => {
-          // alert('خطا اثناء تحديد المجموعة !!');
+        error: (err) => {
+          // alert('خطا اثناء حذف القيد !!');
+
         }
-      );
+      })
+
+
   }
 
-  getSearchStrOpen(
+  getSearchFiEntry(
     no: any,
     journalId: any,
     accountId: any,
@@ -300,66 +307,66 @@ export class FiEntryTableComponent implements OnInit {
         },
       });
   }
-//   previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
-//     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-//     let employee = this.groupMasterForm.getRawValue().employeeId;
-//     let item = this.groupMasterForm.getRawValue().itemId;
-//     let store = this.groupMasterForm.getRawValue().storeId;
-// if(report!= null && reportType!=null){
-//     this.api
-//       .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-//       .subscribe({
-//         next: (res) => {
-//           let blob: Blob = res.body as Blob;
-//           console.log(blob);
-//           let url = window.URL.createObjectURL(blob);
-//           localStorage.setItem('url', JSON.stringify(url));
-//           this.pdfurl = url;
-//           this.dialog.open(PrintDialogComponent, {
-//             width: '50%',
-//           });
+  //   previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+  //     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+  //     let employee = this.groupMasterForm.getRawValue().employeeId;
+  //     let item = this.groupMasterForm.getRawValue().itemId;
+  //     let store = this.groupMasterForm.getRawValue().storeId;
+  // if(report!= null && reportType!=null){
+  //     this.api
+  //       .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+  //       .subscribe({
+  //         next: (res) => {
+  //           let blob: Blob = res.body as Blob;
+  //           console.log(blob);
+  //           let url = window.URL.createObjectURL(blob);
+  //           localStorage.setItem('url', JSON.stringify(url));
+  //           this.pdfurl = url;
+  //           this.dialog.open(PrintDialogComponent, {
+  //             width: '50%',
+  //           });
 
-//           // this.dataSource = res;
-//           // this.dataSource.paginator = this.paginator;
-//           // this.dataSource.sort = this.sort;
-//         },
-//         error: (err) => {
-//           console.log('eroorr', err);
-//           window.open(err.url);
-//         },
-        
-//       });}
-//       else{
-// alert("ادخل التقرير و نوع التقرير!")      }
-//   }
+  //           // this.dataSource = res;
+  //           // this.dataSource.paginator = this.paginator;
+  //           // this.dataSource.sort = this.sort;
+  //         },
+  //         error: (err) => {
+  //           console.log('eroorr', err);
+  //           window.open(err.url);
+  //         },
+
+  //       });}
+  //       else{
+  // alert("ادخل التقرير و نوع التقرير!")      }
+  //   }
 
 
-//   downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
-//     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-//     let employee = this.groupMasterForm.getRawValue().employeeId;
-//     let item = this.groupDetailsForm.getRawValue().itemId;
-//     let store = this.groupMasterForm.getRawValue().storeId;
+  //   downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+  //     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+  //     let employee = this.groupMasterForm.getRawValue().employeeId;
+  //     let item = this.groupDetailsForm.getRawValue().itemId;
+  //     let store = this.groupMasterForm.getRawValue().storeId;
 
-//     this.api
-//     .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-//     .subscribe({
-//         next: (res) => {
-//           console.log('search:', res);
-//           const url: any = res.url;
-//           window.open(url);
-//           // let blob: Blob = res.body as Blob;
-//           // let url = window.URL.createObjectURL(blob);
+  //     this.api
+  //     .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+  //     .subscribe({
+  //         next: (res) => {
+  //           console.log('search:', res);
+  //           const url: any = res.url;
+  //           window.open(url);
+  //           // let blob: Blob = res.body as Blob;
+  //           // let url = window.URL.createObjectURL(blob);
 
-//           // this.dataSource = res;
-//           // this.dataSource.paginator = this.paginator;
-//           // this.dataSource.sort = this.sort;
-//         },
-//         error: (err) => {
-//           console.log('eroorr', err);
-//           window.open(err.url);
-//         },
-//       });
-//   }
+  //           // this.dataSource = res;
+  //           // this.dataSource.paginator = this.paginator;
+  //           // this.dataSource.sort = this.sort;
+  //         },
+  //         error: (err) => {
+  //           console.log('eroorr', err);
+  //           window.open(err.url);
+  //         },
+  //       });
+  //   }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
