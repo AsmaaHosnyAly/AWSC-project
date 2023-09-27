@@ -1,4 +1,4 @@
-// import { HrPositionComponent } from './modules/hr/index-position/hr-position.component';
+
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StrGroupHomeComponent } from './modules/str/index/str-group-home/str-group-home.component';
@@ -43,7 +43,7 @@ import { StrVendorComponent } from './modules/str/index/str-vendor/str-vendor.co
 import { HrJobTitleComponent } from './modules/hr/index/hr-job-title/hr-job-title.component';
 import { HrPositionComponent } from './modules/hr/index/hr-position/hr-position.component';
 import { StrAccountsComponent } from './modules/str/index/str-accounts/str-accounts.component';
-import { StrEmployeesComponent } from './modules/str/index/str-employees/str-employees.component';
+import { StrEmployeesComponent } from './modules/hr/hr-home/str-employees.component';
 import { HrMillitryStateComponent } from './modules/hr/index/hr-millitry-state/hr-millitry-state.component';
 import { HrVacationComponent } from './modules/hr/index/hr-vacation/hr-vacation.component';
 import { HrIncentiveAllowanceComponent } from './modules/hr/index/hr-incentive-allowance/hr-incentive-allowance.component';
@@ -230,6 +230,7 @@ const routes: Routes = [
         path: 'hr-employeeVacationBalance',
         component: HrEmployeeVacationBalanceComponent,
       },
+      {path:'hr-position',component:HrPositionComponent},
       { path: 'hr-disciplinary', component: HrDisciplinaryComponent },
 
       {
