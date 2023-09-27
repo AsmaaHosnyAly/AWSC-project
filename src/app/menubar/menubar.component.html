@@ -222,8 +222,8 @@
 
      
         <!--start accounts -->
-        <!-- *ngIf="hasAccessModule(pageEnums.ACCOUNTS)" -->
-        <mat-expansion-panel dir="rtl">
+      
+        <mat-expansion-panel dir="rtl"   *ngIf="hasAccessModule(pageEnums.ACCOUNTS)">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <img
@@ -253,9 +253,8 @@
                   mat-list-item
                   class="sideNavSubItems"
                   routerLink="/account"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
-                  "
+                  *ngIf="hasAccessRole(pageEnums.STR_OPENING_STOCK)"
+                  
                 >
                   <p class="font">اضافة حساب</p></a
                 >
@@ -334,7 +333,7 @@
         </mat-expansion-panel>
         <!-- end accounts -->
              <!-- start الموراد البشرية-->
-             <mat-expansion-panel dir="rtl" >
+             <mat-expansion-panel dir="rtl"   *ngIf="hasAccessModule(pageEnums.HR)" >
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary" class="ms-2">people</mat-icon>

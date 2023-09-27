@@ -21,7 +21,32 @@ export enum PagesEnums {
   MODEL = 16,
   STORES_ACCOUNTS = 17,
   PRODUCT_SERIAL=20,
-  //    ROLES
+ STRUSERSTORE =21,
+  //    ROLES الصلاحيات
   PR_USER = 18,
   PR_GROUP = 19,
+
+  // ACCOUNT الحسابات 
+  ADD_ACCOUNT=22,
+  AccountHierarchy=23,
+  FiAccountItem=24,
+  AccountParent=25,
+  FIJournal=26,
+  EntrySource =27,
+  EntrySourceType=28,
+  FI_ENTRY=29,
+// HR شئون العاملين
+HR_JOB_TITLE=30,
+HR_INCENTIVE=31,
+HR_HIRING_TYPE=32,
+SeveranceReason =33,
+HR_MILLIIRY_STATE=34,
+CITY=35,
+CITY_STATE=36,
+QUALIFICATION=37,
+QUALIATIVE_GROUP =38,
+WorkPlace=39,
+specialization=40,
+HR_VACATION=41,
+hr_Employee_Disciplinary=42
 }
