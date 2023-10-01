@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HrHiringTypeDialogComponent implements OnInit{
   groupForm !: FormGroup;
-  actionBtn: string = "Save";
+  actionBtn : string = "حفظ";
   employeesList: any;
   fiscalYearsList: any;
   userIdFromStorage: any;
@@ -30,7 +30,7 @@ export class HrHiringTypeDialogComponent implements OnInit{
     });
 
     if (this.editData) {
-      this.actionBtn = "Update";
+      this.actionBtn = "تعديل";
       this.groupForm.controls['name'].setValue(this.editData.name);
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
 
@@ -77,8 +77,7 @@ export class HrHiringTypeDialogComponent implements OnInit{
     console.log("update HiringType last values, id: ", this.groupForm.value)
     this.api.putHrHiringType(this.groupForm.value)
       .subscribe({
-        next: (res) => {
-          alert("تم تحديث انواع التعيين بنجاح");
+        next: (res) => {         
           this.toastrSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');

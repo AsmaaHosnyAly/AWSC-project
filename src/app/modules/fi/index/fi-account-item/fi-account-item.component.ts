@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { FiAccountItemdDialogComponent } from '../fi-account-itemd-dialog/fi-account-itemd-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-fi-account-item',
@@ -35,7 +36,7 @@ export class FiAccountItemComponent  implements OnInit {
   // commidityDt: any = {
   //   id: 0,
   // };
-  constructor(private dialog: MatDialog, private api: ApiService,private hotkeysService: HotkeysService) {
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
  
   }
   ngOnInit(): void {
@@ -99,7 +100,7 @@ export class FiAccountItemComponent  implements OnInit {
       next: (res) => {
         if(res == 'Succeeded'){
           console.log("res of deletestore:",res)
-        alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
                   this.getAllAccountItem();
 
 
@@ -115,7 +116,9 @@ export class FiAccountItemComponent  implements OnInit {
   }
 
  
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

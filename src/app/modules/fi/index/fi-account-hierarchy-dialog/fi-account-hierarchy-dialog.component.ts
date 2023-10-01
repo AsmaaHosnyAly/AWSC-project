@@ -8,6 +8,7 @@ import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-fi-account-hierarchy-dialog',
   templateUrl: './fi-account-hierarchy-dialog.component.html',
@@ -24,6 +25,7 @@ export class FIAccountHierarchyDialogComponent {
      private api : ApiService,
      private readonly route:ActivatedRoute,
      private hotkeysService: HotkeysService,
+     private toastr: ToastrService,
      @Inject(MAT_DIALOG_DATA) public editData : any,
      private dialogRef : MatDialogRef<FIAccountHierarchyDialogComponent>){
      }
@@ -60,7 +62,7 @@ export class FIAccountHierarchyDialogComponent {
         this.api.postFIAccountHierarchy(this.FIAccountForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            this.toastrSuccess();
             this.FIAccountForm.reset();
             this.dialogRef.close('save');
           },
@@ -78,7 +80,7 @@ export class FIAccountHierarchyDialogComponent {
       this.api.putFIAccountHierarchy(this.FIAccountForm.value)
       .subscribe({
         next:(res)=>{
-          alert("تم التحديث بنجاح");
+          this.toastrEditSuccess();
           this.FIAccountForm.reset();
           this.dialogRef.close('update');
         },
@@ -87,6 +89,12 @@ export class FIAccountHierarchyDialogComponent {
         }
       })
     }
-
+    toastrSuccess(): void {
+      this.toastr.success('تم الحفظ بنجاح');
+    }
+    
+    toastrEditSuccess(): void {
+      this.toastr.success('تم التعديل بنجاح');
+    }
 
 }

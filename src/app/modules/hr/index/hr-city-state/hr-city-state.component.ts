@@ -115,19 +115,29 @@ export class HrCityStateComponent {
   }
 
   deleteHrCityStates(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrCityState(id).subscribe({
+      this.api.deleteHrCityState(id)
+      .subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           alert('تم الحذف بنجاح');
           this.getHrCityStates();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+ 
+ 
+
   openAutoCity() {
     this.cityCtrl.setValue(''); // Clear the input field value
   

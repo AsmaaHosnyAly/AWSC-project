@@ -19,6 +19,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 export class Account {
   constructor(public id: number, public name: string, public level: string) {}
 }
@@ -50,7 +51,7 @@ export class FIAccountParentComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService,private hotkeysService: HotkeysService) {
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
     this.accountCtrl = new FormControl();
     this.filteredAccounts = this.accountCtrl.valueChanges.pipe(
       startWith(''),
@@ -170,7 +171,7 @@ export class FIAccountParentComponent implements OnInit {
     if (result) {
       this.api.deleteAccountParent(id).subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
           this.getAllAccountParents();
         },
         error: () => {
@@ -217,7 +218,9 @@ export class FIAccountParentComponent implements OnInit {
     // this.getAllProducts()
   }
 
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

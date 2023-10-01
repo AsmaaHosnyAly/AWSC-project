@@ -1,20 +1,16 @@
-mat-card{
-  margin: 2%;
-  text-align: right;
+
+mat-form-field{
+  width: 100%;
+  height: 90%;
+  margin-left: 2%;
 }
 
-.mat-mdc-form-field {
-  width: 98%;
-  margin: 1%;
-}
 
-.mat-50{
-  width: 48%;
-  margin: 1%;
-}
 
-button{
-  margin: 2px;
+.cdk-overlay-pane {
+  position: relative!important;
+ 
+
 }
 .close {
   position: absolute;
@@ -40,17 +36,30 @@ button{
   box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
   color: aliceblue;
   margin-top: -10px;
+  
+}
+.div-btn{
+margin: auto;
+width: 100%;
+display: flex;
+justify-content: center;
+margin-bottom: 20px;
+margin-top: 0 !important;
+background-color: aquamarine;
 }
 
+
 .savebtn {
-  background-color:var(--bg-primary-color);
-  color: aliceblue;
-  font-family: 'Cairo', sans-serif !important;
-  display: block;
-  font-weight: bold;
-  font-size: 15px;
-  
-  width: 100%;
-  padding: 10px 0px;
-  height: 50px;
-  }
+background-color: var(--bg-primary-color);
+color: aliceblue;
+font-family: 'Cairo', sans-serif !important;
+display: block;
+font-weight: bold;
+font-size: 15px;
+
+width: 100%;
+padding: 10px 0px;
+height: 50px;
+}
+
+
