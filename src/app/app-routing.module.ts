@@ -86,6 +86,9 @@ import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
+import { productSerialGuard } from './guards/product-serial.guard';
+import { strVendorGuard } from './guards/str-vendor.guard';
+import { strModelGuard } from './guards/str-model.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -173,9 +176,16 @@ const routes: Routes = [
         canActivate: [storeGuard],
         data: { PageLsit: [PagesEnums.STORE] },
       },
-      { path: 'str-vendor', component: StrVendorComponent },
+      { path: 'str-vendor',
+       component: StrVendorComponent,
+      canActivate: [strVendorGuard],
+      data: { PageLsit: [PagesEnums.STR_VENDOR]}
+     },
 
-      { path: 'str-model', component: StrModelComponent },
+      { path: 'str-model', component: StrModelComponent,
+      canActivate: [strModelGuard],
+      data: { PageLsit: [PagesEnums.MODEL]}
+     },
       {
         path: 'costCenter',
         component: StrCostcenterComponent,
@@ -188,7 +198,11 @@ const routes: Routes = [
         canActivate: [productsGuard],
         data: { PageLsit: [PagesEnums.PRODUCTS] },
       },
-      { path: 'product-serial', component: StrProudctSerialComponent },
+      { path: 'product-serial', component: StrProudctSerialComponent ,
+      canActivate: [productSerialGuard],
+      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+
+    },
       /***********************end store modules المخازن **********************/
 
       /***********************Start account modules الحسابات **********************/
