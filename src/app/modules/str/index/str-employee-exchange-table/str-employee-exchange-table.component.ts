@@ -10,7 +10,7 @@ import { StrEmployeeExchangeDialogComponent } from '../str-employee-exchange-dia
 import { formatDate } from '@angular/common';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { EmployeeExchangePrintDialogComponent } from '../employee-exchange-print-dialog/employee-exchange-print-dialog.component'; 
+import { EmployeeExchangePrintDialogComponent } from '../employee-exchange-print-dialog/employee-exchange-print-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import {
@@ -21,19 +21,19 @@ import {
 } from '@angular/forms';
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: string) {}
 }
 
 export class costcenter {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 export class distEmployee {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: string) {}
 }
 
 export class item {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 @Component({
@@ -74,12 +74,10 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   filtereddistEmployee: Observable<distEmployee[]>;
   selecteddistEmployee: distEmployee | undefined;
 
-
   itemsList: item[] = [];
   itemCtrl: FormControl;
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
-
 
   dataSource2!: MatTableDataSource<any>;
   pdfurl = '';
@@ -102,13 +100,11 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       map((value) => this._filtercostcenters(value))
     );
 
-
     this.itemCtrl = new FormControl();
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filteritems(value))
     );
-
 
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
@@ -133,11 +129,10 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
     this.getCostCenters();
 
-
-
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
-      employee: [''], employeeId: [''],
+      employee: [''],
+      employeeId: [''],
       costcenter: [],
       costCenterId: [],
       itemName: [''],
@@ -150,12 +145,12 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       date: [''],
       store: [''],
       distEmployee: [''],
-      fiscalYear: [''], report: [''],
+      fiscalYear: [''],
+      report: [''],
       reportType: [''],
       StartDate: [''],
       EndDate: [''],
     });
-
 
     this.groupDetailsForm = this.formBuilder.group({
       // stR_WithdrawId: [''], //MasterId
@@ -179,14 +174,13 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       // notesName: [''],
     });
 
-
-
-
-    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.openEmployeeExchangeDialog();
-      return false; // Prevent the default browser behavior
-    }));
+    this.hotkeysService.add(
+      new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.openEmployeeExchangeDialog();
+        return false; // Prevent the default browser behavior
+      })
+    );
   }
 
   applyFilter(event: Event) {
@@ -202,7 +196,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
         width: '98%',
-        height: '85%'
+        height: '85%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -210,7 +204,6 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
-
   }
 
   getAllMasterForms() {
@@ -263,7 +256,6 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           this.getAllMasterForms();
         }
       });
-
   }
 
   deleteBothForms(id: number) {
@@ -319,31 +311,26 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     //     }
     //   );
 
-
     var result = confirm('تاكيد الحذف ؟ ');
     console.log(' id in delete:', id);
     if (result) {
       this.api.deleteStrEmployeeExchange(id).subscribe({
         next: (res) => {
-          this.api.getStrEmployeeExchangeDetails()
-            .subscribe({
-              next: (res) => {
+          this.api.getStrEmployeeExchangeDetails().subscribe({
+            next: (res) => {
+              this.matchedIds = res.filter((a: any) => {
+                // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                return a.employee_ExchangeId === id;
+              });
 
-                this.matchedIds = res.filter((a: any) => {
-                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.employee_ExchangeId === id;
-                });
-
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
-                }
-
-              },
-              error: (err) => {
-                // alert('خطا اثناء تحديد المجموعة !!');
-
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.deleteFormDetails(this.matchedIds[i].id);
               }
-            })
+            },
+            error: (err) => {
+              // alert('خطا اثناء تحديد المجموعة !!');
+            },
+          });
 
           this.toastrDeleteSuccess();
           this.getAllMasterForms();
@@ -396,7 +383,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.api.getItem().subscribe({
       next: (res) => {
         this.itemsList = res;
-        console.log("itemss res: ", this.itemsList);
+        console.log('itemss res: ', this.itemsList);
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
@@ -487,7 +474,6 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.itemCtrl.updateValueAndValidity();
   }
 
-
   /////employeee
 
   displayEmployeeName(employee: any): string {
@@ -509,10 +495,9 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
   private _filteremployees(value: string): Employee[] {
     const filterValue = value;
-    return this.employeesList.filter((employee) =>
-      employee.name.toLowerCase().includes(filterValue),
-      console.log("employee in filteremployee:", this.employeesList)
-
+    return this.employeesList.filter(
+      (employee) => employee.name.toLowerCase().includes(filterValue),
+      console.log('employee in filteremployee:', this.employeesList)
     );
   }
   openAutoEmployee() {
@@ -554,19 +539,23 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
 
   getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalyear: any) {
-    console.log("fiscal year in ts:", fiscalyear)
+    console.log('fiscal year in ts:', fiscalyear);
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
-    let item=this.groupDetailsForm.getRawValue().itemId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
 
     this.api
       .getStrEmployeeExchangeSearach(
         no,
         costCenterId,
-        employeeId,item,
-      
-        distEmployee,StartDate,EndDate,fiscalyear,
+        employeeId,
+        item,
+
+        distEmployee,
+        StartDate,
+        EndDate,
+        fiscalyear
       )
       .subscribe({
         next: (res) => {
@@ -580,7 +569,14 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       });
   }
 
-  downloadPdf(no: any, StartDate: any, EndDate: any, Fiscalyear: any, report: any, reportType: any) {
+  downloadPdf(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    Fiscalyear: any,
+    report: any,
+    reportType: any
+  ) {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
@@ -588,7 +584,16 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
     this.api
       .getStrEmployeeExchangeItem(
-        no, distEmployee, StartDate, EndDate, Fiscalyear, item, employeeId, costCenterId, report, reportType
+        no,
+        distEmployee,
+        StartDate,
+        EndDate,
+        Fiscalyear,
+        item,
+        employeeId,
+        costCenterId,
+        report,
+        reportType
       )
       .subscribe({
         next: (res) => {
@@ -609,17 +614,31 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       });
   }
 
-  previewPdf(no: any, StartDate: any, EndDate: any, Fiscalyear: any, report: any, reportType: any) {
+  previewPdf(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    Fiscalyear: any,
+    report: any,
+    reportType: any
+  ) {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-if(report !=null && reportType!=null){
-
-
+    if (report != null && reportType != null) {
       this.api
         .getStrEmployeeExchangeItem(
-          no, distEmployee, StartDate, EndDate, Fiscalyear, item, employeeId, costCenterId, report, reportType
+          no,
+          distEmployee,
+          StartDate,
+          EndDate,
+          Fiscalyear,
+          item,
+          employeeId,
+          costCenterId,
+          report,
+          reportType
         )
         .subscribe({
           next: (res) => {
@@ -641,9 +660,8 @@ if(report !=null && reportType!=null){
             window.open(err.url);
           },
         });
-    }
-    else {
-      alert("ادخل التقرير و نوع التقرير!")
+    } else {
+      alert('ادخل التقرير و نوع التقرير!');
     }
   }
 

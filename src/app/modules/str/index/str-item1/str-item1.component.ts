@@ -128,12 +128,7 @@ export class STRItem1Component implements OnInit {
     private global: GlobalService,
     private hotkeysService: HotkeysService
   ) {
-    global.getPermissionUserRoles(
-      1,
-      'stores',
-      'الأصناف',
-      ''
-    );
+    global.getPermissionUserRoles(1, 'stores', 'الأصناف', '');
     this.unitCtrl = new FormControl();
     this.filteredUnits = this.unitCtrl.valueChanges.pipe(
       startWith(''),
@@ -404,13 +399,13 @@ export class STRItem1Component implements OnInit {
     if (result) {
       this.api.deleteItems(id).subscribe({
         next: (res) => {
-          if(res == 'Succeeded'){
-            console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
-          this.getAllItems();
-        }else{
-          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-        }
+          if (res == 'Succeeded') {
+            console.log('res of deletestore:', res);
+            alert('تم الحذف بنجاح');
+            this.getAllItems();
+          } else {
+            alert(' لا يمكن الحذف لارتباطها بجداول اخري!');
+          }
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -418,9 +413,7 @@ export class STRItem1Component implements OnInit {
       });
     }
   }
-  
-  
-  
+
   async getSearchItems(name: any, fullCode: any, type: any) {
     let commodity = this.itemForm.getRawValue().commodityId;
     console.log('commodityRow:', commodity);
@@ -701,7 +694,7 @@ export class STRItem1Component implements OnInit {
     console.log('unitRow:', unit);
 
     this.api
-      .printReportItems(
+      .printReportStrItems(
         name,
         fullCode,
         type,
@@ -744,7 +737,7 @@ export class STRItem1Component implements OnInit {
     // console.log('unitRow:', unit);
 
     this.api
-      .printReportItems(
+      .printReportStrItems(
         name,
         fullCode,
         type,
@@ -762,7 +755,7 @@ export class STRItem1Component implements OnInit {
           localStorage.setItem('url', JSON.stringify(url));
           this.pdfurl = url;
           this.dialog.open(Item1DialogComponent, {
-            width: '50%',
+            width: '70%',
           });
 
           // this.dataSource = res;

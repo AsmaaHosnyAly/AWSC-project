@@ -8,11 +8,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   /******************************** crud Group **********************************/
-  
+
   // url = '192.168.1.23/api';
- url='http://ims.aswan.gov.eg/api'
+  url = 'http://ims.aswan.gov.eg/api';
   mycondition: any;
 
   // baseApiUrl = 'https://file.io';
@@ -40,43 +40,28 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRUnit/get/all`);
   }
   putunit(data: any) {
-    return this.http.put<any>(
-      `${this.url}/STRUnit/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRUnit/update`, data);
   }
   deleteunit(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRUnit/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/STRUnit/delete/${id}`);
   }
 
   // start crud grade
   //selvana
   postGrade(data: any) {
-    return this.http.post<any>(
-      `${this.url}/STRGrade/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRGrade/Add`, data);
   }
   getGrade() {
     return this.http.get<any>(`${this.url}/STRGrade/get/all`);
   }
   putGrade(data: any) {
-    return this.http.put<any>(
-      `${this.url}/STRGrade/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRGrade/update`, data);
   }
   deleteGrade(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRGrade/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/STRGrade/delete/${id}`);
   }
   getAllCommodity(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/STRCommodity/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRCommodity/get/all`);
   }
 
   getGradeCode(data: any) {
@@ -98,49 +83,29 @@ export class ApiService {
 
   // FIAccountHierarchy
   getFIAccountHierarchy() {
-    return this.http.get<any>(
-      `${this.url}/FIAccountHierarchy/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FIAccountHierarchy/get/all`);
   }
   putFIAccountHierarchy(data: any) {
-    return this.http.put<any>(
-      `${this.url}/FIAccountHierarchy/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/FIAccountHierarchy/update`, data);
   }
   deleteFIAccountHierarchy(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/FIAccountHierarchy/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/FIAccountHierarchy/delete/${id}`);
   }
   postFIAccountHierarchy(data: any) {
-    return this.http.post<any>(
-      `${this.url}/FIAccountHierarchy/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/FIAccountHierarchy/Add`, data);
   }
   // FiAccountItem
   getFiAccountItem() {
-    return this.http.get<any>(
-      `${this.url}/FiAccountItem/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FiAccountItem/get/all`);
   }
   putFiAccountItem(data: any) {
-    return this.http.put<any>(
-      `${this.url}/FiAccountItem/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/FiAccountItem/update`, data);
   }
   deleteFiAccountItem(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/FiAccountItem/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/FiAccountItem/delete/${id}`);
   }
   postFiAccountItem(data: any) {
-    return this.http.post<any>(
-      `${this.url}/FiAccountItem/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/FiAccountItem/Add`, data);
   }
   getAllAccounts(): Observable<any> {
     return this.http.get<any>(`${this.url}/FIAccount/get/all`);
@@ -150,62 +115,39 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/FIJournal/get/all`);
   }
   putFIJournal(data: any) {
-    return this.http.put<any>(
-      `${this.url}/FIJournal/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/FIJournal/update`, data);
   }
   deleteFIJournal(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/FIJournal/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/FIJournal/delete/${id}`);
   }
   postFIJournal(data: any) {
-    return this.http.post<any>(
-      `${this.url}/FIJournal/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/FIJournal/Add`, data);
   }
   // HrCity
   getHrCity() {
     return this.http.get<any>(`${this.url}/HrCity/get/all`);
   }
   putHrCity(data: any) {
-    return this.http.put<any>(
-      `${this.url}/HrCity/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrCity/update`, data);
   }
   deleteHrCity(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrCity/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrCity/delete/${id}`);
   }
   postHrCity(data: any) {
     return this.http.post<any>(`${this.url}/HrCity/Add`, data);
   }
   // HrCityState
   getHrCityState() {
-    return this.http.get<any>(
-      `${this.url}/HrCityState/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrCityState/get/all`);
   }
   putHrCityState(data: any) {
-    return this.http.put<any>(
-      `${this.url}/HrCityState/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrCityState/update`, data);
   }
   deleteHrCityState(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrCityState/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrCityState/delete/${id}`);
   }
   postHrCityState(data: any) {
-    return this.http.post<any>(
-      `${this.url}/HrCityState/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/HrCityState/Add`, data);
   }
   getAllCitis(): Observable<any> {
     return this.http.get<any>(`${this.url}/HrCity/get/all`);
@@ -216,24 +158,16 @@ export class ApiService {
   //Platoon
 
   postPlatoon(data: any) {
-    return this.http.post<any>(
-      `${this.url}/STRPlatoon/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRPlatoon/Add`, data);
   }
   getPlatoon() {
     return this.http.get<any>(`${this.url}/STRPlatoon/get/all`);
   }
   putPlatoon(data: any) {
-    return this.http.put<any>(
-      `${this.url}/STRPlatoon/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRPlatoon/update`, data);
   }
   deletePlatoon(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRPlatoon/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/STRPlatoon/delete/${id}`);
   }
 
   getPlatoonCode(GradeId: any) {
@@ -245,9 +179,7 @@ export class ApiService {
   }
 
   getAllCommodities(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/STRCommodity/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRCommodity/get/all`);
   }
   getAllGrades(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRGrade/get/all`);
@@ -256,29 +188,19 @@ export class ApiService {
   //Group
 
   postGroups(data: any) {
-    return this.http.post<any>(
-      `${this.url}/STRGroup/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRGroup/Add`, data);
   }
   getGroups() {
     return this.http.get<any>(`${this.url}/STRGroup/get/all`);
   }
   putGroups(data: any) {
-    return this.http.put<any>(
-      `${this.url}/STRGroup/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRGroup/update`, data);
   }
   deleteGroups(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRGroup/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/STRGroup/delete/${id}`);
   }
   getAllCommoditiesg(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/STRCommodity/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRCommodity/get/all`);
   }
   getAllGradesg(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRGrade/get/all`);
@@ -303,28 +225,19 @@ export class ApiService {
   }
   getItemNo(data: any) {
     console.log('No:', data);
-    return this.http.get<any>(
-      `${this.url}/STRItem/Get/lastNo?GroupId=${data}`
-    );
+    return this.http.get<any>(`${this.url}/STRItem/Get/lastNo?GroupId=${data}`);
   }
   getItem() {
     return this.http.get<any>(`${this.url}/STRItem/get/all`);
   }
   putItem(data: any) {
-    return this.http.put<any>(
-      `${this.url}/STRItem/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRItem/update`, data);
   }
   deleteItems(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRItem/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/STRItem/delete/${id}`);
   }
   getAllCommoditiesi(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/STRCommodity/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRCommodity/get/all`);
   }
   getAllGradesi(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRGrade/get/all`);
@@ -386,7 +299,7 @@ export class ApiService {
     return this.http.get<any>(`${this.mycondition}`);
   }
 
-  printReportItems(
+  printReportStrItems(
     name: any,
     fullcode: any,
     type: any,
@@ -435,14 +348,35 @@ export class ApiService {
     });
   }
 
-  addTable(
+  printReportStrAdd(no: any, storeId: any, date: any) {
+    'http://ims.aswan.gov.eg/api/STRAdd/getReport?reportName=STRAddReport&reportType=pdf';
+    this.mycondition = `${this.url}/STRAdd/getReport?reportName=STRAddReport&reportType=pdf`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    if (!storeId == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+    }
+    if (!date == false) {
+      this.mycondition = ` ${this.mycondition}&Date=${date}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  printStrOpeningStock(
     no: any,
     store: any,
     date: any,
     fiscalYear: any,
-    item: any,
-    employee: any,
-    costCenter: any
+    item: any
   ) {
     `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
     this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
@@ -464,12 +398,12 @@ export class ApiService {
     if (!item == false) {
       this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
     }
-    if (!employee == false) {
-      this.mycondition = ` ${this.mycondition}&GradeId=${employee}`;
-    }
-    if (!costCenter == false) {
-      this.mycondition = ` ${this.mycondition}&GradeId=${costCenter}`;
-    }
+    // if (!employee == false) {
+    //   this.mycondition = ` ${this.mycondition}&GradeId=${employee}`;
+    // }
+    // if (!costCenter == false) {
+    //   this.mycondition = ` ${this.mycondition}&GradeId=${costCenter}`;
+    // }
 
     console.log('url', this.mycondition);
 
@@ -480,16 +414,17 @@ export class ApiService {
     });
   }
 
-
-
   strAdd(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any,
+    EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any,
+    report: any,
+    reportType: any
   ) {
     console.log(
       'no. : ',
@@ -500,8 +435,10 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:',
+      report,
+      'reportType:',
+      reportType
     );
     `${this.url}/STRAdd/getReport?`;
     this.mycondition = `${this.url}/STRAdd/getReport?`;
@@ -519,7 +456,6 @@ export class ApiService {
     if (!reportType == false) {
       this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
     }
-
 
     if (!StartDate == false) {
       this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
@@ -553,11 +489,14 @@ export class ApiService {
   openingStock(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any,
+    EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any,
+    report: any,
+    reportType: any
   ) {
     console.log(
       'no. : ',
@@ -568,8 +507,10 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:',
+      report,
+      'reportType:',
+      reportType
     );
     `${this.url}/STROpeningStock/getReport?`;
     this.mycondition = `${this.url}/STROpeningStock/getReport?`;
@@ -587,7 +528,6 @@ export class ApiService {
     if (!reportType == false) {
       this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
     }
-
 
     if (!StartDate == false) {
       this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
@@ -619,23 +559,33 @@ export class ApiService {
   }
 
   getStrEmployeeCustodyReport(
-    no: any,StartDate:any,EndDate:any,fiscalYear:any,itemId: any,  employeeId: any,
-    costCenterId: any,report:any,reportType:any
-  
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalYear: any,
+    itemId: any,
+    employeeId: any,
+    costCenterId: any,
+    report: any,
+    reportType: any
   ) {
-
     console.log(
       'no. : ',
       no,
-      'employee',employeeId,'costcenter:',costCenterId,
+      'employee',
+      employeeId,
+      'costcenter:',
+      costCenterId,
       'date: ',
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:',
+      report,
+      'reportType:',
+      reportType
     );
-    
+
     `${this.url}/STREmployeeOpeningCustody/getReport?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/getReport?`;
 
@@ -676,9 +626,16 @@ export class ApiService {
   }
 
   getStrEmployeeExchangeItem(
-    no: any,distEmployee: any,StartDate:any,EndDate:any,Fiscalyear:any,item:any,
-    employeeId: any, costCenterId: any,report:any,reportType:any
- 
+    no: any,
+    distEmployee: any,
+    StartDate: any,
+    EndDate: any,
+    Fiscalyear: any,
+    item: any,
+    employeeId: any,
+    costCenterId: any,
+    report: any,
+    reportType: any
   ) {
     `${this.url}/STRItem/getReport?`;
     this.mycondition = `${this.url}/STRItem/getReport?`;
@@ -725,14 +682,17 @@ export class ApiService {
     });
   }
 
-  getStr(
+  printReportStrWithdraw(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any,
+    EndDate: any,
     fiscalYear: any,
     item: any,
     employee: any,
-    costCenter: any,report:any,reportType:any
+    costCenter: any,
+    report: any,
+    reportType: any
   ) {
     console.log(
       'no. : ',
@@ -743,17 +703,19 @@ export class ApiService {
       StartDate,
       'fiscalYear: ',
       fiscalYear,
-      'reportName:',report,'reportType:',reportType
-      
+      'reportName:',
+      report,
+      'reportType:',
+      reportType
     );
     `${this.url}/STRWithdraw/getReport??`;
     this.mycondition = `${this.url}/STRWithdraw/getReport??`;
 
     if (!no == false) {
-      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
     if (!store == false) {
-      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+      this.mycondition = ` ${this.mycondition}&StoreId=${store}`;
     }
     if (!report == false) {
       this.mycondition = ` ${this.mycondition}&reportName=${report}`;
@@ -763,27 +725,24 @@ export class ApiService {
       this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
     }
 
-
     if (!StartDate == false) {
       this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
     }
     if (!EndDate == false) {
       this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
     }
-
     if (!fiscalYear == false) {
-      this.mycondition = ` ${this.mycondition}&CommodityId=${fiscalYear}`;
+      this.mycondition = ` ${this.mycondition}&fiscalyear=${fiscalYear}`;
     }
-    if (!item == false) {
-      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
-    }
-    if (!employee == false) {
-      this.mycondition = ` ${this.mycondition}&PlatoonId=${employee}`;
-    }
-    if (!costCenter == false) {
-      this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
-    }
-
+    // if (!itemId == false) {
+    //   this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
+    // }
+    // if (!employeeId == false) {
+    //   this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
+    // }
+    // if (!costCenterId == false) {
+    //   this.mycondition = ` ${this.mycondition}&costCenterId=${costCenterId}`;
+    // }
     console.log('url', this.mycondition);
 
     // return this.http.get<any>(`${this.mycondition}`);
@@ -796,106 +755,64 @@ export class ApiService {
   // Account
 
   postAccount(data: any) {
-    return this.http.post<any>(
-      `${this.url}/FIAccount/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/FIAccount/Add`, data);
   }
   getAccount() {
     return this.http.get<any>(`${this.url}/FIAccount/get/all`);
   }
   putAccount(data: any) {
-    return this.http.put<any>(
-      `${this.url}/FIAccount/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/FIAccount/update`, data);
   }
   deleteAccount(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/FIAccount/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/FIAccount/delete/${id}`);
   }
   getAllAccountHierarchy(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/FIAccountHierarchy/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FIAccountHierarchy/get/all`);
   }
 
   //FiEntrySourceType
   postEntrySourceType(data: any) {
-    return this.http.post<any>(
-      `${this.url}/FiEntrySourceType/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/FiEntrySourceType/Add`, data);
   }
   getEntrySourceType() {
-    return this.http.get<any>(
-      `${this.url}/FiEntrySourceType/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FiEntrySourceType/get/all`);
   }
   putEntrySourceType(data: any) {
-    return this.http.put<any>(
-      `${this.url}/FiEntrySourceType/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/FiEntrySourceType/update`, data);
   }
   deleteEntrySourceType(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/FiEntrySourceType/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/FiEntrySourceType/delete/${id}`);
   }
   getAllEntrySources(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/FiEntrySource/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FiEntrySource/get/all`);
   }
 
   //FiEntrySource
   postEntrySource(data: any) {
-    return this.http.post<any>(
-      `${this.url}/FiEntrySource/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/FiEntrySource/Add`, data);
   }
   getEntrySource() {
-    return this.http.get<any>(
-      `${this.url}/FiEntrySource/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FiEntrySource/get/all`);
   }
   putEntrySource(data: any) {
-    return this.http.put<any>(
-      `${this.url}/FiEntrySource/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/FiEntrySource/update`, data);
   }
   deleteEntrySource(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/FiEntrySource/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/FiEntrySource/delete/${id}`);
   }
 
   //AccountParent
   postAccountParent(data: any) {
-    return this.http.post<any>(
-      `${this.url}/FIAccountParent/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/FIAccountParent/Add`, data);
   }
   getAccountParent() {
-    return this.http.get<any>(
-      `${this.url}/FIAccountParent/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FIAccountParent/get/all`);
   }
   putAccountParent(data: any) {
-    return this.http.put<any>(
-      `${this.url}/FIAccountParent/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/FIAccountParent/update`, data);
   }
   deleteAccountParent(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/FIAccountParent/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/FIAccountParent/delete/${id}`);
   }
   getAllAccountsParents(): Observable<any> {
     return this.http.get<any>(`${this.url}/FIAccount/get/all`);
@@ -904,65 +821,40 @@ export class ApiService {
   //HrQualification
 
   postQualification(data: any) {
-    return this.http.post<any>(
-      `${this.url}/HrQualification/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/HrQualification/Add`, data);
   }
   getQualification() {
-    return this.http.get<any>(
-      `${this.url}/HrQualification/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrQualification/get/all`);
   }
   putQualification(data: any) {
-    return this.http.put<any>(
-      `${this.url}/HrQualification/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrQualification/update`, data);
   }
   deleteQualification(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrQualification/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrQualification/delete/${id}`);
   }
   getAllQualitativeGroups(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/HrQualitativeGroup/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrQualitativeGroup/get/all`);
   }
 
   //HrSeveranceReason
 
   postSeveranceReason(data: any) {
-    return this.http.post<any>(
-      `${this.url}/HrSeveranceReason/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/HrSeveranceReason/Add`, data);
   }
   getSeveranceReason() {
-    return this.http.get<any>(
-      `${this.url}/HrSeveranceReason/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrSeveranceReason/get/all`);
   }
   putSeveranceReason(data: any) {
-    return this.http.put<any>(
-      `${this.url}/HrSeveranceReason/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrSeveranceReason/update`, data);
   }
   deleteSeveranceReason(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrSeveranceReason/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrSeveranceReason/delete/${id}`);
   }
 
   /**crud group */
 
   postStores(data: any, id: number) {
-    return this.http.post<any>(
-      `${this.url}/STRStore/Add` + id,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRStore/Add` + id, data);
   }
 
   getstores() {
@@ -970,17 +862,12 @@ export class ApiService {
   }
 
   putstores(data: any, id: number) {
-    return this.http.put<any>(
-      `${this.url}/STRStore/update` + id,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRStore/update` + id, data);
   }
 
   deletestores(id: number) {
     console.log('id in delete store:', id);
-    return this.http.delete<any>(
-      `${this.url}/STRStore/delete/` + id
-    );
+    return this.http.delete<any>(`${this.url}/STRStore/delete/` + id);
   }
   getAllTodos(): Observable<any> {
     return this.http.get<any>('http://localhost:3000/commidity/');
@@ -995,9 +882,7 @@ export class ApiService {
   }
 
   getAllCategories(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/FiCostCenterCategory/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FiCostCenterCategory/get/all`);
   }
 
   comostCenter() {
@@ -1013,39 +898,26 @@ export class ApiService {
   }
 
   getCostCenterAutoCode() {
-    return this.http.get<any>(
-      `${this.url}/FICostCenter/GetLastCode`
-    );
+    return this.http.get<any>(`${this.url}/FICostCenter/GetLastCode`);
   }
 
   // crud items
 
   postItem(data: any) {
     console.log('post data:', data);
-    return this.http.post<any>(
-      `${this.url}/STR_Item/Add-item`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STR_Item/Add-item`, data);
   }
 
   getcommodity() {
-    return this.http.get<any>(
-      `${this.url}/STRCommodity/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRCommodity/get/all`);
   }
   postStrOpenItems(data: any) {
-    return this.http.post<any>(
-      `${this.url}/STR_Item/Add-item`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STR_Item/Add-item`, data);
   }
 
   putItems(data: any) {
     console.log('put data:', data);
-    return this.http.put<any>(
-      `${this.url}/STR_Item/update-Item`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STR_Item/update-Item`, data);
   }
 
   deleteItem(id: number) {
@@ -1055,14 +927,10 @@ export class ApiService {
   }
 
   getAllcommodity(): any {
-    return this.http.get<any>(
-      `${this.url}/STRCommodity/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRCommodity/get/all`);
   }
   getAllplatoon(): any {
-    return this.http.get<any>(
-      `${this.url}/STR_Platoon/get-all-Platoons`
-    );
+    return this.http.get<any>(`${this.url}/STR_Platoon/get-all-Platoons`);
   }
   getAllgroup(): any {
     return this.http.get<any>(`${this.url}/STRGroup/get/all `);
@@ -1072,9 +940,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRGrade/get/all`);
   }
   getAllunit(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/STR_Unit/get-all-Unit`
-    );
+    return this.http.get<any>(`${this.url}/STR_Unit/get-all-Unit`);
   }
 
   // CRUD STORE
@@ -1092,46 +958,32 @@ export class ApiService {
   }
 
   getEmployees(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/HREmployee/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HREmployee/get/all`);
   }
 
   getStoreAutoCode() {
-    return this.http.get<any>(
-      `${this.url}/STRStore/AutoCode`
-    );
+    return this.http.get<any>(`${this.url}/STRStore/AutoCode`);
   }
   //  commodity
   postCommodity(data: any) {
     console.log('add product data: ', data);
 
-    return this.http.post<any>(
-      `${this.url}/STRCommodity/Add `,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRCommodity/Add `, data);
   }
 
   getCommodity() {
-    return this.http.get<any>(
-      `${this.url}/STRCommodity/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRCommodity/get/all`);
   }
 
   putCommodity(data: any) {
     console.log('edit data by id: ', data);
 
-    return this.http.put<any>(
-      `${this.url}/STRCommodity/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRCommodity/update`, data);
   }
 
   deleteCommodity(id: number) {
     console.log('delete by id: ', id);
-    return this.http.delete<any>(
-      '${this.url}/STRCommodity/delete/' + id
-    );
+    return this.http.delete<any>('${this.url}/STRCommodity/delete/' + id);
   }
 
   ///////////////////////////////// STR-Group /////////////////////////////
@@ -1143,9 +995,7 @@ export class ApiService {
   }
 
   getCommodityAutoCode() {
-    return this.http.get<any>(
-      `${this.url}/STRCommodity/AutoCode`
-    );
+    return this.http.get<any>(`${this.url}/STRCommodity/AutoCode`);
   }
 
   // getCostCenterAutoCode(){
@@ -1264,11 +1114,7 @@ export class ApiService {
       `${this.url}/STRAddDetails/get/Avg/Price/${storeid}/${FiscalYearid}/${Date}/${itemid}`
     );
   }
-  getSearchStrStockTaking(
-    no: any,
-    storeId: any,
-    fiscalYear: any,
-    itemId: any) {
+  getSearchStrStockTaking(no: any, storeId: any, fiscalYear: any, itemId: any) {
     console.log(
       'no. : ',
       no,
@@ -1279,7 +1125,6 @@ export class ApiService {
       fiscalYear,
       'item:',
       itemId
-
     );
 
     this.mycondition = `${this.url}/StrStockTaking/search?`;
@@ -1303,17 +1148,15 @@ export class ApiService {
     return this.http.get<any>(`${this.mycondition}`);
   }
 
-
-
   getStrOpenSearach(
     no: any,
     storeId: any,
-    
+
     fiscalYear: any,
-    itemId: any,StartDate:any,EndDate:any
-  ) 
-  
-  {
+    itemId: any,
+    StartDate: any,
+    EndDate: any
+  ) {
     console.log(
       'no. : ',
       no,
@@ -1324,9 +1167,9 @@ export class ApiService {
       'fiscalYear: ',
       fiscalYear,
       'item:',
-      itemId,'EndDate: ',
+      itemId,
+      'EndDate: ',
       EndDate
-    
     );
 
     this.mycondition = `${this.url}/STROpeningStock/search?`;
@@ -1533,7 +1376,7 @@ export class ApiService {
     console.log('deleted row id: ', HeaderId);
     return this.http.delete<any>(
       `${this.url}/STREmployeeExchangeDetails/delete/by/EmployeeExchange/` +
-      HeaderId
+        HeaderId
     );
   }
 
@@ -1541,8 +1384,11 @@ export class ApiService {
     no: any,
     costCenterId: any,
     employeeId: any,
-    
-    distEmployee: any,StartDate:any,EndDate:any,Fiscalyaer:any
+
+    distEmployee: any,
+    StartDate: any,
+    EndDate: any,
+    Fiscalyaer: any
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -1556,7 +1402,9 @@ export class ApiService {
       "' distEmployee: '",
       distEmployee,
       "' EndDate: '",
-      EndDate,'fiscalyear:',Fiscalyaer
+      EndDate,
+      'fiscalyear:',
+      Fiscalyaer
     );
     this.mycondition;
     this.mycondition = `${this.url}/STREmployeExchange/search?`;
@@ -1727,9 +1575,7 @@ export class ApiService {
     );
   }
   getStrEmployeeOpen() {
-    return this.http.get<any>(
-      `${this.url}/STREmployeeOpeningCustody/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/get/all`);
   }
   putStrEmployeeOpen(data: any) {
     return this.http.put<any>(
@@ -1766,8 +1612,7 @@ export class ApiService {
   deleteStrEmployeeOpenDetails(HeaderId: number) {
     console.log('deleted row id: ', HeaderId);
     return this.http.delete<any>(
-      `${this.url}/STREmployeeOpeningCustodyDetails/delete/` +
-      HeaderId
+      `${this.url}/STREmployeeOpeningCustodyDetails/delete/` + HeaderId
     );
   }
   putStrEmployeeOpenDetail(data: any, id: number) {
@@ -1795,42 +1640,27 @@ export class ApiService {
 
   postStrWithdraw(data: any) {
     console.log('post data:', data);
-    return this.http.post<any>(
-      `${this.url}/STRWithdraw/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRWithdraw/Add`, data);
   }
 
   getStrWithdraw() {
-    return this.http.get<any>(
-      `${this.url}/STRWithdraw/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRWithdraw/get/all`);
   }
   putStrWithdraw(data: any) {
     console.log('put data ', data);
 
-    return this.http.put<any>(
-      `${this.url}/STRWithdraw/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRWithdraw/update`, data);
   }
   deleteStrWithdraw(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRWithdraw/delete/` + id
-    );
+    return this.http.delete<any>(`${this.url}/STRWithdraw/delete/` + id);
   }
 
   postStrWithdrawDetails(data: any) {
     console.log('post details', data);
-    return this.http.post<any>(
-      `${this.url}/STRWithdrawDetails/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRWithdrawDetails/Add`, data);
   }
   getStrWithdrawDetails() {
-    return this.http.get<any>(
-      `${this.url}/STRWithdrawDetails/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRWithdrawDetails/get/all`);
   }
   getStrWithdrawDetailsByMasterId(id: any) {
     return this.http.get<any>(
@@ -1840,10 +1670,7 @@ export class ApiService {
   putStrWithdrawDetails(data: any) {
     console.log('put details', data);
 
-    return this.http.put<any>(
-      `${this.url}/STRWithdrawDetails/update `,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRWithdrawDetails/update `, data);
   }
   deleteStrWithdrawDetails(HeaderId: number) {
     // console.log("deleted row id: ", HeaderId)
@@ -1854,7 +1681,8 @@ export class ApiService {
   getStrWithdrawSearch(
     no: any,
     store: any,
-    StartDate: any,EndDate:any,
+    StartDate: any,
+    EndDate: any,
     fiscalYear: any,
     itemId: any,
     employeeId: any,
@@ -1914,9 +1742,7 @@ export class ApiService {
     // return this.http.get<any>("http://localhost:3000/StoreList/");
   }
   getseller() {
-    return this.http.get<any>(
-      `${this.url}/PRSeller/get/all`
-    );
+    return this.http.get<any>(`${this.url}/PRSeller/get/all`);
     // return this.http.get<any>("http://localhost:3000/StoreList/");
   }
 
@@ -2187,11 +2013,13 @@ export class ApiService {
   // ----Start Add----
 
   GetWithDrawByDestStore(storeId: any) {
-    return this.http.get<any>(`${this.url}/STRWithdraw/GetWithDrawByDestStore/${storeId}`);
+    return this.http.get<any>(
+      `${this.url}/STRWithdraw/GetWithDrawByDestStore/${storeId}`
+    );
   }
   postAcceptOrRejectWithDrawByDestStore(data: any) {
-    console.log("dataaa: ", data);
-    
+    console.log('dataaa: ', data);
+
     return this.http.post<any>(`${this.url}/STRAdd/AddFromStore`, data);
   }
 
@@ -2207,15 +2035,10 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRAdd/get/all`);
   }
   putStrAdd(data: any) {
-    return this.http.put<any>(
-      `${this.url}/STRAdd/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRAdd/update`, data);
   }
   deleteStrAdd(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRAdd/Delete/` + id
-    );
+    return this.http.delete<any>(`${this.url}/STRAdd/Delete/` + id);
   }
   getAllSellers() {
     return this.http.get<any>(`${this.url}/PRSeller/get/all`);
@@ -2234,20 +2057,14 @@ export class ApiService {
   }
 
   postStrAddDetails(data: any) {
-    return this.http.post<any>(
-      `${this.url}/STRAddDetails/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRAddDetails/Add`, data);
   }
   getStrAddDetailsByAddId(id: any) {
     return this.http.get<any>(`${this.url}/STRAdd/GeTAddDetailsByAddId/${id}`);
   }
   putStrAddDetails(data: any) {
     console.log('strOpenDetails data: ', data);
-    return this.http.put<any>(
-      `${this.url}/STRAddDetails/Update/`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRAddDetails/Update/`, data);
   }
   deleteStrAddDetails(HeaderId: number) {
     // console.log("deleted row id: ", HeaderId)
@@ -2306,9 +2123,7 @@ export class ApiService {
     // return this.http.get<any>("http://localhost:3000/StoreList/");
   }
   getReciept() {
-    return this.http.get<any>(
-      `${this.url}/STRAddReceipt/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRAddReceipt/get/all`);
     // return this.http.get<any>("http://localhost:3000/StoreList/");
   }
   // getEmployee() {
@@ -2328,49 +2143,51 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/StrStockTaking/get/all`);
   }
 
-
   getStrStockTakingDetailsByMasterId(id: any) {
-    return this.http.get<any>(
-      `${this.url}/StrStockTakingDetails/get/${id}`)
-
+    return this.http.get<any>(`${this.url}/StrStockTakingDetails/get/${id}`);
   }
 
   postStrStockTaking(data: any) {
-    console.log("data in posttt:", data)
-    return this.http.post<any>(`${this.url}/StrStockTaking/Add`, data)
+    console.log('data in posttt:', data);
+    return this.http.post<any>(`${this.url}/StrStockTaking/Add`, data);
   }
   putStrStockTaking(data: any) {
-    return this.http.put<any>(`${this.url}/StrStockTaking/update`, data)
+    return this.http.put<any>(`${this.url}/StrStockTaking/update`, data);
   }
 
   postStrStockTakingDetails(data: any) {
-    console.log("data in post details:", data)
-    return this.http.post<any>(`${this.url}/StrStockTakingDetails/Add`, data)
+    console.log('data in post details:', data);
+    return this.http.post<any>(`${this.url}/StrStockTakingDetails/Add`, data);
   }
 
   putStrStockTakingDetails(data: any) {
-    return this.http.put<any>(`${this.url}/StrStockTakingDetails/update/`, data)
+    return this.http.put<any>(
+      `${this.url}/StrStockTakingDetails/update/`,
+      data
+    );
   }
 
   deleteStockTakingDetails(id: any) {
-    return this.http.delete<any>(`${this.url}/StrStockTakingDetails/delete/` + id);
+    return this.http.delete<any>(
+      `${this.url}/StrStockTakingDetails/delete/` + id
+    );
   }
 
   deleteStrStockTking(id: any) {
     return this.http.delete<any>(`${this.url}/StrStockTaking/delete/` + id);
   }
 
+  getStrAddSearach(
+    no: any,
 
-
-
-
-  getStrAddSearach( no: any,
-   
-   
     fiscalYear: any,
-   
-   
-    employeeId: any,  itemId: any,store: any,StartDate:any,EndDate:any) {
+
+    employeeId: any,
+    itemId: any,
+    store: any,
+    StartDate: any,
+    EndDate: any
+  ) {
     //enter no.
 
     console.log(
@@ -2387,11 +2204,9 @@ export class ApiService {
       'employee: ',
       employeeId,
       'enddate: ',
-      EndDate,
-     
+      EndDate
     );
     this.mycondition = `${this.url}/STRAdd/search?`;
-
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
@@ -2414,7 +2229,6 @@ export class ApiService {
     if (!employeeId == false) {
       this.mycondition = ` ${this.mycondition}&EmployeeId=${employeeId}`;
     }
-
 
     console.log('url', this.mycondition);
 
@@ -2476,10 +2290,7 @@ export class ApiService {
 
   // vendor
   postVendor(data: any) {
-    return this.http.post<any>(
-      `${this.url}/STRVendor/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRVendor/Add`, data);
   }
   // here
   getVendor() {
@@ -2487,15 +2298,10 @@ export class ApiService {
   }
   putVendor(data: any) {
     console.log('data');
-    return this.http.put<any>(
-      `${this.url}/STRVendor/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRVendor/update`, data);
   }
   daleteVendor(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRVendor/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/STRVendor/delete/${id}`);
   }
 
   ////////Hr JobTitle/////
@@ -2576,36 +2382,23 @@ export class ApiService {
 
   // MillitryState
   postMillitryState(data: any) {
-    return this.http.post<any>(
-      `${this.url}/HrMillitryState/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/HrMillitryState/Add`, data);
   }
   // here
 
   // here
   getMillitryState() {
-    return this.http.get<any>(
-      `${this.url}/HrMillitryState/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrMillitryState/get/all`);
   }
   putMillitryState(data: any) {
     console.log('data');
-    return this.http.put<any>(
-      `${this.url}/HrMillitryState/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrMillitryState/update`, data);
   }
   daleteMillitryState(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrMillitryState/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrMillitryState/delete/${id}`);
   }
   postVacation(data: any) {
-    return this.http.post<any>(
-      `${this.url}/HrVacation/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/HrVacation/Add`, data);
   }
   // here
   getVacation() {
@@ -2613,15 +2406,10 @@ export class ApiService {
   }
   putVacation(data: any) {
     console.log('data');
-    return this.http.put<any>(
-      `${this.url}/HrVacation/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrVacation/update`, data);
   }
   daleteVacation(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrVacation/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrVacation/delete/${id}`);
   }
 
   /////////////HR Disciplinary////////////
@@ -2761,7 +2549,11 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/PRUser/Add`, data);
   }
   PrUserCheckAuthenticate(name: any, password: any) {
-    return this.http.post<any>(`${this.url}/PRUser/authenticate?username=admin&password=admin`, name, password);
+    return this.http.post<any>(
+      `${this.url}/PRUser/authenticate?username=admin&password=admin`,
+      name,
+      password
+    );
   }
   getPrUser() {
     return this.http.get<any>(`${this.url}/PRUser/get/all`);
@@ -2792,90 +2584,53 @@ export class ApiService {
 
   //hr
   getHrWorkPlace() {
-    return this.http.get<any>(
-      `${this.url}/HrWorkPlace/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrWorkPlace/get/all`);
   }
   putHrWorkPlace(data: any) {
-    return this.http.put<any>(
-      `${this.url}/HrWorkPlace/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrWorkPlace/update`, data);
   }
   deleteHrWorkPlace(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrWorkPlace/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrWorkPlace/delete/${id}`);
   }
   postHrWorkPlace(data: any) {
-    return this.http.post<any>(
-      `${this.url}/HrWorkPlace/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/HrWorkPlace/Add`, data);
   }
   getAllCityState(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/HrCityState/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrCityState/get/all`);
   }
   getHrspecialization() {
-    return this.http.get<any>(
-      `${this.url}/HrSpecialization/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrSpecialization/get/all`);
   }
   putHrspecialization(data: any) {
-    return this.http.put<any>(
-      `${this.url}/HrSpecialization/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrSpecialization/update`, data);
   }
   deleteHrspecialization(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrSpecialization/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrSpecialization/delete/${id}`);
   }
   postHrspecialization(data: any) {
-    return this.http.post<any>(
-      `${this.url}/HrSpecialization/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/HrSpecialization/Add`, data);
   }
   getAllqualification(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/HrQualification/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrQualification/get/all`);
   }
   getHrQualitativeGroup() {
-    return this.http.get<any>(
-      `${this.url}/HrQualitativeGroup/get/all`
-    );
+    return this.http.get<any>(`${this.url}/HrQualitativeGroup/get/all`);
   }
   putHrQualitativeGroup(data: any) {
-    return this.http.put<any>(
-      `${this.url}/HrQualitativeGroup/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/HrQualitativeGroup/update`, data);
   }
   deleteHrQualitativeGroup(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/HrQualitativeGroup/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/HrQualitativeGroup/delete/${id}`);
   }
   postHrQualitativeGroup(data: any) {
-    return this.http.post<any>(
-      `${this.url}/HrQualitativeGroup/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/HrQualitativeGroup/Add`, data);
   }
   getAllVendor() {
     return this.http.get<any>(`${this.url}/STRVendor/get/all`);
   }
   // MODEL
   postModel(data: any) {
-    return this.http.post<any>(
-      `${this.url}/STRModel/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRModel/Add`, data);
   }
   // here
   getModel() {
@@ -2883,26 +2638,20 @@ export class ApiService {
   }
   putModel(data: any) {
     console.log('data');
-    return this.http.put<any>(
-      `${this.url}/STRModel/update`,
-      data
-    );
+    return this.http.put<any>(`${this.url}/STRModel/update`, data);
   }
   deleteModel(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRModel/delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/STRModel/delete/${id}`);
   }
 
   getStrEmployeeOpenSearach(
     no: any,
     costCenterId: any,
-    employeeId: any, itemId: any,
-    StartDate:any,EndDate:any,
-   FiscalYear:any
-
-
-   
+    employeeId: any,
+    itemId: any,
+    StartDate: any,
+    EndDate: any,
+    FiscalYear: any
   ) {
     console.log(
       "values search passed: 'no: '",
@@ -2914,7 +2663,9 @@ export class ApiService {
       "' startdate: '",
       StartDate,
       "' item: '",
-      itemId,"fiscalyear",FiscalYear
+      itemId,
+      'fiscalyear',
+      FiscalYear
     );
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
     this.mycondition = `${this.url}/STREmployeeOpeningCustody/search?`;
@@ -3080,45 +2831,29 @@ export class ApiService {
   }
 
   getAllCostCenters() {
-    return this.http.get<any>(
-      `${this.url}/FICostCenter/get/all`
-    );
+    return this.http.get<any>(`${this.url}/FICostCenter/get/all`);
   }
 
-
   //////product serialll
-
 
   getCostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
   }
 
   postProductserail(data: any) {
-    return this.http.post<any>(
-      `${this.url}/STRProductSerial/Add`,
-      data
-    );
+    return this.http.post<any>(`${this.url}/STRProductSerial/Add`, data);
   }
   getProductserail() {
     return this.http.get<any>(`${this.url}/STRProductSerial/get/all`);
   }
   putProductserail(data: any) {
-    console.log("")
-    return this.http.put<any>(
-      `${this.url}/STRProductSerial/update`,
-      data
-    );
+    console.log('');
+    return this.http.put<any>(`${this.url}/STRProductSerial/update`, data);
   }
   deleteProductserail(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/STRProductSerial/Delete/${id}`
-    );
+    return this.http.delete<any>(`${this.url}/STRProductSerial/Delete/${id}`);
   }
   getAllProductes(): Observable<any> {
-    return this.http.get<any>(
-      `${this.url}/STRProduct/get/all`
-    );
+    return this.http.get<any>(`${this.url}/STRProduct/get/all`);
   }
-
-
 }
