@@ -1,4 +1,3 @@
-
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StrGroupHomeComponent } from './modules/str/index/str-group-home/str-group-home.component';
@@ -55,8 +54,11 @@ import { HrEmployeeVacationBalanceComponent } from './modules/hr/index/hr-employ
 import { HrDisciplinaryComponent } from './modules/hr/index/hr-disciplinary/hr-disciplinary.component';
 import { HrEmployeeDisciplinaryComponent } from './modules/hr/index/hr-employee-disciplinary/hr-employee-disciplinary.component';
 import { PrGroupTableComponent } from './modules/pr/index/pr-group-table/pr-group-table.component';
-import { StrModelComponent, vendor } from './modules/str/index/str-model/str-model.component';
-import { MenubarComponent } from './menubar/menubar.component';
+import {
+  StrModelComponent,
+  vendor,
+} from './modules/str/index/str-model/str-model.component';
+import { MenubarComponent } from './pages/menubar/menubar.component';
 import { PrUserTableComponent } from './modules/pr/index/pr-user-table/pr-user-table.component';
 import { rolesGuard } from './core/guards/roles.guard';
 import { withdrawGuard } from './core/guards/withdraw.guard';
@@ -82,8 +84,10 @@ import { StrStockTakingContainerComponent } from './modules/str/index/str-stock-
 import { PageRolesComponent } from './pages/page-roles/page-roles.component';
 import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
-import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component'; 
+import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
+import { productSerialGuard } from './core/guards/product-serial.guard';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -91,38 +95,42 @@ const routes: Routes = [
   {
     path: '',
     component: MenubarComponent,
-    canActivate: [      storeGuard,     
-    ],
-    data: { 
-          },
-    // data2:{roles:['18','19']},
+    canActivate: [storeGuard],
+    data: {},
+
     children: [
-    
+      { path: 'home', component: StrGroupHomeComponent },
+      /***************start stores modules المخازن***************/
+      { path: 'str-home', component: STRHomeComponent },
       {
         path: 'withdraw',
         component: StrWithdrawContainerComponent,
         canActivate: [withdrawGuard],
         data: { PageLsit: [PagesEnums.WITHDRAW] },
       },
-
       {
         path: 'STRAdd',
         component: STRAddContainerComponent,
-        canActivate:[sTRAddGuard],
+        canActivate: [sTRAddGuard],
         data: { PageLsit: [PagesEnums.STRAdd] },
-      }, //table filter done
+      },
       {
         path: 'str-openingStock',
         component: StrOpeningStockContainerComponent,
-        canActivate:[strOpeningStockGuard],
+        canActivate: [strOpeningStockGuard],
         data: { PageLsit: [PagesEnums.STR_OPENING_STOCK] },
       },
       {
         path: 'employeeOpening',
         component: StrEmployeeExchangeContainerComponent,
-        canActivate:[employeeOpeningGuard],
+        canActivate: [employeeOpeningGuard],
         data: { PageLsit: [PagesEnums.EMPLOYEE_OPENING] },
-
+      },
+      {
+        path: 'EmployeeOpeningCustody',
+        component: STREmployeeOpeningCustodyComponent,
+        canActivate: [employeeOpeningCustodyGuard],
+        data: { PageLsit: [PagesEnums.EMPLOYEE_OPENING_CUSTODY] },
       },
       {
         path: 'commodity',
@@ -130,93 +138,98 @@ const routes: Routes = [
         canActivate: [commodityGuard],
         data: { PageLsit: [PagesEnums.COMMODITY] },
       },
-      { path: 'grade', component: STRGradeComponent },
+      {
+        path: 'grade',
+        component: STRGradeComponent,
+        canActivateChild: [gradeGuard],
+        data: { PageLsit: [PagesEnums.GRADE] },
+      },
+
       {
         path: 'str-platoon',
         component: STRPlatoonComponent,
+        canActivate: [strPlatoonGuard],
+        data: { PageLsit: [PagesEnums.STR_PLATOON] },
       },
       {
         path: 'group1',
         component: STRGroup1Component,
+        canActivate: [group1Guard],
+        data: { PageLsit: [PagesEnums.GROUP1] },
       },
-      { path: 'unit', component: STRUnitsComponent },
+      {
+        path: 'unit',
+        component: STRUnitsComponent,
+        canActivate: [unitGuard],
+        data: { PageLsit: [PagesEnums.UNIT] },
+      },
       {
         path: 'items1',
         component: STRItem1Component,
+        canActivate: [items1Guard],
+        data: { PageLsit: [PagesEnums.ITEMES1] },
+      },
+      {
+        path: 'store',
+        component: StrStoreComponent,
+        canActivate: [storeGuard],
+        data: { PageLsit: [PagesEnums.STORE] },
+      },
+      { path: 'str-vendor',
+       component: StrVendorComponent,
+      canActivate: [vendorGuard],
+      data: { PageLsit: [PagesEnums.STR_VENDOR]}
+     },
+
+      { path: 'str-model', component: StrModelComponent,
+      canActivate: [modelGuard],
+      data: { PageLsit: [PagesEnums.MODEL]}
+     },
+      {
+        path: 'costCenter',
+        component: StrCostcenterComponent,
+        canActivate: [costCenterGuard],
+        data: { PageLsit: [PagesEnums.COST_CENTER] },
       },
       {
         path: 'products',
         component: StrProductComponent,
+        canActivate: [productsGuard],
+        data: { PageLsit: [PagesEnums.PRODUCTS] },
       },
-      {
-        path: 'home',
-        component: StrGroupHomeComponent,
-      },
-      { path: 'store', component: StrStoreComponent },
-      {
-        path: 'costCenter',
-        component: StrCostcenterComponent,
-      },
-      {
-        path: 'EmployeeOpeningCustody',
-        component: STREmployeeOpeningCustodyComponent,
-      },
-      {
-        path: 'groupBannel',
-        component: StrGroupComponent,
-      },
+      { path: 'product-serial', component: StrProudctSerialComponent ,
+      canActivate: [productSerialGuard],
+      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
 
-      // { path: 'items', component: StrItemComponent },
+    },
+      /***********************end store modules المخازن **********************/
 
-      { path: 'group', component: StrGroupComponent },
-
-      { path: 'str-grade', component: STRGradeComponent },
-
-      { path: 'str-platoon1', component: STRPlatoon1Component },
-
-      { path: 'report', component: StrReportComponent },
+      /***********************Start account modules الحسابات **********************/
+      { path: 'fi-home', component: StrAccountsComponent },
       { path: 'AccountHierarchy', component: FIAccountHierarchyComponent },
       { path: 'EntrySource', component: FIEntrySourceComponent },
       { path: 'EntrySourceType', component: FIEntrySourceTypeComponent },
-      //table filter done
-      { path: 'add-item-report', component: StrReportAddItemComponent },
       { path: 'AccountParent', component: FIAccountParentComponent },
       { path: 'FiAccountItem', component: FiAccountItemComponent },
       { path: 'FIJournal', component: FIJournalComponent },
+      { path: 'fi-entry', component: FiEntryContainerComponent },
+      { path: 'account', component: FIAccountComponent },
+      /**********************End account modules الحسابات **********************/
 
+      /*******************Start Roles modules الصلاحيات************************/
+
+      { path: 'pr-home', component: PrHomeComponent },
+      { path: 'pr-group', component: PrGroupTableComponent },
+      { path: 'pr-user', component: PrUserTableComponent },
+      /*********************End Roles modules الصلاحيات***************************/
+
+      /*********************Start Hr modules شئون العاميلن***************************/
+      { path: 'hr-home', component: StrEmployeesComponent },
       { path: 'city', component: HrCityComponent },
       { path: 'cityState', component: HrCityStateComponent },
       { path: 'QualitativeGroup', component: HrQualitativeGroupComponent },
       { path: 'WorkPlace', component: HrWorkPlaceComponent },
       { path: 'specialization', component: HrSpecializationComponent },
-
-      
-
-      { path: 'home', component: StrGroupHomeComponent },
-      // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
-      {
-        path: 'employeeOpening',
-        component: StrEmployeeExchangeContainerComponent,
-      },
-      { path: 'groupBannel', component: StrGroupComponent },
-
-      { path: 'grade', component: STRGradeComponent },
-      { path: 'home', component: StrGroupHomeComponent },
-      { path: 'pr-home', component: PrHomeComponent },
-      // { path: 'groupOpening', component: StrOpeningStockContainerComponent },
-      {
-        path: 'employeeOpening',
-        component: StrEmployeeExchangeContainerComponent,
-      },
-      { path: 'groupBannel', component: StrGroupComponent },
-      { path: 'unit', component: STRUnitsComponent },
-      { path: 'grade', component: STRGradeComponent },
-      { path: 'costCenter', component: StrCostcenterComponent },
-      { path: 'str-vendor', component: StrVendorComponent },
-      { path: 'str-model', component: StrModelComponent },
-      { path: 'fi-entry', component: FiEntryContainerComponent }, //table filter waiting to design
-      { path: 'account', component: FIAccountComponent },
-
       { path: 'hr-jobTitle', component: HrJobTitleComponent },
       { path: 'hr-position', component: HrPositionComponent },
       { path: 'hr-MillitryState', component: HrMillitryStateComponent },
@@ -230,49 +243,30 @@ const routes: Routes = [
         path: 'hr-employeeVacationBalance',
         component: HrEmployeeVacationBalanceComponent,
       },
-      {path:'hr-position',component:HrPositionComponent},
+      { path: 'hr-position', component: HrPositionComponent },
       { path: 'hr-disciplinary', component: HrDisciplinaryComponent },
 
       {
         path: 'hr-EmployeeDisciplinary',
         component: HrEmployeeDisciplinaryComponent,
       },
+      { path: 'StrStockTaking', component: StrStockTakingContainerComponent },
+      { path: 'struserstore', component: StrUserstoreComponent },
 
-      // main screens
-      { path: 'str-home', component: STRHomeComponent },
-      { path: 'hr-home', component: StrEmployeesComponent },
-      { path: 'fi-home', component: StrAccountsComponent },
+      /*********************End Hr modules شئون العاميلن***************************/
 
-      { path: 'stock-taking', component: StrStockTakingContainerComponent },
-      { path: 'pr-group', component: PrGroupTableComponent },
-      { path: 'pr-user', component: PrUserTableComponent },
-      
-      { path: 'product-serial', component: StrProudctSerialComponent },
+      //  report section
+      { path: 'report', component: StrReportComponent },
+      { path: 'add-item-report', component: StrReportAddItemComponent },
 
-
-  {path:'StrStockTaking',component: StrStockTakingContainerComponent},
-  { path:'struserstore' ,component: StrUserstoreComponent},
-      // { path: '**', component: ErrorComponent },
+      // error section
+      { path: '**', component: ErrorComponent },
     ],
   },
-  // {
-  //   path: 'it',
-  //   component: PageRolesComponent,
-  //   canActivate: [
-  //     rolesGuard
-  //   ],
-  //   data: {  role2: ['18'] },
-  //   // data2:{roles:['18','19']},
-  //   children: [
-      
-  //   
-  //   ],
-  // },
 ];
 
-@NgModule({  
+@NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
- 
 })
 export class AppRoutingModule {}

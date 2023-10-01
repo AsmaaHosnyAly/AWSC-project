@@ -27,16 +27,15 @@ export class  items1Guard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split(',');
-    for (let i = 0; i < userRole!.length; i++) {
-      let role = userRole![i];
-      if (role == '11' || role=='17') 
-      {
-        this.shared.items1 = true;
-        return this.shared.items1;
-      } 
-    }
-
-    return true;
-  }
+      let pages = route.data['PageLsit'] as Array<string>;
+      const USER_ROLES_LOCAL_STORAGE = window.localStorage.getItem('userRoles') 
+      const USER_ROLES : Array<any> = USER_ROLES_LOCAL_STORAGE!.split(',')
+      // pages && !MODULES.some((i:any)=>i == pages[0])
+      if(pages && !USER_ROLES.some((i:any)=>i == pages[0])){
+        alert('عفوا لا تمتلك الصلاحية ')
+        this.router.navigate(['/home']);
+        return false
+      }
+      return true
+      }
 }

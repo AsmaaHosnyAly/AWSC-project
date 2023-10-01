@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
@@ -18,8 +18,8 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { GlobalService } from 'src/app/pages/services/global.service'; 
-import { Item1DialogComponent } from '../item1-dialog/item1-dialog.component'; 
+import { GlobalService } from 'src/app/pages/services/global.service';
+import { Item1DialogComponent } from '../item1-dialog/item1-dialog.component';
 
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
@@ -160,8 +160,6 @@ export class STRItem1Component implements OnInit {
     );
 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-
- 
   }
   ngOnInit(): void {
     this.getAllItems();
@@ -184,16 +182,14 @@ export class STRItem1Component implements OnInit {
     this.api.getAllGroupsi().subscribe((groups) => {
       this.groups = groups;
     });
-    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.openDialog();
-      return false; // Prevent the default browser behavior
-    }));
+    this.hotkeysService.add(
+      new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.openDialog();
+        return false; // Prevent the default browser behavior
+      })
+    );
 
-  
-   
-
-    
     this.itemForm = this.formBuilder.group({
       itemName: [''],
       fullCode: [''],
