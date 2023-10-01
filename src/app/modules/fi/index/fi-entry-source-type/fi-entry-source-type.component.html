@@ -41,24 +41,24 @@
 
     
     </mat-card-header>
-    <table matSort mat-table [dataSource]="dataSource" >
+    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl"    >
 
         <!-- EntrySourceType Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> نوع مصدر الدخل </th>
-          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        <ng-container matColumnDef="name" >
+          <th mat-header-cell *matHeaderCellDef class="TableCenter"> نوع مصدر الدخل </th>
+          <td mat-cell *matCellDef="let row" class="TableCenter"> {{row.name}} </td>
         </ng-container>
 
       <!-- EntrySource Name Column -->
       <ng-container matColumnDef="fiEntrySourceName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> مصدر الدخل </th>
-        <td mat-cell *matCellDef="let row"> {{row.fiEntrySourceName}}</td>
+        <th mat-header-cell *matHeaderCellDef class="TableCenter" > مصدر الدخل </th>
+        <td mat-cell *matCellDef="let row" class="TableCenter"> {{row.fiEntrySourceName}}</td>
       </ng-container>
 
       <!-- action Column -->
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef style="width: 25%;">الإجراء</th>
-        <td mat-cell *matCellDef="let row"> 
+        <th mat-header-cell *matHeaderCellDef style="width: 25%;" class="TableCenter">الإجراء</th>
+        <td mat-cell *matCellDef="let row" class="TableCenter"> 
           <button mat-icon-button (click)="editEntrySourceType(row)" class="editbtn">
             <mat-icon>edit</mat-icon>
           </button>
