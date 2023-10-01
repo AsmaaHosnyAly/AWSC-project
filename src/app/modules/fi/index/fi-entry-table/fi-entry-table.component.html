@@ -48,7 +48,8 @@
 
             <mat-form-field appearance="outline">
                 <mat-select #journalId plceholder="اختر مركز التكلفة">
-                    <mat-option *ngFor="let journal of journalsList" [value]="journal.id">{{journal.description}}</mat-option>
+                    <mat-option *ngFor="let journal of journalsList"
+                        [value]="journal.id">{{journal.description}}</mat-option>
                 </mat-select>
             </mat-form-field>
            </div>
@@ -237,4 +238,8 @@
 
 
 </div>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+<!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" (page)="pageChanged($event)" ></mat-paginator> -->
+
+<mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)">
+</mat-paginator>
