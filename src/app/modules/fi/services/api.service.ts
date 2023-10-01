@@ -145,7 +145,7 @@ export class ApiService {
   getAllAccounts(): Observable<any> {
     return this.http.get<any>(`${this.url}/FIAccount/get/all`);
   }
-  
+
   getAllAccountItemCategory(): Observable<any> {
     return this.http.get<any>(`${this.url}/FIAccountItemCategory/get/all`);
   }
@@ -160,7 +160,7 @@ export class ApiService {
     );
   }
   deleteFIJournal(id: number) {
-    console.log("id",id)
+    console.log("id", id)
     return this.http.delete<any>(
       `${this.url}/FIJournal/delete/${id}`
     );
@@ -832,7 +832,7 @@ export class ApiService {
 
   //FiEntrySourceType
   postEntrySourceType(data: any) {
-    console.log("data",data)
+    console.log("data", data)
     return this.http.post<any>(
       `${this.url}/FiEntrySourceType/Add`,
       data
@@ -844,7 +844,7 @@ export class ApiService {
     );
   }
   putEntrySourceType(data: any) {
-    console.log("data",data)
+    console.log("data", data)
     return this.http.put<any>(
       `${this.url}/FiEntrySourceType/update`,
       data
@@ -880,7 +880,7 @@ export class ApiService {
     );
   }
   deleteEntrySource(id: number) {
-    console.log("id:",id)
+    console.log("id:", id)
     return this.http.delete<any>(
       `${this.url}/FiEntrySource/delete/${id}`
     );
@@ -2055,27 +2055,16 @@ export class ApiService {
       `${this.url}/FIEntryDetails/delete/` + HeaderId
     );
   }
-  getFiEntrySearach(
-    no: any,
-    journalId: any,
-    accountId: any,
-    startDate: any,
-    endDate: any,
-    sourceId: any
-  ) {
+  getFiEntrySearach(no: any, journalId: any, accountId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any) {
     console.log(
-      "values search passed: 'no: '",
-      no,
-      "' journalId: '",
-      journalId,
-      "' accountId: '",
-      accountId,
-      "' startDate: '",
-      startDate,
-      "' endDate: '",
-      endDate,
-      'sourceId: ',
-      sourceId
+      "values search passed: 'no: '", no,
+      "' journalId: '", journalId,
+      "' accountId: '", accountId,
+      "' startDate: '", startDate,
+      "' endDate: '", endDate,
+      'sourceId: ', sourceId,
+      'FiscalYearId: ', FiscalYearId,
+      'Description: ', Description
     );
     this.mycondition = `${this.url}/FIEntry/search?`;
 
@@ -2097,6 +2086,12 @@ export class ApiService {
     }
     if (!sourceId == false) {
       this.mycondition = ` ${this.mycondition}&FiEntrySourceTypeId=${sourceId}`;
+    }
+    if (!FiscalYearId == false) {
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${FiscalYearId}`;
+    }
+    if (!Description == false) {
+      this.mycondition = ` ${this.mycondition}&Description=${Description}`;
     }
 
 
@@ -2227,6 +2222,7 @@ export class ApiService {
     // return this.http.get<any>(
     //   `${this.url}/STR_Employe_Exchange/search?No=${0}`
     // );
+
   }
 
   // ----Start Add----

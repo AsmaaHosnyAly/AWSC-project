@@ -139,9 +139,27 @@ export class FiEntryDialogComponent implements OnInit {
     this.api.getJournals()
       .subscribe({
         next: (res) => {
+          this.journalsList = res;
+          console.log("fiscalYear Pass: ", fiscalYear);
 
-          this.journalsList = res.find((journal: { fiscalYearId: any; }) => journal.fiscalYearId == fiscalYear);
           console.log("journals res: ", this.journalsList);
+
+          this.journalsList = res.filter((journal: any) => {
+            if (journal.fiscalYearId) {
+              console.log("journals fiscalYear not null: ", journal);
+
+              return journal.fiscalYearId == fiscalYear;
+
+            }
+            else return false;
+            // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+          });
+
+          console.log("journals res after filter: ", this.journalsList);
+
+
+          // this.journalsList = res.find((journal: { fiscalYearId: any; }) => journal.fiscalYearId == fiscalYear);
+          // console.log("journals res after filter: ", this.journalsList);
         },
         error: (err) => {
           console.log("fetch journals data err: ", err);
