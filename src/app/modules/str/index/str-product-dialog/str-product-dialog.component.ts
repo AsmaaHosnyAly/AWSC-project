@@ -13,7 +13,7 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { __param } from 'tslib';
 import { ParseSourceSpan } from '@angular/compiler';
-import { PipesModule } from 'src/app/pipes/pipes.module';
+import { PipesModule } from 'src/app/core/pipes/pipes.module';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
