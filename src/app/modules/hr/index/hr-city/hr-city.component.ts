@@ -6,6 +6,7 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { HrCityDialogComponent } from '../hr-city-dialog/hr-city-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-hr-city',
@@ -19,7 +20,7 @@ export class HrCityComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService){}
+  constructor(private dialog : MatDialog, private api : ApiService,private toastr: ToastrService){}
   ngOnInit(): void {
     this.getHrCities();
   }
@@ -57,21 +58,29 @@ export class HrCityComponent {
     })
   }
   daleteHrCities(id:number){
-    console.log("id:",id)
-    if(confirm("Are you sure to delete ")) {
-      console.log("Implement delete functionality here");
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.deleteHrCity(id)
+      .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
+          this.getHrCities();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر'); 
+        },
+      });
     }
-    this.api.deleteHrCity(id)
-    .subscribe({
-      next:(res)=>{
-        alert("تأكيد حذف الوحدة");
-        this.getHrCities();
-      },
-      error:()=>{
-        alert("خطأ عند الحذف")
-      }
-    })
   }
+
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -79,6 +88,11 @@ export class HrCityComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
   }
 
 }

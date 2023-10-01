@@ -12,6 +12,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 export class Account {
   constructor(public id: number, public name: string, public level: string) {}
 }
@@ -50,6 +51,7 @@ accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,
     private readonly route:ActivatedRoute,
+    private toastr: ToastrService,
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<FIAccountParentDialogComponent>){
@@ -158,7 +160,7 @@ accordion!: MatAccordion;
         this.api.postAccountParent(this.accountParentForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            this.toastrSuccess();
             this.accountParentForm.reset();
             this.dialogRef.close('save');
           },
@@ -175,7 +177,7 @@ accordion!: MatAccordion;
         this.api.putAccountParent(this.accountParentForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تم التحديث بنجاح");
+            this.toastrEditSuccess();
             this.accountParentForm.reset();
             this.dialogRef.close('update');
           },
@@ -184,7 +186,13 @@ accordion!: MatAccordion;
           }
         })
       }
-  
+      toastrSuccess(): void {
+        this.toastr.success('تم الحفظ بنجاح');
+      }
+      
+      toastrEditSuccess(): void {
+        this.toastr.success('تم التعديل بنجاح');
+      }
   }
   
 

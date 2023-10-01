@@ -10,6 +10,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-hr-severance-reason',
@@ -27,7 +28,7 @@ export class HrSeveranceReasonComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService) { }
+  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) { }
   ngOnInit(): void {
     // console.log(productForm)
     this.getSeveranceReason();
@@ -76,20 +77,28 @@ export class HrSeveranceReasonComponent implements OnInit {
 
   deleteSeveranceReason(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
-    if (result) {
-      this.api.deleteSeveranceReason(id).subscribe({
-        next: (res) => {
-          alert('تم الحذف بنجاح');
-          this.getSeveranceReason();
-        },
-        error: () => {
-          alert('خطأ فى حذف العنصر');
-        },
-      });
-    }
+  if (result) {
+    this.api.deleteSeveranceReason(id)
+    .subscribe({
+      next: (res) => {
+        if(res == 'Succeeded'){
+          console.log("res of deletestore:",res)
+        // alert('تم الحذف بنجاح');
+        this.toastrDeleteSuccess();
+        this.getSeveranceReason();
+
+      }else{
+        alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+      }
+      },
+      error: () => {
+        alert('خطأ فى حذف العنصر'); 
+      },
+    });
+  }
   }
 
-
+ 
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -98,6 +107,10 @@ export class HrSeveranceReasonComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
   }
 }
 

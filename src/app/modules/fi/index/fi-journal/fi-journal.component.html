@@ -44,7 +44,16 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <div class="searchLabels">
+      <mat-label>السنة المالية</mat-label>
 
+      <mat-form-field appearance="outline" class="searchForm">
+        <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalYear">
+          <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.id">{{
+            fiscalYear.fiscalyear }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
         <div class="searchLabels">
           <mat-label>تاريخ الباية</mat-label>
 
@@ -69,16 +78,7 @@
           </mat-form-field>
         </div>
 
-        <div class="searchLabels">
-          <mat-label>السنة المالية</mat-label>
-
-          <mat-form-field appearance="outline" class="searchForm">
-            <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalYear">
-              <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.id">{{
-                fiscalYear.fiscalyear }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+    
 
 
         <!-- <button mat-raised-button class="add">عرض</button> -->

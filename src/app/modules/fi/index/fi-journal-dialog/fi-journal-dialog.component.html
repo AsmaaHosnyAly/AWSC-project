@@ -16,61 +16,70 @@
         </mat-form-field>
       </div> -->
 
-      <div class="DialogLabels">
-        <mat-label>رقم اليومية*</mat-label>
-        <mat-form-field appearance="outline">
-          <input formControlName="no" matInput placeholder="  رقم اليومية">
-        </mat-form-field>
-      </div>
+ <div class="container">
 
-      <div class="DialogLabels">
-        <mat-label>السنة المالية*</mat-label>
+   
+ <div style="display: flex;flex-direction: row;">
+  <div class="DialogLabels" style="width: 35%;">
+    <mat-label>رقم اليومية*</mat-label>
+    <mat-form-field appearance="outline" style="width: 98%;">
+      <input formControlName="no" matInput placeholder="  رقم اليومية">
+    </mat-form-field>
+  </div>
 
-        <mat-form-field appearance="outline" class="child-num">
-          <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
-            <mat-option [value]="fiscalYear.id"
-              *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+  <div class="DialogLabels" style="width: 35%;">
+    <mat-label>السنة المالية*</mat-label>
 
-      <div class="DialogLabels">
-        <mat-label> الوصف*</mat-label>
-        <mat-form-field appearance="outline">
-          <input formControlName="description" matInput placeholder=" الوصف">
-        </mat-form-field>
-      </div>
+    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+      <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
+        <mat-option [value]="fiscalYear.id"
+          *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+ </div>
 
 
-      <div class="DialogLabels">
-        <mat-label>تاريخ الابتداء*</mat-label>
+  </div>
+  <div class="dialog">
+  <div class="DialogLabels">
+    <mat-label> الوصف*</mat-label>
+    <mat-form-field appearance="outline" style="width: 70%;">
+      <input formControlName="description" matInput placeholder=" الوصف">
+    </mat-form-field>
+  </div>
 
-        <mat-form-field appearance="outline" class="example-full-width">
-          <input #date matInput [matDatepicker]="picker" formControlName="startDate">
-          <mat-datepicker-toggle matIconSuffix [for]="picker">
-            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
 
-      <div class="DialogLabels">
-        <mat-label>تاريخ الانتهاء</mat-label>
+  <div class="DialogLabels">
+    <mat-label>تاريخ الابتداء*</mat-label>
 
-        <mat-form-field appearance="outline" class="example-full-width">
-          <input #date matInput [matDatepicker]="pickerEnd" formControlName="endDate">
-          <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
-            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #pickerEnd></mat-datepicker>
-        </mat-form-field>
-      </div>
+    <mat-form-field appearance="outline" class="example-full-width" style="width: 70%;">
+      <input #date matInput [matDatepicker]="picker" formControlName="startDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
 
+  <div class="DialogLabels">
+    <mat-label>تاريخ الانتهاء</mat-label>
+
+    <mat-form-field appearance="outline" class="example-full-width" style="width: 70%;">
+      <input #date matInput [matDatepicker]="pickerEnd" formControlName="endDate">
+      <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #pickerEnd></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+</div>
+ </div>
 
     </form>
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button class="savebtn" (click)="addFIJournals()" style="margin-left: 8px;">{{actionBtn}}</button>
+  <div mat-dialog-actions style="width: 67%;margin-right: 17%;">
+    <button mat-raised-button class="savebtn" (click)="addFIJournals()">{{actionBtn}}</button>
 
   </div>
 </form>

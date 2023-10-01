@@ -68,7 +68,7 @@ private hotkeysService: HotkeysService,
   }
   openDialog() {
     this.dialog.open(FIJournalDialogComponent, {
-      width: '30%'
+      width: '70%'
     }).afterClosed().subscribe(val=>{
       if(val === 'حفظ'){
         this.getFIJournals();
@@ -104,7 +104,7 @@ private hotkeysService: HotkeysService,
   }
   editFIJournals(row : any){
     this.dialog.open(FIJournalDialogComponent,{
-      width:'30%',
+      width:'70%',
       data:row
     }).afterClosed().subscribe(val=>{
       if(val === 'تحديث'){

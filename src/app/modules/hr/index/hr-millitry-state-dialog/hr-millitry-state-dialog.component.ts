@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validator, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -14,28 +15,28 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
   styleUrls: ['./hr-millitry-state-dialog.component.css']
 })
 export class HrMillitryStateDialogComponent {
-  formcontrol = new FormControl('');  
-  MillitryStatesForm !:FormGroup;
-  actionBtn : string = "حفظ";
+  formcontrol = new FormControl('');
+  MillitryStatesForm !: FormGroup;
+  actionBtn: string = "حفظ";
   userIdFromStorage: any;
-  transactionUserId=localStorage.getItem('transactionUserId')
-  
+  transactionUserId = localStorage.getItem('transactionUserId')
+
   // groupEditId: any;
 
-  constructor(private formBuilder : FormBuilder,
-     private api : ApiService,
-     private readonly route:ActivatedRoute,
-     @Inject(MAT_DIALOG_DATA) public editData : any,
-     private dialogRef : MatDialogRef<HrMillitryStateDialogComponent>){
-     }
+  constructor(private formBuilder: FormBuilder,
+    private api: ApiService, private toastr: ToastrService,
+    private readonly route: ActivatedRoute,
+    @Inject(MAT_DIALOG_DATA) public editData: any,
+    private dialogRef: MatDialogRef<HrMillitryStateDialogComponent>) {
+  }
   ngOnInit(): void {
     this.MillitryStatesForm = this.formBuilder.group({
-      transactionUserId : ['',Validators.required],
-      name : ['',Validators.required],
-      id : ['',Validators.required],
+      transactionUserId: ['', Validators.required],
+      name: ['', Validators.required],
+      id: ['', Validators.required],
     });
 
-    if(this.editData){
+    if (this.editData) {
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
@@ -48,47 +49,55 @@ export class HrMillitryStateDialogComponent {
     }
   }
 
-  addProduct(){
-    if(!this.editData){
+  addProduct() {
+    if (!this.editData) {
       this.MillitryStatesForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      console.log("hhhhhh",this.transactionUserId);
+      console.log("hhhhhh", this.transactionUserId);
 
       this.MillitryStatesForm.removeControl('id')
-      if(this.MillitryStatesForm.valid){
-        console.log("hhhhhhthis.MillitryStatesForm",this.MillitryStatesForm);
+      if (this.MillitryStatesForm.valid) {
+        console.log("hhhhhhthis.MillitryStatesForm", this.MillitryStatesForm);
         this.api.postMillitryState(this.MillitryStatesForm.value)
-        .subscribe({
-          next:(res)=>{
-            
-            alert("تمت الاضافة بنجاح");
-            this.MillitryStatesForm.reset();
-            this.dialogRef.close('save');
-          },
-          error:(err)=>{ 
-            alert("خطأ عند اضافة البيانات") 
-            console.log(err)
-          }
-        })
+          .subscribe({
+            next: (res) => {
+
+              this.toastrSuccess();
+              this.MillitryStatesForm.reset();
+              this.dialogRef.close('save');
+            },
+            error: (err) => {
+              alert("خطأ عند اضافة البيانات")
+              console.log(err)
+            }
+          })
       }
-    }else{
+    } else {
       this.updateMillitryStates()
     }
   }
-    updateMillitryStates(){
-      this.api.putMillitryState(this.MillitryStatesForm.value )
+  updateMillitryStates() {
+    this.api.putMillitryState(this.MillitryStatesForm.value)
       .subscribe({
-        next:(res)=>{
-          alert("تم التحديث بنجاح");
+        next: (res) => {
+          this.toastrEditSuccess();
           this.MillitryStatesForm.reset();
           this.dialogRef.close('update');
         },
-        error:()=>{
+        error: () => {
           alert("خطأ عند تحديث البيانات");
         }
       })
-    }
+  }
 
-
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
 }
 
 

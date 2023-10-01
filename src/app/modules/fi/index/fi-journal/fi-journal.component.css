@@ -72,8 +72,9 @@ th {
 
 .search {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
+  margin: auto !important;
 }
 .search button,
 .print button{
@@ -307,9 +308,10 @@ mat-card-header .child1{
 .searchLabels{
   box-sizing: border-box;
   display: flex;
+  /* margin: auto !important; */
   flex-direction: column;
-  margin-left:2px
-  /* margin-left: 2%; */
+  /* margin-left:2px */
+  margin-left: 1%;
   /* justify-content: space-between; */
 }
 .icons {

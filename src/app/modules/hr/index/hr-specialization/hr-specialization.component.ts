@@ -12,7 +12,11 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+
 import { HrSpecializationDialogComponent } from '../hr-specialization-dialog/hr-specialization-dialog.component';
+
+
 export class Qualification {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -39,7 +43,7 @@ export class HrSpecializationComponent {
   // commidityDt: any = {
   //   id: 0,
   // };
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService,) {
     this.QualificationCtrl = new FormControl();
     this.filteredQualification = this.QualificationCtrl.valueChanges.pipe(
       startWith(''),
@@ -111,19 +115,29 @@ export class HrSpecializationComponent {
   }
 
   deleteHrspecialization(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrspecialization(id).subscribe({
+      this.api.deleteHrspecialization(id)
+      .subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
           this.getAllHrspecialization();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
+ 
   openAutoQualification() {
     this.QualificationCtrl.setValue(''); // Clear the input field value
   
@@ -181,5 +195,7 @@ export class HrSpecializationComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
 }
