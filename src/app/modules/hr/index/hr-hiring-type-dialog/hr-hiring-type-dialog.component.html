@@ -4,19 +4,19 @@
   </button>
 </div>
 <h1 mat-dialog-title class="add-h1">
-  {{ editData ? "  تعديل نوع الطلب   " : " إضافة نوع طلب جديد" }}
+  {{ editData ? "  تعديل نوع التوظيف   " : " إضافة نوع توظيف جديد" }}
 </h1>
 
 <form [formGroup]="groupForm" dir="rtl">
   <div mat-dialog-content>
     <form [formGroup]="groupForm">
       <mat-form-field appearance="outline" class="groupInput">
-        <mat-label>اسم نوع التعيين</mat-label>
+        <mat-label>اسم نوع التوظيف</mat-label>
         <input matInput placeholder="اسم نوع التعيين" formControlName="name" />
       </mat-form-field>
     </form>
   </div>
-  <div mat-dialog-action>
+  <div mat-dialog-actions>
     <button
       mat-raised-button
       class="savebtn"

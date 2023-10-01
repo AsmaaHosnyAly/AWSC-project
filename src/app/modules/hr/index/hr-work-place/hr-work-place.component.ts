@@ -121,20 +121,32 @@ export class HrWorkPlaceComponent {
   }
 
   deleteHrWorkPlace(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrWorkPlace(id).subscribe({
+      this.api.deleteHrWorkPlace(id)
+      .subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           // alert('تم الحذف بنجاح');
-          this.toastrDeleteSuccess()
+          this.toastrDeleteSuccess();
           this.getHrWorkPlace();
+  
+  
+  
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
+ 
   openAutoCityState() {
     this.cityStateCtrl.setValue(''); // Clear the input field value
   

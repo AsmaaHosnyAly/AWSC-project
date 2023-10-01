@@ -2546,7 +2546,7 @@ export class ApiService {
   }
   deleteHrJobTitle(id: number) {
     return this.http.delete<any>(
-      `${this.url}/HrJobTitle/delete-JobTitle/` + id
+      `${this.url}/HrJobTitle/delete/` + id
     );
   }
   postHrJobTitle(data: any) {
