@@ -12,9 +12,11 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+
 import { HrQualificationDialogComponent } from '../hr-qualification-dialog/hr-qualification-dialog.component'; 
 export class QualitativeGroup {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string,private toastr: ToastrService) {}
 }
 
 
@@ -37,7 +39,7 @@ export class HrQualificationComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService) {
     this.qualitativeGroupCtrl = new FormControl();
     this.filteredQualitativeGroup = this.qualitativeGroupCtrl.valueChanges.pipe(
       startWith(''),
@@ -120,7 +122,8 @@ export class HrQualificationComponent implements OnInit {
     if (result) {
       this.api.deleteQualification(id).subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess()
           this.getAllQualification();
         },
         error: () => {
@@ -182,5 +185,13 @@ export class HrQualificationComponent implements OnInit {
     }
   }
 
-
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
 }

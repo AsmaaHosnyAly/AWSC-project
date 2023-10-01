@@ -87,7 +87,6 @@ export class HrJobTitleDialogComponent implements OnInit{
                 this.productIdToEdit = res.id;
 
                 this.toastrSuccess();
-                alert("تمت إضافة المنتج بنجاح");
                 this.groupForm.reset();
 
                 this.dialogRef.close('حفظ');
@@ -111,8 +110,8 @@ export class HrJobTitleDialogComponent implements OnInit{
     this.api.putHrJobTitle(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث المنتج بنجاح");
-          this.toastrSuccess();
+          this.toastrEditSuccess()
+          // this.toastrSuccess();
           this.groupForm.reset();
           this.dialogRef.close('تعديل');
         },
@@ -138,7 +137,13 @@ export class HrJobTitleDialogComponent implements OnInit{
 
 
   toastrSuccess(): void {
-    this.toastr.success("تم الحفظ بنجاح");
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 
 }

@@ -90,7 +90,6 @@ deleteJobTitle(id: number) {
         .subscribe({
           next: (res) => {
             this.toastrDeleteSuccess();
-            alert("تم حذف المنتج بنجاح");
             this.getAllJobTitle()
           },
           error: () => {
