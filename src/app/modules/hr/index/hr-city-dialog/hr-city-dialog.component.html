@@ -1,19 +1,18 @@
-<form [formGroup]="HrcityForm" dir="rtl">
-    <h1 mat-dialog-title>إضافة مدينة</h1>
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل المحافظة   ' : ' إضافة محافظة جديدة'}}</h1> 
+<form [formGroup]="HrcityForm" dir="rtl">    
     <div mat-dialog-content>
       <form [formGroup]="HrcityForm">
-        <mat-form-field appearance="outline">
-          <mat-label>كود المستخدم</mat-label>
-          <input formControlName="transactionUserId" matInput placeholder="كود المستخدم">
-        </mat-form-field>
+    
         <mat-form-field appearance="outline">
           <mat-label>اسم المدينة</mat-label>
           <input formControlName="name" matInput placeholder="اسم المدينة">
         </mat-form-field>
-      </form>
-    </div>
+      </form> 
+    </div> 
     <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addHrCities()" style="margin-left: 8px;">{{actionBtn}}</button> 
+    <button mat-raised-button class="savebtn" (click)="addHrCities()" style="margin-left: 8px;">{{actionBtn}}</button> 
     </div>
     </form>
