@@ -9,10 +9,10 @@
             <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
                 <div class="headerForm">
-                    <div class="searchLabels">
+                    <div class="searchLabels" style="width: 5rem;">
                         <mat-label>الرقم*</mat-label>
 
-                        <mat-form-field appearance="outline" class="groupInput">
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
                             <input matInput placeholder="الرقم" formControlName="no" type="number" min="0">
                         </mat-form-field>
                     </div>
@@ -20,7 +20,7 @@
                     <div class="searchLabels">
                         <mat-label>السنة المالية:</mat-label>
 
-                        <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
+                        <mat-form-field appearance="outline" class="child-num" >
                             <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
                                 (valueChange)="fiscalYearValueChanges($event)"
                                 >

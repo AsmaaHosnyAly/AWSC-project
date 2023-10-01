@@ -11,7 +11,9 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
-
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class EntrySource {
   constructor(public id: number, public name: string) {}
 }
@@ -40,8 +42,8 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatAccordion)
 accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
-    private api : ApiService,
-    private readonly route:ActivatedRoute,
+    private api : ApiService,private hotkeysService: HotkeysService,
+    private readonly route:ActivatedRoute,private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<FIEntrySourceTypeDialogComponent>){
       this.entrySourceCtrl = new FormControl();
@@ -66,7 +68,11 @@ accordion!: MatAccordion;
       this.api.getAllEntrySources().subscribe((entrySources) => {
         this.entrySources = entrySources;
       });
-      
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addEntrySourceType();
+        return false; // Prevent the default browser behavior
+      }));
   
       if(this.editData){
         this.actionBtn = "تعديل";
@@ -117,7 +123,8 @@ accordion!: MatAccordion;
         this.api.postEntrySourceType(this.entrySourceTypeForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            this.toastrSuccess();
+            // alert("تمت الاضافة بنجاح");
             this.entrySourceTypeForm.reset();
             this.dialogRef.close('حفظ');
           },
@@ -134,7 +141,8 @@ accordion!: MatAccordion;
         this.api.putEntrySourceType(this.entrySourceTypeForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تم التحديث بنجاح");
+            this.toastrSuccess();
+            // alert("تم التحديث بنجاح");
             this.entrySourceTypeForm.reset();
             this.dialogRef.close('تعديل');
           },
@@ -142,6 +150,16 @@ accordion!: MatAccordion;
             alert("خطأ عند تحديث البيانات");
           }
         })
+      }
+
+      toastrSuccess(): void {
+        this.toastr.success('تم الحفظ بنجاح');
+      }
+      toastrDeleteSuccess(): void {
+        this.toastr.success('تم الحذف بنجاح');
+      }
+      toastrEditSuccess(): void {
+        this.toastr.success('تم التعديل بنجاح');
       }
   
   }

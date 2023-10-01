@@ -11,6 +11,7 @@ import { PagesEnums } from '../core/enums/pages.enum';
 })
 export class MenubarComponent {
   str1:any
+  pageTitle:any
   badgevisible = false;
   badgevisibility() {
     this.badgevisible = true;
@@ -18,6 +19,7 @@ export class MenubarComponent {
 
   transactionUserId = localStorage.getItem('transactionUserId');
   user: any;
+  userGroup:any
   sharedStores: any;
   pageEnums = PagesEnums
   constructor(public global: GlobalService,  public shared: SharedService,  private router: Router) {
@@ -32,9 +34,9 @@ export class MenubarComponent {
   // this.global.getPermissionUserRoles(1||2||3||4||5||6||7||8||9||10||11|12|13|14|15|16|17,'stores','','')
   // this.global.getPermissionRolesScreens(18||19,'الصلاحيات','')
  
-  this.gitUserById();
+  this.getUserById();
  
-   
+   this.getUserGroupById()
     //  this.global.getPermissionUserRoles(null, 'stores', 'الوحدة', '')
   }
 
@@ -53,10 +55,17 @@ export class MenubarComponent {
     this.toggleButtonCounter++;
   }
 
-  gitUserById() {
+  getUserById() {
     this.global.getUserById(this.transactionUserId).subscribe((res) => {
       if (res) return (this.user = res);
       else this.user = '';
+    });
+  }
+  getUserGroupById() {
+    this.global.getUserGroup(this.transactionUserId).subscribe((res) => {
+      console.log('usergrop',this.userGroup)
+      if (res) return (this.userGroup = res);
+      else this.userGroup = '';
     });
   }
 

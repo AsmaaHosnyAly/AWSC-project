@@ -52,7 +52,7 @@ th {
 .search {
   display: flex;
  
-  /* justify-content: space-between; */
+  justify-content: center;
   flex-wrap: wrap;
 }
 .search button,
@@ -270,6 +270,23 @@ td {
   align-items: center;
 }
 
+.icons {
+  font-size: 23px;
+  color: white;
+  background-color: var(--bg-primary-color) !important;  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 15px;
+}
+.print-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .icons {
   font-size: 23px;
   color: white;

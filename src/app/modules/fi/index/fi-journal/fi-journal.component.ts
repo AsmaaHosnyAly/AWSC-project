@@ -9,7 +9,14 @@ import { FIAccountHierarchyDialogComponent } from '../fi-account-hierarchy-dialo
 import { FIJournalDialogComponent } from '../fi-journal-dialog/fi-journal-dialog.component';
 import { formatDate } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+import {
+  FormControl,
+  FormControlName,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-fi-journal',
@@ -18,16 +25,46 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class FIJournalComponent {
   title = 'angular13crud';
+  fiscalYearsList: any;
+  DescriptionsList:any;
+  groupMasterForm!: FormGroup;
+  dataSource2!: MatTableDataSource<any>;
+
   displayedColumns: string[] = [ 'no','description','startDate','endDate', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog,
-     private api : ApiService,private toastr: ToastrService,
+  constructor(private dialog : MatDialog,    
+private hotkeysService: HotkeysService,
+     private api : ApiService,private toastr: ToastrService, private formBuilder: FormBuilder,
      @Inject(LOCALE_ID) private locale: string){}
   ngOnInit(): void {
     this.getFIJournals();
+    this.getFiscalYears();
+
+    this.groupMasterForm = this.formBuilder.group({
+      no: [''],
+    
+    
+      fiscalYear: [''],
+      StartDate: [''],
+      EndDate: [''],
+
+      Description: [''],
+      // storeId: [''],
+   
+
+      report:[''],
+      reportType:['']
+      // item:['']
+    });
+
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog.open(FIJournalDialogComponent, {
@@ -38,6 +75,18 @@ export class FIJournalComponent {
       }
     })
   }
+  getFiscalYears() {
+    this.api.getFiscalYears().subscribe({
+      next: (res) => {
+        this.fiscalYearsList = res;
+        console.log('fiscalYears list: ', this.fiscalYearsList);
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   getFIJournals(){
     this.api.getFIJournal()
     .subscribe({
@@ -45,6 +94,7 @@ export class FIJournalComponent {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.groupMasterForm.reset();
       },
       error:(err)=>{
         // alert("خطأ عند استدعاء البيانات");
@@ -80,80 +130,22 @@ export class FIJournalComponent {
     })
   }
 
-  async getSearchFIJournal(no :any,description:any,startDate:any,endDate:any) {
-    
-  console.log("description: "+description,"no: "+no);
   
-        this.api.getFIJournal()
+  async getSearchFIJournal(no: any,Description:any, StartDate: any,EndDate:any, fiscalYear: any) {
+    
+  // console.log("description: "+description,"no: "+no);
+  
+        this.api.getFIJournalSearch(no,Description,StartDate,EndDate,fiscalYear)
           .subscribe({
             next: (res) => {
-              // 1-
-              if (no != '' && description == '' && startDate == ''  ){
-            console.log("enter id only: ", "res : ", res, "input id: ", no)
-  
-                this.dataSource = res.filter((res: any)=> res.no==no!) 
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-              else if (no != '' && description != ''&& startDate != ''){
-            console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
-  
-                // this.dataSource = res.filter((res: any)=> res.name==name!)
-                this.dataSource = res.filter((res: any)=> res.no==no! && res.description.toLowerCase().includes(description.toLowerCase()) && formatDate(res.startDate, 'M/d/yyyy', this.locale) == startDate)
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-            
-              else if (no == '' && description == ''&& startDate != ''){
-                    console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
-          
-                        // this.dataSource = res.filter((res: any)=> res.name==name!)
-                        this.dataSource = res.filter((res: any)=>  formatDate(res.date, 'M/d/yyyy', this.locale) == startDate)
-                        this.dataSource.paginator = this.paginator;
-                        this.dataSource.sort = this.sort;
-              }
-              else if (no == '' && description != ''&& startDate != ''){
-                        console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
-              
-                            // this.dataSource = res.filter((res: any)=> res.name==name!)
-                            this.dataSource = res.filter((res: any)=>  res.description.toLowerCase().includes(description.toLowerCase()) && formatDate(res.date, 'M/d/yyyy', this.locale) == startDate)
-                            this.dataSource.paginator = this.paginator;
-                            this.dataSource.sort = this.sort;
-              }
-              else if (no != '' && description == ''&& startDate != ''){
-                console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
-      
-                    // this.dataSource = res.filter((res: any)=> res.name==name!)
-                    this.dataSource = res.filter((res: any)=> res.no==no!  && formatDate(res.date, 'M/d/yyyy', this.locale) == startDate)
-                    this.dataSource.paginator = this.paginator;
-                    this.dataSource.sort = this.sort;
-              }
-              else if (no != '' && description != ''&& startDate == ''){
-                console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
-
-            // this.dataSource = res.filter((res: any)=> res.name==name!)
-            this.dataSource = res.filter((res: any)=> res.no==no! && res.description.toLowerCase().includes(description.toLowerCase()))
+       
+            this.dataSource = res;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-              }
-              else if (no == '' && description != ''&& startDate == ''){
-                console.log("enter name & id: ", "res : ", res, "input name: ", description, "id: ", no)
-           
-                this.dataSource = res.filter((res: any)=> res.description.toLowerCase().includes(description.toLowerCase()))
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-              else{
-           
-                this.dataSource = res
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-              }
-            
               
             },
             error: (err) => {
-              alert("Error")
+              console.log('eroorr', err);
             }
           })
           // this.getAllGrades()
