@@ -18,7 +18,7 @@
       </div>
     
       <div>
-        <input
+        <input 
           matInput
           class="filter-search"
           (keyup)="applyFilter($event)"
@@ -56,7 +56,7 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> الحدث </th>
         <td mat-cell *matCellDef="let row"> 
-          <button mat-icon-button (click)="editAccount(row)" color="primary">
+          <button mat-icon-button (click)="editAccount(row)" class="editbtn">
             <mat-icon>edit</mat-icon>
           </button>
           <button (click)="deleteAccount(row.id)" mat-icon-button color="warn">

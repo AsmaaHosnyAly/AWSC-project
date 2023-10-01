@@ -59,7 +59,7 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef style="width: 25%;">الإجراء</th>
         <td mat-cell *matCellDef="let row"> 
-          <button mat-icon-button (click)="editEntrySourceType(row)" color="primary">
+          <button mat-icon-button (click)="editEntrySourceType(row)" class="editbtn">
             <mat-icon>edit</mat-icon>
           </button>
           <button (click)="deleteEntrySourceType(row.id)" mat-icon-button color="warn">

@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
 
 @Component({
   selector: 'app-fi-journal-dialog',
@@ -21,7 +24,8 @@ export class FIJournalDialogComponent {
   // groupEditId: any;
 
   constructor(private formBuilder : FormBuilder,
-     private api : ApiService,
+     private api : ApiService,     
+private hotkeysService: HotkeysService,
      private readonly route:ActivatedRoute, private toastr: ToastrService,
      @Inject(MAT_DIALOG_DATA) public editData : any,
      private dialogRef : MatDialogRef<FIJournalDialogComponent>){
@@ -34,7 +38,11 @@ export class FIJournalDialogComponent {
       description : ['',Validators.required],
       date : ['',Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addFIJournals();
+      return false; // Prevent the default browser behavior
+    }));
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تحديث";

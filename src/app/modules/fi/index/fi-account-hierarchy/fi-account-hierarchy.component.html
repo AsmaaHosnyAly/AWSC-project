@@ -10,15 +10,15 @@
           </button>
         </div>
   
-        <mat-form-field>
-          <input
+        <div>
+          <input 
             matInput
             class="filter-search"
             (keyup)="applyFilter($event)"
             placeholder="بحث"
             #input
           />
-        </mat-form-field>
+        </div>
       </mat-card-header>
       <div  class="div-table">
       <table matSort mat-table [dataSource]="dataSource" >

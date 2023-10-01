@@ -10,6 +10,9 @@ mat-card {
 form{
   box-sizing: border-box;
 }
+.editbtn{
+  --mat-icon-color:rgb(129, 135, 138);
+}
 
 mat-card-header{
   display: flex;

@@ -12,7 +12,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class EntrySource {
   constructor(public id: number, public name: string) {}
 }
@@ -41,7 +42,7 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatAccordion)
 accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
-    private api : ApiService,
+    private api : ApiService,private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<FIEntrySourceTypeDialogComponent>){
@@ -67,7 +68,11 @@ accordion!: MatAccordion;
       this.api.getAllEntrySources().subscribe((entrySources) => {
         this.entrySources = entrySources;
       });
-      
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addEntrySourceType();
+        return false; // Prevent the default browser behavior
+      }));
   
       if(this.editData){
         this.actionBtn = "تعديل";
