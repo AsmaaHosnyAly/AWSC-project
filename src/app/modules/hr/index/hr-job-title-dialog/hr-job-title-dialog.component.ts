@@ -22,7 +22,7 @@ export class HrJobTitleDialogComponent implements OnInit{
   
   JobTitleList:any;
   groupForm !: FormGroup;
-  actionBtn: string = "Save";
+  actionBtn: string = "حفظ";
   groupSelectedSearch: any;
   
   productIdToEdit: any;
@@ -49,7 +49,7 @@ export class HrJobTitleDialogComponent implements OnInit{
 
     console.log("edit data", this.editData);
     if (this.editData) {
-      this.actionBtn = "Update";
+      this.actionBtn = "تعديل";
       // this.groupForm.controls['code'].setValue(this.editData.code);
       this.groupForm.controls['name'].setValue(this.editData.name);
    
@@ -87,10 +87,9 @@ export class HrJobTitleDialogComponent implements OnInit{
                 this.productIdToEdit = res.id;
 
                 this.toastrSuccess();
-                alert("تمت إضافة المنتج بنجاح");
                 this.groupForm.reset();
 
-                this.dialogRef.close('save');
+                this.dialogRef.close('حفظ');
               },
               error: (err) => {
                 alert("حدث خطأ أثناء إضافة منتج");
@@ -111,10 +110,10 @@ export class HrJobTitleDialogComponent implements OnInit{
     this.api.putHrJobTitle(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث المنتج بنجاح");
-          this.toastrSuccess();
+          this.toastrEditSuccess()
+          // this.toastrSuccess();
           this.groupForm.reset();
-          this.dialogRef.close('update');
+          this.dialogRef.close('تعديل');
         },
         error: () => {
           alert("خطأ أثناء تحديث سجل المنتج !!")
@@ -138,7 +137,13 @@ export class HrJobTitleDialogComponent implements OnInit{
 
 
   toastrSuccess(): void {
-    this.toastr.success("تم الحفظ بنجاح");
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 
 }

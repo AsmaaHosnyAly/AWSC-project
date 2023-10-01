@@ -73,23 +73,29 @@ export class HrHiringTypeComponent implements OnInit {
   }
 
   deleteHiringType(id: number) {
-    var result = confirm("هل ترغب بتاكيد مسح نوع التعيين ؟ ");
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteHrHiringType(id)
-        .subscribe({
-          next: (res) => {
-            this.toastrDeleteSuccess();
-            // alert("تم حذف نوع التعيين بنجاح");
-            this.getHiringType()
-          },
-          error: () => {
-            alert("خطأ أثناء حذف نوع التعيين !!");
-          }
-        })
+      .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
+          this.getHiringType()
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر'); 
+        },
+      });
     }
 
   }
-
+ 
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
   }

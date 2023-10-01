@@ -62,7 +62,7 @@ export class HrJobTitleComponent  implements OnInit {
     this.dialog.open(HrJobTitleDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
-      if (val === 'save') {
+      if (val === 'حفظ') {
         this.getAllJobTitle();
       }
     })
@@ -75,7 +75,7 @@ export class HrJobTitleComponent  implements OnInit {
       width: '30%',
       data: row
     }).afterClosed().subscribe(val => {
-      if (val === 'update') {
+      if (val === 'تعديل') {
         this.getAllJobTitle();
       }
     })
@@ -84,22 +84,29 @@ export class HrJobTitleComponent  implements OnInit {
 
 
 deleteJobTitle(id: number) {
-    var result = confirm("هل ترغب بتاكيد مسح المنتج ؟ ");
-    if (result) {
-      this.api.deleteHrJobTitle(id)
-        .subscribe({
-          next: (res) => {
-            this.toastrDeleteSuccess();
-            alert("تم حذف المنتج بنجاح");
-            this.getAllJobTitle()
-          },
-          error: () => {
-            alert("خطأ أثناء حذف المنتج !!");
-          }
-        })
-    }
+  var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+  if (result) {
+    this.api.deleteHrJobTitle(id)
+    .subscribe({
+      next: (res) => {
+        if(res == 'Succeeded'){
+          console.log("res of deletestore:",res)
+        // alert('تم الحذف بنجاح');
+        this.toastrDeleteSuccess();
+        this.getAllJobTitle();
+
+      }else{
+        alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+      }
+      },
+      error: () => {
+        alert('خطأ فى حذف العنصر'); 
+      },
+    });
+  }
 
   }
+ 
 
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
