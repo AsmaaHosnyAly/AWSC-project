@@ -27,26 +27,15 @@ export class strOpeningStockGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let userRole = localStorage.getItem('userRoles')?.split(',');
-
-    //     userRole.forEach(element => {
-    //     if( element==1)
-    //       return true
-    //     else
-    //     window.alert('You dont have the permission to visit this page')
-    //     this.router.navigateByUrl('login')
-    //     return false;
-    // })
-
-    for (let i = 0; i < userRole!.length; i++) {
-      let role = userRole![i];
-      if (role == '3' || role=='17') 
-      {
-        this.shared.openingStock= true;
-        return this.shared.openingStock;
-      } 
-    }
-
-    return true;
-  }
+      let pages = route.data['PageLsit'] as Array<string>;
+      const USER_ROLES_LOCAL_STORAGE = window.localStorage.getItem('userRoles') 
+      const USER_ROLES : Array<any> = USER_ROLES_LOCAL_STORAGE!.split(',')
+      // pages && !MODULES.some((i:any)=>i == pages[0])
+      if(pages && !USER_ROLES.some((i:any)=>i == pages[0])){
+        alert('عفوا لا تمتلك الصلاحية ')
+        this.router.navigate(['/home']);
+        return false
+      }
+      return true
+      }
 }
