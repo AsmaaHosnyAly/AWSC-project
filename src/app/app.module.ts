@@ -24,7 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { CommonModule } from '@angular/common';
 
 import { MatMenuModule } from '@angular/material/menu';
@@ -84,7 +84,7 @@ import { FiEntryDialogComponent } from './modules/fi/index/fi-entry-dialog/fi-en
 // import { FileUploadDialogComponent } from './modules/fi/indexle-upload-dialog/file-upload-dialog.component';
 import { FIAccountHierarchyComponent } from './modules/fi/index/fi-account-hierarchy/fi-account-hierarchy.component';
 import { FIAccountHierarchyDialogComponent } from './modules/fi/index/fi-account-hierarchy-dialog/fi-account-hierarchy-dialog.component';
-import { PipesModule } from '../app/pipes/pipes.module';
+import { PipesModule } from './core/pipes/pipes.module';
 import { FIEntrySourceComponent } from './modules/fi/index/fi-entry-source/fi-entry-source.component';
 import { FIEntrySourceDialogComponent } from './modules/fi/index/fi-entry-source-dialog/fi-entry-source-dialog.component';
 
@@ -108,7 +108,7 @@ import { HrPositionComponent } from './modules/hr/index/hr-position/hr-position.
 import { HrPositionDialogComponent } from './modules/hr/index/hr-position-dialog/hr-position-dialog.component';
 import { StrVendorComponent } from './modules/str/index/str-vendor/str-vendor.component';
 import { StrVendorDialogComponent } from './modules/str/index/str-vendor-dialog/str-vendor-dialog.component';
-import { MenubarComponent } from './menubar/menubar.component';
+import { MenubarComponent } from './pages/menubar/menubar.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { HrCityComponent } from './modules/hr/index/hr-city/hr-city.component';
 import { HrCityDialogComponent } from './modules/hr/index/hr-city-dialog/hr-city-dialog.component';

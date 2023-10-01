@@ -58,7 +58,7 @@ import {
   StrModelComponent,
   vendor,
 } from './modules/str/index/str-model/str-model.component';
-import { MenubarComponent } from './menubar/menubar.component';
+import { MenubarComponent } from './pages/menubar/menubar.component';
 import { PrUserTableComponent } from './modules/pr/index/pr-user-table/pr-user-table.component';
 import { rolesGuard } from './core/guards/roles.guard';
 import { withdrawGuard } from './core/guards/withdraw.guard';
@@ -86,6 +86,8 @@ import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
+import { productSerialGuard } from './core/guards/product-serial.guard';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -111,7 +113,7 @@ const routes: Routes = [
         component: STRAddContainerComponent,
         canActivate: [sTRAddGuard],
         data: { PageLsit: [PagesEnums.STRAdd] },
-      }, //table filter done
+      },
       {
         path: 'str-openingStock',
         component: StrOpeningStockContainerComponent,
@@ -173,9 +175,16 @@ const routes: Routes = [
         canActivate: [storeGuard],
         data: { PageLsit: [PagesEnums.STORE] },
       },
-      { path: 'str-vendor', component: StrVendorComponent },
+      { path: 'str-vendor',
+       component: StrVendorComponent,
+      canActivate: [vendorGuard],
+      data: { PageLsit: [PagesEnums.STR_VENDOR]}
+     },
 
-      { path: 'str-model', component: StrModelComponent },
+      { path: 'str-model', component: StrModelComponent,
+      canActivate: [modelGuard],
+      data: { PageLsit: [PagesEnums.MODEL]}
+     },
       {
         path: 'costCenter',
         component: StrCostcenterComponent,
@@ -188,7 +197,11 @@ const routes: Routes = [
         canActivate: [productsGuard],
         data: { PageLsit: [PagesEnums.PRODUCTS] },
       },
-      { path: 'product-serial', component: StrProudctSerialComponent },
+      { path: 'product-serial', component: StrProudctSerialComponent ,
+      canActivate: [productSerialGuard],
+      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+
+    },
       /***********************end store modules المخازن **********************/
 
       /***********************Start account modules الحسابات **********************/
