@@ -1,11 +1,16 @@
 
-<h1 mat-dialog-title dir="rtl">اضافة وظيفة </h1>
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل المنصب    ' : 'إضافة  المنصب '}}</h1>
+  
 
-<div mat-dialog-content dir="rtl" style="padding: 30px;">
+<div mat-dialog-content dir="rtl" >
     <form [formGroup]="groupForm">
+        <mat-label>اسم المنصب</mat-label>
+
         <mat-form-field appearance="outline" class="groupInput">
-            <mat-label>اسم الوظيفة</mat-label>
-            <input matInput placeholder="اسم  الوظيفة" formControlName="name">
+            <input matInput placeholder="اسم  المنصب" formControlName="name">
         </mat-form-field>
 
     </form>
@@ -13,8 +18,7 @@
 
 <div mat-dialog-action [align]="'end'">
     <div class="groupAction">
-        <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button>
-        <button mat-raised-button class="confirmBtn" style="margin-left: 8px;"
+        <button mat-raised-button  class="savebtn" style="margin-left: 8px;"
             (click)="addPosition()">{{actionBtn.toLowerCase() =='save' ? 'اضافة':'تعديل'}}</button>
     </div>
 </div>

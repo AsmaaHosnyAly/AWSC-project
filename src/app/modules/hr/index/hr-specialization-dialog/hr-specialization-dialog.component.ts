@@ -13,6 +13,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
 // import { publishFacade } from '@angular/compiler';
 // import { STRGradeComponent } from '../str-grade/str-grade.component';
+import { ToastrService } from 'ngx-toastr';
 
 export class Qualification {
   constructor(public id: number, public name: string, public code: string) {}
@@ -50,7 +51,7 @@ commoditylist:any;
 storeList: any;
 commodityName: any;
   constructor(private formBuilder : FormBuilder,
-    private api : ApiService,
+    private api : ApiService,private toastr: ToastrService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<HrSpecializationDialogComponent>){
@@ -125,7 +126,8 @@ commodityName: any;
         this.api.postHrspecialization(this.specializationForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            // alert("تمت الاضافة بنجاح");
+            this.toastrSuccess()
             this.specializationForm.reset();
             this.dialogRef.close('save');
           },
@@ -144,7 +146,8 @@ commodityName: any;
         this.api.putHrspecialization(this.specializationForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تم التحديث بنجاح");
+            // alert("تم التحديث بنجاح");
+            this.toastrEditSuccess()
             this.specializationForm.reset();
             this.dialogRef.close('update');
           },
@@ -153,5 +156,13 @@ commodityName: any;
           }
         })
       }
-
+      toastrSuccess(): void {
+        this.toastr.success('تم الحفظ بنجاح');
+      }
+      toastrDeleteSuccess(): void {
+        this.toastr.success('تم الحذف بنجاح');
+      }
+      toastrEditSuccess(): void {
+        this.toastr.success('تم التعديل بنجاح');
+      }
 }

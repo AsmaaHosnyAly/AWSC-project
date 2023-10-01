@@ -1,11 +1,16 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل موقف تجنيدي   ' : 'إضافة  موقف تجنيدي'}}</h1>
+
 <form [formGroup]="MillitryStatesForm" dir="rtl">
-    <h1 mat-dialog-title>الموظفين</h1>
+    <!-- <h1 mat-dialog-title>الموظفين</h1> -->
     <div mat-dialog-content>
       <form [formGroup]="MillitryStatesForm">
         
-      
+        <mat-label>الموقف من التجنيد</mat-label>
+
         <mat-form-field appearance="outline">
-          <mat-label>اسم الموظف</mat-label>
           <input formControlName="name" matInput placeholder="الموقف من التجنيد">
         </mat-form-field>
      
@@ -14,8 +19,7 @@
       </form>
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addProduct()" style="margin-left: 8px;">{{actionBtn}}</button> 
+      <button mat-raised-button  class="savebtn" (click)="addProduct()" style="margin-left: 8px;">{{actionBtn}}</button> 
     </div>
   </form>
   
