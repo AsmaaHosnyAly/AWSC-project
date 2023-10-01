@@ -77,21 +77,28 @@ export class HrSeveranceReasonComponent implements OnInit {
 
   deleteSeveranceReason(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
-    if (result) {
-      this.api.deleteSeveranceReason(id).subscribe({
-        next: (res) => {
-          // alert('تم الحذف بنجاح');
-          this.toastrDeleteSuccess()
-          this.getSeveranceReason();
-        },
-        error: () => {
-          alert('خطأ فى حذف العنصر');
-        },
-      });
-    }
+  if (result) {
+    this.api.deleteSeveranceReason(id)
+    .subscribe({
+      next: (res) => {
+        if(res == 'Succeeded'){
+          console.log("res of deletestore:",res)
+        // alert('تم الحذف بنجاح');
+        this.toastrDeleteSuccess();
+        this.getSeveranceReason();
+
+      }else{
+        alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+      }
+      },
+      error: () => {
+        alert('خطأ فى حذف العنصر'); 
+      },
+    });
+  }
   }
 
-
+ 
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

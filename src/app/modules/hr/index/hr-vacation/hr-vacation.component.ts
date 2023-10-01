@@ -61,21 +61,32 @@ title = 'angular13crud';
     })
   }
   daleteVacation(id:number){
-    if(confirm("Are you sure to delete ")) {
-      console.log("Implement delete functionality here");
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.daleteVacation(id)
+      .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
+          this.getAllVacations();
+  
+  
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر'); 
+        },
+      });
     }
-    this.api.daleteVacation(id)
-    .subscribe({
-      next:(res)=>{
-        // alert("تأكيد حذف الوحدة");
-        this.toastrDeleteSuccess()
-        this.getAllVacations();
-      },
-      error:()=>{
-        alert("خطأ عند الحذف")
-      }
-    })
   }
+
+
+ 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
