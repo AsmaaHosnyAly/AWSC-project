@@ -22,12 +22,14 @@
 
     
     </mat-card-header>
+
+
     <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
 
     
         <!-- EntrySourceName Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef  style="width: 30%;text-align: center !important;"> مصدر الدخل </th>
+        <ng-container matColumnDef="name" >
+          <th mat-header-cell *matHeaderCellDef  style="width: 30%;"> مصدر الدخل </th>
           <td mat-cell *matCellDef="let row" > {{row.name}} </td>
         </ng-container>
 
