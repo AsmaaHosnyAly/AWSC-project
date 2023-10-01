@@ -37,7 +37,8 @@
             <mat-form-field appearance="outline">
                 <mat-label> دفتر اليوميه </mat-label>
                 <mat-select #journalId plceholder="اختر مركز التكلفة">
-                    <mat-option *ngFor="let journal of journalsList" [value]="journal.id">{{journal.description}}</mat-option>
+                    <mat-option *ngFor="let journal of journalsList"
+                        [value]="journal.id">{{journal.description}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
@@ -76,7 +77,7 @@
                 <mat-label>السنة المالية:</mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
-                    <mat-select  #FiscalYearId placeholder="السنة المالية">
+                    <mat-select #FiscalYearId placeholder="السنة المالية">
                         <mat-option [value]="fiscalYear.id"
                             *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                     </mat-select>
@@ -207,4 +208,12 @@
 
 
 </div>
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+<!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" (page)="pageChanged($event)" ></mat-paginator> -->
+
+<!-- <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+[pageSizeOptions]="pageSizeOptions" aria-label="Select page">
+</mat-paginator> -->
+
+<mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageChanged($event)">
+</mat-paginator>
