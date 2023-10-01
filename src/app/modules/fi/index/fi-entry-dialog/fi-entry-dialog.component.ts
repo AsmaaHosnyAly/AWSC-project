@@ -49,6 +49,9 @@ export class FiEntryDialogComponent implements OnInit {
   test: any;
   testMain: any;
 
+  currentDate: any;
+  defaultFiscalYearSelectValue: any;
+
   displayedColumns: string[] = ['credit', 'debit', 'accountName', 'fiAccountItemId', 'action'];
   sessionId = Math.random();
 
@@ -64,12 +67,16 @@ export class FiEntryDialogComponent implements OnInit {
     private dialog: MatDialog,
     private toastr: ToastrService,
     private dialogRef: MatDialogRef<FiEntryDetailsDialogComponent>,
-    private router: Router) { }
+    private router: Router) {
+
+    this.currentDate = new Date;
+
+  }
 
 
   ngOnInit(): void {
-    console.log("getDetailedRowData : ", this.getDetailedRowData)
-    this.getJournals();
+    // console.log("getDetailedRowData : ", this.getDetailedRowData);
+    this.getFiscalYears();
     this.getFiAccounts();
     this.getFiAccountItems();
     this.getFiEntrySource();
@@ -79,6 +86,7 @@ export class FiEntryDialogComponent implements OnInit {
 
     this.groupMasterForm = this.formBuilder.group({
       no: ['', Validators.required],
+      fiscalYearId: ['', Validators.required],
       journalId: ['', Validators.required],
       fiEntrySourceTypeId: ['', Validators.required],
       creditTotal: ['', Validators.required],
@@ -86,7 +94,8 @@ export class FiEntryDialogComponent implements OnInit {
       balance: ['', Validators.required],
       state: ['', Validators.required], //will rename to state
       transactionUserId: ['', Validators.required],
-      date: ['', Validators.required],
+      date: [this.currentDate, Validators.required],
+      description: ['']
     });
 
     this.groupDetailsForm = this.formBuilder.group({
@@ -113,7 +122,7 @@ export class FiEntryDialogComponent implements OnInit {
       this.groupMasterForm.controls['creditTotal'].setValue(this.editData.creditTotal);
       this.groupMasterForm.controls['debitTotal'].setValue(this.editData.debitTotal);
       this.groupMasterForm.controls['state'].setValue(this.editData.state);
-
+      this.groupMasterForm.controls['description'].setValue(this.editData.description);
 
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
@@ -126,11 +135,12 @@ export class FiEntryDialogComponent implements OnInit {
 
   }
 
-  getJournals() {
+  getJournals(fiscalYear: any) {
     this.api.getJournals()
       .subscribe({
         next: (res) => {
-          this.journalsList = res;
+
+          this.journalsList = res.find((journal: { fiscalYearId: any; }) => journal.fiscalYearId == fiscalYear);
           console.log("journals res: ", this.journalsList);
         },
         error: (err) => {
@@ -180,6 +190,52 @@ export class FiEntryDialogComponent implements OnInit {
           // alert("خطا اثناء جلب الانواع !");
         }
       })
+  }
+
+  async getFiscalYears() {
+    this.api.getFiscalYears()
+      .subscribe({
+        next: async (res) => {
+          this.fiscalYearsList = res;
+
+          this.api.getLastFiscalYear()
+            .subscribe({
+              next: async (res) => {
+                // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+                this.defaultFiscalYearSelectValue = await res;
+                console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+                if (this.editData) {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+                  this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
+                }
+                else {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+                  this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
+                  // this.getStrOpenAutoNo();
+                }
+              },
+              error: (err) => {
+                // console.log("fetch store data err: ", err);
+                // alert("خطا اثناء جلب المخازن !");
+              }
+            })
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
+
+  async fiscalYearValueChanges(fiscalyaerId: any) {
+    console.log("fiscalyaer: ", fiscalyaerId)
+    // this.fiscalYearSelectedId = await fiscalyaerId;
+    this.groupMasterForm.controls['fiscalYearId'].setValue(fiscalyaerId);
+    // this.isEdit = false;
+
+    // this.getStrOpenAutoNo();
+    this.getJournals(this.groupMasterForm.getRawValue().fiscalYearId);
+
   }
 
   getAllDetailsForms() {
@@ -455,7 +511,7 @@ export class FiEntryDialogComponent implements OnInit {
   editDetailsForm(row: any) {
     this.dialog.open(FiEntryDetailsDialogComponent, {
       width: '95%',
-      height: '85%',
+      height: '78%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
@@ -545,7 +601,7 @@ export class FiEntryDialogComponent implements OnInit {
     this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }])
     this.dialog.open(FiEntryDetailsDialogComponent, {
       width: '95%',
-      height: '85%'
+      height: '78%'
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();

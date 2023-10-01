@@ -314,10 +314,10 @@ footer h3 {
   justify-content: space-between;
 }
 .print-display {
-  display: block;
-  display: flex;
-  position: relative;
-  /* left: -482px; */
-  top: 15px;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
 }
 

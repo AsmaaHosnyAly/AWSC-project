@@ -16,6 +16,13 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
+
+export class Account {
+  constructor(public id: number, public name: string) { }
+}
 
 @Component({
   selector: 'app-fi-entry-table',
@@ -44,10 +51,17 @@ export class FiEntryTableComponent implements OnInit {
   employeesList: any;
   costCentersList: any;
   journalsList: any;
-  accountsList: any;
+  // accountsList: any;
   sourcesList: any;
 
   dataSource2!: MatTableDataSource<any>;
+
+
+  accountsList: Account[] = [];
+  accountCtrl: FormControl;
+  filteredAccount: Observable<Account[]>;
+  selectedAccount: Account | undefined;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -58,7 +72,15 @@ export class FiEntryTableComponent implements OnInit {
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
-  ) { }
+  ) {
+
+    this.accountCtrl = new FormControl();
+    this.filteredAccount = this.accountCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterAccounts(value))
+    );
+
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();
@@ -68,17 +90,17 @@ export class FiEntryTableComponent implements OnInit {
 
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
-      employee: [''],
+    
       costcenter: [''],
       // :[''],
       //  costcentersList:[''],
       costCenterId: [''],
       item: [''],
       fiscalYear: [''],
-      StartDate: [''],
-      EndDate: [''],
+      date: [''],
+      account: [''],
 
-      store: [''],
+      type: [''],
       storeId: [''],
       employeeId: [''],
       employeeName: [''],
@@ -115,11 +137,37 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
+  private _filterAccounts(value: string): Account[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
+
+    return this.accountsList.filter(
+      (account) =>
+        account.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayAccountName(account: any): string {
+    return account && account.name ? account.name : '';
+  }
+  AccountSelected(event: MatAutocompleteSelectedEvent): void {
+    const account = event.option.value as Account;
+    console.log("account selected: ", account);
+    this.selectedAccount = account;
+    this.groupDetailsForm.patchValue({ accountId: account.id });
+  }
+  openAutoAccount() {
+    this.accountCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.accountCtrl.updateValueAndValidity();
+  }
+
   openFiEntryDialog() {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '85%'
+        height: '82%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -143,6 +191,7 @@ export class FiEntryTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+        this.groupMasterForm.reset()
       },
       error: () => {
         // alert('خطأ أثناء جلب سجلات المدخلات !!');
@@ -193,7 +242,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '85%',
+        height: '82%',
         data: row,
       })
       .afterClosed()
@@ -276,7 +325,8 @@ export class FiEntryTableComponent implements OnInit {
     no: any,
     journalId: any,
     accountId: any,
-    date: any,
+    startDate: any,
+    endDate: any,
     sourceId: any
   ) {
     console.log(
@@ -286,13 +336,15 @@ export class FiEntryTableComponent implements OnInit {
       journalId,
       'accountId : ',
       accountId,
-      'date: ',
-      date,
+      'startDate: ',
+      startDate,
+      'endDate: ',
+      endDate,
       'sourceId: ',
       sourceId
     );
     this.api
-      .getFiEntrySearach(no, journalId, accountId, date, sourceId)
+      .getFiEntrySearach(no, journalId, accountId, startDate, endDate, sourceId)
       .subscribe({
         next: (res) => {
           console.log('search fiEntry res: ', res);

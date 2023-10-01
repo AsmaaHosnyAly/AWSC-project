@@ -194,6 +194,10 @@ export class STRAddDialogComponent implements OnInit {
       this.nextToAddFormDetails();
       return false; // Prevent the default browser behavior
     }));
+
+
+
+    
     if (this.editData) {
       this.isEdit = true;
       this.getAddData = this.editData;
