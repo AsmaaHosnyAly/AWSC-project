@@ -18,6 +18,9 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
 
 export class EntrySource {
   constructor(public id: number, public name: string) {}
@@ -43,7 +46,7 @@ export class FIEntrySourceTypeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
     this.entrySourceCtrl = new FormControl();
     this.filteredEntrySources = this.entrySourceCtrl.valueChanges.pipe(
       startWith(''),
@@ -57,6 +60,11 @@ export class FIEntrySourceTypeComponent implements OnInit {
     this.api.getAllEntrySources().subscribe((entrySources) => {
       this.entrySources = entrySources;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -69,6 +77,7 @@ export class FIEntrySourceTypeComponent implements OnInit {
           this.getAllEntrySourceTypes();
         }
       });
+
   }
 
   displayEntrySourceName(entrySource: any): string {

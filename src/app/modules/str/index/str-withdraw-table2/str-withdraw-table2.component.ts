@@ -43,9 +43,8 @@ export class store {
   styleUrls: ['./str-withdraw-table2.component.css'],
 })
 export class StrWithdrawTableComponent implements OnInit {
-
-  selectedValue='STRWithdrawReport';
-  selectedValueType='pdf';
+  selectedValue = 'STRWithdrawReport';
+  selectedValueType = 'pdf';
   displayedColumns: string[] = [
     'no',
     'storeName',
@@ -72,11 +71,8 @@ export class StrWithdrawTableComponent implements OnInit {
   sharedStores: any;
   // form: FormGroup;
 
-
   groupMasterForm!: FormGroup;
   groupDetailsForm!: FormGroup;
-
-
 
   costcentersList: costcenter[] = [];
   costcenterCtrl: FormControl<any>;
@@ -103,7 +99,7 @@ export class StrWithdrawTableComponent implements OnInit {
   pdfurl = '';
   reportNameList: any;
   selectedReportNameTitle: any;
-  reportTypeList:any;
+  reportTypeList: any;
   selectedReportTypeTitle: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -115,26 +111,26 @@ export class StrWithdrawTableComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    @Inject(LOCALE_ID) private locale: string,
-    
+    @Inject(LOCALE_ID) private locale: string
   ) {
     // this.form = this.formBuilder.group({
     //   name: [''],
     //   email: ['']
     // });
 
-    this.reportNameList = [{
-      'titleval': 'STRWithdrawReport',
+    this.reportNameList = [
+      {
+        titleval: 'STRWithdrawReport',
+      },
+    ];
 
-    }];
-
-    this.reportTypeList = [{
-      'titleval': 'pdf',
-      'titleval1': 'txt',
-      'titleval2': 'ppt',
-
-    }];
-    
+    this.reportTypeList = [
+      {
+        titleval: 'pdf',
+        titleval1: 'txt',
+        titleval2: 'ppt',
+      },
+    ];
 
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
@@ -159,18 +155,14 @@ export class StrWithdrawTableComponent implements OnInit {
       startWith(''),
       map((value) => this._filterstores(value))
     );
-
-    
   }
-
-  
 
   ngOnInit(): void {
     this.selectedReportNameTitle = this.reportNameList[0].titleval;
-    console.log("select report name: ", this.selectedReportNameTitle);
-    
+    console.log('select report name: ', this.selectedReportNameTitle);
+
     this.selectedReportTypeTitle = this.reportTypeList[0].titleval;
-    console.log("select report type: ", this.selectedReportTypeTitle);
+    console.log('select report type: ', this.selectedReportTypeTitle);
 
     this.getDestStores();
     this.getFiscalYears();
@@ -198,18 +190,17 @@ export class StrWithdrawTableComponent implements OnInit {
       storeId: [''],
       employeeId: [''],
       employeeName: [''],
-      itemId:[''],
+      itemId: [''],
       itemName: [''],
 
-      report:[''],
-      reportType:['']
+      report: [''],
+      reportType: [''],
       // item:['']
     });
 
-    
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: [''], //MasterId
-      employeeId:[''],
+      employeeId: [''],
       qty: [''],
       percentage: [''],
       price: [''],
@@ -217,7 +208,8 @@ export class StrWithdrawTableComponent implements OnInit {
       transactionUserId: [1],
       destStoreUserId: [1],
       itemId: [''],
-      stateId: [''],item:[''],
+      stateId: [''],
+      item: [''],
 
       // withDrawNoId: ['' ],
 
@@ -228,12 +220,14 @@ export class StrWithdrawTableComponent implements OnInit {
 
       // notesName: [''],
     });
-    
-   this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-    // Call the deleteGrade() function in the current component
-    this.openWithdrawDialog();
-    return false; // Prevent the default browser behavior
-  }));
+
+    this.hotkeysService.add(
+      new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.openWithdrawDialog();
+        return false; // Prevent the default browser behavior
+      })
+    );
   }
 
   applyFilter(event: Event) {
@@ -246,17 +240,19 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   getsearch(code: any) {
     if (code.keyCode == 13) {
-      // this.getSearchStrWithdraw()    
+      // this.getSearchStrWithdraw()
     }
   }
   openWithdrawDialog() {
-    this.dialog.open(StrWithdrawDialogComponent, {
-      width: '95%',
-      height: '85%'
-      
-    }).afterClosed().subscribe(val => {
-      if (val === 'Save') {
-        // alert("refresh")
+    this.dialog
+      .open(StrWithdrawDialogComponent, {
+        width: '95%',
+        height: '85%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'Save') {
+          // alert("refresh")
 
           this.getAllMasterForms();
         }
@@ -349,32 +345,28 @@ export class StrWithdrawTableComponent implements OnInit {
           //       //   this.deleteFormDetails(this.matchedIds[i].id);
           //       // }
           //       // alert('تم حذف الاذن بنجاح');
-                
+
           //     },
           //     (err) => {
           //       // alert('خطا اثناء تحديد المجموعة !!');
           //     }
           //   );
 
-          this.api.getStrWithdrawDetails()
-            .subscribe({
-              next: (res) => {
+          this.api.getStrWithdrawDetails().subscribe({
+            next: (res) => {
+              this.matchedIds = res.filter((a: any) => {
+                // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                return a.stR_WithdrawId === id;
+              });
 
-                this.matchedIds = res.filter((a: any) => {
-                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.stR_WithdrawId === id;
-                });
-
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
-                }
-
-              },
-              error: (err) => {
-                // alert('خطا اثناء تحديد المجموعة !!');
-
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.deleteFormDetails(this.matchedIds[i].id);
               }
-            })
+            },
+            error: (err) => {
+              // alert('خطا اثناء تحديد المجموعة !!');
+            },
+          });
 
           this.toastrDeleteSuccess();
           this.getAllMasterForms();
@@ -389,7 +381,7 @@ export class StrWithdrawTableComponent implements OnInit {
   deleteFormDetails(id: number) {
     this.api.deleteStrWithdrawDetails(id).subscribe({
       next: (res) => {
-this.toastrDeleteSuccess();
+        this.toastrDeleteSuccess();
         this.getAllMasterForms();
       },
       error: (err) => {
@@ -598,19 +590,20 @@ this.toastrDeleteSuccess();
     this.storeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrWithdraw(no: any, StartDate: any,EndDate:any, fiscalYear: any) {
+  getSearchStrWithdraw(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
-    console.log("itemId in ts:",this.groupDetailsForm.getRawValue().itemId)
+    console.log('itemId in ts:', this.groupDetailsForm.getRawValue().itemId);
 
     this.api
       .getStrWithdrawSearch(
         no,
         store,
-        StartDate,EndDate,
+        StartDate,
+        EndDate,
         fiscalYear,
         item,
         employee,
@@ -627,15 +620,33 @@ this.toastrDeleteSuccess();
         },
       });
   }
-  downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+  downloadPrint(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
     this.api
-    .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-    .subscribe({
+      .getStr(
+        no,
+        store,
+        StartDate,
+        EndDate,
+        fiscalYear,
+        item,
+        employee,
+        costCenter,
+        report,
+        reportType
+      )
+      .subscribe({
         next: (res) => {
           console.log('search:', res);
           const url: any = res.url;
@@ -691,37 +702,55 @@ this.toastrDeleteSuccess();
   //   location.reload();
   // }
 
-  previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+  previewPrint(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
-if(report!= null && reportType!=null){
-    this.api
-      .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-      .subscribe({
-        next: (res) => {
-          let blob: Blob = res.body as Blob;
-          console.log(blob);
-          let url = window.URL.createObjectURL(blob);
-          localStorage.setItem('url', JSON.stringify(url));
-          this.pdfurl = url;
-          this.dialog.open(PrintDialogComponent, {
-            width: '50%',
-          });
+    if (report != null && reportType != null) {
+      this.api
+        .getStr(
+          no,
+          store,
+          StartDate,
+          EndDate,
+          fiscalYear,
+          item,
+          employee,
+          costCenter,
+          report,
+          reportType
+        )
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '50%',
+            });
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-        
-      });}
-      else{
-alert("ادخل التقرير و نوع التقرير!")      }
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    } else {
+      alert('ادخل التقرير و نوع التقرير!');
+    }
   }
 
   toastrDeleteSuccess(): void {

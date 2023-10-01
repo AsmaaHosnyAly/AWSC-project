@@ -9,6 +9,8 @@ import { FIAccountHierarchyDialogComponent } from '../fi-account-hierarchy-dialo
 import { FIJournalDialogComponent } from '../fi-journal-dialog/fi-journal-dialog.component';
 import { formatDate } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 import {
   FormControl,
   FormControlName,
@@ -33,7 +35,8 @@ export class FIJournalComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog,
+  constructor(private dialog : MatDialog,    
+private hotkeysService: HotkeysService,
      private api : ApiService,private toastr: ToastrService, private formBuilder: FormBuilder,
      @Inject(LOCALE_ID) private locale: string){}
   ngOnInit(): void {
@@ -56,6 +59,12 @@ export class FIJournalComponent {
       reportType:['']
       // item:['']
     });
+
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog.open(FIJournalDialogComponent, {

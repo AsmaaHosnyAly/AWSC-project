@@ -7,7 +7,8 @@ import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-fi-entry-source-dialog',
   templateUrl: './fi-entry-source-dialog.component.html',
@@ -26,7 +27,7 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatAccordion)
 accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
-    private api : ApiService,
+    private api : ApiService,private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<FIEntrySourceDialogComponent>){ }
@@ -37,7 +38,11 @@ accordion!: MatAccordion;
       name : ['',Validators.required],
       id : ['',Validators.required],
       });
-  
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addEntrySource();
+        return false; // Prevent the default browser behavior
+      }));
       if(this.editData){
         this.actionBtn = "تعديل";
       this.EntrySourceForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);

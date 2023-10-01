@@ -10,7 +10,8 @@ import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Hierarchy {
   constructor(public id: number, public name: string, public level: string) {}
 }
@@ -41,6 +42,7 @@ accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,
     private readonly route:ActivatedRoute,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<FIAccountDialogComponent>){
       this.hierarchyCtrl = new FormControl();
@@ -65,7 +67,11 @@ accordion!: MatAccordion;
       this.api.getAllAccountHierarchy().subscribe((hierarchies) => {
         this.hierarchies = hierarchies;
       });
-      
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addAccount();
+        return false; // Prevent the default browser behavior
+      }));
   
       if(this.editData){
         this.actionBtn = "تعديل";
