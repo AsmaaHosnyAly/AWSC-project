@@ -133,7 +133,7 @@ mat-radio-group{
   .tableFixHead {
     margin-top: 2%;
     /* padding-top: 5px; */
-    height: 250px;
+    height: 140px;
     overflow: auto;
   }
   .mat-mdc-table {
