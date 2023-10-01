@@ -8,7 +8,9 @@ mat-card {
   
 }
 
-
+.editbtn{
+  --mat-icon-color:rgb(129, 135, 138);
+}
 mat-card-header{
   display: flex;
   justify-content:space-between;

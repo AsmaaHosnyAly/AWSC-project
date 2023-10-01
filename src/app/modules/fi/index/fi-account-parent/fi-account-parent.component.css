@@ -7,7 +7,9 @@ mat-card {
   box-shadow: none;
   
 }
-
+.editbtn{
+  --mat-icon-color:rgb(129, 135, 138);
+}
 
 mat-card-header{
   display: flex;

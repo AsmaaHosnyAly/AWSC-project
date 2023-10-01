@@ -17,6 +17,8 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Account {
   constructor(public id: number, public name: string, public level: string) {}
 }
@@ -48,7 +50,7 @@ export class FIAccountParentComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private hotkeysService: HotkeysService) {
     this.accountCtrl = new FormControl();
     this.filteredAccounts = this.accountCtrl.valueChanges.pipe(
       startWith(''),
@@ -71,6 +73,11 @@ export class FIAccountParentComponent implements OnInit {
     this.api.getAllAccountsParents().subscribe((parents) => {
       this.parents = parents;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
