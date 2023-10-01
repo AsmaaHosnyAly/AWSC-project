@@ -118,20 +118,30 @@ export class HrQualificationComponent implements OnInit {
   }
 
   deleteQualification(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح المؤهل ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteQualification(id).subscribe({
+      this.api.deleteQualification(id)
+      .subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           // alert('تم الحذف بنجاح');
-          this.toastrDeleteSuccess()
+          this.toastrDeleteSuccess();
           this.getAllQualification();
+  
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
+
   
   async getQualification(name: any) {
     this.api.getQualification().subscribe({

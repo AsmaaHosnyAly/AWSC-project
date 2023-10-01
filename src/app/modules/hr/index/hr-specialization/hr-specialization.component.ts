@@ -115,20 +115,29 @@ export class HrSpecializationComponent {
   }
 
   deleteHrspecialization(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrspecialization(id).subscribe({
+      this.api.deleteHrspecialization(id)
+      .subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           // alert('تم الحذف بنجاح');
-          this.toastrDeleteSuccess()
+          this.toastrDeleteSuccess();
           this.getAllHrspecialization();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
+ 
   openAutoQualification() {
     this.QualificationCtrl.setValue(''); // Clear the input field value
   

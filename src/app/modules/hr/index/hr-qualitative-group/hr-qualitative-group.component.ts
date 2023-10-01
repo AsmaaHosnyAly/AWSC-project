@@ -84,18 +84,27 @@ export class HrQualitativeGroupComponent {
   deleteHrQualitativeGroup(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrQualitativeGroup(id).subscribe({
+      this.api.deleteHrQualitativeGroup(id)
+      .subscribe({
         next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
           // alert('تم الحذف بنجاح');
-          this.toastrDeleteSuccess()
+          this.toastrDeleteSuccess();
           this.getAllHrQualitativeGroup();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
+
 
 
 
