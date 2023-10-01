@@ -6,6 +6,7 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { HrVacationDailogComponent } from '../hr-vacation-dailog/hr-vacation-dailog.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,7 +21,7 @@ title = 'angular13crud';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService){}
+  constructor(private dialog : MatDialog, private api : ApiService,private toastr: ToastrService){}
   ngOnInit(): void {
     this.getAllVacations();
   }
@@ -66,7 +67,8 @@ title = 'angular13crud';
     this.api.daleteVacation(id)
     .subscribe({
       next:(res)=>{
-        alert("تأكيد حذف الوحدة");
+        // alert("تأكيد حذف الوحدة");
+        this.toastrDeleteSuccess()
         this.getAllVacations();
       },
       error:()=>{
@@ -81,6 +83,10 @@ title = 'angular13crud';
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
   }
 }
 

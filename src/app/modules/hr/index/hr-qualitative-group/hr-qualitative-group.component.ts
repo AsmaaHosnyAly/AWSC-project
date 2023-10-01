@@ -17,6 +17,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HrQualitativeGroupDialogComponent } from '../hr-qualitative-group-dialog/hr-qualitative-group-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-hr-qualitative-group',
@@ -33,7 +34,7 @@ export class HrQualitativeGroupComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService) { }
+  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService,) { }
   ngOnInit(): void {
     // console.log(productForm)
     this.getAllHrQualitativeGroup();
@@ -85,7 +86,8 @@ export class HrQualitativeGroupComponent {
     if (result) {
       this.api.deleteHrQualitativeGroup(id).subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess()
           this.getAllHrQualitativeGroup();
         },
         error: () => {
@@ -105,5 +107,13 @@ export class HrQualitativeGroupComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
 }

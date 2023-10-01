@@ -62,7 +62,7 @@ export class HrJobTitleComponent  implements OnInit {
     this.dialog.open(HrJobTitleDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
-      if (val === 'save') {
+      if (val === 'حفظ') {
         this.getAllJobTitle();
       }
     })
@@ -75,7 +75,7 @@ export class HrJobTitleComponent  implements OnInit {
       width: '30%',
       data: row
     }).afterClosed().subscribe(val => {
-      if (val === 'update') {
+      if (val === 'تعديل') {
         this.getAllJobTitle();
       }
     })
@@ -90,7 +90,6 @@ deleteJobTitle(id: number) {
         .subscribe({
           next: (res) => {
             this.toastrDeleteSuccess();
-            alert("تم حذف المنتج بنجاح");
             this.getAllJobTitle()
           },
           error: () => {

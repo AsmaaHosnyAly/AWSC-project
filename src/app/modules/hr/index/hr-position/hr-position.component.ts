@@ -87,7 +87,7 @@ export class HrPositionComponent  implements OnInit {
     if (result) {
       this.api.deleteHrPosition(id).subscribe({
         next: (res) => {
-          alert('Product deleted successfully');
+          this.toastrDeleteSuccess()
           this.getAllPositions();
         },
         error: () => {
