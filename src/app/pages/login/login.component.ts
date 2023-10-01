@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { Injectable, Compiler } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SharedService } from 'src/app/guards/shared.service';
-import { GlobalService } from 'src/app/services/global.service';
+import { SharedService } from 'src/app/core/guards/shared.service';
+import { GlobalService } from '../services/global.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -14,7 +15,9 @@ export class LoginComponent {
   roles: any;
   transactionUserId: any;
 
-  OnIinit(): void {}
+  OnIinit(): void {
+    this._compiler.clearCache();
+  }
 
   loginForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(50)]), // Validators.pattern()
@@ -30,10 +33,12 @@ export class LoginComponent {
     public global: GlobalService,
     private router: Router,
     public shared: SharedService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _compiler: Compiler
   ) {
     this.global.navFlag = false;
     localStorage.setItem('userRoles', this.roles);
+    this._compiler.clearCache();
   }
 
   get userName() {
@@ -55,17 +60,15 @@ export class LoginComponent {
   }
 
   handleSubmit() {
+    this._compiler.clearCache();
     console.log(this.loginForm);
     if(this.loginForm.valid){
       this.global.login(this.loginForm.value).subscribe({
         next: (res) => {
           localStorage.setItem('transactionUserId', res.id);
-          console.log(
-            'handelres',
-            localStorage.setItem('transactionUserId', res.id)
-          );
           this.global.isLogIn = true;
           localStorage.setItem('userRoles', res.roles);
+          localStorage.setItem('modules', res.modules);
           this.toastrloginSuccess();
           this.router.navigate(['/home']);
         },

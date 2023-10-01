@@ -1,0 +1,209 @@
+<!-- <p>fi-entry-table works!</p> -->
+<mat-accordion class="example-headers-align" multi dir="rtl">
+    <div class="page-title">القيود</div>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-description>
+                بحث متقدم
+                <mat-icon>account_circle</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form [formGroup]="groupMasterForm">
+            <div class="search">
+        <div class="searchLabels">
+            <mat-label>الرقم</mat-label>
+
+        <mat-form-field appearance="outline">
+            <input #no matInput placeholder="ادخل الرقم" type="number" min="0">
+        </mat-form-field>
+       </div>
+       <div class="searchLabels">
+        <mat-label> دفتر اليوميه </mat-label>
+
+        <mat-form-field appearance="outline">
+            <mat-select #journalId plceholder="اختر مركز التكلفة">
+                <mat-option *ngFor="let journal of journalsList"
+                    [value]="journal.id">{{journal.no}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="searchLabels">
+        <mat-label> الحساب </mat-label>
+
+        <mat-form-field appearance="outline">
+                <mat-select #accountId plceholder="اختر الموظف المحول اليه">
+                    <mat-option *ngFor="let account of accountsList"
+                        [value]="account.id">{{account.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="searchLabels">
+            <mat-label>تاريخ البداية</mat-label>
+
+            <mat-form-field appearance="outline" class="example-full-width">
+            <input #startDate matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+     </div>
+
+     <div class="searchLabels">
+        <mat-label>تاريخ البداية</mat-label>
+
+        <mat-form-field appearance="outline" class="example-full-width">
+            <input #endDate matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+       <div class="searchLabels">
+        <mat-label>نوع مصدر الادخال</mat-label>
+
+        <mat-form-field appearance="outline">
+            <mat-select #sourceId plceholder="اختر النوع">
+                <mat-option *ngFor="let source of sourcesList"
+                    [value]="source.id">{{source.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+       </div>
+
+        <!-- <div class="print-display">
+            <mat-icon (click)="
+              getSearchStrWithdraw(no.value, StartDate.value,EndDate.value, fiscalYear.value)
+                " class="icons" title="بحث">search</mat-icon>
+  
+            <mat-icon class="icons" title="عرض"
+              (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
+              title="تحميل">print</mat-icon>
+  
+            <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+              class="icons" title="تحميل">get_app</mat-icon>
+  
+            <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+          </div> -->
+
+
+    </div>
+    <div class="print-display">
+        <mat-icon (click)="
+        getSearchFiEntry(no.value, journalId.value, accountId.value, startDate.value, endDate.value, sourceId.value)
+            " class="icons" title="بحث">search</mat-icon>
+
+        <!-- <mat-icon class="icons" title="عرض"
+          (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)" class="icons"
+          title="تحميل">print</mat-icon>
+
+        <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)"
+          class="icons" title="تحميل">get_app</mat-icon> -->
+
+        <mat-icon  class="icons" title="حذف قيم البحث">restore</mat-icon>
+      </div>
+</form>
+<!--         
+        <button mat-icon-button color="primary"
+        (click)="getSearchFiEntry(no.value, journalId.value, accountId.value, startDate.value, endDate.value, sourceId.value)">
+        <mat-icon>search</mat-icon>
+    </button> -->
+
+    <!-- <button mat-icon-button color="primary">
+        <mat-icon>print</mat-icon>
+    </button> -->
+    </mat-expansion-panel>
+</mat-accordion>
+
+
+<mat-card-header dir="ltr" class="parent-search">
+    <div class="child1">
+      <button mat-raised-button class="add" (click)="openFiEntryDialog()" dir="ltr">
+        <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+      </button>
+    </div>
+
+    <div>
+      <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
+    </div>
+  </mat-card-header>
+
+
+<div class="div-table">
+    <table mat-table [dataSource]="dataSource2"  dir="rtl">
+
+        <!-- No Column -->
+        <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef> الرقم </th>
+            <td mat-cell *matCellDef="let row"> {{row.no}} </td>
+        </ng-container>
+
+        <!-- balance Column -->
+        <ng-container matColumnDef="balance">
+            <th mat-header-cell *matHeaderCellDef> الموازنة </th>
+            <td mat-cell *matCellDef="let row"> {{row.balance}} </td>
+        </ng-container>
+
+        <!-- creditTotal Column -->
+        <ng-container matColumnDef="creditTotal">
+            <th mat-header-cell *matHeaderCellDef> مجموع الائتمان </th>
+            <td mat-cell *matCellDef="let row"> {{row.creditTotal}} </td>
+        </ng-container>
+
+        <!-- debitTotal Column -->
+        <ng-container matColumnDef="debitTotal">
+            <th mat-header-cell *matHeaderCellDef> مجموع المدين </th>
+            <td mat-cell *matCellDef="let row"> {{row.debitTotal}} </td>
+        </ng-container>
+
+        <!-- journalName Column -->
+        <ng-container matColumnDef="journalName">
+            <th mat-header-cell *matHeaderCellDef> دفتر اليوميه </th>
+            <td mat-cell *matCellDef="let row"> {{row.journalNo}} </td>
+        </ng-container>
+
+        <!-- entrySourceTypeName Column -->
+        <ng-container matColumnDef="entrySourceTypeName">
+            <th mat-header-cell *matHeaderCellDef> نوع مصدر الإدخال </th>
+            <td mat-cell *matCellDef="let row"> {{row.entrySourceTypeName}} </td>
+        </ng-container>
+
+        <!-- state Column -->
+        <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef> النوع </th>
+            <td mat-cell *matCellDef="let row"> {{row.state}} </td>
+        </ng-container>
+
+        <!-- date Column -->
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> التاريخ </th>
+            <td mat-cell *matCellDef="let row"> {{row.date | date}} </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="Action">
+            <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 15%">
+              الاجراء
+            </th>
+            <td mat-cell *matCellDef="let row" id="buttn">
+              <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+
+</div>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>

@@ -1,0 +1,39 @@
+<form [formGroup]="accountParentForm" dir="rtl">
+  <div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل المصدر   ' : 'إضافة مصدر جديد'}}</h1> 
+   <div mat-dialog-content>
+    <form [formGroup]="accountParentForm">
+
+      <mat-label>الحساب</mat-label>
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="Account" [matAutocomplete]="autoAccount" [formControl]="accountCtrl"
+          (click)="openAutoAccount()" placeholder="{{getAccountParentData ? getAccountParentData.accountName : ''}}" required />
+        <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
+          (optionSelected)="accountSelected($event)">
+          <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
+            {{ account.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-label>الحساب الأب</mat-label>
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="Parent" [matAutocomplete]="autoParent" [formControl]="parentCtrl"
+          (click)="openAutoParent()" placeholder="{{getAccountParentData ? getAccountParentData.parentName : ''}}" required />
+        <mat-autocomplete #autoParent="matAutocomplete" [displayWith]="displayParentName"
+          (optionSelected)="parentSelected($event)">
+          <mat-option *ngFor="let parent of filteredParents | async" [value]="parent">
+            {{ parent.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button  class="savebtn" (click)="addAccountParent()" style="margin-left: 8px;">{{actionBtn}}</button> 
+
+  </div>
+</form>

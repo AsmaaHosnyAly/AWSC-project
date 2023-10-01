@@ -1,0 +1,22 @@
+
+<div  >
+    <mat-card>
+      <div class="card-parent">
+     
+        <mat-card class="card-class" routerLink="/pr-user"  *ngIf="hasAccessRole(pageEnums.PR_USER)">    
+          <mat-card-content>
+              <mat-card-title>إضافة مستخدم</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+      
+        <mat-card class="card-class" routerLink="/pr-group"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>إضافة مجموعة </mat-card-title>
+          </mat-card-content>
+        </mat-card>  
+      </div>
+    
+    </mat-card>
+   
+  
+  </div>

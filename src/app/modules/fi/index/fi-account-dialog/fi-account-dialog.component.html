@@ -1,0 +1,32 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل حساب  ' : ' إضافة حساب جديد'}}</h1>
+
+<form [formGroup]="accountForm" dir="rtl">
+  <h1 mat-dialog-title>إضافة حساب</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="accountForm">
+      <mat-form-field appearance="outline">
+        <mat-label>كود الحساب</mat-label>
+        <input formControlName="code" matInput placeholder="ادخل كود الحساب">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>اسم الحساب</mat-label>
+        <input formControlName="name" matInput placeholder="ادخل اسم الحساب">
+      </mat-form-field>
+
+      <mat-label>شجرة الحساب</mat-label>  
+      <mat-form-field appearance="outline">            
+        <input matInput aria-label="hierarchy" [matAutocomplete]="autoHierarchy" [formControl]="hierarchyCtrl" (click)="openAutoHierarchy()" placeholder="{{getAccountData ? getAccountData.fiAccountHierarchyName : ''}}" required/>
+        <mat-autocomplete #autoHierarchy="matAutocomplete" [displayWith]="displayHierarchyName" (optionSelected)="hierarchySelected($event)">
+          <mat-option *ngFor="let hierarchy of filteredHierarchies | async" [value]="hierarchy">
+            {{ hierarchy.name }} | {{ hierarchy.level }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-raised-button class="savebtn"  (click)="addAccount()">{{actionBtn}}</button>
+    </form>
+  </div>
+</form>

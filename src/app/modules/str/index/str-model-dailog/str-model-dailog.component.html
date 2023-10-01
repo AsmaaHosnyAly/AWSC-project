@@ -1,0 +1,31 @@
+
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل موديل   ' : 'إضافة  موديل جديد'}}</h1>
+<form [formGroup]="modelForm" dir="rtl">
+    <div mat-dialog-content>
+      <form [formGroup]="modelForm">
+      
+        <mat-form-field appearance="outline">
+          <mat-label>الاسم</mat-label>
+          <input formControlName="name" matInput placeholder="ادخل الاسم">
+        </mat-form-field>
+        <mat-label>اسم المصنع</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput aria-label="vendor" [matAutocomplete]="autoVendor" [formControl]="vendorCtrl"
+            placeholder="{{getModelData  ? getModelData.vendorName : ''}}" (click)="openAutoVendor()" required />
+          <mat-autocomplete #autoVendor="matAutocomplete" [displayWith]="displayVendorName"
+            (optionSelected)="vendorSelected($event)">
+            <mat-option *ngFor="let vendor of filteredVendores | async" [value]="vendor">
+              {{ vendor.name }} 
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button class="savebtn"  (click)="addModel()" style="margin-left: 8px;">{{actionBtn}}</button>
+    </div>
+  </form>
