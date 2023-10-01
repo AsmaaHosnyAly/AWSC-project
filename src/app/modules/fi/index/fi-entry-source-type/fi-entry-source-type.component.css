@@ -227,3 +227,7 @@ mat-sort-header{
   padding-bottom: 25px;
   color:  var(--bg-primary-color);
 }
+
+.TableCenter{
+  text-align: center !important;
+}

@@ -252,3 +252,7 @@ mat-card-header .child1{
   align-items: center;
 }
 
+.TableCenter{
+  text-align: center !important;
+}
+

@@ -694,7 +694,7 @@ export class STRItem1Component implements OnInit {
     console.log('unitRow:', unit);
 
     this.api
-      .printReportStrItems(
+      .printReportItems(
         name,
         fullCode,
         type,
@@ -737,7 +737,7 @@ export class STRItem1Component implements OnInit {
     // console.log('unitRow:', unit);
 
     this.api
-      .printReportStrItems(
+      .printReportItems(
         name,
         fullCode,
         type,
