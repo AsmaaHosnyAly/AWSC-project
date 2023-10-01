@@ -87,53 +87,41 @@ export class FiEntryTableComponent implements OnInit {
     this.getJournals();
     this.getFiAccounts();
     this.getFiEntrySource();
+    this.getFiscalYears();
 
     this.groupMasterForm = this.formBuilder.group({
-      no: [''],
-    
-      costcenter: [''],
-      // :[''],
-      //  costcentersList:[''],
-      costCenterId: [''],
-      item: [''],
-      fiscalYear: [''],
-      date: [''],
-      account: [''],
-
-      type: [''],
-      storeId: [''],
-      employeeId: [''],
-      employeeName: [''],
-      itemId: [''],
-      itemName: [''],
-
-      report: [''],
-      reportType: ['']
-      // item:['']
+      StartDate: [''],
+      EndDate: [''],
+      No: [''],
+      JournalId: [''],
+      FiEntrySourceTypeId: [''],
+      AccountId: [''],
+      FiscalYearId: [''],
+      Description: ['']
     });
 
 
-    this.groupDetailsForm = this.formBuilder.group({
-      stR_WithdrawId: [''], //MasterId
-      employeeId: [''],
-      qty: [''],
-      percentage: [''],
-      price: [''],
-      total: [''],
-      transactionUserId: [1],
-      destStoreUserId: [1],
-      itemId: [''],
-      stateId: [''], item: [''],
+    // this.groupDetailsForm = this.formBuilder.group({
+    //   stR_WithdrawId: [''], //MasterId
+    //   employeeId: [''],
+    //   qty: [''],
+    //   percentage: [''],
+    //   price: [''],
+    //   total: [''],
+    //   transactionUserId: [1],
+    //   destStoreUserId: [1],
+    //   itemId: [''],
+    //   stateId: [''], item: [''],
 
-      // withDrawNoId: ['' ],
+    //   // withDrawNoId: ['' ],
 
-      itemName: [''],
-      // avgPrice: [''],
+    //   itemName: [''],
+    //   // avgPrice: [''],
 
-      stateName: [''],
+    //   stateName: [''],
 
-      // notesName: [''],
-    });
+    //   // notesName: [''],
+    // });
 
   }
 
@@ -154,7 +142,7 @@ export class FiEntryTableComponent implements OnInit {
     const account = event.option.value as Account;
     console.log("account selected: ", account);
     this.selectedAccount = account;
-    this.groupDetailsForm.patchValue({ accountId: account.id });
+    this.groupMasterForm.patchValue({ AccountId: account.id });
   }
   openAutoAccount() {
     this.accountCtrl.setValue(''); // Clear the input field value
@@ -236,6 +224,19 @@ export class FiEntryTableComponent implements OnInit {
         // alert('خطا اثناء جلب الدفاتر !');
       },
     });
+  }
+
+  async getFiscalYears() {
+    this.api.getFiscalYears()
+      .subscribe({
+        next: async (res) => {
+          this.fiscalYearsList = res;
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
   }
 
   editMasterForm(row: any) {
@@ -321,30 +322,22 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
-  getSearchFiEntry(
-    no: any,
-    journalId: any,
-    accountId: any,
-    startDate: any,
-    endDate: any,
-    sourceId: any
-  ) {
+  getSearchFiEntry(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any) {
+    let accountId = this.groupMasterForm.getRawValue().AccountId;
+
     console.log(
-      'no. : ',
-      no,
-      'journalId: ',
-      journalId,
-      'accountId : ',
-      accountId,
-      'startDate: ',
-      startDate,
-      'endDate: ',
-      endDate,
-      'sourceId: ',
-      sourceId
+      'no.: ', no,
+      'journalId: ', journalId,
+      'accountId : ', accountId,
+      'startDate: ', startDate,
+      'endDate: ', endDate,
+      'sourceId: ', sourceId,
+      'FiscalYearId', FiscalYearId,
+      'Description', Description
     );
+
     this.api
-      .getFiEntrySearach(no, journalId, accountId, startDate, endDate, sourceId)
+      .getFiEntrySearach(no, journalId, accountId, startDate, endDate, sourceId, FiscalYearId, Description)
       .subscribe({
         next: (res) => {
           console.log('search fiEntry res: ', res);
