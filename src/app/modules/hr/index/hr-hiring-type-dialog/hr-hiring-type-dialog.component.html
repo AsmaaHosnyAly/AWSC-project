@@ -1,21 +1,29 @@
-<p>hr-hiring-type-dialog works!</p>
+<div class="cdk-overlay-pane">
+  <button class="close" mat-button mat-dialog-close>
+    <mat-icon> clear</mat-icon>
+  </button>
+</div>
+<h1 mat-dialog-title class="add-h1">
+  {{ editData ? "  تعديل نوع الطلب   " : " إضافة نوع طلب جديد" }}
+</h1>
 
-<h1 mat-dialog-title dir="rtl">اضافة نوع تعيين</h1>
-
-<div mat-dialog-content dir="rtl" style="padding: 30px;">
+<form [formGroup]="groupForm" dir="rtl">
+  <div mat-dialog-content>
     <form [formGroup]="groupForm">
-        <mat-form-field appearance="outline" class="groupInput">
-            <mat-label>اسم نوع التعيين</mat-label>
-            <input matInput placeholder="اسم نوع التعيين" formControlName="name">
-        </mat-form-field>
-
+      <mat-form-field appearance="outline" class="groupInput">
+        <mat-label>اسم نوع التعيين</mat-label>
+        <input matInput placeholder="اسم نوع التعيين" formControlName="name" />
+      </mat-form-field>
     </form>
-</div>
-
-<div mat-dialog-action [align]="'end'">
-    <div class="groupAction">
-        <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button>
-        <button mat-raised-button class="confirmBtn" style="margin-left: 8px;"
-            (click)="addHiringType()">{{actionBtn.toLowerCase() =='save' ? 'اضافة':'تعديل'}}</button>
-    </div>
-</div>
+  </div>
+  <div mat-dialog-action>
+    <button
+      mat-raised-button
+      class="savebtn"
+      style="margin-left: 8px"
+      (click)="addHiringType()"
+    >
+      {{ actionBtn }}
+    </button>
+  </div>
+</form>

@@ -8,6 +8,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { FIAccountHierarchyDialogComponent } from '../fi-account-hierarchy-dialog/fi-account-hierarchy-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-fi-account-hierarchy',
   templateUrl: './fi-account-hierarchy.component.html',
@@ -20,7 +21,7 @@ export class FIAccountHierarchyComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService,private hotkeysService: HotkeysService){}
+  constructor(private dialog : MatDialog,private toastr: ToastrService, private api : ApiService,private hotkeysService: HotkeysService){}
   ngOnInit(): void {
     this.getFIAccountHierarchies();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
@@ -70,7 +71,7 @@ export class FIAccountHierarchyComponent {
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getFIAccountHierarchies();
   
         }else{
@@ -126,7 +127,9 @@ export class FIAccountHierarchyComponent {
           })
           // this.getAllGrades()
         }
-  
+        toastrDeleteSuccess(): void {
+          this.toastr.success('تم الحذف بنجاح');
+        }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

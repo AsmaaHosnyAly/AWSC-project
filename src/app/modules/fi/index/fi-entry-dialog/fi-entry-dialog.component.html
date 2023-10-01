@@ -36,7 +36,7 @@
                         <mat-form-field appearance="outline" class="groupInput">
                             <mat-select placeholder=" دفتر اليوميه " formControlName="journalId" lazy-load-options>
                                 <mat-option [value]="journal.id"
-                                    *ngFor="let journal of journalsList">{{journal.no}}</mat-option>
+                                    *ngFor="let journal of journalsList">{{journal.description}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -62,6 +62,14 @@
                                 <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                             </mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="searchLabels" style="width: 17rem;">
+                        <mat-label>الوصف</mat-label>
+
+                        <mat-form-field appearance="outline" style="width:96% ;">
+                            <input formControlName="description" matInput placeholder="الوصف ...">
                         </mat-form-field>
                     </div>
 
@@ -95,14 +103,6 @@
                         </mat-form-field>
                     </div>
 
-
-                    <div class="searchLabels" >
-                        <mat-label>الوصف</mat-label>
-
-                        <mat-form-field appearance="outline" >
-                            <input formControlName="description" matInput placeholder="الوصف ...">
-                        </mat-form-field>
-                    </div>
 
                 </div>
                 <div dir="ltr">

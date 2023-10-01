@@ -19,6 +19,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 export class Hierarchy {
   constructor(public id: number, public name: string, public level: string) {}
 }
@@ -44,7 +45,7 @@ export class FIAccountComponent implements OnInit {
   commidityDt: any = {
     id: 0,
   };
-  constructor(private dialog: MatDialog, private api: ApiService,private hotkeysService: HotkeysService) {
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
     this.hierarchyCtrl = new FormControl();
     this.filteredHierarchies = this.hierarchyCtrl.valueChanges.pipe(
       startWith(''),
@@ -150,7 +151,7 @@ export class FIAccountComponent implements OnInit {
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deleteAccount:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getAllAccounts();
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
@@ -208,6 +209,9 @@ export class FIAccountComponent implements OnInit {
   }
 
 
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

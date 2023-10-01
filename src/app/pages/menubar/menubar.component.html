@@ -16,7 +16,7 @@
   </div>
   <div id="pageTitle">
     <div class="d-flex align-items-center">
-      <span>{{ this.global.pageTitle }}</span
+      <span>{{this.pageTitle }}</span
       ><mat-icon>{{this.global.icon}}</mat-icon> 
     </div>
   </div>
@@ -34,7 +34,6 @@
           </div>
           <div class="user-name">
             <div class="my-2">{{ user?.name }}</div>
-            <div class="my-2">مدير ادارة المخازن</div>
           </div>
           
          
@@ -223,7 +222,7 @@
      
         <!--start accounts -->
       
-        <mat-expansion-panel dir="rtl"  >
+        <mat-expansion-panel dir="rtl"  *ngIf="hasAccessModule(pageEnums.ACCOUNTS)">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <img
@@ -253,7 +252,7 @@
                   mat-list-item
                   class="sideNavSubItems"
                   routerLink="/account"
-                  *ngIf="hasAccessRole(pageEnums.STR_OPENING_STOCK)"
+                  *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)"
                   
                 >
                   <p class="font">اضافة حساب</p></a
@@ -262,9 +261,7 @@
                   mat-list-item
                   class="sideNavSubItems"
                   routerLink="/AccountHierarchy"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
-                  "
+                  *ngIf="hasAccessRole(pageEnums.AccountHierarchy)"
                 >
                   <p class="font">شجرة الحساب</p></a
                 >
@@ -275,6 +272,7 @@
                   (click)="
                     global.getPermissionUserRoles(1, 'acounts', '', '')
                   "
+                  *ngIf="hasAccessRole(pageEnums.FiAccountItem)"
                 >
                   <p class="font">صنف الحساب</p></a
                 >
@@ -284,7 +282,9 @@
                   routerLink="/AccountParent"
                   (click)="
                     global.getPermissionUserRoles(1, 'acounts', '', '')
+                    
                   "
+                  *ngIf="hasAccessRole(pageEnums.AccountParent)"
                 >
                   <p class="font">إضافة حساب اب</p></a
                 >
@@ -295,6 +295,7 @@
                   (click)="
                     global.getPermissionUserRoles(1, 'acounts', '', '')
                   "
+                  *ngIf="hasAccessRole(pageEnums.FIJournal)"
                 >
                   <p class="font">إضافة صحيفة</p></a
                 >
@@ -305,7 +306,9 @@
                   routerLink="/EntrySource"
                   (click)="
                     global.getPermissionUserRoles(1, 'acounts', '', '')
+
                   "
+                  *ngIf="hasAccessRole(pageEnums.EntrySource)"
                 >
                   <p class="font">مصدر الدخل</p></a
                 >
@@ -317,6 +320,7 @@
                   (click)="
                     global.getPermissionUserRoles(1, 'acounts', '', '')
                   "
+                  *ngIf="hasAccessRole(pageEnums.EntrySourceType)"
                 >
                   <p class="font">نوع مصدر الدخل</p></a
                 >
@@ -327,13 +331,14 @@
               class="sideNavSubItems"
               routerLink="/fi-entry"
               (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
+              *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
               >القيود
             </a>
           </mat-nav-list>
         </mat-expansion-panel>
         <!-- end accounts -->
              <!-- start الموراد البشرية-->
-             <mat-expansion-panel dir="rtl"   *ngIf="hasAccessModule(pageEnums.HR)" >
+             <mat-expansion-panel dir="rtl"  >
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon color="primary" class="ms-2">people</mat-icon>
