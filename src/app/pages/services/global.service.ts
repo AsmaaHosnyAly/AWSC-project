@@ -64,6 +64,9 @@ export class GlobalService {
     );
   }
 
+  getUserGroup(id:any){
+    return this.http.get<any>(`${this.url}/PRUser/get/with/group/${id}`);
+  }
   getGroup() {
     return this.http.get<any>(`${this.url}/PR_Group/get-all-groups`);
   }
