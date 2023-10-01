@@ -2,15 +2,22 @@
 <mat-card>
   
   <mat-card-content>
-    <mat-card-header dir="rtl">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
-      </mat-form-field>
+    <mat-card-header dir="ltr">
+     
       
       <div class="child1">
         <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
           <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
         </button>
+      </div>
+      <div>
+        <input 
+          matInput
+          class="filter-search"
+          (keyup)="applyFilter($event)"
+          placeholder="بحث"
+          #input
+        />
       </div>
 
     
