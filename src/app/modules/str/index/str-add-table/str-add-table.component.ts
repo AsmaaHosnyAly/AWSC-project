@@ -421,9 +421,9 @@ export class STRAddTableComponent implements OnInit {
 
   getStores() {
     this.userRoles = localStorage.getItem('userRoles');
-    console.log('userRoles manager: ', this.userRoles.includes('15'))
+    console.log('userRoles manager: ', this.userRoles.includes('17'))
 
-    if (this.userRoles.includes('15')) {
+    if (this.userRoles.includes('17')) {
       this.api.getStore().subscribe({
         next: (res) => {
           this.storeList = res;
