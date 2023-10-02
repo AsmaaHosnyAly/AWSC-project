@@ -202,6 +202,8 @@ const routes: Routes = [
       data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
 
     },
+    { path: 'struserstore', component: StrUserstoreComponent },
+    { path: 'StrStockTaking', component: StrStockTakingContainerComponent },
       /***********************end store modules المخازن **********************/
 
       /***********************Start account modules الحسابات **********************/
@@ -250,8 +252,8 @@ const routes: Routes = [
         path: 'hr-EmployeeDisciplinary',
         component: HrEmployeeDisciplinaryComponent,
       },
-      { path: 'StrStockTaking', component: StrStockTakingContainerComponent },
-      { path: 'struserstore', component: StrUserstoreComponent },
+     
+      
 
       /*********************End Hr modules شئون العاميلن***************************/
 

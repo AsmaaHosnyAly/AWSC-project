@@ -1,5 +1,4 @@
-// import { FiscalYear } from './../str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
-// import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,7 +10,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
 
-  // url = '192.168.1.23/api';
+  // url = 'http://192.168.1.23/api'
   url = 'http://ims.aswan.gov.eg/api'
   mycondition: any;
 
