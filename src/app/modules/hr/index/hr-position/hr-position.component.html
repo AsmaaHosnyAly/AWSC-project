@@ -1,16 +1,23 @@
 <!-- <p>workkkk</p> -->
 <div class="page-title"> المنصب </div>
 
-<mat-card-header dir="rtl">
-    <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
-    </mat-form-field>
-
-    <div class="child1">
-        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
-            <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+<mat-card-header dir="ltr">
+    <div class="child1 " >
+        <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
+        
+        <span class="ms-2">اضافة</span>   <mat-icon class="me-1">add</mat-icon> 
         </button>
-    </div>
+      </div>
+ 
+      <div>
+        <input 
+          matInput
+          class="filter-search"
+          (keyup)="applyFilter($event)"
+          placeholder="بحث"
+          #input
+        />
+      </div>
 
 
 </mat-card-header>
@@ -33,7 +40,7 @@
             <th mat-header-cell *matHeaderCellDef style="width: 25%;">الإجراء</th>
             <td mat-cell *matCellDef="let row">
                 <div id="action2">
-                    <button mat-icon-button id="button1" (click)="editPositions(row)" color="primary">
+                    <button mat-icon-button id="button1" (click)="editPositions(row)" class="editbtn">
                         <mat-icon>edit</mat-icon>
                     </button>
                     <button mat-icon-button id="button2" color="warn" (click)="deletePositions(row.id)">

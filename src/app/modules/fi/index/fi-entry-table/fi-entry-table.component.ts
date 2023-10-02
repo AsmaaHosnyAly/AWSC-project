@@ -1,5 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
@@ -19,6 +19,17 @@ import {
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
+interface USER {
+  no: string;
+  balance: string;
+  creditTotal: string;
+  debitTotal: string;
+  journalName: string;
+  entrySourceTypeName: string;
+  state: string;
+  date: string;
+  Action: string;
+}
 
 export class Account {
   constructor(public id: number, public name: string) { }
@@ -30,6 +41,13 @@ export class Account {
   styleUrls: ['./fi-entry-table.component.css'],
 })
 export class FiEntryTableComponent implements OnInit {
+  ELEMENT_DATA: USER[] = [];
+  isLoading = false;
+  totalRows = 0;
+  pageSize = 5;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
   displayedColumns: string[] = [
     'no',
     'balance',
@@ -54,8 +72,8 @@ export class FiEntryTableComponent implements OnInit {
   // accountsList: any;
   sourcesList: any;
 
-  dataSource2!: MatTableDataSource<any>;
-
+  // dataSource2!: MatTableDataSource<any>;
+  dataSource2: MatTableDataSource<USER> = new MatTableDataSource();
 
   accountsList: Account[] = [];
   accountCtrl: FormControl;
@@ -65,6 +83,12 @@ export class FiEntryTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  pageIndex: any;
+  length: any;
+
+  ngAfterViewInit() {
+    this.dataSource2.paginator = this.paginator;
+  }
 
   constructor(
     private api: ApiService,
@@ -173,18 +197,80 @@ export class FiEntryTableComponent implements OnInit {
     }
   }
   getAllMasterForms() {
-    this.api.getFiEntry().subscribe({
-      next: (res) => {
-        console.log('fiEntry from api: ', res);
-        this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-        this.groupMasterForm.reset()
-      },
-      error: () => {
-        // alert('خطأ أثناء جلب سجلات المدخلات !!');
-      },
-    });
+    // loadData() {
+    if (!this.currentPage) {
+      this.currentPage = 1;
+
+      this.isLoading = true;
+      let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
+
+
+      fetch(URL)
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+    else {
+      this.isLoading = true;
+      let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
+
+
+      fetch(URL)
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+
+    // }
+
+    // this.api.getFiEntry().subscribe({
+    //   next: (res) => {
+    //     console.log('fiEntry from api: ', res);
+    //     this.dataSource2 = new MatTableDataSource(res);
+    //     this.dataSource2.paginator = this.paginator;
+    //     this.dataSource2.sort = this.sort;
+    //     this.groupMasterForm.reset()
+    //   },
+    //   error: () => {
+    //     // alert('خطأ أثناء جلب سجلات المدخلات !!');
+    //   },
+    // });
+  }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    // this.currentPage = event.previousPageIndex;
+    this.getAllMasterForms();
   }
 
   getJournals() {
