@@ -7,12 +7,13 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SharedService } from './shared.service';
+
+import { SharedService } from '../shared.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class  group1Guard implements CanActivate {
+export class productsGuard implements CanActivate {
   constructor(
     private router: Router,
     global: SharedService,
@@ -37,4 +38,5 @@ export class  group1Guard implements CanActivate {
       }
       return true
       }
-}
+
+    }
