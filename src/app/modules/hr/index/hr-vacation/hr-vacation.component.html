@@ -2,15 +2,22 @@
   <mat-card>
     <div class="page-title"> الاجازات </div>
 
-    <mat-card-header dir="rtl">
-      <mat-form-field style="margin-right: 2%;">
-        <input matInput  (keyup)="applyFilter($event)" placeholder="بحث" #input />
-      </mat-form-field>
-
-      <div class="child1">
-        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
-          <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+    <mat-card-header dir="ltr">
+      <div class="child1 " >
+        <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
+        
+        <span class="ms-2">اضافة</span>   <mat-icon class="me-1">add</mat-icon> 
         </button>
+      </div>
+    
+      <div>
+        <input 
+          matInput
+          class="filter-search"
+          (keyup)="applyFilter($event)"
+          placeholder="بحث"
+          #input
+        />
       </div>
 
     </mat-card-header>
@@ -32,7 +39,7 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef style="width: 25%;">الإجراء</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button (click)="editVacation(row)" color="primary">
+            <button mat-icon-button (click)="editVacation(row)" class="editbtn">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="daleteVacation(row.id)">
