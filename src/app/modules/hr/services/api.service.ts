@@ -1,5 +1,4 @@
-// import { FiscalYear } from './../str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
-// import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,7 +10,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
 
-  // url = '192.168.1.23/api';
+  // url = 'http://192.168.1.23/api'
   url = 'http://ims.aswan.gov.eg/api'
   mycondition: any;
 
@@ -2576,25 +2575,25 @@ export class ApiService {
   postHrIncentiveAllowance(data: any) {
     // console.log('form add data to apiii: ', data);
     return this.http.post<any>(
-      `${this.url}/HrIncentiveAllowance/Add-IncentiveAllowance`,
+      `${this.url}/HrIncentiveAllowance/Add`,
       data
     );
   }
   getHrIncentiveAllowance() {
     return this.http.get<any>(
-      `${this.url}/HrIncentiveAllowance/get-all-IncentiveAllowance`
+      `${this.url}/HrIncentiveAllowance/get/all`
     );
   }
   putHrIncentiveAllowance(data: any) {
     return this.http.put<any>(
-      `${this.url}/HrIncentiveAllowance/update-IncentiveAllowance`,
+      `${this.url}/HrIncentiveAllowance/update`,
       data
     );
   }
   deleteHrIncentiveAllowance(id: number) {
     // console.log('form delete data from apiii, id: ', id);
     return this.http.delete<any>(
-      `${this.url}/HrIncentiveAllowance/delete-IncentiveAllowance/` + id
+      `${this.url}/HrIncentiveAllowance/delete/` + id
     );
   }
 
@@ -2668,25 +2667,25 @@ export class ApiService {
   postHrDisciplinary(data: any) {
     // console.log('form add data to apiii: ', data);
     return this.http.post<any>(
-      `${this.url}/HrDisciplinary/Add-Disciplinary`,
+      `${this.url}/HrDisciplinary/Add`,
       data
     );
   }
   getHrDisciplinary() {
     return this.http.get<any>(
-      `${this.url}/HrDisciplinary/get-all-Disciplinary`
+      `${this.url}/HrDisciplinary/get/all`
     );
   }
   putHrDisciplinary(data: any) {
     return this.http.put<any>(
-      `${this.url}/HrDisciplinary/update-Disciplinary`,
+      `${this.url}/HrDisciplinary/update`,
       data
     );
   }
   deleteHrDisciplinary(id: number) {
     // console.log('form delete data from apiii, id: ', id);
     return this.http.delete<any>(
-      `${this.url}/HrDisciplinary/delete-Disciplinary/` + id
+      `${this.url}/HrDisciplinary/delete/` + id
     );
   }
 
