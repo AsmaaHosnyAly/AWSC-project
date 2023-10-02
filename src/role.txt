@@ -53,4 +53,7 @@ modules
 44-hr-vacation الاجازات
 45-hr-employeeVacationBalance رصيد الاجازات
 46-hr-employeeVacation اجازات المزظفين 
-47-hr-employeeVacation الدرجة الوظيفية
+47-hr-EmployeeDisciplinary الدرجة الوظيفية
+48-hr-financialDegree الدرجات المالية
+49-hr-employeeFinancialDegree  الدرجة المالية للموظف
+50-hr-employee-position مناصب الموظفين

@@ -78,7 +78,7 @@ export class HrHiringTypeDialogComponent implements OnInit{
     this.api.putHrHiringType(this.groupForm.value)
       .subscribe({
         next: (res) => {         
-          this.toastrSuccess();
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -87,7 +87,9 @@ export class HrHiringTypeDialogComponent implements OnInit{
         }
       })
   }
-
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
   }

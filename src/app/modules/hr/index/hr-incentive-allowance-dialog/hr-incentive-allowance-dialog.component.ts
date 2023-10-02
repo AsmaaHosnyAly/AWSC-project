@@ -22,7 +22,7 @@ export class FiscalYear {
 export class HrIncentiveAllowanceDialogComponent implements OnInit {
 
   groupForm !: FormGroup;
-  actionBtn: string = "Save";
+  actionBtn : string = "حفظ";
   // groupSelectedSearch: any;
   // basketballPlayers: any;
   // employeesList: any;
@@ -77,7 +77,7 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
     });
 
     if (this.editData) {
-      this.actionBtn = "Update";
+      this.actionBtn = "تعديل";
       this.groupForm.controls['no'].setValue(this.editData.no);
       this.groupForm.controls['date'].setValue(this.editData.date);
       this.groupForm.controls['employeeId'].setValue(this.editData.employeeId);
@@ -186,8 +186,8 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
     this.api.putHrIncentiveAllowance(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث الحوافز بنجاح");
-          this.toastrSuccess();
+         
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -227,5 +227,8 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 }

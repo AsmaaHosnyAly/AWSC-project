@@ -14,32 +14,20 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 // import { publishFacade } from '@angular/compiler';
 // import { STRGradeComponent } from '../str-grade/str-grade.component';
 import { ToastrService } from 'ngx-toastr';
-export class City {
-  constructor(public id: number, public name: string) {}
-}
 
 
 @Component({
-  selector: 'app-hr-city-state-dialog',
-  templateUrl: './hr-city-state-dialog.component.html',
-  styleUrls: ['./hr-city-state-dialog.component.css']
+  selector: 'app-hr-financial-degree-dialog',
+  templateUrl: './hr-financial-degree-dialog.component.html',
+  styleUrls: ['./hr-financial-degree-dialog.component.css']
 })
-export class HrCityStateDialogComponent {
-  transactionUserId=localStorage.getItem('transactionUserId')
-  cityCtrl: FormControl;
-  filteredCities: Observable<City[]>;
-  cities: City[] = [];
-  selectedCity: City | undefined;
+export class HrFinancialDegreeDialogComponent {
+  transactionUserId=localStorage.getItem('transactionUserId') 
   formcontrol = new FormControl('');  
-  cityStateForm !:FormGroup;
+  financialDegreeForm !:FormGroup;
   actionBtn : string = "حفظ"
   selectedOption:any;
-  getCityStateData: any;
-  Id:string  | undefined | null;
-   commidityDt:any={
-  id:0,
-}
-commname:any;
+
 dataSource!: MatTableDataSource<any>;
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -54,83 +42,53 @@ accordion!: MatAccordion;
     private toastr: ToastrService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
-    private dialogRef : MatDialogRef<HrCityStateDialogComponent>){
-      this.cityCtrl = new FormControl();
-      this.filteredCities = this.cityCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterCities(value))
-      );
+    private dialogRef : MatDialogRef<HrFinancialDegreeDialogComponent>){
+   
     }
     ngOnInit(): void {
-      this.cityStateForm = this.formBuilder.group({
+      this.financialDegreeForm = this.formBuilder.group({
         //define the components of the form
       transactionUserId : ['',Validators.required],
       // code : ['',Validators.required],
       name : ['',Validators.required],
-      cityId : ['',Validators.required],
+      noYear : ['',Validators.required],
       id : ['',Validators.required],
       // matautocompleteFieldName : [''],
       });
   
-      this.api.getAllCitis().subscribe((city)=>{
-        this.cities = city;
-      });
+   
       
   
       if(this.editData){
         this.actionBtn = "تعديل";
-      this.getCityStateData = this.editData;
-      this.cityStateForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.financialDegreeForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
         // this.cityStateForm.controls['code'].setValue(this.editData.code);
-      this.cityStateForm.controls['name'].setValue(this.editData.name);
+      this.financialDegreeForm.controls['name'].setValue(this.editData.name);
       
-      this.cityStateForm.controls['cityId'].setValue(this.editData.cityId);
+      this.financialDegreeForm.controls['noYear'].setValue(this.editData.noYear);
       // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
-      this.cityStateForm.addControl('id', new FormControl('', Validators.required));
-      this.cityStateForm.controls['id'].setValue(this.editData.id);
+      this.financialDegreeForm.addControl('id', new FormControl('', Validators.required));
+      this.financialDegreeForm.controls['id'].setValue(this.editData.id);
       }
     }
 
-    displaycityName(city: any): string {
-      return city && city.name ? city.name : '';
-    }
-
-    citySelected(event: MatAutocompleteSelectedEvent): void {
-      const city = event.option.value as City;
-      this.selectedCity = city;
-      this.cityStateForm.patchValue({ cityId: city.id });
-      this.cityStateForm.patchValue({ cityName: city.name });
-    }
-
-    private _filterCities(value: string): City[] {
-      const filterValue = value.toLowerCase();
-      return this.cities.filter(city =>
-        city.name.toLowerCase().includes(filterValue) 
-      );
-    }
-
-    openAutoCity() {
-      this.cityCtrl.setValue(''); // Clear the input field value
-    
-      // Open the autocomplete dropdown by triggering the value change event
-      this.cityCtrl.updateValueAndValidity();
-    }
+ 
 
     
 
-  addCityState(){
+  addFinancialDegree(){
     if(!this.editData){
       
-      this.cityStateForm.removeControl('id')
+      this.financialDegreeForm.removeControl('id')
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
-      console.log("add: ", this.cityStateForm.value);
-      this.cityStateForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      if(this.cityStateForm.valid){
-        this.api.postHrCityState(this.cityStateForm.value)
+      console.log("add: ", this.financialDegreeForm.value);
+      this.financialDegreeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      if(this.financialDegreeForm.valid){
+        this.api.postHrFinancialDegree(this.financialDegreeForm.value)
         .subscribe({
           next:(res)=>{
             this.toastrSuccess();
-            this.cityStateForm.reset();
+            this.financialDegreeForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -139,17 +97,17 @@ accordion!: MatAccordion;
         })
       }
     }else{
-      this.updateCityState()
+      this.updateFinancialDegree()
     }
   }
 
 
-  updateCityState(){
-        this.api.putHrCityState(this.cityStateForm.value)
+  updateFinancialDegree(){
+        this.api.putHrFinancialDegree(this.financialDegreeForm.value)
         .subscribe({
           next:(res)=>{
             this.toastrEditSuccess();
-            this.cityStateForm.reset();
+            this.financialDegreeForm.reset();
             this.dialogRef.close('update');
           },
           error:()=>{
