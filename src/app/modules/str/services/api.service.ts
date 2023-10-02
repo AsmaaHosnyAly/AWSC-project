@@ -1089,7 +1089,7 @@ export class ApiService {
     console.log('url', this.mycondition);
 
     return this.http.get<any>(`${this.mycondition}`);
-    
+
   }
 
   ///////////////////////////////// STR-EmployeeExchange & details/////////////////////////////
@@ -1155,7 +1155,7 @@ export class ApiService {
   getStrEmployeeExchangeSearach(
     no: any,
     costCenterId: any,
-    employeeId: any,item:any,
+    employeeId: any, item: any,
 
     distEmployee: any, StartDate: any, EndDate: any, Fiscalyaer: any
   ) {
@@ -1610,8 +1610,8 @@ export class ApiService {
   // }
 
   public uploadFile(payload: FormData) {
-    return this.http.post('${this.url}/STRProduct/UploadFile',payload);
-   }
+    return this.http.post('${this.url}/STRProduct/UploadFile', payload);
+  }
   ///////////////////////////////// STR-Product/////////////////////////////
   // postStrProduct(data: any) {
   //   console.log('form add product data to backend: ', data);
@@ -1928,7 +1928,7 @@ export class ApiService {
     console.log('Avg price inputs to backend');
     return this.http.get<any>(`${this.url}/STRItem/get/all/`);
   }
-  getUpload(formData: any): Observable<any>  {
+  getUpload(formData: any): Observable<any> {
     console.log('Avg price inputs to backend');
     return this.http.get<any>(`${this.url}/STRProduct/UploadFile`);
   }
@@ -2028,18 +2028,14 @@ export class ApiService {
 
 
 
-  getStrAddSearach(no: any,
-
-
-    fiscalYear: any,
-
-
-    employeeId: any, itemId: any, store: any, StartDate: any, EndDate: any) {
+  getStrAddSearach(no: any, EntryNo: any, fiscalYear: any, employeeId: any, itemId: any, store: any, StartDate: any, EndDate: any) {
     //enter no.
 
     console.log(
       'no. : ',
       no,
+      'EntryNo: ',
+      EntryNo,
       'store : ',
       store,
       'startdate: ',
@@ -2053,12 +2049,16 @@ export class ApiService {
       'enddate: ',
       EndDate,
 
+
     );
     this.mycondition = `${this.url}/STRAdd/search?`;
 
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    if (!EntryNo == false) {
+      this.mycondition = ` ${this.mycondition}&EntryNo=${EntryNo}`;
     }
     if (!store == false) {
       this.mycondition = ` ${this.mycondition}&StoreId=${store}`;
@@ -2358,13 +2358,13 @@ export class ApiService {
     return this.http.delete<any>(`${this.url}/HrEmployeeVacation/delete/` + id);
   }
 
-  
- 
-  
- 
-  
- 
- 
+
+
+
+
+
+
+
   getAllVendor() {
     return this.http.get<any>(`${this.url}/STRVendor/get/all`);
   }
@@ -2445,7 +2445,7 @@ export class ApiService {
     console.log('url', this.mycondition);
 
     return this.http.get<any>(`${this.mycondition}`);
-   return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/search??No=${0}`);
+    return this.http.get<any>(`${this.url}/STREmployeeOpeningCustody/search??No=${0}`);
   }
   getStrEmployeeOpenAutoNo() {
     return this.http.get<any>(
@@ -2489,45 +2489,45 @@ export class ApiService {
 
   // userstore
 
-getAllUseres(): Observable<any> {
-  return this.http.get<any>(
-    `${this.url}/PRUser/get/all`
-  );
-}
-getAllStores(): Observable<any> {
-  return this.http.get<any>(
-   `${this.url}/STRStore/get/all`
-  );
-}
-getuserstoreCode(GradeId: any) {
-  console.log('gradeId:', GradeId);
+  getAllUseres(): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}/PRUser/get/all`
+    );
+  }
+  getAllStores(): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}/STRStore/get/all`
+    );
+  }
+  getuserstoreCode(GradeId: any) {
+    console.log('gradeId:', GradeId);
 
-  return this.http.get<any>(
-    `${this.url}/STRPlatoon/AutoCode?GradeId=${GradeId}`
-  );
-}
-// dddd
+    return this.http.get<any>(
+      `${this.url}/STRPlatoon/AutoCode?GradeId=${GradeId}`
+    );
+  }
+  // dddd
 
-//  userstore
-postUserstore(data: any) {
-  return this.http.post<any>(
-    `${this.url}/StrUserStore/Add`,
-    data
-  );
-}
-getUserstore() {
-  return this.http.get<any>(`${this.url}/StrUserStore/get/all`);
-}
-putUserstore(data: any) {
-  console.log("")
-  return this.http.put<any>(
-    `${this.url}/StrUserStore/update`,
-    data
-  );
-}
-deleteUserstore(id: number) {
-  return this.http.delete<any>(
-    `${this.url}/StrUserStore/delete/${id}`
-  );
-}
+  //  userstore
+  postUserstore(data: any) {
+    return this.http.post<any>(
+      `${this.url}/StrUserStore/Add`,
+      data
+    );
+  }
+  getUserstore() {
+    return this.http.get<any>(`${this.url}/StrUserStore/get/all`);
+  }
+  putUserstore(data: any) {
+    console.log("")
+    return this.http.put<any>(
+      `${this.url}/StrUserStore/update`,
+      data
+    );
+  }
+  deleteUserstore(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/StrUserStore/delete/${id}`
+    );
+  }
 }
