@@ -187,6 +187,7 @@ export class STRAddTableComponent implements OnInit {
 
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
+      EntryNo: [''],
       employee: [''],
       // costcenter: [''],
       // :[''],
@@ -264,8 +265,9 @@ export class STRAddTableComponent implements OnInit {
         this.loadDataToLocalStorage(res);
         this.groupMasterForm.reset();
       },
-      error: () => {
+      error: (err) => {
         // alert('خطأ أثناء جلب سجلات المجموعة !!');
+        console.log("err get master res strAdd: ", err);
       },
     });
   }
@@ -633,15 +635,15 @@ export class STRAddTableComponent implements OnInit {
     this.storeCtrl.updateValueAndValidity();
   }
 
-  getSearchStrAdd(no: any, StartDate: any, EndDate: any, fiscalyear: any) {
-    console.log('fiscalyear in searchhhhh : ', fiscalyear, 'itemId',);
+  getSearchStrAdd(no: any, EntryNo: any, StartDate: any, EndDate: any, fiscalyear: any) {
+    console.log('fiscalyear in searchhhhh : ', fiscalyear, 'itemId', "EntryNo: ", EntryNo);
     // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
 
-    this.api.getStrAddSearach(no, fiscalyear, employee, item, store, StartDate, EndDate).subscribe({
+    this.api.getStrAddSearach(no, EntryNo, fiscalyear, employee, item, store, StartDate, EndDate).subscribe({
       next: (res) => {
         this.dataSource2 = res;
         this.dataSource2.paginator = this.paginatorLegal;
