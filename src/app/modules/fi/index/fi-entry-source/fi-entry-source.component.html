@@ -1,4 +1,4 @@
-<div class="page-title" > مصدر الدخول</div>
+<div class="page-title" > مصدر الدخل</div>
 <mat-card>
   
   <mat-card-content>
@@ -24,24 +24,25 @@
     </mat-card-header>
 
 
-    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
+    <table matSort mat-table [dataSource]="dataSource"  dir="rtl">
 
     
         <!-- EntrySourceName Column -->
         <ng-container matColumnDef="name" >
-          <th mat-header-cell *matHeaderCellDef  style="width: 30%;"> مصدر الدخل </th>
+          <th mat-header-cell *matHeaderCellDef > مصدر الدخل </th>
           <td mat-cell *matCellDef="let row" > {{row.name}} </td>
         </ng-container>
 
       <!-- action Column -->
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef style="width: 15%;">الإجراء</th>
+        <th mat-header-cell *matHeaderCellDef style="width:15%">الإجراء</th>
         <td mat-cell *matCellDef="let row"> 
           <button mat-icon-button (click)="editEntrySource(row)" class="editbtn">
-            <mat-icon>edit</mat-icon>
+            <mat-icon >edit</mat-icon >
           </button>
+          
           <button (click)="deleteEntrySource(row.id)" mat-icon-button color="warn">
-            <mat-icon>delete</mat-icon>
+            <mat-icon>delete_forever</mat-icon>
           </button>
         </td>
       </ng-container>
