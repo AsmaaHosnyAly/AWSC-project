@@ -17,36 +17,43 @@ modules
 15-المصنع
 16-النوذج
 17- حسابات المخازن
-20-PRODUCT_SERIAL مسلسل المنتج
-21-struserstore   المخازن المتاحة للموظف  
-43-StrStockTaking الجرد
+18-PRODUCT_SERIAL مسلسل المنتج
+19-struserstore   المخازن المتاحة للموظف  
+20-StrStockTaking الجرد
 ****************** module:2 Roles الصلاحيات************************
 
-18-pr-user المستخدمين
-19-pr-group المجموعات
+21-pr-user المستخدمين
+22-pr-group المجموعات
 
 
 **************** module:3-accounts الحسابات*******************
-22-addAccount اضافة حساب
-23-AccountHierarchy شجرة الحساب
-24-FiAccountItem صنف الحساب  
-25-AccountParent اضافة حساب اب 
-26-FIJournal اضافة صحيفة
-27-EntrySource مصدر دخل
-28-EntrySourceType نوع مصدر الدخل 
-29-fi-entry القيود
+23-addAccount اضافة حساب
+24-AccountHierarchy شجرة الحساب
+25-FiAccountItem صنف الحساب  
+26-AccountParent اضافة حساب اب 
+27-FIJournal اضافة صحيفة
+28-EntrySource مصدر دخل
+29-EntrySourceType نوع مصدر الدخل 
+30-fi-entry القيود
 
 ****************module:4 hr شئون العاملين*******************
-30-hr-jobTitle المسمي الوظيفي
-31-hr-incentive الحوافز
-32-hr-hiringType نوع التوظيف
-33-SeveranceReason الانقطاع
-34-hr-MillitryState موقف التجنيد
-35-city المحافظات
-36-cityState المراكز
-37-Qualification المؤهل
-38-QualitativeGroup المجموعة النوعية
-39-WorkPlace مكان العمل 
-40-specialization التخصصات
-41-hr-vacation الاجازات
-42-hr-EmployeeDisciplinary الدرجة الوظيفية 
+31-hr-jobTitle المسمي الوظيفي
+32-hr-incentive الحوافز
+33-hr-hiringType نوع التوظيف
+34-SeveranceReason الانقطاع
+35-hr-MillitryState موقف التجنيد
+36-city المحافظات
+37-cityState المراكز
+38-Qualification المؤهل
+39-QualitativeGroup المجموعة النوعية
+40-WorkPlace مكان العمل 
+41-specialization التخصصات
+42-hr-position المنصب
+43-hr-disciplinary الجزاءات
+44-hr-vacation الاجازات
+45-hr-employeeVacationBalance رصيد الاجازات
+46-hr-employeeVacation اجازات المزظفين 
+47-hr-EmployeeDisciplinary الدرجة الوظيفية
+48-hr-financialDegree الدرجات المالية
+49-hr-employeeFinancialDegree  الدرجة المالية للموظف
+50-hr-employee-position مناصب الموظفين

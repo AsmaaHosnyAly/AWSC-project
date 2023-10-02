@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -9,16 +8,15 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { SharedService } from './shared.service';
+
 
 @Injectable({
   providedIn: 'root',
 })
-export class  modelGuard implements CanActivate {
+export class  prGroupGuard implements CanActivate {
   constructor(
     private router: Router,
-    global: SharedService,
-    public shared: SharedService
+   
   ) {}
   canActivate(
     route: ActivatedRouteSnapshot,

@@ -61,24 +61,25 @@ import {
 import { MenubarComponent } from './pages/menubar/menubar.component';
 import { PrUserTableComponent } from './modules/pr/index/pr-user-table/pr-user-table.component';
 import { rolesGuard } from './core/guards/roles.guard';
-import { withdrawGuard } from './core/guards/withdraw.guard';
-import { sTRAddGuard } from './core/guards/stradd.guard';
-import { strOpeningStockGuard } from './core/guards/str-opening-stock.guard';
-import { employeeOpeningGuard } from './core/guards/employee-opening.guard';
-import { employeeOpeningCustodyGuard } from './core/guards/employee-opening-custody.guard';
-import { prUserGuard } from './core/guards/pr-user.guard';
-import { unitGuard } from './core/guards/unit.guard';
-import { commodityGuard } from './core/guards/commodity.guard';
-import { costCenterGuard } from './core/guards/cost-center.guard';
-import { gradeGuard } from './core/guards/grade.guard';
-import { group1Guard } from './core/guards/group1.guard';
-import { items1Guard } from './core/guards/items1.guard';
-import { modelGuard } from './core/guards/model.guard';
-import { prGroupGuard } from './core/guards/pr-group.guard';
-import { productsGuard } from './core/guards/products.guard';
+import { withdrawGuard } from './core/guards/str/withdraw.guard'; 
+import { sTRAddGuard } from './core/guards/str/stradd.guard';
+import { strOpeningStockGuard } from './core/guards/str/str-opening-stock.guard'; 
+import { employeeOpeningGuard } from './core/guards/str/employee-opening.guard'; 
+import { employeeOpeningCustodyGuard } from './core/guards/str/employee-opening-custody.guard';
+import { prUserGuard } from './core/guards/pr/pr-user.guard'; 
+import { prGroupGuard } from './core/guards/pr/pr-group.guard';
+import { unitGuard } from './core/guards/str/unit.guard'; 
+import { commodityGuard } from './core/guards/str/commodity.guard';
+import { costCenterGuard } from './core/guards/str/cost-center.guard';
+import { gradeGuard } from './core/guards/str/grade.guard'; 
+import { group1Guard } from './core/guards/str/group1.guard'; 
+import { items1Guard } from './core/guards/str/items1.guard';
+import { modelGuard } from './core/guards/str/model.guard'; 
+
+import { productsGuard } from './core/guards/str/products.guard';
 import { storesGuard } from './core/guards/stores.guard';
-import { strPlatoonGuard } from './core/guards/str-platoon.guard';
-import { vendorGuard } from './core/guards/vendor.guard';
+import { strPlatoonGuard } from './core/guards/str/str-platoon.guard'; 
+import { vendorGuard } from './core/guards/str/vendor.guard';
 import { PrHomeComponent } from './modules/pr/index/pr-home/pr-home.component';
 import { StrStockTakingContainerComponent } from './modules/str/index/str-stock-taking-container/str-stock-taking-container.component';
 import { PageRolesComponent } from './pages/page-roles/page-roles.component';
@@ -86,10 +87,11 @@ import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
-import { productSerialGuard } from './core/guards/product-serial.guard';
+import { productSerialGuard } from './core/guards/str/product-serial.guard';
 import { HrFinancialDegreeComponent } from './modules/hr/index/hr-financial-degree/hr-financial-degree.component';
 import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employee-financial-degree/hr-employee-financial-degree.component';
 import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
+import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -252,6 +254,7 @@ const routes: Routes = [
       { path: 'hr-disciplinary', component: HrDisciplinaryComponent },
       { path: 'hr-financialDegree', component: HrFinancialDegreeComponent },
       { path: 'hr-employeeFinancialDegree', component: HrEmployeeFinancialDegreeComponent },
+      { path: 'hr-employeeِAppraisal', component: HrEmployeeAppraisalComponent },
 
       {
         path: 'hr-EmployeeDisciplinary',

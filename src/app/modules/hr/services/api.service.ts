@@ -229,7 +229,32 @@ postHrEmployeeFinancialDegree(data: any) {
 getAllFinancialDegree(): Observable<any> {
   return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
 }
-
+// HrEmployeeAppraisal
+getHrEmployeeAppraisal() {
+  return this.http.get<any>(
+    `${this.url}/HrEmployeeAppraisal/get/all`
+  );
+}
+putHrEmployeeAppraisal(data: any) {
+  return this.http.put<any>(
+    `${this.url}/HrEmployeeAppraisal/update`,
+    data
+  );
+}
+deleteHrEmployeeAppraisal(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/HrEmployeeAppraisal/delete/${id}`
+  );
+}
+postHrEmployeeAppraisal(data: any) {
+  return this.http.post<any>(
+    `${this.url}/HrEmployeeAppraisal/Add`,
+    data
+  );
+}
+// getAllEmployee(): Observable<any> {
+//   return this.http.get<any>(`${this.url}/HrCity/get/all`);
+// }
   // HrCityState
   getHrCityState() {
     return this.http.get<any>(
@@ -2758,39 +2783,41 @@ getAllFinancialDegree(): Observable<any> {
   postHrEmployeeDisciplinary(data: any) {
     console.log('post in employeedisciplinary: ', data);
     return this.http.post<any>(
-      `${this.url}/HrEmployeeDisciplinary/Add-EmployeeDisciplinary`,
+      `${this.url}/HrEmployeeDisciplinary/Add`,
       data
     );
   }
   getHrEmployeeDisciplinary() {
     return this.http.get<any>(
-      `${this.url}/HrEmployeeDisciplinary/get-all-EmployeeDisciplinary`
+      `${this.url}/HrEmployeeDisciplinary/get/all`
     );
   }
   putHrEmployeeDisciplinary(data: any) {
     console.log('put in employeedisciplinary: ', data);
 
     return this.http.put<any>(
-      `${this.url}/HrEmployeeDisciplinary/update-EmployeeDisciplinary`,
+      `${this.url}/HrEmployeeDisciplinary/update`,
       data
     );
   }
   deleteHrEmployeeDisciplinary(id: number) {
     // console.log('form delete data from apiii, id: ', id);
     return this.http.delete<any>(
-      `${this.url}/HrEmployeeDisciplinary/delete-EmployeeDisciplinary/` + id
+      `${this.url}/HrEmployeeDisciplinary/delete/` + id
     );
   }
 
   ///////////////////////////////// HR-EmployeeVacation /////////////////////////////
   postHrEmployeeVacation(data: any) {
-    // console.log('form add data to apiii: ', data);
+    console.log('form add data to apiii: ', data);
     return this.http.post<any>(`${this.url}/HrEmployeeVacation/Add`, data);
   }
   getHrEmployeeVacation() {
     return this.http.get<any>(`${this.url}/HrEmployeeVacation/get/all`);
   }
   putHrEmployeeVacation(data: any) {
+    console.log('form add data to apiii: ', data);
+
     return this.http.put<any>(`${this.url}/HrEmployeeVacation/update`, data);
   }
   deleteHrEmployeeVacation(id: number) {

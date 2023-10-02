@@ -43,7 +43,8 @@ export class HrEmployeeDisciplinaryComponent  implements OnInit {
 
   openDialog() {
     this.dialog.open(HrEmployeeDisciplinaryDialogComponent, {
-      width: '30%'
+      width: '50%',
+      height:'75%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getDisciplinary();
@@ -69,7 +70,8 @@ export class HrEmployeeDisciplinaryComponent  implements OnInit {
   editEmployeeDisciplinary(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(HrEmployeeDisciplinaryDialogComponent, {
-      width: '30%',
+      width: '50%',
+      height:'75%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {

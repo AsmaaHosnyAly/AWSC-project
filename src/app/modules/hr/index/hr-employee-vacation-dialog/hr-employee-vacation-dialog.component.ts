@@ -10,6 +10,10 @@ export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
 }
 
+// export class subEmployee {
+//   constructor(public id: number, public name: string, public code: string) { }
+// }
+
 export class Vacation {
   constructor(public id: number, public name: string) { }
 }
@@ -31,6 +35,12 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
   selectedEmployee: Employee | undefined;
   formcontrol = new FormControl('');
 
+  subemployeesList: Employee[] = [];
+  subemploeeCtrl: FormControl;
+  filteredsubEmployee: Observable<Employee[]>;
+  selectedsubEmployee: Employee | undefined;
+  // formcontrol = new FormControl('');
+
   vacationsList: Vacation[] = [];
   vacationCtrl: FormControl;
   filteredVacation: Observable<Vacation[]>;
@@ -49,6 +59,13 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
       map(value => this._filterEmployees(value))
     );
 
+
+    this.subemploeeCtrl = new FormControl();
+    this.filteredsubEmployee = this.subemploeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filtersubEmployees(value))
+    );
+
     this.vacationCtrl = new FormControl();
     this.filteredVacation = this.vacationCtrl.valueChanges.pipe(
       startWith(''),
@@ -58,12 +75,16 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHrEmployees();
+    this.getHrsubEmployees();
+
     this.getVacation();
 
     this.groupForm = this.formBuilder.group({
       name: ['', Validators.required],
       nodDays: ['', Validators.required],
       emplpoyeeId: ['', Validators.required],
+      substituteEmpolyeeId: ['', Validators.required],
+
       vacationId: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -76,6 +97,8 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
       this.groupForm.controls['nodDays'].setValue(this.editData.nodDays);
       this.groupForm.controls['emplpoyeeId'].setValue(this.editData.emplpoyeeId);
       this.groupForm.controls['vacationId'].setValue(this.editData.vacationId);
+      this.groupForm.controls['substituteEmpolyeeId'].setValue(this.editData.substituteEmpolyeeId);
+
       this.groupForm.controls['startDate'].setValue(this.editData.startDate);
       this.groupForm.controls['endDate'].setValue(this.editData.endDate);
 
@@ -114,6 +137,38 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
     // Open the autocomplete dropdown by triggering the value change event
     this.emploeeCtrl.updateValueAndValidity();
   }
+
+
+
+
+  displaysubEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
+  }
+  subemployeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log("employee selected: ", employee);
+    this.selectedsubEmployee = employee;
+    this.groupForm.patchValue({substituteEmpolyeeId: employee.id });
+    console.log("employee in form: ", this.groupForm.getRawValue().substituteEmpolyeeId);
+
+    console.log("employee change: ", this.emploeeCtrl, ", ", this.subemploeeCtrl, ',', this.filteredEmployee, ',', this.selectedEmployee,',',this.selectedsubEmployee)
+    // this.groupForm.patchValue({ emplpoyeeId: employee.name });
+  }
+  private _filtersubEmployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.subemployeesList.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
+    );
+  }
+  openAutosubEmployee() {
+    console.log("display employee list: ", this.vacationCtrl)
+
+    this.subemploeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.subemploeeCtrl.updateValueAndValidity();
+  }
+
 
 
   private _filterVacations(value: string): Vacation[] {
@@ -179,8 +234,9 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
     this.api.putHrEmployeeVacation(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث اجازة الموظف بنجاح");
-          this.toastrSuccess();
+          // alert("تم تحديث اجازة الموظف بنجاح");
+          // this.toastrSuccess();
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -204,6 +260,21 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
         }
       })
   }
+  getHrsubEmployees() {
+    this.api.getHrEmployees()
+      .subscribe({
+        next: (res) => {
+          this.subemployeesList = res;
+          // this.commodities = res;
+          console.log("sub employeesList res: ", this.subemployeesList);
+        },
+        error: (err) => {
+          // console.log("fetch employeesList data err: ", err);
+          alert("خطا اثناء جلب الموظفين !");
+        }
+      })
+  }
+
 
   getVacation() {
     this.api.getVacation()
@@ -222,5 +293,9 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }

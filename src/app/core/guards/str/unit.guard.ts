@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -8,16 +7,15 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SharedService } from './shared.service';
+
 
 @Injectable({
   providedIn: 'root',
 })
-export class  items1Guard implements CanActivate {
+export class  unitGuard implements CanActivate {
   constructor(
     private router: Router,
-    global: SharedService,
-    public shared: SharedService
+    
   ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
