@@ -64,27 +64,27 @@
          <!-- </div> -->
   <div style="display: flex;flex-direction: row;width: 15rem;">
   
-    <div style="display: flex;flex-direction: column;">
+    <div style="display: flex;flex-direction: column;width: 11rem;">
         <mat-label> النسبة*</mat-label>
   
-    <mat-form-field appearance="outline" class="groupInput" style="width:60% ;">
+    <mat-form-field appearance="outline" class="groupInput" style="width:93% ;">
         <input matInput type="number"  min="0" placeholder="النسبة" formControlName="percentage"
             [value]="editData ? editData.percentage : ''" >
     </mat-form-field>
     </div>
-    <div style="display: flex;flex-direction: column;width: 17rem;">
+    <div style="display: flex;flex-direction: column;width: 11rem;">
         <mat-label>السعر</mat-label>
 
-        <mat-form-field appearance="outline" class="groupInput" style="width: 59%;">
+        <mat-form-field appearance="outline" class="groupInput" style="width: 93%;">
             <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
                 [value]="editData ? editData.price : ''">
         </mat-form-field>
        </div>
    
-     <div style="display: flex;flex-direction: column;">
+       <div style="display: flex;flex-direction: column;width: 13rem;">
         <mat-label>فرق الكمية</mat-label>
 
-        <mat-form-field appearance="outline" class="groupInput" style="width: 59%;">
+        <mat-form-field appearance="outline" class="groupInput" style="width: 92%;">
             <input type="number" min="0" matInput placeholder="فرق الكمية"  formControlName="balance"
                 [value]="editData ? editData.balance : ''">
         </mat-form-field>
