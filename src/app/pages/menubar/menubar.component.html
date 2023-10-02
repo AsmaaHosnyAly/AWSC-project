@@ -479,6 +479,22 @@
             >  التخصصات</a
            
           >
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/hr-position"
+            (click)="
+              global.getPermissionUserRoles(1, 'acounts', '', '')
+            "
+            >  المنصب</a>
+            <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/hr-disciplinary"
+            (click)="
+              global.getPermissionUserRoles(1, 'acounts', '', '')
+            "
+            >  الجزاءات</a>
                   </mat-nav-list>
                 </mat-expansion-panel>
                 <a
@@ -505,6 +521,14 @@
                   global.getPermissionUserRoles(1, 'acounts', '', '')
                 "
                 > اجازات الموظفين</a>
+                <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-employeeVacation"
+                (click)="
+                  global.getPermissionUserRoles(1, 'acounts', '', '')
+                "
+                > الدرجة الوظيفية</a>
               </mat-nav-list>
             </mat-expansion-panel>
             <!-- end Hr -->
