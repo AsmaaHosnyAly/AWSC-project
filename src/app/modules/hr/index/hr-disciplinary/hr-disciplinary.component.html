@@ -34,23 +34,23 @@
     </header> -->
 
 
-    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
+    <table matSort mat-table [dataSource]="dataSource"  dir="rtl">
         <!-- name Column -->
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>الاسم </th>
-            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+            <th mat-header-cell *matHeaderCellDef >الاسم </th>
+            <td mat-cell *matCellDef="let row" >{{ row.name }}</td>
         </ng-container>
 
         <!-- action Column -->
         <ng-container matColumnDef="action">
-            <th mat-header-cell id="action1" *matHeaderCellDef mat-sort-header> الاجراء </th>
+            <th mat-header-cell id="action1" *matHeaderCellDef style="width: 15%;"> الاجراء </th>
             <td mat-cell *matCellDef="let row">
                 <div id="action2">
                         <button mat-icon-button id="button1" (click)="editDisciplinary(row)" class="editbtn">
                         <mat-icon>edit</mat-icon>
                     </button>
                         <button mat-icon-button id="button2" color="warn" (click)="deleteDisciplinary(row.id)">
-                        <mat-icon>delete</mat-icon>
+                        <mat-icon>delete_forever</mat-icon>
                     </button>
                 </div>
             </td>
