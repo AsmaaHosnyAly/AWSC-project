@@ -8,16 +8,13 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { SharedService } from './shared.service';
-
 @Injectable({
   providedIn: 'root',
 })
-export class productsGuard implements CanActivate {
+export class vendorGuard implements CanActivate {
   constructor(
     private router: Router,
-    global: SharedService,
-    public shared: SharedService
+    
   ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -38,5 +35,4 @@ export class productsGuard implements CanActivate {
       }
       return true
       }
-
-    }
+}

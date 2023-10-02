@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -8,16 +9,14 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class prUserGuard implements CanActivate {
+export class sTRAddGuard implements CanActivate {
   constructor(
     private router: Router,
-    global: SharedService,
-    public shared: SharedService
+    
   ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -27,7 +26,7 @@ export class prUserGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-  
+ 
       let pages = route.data['PageLsit'] as Array<string>;
       const USER_ROLES_LOCAL_STORAGE = window.localStorage.getItem('userRoles') 
       const USER_ROLES : Array<any> = USER_ROLES_LOCAL_STORAGE!.split(',')
