@@ -89,6 +89,7 @@ import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-use
 import { productSerialGuard } from './core/guards/product-serial.guard';
 import { HrFinancialDegreeComponent } from './modules/hr/index/hr-financial-degree/hr-financial-degree.component';
 import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employee-financial-degree/hr-employee-financial-degree.component';
+import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -256,6 +257,9 @@ const routes: Routes = [
         path: 'hr-EmployeeDisciplinary',
         component: HrEmployeeDisciplinaryComponent,
       },
+
+      { path: 'hr-employee-position', component: HrEmployeePositionComponent },
+
      
       
 

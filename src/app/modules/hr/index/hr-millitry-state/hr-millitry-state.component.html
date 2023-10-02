@@ -1,31 +1,32 @@
-<div class="page-title" >   الموقف التجنيدي</div>
+<div class="page-title" >  موقف التجنيد</div>
 
 <mat-card >
-  <mat-card-header dir="ltr">
-    <div class="child1 " >
-      <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
-      
-      <span class="ms-2">اضافة</span>   <mat-icon class="me-1">add</mat-icon> 
-      </button>
-    </div>
-
-    <div>
-      <input 
-        matInput
-        class="filter-search"
-        (keyup)="applyFilter($event)"
-        placeholder="بحث"
-        #input
-      />
-    </div>
-
   
-  </mat-card-header>
-
 
     <mat-card-content>
+      <mat-card-header dir="ltr">
+        <div class="child1 " >
+          <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
+          
+          <span class="ms-2">اضافة</span>   <mat-icon class="me-1">add</mat-icon> 
+          </button>
+        </div>
+    
+        <div>
+          <input 
+            matInput
+            class="filter-search"
+            (keyup)="applyFilter($event)"
+            placeholder="بحث"
+            #input
+          />
+        </div>
+    
+      
+      </mat-card-header>
+    
   
-      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table matSort mat-table [dataSource]="dataSource" >
   
       
   
@@ -45,7 +46,7 @@
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="daleteMillitryState(row.id)">
-              <mat-icon>delete</mat-icon>
+              <mat-icon>delete_forever</mat-icon>
             </button>
           </td>
         </ng-container>

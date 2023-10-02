@@ -1,0 +1,68 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل منصب الموظف ' : ' إضافة منصب موظف جديد'}}</h1>
+
+<!-- <form [formGroup]="HrEmployeePosition" dir="rtl"> -->
+<div dir="rtl">
+    <div mat-dialog-content>
+        <form [formGroup]="HrEmployeePosition">
+
+            <!-- <div class="searchLabels"> -->
+
+            <mat-form-field appearance="outline" class="groupInput">
+                <mat-label> الموظف </mat-label>
+
+                <mat-select placeholder=" الموظف " formControlName="employeeId">
+                    <mat-option [value]="employee.id"
+                        *ngFor="let employee of hrEmployeesList">{{employee.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- </div> -->
+
+            <!-- <div class="searchLabels"> -->
+
+            <mat-form-field appearance="outline" class="groupInput">
+                <mat-label> المنصب </mat-label>
+
+                <mat-select placeholder=" المنصب " formControlName="positionId">
+                    <mat-option [value]="position.id"
+                        *ngFor="let position of hrPositionsList">{{position.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- </div> -->
+
+            <!-- <div class="searchLabels"> -->
+
+            <mat-form-field appearance="outline" class="groupInput">
+                <mat-label> مكان العمل </mat-label>
+
+                <mat-select placeholder=" مكان العمل " formControlName="workPlaceId">
+                    <mat-option [value]="workPlace.id"
+                        *ngFor="let workPlace of hrWorkPlacesList">{{workPlace.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- </div> -->
+
+            <!-- <div class="searchLabels"> -->
+
+            <mat-form-field appearance="outline" class="example-full-width">
+                <mat-label>التاريخ</mat-label>
+
+                <input matInput [matDatepicker]="picker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <!-- </div> -->
+
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn" (click)="addHrEmployeePosition()"
+            style="margin-left: 8px;">{{actionBtn}}</button>
+    </div>
+</div>
+<!-- </form> -->
