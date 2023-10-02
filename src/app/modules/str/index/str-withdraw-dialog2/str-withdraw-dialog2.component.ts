@@ -1144,7 +1144,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   async getStores() {
     this.userRoles = localStorage.getItem('userRoles');
-    console.log('userRoles: ', this.userRoles.includes('15'));
+    console.log('userRoles: ', this.userRoles.includes('17'));
 
     if (this.userRoles.includes('1')) {
       // console.log('user is manager -all stores available- , role: ', userRoles);
