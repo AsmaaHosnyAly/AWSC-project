@@ -19,6 +19,7 @@ modules
 17- حسابات المخازن
 20-PRODUCT_SERIAL مسلسل المنتج
 21-struserstore   المخازن المتاحة للموظف  
+22-StrStockTaking الجرد
 ****************** module:2 Roles الصلاحيات************************
 
 18-pr-user المستخدمين

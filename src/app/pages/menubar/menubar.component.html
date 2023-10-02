@@ -206,7 +206,9 @@
       *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING)"
     >
       <p class="font">نقل عهدة</p></a
+
     >
+    
 
     <a
     mat-list-item
@@ -216,6 +218,13 @@
   >
     <p class="font"> الإفتتاحي العهد</p></a
   >
+  <a
+    mat-list-item
+    routerLink="/StrStockTaking"
+    class="sideNavSubItems"
+  
+  >
+    <p class="font">جرد يدوي</p></a>
   </mat-nav-list>
 </mat-expansion-panel>
 
@@ -288,18 +297,7 @@
                 >
                   <p class="font">إضافة حساب اب</p></a
                 >
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/FIJournal"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
-                  "
-                  *ngIf="hasAccessRole(pageEnums.FIJournal)"
-                >
-                  <p class="font">إضافة صحيفة</p></a
-                >
-
+                
                 <a
                   mat-list-item
                   class="sideNavSubItems"
@@ -326,6 +324,18 @@
                 >
               </mat-nav-list>
             </mat-expansion-panel>
+            <a
+                  mat-list-item
+                  class="sideNavSubItems"
+                  routerLink="/FIJournal"
+                  (click)="
+                    global.getPermissionUserRoles(1, 'acounts', '', '')
+                  "
+                  *ngIf="hasAccessRole(pageEnums.FIJournal)"
+                >
+                  <p class="font"> اليومية</p></a
+                >
+
             <a
               mat-list-item
               class="sideNavSubItems"
@@ -479,6 +489,22 @@
                   global.getPermissionUserRoles(1, 'acounts', '', '')
                 "
                 > الاجازات</a>
+                <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-employeeVacationBalance"
+                (click)="
+                  global.getPermissionUserRoles(1, 'acounts', '', '')
+                "
+                > رصيد الاجازات</a>
+                <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-employeeVacation"
+                (click)="
+                  global.getPermissionUserRoles(1, 'acounts', '', '')
+                "
+                > اجازات الموظفين</a>
               </mat-nav-list>
             </mat-expansion-panel>
             <!-- end Hr -->
