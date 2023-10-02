@@ -39,7 +39,8 @@ export class HrEmployeeVacationBalanceComponent implements OnInit{
 
   openDialog() {
     this.dialog.open(HrEmployeeVacationBalanceDialogComponent, {
-      width: '30%'
+      width: '70%',
+      height:'75%',
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getHrEmployeeVacationBalance();
@@ -65,7 +66,8 @@ export class HrEmployeeVacationBalanceComponent implements OnInit{
   editEmployeeVacationBalance(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(HrEmployeeVacationBalanceDialogComponent, {
-      width: '30%',
+      width: '70%',
+      height:'75%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {

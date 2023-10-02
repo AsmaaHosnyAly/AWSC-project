@@ -14,7 +14,7 @@ import { HrEmployeeVacationDialogComponent } from '../hr-employee-vacation-dialo
   styleUrls: ['./hr-employee-vacation.component.css']
 })
 export class HrEmployeeVacationComponent implements OnInit{
-  displayedColumns: string[] = ['name', 'nodDays', 'emplpoyeeName', 'vacationName', 'startDate', 'endDate', 'action'];
+  displayedColumns: string[] = ['name', 'nodDays', 'emplpoyeeName','substituteEmpolyeeName', 'vacationName', 'startDate', 'endDate', 'action'];
 
   dataSource!: MatTableDataSource<any>;
 
@@ -38,8 +38,9 @@ export class HrEmployeeVacationComponent implements OnInit{
 
   openDialog() {
     this.dialog.open(HrEmployeeVacationDialogComponent, {
-      width: '30%'
-    }).afterClosed().subscribe(val => {
+      width: '70%',
+      height:'75%',
+        }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getHrEmployeeVacation();
       }
@@ -64,8 +65,9 @@ export class HrEmployeeVacationComponent implements OnInit{
   editEmployeeVacation(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(HrEmployeeVacationDialogComponent, {
-      width: '30%',
-      data: row
+      width: '70%',
+      height:'75%',
+            data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {
         this.getHrEmployeeVacation();

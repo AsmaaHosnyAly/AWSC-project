@@ -174,8 +174,9 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
     this.api.putHrEmployeeVacationBalance(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث اجازة رصيد الموظف بنجاح");
-          this.toastrSuccess();
+          // alert("تم تحديث اجازة رصيد الموظف بنجاح");
+
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -217,5 +218,11 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }

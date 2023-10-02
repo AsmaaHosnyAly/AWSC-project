@@ -1,17 +1,26 @@
-<p>hr-employee-vacation-balance works!</p>
+<div class="page-title">  العقوبات </div>
 
-<mat-card-header dir="rtl">
-    <div class="child1 ">
-        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
 
-            <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
-        </button>
+<mat-card-header dir="ltr">
+    <div class="child1 " >
+      <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
+      
+      <span class="ms-2">اضافة</span>   <mat-icon class="me-1">add</mat-icon> 
+      </button>
     </div>
-
-    <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
-    </mat-form-field>
-</mat-card-header>
+  
+    <div>
+      <input 
+        matInput
+        class="filter-search"
+        (keyup)="applyFilter($event)"
+        placeholder="بحث"
+        #input
+      />
+    </div>
+  
+  
+  </mat-card-header>
 
 
 <div id="content" class="content">
@@ -79,7 +88,7 @@
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="4">
-                No data matching the filter "{{ input.value }}"
+                لا توجد بيانات"{{ input.value }}"
             </td>
         </tr>
     </table>
