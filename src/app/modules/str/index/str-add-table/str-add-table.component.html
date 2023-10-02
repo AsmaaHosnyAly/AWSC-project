@@ -12,12 +12,26 @@
     <form [formGroup]="groupMasterForm">
       <div class="search">
         <div class="searchLabels">
-          <mat-label>الرقم</mat-label>
+          <mat-label>رقم الاذن</mat-label>
           <mat-form-field appearance="outline">
             <input
               #no
               matInput
               formControlName="no"
+              (keydown)="getsearch($event)"
+              type="number"
+              min="0"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="searchLabels">
+          <mat-label>رقم الجرد</mat-label>
+          <mat-form-field appearance="outline">
+            <input
+              #EntryNo
+              matInput
+              formControlName="EntryNo"
               (keydown)="getsearch($event)"
               type="number"
               min="0"
@@ -213,6 +227,7 @@
           (click)="
             getSearchStrAdd(
               no.value,
+              EntryNo.value,
               StartDate.value,
               EndDate.value,
               fiscalYear.value
