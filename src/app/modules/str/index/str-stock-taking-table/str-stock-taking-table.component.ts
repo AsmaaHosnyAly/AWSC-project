@@ -228,7 +228,7 @@ export class StrStockTakingTableComponent implements OnInit {
 
       },
       error: () => {
-        // alert('خطأ أثناء جلب سجلات المجموعة !!');
+        alert('خطأ أثناء جلب سجلات المجموعة !!');
       },
     });
   }

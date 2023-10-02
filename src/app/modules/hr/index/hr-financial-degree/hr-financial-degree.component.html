@@ -39,7 +39,7 @@
   
         <!-- action Column -->
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef > الاجراء </th>
+          <th  id="action1" *matHeaderCellDef style="width: 15%;"> الاجراء </th>
           <td mat-cell *matCellDef="let row"> 
             <button mat-icon-button (click)="editHrFinancialDegree(row)" class="editbtn">
               <mat-icon>edit</mat-icon>
