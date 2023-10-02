@@ -110,7 +110,7 @@ export class FiEntryDialogComponent implements OnInit {
 
 
     if (this.editData) {
-      // console.log("master edit form: ", this.editData);
+      console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
@@ -140,13 +140,13 @@ export class FiEntryDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.journalsList = res;
-          console.log("fiscalYear Pass: ", fiscalYear);
+          // console.log("fiscalYear Pass: ", fiscalYear);
 
-          console.log("journals res: ", this.journalsList);
+          // console.log("journals res: ", this.journalsList);
 
           this.journalsList = res.filter((journal: any) => {
             if (journal.fiscalYearId) {
-              console.log("journals fiscalYear not null: ", journal);
+              // console.log("journals fiscalYear not null: ", journal);
 
               return journal.fiscalYearId == fiscalYear;
 
@@ -155,7 +155,7 @@ export class FiEntryDialogComponent implements OnInit {
             // console.log("matched Id & HeaderId : ", a.HeaderId === id)
           });
 
-          console.log("journals res after filter: ", this.journalsList);
+          // console.log("journals res after filter: ", this.journalsList);
 
 
           // this.journalsList = res.find((journal: { fiscalYearId: any; }) => journal.fiscalYearId == fiscalYear);
@@ -173,7 +173,7 @@ export class FiEntryDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.accountsList = res;
-          console.log("accounts res: ", this.accountsList);
+          // console.log("accounts res: ", this.accountsList);
         },
         error: (err) => {
           console.log("fetch accounts data err: ", err);
@@ -187,7 +187,7 @@ export class FiEntryDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.accountItemsList = res;
-          console.log("accountItems res: ", this.accountItemsList);
+          // console.log("accountItems res: ", this.accountItemsList);
         },
         error: (err) => {
           console.log("fetch accountItems data err: ", err);
@@ -201,7 +201,7 @@ export class FiEntryDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.sourcesList = res;
-          console.log("sourcesList res: ", this.sourcesList);
+          // console.log("sourcesList res: ", this.sourcesList);
         },
         error: (err) => {
           console.log("fetch sourcesList data err: ", err);
@@ -258,8 +258,8 @@ export class FiEntryDialogComponent implements OnInit {
 
   getAllDetailsForms() {
 
-    console.log("edddit get all data: ", this.editData)
-    console.log("mastered row get all data: ", this.getMasterRowId)
+    // console.log("edddit get all data: ", this.editData)
+    // console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
       this.api.getFiEntryDetails()
         .subscribe({

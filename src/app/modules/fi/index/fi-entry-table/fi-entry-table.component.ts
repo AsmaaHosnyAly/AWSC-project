@@ -199,7 +199,7 @@ export class FiEntryTableComponent implements OnInit {
   getAllMasterForms() {
     // loadData() {
     if (!this.currentPage) {
-      this.currentPage = 1;
+      this.currentPage = 0;
 
       this.isLoading = true;
       let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;

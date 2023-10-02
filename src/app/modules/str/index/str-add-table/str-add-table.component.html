@@ -439,10 +439,10 @@
             (valueChange)="storeValueChanges($event)"
           >
             <mat-option
-              [value]="userRoles.includes('15') ? store.id : store.id"
+              [value]="userRoles.includes('17') ? store.id : store.id"
               *ngFor="let store of storeList"
               >{{
-                userRoles.includes("15") ? store.name : store.name
+                userRoles.includes("17") ? store.name : store.name
               }}</mat-option
             >
           </mat-select>
