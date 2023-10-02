@@ -14,27 +14,26 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 // import { publishFacade } from '@angular/compiler';
 // import { STRGradeComponent } from '../str-grade/str-grade.component';
 import { ToastrService } from 'ngx-toastr';
-export class City {
+export class financialDegree {
   constructor(public id: number, public name: string) {}
 }
 
-
 @Component({
-  selector: 'app-hr-city-state-dialog',
-  templateUrl: './hr-city-state-dialog.component.html',
-  styleUrls: ['./hr-city-state-dialog.component.css']
+  selector: 'app-hr-employee-financial-degree-dialog',
+  templateUrl: './hr-employee-financial-degree-dialog.component.html',
+  styleUrls: ['./hr-employee-financial-degree-dialog.component.css']
 })
-export class HrCityStateDialogComponent {
+export class HrEmployeeFinancialDegreeDialogComponent {
   transactionUserId=localStorage.getItem('transactionUserId')
-  cityCtrl: FormControl;
-  filteredCities: Observable<City[]>;
-  cities: City[] = [];
-  selectedCity: City | undefined;
+  financialDegreeCtrl: FormControl;
+  filteredFinancialDegree: Observable<financialDegree[]>;
+  financialDegree: financialDegree[] = [];
+  selectedFinancialDegree: financialDegree | undefined;
   formcontrol = new FormControl('');  
-  cityStateForm !:FormGroup;
+  employeeeFinancialDegreeForm !:FormGroup;
   actionBtn : string = "حفظ"
   selectedOption:any;
-  getCityStateData: any;
+  getFinancialDegreeData: any;
   Id:string  | undefined | null;
    commidityDt:any={
   id:0,
@@ -54,83 +53,83 @@ accordion!: MatAccordion;
     private toastr: ToastrService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
-    private dialogRef : MatDialogRef<HrCityStateDialogComponent>){
-      this.cityCtrl = new FormControl();
-      this.filteredCities = this.cityCtrl.valueChanges.pipe(
+    private dialogRef : MatDialogRef<HrEmployeeFinancialDegreeDialogComponent>){
+      this.financialDegreeCtrl = new FormControl();
+      this.filteredFinancialDegree = this.financialDegreeCtrl.valueChanges.pipe(
         startWith(''),
-        map(value => this._filterCities(value))
+        map(value => this._filterFinancialDegree(value))
       );
     }
     ngOnInit(): void {
-      this.cityStateForm = this.formBuilder.group({
+      this.employeeeFinancialDegreeForm = this.formBuilder.group({
         //define the components of the form
       transactionUserId : ['',Validators.required],
       // code : ['',Validators.required],
-      name : ['',Validators.required],
-      cityId : ['',Validators.required],
+      financialDegreeDate : ['',Validators.required],
+      financialDegreeId : ['',Validators.required],
       id : ['',Validators.required],
       // matautocompleteFieldName : [''],
       });
   
-      this.api.getAllCitis().subscribe((city)=>{
-        this.cities = city;
+      this.api.getAllFinancialDegree().subscribe((financialDegree)=>{
+        this.financialDegree = financialDegree;
       });
       
   
       if(this.editData){
         this.actionBtn = "تعديل";
-      this.getCityStateData = this.editData;
-      this.cityStateForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.getFinancialDegreeData = this.editData;
+      this.employeeeFinancialDegreeForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
         // this.cityStateForm.controls['code'].setValue(this.editData.code);
-      this.cityStateForm.controls['name'].setValue(this.editData.name);
+      this.employeeeFinancialDegreeForm.controls['financialDegreeDate'].setValue(this.editData.financialDegreeDate);
       
-      this.cityStateForm.controls['cityId'].setValue(this.editData.cityId);
+      this.employeeeFinancialDegreeForm.controls['financialDegreeId'].setValue(this.editData.financialDegreeId);
       // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
-      this.cityStateForm.addControl('id', new FormControl('', Validators.required));
-      this.cityStateForm.controls['id'].setValue(this.editData.id);
+      this.employeeeFinancialDegreeForm.addControl('id', new FormControl('', Validators.required));
+      this.employeeeFinancialDegreeForm.controls['id'].setValue(this.editData.id);
       }
     }
 
-    displaycityName(city: any): string {
-      return city && city.name ? city.name : '';
+    displayfinancialDegreeName(financialDegree: any): string {
+      return financialDegree && financialDegree.name ? financialDegree.name : '';
     }
 
-    citySelected(event: MatAutocompleteSelectedEvent): void {
-      const city = event.option.value as City;
-      this.selectedCity = city;
-      this.cityStateForm.patchValue({ cityId: city.id });
-      this.cityStateForm.patchValue({ cityName: city.name });
+    financialDegreeSelected(event: MatAutocompleteSelectedEvent): void {
+      const financialDegree = event.option.value as financialDegree;
+      this.selectedFinancialDegree = financialDegree;
+      this.employeeeFinancialDegreeForm.patchValue({ financialDegreeId: financialDegree.id });
+      this.employeeeFinancialDegreeForm.patchValue({ financialDegreeName: financialDegree.name });
     }
 
-    private _filterCities(value: string): City[] {
+    private _filterFinancialDegree(value: string): financialDegree[] {
       const filterValue = value.toLowerCase();
-      return this.cities.filter(city =>
-        city.name.toLowerCase().includes(filterValue) 
+      return this.financialDegree.filter(financialDegree =>
+        financialDegree.name.toLowerCase().includes(filterValue) 
       );
     }
 
-    openAutoCity() {
-      this.cityCtrl.setValue(''); // Clear the input field value
+    openAutoFinancialDegree() {
+      this.financialDegreeCtrl.setValue(''); // Clear the input field value
     
       // Open the autocomplete dropdown by triggering the value change event
-      this.cityCtrl.updateValueAndValidity();
+      this.financialDegreeCtrl.updateValueAndValidity();
     }
 
     
 
-  addCityState(){
+  addEmployeeFinancialDegree(){
     if(!this.editData){
       
-      this.cityStateForm.removeControl('id')
+      this.employeeeFinancialDegreeForm.removeControl('id')
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
-      console.log("add: ", this.cityStateForm.value);
-      this.cityStateForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      if(this.cityStateForm.valid){
-        this.api.postHrCityState(this.cityStateForm.value)
+      console.log("add: ", this.employeeeFinancialDegreeForm.value);
+      this.employeeeFinancialDegreeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      if(this.employeeeFinancialDegreeForm.valid){
+        this.api.postHrEmployeeFinancialDegree(this.employeeeFinancialDegreeForm.value)
         .subscribe({
           next:(res)=>{
             this.toastrSuccess();
-            this.cityStateForm.reset();
+            this.employeeeFinancialDegreeForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -139,17 +138,17 @@ accordion!: MatAccordion;
         })
       }
     }else{
-      this.updateCityState()
+      this.updateEmployeeFinancialDegree()
     }
   }
 
 
-  updateCityState(){
-        this.api.putHrCityState(this.cityStateForm.value)
+  updateEmployeeFinancialDegree(){
+        this.api.putEmployeeFinancialDegree(this.employeeeFinancialDegreeForm.value)
         .subscribe({
           next:(res)=>{
             this.toastrEditSuccess();
-            this.cityStateForm.reset();
+            this.employeeeFinancialDegreeForm.reset();
             this.dialogRef.close('update');
           },
           error:()=>{

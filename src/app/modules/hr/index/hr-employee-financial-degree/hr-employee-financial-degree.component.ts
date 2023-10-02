@@ -18,16 +18,17 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HrCityStateDialogComponent } from '../hr-city-state-dialog/hr-city-state-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { HrEmployeeFinancialDegreeDialogComponent } from '../hr-employee-financial-degree-dialog/hr-employee-financial-degree-dialog.component';
 export class City {
   constructor(public id: number, public name: string) {}
 }
 
 @Component({
-  selector: 'app-hr-city-state',
-  templateUrl: './hr-city-state.component.html',
-  styleUrls: ['./hr-city-state.component.css']
+  selector: 'app-hr-employee-financial-degree',
+  templateUrl: './hr-employee-financial-degree.component.html',
+  styleUrls: ['./hr-employee-financial-degree.component.css']
 })
-export class HrCityStateComponent {
+export class HrEmployeeFinancialDegreeComponent {
   cityCtrl: FormControl;
   filteredCities: Observable<City[]>;
   cities: City[] = [];
@@ -36,7 +37,7 @@ export class HrCityStateComponent {
   cityStateForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name', 'cityName', 'action'];
+  displayedColumns: string[] = [ 'financialDegreeName', 'financialDegreeDate', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -52,20 +53,20 @@ export class HrCityStateComponent {
   ngOnInit(): void {
     // console.log(productForm)
 
-    this.getHrCityStates();
+    this.getHrEmployeeFinancialDegree();
     this.api.getHrCity().subscribe((cities) => {
       this.cities = cities;
     });
   }
   openDialog() {
     this.dialog
-      .open(HrCityStateDialogComponent, {
+      .open(HrEmployeeFinancialDegreeDialogComponent, {
         width: '30%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getHrCityStates();
+          this.getHrEmployeeFinancialDegree();
         }
       });
   }
@@ -88,8 +89,8 @@ export class HrCityStateComponent {
     );
   }
 
-  getHrCityStates() {
-    this.api.getHrCityState().subscribe({
+  getHrEmployeeFinancialDegree() {
+    this.api.getEmployeeFinancialDegree().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -101,30 +102,30 @@ export class HrCityStateComponent {
     });
   }
 
-  editHrCityStates(row: any) {
+  editHrEmployeeFinancialDegree(row: any) {
     this.dialog
-      .open(HrCityStateDialogComponent, {
+      .open(HrEmployeeFinancialDegreeDialogComponent, {
         width: '30%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getHrCityStates();
+          this.getHrEmployeeFinancialDegree();
         }
       });
   }
 
-  deleteHrCityStates(id: number) {
+  deleteEmployeeFinancialDegree(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrCityState(id)
+      this.api.deleteHrEmployeeFinancialDegree(id)
       .subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
             this.toastrDeleteSuccess();
-          this.getHrCityStates();
+          this.getHrEmployeeFinancialDegree();
   
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")

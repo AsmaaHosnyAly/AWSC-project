@@ -296,8 +296,37 @@
                 "> اجازات الموظفين</a>
           <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeVacation" (click)="
                   global.getPermissionUserRoles(1, 'acounts', '', '')
-                "> الدرجة الوظيفية</a>
-        </mat-nav-list>
+                "
+                > الدرجة الوظيفية</a>
+                <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-financialDegree"
+                (click)="
+                  global.getPermissionUserRoles(1, 'acounts', '', '')
+                "
+                > الدرجة المالية</a>
+                <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-employeeFinancialDegree"
+                (click)="
+                  global.getPermissionUserRoles(1, 'acounts', '', '')
+                "
+                > الدرجة المالية للموظف</a>
+              </mat-nav-list>
+            </mat-expansion-panel>
+            <!-- end Hr -->
+            <!-- start roles -->
+            <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
+            <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)" >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon color="primary"  class="ms-2">store</mat-icon>
+                  الصلاحيات
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+             
       </mat-expansion-panel>
       <!-- end Hr -->
       <!-- start roles -->
