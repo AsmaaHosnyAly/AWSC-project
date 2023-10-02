@@ -7,7 +7,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SharedService } from './shared.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +15,7 @@ import { SharedService } from './shared.service';
 export class employeeOpeningGuard implements CanActivate {
   constructor(
     private router: Router,
-    global: SharedService,
-    public shared: SharedService
+    
   ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
