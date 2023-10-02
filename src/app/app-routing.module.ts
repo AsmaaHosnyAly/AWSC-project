@@ -91,6 +91,7 @@ import { productSerialGuard } from './core/guards/str/product-serial.guard';
 import { HrFinancialDegreeComponent } from './modules/hr/index/hr-financial-degree/hr-financial-degree.component';
 import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employee-financial-degree/hr-employee-financial-degree.component';
 import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
+import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -253,6 +254,7 @@ const routes: Routes = [
       { path: 'hr-disciplinary', component: HrDisciplinaryComponent },
       { path: 'hr-financialDegree', component: HrFinancialDegreeComponent },
       { path: 'hr-employeeFinancialDegree', component: HrEmployeeFinancialDegreeComponent },
+      { path: 'hr-employeeِAppraisal', component: HrEmployeeAppraisalComponent },
 
       {
         path: 'hr-EmployeeDisciplinary',
