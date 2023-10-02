@@ -65,7 +65,7 @@ accordion!: MatAccordion;
         // this.cityStateForm.controls['code'].setValue(this.editData.code);
       this.financialDegreeForm.controls['name'].setValue(this.editData.name);
       
-      this.financialDegreeForm.controls['noYear'].setValue(this.editData.cityId);
+      this.financialDegreeForm.controls['noYear'].setValue(this.editData.noYear);
       // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
       this.financialDegreeForm.addControl('id', new FormControl('', Validators.required));
       this.financialDegreeForm.controls['id'].setValue(this.editData.id);

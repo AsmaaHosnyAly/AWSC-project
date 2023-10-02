@@ -203,7 +203,32 @@ export class ApiService {
       data
     );
   }
-
+ // HrEmployeeFinancialDegree
+ getEmployeeFinancialDegree() {
+  return this.http.get<any>(
+    `${this.url}/HrEmployeeFinancialDegree/get/all`
+  );
+}
+putEmployeeFinancialDegree(data: any) {
+  return this.http.put<any>(
+    `${this.url}/HrEmployeeFinancialDegree/update`,
+    data
+  );
+}
+deleteHrEmployeeFinancialDegree(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/HrEmployeeFinancialDegree/delete/${id}`
+  );
+}
+postHrEmployeeFinancialDegree(data: any) {
+  return this.http.post<any>(
+    `${this.url}/HrEmployeeFinancialDegree/Add`,
+    data
+  );
+}
+getAllFinancialDegree(): Observable<any> {
+  return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
+}
 
   // HrCityState
   getHrCityState() {

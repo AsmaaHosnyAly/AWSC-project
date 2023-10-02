@@ -43,7 +43,7 @@ export class HrFinancialDegreeComponent {
   ngOnInit(): void {
     // console.log(productForm)
 
-   
+   this.getHrFinancialDegree();
   }
   openDialog() {
     this.dialog
