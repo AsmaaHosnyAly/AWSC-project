@@ -180,6 +180,31 @@ export class ApiService {
   postHrCity(data: any) {
     return this.http.post<any>(`${this.url}/HrCity/Add`, data);
   }
+  // HrFinancialDegree
+  getHrFinancialDegree() {
+    return this.http.get<any>(
+      `${this.url}/HrFinancialDegree/get/all`
+    );
+  }
+  putHrFinancialDegree(data: any) {
+    return this.http.put<any>(
+      `${this.url}/HrFinancialDegree/update`,
+      data
+    );
+  }
+  deleteHrFinancialDegree(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/HrFinancialDegree/delete/${id}`
+    );
+  }
+  postHrFinancialDegree(data: any) {
+    return this.http.post<any>(
+      `${this.url}/HrFinancialDegree/Add`,
+      data
+    );
+  }
+
+
   // HrCityState
   getHrCityState() {
     return this.http.get<any>(
@@ -206,7 +231,6 @@ export class ApiService {
   getAllCitis(): Observable<any> {
     return this.http.get<any>(`${this.url}/HrCity/get/all`);
   }
-
   //Fatma
 
   //Platoon

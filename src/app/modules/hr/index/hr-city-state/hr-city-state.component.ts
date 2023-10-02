@@ -17,6 +17,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HrCityStateDialogComponent } from '../hr-city-state-dialog/hr-city-state-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 export class City {
   constructor(public id: number, public name: string) {}
 }
@@ -41,7 +42,7 @@ export class HrCityStateComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService) {
     this.cityCtrl = new FormControl();
     this.filteredCities = this.cityCtrl.valueChanges.pipe(
       startWith(''),
@@ -122,7 +123,7 @@ export class HrCityStateComponent {
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getHrCityStates();
   
         }else{
@@ -189,7 +190,9 @@ export class HrCityStateComponent {
   }
 
 
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
