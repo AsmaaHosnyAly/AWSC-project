@@ -1,23 +1,24 @@
-<mat-toolbar dir="rtl" color="primary" >
-  <div class="information-company" >
+<mat-toolbar dir="rtl" color="primary">
+  <div class="information-company">
     <button (click)="drawer.toggle()" mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
 
-    <img   routerLink="/home"
-    class="toolbar-img"
-    src="../assets/images/water logo.png"
-    alt="user photo"
-  />
-  <div class="toolbarUserContent "  routerLink="/home">
-    <p >شركة مياةالشرب</p>
-    <p>والصرف الصحى باسوان</p>
-  </div>
+    <img
+      routerLink="/home"
+      class="toolbar-img"
+      src="../assets/images/water logo.png"
+      alt="user photo"
+    />
+    <div class="toolbarUserContent" routerLink="/home">
+      <p>شركة مياةالشرب</p>
+      <p>والصرف الصحى باسوان</p>
+    </div>
   </div>
   <div id="pageTitle">
     <div class="d-flex align-items-center">
-      <span>{{this.pageTitle }}</span
-      ><mat-icon>{{this.global.icon}}</mat-icon> 
+      <span>{{ this.pageTitle }}</span
+      ><mat-icon>{{ this.global.icon }}</mat-icon>
     </div>
   </div>
   <div>
@@ -27,7 +28,6 @@
       aria-label="Example icon-button with a menu"
     >
       <div class="toolbarUserContent parent-user-name">
-      
         <div class="user-info">
           <div class="ms-1">
             <mat-icon>perm_identity</mat-icon>
@@ -35,10 +35,7 @@
           <div class="user-name">
             <div class="my-2">{{ user?.name }}</div>
           </div>
-          
-         
         </div>
-      
       </div>
     </button>
   </div>
@@ -54,7 +51,7 @@
     </button> -->
     <button mat-menu-item (click)="handleLogOut()" routerLink="login">
       <mat-icon>exit_to_app</mat-icon>
-      <span >تسجيل الخروج</span>
+      <span>تسجيل الخروج</span>
     </button>
   </mat-menu>
 </mat-toolbar>
@@ -67,466 +64,522 @@
         </button>
       </mat-list-item> -->
 
-<!-- start stores -->
-<mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(1)">
-  
-  <mat-expansion-panel-header >
-    <mat-panel-title>
-      <mat-icon color="primary" class="ms-2">store</mat-icon>
-      المخازن
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <mat-nav-list>
-    <mat-expansion-panel
-      dir="rtl"
-      style="
-        box-shadow: none;
-        border-bottom: 1px rgb(244, 237, 237) solid;
-        margin-top: 10px;
-      "
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title> التكويد </mat-panel-title>
-      </mat-expansion-panel-header>
-      <mat-nav-list>
-        <a   *ngIf="hasAccessRole(pageEnums.COMMODITY)"
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/commodity"
-          ><p class="font" >السلعة</p></a
-        >
-        <a mat-list-item class="sideNavSubItems" routerLink="/grade"
-        *ngIf="hasAccessRole(pageEnums.GRADE)"
-          ><p class="font">النوعية</p></a
-        >
-        <a  *ngIf="hasAccessRole(pageEnums.STR_PLATOON)"
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/str-platoon"
-          ><p class="font">الفصيلة</p></a
-        >
-        <a  *ngIf="hasAccessRole(pageEnums.GROUP1)"
-          mat-list-item
-          routerLink="/group1"
-          class="sideNavSubItems"
-          ><p class="font">المجموعة</p></a
-        >
-        <a mat-list-item class="sideNavSubItems" routerLink="/unit"
-        *ngIf="hasAccessRole(pageEnums.UNIT)"
-          ><p class="font">الوحدة</p></a
-        >
-        <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/items1"
-          *ngIf="hasAccessRole(pageEnums.ITEMES1)"
-          ><p class="font">الاصناف</p></a
-        >
-       
-        <a mat-list-item class="sideNavSubItems" routerLink="/store"
-        *ngIf="hasAccessRole(pageEnums.STORE)"
-          ><p class="font">المخازن</p></a
-        >
-        <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/str-vendor"
-          *ngIf="hasAccessRole(pageEnums.STR_VENDOR)"
-        >
-          <p class="font"> المصنع</p></a
-        >
-        <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/str-model"
-          *ngIf="hasAccessRole(pageEnums.MODEL)"
-        >
-          <p class="font"> الموديل</p></a
-        >
-        <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/costCenter"
-          *ngIf="hasAccessRole(pageEnums.COST_CENTER)"
-        >
-          <p class="font">مركز التكلفة</p></a
-        >
-        <a
-        mat-list-item
-        class="sideNavSubItems"
-        routerLink="/products"
-        *ngIf="hasAccessRole(pageEnums.PRODUCTS)"
+      <!-- start stores -->
+      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon color="primary" class="ms-2">store</mat-icon>
+            المخازن
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <mat-expansion-panel
+            dir="rtl"
+            style="
+              box-shadow: none;
+              border-bottom: 1px rgb(244, 237, 237) solid;
+              margin-top: 10px;
+            "
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> التكويد </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <a
+                *ngIf="hasAccessRole(pageEnums.COMMODITY)"
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/commodity"
+              >
+                <p class="font">السلعة</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/grade"
+                *ngIf="hasAccessRole(pageEnums.GRADE)"
+              >
+                <p class="font">النوعية</p>
+              </a>
+              <a
+                *ngIf="hasAccessRole(pageEnums.STR_PLATOON)"
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/str-platoon"
+              >
+                <p class="font">الفصيلة</p>
+              </a>
+              <a
+                *ngIf="hasAccessRole(pageEnums.GROUP1)"
+                mat-list-item
+                routerLink="/group1"
+                class="sideNavSubItems"
+              >
+                <p class="font">المجموعة</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/unit"
+                *ngIf="hasAccessRole(pageEnums.UNIT)"
+              >
+                <p class="font">الوحدة</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/items1"
+                *ngIf="hasAccessRole(pageEnums.ITEMES1)"
+              >
+                <p class="font">الاصناف</p>
+              </a>
+
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/store"
+                *ngIf="hasAccessRole(pageEnums.STORE)"
+              >
+                <p class="font">المخازن</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/str-vendor"
+                *ngIf="hasAccessRole(pageEnums.STR_VENDOR)"
+              >
+                <p class="font">المصنع</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/str-model"
+                *ngIf="hasAccessRole(pageEnums.MODEL)"
+              >
+                <p class="font">الموديل</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/costCenter"
+                *ngIf="hasAccessRole(pageEnums.COST_CENTER)"
+              >
+                <p class="font">مركز التكلفة</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/products"
+                *ngIf="hasAccessRole(pageEnums.PRODUCTS)"
+              >
+                <p class="font">المنتجات</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/product-serial"
+                *ngIf="hasAccessRole(pageEnums.PRODUCT_SERIAL)"
+              >
+                <p class="font">مسلسل المنتج</p>
+              </a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+          <a
+            *ngIf="hasAccessRole(pageEnums.WITHDRAW)"
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/withdraw"
+          >
+            <p class="font">اذن صرف</p>
+          </a>
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/STRAdd"
+            *ngIf="hasAccessRole(pageEnums.STRAdd)"
+          >
+            <p class="font">اذن اضافة</p>
+          </a>
+          <a
+            mat-list-item
+            routerLink="/str-openingStock"
+            class="sideNavSubItems"
+            *ngIf="hasAccessRole(pageEnums.STR_OPENING_STOCK)"
+          >
+            <p class="font">الرصيد الافتتاحى</p>
+          </a>
+
+          <a
+            mat-list-item
+            routerLink="/employeeOpening"
+            class="sideNavSubItems"
+            *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING)"
+          >
+            <p class="font">نقل عهدة</p>
+          </a>
+
+          <a
+            mat-list-item
+            routerLink="/EmployeeOpeningCustody"
+            class="sideNavSubItems"
+            *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)"
+          >
+            <p class="font">الإفتتاحي العهد</p>
+          </a>
+          <a mat-list-item routerLink="/StrStockTaking" class="sideNavSubItems">
+            <p class="font">جرد يدوي</p>
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+
+      <!--start accounts -->
+
+      <mat-expansion-panel
+        dir="rtl"
+        *ngIf="hasAccessModule(pageEnums.ACCOUNTS)"
       >
-        <p class="font">المنتجات</p></a>
-        <a
-        mat-list-item
-        class="sideNavSubItems"
-        routerLink="/product-serial"
-        *ngIf="hasAccessRole(pageEnums.PRODUCT_SERIAL)"
-      >
-        <p class="font">مسلسل المنتج</p></a
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <img
+              src="../assets/images/calculator.png"
+              width="20"
+              class="ms-2"
+            />
+            الحسابات
+          </mat-panel-title>
+          <mat-nav-list></mat-nav-list>
+        </mat-expansion-panel-header>
 
-      
-      >
-        
-        
-      </mat-nav-list>
-    </mat-expansion-panel>
-    <a  *ngIf="hasAccessRole(pageEnums.WITHDRAW)"
-      mat-list-item
-      class="sideNavSubItems"
-      routerLink="/withdraw"
-      
-    >
-      <p class="font">اذن صرف</p></a
-    >
-    <a
-      mat-list-item
-      class="sideNavSubItems"
-      routerLink="/STRAdd"
-      *ngIf="hasAccessRole(pageEnums.STRAdd)"
-    
-    >
-      <p class="font">اذن اضافة</p></a
-    >
-    <a
-      mat-list-item
-      routerLink="/str-openingStock"
-      class="sideNavSubItems"
-      *ngIf="hasAccessRole(pageEnums.STR_OPENING_STOCK)"
-    
-    >
-      <p class="font">الرصيد الافتتاحى</p></a
-    >
-   
-    <a
-      mat-list-item
-      routerLink="/employeeOpening"
-      class="sideNavSubItems"
-      *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING)"
-    >
-      <p class="font">نقل عهدة</p></a
-    >
+        <mat-nav-list>
+          <mat-expansion-panel
+            dir="rtl"
+            style="
+              box-shadow: none;
+              border-bottom: 1px rgb(244, 237, 237) solid;
+              margin-top: 10px;
+            "
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> التكويد </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/account"
+                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)"
+              >
+                <p class="font">اضافة حساب</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/AccountHierarchy"
+                *ngIf="hasAccessRole(pageEnums.AccountHierarchy)"
+              >
+                <p class="font">شجرة الحساب</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/FiAccountItem"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.FiAccountItem)"
+              >
+                <p class="font">صنف الحساب</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/AccountParent"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.AccountParent)"
+              >
+                <p class="font">إضافة حساب اب</p>
+              </a>
 
-    <a
-    mat-list-item
-    routerLink="/EmployeeOpeningCustody"
-    class="sideNavSubItems"
-    *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)"
-  >
-    <p class="font"> الإفتتاحي العهد</p></a
-  >
-  </mat-nav-list>
-</mat-expansion-panel>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/EntrySource"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.EntrySource)"
+              >
+                <p class="font">مصدر الدخل</p>
+              </a>
 
-     
-        <!--start accounts -->
-      
-        <mat-expansion-panel dir="rtl"  *ngIf="hasAccessModule(pageEnums.ACCOUNTS)">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <img
-                src="../assets/images/calculator.png"
-                width="20"
-                class="ms-2"
-              />
-              الحسابات
-            </mat-panel-title>
-            <mat-nav-list></mat-nav-list>
-          </mat-expansion-panel-header>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/EntrySourceType"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.EntrySourceType)"
+              >
+                <p class="font">نوع مصدر الدخل</p>
+              </a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/FIJournal"
+            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+            *ngIf="hasAccessRole(pageEnums.FIJournal)"
+          >
+            <p class="font">اليومية</p>
+          </a>
 
-          <mat-nav-list>
-            <mat-expansion-panel
-              dir="rtl"
-              style="
-                box-shadow: none;
-                border-bottom: 1px rgb(244, 237, 237) solid;
-                margin-top: 10px;
-              "
-            >
-              <mat-expansion-panel-header>
-                <mat-panel-title> التكويد </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-nav-list>
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/account"
-                  *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)"
-                  
-                >
-                  <p class="font">اضافة حساب</p></a
-                >
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/AccountHierarchy"
-                  *ngIf="hasAccessRole(pageEnums.AccountHierarchy)"
-                >
-                  <p class="font">شجرة الحساب</p></a
-                >
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/FiAccountItem"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
-                  "
-                  *ngIf="hasAccessRole(pageEnums.FiAccountItem)"
-                >
-                  <p class="font">صنف الحساب</p></a
-                >
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/AccountParent"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
-                    
-                  "
-                  *ngIf="hasAccessRole(pageEnums.AccountParent)"
-                >
-                  <p class="font">إضافة حساب اب</p></a
-                >
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/FIJournal"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
-                  "
-                  *ngIf="hasAccessRole(pageEnums.FIJournal)"
-                >
-                  <p class="font">إضافة صحيفة</p></a
-                >
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/fi-entry"
+            (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
+            *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
+            >القيود
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+      <!-- end accounts -->
+      <!-- start الموراد البشرية-->
+      <mat-expansion-panel dir="rtl">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon color="primary" class="ms-2">people</mat-icon>
+            شئون العاملين
+          </mat-panel-title>
+          <mat-nav-list></mat-nav-list>
+        </mat-expansion-panel-header>
 
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/EntrySource"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
+        <mat-nav-list>
+          <mat-expansion-panel
+            dir="rtl"
+            style="
+              box-shadow: none;
+              border-bottom: 1px rgb(244, 237, 237) solid;
+              margin-top: 10px;
+            "
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> التكويد </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-jobTitle"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                >المسمي الوظيفي
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-incentive"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                الحوافز</a
+              >
 
-                  "
-                  *ngIf="hasAccessRole(pageEnums.EntrySource)"
-                >
-                  <p class="font">مصدر الدخل</p></a
-                >
-
-                <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/EntrySourceType"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
-                  "
-                  *ngIf="hasAccessRole(pageEnums.EntrySourceType)"
-                >
-                  <p class="font">نوع مصدر الدخل</p></a
-                >
-              </mat-nav-list>
-            </mat-expansion-panel>
-            <a
-              mat-list-item
-              class="sideNavSubItems"
-              routerLink="/fi-entry"
-              (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
-              *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
-              >القيود
-            </a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-        <!-- end accounts -->
-             <!-- start الموراد البشرية-->
-             <mat-expansion-panel dir="rtl"  >
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon color="primary" class="ms-2">people</mat-icon>
-                   شئون العاملين
-                </mat-panel-title>
-                <mat-nav-list></mat-nav-list>
-              </mat-expansion-panel-header>
-
-              <mat-nav-list>
-                <mat-expansion-panel
-                  dir="rtl"
-                  style="
-                    box-shadow: none;
-                    border-bottom: 1px rgb(244, 237, 237) solid;
-                    margin-top: 10px;
-                  "
-                >
-                  <mat-expansion-panel-header>
-                    <mat-panel-title> التكويد </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <mat-nav-list>
-                    <a
-                      mat-list-item
-                      class="sideNavSubItems"
-                      routerLink="/hr-jobTitle"
-                      (click)="
-                        global.getPermissionUserRoles(1, 'acounts', '', '')
-                      "
-                      >المسمي الوظيفي </a
-                    >
-                    <a
-                      mat-list-item
-                      class="sideNavSubItems"
-                      routerLink="/hr-incentive"
-                      (click)="
-                        global.getPermissionUserRoles(1, 'acounts', '', '')
-                      "
-                      >  الحوافز</a
-                    >
-                  
-                    <a
-                      mat-list-item
-                      class="sideNavSubItems"
-                      routerLink="/hr-hiringType"
-                      (click)="
-                        global.getPermissionUserRoles(1, 'acounts', '', '')
-                      "
-                      >  نوع التوظيف</a
-                     
-                    >
-                    <a
-                      mat-list-item
-                      class="sideNavSubItems"
-                      routerLink="/SeveranceReason"
-                      (click)="
-                        global.getPermissionUserRoles(1, 'acounts', '', '')
-                      "
-                      >  الانقطاع </a
-                     
-                    >
-                    <a
-                      mat-list-item
-                      class="sideNavSubItems"
-                      routerLink="/hr-MillitryState"
-                      (click)="
-                        global.getPermissionUserRoles(1, 'acounts', '', '')
-                      "
-                      >موقف التجنيد</a
-                     
-                    >
-                    <a
-                    mat-list-item
-                    class="sideNavSubItems"
-                    routerLink="/city"
-                    (click)="
-                      global.getPermissionUserRoles(1, 'acounts', '', '')
-                    "
-                    >  المحافظات</a
-                   
-                  >
-                  <a
-                    mat-list-item
-                    class="sideNavSubItems"
-                    routerLink="/cityState"
-                    (click)="
-                      global.getPermissionUserRoles(1, 'acounts', '', '')
-                    "
-                    >  المراكز</a
-                   
-                  >
-                  <a
-                  mat-list-item
-                  class="sideNavSubItems"
-                  routerLink="/Qualification"
-                  (click)="
-                    global.getPermissionUserRoles(1, 'acounts', '', '')
-                  "
-                  >  المؤهل</a
-                 
-                >
-                <a
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-hiringType"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                نوع التوظيف</a
+              >
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/SeveranceReason"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                الانقطاع
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-MillitryState"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                >موقف التجنيد</a
+              >
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/city"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                المحافظات</a
+              >
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/cityState"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                المراكز</a
+              >
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/Qualification"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                المؤهل</a
+              >
+              <a
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/QualitativeGroup"
-                (click)="
-                  global.getPermissionUserRoles(1, 'acounts', '', '')
-                "
-                >  المجموعة النوعية</a
-               
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                المجموعة النوعية</a
               >
               <a
-              mat-list-item
-              class="sideNavSubItems"
-              routerLink="/WorkPlace"
-              (click)="
-                global.getPermissionUserRoles(1, 'acounts', '', '')
-              "
-              >   مكان العمل</a
-             
-            >
-            <a
-            mat-list-item
-            class="sideNavSubItems"
-            routerLink="/specialization"
-            (click)="
-              global.getPermissionUserRoles(1, 'acounts', '', '')
-            "
-            >  التخصصات</a
-           
-          >
-                  </mat-nav-list>
-                </mat-expansion-panel>
-                <a
                 mat-list-item
                 class="sideNavSubItems"
-                routerLink="/hr-vacation"
-                (click)="
-                  global.getPermissionUserRoles(1, 'acounts', '', '')
-                "
-                > الاجازات</a>
-              </mat-nav-list>
-            </mat-expansion-panel>
-            <!-- end Hr -->
-            <!-- start roles -->
-            <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
-            <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)" >
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon color="primary"  class="ms-2">store</mat-icon>
-                  الصلاحيات
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-nav-list>
-                <mat-expansion-panel
-                  dir="rtl"
-                  style="
-                    box-shadow: none;
-                    border-bottom: 1px rgb(244, 237, 237) solid;
-                    margin-top: 10px;
-                  "
-                >
-                  <mat-expansion-panel-header>
-                    <mat-panel-title> التكويد </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <mat-nav-list>
-                    <a
-                      mat-list-item
-                      class="sideNavSubItems"
-                      routerLink="/pr-user"
-                      *ngIf="hasAccessRole(pageEnums.PR_USER)"
-                      ><p class="font" >المستخدمين</p></a
-                    >
-                    <a mat-list-item class="sideNavSubItems" routerLink="/pr-group"
-                    *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-                      ><p class="font" >المجموعات</p></a
-                    >
-                  </mat-nav-list>
-                </mat-expansion-panel>
-                
-             
-               
-              </mat-nav-list>
-            </mat-expansion-panel>
-            <!-- ens roles -->
+                routerLink="/WorkPlace"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                مكان العمل</a
+              >
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/specialization"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                التخصصات</a
+              >
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-position"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                المنصب</a
+              >
+
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/hr-disciplinary"
+                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+              >
+                الجزاءات</a
+              >
+            </mat-nav-list>
+          </mat-expansion-panel>
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/hr-vacation"
+            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+          >
+            الاجازات</a
+          >
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/hr-employeeVacationBalance"
+            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+          >
+            رصيد الاجازات</a
+          >
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/hr-employeeVacation"
+            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+          >
+            اجازات الموظفين</a
+          >
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/hr-EmployeeDisciplinary"
+            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+          >
+            الدرجة الوظيفية</a
+          >
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/hr-financialDegree"
+            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+          >
+            الدرجة المالية</a
+          >
+        </mat-nav-list>
+
+        <a
+          mat-list-item
+          class="sideNavSubItems"
+          routerLink="/hr-employeeFinancialDegree"
+          (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+        >
+          الدرجة المالية للموظف</a
+        >
+        <a
+          mat-list-item
+          class="sideNavSubItems"
+          routerLink="hr-employee-position"
+          (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+        >
+          مناصب الموظفين</a
+        >
+      </mat-expansion-panel>
+      <!-- end Hr -->
+      <!-- start roles -->
+      <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
+
+      <!-- end Hr -->
+      <!-- start roles -->
+      <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
+      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon color="primary" class="ms-2">store</mat-icon>
+            الصلاحيات
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <mat-expansion-panel
+            dir="rtl"
+            style="
+              box-shadow: none;
+              border-bottom: 1px rgb(244, 237, 237) solid;
+              margin-top: 10px;
+            "
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> التكويد </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/pr-user"
+                *ngIf="hasAccessRole(pageEnums.PR_USER)"
+              >
+                <p class="font">المستخدمين</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/pr-group"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              >
+                <p class="font">المجموعات</p>
+              </a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+        </mat-nav-list>
+      </mat-expansion-panel>
+      <!-- ens roles -->
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
-    <div style=" min-height: 600px" class="outletConyainer">
+    <div style="min-height: 600px" class="outletConyainer">
       <router-outlet></router-outlet>
     </div>
   </mat-drawer-content>

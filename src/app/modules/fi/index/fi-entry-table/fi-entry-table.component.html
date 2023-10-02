@@ -6,7 +6,7 @@
         <mat-expansion-panel-header>
             <mat-panel-description>
                 بحث متقدم
-                <mat-icon>account_circle</mat-icon>
+                <mat-icon>search</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="search">
@@ -241,5 +241,5 @@
 <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" (page)="pageChanged($event)" ></mat-paginator> -->
 
 <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)">
+    [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)" showFirstLastButtons>
 </mat-paginator>

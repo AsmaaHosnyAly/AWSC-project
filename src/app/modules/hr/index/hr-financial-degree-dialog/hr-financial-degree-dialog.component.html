@@ -1,0 +1,22 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل  درجة مالية   ' : ' إضافة درجة مالية جديدة'}}</h1> 
+  <form [formGroup]="financialDegreeForm" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="financialDegreeForm">
+          <mat-form-field appearance="outline">
+            <mat-label>اسم الدرجة </mat-label>
+            <input formControlName="name" matInput placeholder="ادخل القرية">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="groupInput">
+            <mat-label>رقم السنة</mat-label>
+            <input matInput placeholder="رقم السنة" formControlName="noYear" type="number">
+        </mat-form-field>
+        </form>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn" (click)="addFinancialDegree()" style="margin-left: 8px;">{{actionBtn}}</button>
+      </div>
+    </form>
+  

@@ -176,6 +176,12 @@ import { StrProudctSerialComponent } from './modules/str/index/str-proudct-seria
 import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component'; 
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
 import { StrUserstoreDialogComponent } from './modules/str/index/str-userstore-dialog/str-userstore-dialog.component';
+import { HrFinancialDegreeComponent } from './modules/hr/index/hr-financial-degree/hr-financial-degree.component';
+import { HrFinancialDegreeDialogComponent } from './modules/hr/index/hr-financial-degree-dialog/hr-financial-degree-dialog.component';
+import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employee-financial-degree/hr-employee-financial-degree.component';
+import { HrEmployeeFinancialDegreeDialogComponent } from './modules/hr/index/hr-employee-financial-degree-dialog/hr-employee-financial-degree-dialog.component';
+import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
+import { HrEmployeePositionDialogComponent } from './modules/hr/index/hr-employee-position-dialog/hr-employee-position-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -329,7 +335,13 @@ import { StrUserstoreDialogComponent } from './modules/str/index/str-userstore-d
     StrProudctSerialComponent,
     StrProudctSerialDialogComponent,
     StrUserstoreComponent,
-    StrUserstoreDialogComponent
+    StrUserstoreDialogComponent,
+    HrFinancialDegreeComponent,
+    HrFinancialDegreeDialogComponent,
+    HrEmployeeFinancialDegreeComponent,
+    HrEmployeeFinancialDegreeDialogComponent,
+    HrEmployeePositionComponent,
+    HrEmployeePositionDialogComponent,
 
    
   ],

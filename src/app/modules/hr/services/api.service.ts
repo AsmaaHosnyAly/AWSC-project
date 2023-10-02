@@ -180,6 +180,56 @@ export class ApiService {
   postHrCity(data: any) {
     return this.http.post<any>(`${this.url}/HrCity/Add`, data);
   }
+  // HrFinancialDegree
+  getHrFinancialDegree() {
+    return this.http.get<any>(
+      `${this.url}/HrFinancialDegree/get/all`
+    );
+  }
+  putHrFinancialDegree(data: any) {
+    return this.http.put<any>(
+      `${this.url}/HrFinancialDegree/update`,
+      data
+    );
+  }
+  deleteHrFinancialDegree(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/HrFinancialDegree/delete/${id}`
+    );
+  }
+  postHrFinancialDegree(data: any) {
+    return this.http.post<any>(
+      `${this.url}/HrFinancialDegree/Add`,
+      data
+    );
+  }
+ // HrEmployeeFinancialDegree
+ getEmployeeFinancialDegree() {
+  return this.http.get<any>(
+    `${this.url}/HrEmployeeFinancialDegree/get/all`
+  );
+}
+putEmployeeFinancialDegree(data: any) {
+  return this.http.put<any>(
+    `${this.url}/HrEmployeeFinancialDegree/update`,
+    data
+  );
+}
+deleteHrEmployeeFinancialDegree(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/HrEmployeeFinancialDegree/delete/${id}`
+  );
+}
+postHrEmployeeFinancialDegree(data: any) {
+  return this.http.post<any>(
+    `${this.url}/HrEmployeeFinancialDegree/Add`,
+    data
+  );
+}
+getAllFinancialDegree(): Observable<any> {
+  return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
+}
+
   // HrCityState
   getHrCityState() {
     return this.http.get<any>(
@@ -206,7 +256,6 @@ export class ApiService {
   getAllCitis(): Observable<any> {
     return this.http.get<any>(`${this.url}/HrCity/get/all`);
   }
-
   //Fatma
 
   //Platoon
@@ -2570,6 +2619,22 @@ export class ApiService {
   putHrPosition(data: any) {
     return this.http.put<any>(`${this.url}/HrPosition/update`, data);
   }
+
+
+  ///////////////////////////////// HR-employee-position /////////////////////////////
+  postHrEmployeePosition(data: any) {
+    return this.http.post<any>(`${this.url}/HrEmployeePosition/Add`, data);
+  }
+  getHrEmployeePosition() {
+    return this.http.get<any>(`${this.url}/HrEmployeePosition/get/all`);
+  }
+  putHrEmployeePosition(data: any) {
+    return this.http.put<any>(`${this.url}/HrEmployeePosition/update`, data);
+  }
+  deleteHrEmployeePosition(id: number) {
+    return this.http.delete<any>(`${this.url}/HrEmployeePosition/delete/${id}`);
+  }
+
 
   ///////////////////////////////// HR-IncentiveAllowance /////////////////////////////
   postHrIncentiveAllowance(data: any) {

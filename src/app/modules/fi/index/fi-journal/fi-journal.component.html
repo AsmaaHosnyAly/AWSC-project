@@ -3,7 +3,7 @@
   <mat-card-content>
 
     <mat-accordion class="example-headers-align" multi dir="rtl">
-      <div class="page-title">اليومية </div>
+      <div class="page-title">اليومية  </div>
 
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -122,7 +122,7 @@
 
      
     </mat-card-header>
-    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
+    <table matSort mat-table [dataSource]="dataSource"  dir="rtl">
 
 
 
@@ -154,7 +154,7 @@
             <mat-icon>edit</mat-icon>
           </button>
           <button (click)="daleteFIJournals(row.id)" mat-icon-button color="warn">
-            <mat-icon>delete</mat-icon>
+            <mat-icon>delete_forever</mat-icon>
           </button>
         </td>
       </ng-container>

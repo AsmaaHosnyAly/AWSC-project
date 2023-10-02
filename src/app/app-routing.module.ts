@@ -87,6 +87,9 @@ import { PagesEnums } from './core/enums/pages.enum';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
 import { productSerialGuard } from './core/guards/product-serial.guard';
+import { HrFinancialDegreeComponent } from './modules/hr/index/hr-financial-degree/hr-financial-degree.component';
+import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employee-financial-degree/hr-employee-financial-degree.component';
+import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -247,11 +250,16 @@ const routes: Routes = [
       },
       { path: 'hr-position', component: HrPositionComponent },
       { path: 'hr-disciplinary', component: HrDisciplinaryComponent },
+      { path: 'hr-financialDegree', component: HrFinancialDegreeComponent },
+      { path: 'hr-employeeFinancialDegree', component: HrEmployeeFinancialDegreeComponent },
 
       {
         path: 'hr-EmployeeDisciplinary',
         component: HrEmployeeDisciplinaryComponent,
       },
+
+      { path: 'hr-employee-position', component: HrEmployeePositionComponent },
+
      
       
 

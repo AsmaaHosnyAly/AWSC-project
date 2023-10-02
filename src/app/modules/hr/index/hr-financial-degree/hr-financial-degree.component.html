@@ -1,4 +1,4 @@
-<div class="page-title">  المراكز</div>
+<div class="page-title">  الدرجات المالية</div>
 <mat-card>
   <mat-card-content>
   <mat-card-header dir="ltr" class="parent-search">
@@ -27,25 +27,25 @@
        
           <!-- productName Column -->
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef > المركز </th>
+            <th mat-header-cell *matHeaderCellDef > اسم الدرجة </th>
             <td mat-cell *matCellDef="let row"> {{row.name}} </td>
           </ng-container> 
   
         <!-- category Column -->
-        <ng-container matColumnDef="cityName">
-          <th mat-header-cell *matHeaderCellDef > المحافظة </th>
-          <td mat-cell *matCellDef="let row"> {{row.cityName}}</td>
+        <ng-container matColumnDef="noYear">
+          <th mat-header-cell *matHeaderCellDef > رقم السنة </th>
+          <td mat-cell *matCellDef="let row"> {{row.noYear}}</td>
         </ng-container>
   
         <!-- action Column -->
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef style="width: 15%;" >الإجراء </th>
+          <th mat-header-cell *matHeaderCellDef > الاجراء </th>
           <td mat-cell *matCellDef="let row"> 
-            <button mat-icon-button (click)="editHrCityStates(row)" class="editbtn">
+            <button mat-icon-button (click)="editHrFinancialDegree(row)" class="editbtn">
               <mat-icon>edit</mat-icon>
             </button>
-            <button (click)="deleteHrCityStates(row.id)" mat-icon-button color="warn">
-              <mat-icon>delete_forever</mat-icon>
+            <button (click)="deleteHrFinancialDegree(row.id)" mat-icon-button color="warn">
+              <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
@@ -70,3 +70,4 @@
       <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
     </mat-card-footer>
   </mat-card>
+
