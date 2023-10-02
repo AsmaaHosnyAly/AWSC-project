@@ -25,19 +25,19 @@
           <!-- productName Column -->
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> الاسم </th>
-            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+            <td mat-cell *matCellDef="let row"> {{row.name? row.name : '  لايوجد بيانات'}}{{row.name}} </td>
           </ng-container>
   
         <!-- category Column -->
         <ng-container matColumnDef="accounName">
           <th mat-header-cell *matHeaderCellDef > الحساب </th>
-          <td mat-cell *matCellDef="let row"> {{row.accounName}}</td>
+          <td mat-cell *matCellDef="let row">{{row.accounName? row.accounName : '  لايوجد بيانات'}}  </td>
         </ng-container>
 
           <!-- itemcategory Column -->
           <ng-container matColumnDef="accountItemCategoryName">
             <th mat-header-cell *matHeaderCellDef> تصنيف الحساب </th>
-            <td mat-cell *matCellDef="let row"> {{row.accountItemCategoryName}}</td>
+            <td mat-cell *matCellDef="let row"> {{row.accountItemCategoryName? row.accountItemCategoryName : '  لايوجد بيانات'}}</td>
           </ng-container>
        
   
@@ -49,7 +49,7 @@
               <mat-icon>edit</mat-icon>
             </button>
             <button (click)="deleteFiAccountItem(row.id)" mat-icon-button color="warn">
-              <mat-icon>delete</mat-icon>
+              <mat-icon>delete_forever</mat-icon>
             </button>
           </td>
         </ng-container>
