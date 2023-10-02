@@ -247,6 +247,12 @@ table, th, td {
   cursor: pointer;
 }
 
+mat-sort-header{
+text-align: center;
+margin: auto;
+ 
+}
+
 footer {
   display: none;
   position: absolute;
