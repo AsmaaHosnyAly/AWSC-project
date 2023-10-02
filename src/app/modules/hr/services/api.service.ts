@@ -2571,6 +2571,22 @@ export class ApiService {
     return this.http.put<any>(`${this.url}/HrPosition/update`, data);
   }
 
+
+  ///////////////////////////////// HR-employee-position /////////////////////////////
+  postHrEmployeePosition(data: any) {
+    return this.http.post<any>(`${this.url}/HrEmployeePosition/Add`, data);
+  }
+  getHrEmployeePosition() {
+    return this.http.get<any>(`${this.url}/HrEmployeePosition/get/all`);
+  }
+  putHrEmployeePosition(data: any) {
+    return this.http.put<any>(`${this.url}/HrEmployeePosition/update`, data);
+  }
+  deleteHrEmployeePosition(id: number) {
+    return this.http.delete<any>(`${this.url}/HrEmployeePosition/delete/${id}`);
+  }
+
+
   ///////////////////////////////// HR-IncentiveAllowance /////////////////////////////
   postHrIncentiveAllowance(data: any) {
     // console.log('form add data to apiii: ', data);
