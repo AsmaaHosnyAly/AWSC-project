@@ -229,7 +229,32 @@ postHrEmployeeFinancialDegree(data: any) {
 getAllFinancialDegree(): Observable<any> {
   return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
 }
-
+// HrEmployeeAppraisal
+getHrEmployeeAppraisal() {
+  return this.http.get<any>(
+    `${this.url}/HrEmployeeAppraisal/get/all`
+  );
+}
+putHrEmployeeAppraisal(data: any) {
+  return this.http.put<any>(
+    `${this.url}/HrEmployeeAppraisal/update`,
+    data
+  );
+}
+deleteHrEmployeeAppraisal(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/HrEmployeeAppraisal/delete/${id}`
+  );
+}
+postHrEmployeeAppraisal(data: any) {
+  return this.http.post<any>(
+    `${this.url}/HrEmployeeAppraisal/Add`,
+    data
+  );
+}
+// getAllEmployee(): Observable<any> {
+//   return this.http.get<any>(`${this.url}/HrCity/get/all`);
+// }
   // HrCityState
   getHrCityState() {
     return this.http.get<any>(

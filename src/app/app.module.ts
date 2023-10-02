@@ -182,6 +182,8 @@ import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employ
 import { HrEmployeeFinancialDegreeDialogComponent } from './modules/hr/index/hr-employee-financial-degree-dialog/hr-employee-financial-degree-dialog.component';
 import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
 import { HrEmployeePositionDialogComponent } from './modules/hr/index/hr-employee-position-dialog/hr-employee-position-dialog.component';
+import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
+import { HrEmployeeAppraisalDialogComponent } from './modules/hr/index/hr-employee-appraisal-dialog/hr-employee-appraisal-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -342,6 +344,8 @@ import { HrEmployeePositionDialogComponent } from './modules/hr/index/hr-employe
     HrEmployeeFinancialDegreeDialogComponent,
     HrEmployeePositionComponent,
     HrEmployeePositionDialogComponent,
+    HrEmployeeAppraisalComponent,
+    HrEmployeeAppraisalDialogComponent,
 
    
   ],

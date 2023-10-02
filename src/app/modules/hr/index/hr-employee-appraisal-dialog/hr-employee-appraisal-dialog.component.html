@@ -1,0 +1,42 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل تقييم   ' : ' إضافة تقييم جديد'}}</h1> 
+  <form [formGroup]="AppraisalForm" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="AppraisalForm">
+          <mat-form-field appearance="outline">
+            <mat-label>الرقم </mat-label>
+            <input formControlName="appraisal" matInput placeholder="ادخل الرقم" type="number">
+          </mat-form-field>
+          <mat-label>الموظف</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="city" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+              placeholder="{{getEmployeeData ? getEmployeeData.employeeName : ''}}" (click)="openAutoemployee()" required />
+            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+              (optionSelected)="employeeSelected($event)">
+              <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                {{ employee.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>التاريخ</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <div class="text-center" style="margin-bottom: 10px;">
+            <input class="form-control" type="file" >
+        </div>
+
+        </form>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn" (click)="addEmployeeAppraisal()" style="margin-left: 8px;">{{actionBtn}}</button>
+      </div>
+    </form>
+  
