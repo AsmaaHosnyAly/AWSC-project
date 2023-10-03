@@ -92,6 +92,8 @@ import { HrFinancialDegreeComponent } from './modules/hr/index/hr-financial-degr
 import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employee-financial-degree/hr-employee-financial-degree.component';
 import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
 import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
+import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualification-level/hr-qualification-level.component';
+import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -245,6 +247,7 @@ const routes: Routes = [
       { path: 'hr-hiringType', component: HrHiringTypeComponent },
       { path: 'SeveranceReason', component: HrSeveranceReasonComponent },
       { path: 'Qualification', component: HrQualificationComponent },
+      { path: 'QualificationLevel', component: HrQualificationLevelComponent },
       { path: 'hr-employeeVacation', component: HrEmployeeVacationComponent }, //waiting back to update
       {
         path: 'hr-employeeVacationBalance',
@@ -255,6 +258,7 @@ const routes: Routes = [
       { path: 'hr-financialDegree', component: HrFinancialDegreeComponent },
       { path: 'hr-employeeFinancialDegree', component: HrEmployeeFinancialDegreeComponent },
       { path: 'hr-employeeِAppraisal', component: HrEmployeeAppraisalComponent },
+      { path: 'EmployeeQualification', component: HrEmployeeQualificationComponent },
 
       {
         path: 'hr-EmployeeDisciplinary',
