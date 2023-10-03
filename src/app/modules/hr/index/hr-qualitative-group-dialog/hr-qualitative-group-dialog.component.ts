@@ -8,7 +8,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-qualitative-group-dialog',
   templateUrl: './hr-qualitative-group-dialog.component.html',
@@ -27,7 +28,7 @@ dataSource!: MatTableDataSource<any>;
 accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,private toastr: ToastrService,
-    private readonly route:ActivatedRoute,
+    private readonly route:ActivatedRoute,private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<HrQualitativeGroupDialogComponent>){ }
     ngOnInit(): void {
@@ -37,7 +38,11 @@ accordion!: MatAccordion;
       name : ['',Validators.required],
       id : ['',Validators.required],
       });
-  
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addQualitativeGroup();
+        return false; // Prevent the default browser behavior
+      }));
       if(this.editData){
         this.actionBtn = "تعديل";
       this.QualitativeGroupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);

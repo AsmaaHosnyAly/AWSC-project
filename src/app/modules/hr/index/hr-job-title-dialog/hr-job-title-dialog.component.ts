@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { __param } from 'tslib';
-
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-hr-job-title-dialog',
@@ -29,7 +29,7 @@ export class HrJobTitleDialogComponent implements OnInit{
   userIdFromStorage: any;
 
   constructor(private formBuilder: FormBuilder,
-    private api: ApiService,
+    private api: ApiService,private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,private http:HttpClient,
     private dialogRef: MatDialogRef<HrJobTitleDialogComponent>,
     private toastr: ToastrService) { }
@@ -46,7 +46,11 @@ export class HrJobTitleDialogComponent implements OnInit{
     
 
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addJobTitle();
+      return false; // Prevent the default browser behavior
+    }));
     console.log("edit data", this.editData);
     if (this.editData) {
       this.actionBtn = "تعديل";

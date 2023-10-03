@@ -8,7 +8,8 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
@@ -44,6 +45,7 @@ export class HrEmployeeDisciplinaryDialogComponent  implements OnInit{
   selecteddisciplinary: disciplinary | undefined;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrEmployeeDisciplinaryDialogComponent>,
     private toastr: ToastrService) { 
@@ -78,7 +80,11 @@ this.getdisciplinary();
 
      transactionUserId: ['', Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addEmployeeDisciplinary();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.actionBtn = "Update";
       this.groupForm.controls['no'].setValue(this.editData.no);
