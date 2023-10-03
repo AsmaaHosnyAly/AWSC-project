@@ -500,14 +500,7 @@
           >
             اجازات الموظفين</a
           >
-          <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/EmployeeQualification"
-          (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
-        >
-          مؤهل الموظف</a
-        >
+        
           <a
             mat-list-item
             class="sideNavSubItems"
@@ -548,7 +541,7 @@
         <a
           mat-list-item
           class="sideNavSubItems"
-          routerLink="hr-employee-position"
+          routerLink="hr-employee-n"
           *ngIf="hasAccessRole(pageEnums.HR_employee)"
         >
            الموظفين</a
@@ -556,19 +549,12 @@
         <a
           mat-list-item
           class="sideNavSubItems"
-          routerLink="hr-employee-position"
+          routerLink="EmployeeQualification"
           *ngIf="hasAccessRole(pageEnums.Employee_qualifications)"
         >
           مؤهل الموظف</a
         >
-        <a
-        mat-list-item
-        class="sideNavSubItems"
-        routerLink="hr-employee-position"
-        *ngIf="hasAccessRole(pageEnums.Qualification_level)"
-      >
-         نوع المؤهل</a
-      >
+      
       </mat-expansion-panel>
       <!-- end Hr -->
       <!-- start roles -->
