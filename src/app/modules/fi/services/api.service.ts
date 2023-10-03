@@ -2065,6 +2065,10 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
   getFiEntry() {
     return this.http.get<any>(`${this.url}/FIEntry/get/all`);
   }
+  getFiEntryPaginate(currentPage: any, pageSize: any){
+    let urlPassed = `${this.url}/FIEntry/get/pagnation?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putFiEntry(data: any) {
     console.log('put fiEntry data with id: ', data);
     return this.http.put<any>(`${this.url}/FIEntry/update`, data);

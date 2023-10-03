@@ -174,7 +174,7 @@ export class PrGroupDialogComponent implements OnInit {
             });
 
             if (this.matchedIds) {
-              
+
               // alert("jjjjjj")
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
@@ -206,23 +206,76 @@ export class PrGroupDialogComponent implements OnInit {
         this.groupDetailsForm.controls['groupId'].setValue(this.getMasterRowId.id);
         // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
+        this.getAllDetailsForms();
+        
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
-          this.api.postPrGroupRole(this.groupDetailsForm.value)
+          this.api.getPrGroupRole()
             .subscribe({
               next: (res) => {
-                // console.log("res details: ", res)
-                this.groupDetailsForm.reset();
-                this.prRoleCtrl.setValue('');
-                this.updateDetailsForm()
-                this.getAllDetailsForms();
-                this.toastrSuccess();
+
+                console.log("userRole res", res, " userInputRole: ", this.groupDetailsForm.getRawValue().roleId)
+                console.log("userRole exist: ", res.find((role: { roleId: any; }) => role.roleId == this.groupDetailsForm.getRawValue().roleId))
+
+
+                this.matchedIds = res.filter((a: any) => {
+                  // console.log("matched Id & HeaderId : ", a.HeaderId === this.getMasterRowId.id)
+                  return a.groupId === this.getMasterRowId.id;
+                });
+
+                if (this.matchedIds) {
+
+                  if (this.matchedIds.find((role: { roleId: any; }) => role.roleId == this.groupDetailsForm.getRawValue().roleId)) {
+                    this.toastrWarning();
+                  }
+                  else {
+                    this.api.postPrGroupRole(this.groupDetailsForm.value)
+                      .subscribe({
+                        next: (res) => {
+                          // console.log("res details: ", res)
+                          this.groupDetailsForm.reset();
+                          this.prRoleCtrl.setValue('');
+                          this.updateDetailsForm()
+                          this.getAllDetailsForms();
+                          this.toastrSuccess();
+
+                        },
+                        error: () => {
+                          // alert("حدث خطأ أثناء إضافة مجموعة")
+                        }
+                      })
+                  }
+                }
+                else {
+                  // if (res.find((role: { roleId: any; }) => role.roleId == this.groupDetailsForm.getRawValue().roleId)) {
+                  //   this.toastrWarning();
+                  // }
+                  // else {
+                  this.api.postPrGroupRole(this.groupDetailsForm.value)
+                    .subscribe({
+                      next: (res) => {
+                        // console.log("res details: ", res)
+                        this.groupDetailsForm.reset();
+                        this.prRoleCtrl.setValue('');
+                        this.updateDetailsForm()
+                        this.getAllDetailsForms();
+                        this.toastrSuccess();
+
+                      },
+                      error: () => {
+                        // alert("حدث خطأ أثناء إضافة مجموعة")
+                      }
+                    })
+                  // }
+                }
 
               },
-              error: () => {
-                // alert("حدث خطأ أثناء إضافة مجموعة")
+              error: (err) => {
+                alert("حدث خطا ما !!")
               }
             })
+
+
         } else {
           this.updateBothForms();
         }
@@ -373,5 +426,8 @@ export class PrGroupDialogComponent implements OnInit {
   }
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrWarning(): void {
+    this.toastr.warning(" هذه الصلاحية موجودة من قبل");
   }
 }
