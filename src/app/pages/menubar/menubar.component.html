@@ -427,6 +427,14 @@
                 المؤهل</a
               >
               <a
+              mat-list-item
+              class="sideNavSubItems"
+              routerLink="/QualificationLevel"
+              (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+            >
+               مستوى المؤهل</a
+            >
+              <a
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/QualitativeGroup"
@@ -492,6 +500,14 @@
           >
             اجازات الموظفين</a
           >
+          <a
+          mat-list-item
+          class="sideNavSubItems"
+          routerLink="/EmployeeQualification"
+          (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+        >
+          مؤهل الموظف</a
+        >
           <a
             mat-list-item
             class="sideNavSubItems"
