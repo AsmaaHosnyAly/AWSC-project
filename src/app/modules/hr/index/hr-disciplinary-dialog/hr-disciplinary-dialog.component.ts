@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-disciplinary-dialog',
   templateUrl: './hr-disciplinary-dialog.component.html',
@@ -18,6 +19,7 @@ export class HrDisciplinaryDialogComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrDisciplinaryDialogComponent>,
     private toastr: ToastrService) { }
@@ -30,7 +32,11 @@ export class HrDisciplinaryDialogComponent implements OnInit{
 
       transactionUserId: ['', Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addDisciplinary();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.actionBtn = "Update";
       this.groupForm.controls['name'].setValue(this.editData.name);

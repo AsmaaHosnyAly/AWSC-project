@@ -13,7 +13,8 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 import { HrQualificationDialogComponent } from '../hr-qualification-dialog/hr-qualification-dialog.component'; 
 export class QualitativeGroup {
   constructor(public id: number, public name: string,private toastr: ToastrService) {}
@@ -39,7 +40,7 @@ export class HrQualificationComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
     this.qualitativeGroupCtrl = new FormControl();
     this.filteredQualitativeGroup = this.qualitativeGroupCtrl.valueChanges.pipe(
       startWith(''),
@@ -53,6 +54,11 @@ export class HrQualificationComponent implements OnInit {
     this.api.getAllQualitativeGroups().subscribe((qualitativeGroup) => {
       this.qualitativeGroups = qualitativeGroup;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog

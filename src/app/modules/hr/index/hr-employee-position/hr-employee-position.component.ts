@@ -8,7 +8,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { HrCityDialogComponent } from '../hr-city-dialog/hr-city-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { HrEmployeePositionDialogComponent } from '../hr-employee-position-dialog/hr-employee-position-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-employee-position',
   templateUrl: './hr-employee-position.component.html',
@@ -21,11 +22,15 @@ export class HrEmployeePositionComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getHrEmployeePositions();
-
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   openDialog() {

@@ -8,7 +8,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 import {
   FormGroup,
   FormBuilder,
@@ -33,9 +34,14 @@ export class HrMillitryStateComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService, private toastr: ToastrService,){}
+  constructor(private dialog : MatDialog,private hotkeysService: HotkeysService, private api : ApiService, private toastr: ToastrService,){}
   ngOnInit(): void {
     this.getAllMillitryStates();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog.open(HrMillitryStateDialogComponent, {

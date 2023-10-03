@@ -8,7 +8,8 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { HrEmployeeVacationDialogComponent } from '../hr-employee-vacation-dialog/hr-employee-vacation-dialog.component';
 import { HrEmployeeVacationBalanceDialogComponent } from '../hr-employee-vacation-balance-dialog/hr-employee-vacation-balance-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-employee-vacation-balance',
   templateUrl: './hr-employee-vacation-balance.component.html',
@@ -22,10 +23,15 @@ export class HrEmployeeVacationBalanceComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getHrEmployeeVacationBalance();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {
@@ -77,22 +83,29 @@ export class HrEmployeeVacationBalanceComponent implements OnInit{
   }
 
   deleteEmployeeVacationBalance(id: number) {
-    var result = confirm("هل ترغب بتاكيد مسح رصيد اجازة الموظف ؟ ");
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteHrEmployeeVacationBalance(id)
-        .subscribe({
-          next: (res) => {
+      .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
             this.toastrDeleteSuccess();
-            // alert("تم حذف رصيد اجازة الموظف بنجاح");
-            this.getHrEmployeeVacationBalance()
-          },
-          error: () => {
-            alert("خطأ أثناء حذف رصيد اجازة الموظف !!");
-          }
-        })
+              this.getHrEmployeeVacationBalance()
+              
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر'); 
+        },
+      });
     }
 
   }
+
 
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
