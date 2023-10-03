@@ -32,11 +32,11 @@
                 <mat-label>الموظف البديل*</mat-label>
                 <mat-form-field appearance="outline">
                     <input matInput aria-label="commodity" [matAutocomplete]="autosubEmployee" [formControl]="subemploeeCtrl"
-                        placeholder="{{editData ? editData.substituteEmpolyeeName : ''}}" (click)="openAutoEmployee()"
+                        placeholder="{{editData ? editData.substituteEmpolyeeName : ''}}" (click)="openAutosubEmployee()"
                         required />
                     <mat-autocomplete #autosubEmployee="matAutocomplete" [displayWith]="displaysubEmployeeName"
                         (optionSelected)="subemployeeSelected($event)">
-                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                        <mat-option *ngFor="let employee of filteredsubEmployee | async" [value]="employee">
                             {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
                         </mat-option>
                     </mat-autocomplete>

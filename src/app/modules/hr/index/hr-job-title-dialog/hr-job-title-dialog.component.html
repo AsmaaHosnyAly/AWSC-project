@@ -6,7 +6,7 @@
 <!-- <h1 mat-dialog-title dir="rtl">اضافة وظيفة</h1> -->
 
 <div mat-dialog-content dir="rtl" >
-    <form [formGroup]="groupForm">
+    <form [formGroup]="groupForm" style="overflow: hidden;">
         <mat-label>اسم  الوظيفة</mat-label>
 
         <mat-form-field appearance="outline" class="groupInput">
@@ -14,12 +14,13 @@
         </mat-form-field>
 
     </form>
+    <button mat-raised-button  class="savebtn" (click)="addJobTitle()" style="margin-left: 8px;">{{actionBtn}}</button> 
+
 </div>
 
 <div mat-dialog-action [align]="'end'">
-    <div class="groupAction">
+    
         <!-- <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button> -->
-        <button mat-raised-button  class="savebtn" (click)="addJobTitle()" style="margin-left: 8px;">{{actionBtn}}</button> 
 
-    </div>
+
 </div>

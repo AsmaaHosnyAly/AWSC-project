@@ -78,3 +78,21 @@
   .search{
     overflow: hidden !important;
   }
+  .cdk-overlay-pane {
+    position: relative !important;
+
+
+}
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+
+
+}
+
+.close:hover {
+    background-color: red;
+    color: #ffff;
+}

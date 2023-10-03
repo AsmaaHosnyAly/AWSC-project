@@ -58,14 +58,14 @@
     height: 40px;
     position: relative;
     /* left: 15%; */
-    right: 12%;
+    right: 10%;
     /* margin-top: -2% !important; */
     }
     .searchLabels{
         display: flex;
         flex-direction: column;
         position: relative;
-        right: 15%;
+        right: 14%;
         /* margin-top: -1% !important; */
     }
     
@@ -77,3 +77,21 @@
   .search{
     overflow: hidden !important;
   }
+  .cdk-overlay-pane {
+    position: relative !important;
+
+
+}
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+
+
+}
+
+.close:hover {
+    background-color: red;
+    color: #ffff;
+}
