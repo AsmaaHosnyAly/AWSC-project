@@ -8,7 +8,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/pages/services/global.service'; 
-import { SharedService } from './shared.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,7 @@ export class storeGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    public global: GlobalService,
-    public shared: SharedService
+
   ) {
     this.userRoles = localStorage.getItem('userRoles')?.split(',');
   }
@@ -36,30 +35,30 @@ export class storeGuard implements CanActivate {
     let condtion: any;
     let flag:Boolean =false
     // console.log('condition',localStorage.getItem('modules')?.split(',').includes('2'))
-    if (localStorage.getItem('modules')?.split(',').includes('1')) {
+    // if (localStorage.getItem('modules')?.split(',').includes('1')) {
 
-      this.shared.roles= true;
-      console.log('roles', this.shared.roles);
-      flag=true
-    }
-    if(localStorage.getItem('modules')?.split(',').includes('2')) {
-      this.shared.stores= true;
-      // this.shared.roles= true;
-      console.log('stores', this.shared.stores);
-      flag=true
-    }
-    if(localStorage.getItem('modules')?.split(',').includes('3')) {
-      this.shared.accounts= true;
-      console.log('accounts', this.shared.accounts);
-      flag=true
-    }
-    if(flag===true){
-      return true;
-    }
+    //   this.shared.roles= true;
+    //   console.log('roles', this.shared.roles);
+    //   flag=true
+    // }
+    // if(localStorage.getItem('modules')?.split(',').includes('2')) {
+    //   this.shared.stores= true;
+    //   // this.shared.roles= true;
+    //   console.log('stores', this.shared.stores);
+    //   flag=true
+    // }
+    // if(localStorage.getItem('modules')?.split(',').includes('3')) {
+    //   this.shared.accounts= true;
+    //   console.log('accounts', this.shared.accounts);
+    //   flag=true
+    // }
+    // if(flag===true){
+    //   return true;
+    // }
    
-    else  {
-      return false;
-    }
-    
+    // else  {
+    //   return false;
+    // }
+    return true;
   }
 }
