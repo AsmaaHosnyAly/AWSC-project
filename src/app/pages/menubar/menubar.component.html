@@ -341,7 +341,7 @@
       </mat-expansion-panel>
       <!-- end accounts -->
       <!-- start الموراد البشرية-->
-      <mat-expansion-panel dir="rtl">
+      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.HR)">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon color="primary" class="ms-2">people</mat-icon>
@@ -367,14 +367,14 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/hr-jobTitle"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
                 >المسمي الوظيفي
               </a>
               <a
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/hr-incentive"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.HR_INCENTIVE)"
               >
                 الحوافز</a
               >
@@ -383,7 +383,7 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/hr-hiringType"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.HR_HIRING_TYPE)"
               >
                 نوع التوظيف</a
               >
@@ -391,7 +391,7 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/SeveranceReason"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.SeveranceReason)"
               >
                 الانقطاع
               </a>
@@ -399,14 +399,14 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/hr-MillitryState"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.HR_MILLIIRY_STATE)"
                 >موقف التجنيد</a
               >
               <a
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/city"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.CITY)"
               >
                 المحافظات</a
               >
@@ -414,7 +414,7 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/cityState"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.CITY_STATE)"
               >
                 المراكز</a
               >
@@ -422,15 +422,23 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/Qualification"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.QUALIFICATION)"
               >
                 المؤهل</a
               >
               <a
+              mat-list-item
+              class="sideNavSubItems"
+              routerLink="/QualificationLevel"
+              (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+            >
+               مستوى المؤهل</a
+            >
+              <a
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/QualitativeGroup"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.QUALIATIVE_GROUP)"
               >
                 المجموعة النوعية</a
               >
@@ -438,7 +446,7 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/WorkPlace"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.WorkPlace)"
               >
                 مكان العمل</a
               >
@@ -446,7 +454,7 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/specialization"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.specialization)"
               >
                 التخصصات</a
               >
@@ -454,16 +462,15 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/hr-position"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.HR_POSTION)"
               >
-                المنصب</a
+                الوظائف</a
               >
-
               <a
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/hr-disciplinary"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                *ngIf="hasAccessRole(pageEnums.hr_Disciplinary)"
               >
                 الجزاءات</a
               >
@@ -473,7 +480,7 @@
             mat-list-item
             class="sideNavSubItems"
             routerLink="/hr-vacation"
-            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+            *ngIf="hasAccessRole(pageEnums.HR_VACATION)"
           >
             الاجازات</a
           >
@@ -481,7 +488,7 @@
             mat-list-item
             class="sideNavSubItems"
             routerLink="/hr-employeeVacationBalance"
-            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+            *ngIf="hasAccessRole(pageEnums.HR_employeeVacationBalance)"
           >
             رصيد الاجازات</a
           >
@@ -489,15 +496,16 @@
             mat-list-item
             class="sideNavSubItems"
             routerLink="/hr-employeeVacation"
-            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+            *ngIf="hasAccessRole(pageEnums.HR_Employee_VACATION)"
           >
             اجازات الموظفين</a
           >
+        
           <a
             mat-list-item
             class="sideNavSubItems"
             routerLink="/hr-EmployeeDisciplinary"
-            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+            *ngIf="hasAccessRole(pageEnums.HR_Employee_Disciplinary)"
           >
             الدرجة الوظيفية</a
           >
@@ -505,19 +513,20 @@
             mat-list-item
             class="sideNavSubItems"
             routerLink="/hr-financialDegree"
-            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+            *ngIf="hasAccessRole(pageEnums.HR_financialDegree)"
           >
             الدرجة المالية</a
           >
         </mat-nav-list>
-        <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeِAppraisal/" (click)="
-        global.getPermissionUserRoles(1, 'acounts', '', '')
-      "> تقييم الموظفين</a>
+        <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeAppraisal" 
+        *ngIf="hasAccessRole(pageEnums.HR_employeeAppraisal )"
+       
+      > تقييم الموظفين</a>
         <a
           mat-list-item
           class="sideNavSubItems"
           routerLink="/hr-employeeFinancialDegree"
-          (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+          *ngIf="hasAccessRole(pageEnums.HR_employeeFinancialDegree)"
         >
           الدرجة المالية للموظف</a
         >
@@ -525,10 +534,27 @@
           mat-list-item
           class="sideNavSubItems"
           routerLink="hr-employee-position"
-          (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+          *ngIf="hasAccessRole(pageEnums.HR_employee_position)"
         >
           مناصب الموظفين</a
         >
+        <a
+          mat-list-item
+          class="sideNavSubItems"
+          routerLink="hr-employee-n"
+          *ngIf="hasAccessRole(pageEnums.HR_employee)"
+        >
+           الموظفين</a
+        >
+        <a
+          mat-list-item
+          class="sideNavSubItems"
+          routerLink="EmployeeQualification"
+          *ngIf="hasAccessRole(pageEnums.Employee_qualifications)"
+        >
+          مؤهل الموظف</a
+        >
+      
       </mat-expansion-panel>
       <!-- end Hr -->
       <!-- start roles -->

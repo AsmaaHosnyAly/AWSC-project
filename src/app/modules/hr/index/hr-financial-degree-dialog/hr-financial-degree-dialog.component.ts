@@ -14,7 +14,8 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 // import { publishFacade } from '@angular/compiler';
 // import { STRGradeComponent } from '../str-grade/str-grade.component';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-hr-financial-degree-dialog',
@@ -40,6 +41,7 @@ accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,
     private toastr: ToastrService,
+    private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<HrFinancialDegreeDialogComponent>){
@@ -57,7 +59,11 @@ accordion!: MatAccordion;
       });
   
    
-      
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addFinancialDegree();
+        return false; // Prevent the default browser behavior
+      }));
   
       if(this.editData){
         this.actionBtn = "تعديل";

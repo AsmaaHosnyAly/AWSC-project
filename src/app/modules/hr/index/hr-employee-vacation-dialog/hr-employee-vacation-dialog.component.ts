@@ -5,14 +5,15 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, map, startWith } from 'rxjs';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
 }
 
-// export class subEmployee {
-//   constructor(public id: number, public name: string, public code: string) { }
-// }
+export class subEmployee {
+  constructor(public id: number, public name: string, public code: string) { }
+}
 
 export class Vacation {
   constructor(public id: number, public name: string) { }
@@ -35,10 +36,10 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
   selectedEmployee: Employee | undefined;
   formcontrol = new FormControl('');
 
-  subemployeesList: Employee[] = [];
+  subemployeesList: subEmployee[] = [];
   subemploeeCtrl: FormControl;
-  filteredsubEmployee: Observable<Employee[]>;
-  selectedsubEmployee: Employee | undefined;
+  filteredsubEmployee: Observable<subEmployee[]>;
+  selectedsubEmployee: subEmployee | undefined;
   // formcontrol = new FormControl('');
 
   vacationsList: Vacation[] = [];
@@ -49,6 +50,7 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrEmployeeVacationDialogComponent>,
     private toastr: ToastrService) {
@@ -90,7 +92,11 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
       endDate: ['', Validators.required],
       transactionUserId: ['', Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addEmployeeVacation();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.actionBtn = "Update";
       this.groupForm.controls['name'].setValue(this.editData.name);
@@ -145,7 +151,7 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
     return employee && employee.name ? employee.name : '';
   }
   subemployeeSelected(event: MatAutocompleteSelectedEvent): void {
-    const employee = event.option.value as Employee;
+    const employee = event.option.value as subEmployee;
     console.log("employee selected: ", employee);
     this.selectedsubEmployee = employee;
     this.groupForm.patchValue({substituteEmpolyeeId: employee.id });
@@ -154,14 +160,14 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
     console.log("employee change: ", this.emploeeCtrl, ", ", this.subemploeeCtrl, ',', this.filteredEmployee, ',', this.selectedEmployee,',',this.selectedsubEmployee)
     // this.groupForm.patchValue({ emplpoyeeId: employee.name });
   }
-  private _filtersubEmployees(value: string): Employee[] {
+  private _filtersubEmployees(value: string): subEmployee[] {
     const filterValue = value;
     return this.subemployeesList.filter(employee =>
       employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
     );
   }
   openAutosubEmployee() {
-    console.log("display employee list: ", this.vacationCtrl)
+    // console.log("display employee list: ", this.vacationCtrl)
 
     this.subemploeeCtrl.setValue(''); // Clear the input field value
 

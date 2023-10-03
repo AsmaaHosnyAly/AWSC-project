@@ -184,6 +184,10 @@ import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-posi
 import { HrEmployeePositionDialogComponent } from './modules/hr/index/hr-employee-position-dialog/hr-employee-position-dialog.component';
 import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
 import { HrEmployeeAppraisalDialogComponent } from './modules/hr/index/hr-employee-appraisal-dialog/hr-employee-appraisal-dialog.component';
+import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualification-level/hr-qualification-level.component';
+import { HrQualificationLevelDialogComponent } from './modules/hr/index/hr-qualification-level-dialog/hr-qualification-level-dialog.component';
+import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
+import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-employee-qualification-dialog/hr-employee-qualification-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -346,6 +350,10 @@ import { HrEmployeeAppraisalDialogComponent } from './modules/hr/index/hr-employ
     HrEmployeePositionDialogComponent,
     HrEmployeeAppraisalComponent,
     HrEmployeeAppraisalDialogComponent,
+    HrQualificationLevelComponent,
+    HrQualificationLevelDialogComponent,
+    HrEmployeeQualificationComponent,
+    HrEmployeeQualificationDialogComponent,
 
    
   ],

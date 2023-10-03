@@ -11,7 +11,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class QualitativeGroup {
   constructor(public id: number, public name: string) {}
 }
@@ -41,7 +42,7 @@ export class HrQualificationDialogComponent {
 accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,private toastr: ToastrService,
-    private readonly route:ActivatedRoute,
+    private readonly route:ActivatedRoute,private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<HrQualificationDialogComponent>){
       this.qualitativeGroupCtrl = new FormControl();
@@ -65,7 +66,11 @@ accordion!: MatAccordion;
         this.qualitativeGroups = qualitativeGroup;
       });
       
-  
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addQualification();
+        return false; // Prevent the default browser behavior
+      }));
       if(this.editData){
         this.actionBtn = "تعديل";
       this.getQualificationData = this.editData;

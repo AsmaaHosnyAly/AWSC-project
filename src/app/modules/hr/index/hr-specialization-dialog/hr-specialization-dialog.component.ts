@@ -14,7 +14,8 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 // import { publishFacade } from '@angular/compiler';
 // import { STRGradeComponent } from '../str-grade/str-grade.component';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Qualification {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -52,7 +53,7 @@ storeList: any;
 commodityName: any;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,private toastr: ToastrService,
-    private readonly route:ActivatedRoute,
+    private readonly route:ActivatedRoute,private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<HrSpecializationDialogComponent>){
       this.QualificationCtrl = new FormControl();
@@ -74,7 +75,11 @@ commodityName: any;
       this.api.getAllqualification().subscribe((hrqualification) => {
         this.qualification = hrqualification;
       });
-      
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addHrspecialization();
+        return false; // Prevent the default browser behavior
+      }));
   
       if(this.editData){
         this.actionBtn = "تعديل";
