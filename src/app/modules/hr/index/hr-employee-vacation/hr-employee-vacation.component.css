@@ -28,6 +28,7 @@ mat-card-header{
 mat-card-header .child1{
   
   width: 82%;
+  margin-right: 2%;
   /* background-color: aquamarine; */
 }
 
