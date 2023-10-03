@@ -1,6 +1,6 @@
 import { PrintDialogComponent } from './../print-dialog/print-dialog.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +16,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
 import {
   FormControl,
@@ -25,7 +26,18 @@ import {
 } from '@angular/forms';
 
 
-
+interface StrAddGetAllByUserId {
+  no: any;
+  storeName: any;
+  sourceStoreName: any;
+  sellerName: any;
+  employeeName: any;
+  fiscalyear: any;
+  date: any;
+  receiptName: any;
+  typeName: any;
+  Action: any;
+}
 
 export class item {
   constructor(public id: number, public name: string) { }
@@ -88,7 +100,8 @@ export class STRAddTableComponent implements OnInit {
   receiptName: any;
   employeeName: any;
   TypeName: any;
-  dataSource2!: MatTableDataSource<any>;
+  // dataSource2!: MatTableDataSource<any>;
+
   dataSourcePendingWithdraws!: MatTableDataSource<any>;
   pdfurl = '';
 
@@ -112,8 +125,8 @@ export class STRAddTableComponent implements OnInit {
 
 
   selectedReportName: string | undefined;
-  storeList: store[] = [];
-  // storeList: any;
+  // storeList: store[] = [];
+  storeList: any;
   storeCtrl: FormControl;
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
@@ -130,6 +143,17 @@ export class STRAddTableComponent implements OnInit {
   groupDetailsForm !: FormGroup;
   userRoles: any;
 
+  pageIndex: any;
+  length: any;
+  pageSize: any;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource2: MatTableDataSource<STRAddTableComponent> = new MatTableDataSource();
+  isLoading = false;
+
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
+  
   constructor(
     private api: ApiService,
     private global: GlobalService,
@@ -217,8 +241,8 @@ export class STRAddTableComponent implements OnInit {
       percentage: [''],
       price: [''],
       total: [''],
-      transactionUserId: [1],
-      destStoreUserId: [1],
+      // transactionUserId: [1],
+      // destStoreUserId: [1],
       itemId: [''],
       stateId: [''],
 
@@ -256,20 +280,77 @@ export class STRAddTableComponent implements OnInit {
   }
 
   getAllMasterForms() {
-    this.api.getStrAdd().subscribe({
-      next: (res) => {
-        console.log('response of get all getGroup from api: ', res);
-        this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginatorLegal;
-        this.dataSource2.sort = this.sort;
-        this.loadDataToLocalStorage(res);
-        this.groupMasterForm.reset();
-      },
-      error: (err) => {
-        // alert('خطأ أثناء جلب سجلات المجموعة !!');
-        console.log("err get master res strAdd: ", err);
-      },
-    });
+    if (!this.currentPage) {
+      this.currentPage = 0;
+      this.pageSize = 5;
+
+      this.isLoading = true;
+
+      fetch(this.api.getStrAddPaginateByUserId(localStorage.getItem('transactionUserId'), this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          // this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+    else {
+      this.isLoading = true;
+
+      fetch(this.api.getStrAddPaginateByUserId(localStorage.getItem('transactionUserId'), this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          // this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+
+
+    // this.api.getStrAdd().subscribe({
+    //   next: (res) => {
+    //     console.log('response of get all getGroup from api: ', res);
+    //     this.dataSource2 = new MatTableDataSource(res);
+    //     this.dataSource2.paginator = this.paginatorLegal;
+    //     this.dataSource2.sort = this.sort;
+    //     this.loadDataToLocalStorage(res);
+    //     this.groupMasterForm.reset();
+    //   },
+    //   error: (err) => {
+    //     // alert('خطأ أثناء جلب سجلات المجموعة !!');
+    //     console.log("err get master res strAdd: ", err);
+    //   },
+    // });
+  }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    // this.currentPage = event.previousPageIndex;
+    this.getAllMasterForms();
   }
 
   openAddDialog() {
@@ -421,9 +502,9 @@ export class STRAddTableComponent implements OnInit {
 
   getStores() {
     this.userRoles = localStorage.getItem('userRoles');
-    console.log('userRoles manager: ', this.userRoles.includes('17'))
+    console.log('userRoles manager: ', this.userRoles.includes(this.userRoleStoresAcc))
 
-    if (this.userRoles.includes('17')) {
+    if (this.userRoles.includes(this.userRoleStoresAcc)) {
       this.api.getStore().subscribe({
         next: (res) => {
           this.storeList = res;

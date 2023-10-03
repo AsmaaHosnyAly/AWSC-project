@@ -142,7 +142,7 @@ export class FiEntryDialogComponent implements OnInit {
           this.journalsList = res;
           // console.log("fiscalYear Pass: ", fiscalYear);
 
-          // console.log("journals res: ", this.journalsList);
+          console.log("journals res: ", this.journalsList);
 
           this.journalsList = res.filter((journal: any) => {
             if (journal.fiscalYearId) {
@@ -585,17 +585,17 @@ export class FiEntryDialogComponent implements OnInit {
     if (result) {
       this.dialogRef.close('save');
 
-      this.api.getFiEntry().subscribe({
-        next: (res) => {
-          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        },
-      });
+      // this.api.getFiEntry().subscribe({
+      //   next: (res) => {
+      //     // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+      //     this.dataSource = new MatTableDataSource(res);
+      //     this.dataSource.paginator = this.paginator;
+      //     this.dataSource.sort = this.sort;
+      //   },
+      //   error: () => {
+      //     // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      //   },
+      // });
     }
   }
 

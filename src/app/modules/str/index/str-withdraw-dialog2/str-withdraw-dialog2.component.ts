@@ -24,6 +24,8 @@ import { Router } from '@angular/router';
 import { StrWithdrawDetailsDialogComponent } from '../str-withdraw-details-dialog/str-withdraw-details-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
+
 export class deststore {
   constructor(public id: number, public name: string) { }
 }
@@ -161,6 +163,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   confirm: any;
 
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
+  
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
@@ -172,7 +176,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     private toastr: ToastrService,
     private dialog: MatDialog,
     private router: Router,
-    private dialogRef: MatDialogRef<StrWithdrawDialogComponent>
+    private dialogRef: MatDialogRef<StrWithdrawDialogComponent>,
   ) {
 
     this.titleList = [{
@@ -1143,15 +1147,18 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   async getStores() {
-    this.userRoles = localStorage.getItem('userRoles');
-    console.log('userRoles: ', this.userRoles.includes('17'));
+    console.log("dynamic userRole pageEnum: ", this.userRoleStoresAcc);
 
-    if (this.userRoles.includes('1')) {
+    this.userRoles = localStorage.getItem('userRoles');
+    console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc));
+
+    if (this.userRoles.includes(this.userRoleStoresAcc)) {
       // console.log('user is manager -all stores available- , role: ', userRoles);
 
       this.api.getStore().subscribe({
         next: async (res) => {
           this.storeList = res;
+          console.log("store res: ", this.storeList);
           this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
           console.log(
             'selected storebbbbbbbbbbbbbbbbbbbbbbbb: ',
@@ -1187,6 +1194,8 @@ export class StrWithdrawDialogComponent implements OnInit {
         .subscribe({
           next: async (res) => {
             this.storeList = res;
+            console.log(" user store res: ", this.storeList);
+
             this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
             console.log(
               'selected storebbbbbbbbbbbbbbb user: ',
