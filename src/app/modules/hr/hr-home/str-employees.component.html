@@ -3,119 +3,119 @@
       <div class="card-parent">
         
         
-        <mat-card class="card-class" routerLink="/hr-jobTitle">    
+        <mat-card class="card-class" routerLink="/hr-jobTitle" *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)">    
           <mat-card-content>
-              <mat-card-title>  المسمي الوظيفي</mat-card-title>
+              <mat-card-title> المسمي الوظيفي</mat-card-title>
           </mat-card-content>
         </mat-card>  
-        <mat-card class="card-class" routerLink="/hr-hiringType">    
+        <mat-card class="card-class" routerLink="/hr-hiringType" *ngIf="hasAccessRole(pageEnums.HR_HIRING_TYPE)">    
           <mat-card-content>
               <mat-card-title>نوع التوظيف</mat-card-title>
           </mat-card-content>
         </mat-card> 
-        <mat-card class="card-class" routerLink="/hr-incentive">    
+        <mat-card class="card-class" routerLink="/hr-incentive" *ngIf="hasAccessRole(pageEnums.HR_INCENTIVE)">    
           <mat-card-content>
               <mat-card-title>الحوافز </mat-card-title>
           </mat-card-content>
         </mat-card>  
-        <mat-card class="card-class" routerLink="/hr-vacation">    
+        <mat-card class="card-class" routerLink="/hr-vacation" *ngIf="hasAccessRole(pageEnums.HR_VACATION)">    
           <mat-card-content>
               <mat-card-title>الاجازات </mat-card-title>
           </mat-card-content>
         </mat-card> 
-        <mat-card class="card-class" routerLink="/SeveranceReason">    
+        <mat-card class="card-class" routerLink="/SeveranceReason" *ngIf="hasAccessRole(pageEnums.SeveranceReason)">    
           <mat-card-content>
               <mat-card-title> الانقطاع </mat-card-title>
           </mat-card-content>
         </mat-card> 
-        <mat-card class="card-class" routerLink="/hr-MillitryState">    
+        <mat-card class="card-class" routerLink="/hr-MillitryState" *ngIf="hasAccessRole(pageEnums.HR_MILLIIRY_STATE)">    
           <mat-card-content>
               <mat-card-title>الموقف من التجنيد </mat-card-title>
           </mat-card-content>
         </mat-card> 
-        <mat-card class="card-class" routerLink="/hr-EmployeeDisciplinary">    
+        <mat-card class="card-class" routerLink="/hr-EmployeeDisciplinary" *ngIf="hasAccessRole(pageEnums.HR_Employee_Disciplinary)">    
           <mat-card-content>
               <mat-card-title> الدرجة الوظيفية</mat-card-title>
           </mat-card-content>
         </mat-card> 
-        <mat-card class="card-class" routerLink="/city">    
+        <mat-card class="card-class" routerLink="/city" *ngIf="hasAccessRole(pageEnums.CITY)">    
           <mat-card-content>
               <mat-card-title> المحافظات </mat-card-title>
           </mat-card-content>
         </mat-card> 
-        <mat-card class="card-class" routerLink="/cityState">    
+        <mat-card class="card-class" routerLink="/cityState" *ngIf="hasAccessRole(pageEnums.CITY_STATE)">    
           <mat-card-content>
               <mat-card-title> المراكز </mat-card-title>
           </mat-card-content>
         </mat-card>  
-        <mat-card class="card-class" routerLink="/Qualification">    
+        <mat-card class="card-class" routerLink="/Qualification" *ngIf="hasAccessRole(pageEnums.QUALIFICATION)">    
           <mat-card-content>
               <mat-card-title> المؤهل </mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/QualificationLevel">    
+        <mat-card class="card-class" routerLink="/QualificationLevel" *ngIf="hasAccessRole(pageEnums.Qualification_level)">    
           <mat-card-content>
-              <mat-card-title>  مستوى المؤهل </mat-card-title>
+              <mat-card-title>  مستوي  المؤهل </mat-card-title>
           </mat-card-content>
         </mat-card>  
-        <mat-card class="card-class" routerLink="/QualitativeGroup">    
+        <mat-card class="card-class" routerLink="/QualitativeGroup" *ngIf="hasAccessRole(pageEnums.QUALIATIVE_GROUP)">    
           <mat-card-content>
               <mat-card-title> المجموعة النوعية </mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/WorkPlace">    
+        <mat-card class="card-class" routerLink="/WorkPlace" *ngIf="hasAccessRole(pageEnums.WorkPlace)">    
           <mat-card-content>
               <mat-card-title> مكان العمل </mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/specialization">    
+        <mat-card class="card-class" routerLink="/specialization" *ngIf="hasAccessRole(pageEnums.specialization)">    
           <mat-card-content>
               <mat-card-title>  التخصص </mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/hr-disciplinary">    
+        <mat-card class="card-class" routerLink="/hr-disciplinary" *ngIf="hasAccessRole(pageEnums.hr_Disciplinary)">    
           <mat-card-content>
               <mat-card-title> الجزاءات </mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/hr-position">    
+        <mat-card class="card-class" routerLink="/hr-position" *ngIf="hasAccessRole(pageEnums.HR_POSTION)">    
           <mat-card-content>
               <mat-card-title>   المنصب</mat-card-title>
           </mat-card-content>
         </mat-card>
 
-        <mat-card class="card-class" routerLink="/hr-employee-position">    
+        <mat-card class="card-class" routerLink="/hr-employee-position" *ngIf="hasAccessRole(pageEnums.HR_employee_position)">    
           <mat-card-content>
               <mat-card-title> مناصب الموظفين</mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/hr-employeeVacation">    
+        <mat-card class="card-class" routerLink="/hr-employeeVacation" *ngIf="hasAccessRole(pageEnums.HR_Employee_VACATION)">    
           <mat-card-content>
-              <mat-card-title>   اجازات الموظفين</mat-card-title>
+              <mat-card-title>اجازات الموظفين</mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/EmployeeQualification">    
+        <mat-card class="card-class" routerLink="/EmployeeQualification" *ngIf="hasAccessRole(pageEnums.Employee_qualifications)">    
           <mat-card-content>
               <mat-card-title>   مؤهل الموظف</mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/hr-employeeVacationBalance">    
+        <mat-card class="card-class" routerLink="/hr-employeeVacationBalance" *ngIf="hasAccessRole(pageEnums.HR_employeeVacationBalance)">    
           <mat-card-content>
               <mat-card-title> رصيد الاجازات </mat-card-title>
           </mat-card-content>
         </mat-card>
-        <mat-card class="card-class" routerLink="/hr-financialDegree">    
+        <mat-card class="card-class" routerLink="/hr-financialDegree" *ngIf="hasAccessRole(pageEnums.HR_financialDegree)">    
           <mat-card-content>
               <mat-card-title> الدرجة المالية </mat-card-title>
           </mat-card-content>
         </mat-card>
-          <mat-card class="card-class" routerLink="/hr-employeeFinancialDegree">    
+          <mat-card class="card-class" routerLink="/hr-employeeFinancialDegree" *ngIf="hasAccessRole(pageEnums.HR_employeeFinancialDegree)">    
             <mat-card-content>
                 <mat-card-title> الدرجة المالية للموظف</mat-card-title>
             </mat-card-content>
 
         </mat-card>
-        <mat-card class="card-class" routerLink="/hr-employeeِAppraisal">    
+        <mat-card class="card-class" routerLink="/hr-employeeِAppraisal" *ngIf="hasAccessRole(pageEnums.HR_employeeAppraisal )">    
           <mat-card-content>
               <mat-card-title> تقييم الموظف</mat-card-title>
           </mat-card-content>

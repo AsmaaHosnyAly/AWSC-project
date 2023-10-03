@@ -62,5 +62,6 @@ HR_employee_position=50,
 HR_employeeAppraisal =51,
 HR_employee=52,
 Employee_qualifications=53,
-Qualification_level=54
+Qualification_level=54,
+
 }
