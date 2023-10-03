@@ -46,6 +46,7 @@ export class HrEmployeeDialogComponent  implements OnInit{
   hiringTypeNameList:any;
   financialDegreeNameList:any;
   qualificationNameList:any;
+  qualificationLevelNameList:any;
 
   disciplinarysList: disciplinary[] = [];
   disciplinaryCtrl: FormControl;
@@ -83,6 +84,7 @@ this.specializationName();
 this.hiringTypeName();
 this.financialDegreeName();
 this.qualificationName();
+this.qualificationLevelName();
 
 
     this.groupForm = this.formBuilder.group({
@@ -358,6 +360,19 @@ this.qualificationName();
       })
   }
 
+  qualificationLevelName(){
+    this.api.getQualificationLevel()
+    .subscribe({
+      next: (res) => {
+        this.qualificationLevelNameList = res;
+        // console.log("store res: ", this.storeList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert("خطا اثناء جلب المخازن !");
+      }
+    })
+  }
 
   getEmployees() {
     this.api.getEmployee()

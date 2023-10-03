@@ -30,14 +30,20 @@
 
 
                     <div class="searchLabels" style="width: 35%;">
-                        <mat-label> الاسم </mat-label>
-
-                        <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                            <input matInput placeholder=" الاسم " formControlName="name">
+                        <mat-label>الموظف*</mat-label>
+                        <mat-form-field appearance="outline" style="width: 98%;">
+                            <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="emploeeCtrl"
+                                placeholder="{{editData ? editData.name : ''}}" (click)="openAutoEmployee()"
+                                required />
+                            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                                (optionSelected)="employeeSelected($event)">
+                                <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                                    {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                                </mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
-                    </div>
+                       </div>
                 </div>
-
 
                 <div class="matTabLabels">
                     <!-- <div class="searchLabels" style="width: 35%;margin-top: -2% !important;">
@@ -53,7 +59,7 @@
                     </mat-autocomplete>
                 </mat-form-field>
             </div> -->
-                    <div class="searchLabels" style="width: 35%;margin-top: -2% !important;">
+                    <div class="searchLabels" style="width: 35%;">
                         <mat-label> الرقم القومي</mat-label>
 
                         <mat-form-field appearance="outline" style="width: 99%;">
@@ -64,7 +70,7 @@
                     </div>
 
 
-                    <div class="searchLabels" style="width: 35%;margin-top: -2% !important;">
+                    <div class="searchLabels" style="width: 35%;">
                         <mat-label>تاريخ الميلاد</mat-label>
 
                         <mat-form-field appearance="outline" style="width: 99%;">
@@ -81,10 +87,10 @@
 
                 <div class="matTabLabels">
 
-                    <div class="searchLabels" style="width: 35%;margin-top: -2% !important;">
+                    <div class="searchLabels" style="width: 35%;">
                         <mat-label> النوع </mat-label>
 
-                        <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
                             <mat-select formControlName="gender">
                                 <mat-option value="male">ذكر</mat-option>
                                 <mat-option value="female">انثي</mat-option>
@@ -94,7 +100,7 @@
                     </div>
 
 
-                    <div class="searchLabels" style="width: 35%;margin-top: -2% !important;">
+                    <div class="searchLabels" style="width: 35%;">
                         <mat-label> العنوان </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
@@ -103,7 +109,7 @@
                     </div>
                 </div>
 
-                <!-- <div class="searchLabels" style="margin-top: -2% !important;">
+                <!-- <div class="searchLabels" style="">
             <mat-label>العقوبة*</mat-label>
 
             <mat-form-field appearance="outline">
@@ -119,7 +125,7 @@
             </mat-form-field>
         </div>
 
-        <div class="searchLabels" style="margin-top: -2% !important;">
+        <div class="searchLabels" style="">
             <mat-label> التفسير </mat-label>
 
             <mat-form-field appearance="outline" class="groupInput">
@@ -282,6 +288,16 @@
                             <mat-select  formControlName="qualificationName">
                                 <mat-option [value]="qualificationName.id"
                                     *ngFor="let qualificationName of qualificationNameList">{{qualificationName.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="searchLabels3">
+                        <mat-label> مستوي المؤهل </mat-label>
+                        <mat-form-field appearance="outline" class="groupInput">
+                            <mat-select  formControlName="qualificationLevelName">
+                                <mat-option [value]="qualificationLevelName.id"
+                                    *ngFor="let qualificationLevelName of qualificationLevelNameList">{{qualificationLevelName.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 

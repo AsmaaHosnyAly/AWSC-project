@@ -1,0 +1,22 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مستوى المؤهل    ' : 'إضافة مستوى المؤهل '}}</h1>
+  
+  
+  <form [formGroup]="qualificationForm" dir="rtl">
+    <div mat-dialog-content>
+      <form [formGroup]="qualificationForm">
+        <mat-label>اسم مستوى المؤهل</mat-label>  
+        <mat-form-field appearance="outline">
+          <input formControlName="name" matInput placeholder="ادخل اسم مستوى المؤهل">
+        </mat-form-field>  
+       
+      </form>
+    </div>
+    <div mat-dialog-actions>
+      <!-- <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button> -->
+      <button mat-raised-button color="primary"  class="savebtn" (click)="addQualificationLevel()" style="margin-left: 8px;">{{actionBtn}}</button>
+    </div>
+  </form>
+  

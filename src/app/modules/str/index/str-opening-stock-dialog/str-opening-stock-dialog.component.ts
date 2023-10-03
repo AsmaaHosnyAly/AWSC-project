@@ -14,6 +14,7 @@ import { StrOpeningStockDetailsDialogComponent } from '../str-opening-stock-deta
 import { Router } from '@angular/router';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
 // export class Item {
 //   constructor(public id: number, public name: string) { }
@@ -58,6 +59,8 @@ export class StrOpeningStockDialogComponent implements OnInit {
   currentData: any;
   fullCodeValue: any;
   itemByFullCodeValue: any;
+
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
 
   // itemsList: Item[] = [];
   // itemCtrl: FormControl;
@@ -564,9 +567,9 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   async getStores() {
     this.userRoles = localStorage.getItem('userRoles');
-    console.log('userRoles: ', this.userRoles.includes('17'))
+    console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc))
 
-    if (this.userRoles.includes('17')) {
+    if (this.userRoles.includes(this.userRoleStoresAcc)) {
       // console.log('user is manager -all stores available- , role: ', userRoles);
 
       this.api.getStore()

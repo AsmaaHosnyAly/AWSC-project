@@ -45,8 +45,8 @@ export class HrEmployeeComponent  implements OnInit {
 
   openDialog() {
     this.dialog.open(HrEmployeeDialogComponent, {
-      width: '50%',
-      height:'75%'
+      width: '85%',
+      height:'79%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getHrEmployee();
@@ -72,8 +72,8 @@ export class HrEmployeeComponent  implements OnInit {
   editHrEmployee(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(HrEmployeeDialogComponent, {
-      width: '50%',
-      height:'75%',
+      width: '85%',
+      height:'79%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {

@@ -956,7 +956,11 @@ export class ApiService {
   getStore() {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
   }
-
+  getStoresForAllUsers() {
+    return this.http.get<any>(
+      `${this.url}/StrUserStore/get/all`
+    );
+  }
   getUserStores(userId: any) {
     return this.http.get<any>(
       `${this.url}/StrUserStore/getUserStore/${userId}`
@@ -1852,6 +1856,10 @@ export class ApiService {
   }
   getStrAdd() {
     return this.http.get<any>(`${this.url}/STRAdd/get/all`);
+  }
+  getStrAddPaginateByUserId(userId: any, currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/STRAdd/get/ByUserStore/${userId}?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putStrAdd(data: any) {
     return this.http.put<any>(

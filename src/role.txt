@@ -52,8 +52,14 @@ modules
 43-hr-disciplinary الجزاءات
 44-hr-vacation الاجازات
 45-hr-employeeVacationBalance رصيد الاجازات
-46-hr-employeeVacation اجازات المزظفين 
+46-hr-employeeVacation اجازات الموظفين 
 47-hr-EmployeeDisciplinary الدرجة الوظيفية
 48-hr-financialDegree الدرجات المالية
 49-hr-employeeFinancialDegree  الدرجة المالية للموظف
 50-hr-employee-position مناصب الموظفين
+51-hr-employeeAppraisal تقييم الموظفين
+52-HR employee الموظفين 
+53-Employee qualifications  مؤهل الموظف
+54-Qualification level نوع المؤهل 
+
+

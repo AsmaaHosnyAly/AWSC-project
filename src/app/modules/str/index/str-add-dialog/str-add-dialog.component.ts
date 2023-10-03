@@ -16,6 +16,8 @@ import { StrAddDetailsDialogComponent } from '../str-add-details-dialog/str-add-
 import { Router } from '@angular/router';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
+
 
 export class Seller {
   constructor(public id: number, public name: string) { }
@@ -101,6 +103,8 @@ export class STRAddDialogComponent implements OnInit {
 
   currentDate: any;
 
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
+
   constructor(private formBuilder: FormBuilder,
 
     private api: ApiService,
@@ -162,7 +166,7 @@ export class STRAddDialogComponent implements OnInit {
       sourceStoreId: [''],
       sourceStoreName: [''],
       type: [''],
-      entryNo: [''],
+      entryNo: ['0'],
 
     });
 
@@ -703,9 +707,9 @@ export class STRAddDialogComponent implements OnInit {
 
   async getStores() {
     this.userRoles = localStorage.getItem('userRoles');
-    console.log('userRoles: ', this.userRoles.includes('17'))
+    console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc))
 
-    if (this.userRoles.includes('17')) {
+    if (this.userRoles.includes(this.userRoleStoresAcc)) {
       // console.log('user is manager -all stores available- , role: ', userRoles);
 
       this.api.getStore()

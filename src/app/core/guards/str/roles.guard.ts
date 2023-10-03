@@ -8,7 +8,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SharedService } from './shared.service';
+import { SharedService } from '../shared.service';
 
 @Injectable({
   providedIn: 'root',

@@ -202,10 +202,10 @@ export class FiEntryTableComponent implements OnInit {
       this.currentPage = 0;
 
       this.isLoading = true;
-      let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
+      // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
 
 
-      fetch(URL)
+      fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
         .then(response => response.json())
         .then(data => {
           this.totalRows = data.length;
@@ -226,10 +226,10 @@ export class FiEntryTableComponent implements OnInit {
     }
     else {
       this.isLoading = true;
-      let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
+      // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
 
 
-      fetch(URL)
+      fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
         .then(response => response.json())
         .then(data => {
           this.totalRows = data.length;

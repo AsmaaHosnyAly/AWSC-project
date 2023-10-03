@@ -14,8 +14,8 @@
       
                 <mat-form-field appearance="outline" class="groupInput" style="width:  150px;">
                   <mat-select placeholder="المخازن" #storeId formControlName="storeId" (valueChange)="storeValueChanges($event)">
-                    <mat-option [value]="userRoles.includes('17') ? store.id : store.storeId"
-                      *ngFor="let store of storeList">{{userRoles.includes('17') ? store.name :
+                    <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
+                      *ngFor="let store of storeList">{{userRoles.includes(userRoleStoresAcc) ? store.name :
                       store.storeName}}</mat-option>
                   </mat-select>
                 </mat-form-field>

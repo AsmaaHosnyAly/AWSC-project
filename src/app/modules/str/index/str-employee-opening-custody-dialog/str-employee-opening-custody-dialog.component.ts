@@ -16,12 +16,15 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { STREmployeeOpeningCustodyComponent } from '../str-employee-opening-custody/str-employee-opening-custody.component';
-import { GlobalService } from 'src/app/pages/services/global.service'; 
+import { GlobalService } from 'src/app/pages/services/global.service';
 import { StrEmployeeOpeningCustodyDetailDailogComponent } from '../str-employee-opening-custody-detail-dailog/str-employee-opening-custody-detail-dailog.component';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
+
 export class Employee {
   constructor(public id: number, public name: string) { }
 }
@@ -102,12 +105,15 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
   accordion!: MatAccordion;
 
   employeeName: any;
+
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
+
   // toastr: any;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
-    private hotkeysService: HotkeysService,global:GlobalService,
-    @Inject(MAT_DIALOG_DATA) public editDataDetails: any,private toastr: ToastrService,
-    private http: HttpClient,private dialog: MatDialog, private router: Router, private dialogRef: MatDialogRef<STREmployeeOpeningCustodyDialogComponent>,
+    private hotkeysService: HotkeysService, global: GlobalService,
+    @Inject(MAT_DIALOG_DATA) public editDataDetails: any, private toastr: ToastrService,
+    private http: HttpClient, private dialog: MatDialog, private router: Router, private dialogRef: MatDialogRef<STREmployeeOpeningCustodyDialogComponent>,
     // private toastr: ToastrService){}
 
     @Inject(LOCALE_ID) private locale: string,
@@ -878,12 +884,12 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     console.log("details idhhhh: ", id)
 
     var result = confirm("هل ترغب بتاكيد الحذف ؟");
-    console.log('res',result)
+    console.log('res', result)
     if (result) {
       this.api.deleteStrEmployeeOpenDetails(id)
         .subscribe(
-     res => {
-            console.log('res',res)
+          res => {
+            console.log('res', res)
             // alert("تم الحذف بنجاح");
             this.toastrDeleteSuccess();
             this.getAllDetailsForms();
@@ -901,9 +907,9 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
   }
   async getStores() {
     this.userRoles = localStorage.getItem('userRoles');
-    console.log('userRoles: ', this.userRoles.includes('17'))
+    console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc))
 
-    if (this.userRoles.includes('17')) {
+    if (this.userRoles.includes(this.userRoleStoresAcc)) {
       // console.log('user is manager -all stores available- , role: ', userRoles);
 
       this.api.getStore()

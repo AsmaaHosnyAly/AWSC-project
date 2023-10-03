@@ -999,7 +999,62 @@ postHrEmployeeAppraisal(data: any) {
     return this.http.get<any>(
       `${this.url}/HrQualitativeGroup/get/all`
     );
+  } 
+  //HrEmployeeQualification
+
+  postEmployeeQualification(data: any) {
+    return this.http.post<any>(
+      `${this.url}/HrEmployeeQualification/Add`,
+      data
+    );
   }
+  getEmployeeQualification() {
+    return this.http.get<any>(
+      `${this.url}/HrEmployeeQualification/get/all`
+    );
+  }
+  putEmployeeQualification(data: any) {
+    return this.http.put<any>(
+      `${this.url}/HrEmployeeQualification/update`,
+      data
+    );
+  }
+  deleteEmployeeQualification(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/HrEmployeeQualification/delete/${id}`
+    );
+  }
+  // getAllQualitativeGroups(): Observable<any> {
+  //   return this.http.get<any>(
+  //     `${this.url}/HrQualitativeGroup/get/all`
+  //   );
+  // }
+
+
+    //HrQualificationLevel
+
+    postQualificationLevel(data: any) {
+      return this.http.post<any>(
+        `${this.url}/HrQualificationLevel/Add`,
+        data
+      );
+    }
+    getQualificationLevel() {
+      return this.http.get<any>(
+        `${this.url}/HrQualificationLevel/get/all`
+      );
+    }
+    putQualificationLevel(data: any) {
+      return this.http.put<any>(
+        `${this.url}/HrQualificationLevel/update`,
+        data
+      );
+    }
+    deleteQualificationLevel(id: number) {
+      return this.http.delete<any>(
+        `${this.url}/HrQualificationLevel/delete/${id}`
+      );
+    }
 
   //HrSeveranceReason
 
@@ -2326,7 +2381,15 @@ postHrEmployeeAppraisal(data: any) {
   getAllStore() {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
   }
-
+  getAllQualification() {
+    return this.http.get<any>(`${this.url}/api/HrQualification/get/all`);
+  }
+  getAllQualificationLevel() {
+    return this.http.get<any>(`${this.url}/api/HrQualificationLevel/get/all`);
+  }
+  getAllSpecialization() {
+    return this.http.get<any>(`${this.url}/api/HrSpecialization/get/all`);
+  }
   GetAddGeTAddDetailsByAddId(id: number) {
     return this.http.get<any>(
       `${this.url}/STRAdd/GetAddGeTAddDetailsByAddId/` + id
