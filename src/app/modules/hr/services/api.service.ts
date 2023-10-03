@@ -2753,7 +2753,7 @@ postHrEmployeeAppraisal(data: any) {
     );
   }
 
-  /////////////HR Disciplinary////////////
+  /////////////HR disciplinary////////////
   postHrDisciplinary(data: any) {
     // console.log('form add data to apiii: ', data);
     return this.http.post<any>(
@@ -3259,6 +3259,36 @@ postHrEmployeeAppraisal(data: any) {
   getAllProductes(): Observable<any> {
     return this.http.get<any>(
       `${this.url}/STRProduct/get/all`
+    );
+  }
+
+
+
+  ///////////hremployee////////////
+  postHrEmployee(data: any) {
+    console.log('post in employee: ', data);
+    return this.http.post<any>(
+      `${this.url}/HREmployee/Add`,
+      data
+    );
+  }
+  getHrEmployee() {
+    return this.http.get<any>(
+      `${this.url}/HREmployee/get/all`
+    );
+  }
+  putHrEmployee(data: any) {
+    console.log('put in employee: ', data);
+
+    return this.http.put<any>(
+      `${this.url}/HrEmployee/update`,
+      data
+    );
+  }
+  deleteHrEmployee(id: number) {
+    // console.log('form delete data from apiii, id: ', id);
+    return this.http.delete<any>(
+      `${this.url}/HrEmployee/delete/` + id
     );
   }
 }

@@ -93,6 +93,8 @@ import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employ
 import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
 import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
 
+import { HrEmployeeComponent } from './modules/hr/index/hr-employee/hr-employee.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -263,7 +265,8 @@ const routes: Routes = [
 
       { path: 'hr-employee-position', component: HrEmployeePositionComponent },
 
-     
+      { path: 'hr-employee', component: HrEmployeeComponent },
+
       
 
       /*********************End Hr modules شئون العاميلن***************************/
