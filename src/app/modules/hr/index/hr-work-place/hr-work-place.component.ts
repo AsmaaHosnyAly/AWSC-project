@@ -20,7 +20,8 @@ import { Observable } from 'rxjs';
 import { HrCityStateDialogComponent } from '../hr-city-state-dialog/hr-city-state-dialog.component';
 import { HrWorkPlacedialogComponent } from '../hr-work-placedialog/hr-work-placedialog.component';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 
 export class CityState {
@@ -47,7 +48,7 @@ export class HrWorkPlaceComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService,) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,) {
     this.cityStateCtrl = new FormControl();
     this.filteredCityState = this.cityStateCtrl.valueChanges.pipe(
       startWith(''),
@@ -61,6 +62,11 @@ export class HrWorkPlaceComponent {
     this.api.getAllCityState().subscribe((citystate) => {
       this.CityStates = citystate;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog

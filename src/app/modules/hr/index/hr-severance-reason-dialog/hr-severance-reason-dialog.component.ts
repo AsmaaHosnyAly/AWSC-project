@@ -8,7 +8,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-severance-reason-dialog',
   templateUrl: './hr-severance-reason-dialog.component.html',
@@ -27,7 +28,7 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatAccordion)
 accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
-    private api : ApiService,
+    private api : ApiService,private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,private toastr: ToastrService,
     private dialogRef : MatDialogRef<HrSeveranceReasonDialogComponent>){ }
@@ -38,7 +39,11 @@ accordion!: MatAccordion;
       name : ['',Validators.required],
       id : ['',Validators.required],
       });
-  
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addSeveranceReason();
+        return false; // Prevent the default browser behavior
+      }));
       if(this.editData){
         this.actionBtn = "تعديل";
       this.SeveranceReasonForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);

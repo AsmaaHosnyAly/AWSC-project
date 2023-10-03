@@ -19,7 +19,8 @@ import { Observable } from 'rxjs';
 import { HrCityStateDialogComponent } from '../hr-city-state-dialog/hr-city-state-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { HrFinancialDegreeDialogComponent } from '../hr-financial-degree-dialog/hr-financial-degree-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-financial-degree',
   templateUrl: './hr-financial-degree.component.html',
@@ -37,13 +38,18 @@ export class HrFinancialDegreeComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService,private toastr: ToastrService) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
 
   }
   ngOnInit(): void {
     // console.log(productForm)
 
    this.getHrFinancialDegree();
+   this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+    // Call the deleteGrade() function in the current component
+    this.openDialog();
+    return false; // Prevent the default browser behavior
+  }));
   }
   openDialog() {
     this.dialog

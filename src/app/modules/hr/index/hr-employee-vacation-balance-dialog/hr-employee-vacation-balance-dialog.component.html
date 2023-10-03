@@ -54,9 +54,9 @@
 
       
 
-       <div class="searchLabels">
+       <div class="searchLabels" style="width: 70%;">
         <mat-label>الاجازة*</mat-label>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" style="width: 98%;">
             <input matInput aria-label="commodity" [matAutocomplete]="autoVacation" [formControl]="vacationCtrl"
                 placeholder="{{editData ? editData.vactionName : ''}}" (click)="openAutoVacation()"
                 required />
