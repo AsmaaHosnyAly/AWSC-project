@@ -19,6 +19,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/pages/services/global.service'; 
 import { StrProudctSerialDialogComponent } from '../str-proudct-serial-dialog/str-proudct-serial-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+
+
 
 export class product {
   constructor(public id: number, public name: string,public global:GlobalService) {}
@@ -45,7 +48,7 @@ export class StrProudctSerialComponent  implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService) {
+  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private toastr: ToastrService,) {
   this.productCtrl = new FormControl();
   this.filteredProductes = this.productCtrl.valueChanges.pipe(
     startWith(''),
@@ -66,8 +69,8 @@ export class StrProudctSerialComponent  implements OnInit{
   openDialog() {
     this.dialog
       .open(StrProudctSerialDialogComponent, {
-        width: '98%',
-      height: '80%',
+        width: '60%',
+      height: '75%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -108,8 +111,8 @@ export class StrProudctSerialComponent  implements OnInit{
   editProductserail(row: any) {
     this.dialog
       .open(StrProudctSerialDialogComponent, {
-        width: '98%',
-      height: '80%',
+        width: '60%',
+        height: '75%',
         data: row,
       })
       .afterClosed()
@@ -128,7 +131,8 @@ export class StrProudctSerialComponent  implements OnInit{
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess()
           this.getAllProductserail();
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
@@ -199,6 +203,10 @@ export class StrProudctSerialComponent  implements OnInit{
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
   }
   }
 

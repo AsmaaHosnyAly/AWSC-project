@@ -17,6 +17,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { ToastrService } from 'ngx-toastr';
+
 // import { publishFacade } from '@angular/compiler';
 // import { STRGradeComponent } from '../str-grade/str-grade.component';
 
@@ -57,7 +59,7 @@ commname:any;
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
-    private readonly route: ActivatedRoute,
+    private readonly route: ActivatedRoute,private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<StrProudctSerialDialogComponent>
   ) {
@@ -147,7 +149,8 @@ commname:any;
         this.api.postProductserail(this.gradeForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            // alert("تمت الاضافة بنجاح");
+            this.toastrSuccess()
             this.gradeForm.reset();
             this.dialogRef.close('save');
           },
@@ -169,7 +172,8 @@ commname:any;
         .subscribe({
           next:(res)=>{
            console.log(res)
-            alert("تم التحديث بنجاح");
+            // alert("تم التحديث بنجاح");
+            this.toastrEditSuccess();
             this.gradeForm.reset();
             this.dialogRef.close('update');
           },
@@ -179,7 +183,15 @@ commname:any;
           }
         })
       }
-  
+      toastrSuccess(): void {
+        this.toastr.success("تم الحفظ بنجاح");
+      }
+      toastrDeleteSuccess(): void {
+        this.toastr.success("تم الحذف بنجاح");
+      }
+      toastrEditSuccess(): void {
+        this.toastr.success("تم التعديل بنجاح");
+      }
   }
   
 

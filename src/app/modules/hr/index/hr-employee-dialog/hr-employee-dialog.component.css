@@ -58,16 +58,14 @@
     height: 40px;
     position: relative;
     /* left: 15%; */
-    right: 10%;
-    /* margin-top: -2% !important; */
+    right: 13%;
+    margin-top: -1% !important;
     }
-
-    
     .searchLabels{
         display: flex;
         flex-direction: column;
         position: relative;
-        right: 14%;
+        right: 15%;
         /* margin-top: -1% !important; */
     }
     
@@ -77,7 +75,7 @@
   
   }
   .search{
-    overflow: hidden !important;
+    overflow: hidden;
   }
   .cdk-overlay-pane {
     position: relative !important;
@@ -90,10 +88,81 @@
     right: 0;
     width: 10px;
 
-
 }
 
 .close:hover {
     background-color: red;
     color: #ffff;
 }
+
+.searchLabels2{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* right: 15% !important; */
+  width: 28%;
+  /* margin-left: 3%; */
+  box-sizing: border-box;
+  /* text-align: center; */
+  /* justify-content: center; */
+}
+.matTabLabels2{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.searchLabels2 mat-form-field{
+  width: 90%;
+  }
+  .savebtn2 {
+    background-color:var(--bg-primary-color);
+    color: aliceblue;
+    font-family: 'Cairo', sans-serif !important;
+    display: block;
+    font-weight: bold;
+    font-size: 15px;
+    
+    width: 50%;
+    padding: 10px 0px;
+    height: 40px;
+    position: relative;
+    /* left: 15%; */
+    right: 24%;
+    margin-top: -1% !important;
+    }
+
+.searchLabels3{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  right: 25%;
+  width: 72%;
+  /* margin-left: 3%; */
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+
+
+  .savebtn3 {
+    background-color:var(--bg-primary-color);
+    color: aliceblue;
+    font-family: 'Cairo', sans-serif !important;
+    display: block;
+    font-weight: bold;
+    font-size: 15px;
+    
+    width: 52%;
+    padding: 10px 0px;
+    height: 40px;
+    position: relative;
+    /* left: 15%; */
+    right: 22%;
+    margin-top: -1% !important;
+    }
+ 
+
+  .matTabLabels{
+    display: flex;
+    flex-direction: row;
+  }
