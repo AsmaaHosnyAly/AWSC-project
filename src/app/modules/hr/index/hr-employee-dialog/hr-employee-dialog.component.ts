@@ -29,14 +29,14 @@ export class disciplinary {
 export class HrEmployeeDialogComponent implements OnInit {
   groupForm !: FormGroup;
   actionBtn: string = "Save";
-  jobTitleName:any;
-  positionName:any;
-  hiringTypeName:any;
-  workPlaceName:any;
-  specializationName:any;
-  departmentName:any;
-  financialDegreeName:any;
-  severanceReasonName:any;
+  jobTitleName: any;
+  positionName: any;
+  hiringTypeName: any;
+  workPlaceName: any;
+  specializationName: any;
+  departmentName: any;
+  financialDegreeName: any;
+  severanceReasonName: any;
   fiscalYearsList: any;
   userIdFromStorage: any;
   employeesList: Employee[] = [];
@@ -97,39 +97,27 @@ export class HrEmployeeDialogComponent implements OnInit {
       code: ['',],
       name: ['',],
       national_Code: ['',],
-      birth_Date: ['',],
+      birth_Date: ['', Validators.required],
       gender: [''],
       address: [''],
-      jobTitleName: ['',],
-      positionName: ['',],
-      hiringTypeName: ['',],
-      workPlaceName: ['',],
-      specializationName: ['',],
-      departmentName: ['',],
-      financialDegreeName: ['',],
-      severanceReasonName: ['',],
-      workingStateDate: ['',],
-      hiringDate: ['',],
-      financialDegreeDate: ['',],
-      qualificationDate: ['',],
-      qualificationId: ['',],
-      qualificationLevelId: ['',],
-      specializationId: ['',],
-      jobTitleId: ['',],
-      positionId: ['',],
-      millitryStateId: ['',],
-      hiringTypeId: ['',],
-      financialDegreeId: ['',],
-      cityStateId: ['',],
-      workPlaceId: ['',],
-      departmentId: ['',],
-      severanceReasonId: ['',],
-
-
-      qualificationLevelName: ['',],
-      qualificationName: ['',],
+      workingStateDate: ['', Validators.required],
+      hiringDate: ['', Validators.required],
+      financialDegreeDate: ['', Validators.required],
+      qualificationDate: ['', Validators.required],
+      qualificationId: ['', Validators.required],
+      qualificationLevelId: ['', Validators.required],
+      specializationId: ['', Validators.required],
+      jobTitleId: ['', Validators.required],
+      positionId: ['', Validators.required],
+      millitryStateId: ['', Validators.required],//////////
+      hiringTypeId: ['', Validators.required],
+      financialDegreeId: ['', Validators.required],
+      cityStateId: ['', Validators.required],/////////////
+      workPlaceId: ['', Validators.required],
+      departmentId: ['', Validators.required],
+      severanceReasonId: ['', Validators.required],
       maritalState: ['',],
-      transactionUserId: ['',],
+      transactionUserId: ['', Validators.required],
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current compone();
@@ -261,8 +249,17 @@ export class HrEmployeeDialogComponent implements OnInit {
 
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
       this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-      this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);
-      this.positionName = await this.getpositionByID(this.groupForm.getRawValue().positionId);
+      if (this.groupForm.getRawValue().jobTitleId) {
+        this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);
+        this.groupForm.controls['jobTitleName'].setValue(this.jobTitleName);
+
+      }
+
+      if (this.groupForm.getRawValue().positionId) {
+        this.positionName = await this.getpositionByID(this.groupForm.getRawValue().positionId);
+        this.groupForm.controls['positionName'].setValue(this.positionName);
+
+      }
 
 
       // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
@@ -273,13 +270,11 @@ export class HrEmployeeDialogComponent implements OnInit {
       // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
 
 
-      this.groupForm.controls['positionName'].setValue(this.positionName);
-      this.groupForm.controls['jobTitleName'].setValue(this.jobTitleName);
 
       console.log('form', this.groupForm.value)
       console.log('jobtitle', this.groupForm.getRawValue().jobTitleId)
 
-      if (this.groupForm.getRawValue().jobTitleId) {
+      // if (this.groupForm.valid) {
         this.api.postHrEmployee(this.groupForm.value)
           .subscribe({
             next: (res) => {
@@ -294,7 +289,7 @@ export class HrEmployeeDialogComponent implements OnInit {
               console.log("post HiringType with api err: ", err)
             }
           })
-      }
+      // }
 
     }
     else {
