@@ -497,6 +497,23 @@ export class PrUserDialogComponent implements OnInit {
       })
   }
 
+  description(groupName:any){
+    // alert("groupname:"+groupName)
+    console.log("groupname:",groupName)
+    if(groupName == 'it'){
+    alert("it")
+  
+  }
+    else if(groupName == "امين مخازن"){
+
+      alert("امين مخازن")
+
+    }
+    else{
+      alert("laa")
+    }
+  }
+
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
   }

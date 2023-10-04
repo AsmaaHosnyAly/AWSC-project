@@ -11,7 +11,7 @@
 
         <div style="display: flex;">
 
-            <div class="headerForm" style="margin-right: 18%;" >
+            <div class="headerForm" style="margin-right: 8%;" >
                 <mat-label>اسم المستخدم*</mat-label>
 
                 <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
@@ -48,7 +48,7 @@
 
                <div style="display: flex; flex-direction: column;width: 100%;">
                     <mat-label>اسم المجموعة*</mat-label>
-                    <mat-form-field appearance="outline" class="child-num" style="width: 50%;">
+                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="groupId" [formControl]="prGroupCtrl"
                             placeholder="{{getDetailedRowData ? getDetailedRowData.group_Name : ''}}"
                             (click)="openAutoPrGroup()" required />
@@ -61,7 +61,7 @@
                     </mat-form-field>
                 </div>
 
-                <div mat-dialog-action [align]="'end'" style="margin-top: 2%;">
+                <div mat-dialog-action [align]="'end'">
                     <div class="groupAction">
                         <button mat-raised-button color="primary" 
                             (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
@@ -76,19 +76,23 @@
 
                     <!-- group_Name Column -->
                     <ng-container matColumnDef="group_Name">
-                        <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 70%;"> المجموعة</th>
-                        <td mat-cell *matCellDef="let row"> {{row.group_Name}} </td>
+                        <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 70%;" > المجموعة</th>
+                        <td mat-cell *matCellDef="let row" > {{row.group_Name}} </td>
                     </ng-container>
 
 
-                    <ng-container matColumnDef="action" >
-                        <th mat-header-cell *matHeaderCellDef id="action-header" >الاجراء</th>
+                    <ng-container matColumnDef="action"  class="action">
+                        <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 25%;"  >الاجراء</th>
                         <td mat-cell *matCellDef="let row" id="buttn" >
                             <button mat-icon-button class="editbtn" (click)="editDetailsForm(row)">
                                 <mat-icon>edit</mat-icon>
                             </button>
                             <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
                                 <mat-icon>delete_forever</mat-icon>
+                            </button >
+                            <button mat-icon-button color="warn" (click)="description(row.group_Name)">
+                                <mat-icon>info</mat-icon>
+
                             </button>
                         </td>
                     </ng-container>
