@@ -261,22 +261,24 @@ export class HrEmployeeDialogComponent implements OnInit {
 
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
       this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-      this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
-      this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
+      this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);
+      this.positionName = await this.getpositionByID(this.groupForm.getRawValue().positionId);
 
-      
-      this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
-      this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
-      this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
-      this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
-      this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
-      this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
+
+      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
+      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
+      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
+      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
+      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
+      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
 
 
       this.groupForm.controls['positionName'].setValue(this.positionName);
       this.groupForm.controls['jobTitleName'].setValue(this.jobTitleName);
 
       console.log('form', this.groupForm.value)
+      console.log('jobtitle', this.groupForm.getRawValue().jobTitleId)
+
       if (this.groupForm.getRawValue().jobTitleId) {
         this.api.postHrEmployee(this.groupForm.value)
           .subscribe({
@@ -478,7 +480,7 @@ export class HrEmployeeDialogComponent implements OnInit {
   }
   getjobtitleByID(id: any) {
     console.log("row jobtitle id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/HrJobTitle//get/${id}`)
+    return fetch(`http://ims.aswan.gov.eg/api/HrJobTitle/get/${id}`)
       .then(response => response.json())
       .then(json => {
         // console.log("fetch name by id res: ", json.name);
