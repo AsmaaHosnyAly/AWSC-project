@@ -45,7 +45,7 @@
   }
 
 
-  .savebtn {
+  /* .savebtn {
     background-color:var(--bg-primary-color);
     color: aliceblue;
     font-family: 'Cairo', sans-serif !important;
@@ -53,14 +53,13 @@
     font-weight: bold;
     font-size: 15px;
     
-    width: 72%;
+    width: 50%;
     padding: 10px 0px;
     height: 40px;
     position: relative;
-    /* left: 15%; */
-    right: 13%;
+    right: 24%;
     margin-top: -1% !important;
-    }
+    } */
     .searchLabels{
         display: flex;
         flex-direction: column;
@@ -114,7 +113,7 @@
 .searchLabels2 mat-form-field{
   width: 90%;
   }
-  .savebtn2 {
+  /* .savebtn2 {
     background-color:var(--bg-primary-color);
     color: aliceblue;
     font-family: 'Cairo', sans-serif !important;
@@ -126,10 +125,10 @@
     padding: 10px 0px;
     height: 40px;
     position: relative;
-    /* left: 15%; */
+   
     right: 24%;
     margin-top: -1% !important;
-    }
+    } */
 
 .searchLabels3{
   display: flex;
@@ -141,10 +140,22 @@
   box-sizing: border-box;
   justify-content: center;
 }
+.searchLabels4{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  
+  top: 15%;
+  right: 25%;
+  width: 72%;
+  /* margin-left: 3%; */
+  box-sizing: border-box;
+  justify-content: center;
+}
 
 
 
-  .savebtn3 {
+  .savebtn {
     background-color:var(--bg-primary-color);
     color: aliceblue;
     font-family: 'Cairo', sans-serif !important;
@@ -152,17 +163,20 @@
     font-weight: bold;
     font-size: 15px;
     
-    width: 52%;
+    width: 40%;
     padding: 10px 0px;
     height: 40px;
     position: relative;
     /* left: 15%; */
-    right: 22%;
-    margin-top: -1% !important;
+    right: 29%;
+    /* margin-top: 1% !important; */
     }
  
 
   .matTabLabels{
     display: flex;
     flex-direction: row;
+  }
+  .container{
+    height: 305px;
   }

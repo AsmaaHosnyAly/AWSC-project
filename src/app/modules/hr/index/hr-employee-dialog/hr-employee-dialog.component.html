@@ -30,7 +30,7 @@
 
 
                     <div class="searchLabels" style="width: 35%;">
-                        <mat-label>الموظف*</mat-label>
+                        <mat-label> اسم الموظف*</mat-label>
                         <mat-form-field appearance="outline" style="width: 98%;">
                             <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="emploeeCtrl"
                                 placeholder="{{editData ? editData.name : ''}}" (click)="openAutoEmployee()"
@@ -87,7 +87,7 @@
 
                 <div class="matTabLabels">
 
-                    <div class="searchLabels" style="width: 35%;">
+                    <div class="searchLabels" style="width: 23%;">
                         <mat-label> النوع </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
@@ -99,12 +99,24 @@
                         </mat-form-field>
                     </div>
 
+                    <div class="searchLabels" style="width: 24%;">
+                        <mat-label> الحالة الاجتماعية </mat-label>
 
-                    <div class="searchLabels" style="width: 35%;">
-                        <mat-label> العنوان </mat-label>
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
+                            <mat-select formControlName="maritalState">
+                                <mat-option value="male">اعزب</mat-option>
+                                <mat-option value="female">متزوج</mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="searchLabels" style="width: 23%;">
+                        <mat-label> محل الاقامة </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                            <input matInput placeholder=" العنوان " formControlName="address">
+                            <input matInput placeholder=" محل الاقامة " formControlName="address">
                         </mat-form-field>
                     </div>
                 </div>
@@ -134,14 +146,7 @@
         </div> -->
 
 
-                <div mat-dialog-action [align]="'end'">
-                    <div class="groupAction">
-                        <!-- <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button> -->
-                        <button mat-raised-button class="savebtn" style="margin-left: 8px;"
-                            (click)="addEmployeeDisciplinary()">{{actionBtn.toLowerCase() =='save' ?
-                            'اضافة':'تعديل'}}</button>
-                    </div>
-                </div>
+              
             </mat-tab>
 
             <mat-tab>
@@ -165,7 +170,7 @@
 
                     </div>
                     <div class="searchLabels2">
-                        <mat-label>المنصب الوظيفي</mat-label>
+                        <mat-label>الوظيفة الحالية</mat-label>
                         <mat-form-field appearance="outline" class="groupInput">
                             <mat-select placeholder="المنصب الوظيفي" formControlName="positionName">
                                 <mat-option [value]="positionName.id"
@@ -188,9 +193,9 @@
 
                 <div class="matTabLabels2">
                     <div class="searchLabels2">
-                        <mat-label> مكان العمل</mat-label>
+                        <mat-label> مقر العمل</mat-label>
                         <mat-form-field appearance="outline" class="groupInput">
-                            <mat-select placeholder=" مكان العمل" formControlName="workPlaceName">
+                            <mat-select placeholder=" مقر العمل" formControlName="workPlaceName">
                                 <mat-option [value]="workPlaceName.id"
                                     *ngFor="let workPlaceName of workPlaceNameList">{{workPlaceName.name}}</mat-option>
                             </mat-select>
@@ -209,27 +214,40 @@
 
                     </div>
                     <div class="searchLabels2">
-                        <mat-label> اسم المبني</mat-label>
+                        <mat-label>  الادارة التابع لها </mat-label>
                         <mat-form-field appearance="outline" class="groupInput">
-                            <input matInput  placeholder="ادخل اسم المبني" formControlName="departmentName">
+                            <input matInput  placeholder=" اسم الادارة" formControlName="departmentName">
                         </mat-form-field>
 
                     </div>
                 </div>
 
                 <div class="matTabLabels2">
-                    <div class="searchLabels2">
-                        <mat-label> الدرجة المالية</mat-label>
-                        <mat-form-field appearance="outline" class="groupInput">
-                            <mat-select placeholder="  الدرجة المالية" formControlName="financialDegreeName">
-                                <mat-option [value]="financialDegreeName.id"
-                                    *ngFor="let financialDegreeName of financialDegreeNameList">{{financialDegreeName.name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                    <div class="searchLabels2" >
+                        <mat-label>تاريخ استلام العمل</mat-label>
 
+                        <mat-form-field appearance="outline" >
+                            <input matInput [matDatepicker]="picker" formControlName="workingStateDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
                     </div>
+                    <div class="searchLabels2" >
+                        <mat-label>تاريخ التعيين</mat-label>
+
+                        <mat-form-field appearance="outline" >
+                            <input matInput [matDatepicker]="picker" formControlName="hiringDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
                     <div class="searchLabels2">
-                        <mat-label>سبب الانفصال عن العمل </mat-label>
+                        <mat-label>سبب انهاء الخدمة </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
                             <mat-select placeholder="سبب الانفصال عن العمل " formControlName="severanceReasonName">
@@ -242,45 +260,17 @@
                 </div>
 
 
-                <div mat-dialog-action [align]="'end'">
-                    <div class="groupAction">
-                        <button mat-raised-button class="savebtn2" style="margin-left: 8px;"
-                            (click)="addEmployeeDisciplinary()">{{actionBtn.toLowerCase() =='save' ?
-                            'اضافة':'تعديل'}}</button>
-                    </div>
-                </div>
+               
             </mat-tab>
             <mat-tab style="margin-top: 1% !important;">
                 <ng-template mat-tab-label>
                     <div class="pageTab">
-                        <!-- <mat-icon class="example-tab-icon">cloud_done</mat-icon> -->
                         <h2>المؤهلات  </h2>
                     </div>
                 </ng-template>
 
 
-                <!-- <div class="matTabLabels">
-
-                    <div class="searchLabels" >
-                        <mat-label> الكود </mat-label>
-
-                        <mat-form-field appearance="outline" class="groupInput" style="width: 98%;">
-                            <input matInput placeholder="الكود " type="number" formControlName="code">
-                        </mat-form-field>
-                    </div>
-
-
-                    <div class="searchLabels" >
-                        <mat-label> الاسم </mat-label>
-
-                        <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                            <input matInput placeholder=" الاسم " formControlName="name">
-                        </mat-form-field>
-                    </div>
-                </div> -->
-
-
-                <!-- <div class="matTabLabels"> -->
+              
               
                     <div class="searchLabels3">
                         <mat-label> المؤهل </mat-label>
@@ -346,16 +336,61 @@
     
 
 
-                <div mat-dialog-action [align]="'end'">
-                    <div class="groupAction">
-                        <!-- <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button> -->
-                        <button mat-raised-button class="savebtn3" style="margin-left: 8px;"
-                            (click)="addEmployeeDisciplinary()">{{actionBtn.toLowerCase() =='save' ?
-                            'اضافة':'تعديل'}}</button>
-                    </div>
-                </div>
+              
             </mat-tab>
+       
+
+<mat-tab>
+
+    <ng-template mat-tab-label>
+        <div class="pageTab">
+            <h2>المالية  </h2>
+        </div>
+    </ng-template>
+
+
+           <div class="container"> 
+            <div class="searchLabels4">
+                <mat-label> الدرجة المالية</mat-label>
+                <mat-form-field appearance="outline" class="groupInput">
+                    <mat-select placeholder="  الدرجة المالية" formControlName="financialDegreeName">
+                        <mat-option [value]="financialDegreeName.id"
+                            *ngFor="let financialDegreeName of financialDegreeNameList">{{financialDegreeName.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels4" >
+                <mat-label>تاريخ الدرجة</mat-label>
+
+                <mat-form-field appearance="outline" >
+                    <input matInput [matDatepicker]="picker" formControlName="financialDegreeDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+           </div>
+
+
+
+        </mat-tab>
+
         </mat-tab-group>
+
+
+
+
+        
+        <div mat-dialog-action [align]="'end'">
+            <div class="groupAction">
+                <button mat-raised-button class="savebtn" style="margin-left: 8px;"
+                    (click)="addEmployee()">{{actionBtn.toLowerCase() =='save' ?
+                    'اضافة':'تعديل'}}</button>
+            </div>
+        </div>
     </form>
 </div>
 

@@ -26,11 +26,17 @@ export class disciplinary {
   styleUrls: ['./hr-employee-dialog.component.css']
 })
 
-export class HrEmployeeDialogComponent  implements OnInit{
+export class HrEmployeeDialogComponent implements OnInit {
   groupForm !: FormGroup;
   actionBtn: string = "Save";
-  disciplinaryName:any;
-  employeeName: any;
+  jobTitleName:any;
+  positionName:any;
+  hiringTypeName:any;
+  workPlaceName:any;
+  specializationName:any;
+  departmentName:any;
+  financialDegreeName:any;
+  severanceReasonName:any;
   fiscalYearsList: any;
   userIdFromStorage: any;
   employeesList: Employee[] = [];
@@ -38,15 +44,15 @@ export class HrEmployeeDialogComponent  implements OnInit{
   filteredEmployee: Observable<Employee[]>;
   selectedEmployee: Employee | undefined;
   formcontrol = new FormControl('');
-  jobTitleNameList:any;
-  positionNameList:any;
-  workPlaceNameList:any;
-  severanceReasonNameList:any;
-  specializationNameList:any;
-  hiringTypeNameList:any;
-  financialDegreeNameList:any;
-  qualificationNameList:any;
-  qualificationLevelNameList:any;
+  jobTitleNameList: any;
+  positionNameList: any;
+  workPlaceNameList: any;
+  severanceReasonNameList: any;
+  specializationNameList: any;
+  hiringTypeNameList: any;
+  financialDegreeNameList: any;
+  qualificationNameList: any;
+  qualificationLevelNameList: any;
 
   disciplinarysList: disciplinary[] = [];
   disciplinaryCtrl: FormControl;
@@ -57,8 +63,8 @@ export class HrEmployeeDialogComponent  implements OnInit{
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrEmployeeDialogComponent>,
-    private toastr: ToastrService) { 
-      
+    private toastr: ToastrService) {
+
     this.emploeeCtrl = new FormControl();
     this.filteredEmployee = this.emploeeCtrl.valueChanges.pipe(
       startWith(''),
@@ -71,43 +77,62 @@ export class HrEmployeeDialogComponent  implements OnInit{
       startWith(''),
       map(value => this._filterdisciplinarys(value))
     );
-    }
+  }
 
   ngOnInit(): void {
     this.getEmployees();
-this.getHrEmployee();
-this.jobTitleName();
-this.positionName();
-this.workPlaceName();
-this.severanceReasonName();
-this.specializationName();
-this.hiringTypeName();
-this.financialDegreeName();
-this.qualificationName();
-this.qualificationLevelName();
+    this.getHrEmployee();
+    this.getjobTitleName();
+    this.getpositionName();
+    this.getworkPlaceName();
+    this.getseveranceReasonName();
+    this.getspecializationName();
+    this.gethiringTypeName();
+    this.getfinancialDegreeName();
+    this.getqualificationName();
+    this.getqualificationLevelName();
 
 
     this.groupForm = this.formBuilder.group({
-      code: [, Validators.required],
-      name: [, Validators.required],
-      national_Code: ['', Validators.required],
-      birth_Date: [, Validators.required],
+      code: ['',],
+      name: ['',],
+      national_Code: ['',],
+      birth_Date: ['',],
       gender: [''],
-      address:[],
-      jobTitleName: [, Validators.required],
-      positionName: ['', Validators.required],
-      hiringTypeName: [, Validators.required],
-      workPlaceName: ['', Validators.required],
-      specializationName: ['', Validators.required],
-      departmentName: [, Validators.required],
-      financialDegreeName: ['', Validators.required],
-      severanceReasonName: ['', Validators.required],
+      address: [''],
+      jobTitleName: ['',],
+      positionName: ['',],
+      hiringTypeName: ['',],
+      workPlaceName: ['',],
+      specializationName: ['',],
+      departmentName: ['',],
+      financialDegreeName: ['',],
+      severanceReasonName: ['',],
+      workingStateDate: ['',],
+      hiringDate: ['',],
+      financialDegreeDate: ['',],
+      qualificationDate: ['',],
+      qualificationId: ['',],
+      qualificationLevelId: ['',],
+      specializationId: ['',],
+      jobTitleId: ['',],
+      positionId: ['',],
+      millitryStateId: ['',],
+      hiringTypeId: ['',],
+      financialDegreeId: ['',],
+      cityStateId: ['',],
+      workPlaceId: ['',],
+      departmentId: ['',],
+      severanceReasonId: ['',],
 
-     transactionUserId: ['', Validators.required],
+
+      qualificationLevelName: ['',],
+      qualificationName: ['',],
+      maritalState: ['',],
+      transactionUserId: ['',],
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.addEmployeeDisciplinary();
+      // Call the deleteGrade() function in the current compone();
       return false; // Prevent the default browser behavior
     }));
     if (this.editData) {
@@ -121,18 +146,59 @@ this.qualificationLevelName();
       this.groupForm.controls['address'].setValue(this.editData.address);
 
       this.groupForm.controls['jobTitleName'].setValue(this.editData.jobTitleName);
+      this.groupForm.controls['jobTitleId'].setValue(this.editData.jobTitleId);
+
       this.groupForm.controls['positionName'].setValue(this.editData.positionName);
+      this.groupForm.controls['positionId'].setValue(this.editData.positionId);
+
 
 
       this.groupForm.controls['hiringTypeName'].setValue(this.editData.hiringTypeName);
+      this.groupForm.controls['hiringTypeId'].setValue(this.editData.hiringTypeId);
+
       this.groupForm.controls['workPlaceName'].setValue(this.editData.workPlaceName);
+      this.groupForm.controls['workPlaceId'].setValue(this.editData.workPlaceId);
+
       this.groupForm.controls['hiringTypeName'].setValue(this.editData.hiringTypeName);
+      this.groupForm.controls['hiringTypeId'].setValue(this.editData.hiringTypeId);
+
       this.groupForm.controls['specializationName'].setValue(this.editData.specializationName);
+      this.groupForm.controls['specializationId'].setValue(this.editData.specializationId);
+
 
 
       this.groupForm.controls['departmentName'].setValue(this.editData.departmentName);
+      this.groupForm.controls['departmentId'].setValue(this.editData.departmentId);
+
       this.groupForm.controls['financialDegreeName'].setValue(this.editData.financialDegreeName);
+      this.groupForm.controls['financialDegreeId'].setValue(this.editData.financialDegreeId);
+
       this.groupForm.controls['severanceReasonName'].setValue(this.editData.severanceReasonName);
+      this.groupForm.controls['severanceReasonId'].setValue(this.editData.severanceReasonId);
+
+
+
+
+      this.groupForm.controls['workingStateDate'].setValue(this.editData.workingStateDate);
+      this.groupForm.controls['hiringDate'].setValue(this.editData.hiringDate);
+      this.groupForm.controls['financialDegreeDate'].setValue(this.editData.financialDegreeDate);
+      this.groupForm.controls['qualificationDate'].setValue(this.editData.qualificationDate);
+      this.groupForm.controls['qualificationId'].setValue(this.editData.qualificationId);
+      this.groupForm.controls['qualificationLevelId'].setValue(this.editData.qualificationLevelId);
+      this.groupForm.controls['specializationId'].setValue(this.editData.specializationId);
+      this.groupForm.controls['jobTitleId'].setValue(this.editData.jobTitleId);
+      this.groupForm.controls['positionId'].setValue(this.editData.positionId);
+      this.groupForm.controls['millitryStateId'].setValue(this.editData.millitryStateId);
+      this.groupForm.controls['hiringTypeId'].setValue(this.editData.hiringTypeId);
+      this.groupForm.controls['financialDegreeId'].setValue(this.editData.financialDegreeId);
+      this.groupForm.controls['cityStateId'].setValue(this.editData.cityStateId);
+      this.groupForm.controls['workPlaceId'].setValue(this.editData.workPlaceId);
+      this.groupForm.controls['departmentId'].setValue(this.editData.departmentId);
+      this.groupForm.controls['qualificationLevelName'].setValue(this.editData.qualificationLevelName);
+      this.groupForm.controls['qualificationName'].setValue(this.editData.qualificationName);
+      this.groupForm.controls['maritalState'].setValue(this.editData.maritalState);
+
+
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
 
       this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
@@ -189,36 +255,46 @@ this.qualificationLevelName();
     // Open the autocomplete dropdown by triggering the value change event
     this.disciplinaryCtrl.updateValueAndValidity();
   }
-  async addEmployeeDisciplinary() {
+  async addEmployee() {
     if (!this.editData) {
       this.groupForm.removeControl('id')
 
-        this.userIdFromStorage = localStorage.getItem('transactionUserId');
-        this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-        this.employeeName = await this.getemployeeByID(this.groupForm.getRawValue().employeeId);
-        this.disciplinaryName = await this.getdisciplinaryByID(this.groupForm.getRawValue().disciplinaryId);
+      this.userIdFromStorage = localStorage.getItem('transactionUserId');
+      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);
+      this.positionName = await this.getpositionByID(this.groupForm.getRawValue().positionId);
 
-    
-        this.groupForm.controls['disciplinaryName'].setValue(this.disciplinaryName);
-    this.groupForm.controls['employeeName'].setValue(this.employeeName);
 
-       console.log('form',this.groupForm.value)
-        if (this.groupForm.getRawValue().employeeId && this.groupForm.getRawValue().disciplinaryId) {
-          this.api.postHrEmployee(this.groupForm.value)
-            .subscribe({
-              next: (res) => {
-                console.log("add HiringType res: ", res);
+      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
+      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
+      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
+      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
+      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
+      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
 
-                this.toastrSuccess();
-                this.groupForm.reset();
-                this.dialogRef.close('save');
-              },
-              error: (err) => {
-                alert("حدث خطأ أثناء إضافة نوع التعيين");
-                console.log("post HiringType with api err: ", err)
-              }
-            })
-        }
+
+      this.groupForm.controls['positionName'].setValue(this.positionName);
+      this.groupForm.controls['jobTitleName'].setValue(this.jobTitleName);
+
+      console.log('form', this.groupForm.value)
+      console.log('jobtitle', this.groupForm.getRawValue().jobTitleId)
+
+      if (this.groupForm.getRawValue().jobTitleId) {
+        this.api.postHrEmployee(this.groupForm.value)
+          .subscribe({
+            next: (res) => {
+              console.log("add HiringType res: ", res);
+
+              this.toastrSuccess();
+              this.groupForm.reset();
+              this.dialogRef.close('save');
+            },
+            error: (err) => {
+              alert("حدث خطأ أثناء إضافة نوع التعيين");
+              console.log("post HiringType with api err: ", err)
+            }
+          })
+      }
 
     }
     else {
@@ -228,10 +304,10 @@ this.qualificationLevelName();
 
   async updateDisciplinary() {
     console.log("update Disciplinary last values, id: ", this.groupForm.value)
-    this.employeeName = await this.getemployeeByID(this.groupForm.getRawValue().employeeId);
-    this.groupForm.controls['employeeName'].setValue(this.employeeName);
-    this.disciplinaryName = await this.getdisciplinaryByID(this.groupForm.getRawValue().disciplinaryId);
-    this.groupForm.controls['disciplinaryName'].setValue(this.disciplinaryName);
+    this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);
+    this.groupForm.controls['jobTitleName'].setValue(this.jobTitleName);
+    this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
+    this.groupForm.controls['positionName'].setValue(this.positionName);
     this.api.putHrEmployee(this.groupForm.value)
       .subscribe({
         next: (res) => {
@@ -247,7 +323,7 @@ this.qualificationLevelName();
   }
 
 
-  jobTitleName(){
+  getjobTitleName() {
     this.api.getHrJobTitle()
       .subscribe({
         next: (res) => {
@@ -255,13 +331,13 @@ this.qualificationLevelName();
           // console.log("store res: ", this.storeList);
         },
         error: (err) => {
-          // console.log("fetch store data err: ", err);
-          // alert("خطا اثناء جلب المخازن !");
+
+
         }
       })
   }
 
-  positionName(){
+  getpositionName() {
     this.api.getHrPosition()
       .subscribe({
         next: (res) => {
@@ -275,12 +351,14 @@ this.qualificationLevelName();
       })
   }
 
-  workPlaceName(){
+  getworkPlaceName() {
     this.api.getHrWorkPlace()
       .subscribe({
         next: (res) => {
+
           this.workPlaceNameList = res;
           // console.log("store res: ", this.storeList);
+
         },
         error: (err) => {
           // console.log("fetch store data err: ", err);
@@ -290,7 +368,7 @@ this.qualificationLevelName();
   }
 
 
-  severanceReasonName(){
+  getseveranceReasonName() {
     this.api.getSeveranceReason()
       .subscribe({
         next: (res) => {
@@ -304,7 +382,7 @@ this.qualificationLevelName();
       })
   }
 
-  specializationName(){
+  getspecializationName() {
     this.api.getHrspecialization()
       .subscribe({
         next: (res) => {
@@ -319,7 +397,7 @@ this.qualificationLevelName();
   }
 
 
-  hiringTypeName(){
+  gethiringTypeName() {
     this.api.getHrHiringType()
       .subscribe({
         next: (res) => {
@@ -332,7 +410,7 @@ this.qualificationLevelName();
         }
       })
   }
-  financialDegreeName(){
+  getfinancialDegreeName() {
     this.api.getHrFinancialDegree()
       .subscribe({
         next: (res) => {
@@ -346,7 +424,7 @@ this.qualificationLevelName();
       })
   }
 
-  qualificationName(){
+  getqualificationName() {
     this.api.getQualification()
       .subscribe({
         next: (res) => {
@@ -360,18 +438,18 @@ this.qualificationLevelName();
       })
   }
 
-  qualificationLevelName(){
+  getqualificationLevelName() {
     this.api.getQualificationLevel()
-    .subscribe({
-      next: (res) => {
-        this.qualificationLevelNameList = res;
-        // console.log("store res: ", this.storeList);
-      },
-      error: (err) => {
-        // console.log("fetch store data err: ", err);
-        // alert("خطا اثناء جلب المخازن !");
-      }
-    })
+      .subscribe({
+        next: (res) => {
+          this.qualificationLevelNameList = res;
+          // console.log("store res: ", this.storeList);
+        },
+        error: (err) => {
+          // console.log("fetch store data err: ", err);
+          // alert("خطا اثناء جلب المخازن !");
+        }
+      })
   }
 
   getEmployees() {
@@ -400,9 +478,9 @@ this.qualificationLevelName();
         }
       })
   }
-  getemployeeByID(id: any) {
-    console.log("row employee id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/HREmployee/get/${id}`)
+  getjobtitleByID(id: any) {
+    console.log("row jobtitle id: ", id);
+    return fetch(`http://ims.aswan.gov.eg/api/HrJobTitle/get/${id}`)
       .then(response => response.json())
       .then(json => {
         // console.log("fetch name by id res: ", json.name);
@@ -413,9 +491,9 @@ this.qualificationLevelName();
         // alert("خطا اثناء جلب رقم المخزن !");
       });
   }
-  getdisciplinaryByID(id: any) {
+  getpositionByID(id: any) {
     console.log("DISPLINARY id: ", id);
-    return fetch(`http://ims.aswan.gov.eg/api/HrEmployeeDisciplinary/get-EmployeeDisciplinary-by-id/${id}`)
+    return fetch(`http://ims.aswan.gov.eg/api/HrPosition/get/${id}`)
       .then(response => response.json())
       .then(json => {
         // console.log("fetch name by id res: ", json.name);
