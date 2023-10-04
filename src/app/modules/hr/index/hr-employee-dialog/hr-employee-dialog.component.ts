@@ -53,6 +53,8 @@ export class HrEmployeeDialogComponent implements OnInit {
   financialDegreeNameList: any;
   qualificationNameList: any;
   qualificationLevelNameList: any;
+  cityStateNameList:any;
+  millitryStateNameList:any;
 
   disciplinarysList: disciplinary[] = [];
   disciplinaryCtrl: FormControl;
@@ -91,6 +93,8 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.getfinancialDegreeName();
     this.getqualificationName();
     this.getqualificationLevelName();
+    this.getcityStateName();
+    this.getmillitryStateName();
 
 
     this.groupForm = this.formBuilder.group({
@@ -445,6 +449,33 @@ export class HrEmployeeDialogComponent implements OnInit {
           // alert("خطا اثناء جلب المخازن !");
         }
       })
+  }
+  getcityStateName(){
+    this.api.getHrCityState()
+    .subscribe({
+      next: (res) => {
+        this.cityStateNameList = res;
+        // console.log("store res: ", this.storeList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert("خطا اثناء جلب المخازن !");
+      }
+    })
+  }
+
+  getmillitryStateName(){
+    this.api.getMillitryState()
+    .subscribe({
+      next: (res) => {
+        this.millitryStateNameList = res;
+        // console.log("store res: ", this.storeList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert("خطا اثناء جلب المخازن !");
+      }
+    })
   }
 
   getEmployees() {
