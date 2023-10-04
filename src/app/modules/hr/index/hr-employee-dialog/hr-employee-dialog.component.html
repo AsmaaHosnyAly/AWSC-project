@@ -191,7 +191,7 @@
                     <div class="searchLabels2">
                         <mat-label>الوظيفة الحالية</mat-label>
                         <mat-form-field appearance="outline" class="groupInput">
-                            <mat-select placeholder="المنصب الوظيفي" formControlName="positionId">
+                            <mat-select placeholder=" الوظيفة الحالية" formControlName="positionId">
                                 <mat-option [value]="positionName.id"
                                     *ngFor="let positionName of positionNameList">{{positionName.name}}</mat-option>
                             </mat-select>
@@ -269,7 +269,7 @@
                         <mat-label>سبب انهاء الخدمة </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
-                            <mat-select placeholder="سبب الانفصال عن العمل " formControlName="severanceReasonId">
+                            <mat-select placeholder="سبب انهاء الخدمة " formControlName="severanceReasonId">
                                 <mat-option [value]="severanceReasonName.id"
                                     *ngFor="let severanceReasonName of severanceReasonNameList">{{severanceReasonName.name}}</mat-option>
                             </mat-select>
