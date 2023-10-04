@@ -227,7 +227,7 @@ export class StrStockTakingDialogComponent implements OnInit {
 
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
       this.groupMasterForm.controls['storeName'].setValue(this.editData.storeName);
-      alert("storeNamee" + this.editData.storeName)
+      // alert("storeNamee"+this.editData.storeName)
 
       // alert("facialId before: "+ this.editData.fiscalYearId)
       this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);

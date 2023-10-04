@@ -184,6 +184,8 @@ import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-posi
 import { HrEmployeePositionDialogComponent } from './modules/hr/index/hr-employee-position-dialog/hr-employee-position-dialog.component';
 import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
 import { HrEmployeeAppraisalDialogComponent } from './modules/hr/index/hr-employee-appraisal-dialog/hr-employee-appraisal-dialog.component';
+import { HrEmployeeComponent } from './modules/hr/index/hr-employee/hr-employee.component';
+import { HrEmployeeDialogComponent } from './modules/hr/index/hr-employee-dialog/hr-employee-dialog.component';
 import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualification-level/hr-qualification-level.component';
 import { HrQualificationLevelDialogComponent } from './modules/hr/index/hr-qualification-level-dialog/hr-qualification-level-dialog.component';
 import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
@@ -350,6 +352,8 @@ import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-em
     HrEmployeePositionDialogComponent,
     HrEmployeeAppraisalComponent,
     HrEmployeeAppraisalDialogComponent,
+    HrEmployeeComponent,
+    HrEmployeeDialogComponent,
     HrQualificationLevelComponent,
     HrQualificationLevelDialogComponent,
     HrEmployeeQualificationComponent,

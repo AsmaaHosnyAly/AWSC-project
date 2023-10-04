@@ -92,6 +92,8 @@ import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-app
 import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualification-level/hr-qualification-level.component';
 import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
 
+import { HrEmployeeComponent } from './modules/hr/index/hr-employee/hr-employee.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -327,6 +329,10 @@ const routes: Routes = [
       },
 
       { path: 'hr-employee-position', component: HrEmployeePositionComponent },
+
+      { path: 'hr-employee', component: HrEmployeeComponent },
+
+      
 
        { path: 'EmployeeQualification', component: HrEmployeeQualificationComponent },
       /*********************End Hr modules شئون العاميلن***************************/
