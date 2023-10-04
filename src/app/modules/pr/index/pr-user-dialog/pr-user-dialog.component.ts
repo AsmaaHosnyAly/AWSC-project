@@ -101,7 +101,8 @@ export class PrUserDialogComponent implements OnInit {
     if (this.editData) {
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['name'].setValue(this.editData.name);
-      this.groupMasterForm.controls['password'].setValue(this.editData.password);
+      // this.groupMasterForm.controls['password'].setValue(this.editData.password);
+      this.groupMasterForm.controls['password'].setValue('');
       this.groupMasterForm.controls['isActive'].setValue(this.editData.isActive);
 
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
@@ -158,28 +159,28 @@ export class PrUserDialogComponent implements OnInit {
       //       // this.addDetailsInfo();
       //     },
       //     error: (err) => {
-            // console.log("add new user: ", err);
+      // console.log("add new user: ", err);
+      // alert("حدث خطأ أثناء إضافة مجموعة")
+      this.api.postPrUser(this.groupMasterForm.value)
+        .subscribe({
+          next: (res) => {
+            this.getMasterRowId = {
+              "id": res
+            };
+            this.MasterGroupInfoEntered = true;
+
+            this.toastrSuccess();
+            this.getAllDetailsForms();
+            this.addDetailsInfo();
+          },
+          error: (err) => {
+            // console.log("header post err: ", err);
             // alert("حدث خطأ أثناء إضافة مجموعة")
-            this.api.postPrUser(this.groupMasterForm.value)
-              .subscribe({
-                next: (res) => {
-                  this.getMasterRowId = {
-                    "id": res
-                  };
-                  this.MasterGroupInfoEntered = true;
+          }
+        })
+      // }
 
-                  this.toastrSuccess();
-                  this.getAllDetailsForms();
-                  this.addDetailsInfo();
-                },
-                error: (err) => {
-                  // console.log("header post err: ", err);
-                  // alert("حدث خطأ أثناء إضافة مجموعة")
-                }
-              })
-          // }
-
-        // })
+      // })
 
       // this.api.postPrUser(this.groupMasterForm.value)
       //   .subscribe({
@@ -266,7 +267,7 @@ export class PrUserDialogComponent implements OnInit {
           // console.log("groupId selected: ", this.prGroupCtrl.value);
 
           if (this.matchedIds) {
-          console.log("check if group is added before: ", this.matchedIds.find((userGroup: { groupId: any; }) => userGroup.groupId == this.groupDetailsForm.getRawValue().groupId));
+            console.log("check if group is added before: ", this.matchedIds.find((userGroup: { groupId: any; }) => userGroup.groupId == this.groupDetailsForm.getRawValue().groupId));
 
             if (!this.matchedIds.find((userGroup: { groupId: any; }) => userGroup.groupId == this.groupDetailsForm.getRawValue().groupId)) {
               this.api.postPrUserGroup(this.groupDetailsForm.value)
@@ -323,6 +324,8 @@ export class PrUserDialogComponent implements OnInit {
   }
 
   async updateDetailsForm() {
+    console.log("update details form: ", this.groupDetailsForm.value);
+
     // this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
     // this.groupMasterForm.controls['storeName'].setValue(this.storeName);
 
@@ -342,38 +345,76 @@ export class PrUserDialogComponent implements OnInit {
     }
 
 
-    this.api.putPrUser(this.groupMasterForm.value)
-      .subscribe({
-        next: (res) => {
-          if (this.groupDetailsForm.value && this.getDetailedRowData) {
-            this.api.putPrUserGroup(this.groupDetailsForm.value)
-              .subscribe({
-                next: (res) => {
-                  this.toastrSuccess();
-                  this.groupDetailsForm.reset();
-                  this.prGroupCtrl.setValue('');
+    console.log("put update details form request: ", this.groupDetailsForm.value, " getDetailedRowData: ", this.getDetailedRowData);
 
-                  this.getAllDetailsForms();
-                  this.getDetailedRowData = '';
-                },
-                error: (err) => {
-                  console.log("update err: ", err)
-                  // alert("خطأ أثناء تحديث سجل المجموعة !!")
-                }
-              })
+    // this.api.putPrUser(this.groupMasterForm.value)
+    //   .subscribe({
+    //     next: (res) => {
+    if (this.groupDetailsForm.value && this.getDetailedRowData) {
+      this.api.putPrUserGroup(this.groupDetailsForm.value)
+        .subscribe({
+          next: (res) => {
+            this.toastrSuccess();
+            this.groupDetailsForm.reset();
+            this.prGroupCtrl.setValue('');
+
+            this.getAllDetailsForms();
+            this.getDetailedRowData = '';
+          },
+          error: (err) => {
+            console.log("update err: ", err)
+            // alert("خطأ أثناء تحديث سجل المجموعة !!")
           }
+        })
+    }
 
-        },
+    //   },
 
-      })
+    // })
   }
 
   updateBothForms() {
+    console.log("update master form: ", this.groupMasterForm.value);
     if (this.groupMasterForm.getRawValue().name != '') {
       // console.log("change readOnly to enable");
 
       this.groupDetailsForm.controls['userId'].setValue(this.getMasterRowId.id);
       // this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
+
+      console.log("send update master form request: ", this.groupMasterForm.value);
+
+      if (this.groupMasterForm.valid) {
+        this.api.putPrUser(this.groupMasterForm.value)
+          .subscribe({
+            next: (res) => {
+              // if (this.groupDetailsForm.value && this.getDetailedRowData) {
+              //   this.api.putPrUserGroup(this.groupDetailsForm.value)
+              //     .subscribe({
+              //       next: (res) => {
+              this.toastrSuccess();
+              this.groupDetailsForm.reset();
+              this.prGroupCtrl.setValue('');
+
+              this.getAllDetailsForms();
+              this.getDetailedRowData = '';
+              //   },
+              //   error: (err) => {
+              //     console.log("update err: ", err)
+              //     // alert("خطأ أثناء تحديث سجل المجموعة !!")
+              //   }
+              // })
+              // }
+
+            },
+            error: (err) => {
+              console.log("update master err: ", err)
+              // alert("خطأ أثناء تحديث سجل المجموعة !!")
+            }
+            // })
+
+          })
+      }
+
 
       this.updateDetailsForm();
     }
