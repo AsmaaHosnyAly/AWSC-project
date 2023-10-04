@@ -3328,6 +3328,14 @@ postHrEmployeeAppraisal(data: any) {
 
 
   ///////////hremployee////////////
+
+  // getHrEmployee() {
+  //   return this.http.get<any>(
+  //     `${this.url}/HREmployee/get/all`
+  //   );
+  // }
+
+
   postHrEmployee(data: any) {
     console.log('post in employee: ', data);
     return this.http.post<any>(
