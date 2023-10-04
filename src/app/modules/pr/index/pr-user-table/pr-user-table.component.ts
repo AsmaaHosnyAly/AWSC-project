@@ -109,8 +109,9 @@ export class PrUserTableComponent implements OnInit {
             return a.userId === id;
           });
 
+          var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+
           for (let i = 0; i < this.matchedIds.length; i++) {
-            var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
 
             if (this.matchedIds.length) {
               for (let i = 0; i < this.matchedIds.length; i++) {
