@@ -3170,4 +3170,23 @@ export class ApiService {
       `${this.url}/STRProduct/get/all`
     );
   }
+  // FinancialDegree
+postFinancialDegree(data: any) {
+  return this.http.post<any>(`${this.url}/HrFinancialDegree/Add`, data);
+}
+// here
+getFinancialDegree() {
+  return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
+}
+putFinancialDegree(data: any) {
+  return this.http.put<any>(
+    `${this.url}/HrFinancialDegree/update`,
+    data
+  );
+}
+deleteFinancialDegree(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/HrFinancialDegree/delete/${id}`
+  );
+}
 }

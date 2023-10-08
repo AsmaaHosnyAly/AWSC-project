@@ -176,6 +176,9 @@ import { StrProudctSerialComponent } from './modules/str/index/str-proudct-seria
 import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component'; 
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
 import { StrUserstoreDialogComponent } from './modules/str/index/str-userstore-dialog/str-userstore-dialog.component';
+import { HrFinancialdegreeComponent } from './modules/hr/hr-financialdegree/hr-financialdegree.component';
+import { HrFinancialdegreeDailogComponent } from './modules/hr/hr-financialdegree-dailog/hr-financialdegree-dailog.component';
+
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -329,7 +332,11 @@ import { StrUserstoreDialogComponent } from './modules/str/index/str-userstore-d
     StrProudctSerialComponent,
     StrProudctSerialDialogComponent,
     StrUserstoreComponent,
-    StrUserstoreDialogComponent
+    StrUserstoreDialogComponent,
+    HrFinancialdegreeComponent,
+    HrFinancialdegreeDailogComponent,
+   
+   
 
    
   ],

@@ -84,6 +84,7 @@ import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component'; 
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
+import { HrFinancialdegreeComponent } from './modules/hr/hr-financialdegree/hr-financialdegree.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -251,6 +252,7 @@ const routes: Routes = [
 
   {path:'StrStockTaking',component: StrStockTakingContainerComponent},
   { path:'struserstore' ,component: StrUserstoreComponent},
+  { path:'hrfinancialdegree',component:HrFinancialdegreeComponent}
       // { path: '**', component: ErrorComponent },
     ],
   },

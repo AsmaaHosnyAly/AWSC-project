@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validator, Validators, FormControl } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,12 +8,13 @@ import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+
 @Component({
-  selector: 'app-str-units-dialog',
-  templateUrl: './str-units-dialog.component.html',
-  styleUrls: ['./str-units-dialog.component.css']
+  selector: 'app-hr-financialdegree-dailog',
+  templateUrl: './hr-financialdegree-dailog.component.html',
+  styleUrls: ['./hr-financialdegree-dailog.component.css']
 })
-export class STRUnitsDialogComponent {
+export class HrFinancialdegreeDailogComponent {
   formcontrol = new FormControl('');  
   unitsForm !:FormGroup;
   actionBtn : string = "حفظ";
@@ -26,7 +27,7 @@ export class STRUnitsDialogComponent {
      private hotkeysService: HotkeysService,
      private readonly route:ActivatedRoute,
      @Inject(MAT_DIALOG_DATA) public editData : any,
-     private dialogRef : MatDialogRef<STRUnitsDialogComponent>){
+     private dialogRef : MatDialogRef<HrFinancialdegreeDailogComponent>){
      }
   ngOnInit(): void {
     this.getExistingNames(); // Fetch existing names
@@ -34,6 +35,7 @@ export class STRUnitsDialogComponent {
       transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
+      noYear:['',Validators.required],
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
@@ -47,6 +49,7 @@ export class STRUnitsDialogComponent {
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
       this.unitsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.unitsForm.controls['name'].setValue(this.editData.name);
+      this.unitsForm.controls['noYear'].setValue(this.editData.noYear);
       // this.unitsForm.controls['id'].setValue(this.editData.id);
       this.unitsForm.addControl('id', new FormControl('', Validators.required));
       this.unitsForm.controls['id'].setValue(this.editData.id);
@@ -56,7 +59,7 @@ export class STRUnitsDialogComponent {
   }
 
   getExistingNames() {
-    this.api.getunit().subscribe({
+    this.api.getFinancialDegree().subscribe({
       next: (res) => {
         this.existingNames = res.map((item: any) => item.name);
        
@@ -71,7 +74,7 @@ export class STRUnitsDialogComponent {
   addUnits(){
 
     const enteredName = this.unitsForm.get('name')?.value;
-
+    
     if (this.existingNames.includes(enteredName)) {
       alert('هذا الاسم موجود من قبل، قم بتغييره');
       return;
@@ -82,7 +85,7 @@ export class STRUnitsDialogComponent {
 
       this.unitsForm.removeControl('id')
       if(this.unitsForm.valid){
-        this.api.postunit(this.unitsForm.value)
+        this.api.postFinancialDegree(this.unitsForm.value)
         .subscribe({
           next:(res)=>{
             alert("تمت الاضافة بنجاح");
@@ -100,7 +103,7 @@ export class STRUnitsDialogComponent {
     }
   }
     updateunit(){
-      this.api.putunit(this.unitsForm.value)
+      this.api.putFinancialDegree(this.unitsForm.value)
       .subscribe({
         next:(res)=>{
           alert("تم التحديث بنجاح");
@@ -112,5 +115,6 @@ export class STRUnitsDialogComponent {
         }
       })
     }
+
 
 }
