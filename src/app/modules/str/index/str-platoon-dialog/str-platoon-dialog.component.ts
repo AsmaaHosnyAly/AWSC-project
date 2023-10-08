@@ -16,7 +16,7 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
+import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
@@ -66,7 +66,8 @@ export class STRPlatoonDialogComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<STRPlatoonDialogComponent>
+    private dialogRef: MatDialogRef<STRPlatoonDialogComponent>,
+    private toastr: ToastrService
   ) {
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
@@ -247,12 +248,12 @@ export class STRPlatoonDialogComponent implements OnInit {
       if (this.platoonForm.valid) {
         this.api.postPlatoon(this.platoonForm.value).subscribe({
           next: (res) => {
-            alert('تمت الاضافة بنجاح');
+            this.toastrSuccess();
             this.platoonForm.reset();
             this.dialogRef.close('save');
           },
           error: (err) => {
-            alert('خطأ عند تحديث البيانات');
+            this.toastrErrorSave();
           },
         });
       }
@@ -264,13 +265,29 @@ export class STRPlatoonDialogComponent implements OnInit {
   updatePlatoon() {
     this.api.putPlatoon(this.platoonForm.value).subscribe({
       next: (res) => {
-        alert('تم التحديث بنجاح');
+        this.toastrEdit();
         this.platoonForm.reset();
         this.dialogRef.close('update');
       },
       error: () => {
-        alert('خطأ عند تحديث البيانات');
+        this.toastrErrorEdit();
       },
     });
+  }
+
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
   }
 }

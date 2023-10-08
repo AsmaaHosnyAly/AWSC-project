@@ -10,7 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { publishFacade } from '@angular/compiler';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { ToastrService } from 'ngx-toastr';
 export class Keeper {
   constructor(public id: number, public name: string, public code: any) {}
 }
@@ -36,8 +36,8 @@ export class StrStoreDialogComponent implements OnInit {
     private api: ApiService,
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<StrStoreDialogComponent>
-  ) {
+    private dialogRef: MatDialogRef<StrStoreDialogComponent>,
+    private toastr: ToastrService) {
     this.storeKeeperCtrl = new FormControl();
     this.filteredStoreKeepers = this.storeKeeperCtrl.valueChanges.pipe(
       startWith(''),
@@ -138,12 +138,12 @@ export class StrStoreDialogComponent implements OnInit {
       if (this.storeForm.valid) {
         this.api.postStore(this.storeForm.value).subscribe({
           next: (res) => {
-            alert('تم اضافة المخزن');
+            this.toastrSuccess();
             this.storeForm.reset();
             this.dialogRef.close('حفظ');
           },
           error: (err) => {
-            alert('!خطأ في العملية');
+            this.toastrErrorSave();
           },
         });
       }
@@ -155,12 +155,12 @@ export class StrStoreDialogComponent implements OnInit {
   updateProduct() {
     this.api.putStore(this.storeForm.value).subscribe({
       next: (res) => {
-        alert('تم التحديث بنجاح');
+        this.toastrEdit();
         this.storeForm.reset();
         this.dialogRef.close('تحديث');
       },
       error: () => {
-        alert('خطأ في التحديث');
+        this.toastrErrorEdit();
       },
     });
   }
@@ -176,5 +176,20 @@ export class StrStoreDialogComponent implements OnInit {
         // alert("خطا اثناء جلب العناصر !");
       },
     });
+  }
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
   }
 }
