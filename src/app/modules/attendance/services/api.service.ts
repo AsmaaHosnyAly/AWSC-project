@@ -11,5 +11,26 @@ export class ApiService {
   pageEnums = PagesEnums
   url =this.pageEnums.URL
   constructor(private http: HttpClient) {}
+  
+  /************Hr-attendence-permission crud*******************/
+
+  postHrAttendancePermission(data: any) {
+    return this.http.post<any>(`${this.url}/STRUnit/Add`, data);
+  }
+ 
+  getHrAttendancePermission() {
+    return this.http.get<any>(`${this.url}/STRUnit/get/all`);
+  }
+  putHrAttendancePermission(data: any) {
+    return this.http.put<any>(
+      `${this.url}/STRUnit/update`,
+      data
+    );
+  }
+  deleteHrAttendancePermission(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/STRUnit/delete/${id}`
+    );
+  }
 
 }
