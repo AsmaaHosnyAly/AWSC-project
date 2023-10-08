@@ -145,16 +145,9 @@ accordion!: MatAccordion;
         // this.cityStateForm.controls['code'].setValue(this.editData.code);      
       this.EmployeeQualificationForm.controls['date'].setValue(this.editData.date);
       this.EmployeeQualificationForm.controls['employeeId'].setValue(this.editData.employeeId);
-      this.EmployeeQualificationForm.controls['employeeName'].setValue(this.editData.employeeName);
       this.EmployeeQualificationForm.controls['qualificationId'].setValue(this.editData.qualificationId);
-      this.EmployeeQualificationForm.controls['qualificationName'].setValue(this.editData.qualificationName);
-
       this.EmployeeQualificationForm.controls['qualificationLevelId'].setValue(this.editData.qualificationLevelId);
-      this.EmployeeQualificationForm.controls['qualificationLeveName'].setValue(this.editData.qualificationLeveName);
-
       this.EmployeeQualificationForm.controls['specializationId'].setValue(this.editData.specializationId);
-      this.EmployeeQualificationForm.controls['specializationName'].setValue(this.editData.specializationName);
-
       this.EmployeeQualificationForm.controls['attachment'].setValue(this.editData.attachment);
       // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
       this.EmployeeQualificationForm.addControl('id', new FormControl('', Validators.required));
@@ -293,11 +286,7 @@ accordion!: MatAccordion;
 
 
   updateEmployeeQualification(){    
-    this.EmployeeQualificationForm.controls['id'].setValue(this.editData.id);
-    this.EmployeeQualificationForm.controls['specializationId'].setValue(this.editData.specializationId);
-    this.EmployeeQualificationForm.controls['qualificationLevelId'].setValue(this.editData.qualificationLevelId);
-    this.EmployeeQualificationForm.controls['qualificationId'].setValue(this.editData.qualificationId);
-    
+    this.EmployeeQualificationForm.controls['id'].setValue(this.editData.id);  
         this.api.putEmployeeQualification(this.EmployeeQualificationForm.value)
         .subscribe({
           next:(res)=>{
