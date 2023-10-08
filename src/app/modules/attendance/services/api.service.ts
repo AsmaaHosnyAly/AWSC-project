@@ -47,4 +47,22 @@ export class ApiService {
   deleteHrAttendanceMachine(id: number) {
     return this.http.delete<any>(`${this.url}/HrAttendanceMachine/delete/` + id);
   }
+
+  ///////////////////////////////// HR-AttendanceMachineWorkPlace /////////////////////////////
+  postHrAttendanceMachineWorkPlace(data: any) {
+    return this.http.post<any>(`${this.url}/HrAttendanceMachineWorkPlace/Add`, data);
+  }
+  getHrAttendanceMachineWorkPlace() {
+    return this.http.get<any>(`${this.url}/HrAttendanceMachineWorkPlace/get/all`);
+  }
+  putHrAttendanceMachineWorkPlace(data: any) {
+    return this.http.put<any>(`${this.url}/HrAttendanceMachineWorkPlace/update`, data);
+  }
+  deleteHrAttendanceMachineWorkPlace(id: number) {
+    return this.http.delete<any>(`${this.url}/HrAttendanceMachineWorkPlace/delete/` + id);
+  }
+
+  getHrWorkPlace() {
+    return this.http.get<any>(`${this.url}/HrWorkPlace/get/all`);
+  }
 }
