@@ -93,6 +93,7 @@ import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualificati
 import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
 
 import { HrEmployeeComponent } from './modules/hr/index/hr-employee/hr-employee.component';
+import { HrAttendancePermissionComponent } from './modules/attendance/index/hr-attendance-permission/hr-attendance-permission.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -337,6 +338,13 @@ const routes: Routes = [
        { path: 'EmployeeQualification', component: HrEmployeeQualificationComponent },
       /*********************End Hr modules شئون العاميلن***************************/
 
+       /*********************start Hr-attendance module  الحضور والانصراف***************************/
+
+       { path: 'hr-AttendancePermission', component: HrAttendancePermissionComponent },
+
+
+       /*********************End Hr-attendance module  الحضور والانصراف***************************/
+          
       //  report section
       { path: 'report', component: StrReportComponent },
       { path: 'add-item-report', component: StrReportAddItemComponent },

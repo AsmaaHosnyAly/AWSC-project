@@ -19,7 +19,7 @@ export class ApiService {
   }
  
   getHrAttendancePermission() {
-    return this.http.get<any>(`${this.url}/STRUnit/get/all`);
+    return this.http.get<any>(`${this.url}/HrAttendancePermission/get/all`);
   }
   putHrAttendancePermission(data: any) {
     return this.http.put<any>(

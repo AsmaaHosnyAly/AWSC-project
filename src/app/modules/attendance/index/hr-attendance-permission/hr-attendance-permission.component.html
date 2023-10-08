@@ -1,6 +1,6 @@
 <p>hr-attendance-permission works!</p>
 
-<div class="page-title">  المحافظات</div>
+<div class="page-title"> اذن الحضور</div>
 <mat-card>
   <mat-card-content>
     <mat-card-header dir="ltr" class="parent-search">
@@ -27,7 +27,7 @@
   
         <!-- Units Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef > اسم المحافظة </th>
+          <th mat-header-cell *matHeaderCellDef > اذن الحضور  </th>
           <td mat-cell *matCellDef="let row"> {{row.name}} </td>
         </ng-container>
    
@@ -35,10 +35,10 @@
         <ng-container matColumnDef="action" >
           <th mat-header-cell *matHeaderCellDef  style="width: 15%;">الاجراء</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button (click)="editHrCities(row)" class="editbtn">
+            <button mat-icon-button (click)=" editHrAttendancePermission(row)" class="editbtn">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="daleteHrCities(row.id)">
+            <button mat-icon-button color="warn" (click)="deleteHrAttendancePermission(row.id)">
               <mat-icon>delete_forever</mat-icon>
             </button>
           </td>
