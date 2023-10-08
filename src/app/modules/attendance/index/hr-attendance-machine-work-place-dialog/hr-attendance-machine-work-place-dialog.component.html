@@ -1,0 +1,58 @@
+<!-- <p>hr-attendance-machine-work-place-dialog works!</p> -->
+
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل مكان عمل الة الحضور ' : ' إضافة مكان عمل الة حضور جديدة'}}</h1>
+
+<form [formGroup]="HrAttendanceMachineWorkPlaceForm" dir="rtl">
+    <div mat-dialog-content>
+        <form [formGroup]="HrAttendanceMachineWorkPlaceForm">
+
+            <mat-label>الاسم*</mat-label>
+            <mat-form-field appearance="outline">
+                <input formControlName="name" matInput placeholder="الاسم">
+            </mat-form-field>
+
+            <div class="searchLabels4">
+                <mat-label> الة الحضور*</mat-label>
+                <mat-form-field appearance="outline" class="groupInput">
+                    <mat-select placeholder="  الة الحضور" formControlName="attendanceMachineId">
+                        <mat-option [value]="attendMachine.id"
+                            *ngFor="let attendMachine of attendMachinesList">{{attendMachine.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels4">
+                <mat-label> المكان*</mat-label>
+                <mat-form-field appearance="outline" class="groupInput">
+                    <mat-select placeholder="  المكان" formControlName="workPlaceId">
+                        <mat-option [value]="workPlace.id"
+                            *ngFor="let workPlace of workPlacesList">{{workPlace.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels3">
+                <mat-label> التاريخ*</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput [matDatepicker]="picker" formControlName="date">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn" (click)="addHrAttendanceMachineWorkPlace()"
+            style="margin-left: 8px;">{{actionBtn}}</button>
+    </div>
+</form>
