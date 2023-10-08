@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
 
 @Injectable({
@@ -20,9 +21,8 @@ export class GlobalService {
   test: any;
   public navFlag: boolean = true;
   userRoles: any;
-
-//  url = 'http://192.168.1.23/api';
-  url='http://ims.aswan.gov.eg/api'
+  pageEnums=PagesEnums
+  url =this.pageEnums.URL
 
   public reportData: [] = [];
 
