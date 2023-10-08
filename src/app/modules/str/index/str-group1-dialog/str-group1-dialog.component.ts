@@ -10,7 +10,7 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
+import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
@@ -62,7 +62,8 @@ export class STRGroup1DialogComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<STRGroup1DialogComponent>) {
+    private dialogRef: MatDialogRef<STRGroup1DialogComponent>,
+    private toastr: ToastrService) {
 
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
@@ -264,12 +265,12 @@ export class STRGroup1DialogComponent implements OnInit {
         this.api.postGroups(this.groupForm.value)
           .subscribe({
             next: (res) => {
-              alert("تمت الاضافة بنجاح");
+              this.toastrSuccess;
               this.groupForm.reset();
               this.dialogRef.close('save');
             },
             error: (err) => {
-              alert("خطأ عند تحديث البيانات")
+              this.toastrErrorSave;
             }
           })
       }
@@ -282,14 +283,30 @@ export class STRGroup1DialogComponent implements OnInit {
     this.api.putGroups(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم التحديث بنجاح");
+          this.toastrEdit;
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          alert("خطأ عند تحديث البيانات");
+          this.toastrErrorEdit;
         }
       })
+  }
+
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
   }
 
 }

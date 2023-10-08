@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@ang
 import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { publishFacade } from '@angular/compiler';
-
+import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -34,7 +34,8 @@ export class StrCommodityDialogComponent implements OnInit {
     private api: ApiService,
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<StrCommodityDialogComponent>) {
+    private dialogRef: MatDialogRef<StrCommodityDialogComponent>,
+    private toastr: ToastrService) {
       this.accountCtrl = new FormControl();
     this.filteredAccounts = this.accountCtrl.valueChanges.pipe(
       startWith(''),
@@ -51,7 +52,7 @@ export class StrCommodityDialogComponent implements OnInit {
       return false; // Prevent the default browser behavior
     }));
     this.commodityForm = this.formBuilder.group({
-      code: ['', Validators.required],
+      code: [''],
       name: ['', Validators.required],
       accountId: ['', Validators.required],
       transactionUserId:[1, Validators.required],
@@ -141,13 +142,13 @@ export class StrCommodityDialogComponent implements OnInit {
         this.api.postCommodity(this.commodityForm.value)
           .subscribe({
             next: (res) => {
-              alert(" تم اضافة السلعة بنجاح" );
+              this.toastrSuccess();
               this.commodityForm.reset();
               this.dialogRef.close('حفظ');
             },
             error: (err) => {
               console.log('error:',err)
-              alert("!خطأ في العملية")
+              this.toastrErrorSave;
               
             }
           })
@@ -163,11 +164,12 @@ export class StrCommodityDialogComponent implements OnInit {
     this.api.putCommodity(this.commodityForm.value)
     .subscribe({
       next:(res)=>{
-        alert("تم التحديث بنجاح");
+        this.toastrEdit();
         this.commodityForm.reset();
         this.dialogRef.close('تحديث');
       },
       error:(err)=>{
+        this.toastrErrorEdit();
         console.log('error:',err)
       }
     })
@@ -187,7 +189,22 @@ export class StrCommodityDialogComponent implements OnInit {
         }
       })
   }
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
 
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
+
+  }
 }
 
 

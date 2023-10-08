@@ -53,7 +53,7 @@ export class STRGradeComponent implements OnInit {
   openDialog() {
     this.dialog
       .open(STRGradeDialogComponent, {
-        width: '30%',
+        width: '45%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -80,7 +80,7 @@ export class STRGradeComponent implements OnInit {
   editGrade(row: any) {
     this.dialog
       .open(STRGradeDialogComponent, {
-        width: '30%',
+        width: '45%',
         data: row,
       })
       .afterClosed()
