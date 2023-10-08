@@ -9,47 +9,49 @@
     <div mat-dialog-content>
         <form [formGroup]="HrEmployeePosition">
 
-            <!-- <div class="searchLabels"> -->
-
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label> الموظف </mat-label>
-
-                <mat-select placeholder=" الموظف " formControlName="employeeId">
-                    <mat-option [value]="employee.id"
-                        *ngFor="let employee of hrEmployeesList">{{employee.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <!-- </div> -->
-
-            <!-- <div class="searchLabels"> -->
-
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label> المنصب </mat-label>
-
-                <mat-select placeholder=" المنصب " formControlName="positionId">
-                    <mat-option [value]="position.id"
-                        *ngFor="let position of hrPositionsList">{{position.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <!-- </div> -->
-
-            <!-- <div class="searchLabels"> -->
-
-            <mat-form-field appearance="outline" class="groupInput">
-                <mat-label> مكان العمل </mat-label>
-
-                <mat-select placeholder=" مكان العمل " formControlName="workPlaceId">
-                    <mat-option [value]="workPlace.id"
-                        *ngFor="let workPlace of hrWorkPlacesList">{{workPlace.name}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <!-- </div> -->
-
-            <!-- <div class="searchLabels"> -->
-
+            <div class="child1">
+                <mat-label>الموظف</mat-label>
+                <mat-form-field appearance="outline">
+                  <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+                    placeholder="{{getEmployeeData ? getEmployeeData.employeeName : ''}}" (click)="openAutoemployee()" required />
+                  <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                    (optionSelected)="employeeSelected($event)">
+                    <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                      {{ employee.name }} 
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div class="child1">
+                <mat-label>المنصب</mat-label>
+      
+                <mat-form-field appearance="outline">
+                  <input matInput aria-label="specialization" [matAutocomplete]="autoPosition" [formControl]="positionCtrl"
+                    placeholder="{{getEmployeeData ? getEmployeeData.positionName : ''}}" (click)="openAutoPosition()" required />
+                  <mat-autocomplete #autoPosition="matAutocomplete" [displayWith]="displayPositionName"
+                    (optionSelected)="positionSelected($event)">
+                    <mat-option *ngFor="let position of filteredPosition | async" [value]="position">
+                      {{ position.name }} 
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div class="child1">
+                <mat-label>مكان العمل</mat-label>
+                <mat-form-field appearance="outline">
+                  <input matInput aria-label="workPlace" [matAutocomplete]="autoWorkPlace" [formControl]="workPlaceCtrl"
+                    placeholder="{{getEmployeeData ? getEmployeeData.workPlaceName : ''}}" (click)="openAutoWorkPlace()" required />
+                  <mat-autocomplete #autoWorkPlace="matAutocomplete" [displayWith]="displayWorkPlaceName"
+                    (optionSelected)="workPlaceSelected($event)">
+                    <mat-option *ngFor="let workPlace of filteredWorkPlace | async" [value]="workPlace">
+                      {{ workPlace.name }} 
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>    
+              <div class="child1">
+                  <mat-label>التاريخ</mat-label>
             <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>التاريخ</mat-label>
-
                 <input matInput [matDatepicker]="picker" formControlName="date">
                 <mat-datepicker-toggle matIconSuffix [for]="picker">
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -57,7 +59,7 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <!-- </div> -->
-
+              </div>
         </form>
     </div>
     <div mat-dialog-actions>

@@ -56,7 +56,7 @@ export class HrEmployeeQualificationComponent {
   openDialog() {
     this.dialog
       .open(HrEmployeeQualificationDialogComponent, {
-        width: '30%',
+        width: '50%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -84,7 +84,7 @@ export class HrEmployeeQualificationComponent {
   editHrEmployeeQualification(row: any) {
     this.dialog
       .open(HrEmployeeQualificationDialogComponent, {
-        width: '30%',
+        width: '50%',
         data: row,
       })
       .afterClosed()
