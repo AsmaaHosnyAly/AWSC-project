@@ -33,4 +33,18 @@ export class ApiService {
     );
   }
 
+
+  ///////////////////////////////// HR-AttendanceMachine /////////////////////////////
+  postHrAttendanceMachine(data: any) {
+    return this.http.post<any>(`${this.url}/HrAttendanceMachine/Add`, data);
+  }
+  getHrAttendanceMachine() {
+    return this.http.get<any>(`${this.url}/HrAttendanceMachine/get/all`);
+  }
+  putHrAttendanceMachine(data: any) {
+    return this.http.put<any>(`${this.url}/HrAttendanceMachine/update`, data);
+  }
+  deleteHrAttendanceMachine(id: number) {
+    return this.http.delete<any>(`${this.url}/HrAttendanceMachine/delete/` + id);
+  }
 }
