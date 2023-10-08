@@ -56,7 +56,7 @@ export class HrAttendancePermissionComponent {
       
     })
   }
-  editHrCities(row : any){
+  editHrAttendancePermission(row : any){
     this.dialog.open(HrAttendancePermissionDialogComponent,{
       width:'30%',
       data:row
@@ -66,7 +66,7 @@ export class HrAttendancePermissionComponent {
       }
     })
   }
-  daleteHrCities(id:number){
+  deleteHrAttendancePermission(id:number){
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteHrAttendancePermission(id)

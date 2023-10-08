@@ -1,15 +1,15 @@
-<p>hr-attendance-permission-dialog works!</p>
+
 <div class="cdk-overlay-pane  ">
     <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
   </div>
-  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل المحافظة   ' : ' إضافة محافظة جديدة'}}</h1> 
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل اذن حضور   ' : ' إضافة اذن حضور'}}</h1> 
   <form [formGroup]="HrcityForm" dir="rtl">    
       <div mat-dialog-content>
         <form [formGroup]="HrcityForm">
       
           <mat-form-field appearance="outline">
-            <mat-label>اسم المدينة</mat-label>
-            <input formControlName="name" matInput placeholder="اسم المدينة">
+            <mat-label> اذن الحضور</mat-label>
+            <input formControlName="name" matInput placeholder="اذن الحضور">
           </mat-form-field>
         </form> 
       </div> 
