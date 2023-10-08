@@ -1119,7 +1119,7 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/STREmployeExchange/Add`, data);
   }
   getStrEmployeeExchange() {
-    return this.http.get<any>(`${this.url}/STREmployeExchange/get/all/`);
+    return this.http.get<any>(`${this.url}/STREmployeeExchange/get/all`);
   }
   putStrEmployeeExchange(data: any) {
     return this.http.put<any>(`${this.url}/STREmployeExchange/update`, data);

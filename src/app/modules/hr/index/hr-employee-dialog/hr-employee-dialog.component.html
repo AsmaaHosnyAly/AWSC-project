@@ -62,7 +62,7 @@
                         <mat-label> الرقم القومي</mat-label>
 
                         <mat-form-field appearance="outline" style="width: 99%;">
-                            <input matInput formControlName="national_Code" type="number">
+                            <input matInput formControlName="national_Code">
 
 
                         </mat-form-field>
@@ -107,7 +107,7 @@
                         <mat-label>المركز </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
-                            <mat-select  formControlName="cityStateId">
+                            <mat-select placeholder="المسمي الوظيفي" formControlName="cityStateId">
                                 <mat-option [value]="cityStateName.id"
                                     *ngFor="let cityStateName of cityStateNameList">{{cityStateName.name}}</mat-option>
                             </mat-select>
@@ -165,16 +165,10 @@
         </div> -->
 
 
-                <div mat-dialog-action [align]="'end'">
-                    <div class="groupAction">
-                        <a href="#tab2"><button mat-raised-button class="savebtn" style="margin-left: 8px;"
-                            >التالي</button></a>
-                    </div>
-                </div>
+
             </mat-tab>
 
-
-            <mat-tab id="tab2">
+            <mat-tab>
                 <ng-template mat-tab-label>
                     <div class="pageTab">
                         <h2>بيانات وظيفية </h2>
@@ -186,60 +180,31 @@
                     <div class="searchLabels2">
                         <mat-label>المسمي الوظيفي</mat-label>
 
-                    
-                        <mat-form-field appearance="outline">
-                            <input matInput aria-label="commodity" [matAutocomplete]="autoJobTitle"
-                                [formControl]="emploeeCtrl" placeholder="{{editData ? editData.jobTitleName: ''}}"
-                                (click)="openAutojobTitle()" required />
-                            <mat-autocomplete #autoJobTitle="matAutocomplete" [displayWith]="displayjobTitleName"
-                                (optionSelected)="jobTitleSelected($event)">
-                                <mat-option *ngFor="let JobTitle of filteredjobTitle | async" [value]="JobTitle">
-                                    {{ JobTitle.name }} | {{ JobTitle.code }} | {{ JobTitle.id }}
-                                </mat-option>
-                            </mat-autocomplete>
+                        <mat-form-field appearance="outline" class="groupInput">
+                            <mat-select placeholder="المسمي الوظيفي" formControlName="jobTitleId">
+                                <mat-option [value]="jobTitleName.id"
+                                    *ngFor="let jobTitleName of jobTitleNameList">{{jobTitleName.name}}</mat-option>
+                            </mat-select>
                         </mat-form-field>
 
                     </div>
                     <div class="searchLabels2">
                         <mat-label>الوظيفة الحالية</mat-label>
-                        <!-- <mat-form-field appearance="outline" class="groupInput">
-                            <mat-select placeholder=" الوظيفة الحالية" formControlName="positionId">
+                        <mat-form-field appearance="outline" class="groupInput">
+                            <mat-select placeholder="المنصب الوظيفي" formControlName="positionId">
                                 <mat-option [value]="positionName.id"
                                     *ngFor="let positionName of positionNameList">{{positionName.name}}</mat-option>
                             </mat-select>
-                        </mat-form-field> -->
-                        <mat-form-field appearance="outline">
-                            <input matInput aria-label="commodity" [matAutocomplete]="autoposition"
-                                [formControl]="positionCtrl" placeholder="{{editData ? editData.positionName: ''}}"
-                                (click)="openAutoposition()" required />
-                            <mat-autocomplete #autoposition="matAutocomplete" [displayWith]="displaypositionName"
-                                (optionSelected)="positionSelected($event)">
-                                <mat-option *ngFor="let position of filteredposition | async" [value]="position">
-                                    {{ position.name }} | {{ position.code }} | {{ position.id }}
-                                </mat-option>
-                            </mat-autocomplete>
                         </mat-form-field>
 
                     </div>
                     <div class="searchLabels2">
                         <mat-label> نوع التوظيف</mat-label>
-                        <!-- <mat-form-field appearance="outline" class="groupInput">
+                        <mat-form-field appearance="outline" class="groupInput">
                             <mat-select placeholder=" نوع التوظيف" formControlName="hiringTypeId">
                                 <mat-option [value]="hiringTypeName.id"
                                     *ngFor="let hiringTypeName of hiringTypeNameList">{{hiringTypeName.name}}</mat-option>
                             </mat-select>
-                        </mat-form-field> -->
-
-                        <mat-form-field appearance="outline">
-                            <input matInput aria-label="commodity" [matAutocomplete]="autohiringType"
-                                [formControl]="hiringTypeCtrl" placeholder="{{editData ? editData.hiringTypeName: ''}}"
-                                (click)="openAutohiringType()" required />
-                            <mat-autocomplete #autohiringType="matAutocomplete" [displayWith]="displayhiringTypeName"
-                                (optionSelected)="hiringTypeSelected($event)">
-                                <mat-option *ngFor="let hiringType of filteredhiringType | async" [value]="hiringType">
-                                    {{ hiringType.name }} | {{ hiringType.code }} | {{ hiringType.id }}
-                                </mat-option>
-                            </mat-autocomplete>
                         </mat-form-field>
 
                     </div>
@@ -309,7 +274,7 @@
                         <mat-label>سبب انهاء الخدمة </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
-                            <mat-select placeholder="سبب انهاء الخدمة " formControlName="severanceReasonId">
+                            <mat-select placeholder="سبب الانفصال عن العمل " formControlName="severanceReasonId">
                                 <mat-option [value]="severanceReasonName.id"
                                     *ngFor="let severanceReasonName of severanceReasonNameList">{{severanceReasonName.name}}</mat-option>
                             </mat-select>
@@ -318,16 +283,9 @@
                     </div>
                 </div>
 
-                <div mat-dialog-action [align]="'end'">
-                    <div class="groupAction">
-                        <button mat-raised-button class="savebtn" style="margin-left: 8px;"
-                            (click)="addEmployee()">التالي</button>
-                    </div>
-                </div>
+
 
             </mat-tab>
-
-
             <mat-tab style="margin-top: 1% !important;">
                 <ng-template mat-tab-label>
                     <div class="pageTab">
@@ -340,45 +298,21 @@
 
                 <div class="searchLabels3">
                     <mat-label> المؤهل </mat-label>
-                    <!-- <mat-form-field appearance="outline" class="groupInput">
+                    <mat-form-field appearance="outline" class="groupInput">
                         <mat-select formControlName="qualificationId">
                             <mat-option [value]="qualificationName.id"
                                 *ngFor="let qualificationName of qualificationNameList">{{qualificationName.name}}</mat-option>
                         </mat-select>
-                    </mat-form-field> -->
-                    
-                    <mat-form-field appearance="outline">
-                        <input matInput aria-label="commodity" [matAutocomplete]="autoqualification"
-                            [formControl]="emploeeCtrl" placeholder="{{editData ? editData.qualificationName: ''}}"
-                            (click)="openAutoqualification()" required />
-                        <mat-autocomplete #autoqualification="matAutocomplete" [displayWith]="displayqualificationName"
-                            (optionSelected)="qualificationSelected($event)">
-                            <mat-option *ngFor="let qualification of filteredqualification | async" [value]="qualification">
-                                {{ qualification.name }} | {{ qualification.code }} | {{ qualification.id }}
-                            </mat-option>
-                        </mat-autocomplete>
                     </mat-form-field>
 
                 </div>
                 <div class="searchLabels3">
                     <mat-label> مستوي المؤهل </mat-label>
-                    <!-- <mat-form-field appearance="outline" class="groupInput">
+                    <mat-form-field appearance="outline" class="groupInput">
                         <mat-select formControlName="qualificationLevelId">
                             <mat-option [value]="qualificationLevelName.id"
                                 *ngFor="let qualificationLevelName of qualificationLevelNameList">{{qualificationLevelName.name}}</mat-option>
                         </mat-select>
-                    </mat-form-field> -->
-
-                    <mat-form-field appearance="outline">
-                        <input matInput aria-label="commodity" [matAutocomplete]="autoqualificationLevel"
-                            [formControl]="emploeeCtrl" placeholder="{{editData ? editData.qualificationLevelName: ''}}"
-                            (click)="openAutoqualificationLevel()" required />
-                        <mat-autocomplete #autoqualificationLevel="matAutocomplete" [displayWith]="displayqualificationLevelName"
-                            (optionSelected)="qualificationLevelSelected($event)">
-                            <mat-option *ngFor="let qualificationLevel of filteredqualificationLevel | async" [value]="qualificationLevel">
-                                {{ qualificationLevel.name }} | {{ qualificationLevel.code }} | {{ qualificationLevel.id }}
-                            </mat-option>
-                        </mat-autocomplete>
                     </mat-form-field>
 
                 </div>
@@ -424,12 +358,7 @@
                 </div> -->
 
 
-<div mat-dialog-action [align]="'end'">
-                    <div class="groupAction">
-                        <button mat-raised-button class="savebtn" style="margin-left: 8px;"
-                            (click)="addEmployee()">التالي</button>
-                    </div>
-                </div>
+
 
 
             </mat-tab>
@@ -469,13 +398,7 @@
                     </div>
                 </div>
 
-                <div mat-dialog-action [align]="'end'">
-                    <div class="groupAction">
-                        <button mat-raised-button class="savebtn" style="margin-left: 8px;"
-                            (click)="addEmployee()">{{actionBtn.toLowerCase() =='save' ?
-                            'اضافة':'تعديل'}}</button>
-                    </div>
-                </div>
+
 
             </mat-tab>
 
@@ -485,7 +408,13 @@
 
 
 
-
+        <div mat-dialog-action [align]="'end'">
+            <div class="groupAction">
+                <button mat-raised-button class="savebtn" style="margin-left: 8px;"
+                    (click)="addEmployee()">{{actionBtn.toLowerCase() =='save' ?
+                    'اضافة':'تعديل'}}</button>
+            </div>
+        </div>
     </form>
 </div>
 
