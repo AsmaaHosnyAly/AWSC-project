@@ -35,7 +35,7 @@ export class HrEmployeePositionComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(HrEmployeePositionDialogComponent, {
-      width: '30%'
+      width: '50%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getHrEmployeePositions();
@@ -61,7 +61,7 @@ export class HrEmployeePositionComponent implements OnInit {
 
   editHrEmployeePosition(row: any) {
     this.dialog.open(HrEmployeePositionDialogComponent, {
-      width: '30%',
+      width: '50%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {

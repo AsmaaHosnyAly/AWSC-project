@@ -5,6 +5,7 @@
   <form [formGroup]="EmployeeQualificationForm" dir="rtl">
       <div mat-dialog-content>
         <form [formGroup]="EmployeeQualificationForm">
+          <div class="child1">
           <mat-label>الموظف</mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
@@ -16,6 +17,8 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+        <div class="child1">
           <mat-label>التخصص</mat-label>
 
           <mat-form-field appearance="outline">
@@ -28,6 +31,8 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+        <div class="child1">
           <mat-label>المؤهل</mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="qualification" [matAutocomplete]="autoQualification" [formControl]="qualificationCtrl"
@@ -39,6 +44,8 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+        <div class="child1">
           <mat-label>مستوى المؤهل</mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="qualificationLevel" [matAutocomplete]="autoQualificationLevel" [formControl]="qualificationLevelCtrl"
@@ -50,7 +57,8 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-
+        </div>
+        <div class="child1">
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>التاريخ</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="date">
@@ -59,15 +67,18 @@
             </mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-
+        </div>
+        <div class="child1">
         <div class="text-center" style="margin-bottom: 10px;">
             <input class="form-control" type="file" >
         </div>
+      </div>
 
         </form>
+        <div mat-dialog-actions>
+          <button mat-raised-button class="savebtn" (click)="addEmployeeQualification()" style="margin-left: 8px;">{{actionBtn}}</button>
+        </div>
       </div>
-      <div mat-dialog-actions>
-        <button mat-raised-button class="savebtn" (click)="addEmployeeQualification()" style="margin-left: 8px;">{{actionBtn}}</button>
-      </div>
+    
     </form>
   

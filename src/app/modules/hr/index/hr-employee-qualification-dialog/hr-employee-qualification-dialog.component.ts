@@ -24,7 +24,7 @@ export class Qualification {
 }
 export class QualificationLevel {
   constructor(public id: number, public name: string) {}
-}
+}  
 export class Specialization {
   constructor(public id: number, public name: string) {}
 }
