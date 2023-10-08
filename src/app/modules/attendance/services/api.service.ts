@@ -11,5 +11,40 @@ export class ApiService {
   pageEnums = PagesEnums
   url =this.pageEnums.URL
   constructor(private http: HttpClient) {}
+  
+  /************Hr-attendence-permission crud*******************/
 
+  postHrAttendancePermission(data: any) {
+    return this.http.post<any>(`${this.url}/STRUnit/Add`, data);
+  }
+ 
+  getHrAttendancePermission() {
+    return this.http.get<any>(`${this.url}/HrAttendancePermission/get/all`);
+  }
+  putHrAttendancePermission(data: any) {
+    return this.http.put<any>(
+      `${this.url}/STRUnit/update`,
+      data
+    );
+  }
+  deleteHrAttendancePermission(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/STRUnit/delete/${id}`
+    );
+  }
+
+
+  ///////////////////////////////// HR-AttendanceMachine /////////////////////////////
+  postHrAttendanceMachine(data: any) {
+    return this.http.post<any>(`${this.url}/HrAttendanceMachine/Add`, data);
+  }
+  getHrAttendanceMachine() {
+    return this.http.get<any>(`${this.url}/HrAttendanceMachine/get/all`);
+  }
+  putHrAttendanceMachine(data: any) {
+    return this.http.put<any>(`${this.url}/HrAttendanceMachine/update`, data);
+  }
+  deleteHrAttendanceMachine(id: number) {
+    return this.http.delete<any>(`${this.url}/HrAttendanceMachine/delete/` + id);
+  }
 }

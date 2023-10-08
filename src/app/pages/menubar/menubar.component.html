@@ -518,7 +518,7 @@
             الدرجة المالية</a
           >
         </mat-nav-list>
-        <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeAppraisal" 
+        <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeِAppraisal" 
         *ngIf="hasAccessRole(pageEnums.HR_employeeAppraisal )"
        
       > تقييم الموظفين</a>
@@ -541,7 +541,7 @@
         <a
           mat-list-item
           class="sideNavSubItems"
-          routerLink="hr-employee-n"
+          routerLink="hr-employee"
           *ngIf="hasAccessRole(pageEnums.HR_employee)"
         >
            الموظفين</a
@@ -604,6 +604,55 @@
         </mat-nav-list>
       </mat-expansion-panel>
       <!-- ens roles -->
+      <!-- Start Attendance الحضور والانصراف  -->
+      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon color="primary" class="ms-2">store</mat-icon>
+            الحضور والانصراف
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list>
+          <mat-expansion-panel
+            dir="rtl"
+            style="
+              box-shadow: none;
+              border-bottom: 1px rgb(244, 237, 237) solid;
+              margin-top: 10px;
+            "
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title> التكويد </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/pr-user"
+                *ngIf="hasAccessRole(pageEnums.PR_USER)"
+              >
+                <p class="font">اذن الحضور</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/pr-group"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              >
+                <p class="font"> جدول الحضور</p>
+              </a>
+              <a
+              mat-list-item
+              class="sideNavSubItems"
+              routerLink="/hr-attendanceMachine"
+              *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+            >
+              <p class="font"> الية الحضور</p>
+            </a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+        </mat-nav-list>
+      </mat-expansion-panel>
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>

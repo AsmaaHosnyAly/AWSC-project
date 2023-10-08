@@ -1,0 +1,28 @@
+<!-- <p>hr-attendance-machine-dialog works!</p> -->
+
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل الية الحضور ' : ' إضافة الية حضور جديدة'}}</h1>
+
+<form [formGroup]="HrAttendanceMachineForm" dir="rtl">
+    <div mat-dialog-content>
+        <form [formGroup]="HrAttendanceMachineForm">
+
+            <mat-form-field appearance="outline">
+                <mat-label>الاسم</mat-label>
+                <input formControlName="name" matInput placeholder="الاسم">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>التسلسل</mat-label>
+                <input formControlName="serial" matInput placeholder="التسلسل">
+            </mat-form-field>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn" (click)="addHrAttendanceMachine()"
+            style="margin-left: 8px;">{{actionBtn}}</button>
+    </div>
+</form>

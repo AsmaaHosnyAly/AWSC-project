@@ -5,27 +5,28 @@ import { ApiService } from '../../services/api.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { HrCityDialogComponent } from '../hr-city-dialog/hr-city-dialog.component';
 import { ToastrService } from 'ngx-toastr';
-import { HrEmployeePositionDialogComponent } from '../hr-employee-position-dialog/hr-employee-position-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { HrAttendanceMachineDialogComponent } from '../hr-attendance-machine-dialog/hr-attendance-machine-dialog.component';
+
 @Component({
-  selector: 'app-hr-employee-position',
-  templateUrl: './hr-employee-position.component.html',
-  styleUrls: ['./hr-employee-position.component.css']
+  selector: 'app-hr-attendance-machine',
+  templateUrl: './hr-attendance-machine.component.html',
+  styleUrls: ['./hr-attendance-machine.component.css']
 })
-export class HrEmployeePositionComponent implements OnInit {
+export class HrAttendanceMachineComponent implements OnInit {
   title = 'angular13crud';
-  displayedColumns: string[] = ['employeeName', 'positionName', 'workPlaceName', 'date', 'action'];
+  displayedColumns: string[] = ['name', 'serial', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
-
+  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
+  
   ngOnInit(): void {
-    this.getHrEmployeePositions();
+    this.getHrAttendanceMachine();
+
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openDialog();
@@ -34,17 +35,17 @@ export class HrEmployeePositionComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(HrEmployeePositionDialogComponent, {
-      width: '50%'
+    this.dialog.open(HrAttendanceMachineDialogComponent, {
+      width: '30%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
-        this.getHrEmployeePositions();
+        this.getHrAttendanceMachine();
       }
     })
   }
 
-  getHrEmployeePositions() {
-    this.api.getHrEmployeePosition()
+  getHrAttendanceMachine() {
+    this.api.getHrAttendanceMachine()
       .subscribe({
         next: (res) => {
           this.dataSource = new MatTableDataSource(res);
@@ -52,35 +53,34 @@ export class HrEmployeePositionComponent implements OnInit {
           this.dataSource.sort = this.sort;
         },
         error: (err) => {
-          this.toastrWarning();
-          // alert("خطأ عند استدعاء البيانات");
+          alert("خطأ عند استدعاء البيانات");
         }
 
       })
   }
 
-  editHrEmployeePosition(row: any) {
-    this.dialog.open(HrEmployeePositionDialogComponent, {
-      width: '50%',
+  HrAttendanceMachine(row: any) {
+    this.dialog.open(HrAttendanceMachineDialogComponent, {
+      width: '30%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {
-        this.getHrEmployeePositions();
+        this.getHrAttendanceMachine();
       }
     })
   }
 
-  daleteHrEmployeePosition(id: number) {
+  deleteHrAttendanceMachine(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrEmployeePosition(id)
+      this.api.deleteHrAttendanceMachine(id)
         .subscribe({
           next: (res) => {
             if (res == 'Succeeded') {
-              // console.log("res of deletestore:", res)
+              console.log("res of deletestore:", res)
               // alert('تم الحذف بنجاح');
               this.toastrDeleteSuccess();
-              this.getHrEmployeePositions();
+              this.getHrAttendanceMachine();
 
             } else {
               alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
@@ -108,7 +108,4 @@ export class HrEmployeePositionComponent implements OnInit {
     this.toastr.success('تم الحذف بنجاح');
   }
 
-  toastrWarning(): void {
-    this.toastr.warning('خطأ عند استدعاء البيانات');
-  }
 }
