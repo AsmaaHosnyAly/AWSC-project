@@ -95,6 +95,7 @@ import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee
 import { HrEmployeeComponent } from './modules/hr/index/hr-employee/hr-employee.component';
 import { HrAttendanceMachineComponent } from './modules/attendance/index/hr-attendance-machine/hr-attendance-machine.component';
 import { HrAttendancePermissionComponent } from './modules/attendance/index/hr-attendance-permission/hr-attendance-permission.component';
+import { HrAttendanceMachineWorkPlaceComponent } from './modules/attendance/index/hr-attendance-machine-work-place/hr-attendance-machine-work-place.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -346,6 +347,7 @@ const routes: Routes = [
 
        { path: 'hr-AttendancePermission', component: HrAttendancePermissionComponent },
        { path: 'hr-attendanceMachine', component: HrAttendanceMachineComponent },
+       { path: 'hr-attendanceMachineWorkPlace', component: HrAttendanceMachineWorkPlaceComponent },
 
 
        /*********************End Hr-attendance module  الحضور والانصراف***************************/

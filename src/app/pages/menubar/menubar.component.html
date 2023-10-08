@@ -647,7 +647,15 @@
               routerLink="/hr-attendanceMachine"
               *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
             >
-              <p class="font"> الية الحضور</p>
+              <p class="font"> الة الحضور</p>
+            </a>
+            <a
+              mat-list-item
+              class="sideNavSubItems"
+              routerLink="/hr-attendanceMachineWorkPlace"
+              *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+            >
+              <p class="font">مكان عمل الة الحضور</p>
             </a>
             </mat-nav-list>
           </mat-expansion-panel>

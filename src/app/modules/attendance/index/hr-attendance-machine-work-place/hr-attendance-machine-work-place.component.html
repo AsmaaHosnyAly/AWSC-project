@@ -1,6 +1,5 @@
-<!-- <p>hr-attendance-machine works!</p> -->
-
-<div class="page-title"> الة الحضور</div>
+<!-- <p>hr-attendance-machine-work-place works!</p> -->
+<div class="page-title"> مكان عمل الة الحضور</div>
 <mat-card>
     <mat-card-content>
         <mat-card-header dir="ltr" class="parent-search">
@@ -25,17 +24,29 @@
                     <td mat-cell *matCellDef="let row"> {{row.name}} </td>
                 </ng-container>
 
-                 <!-- serial Column -->
-                 <ng-container matColumnDef="serial">
-                    <th mat-header-cell *matHeaderCellDef> التسلسل </th>
-                    <td mat-cell *matCellDef="let row"> {{row.serial}} </td>
+                <!-- attendanceMachineName Column -->
+                <ng-container matColumnDef="attendanceMachineName">
+                    <th mat-header-cell *matHeaderCellDef> اسم الة الحضور </th>
+                    <td mat-cell *matCellDef="let row"> {{row.attendanceMachineName}} </td>
+                </ng-container>
+
+                <!-- workPlaceName Column -->
+                <ng-container matColumnDef="workPlaceName">
+                    <th mat-header-cell *matHeaderCellDef> مكان الة الحضور </th>
+                    <td mat-cell *matCellDef="let row"> {{row.workPlaceName}} </td>
+                </ng-container>
+
+                <!-- date Column -->
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> التاريخ </th>
+                    <td mat-cell *matCellDef="let row"> {{row.date | date}} </td>
                 </ng-container>
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef style="width: 15%;">الاجراء</th>
                     <td mat-cell *matCellDef="let row">
-                        <button mat-icon-button (click)="HrAttendanceMachine(row)" class="editbtn">
+                        <button mat-icon-button (click)="editHrAttendanceMachineWorkPlace(row)" class="editbtn">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button color="warn" (click)="deleteHrAttendanceMachine(row.id)">
