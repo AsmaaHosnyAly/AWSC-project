@@ -190,7 +190,8 @@ import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualificati
 import { HrQualificationLevelDialogComponent } from './modules/hr/index/hr-qualification-level-dialog/hr-qualification-level-dialog.component';
 import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
 import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-employee-qualification-dialog/hr-employee-qualification-dialog.component';
-
+import { HrAttendanceMachineComponent } from './modules/attendance/index/hr-attendance-machine/hr-attendance-machine.component';
+import { HrAttendanceMachineDialogComponent } from './modules/attendance/index/hr-attendance-machine-dialog/hr-attendance-machine-dialog.component';
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -358,7 +359,8 @@ import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-em
     HrQualificationLevelDialogComponent,
     HrEmployeeQualificationComponent,
     HrEmployeeQualificationDialogComponent,
-
+    HrAttendanceMachineDialogComponent,
+    HrAttendanceMachineComponent
    
   ],
   imports: [
