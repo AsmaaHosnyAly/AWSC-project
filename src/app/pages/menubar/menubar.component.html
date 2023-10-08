@@ -641,6 +641,14 @@
               >
                 <p class="font"> جدول الحضور</p>
               </a>
+              <a
+              mat-list-item
+              class="sideNavSubItems"
+              routerLink="/hr-attendanceMachine"
+              *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+            >
+              <p class="font"> الية الحضور</p>
+            </a>
             </mat-nav-list>
           </mat-expansion-panel>
         </mat-nav-list>

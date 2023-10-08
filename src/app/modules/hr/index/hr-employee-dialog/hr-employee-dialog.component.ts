@@ -12,24 +12,9 @@ import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
 }
-export class jobTitle {
+export class disciplinary {
   constructor(public id: number, public name: string, public code: string) { }
 }
-export class position {
-  constructor(public id: number, public name: string, public code: string) { }
-}
-export class hiringType {
-  constructor(public id: number, public name: string, public code: string) { }
-}
-
-export class qualification {
-  constructor(public id: number, public name: string, public code: string) { }
-}
-
-export class qualificationLevel {
-  constructor(public id: number, public name: string, public code: string) { }
-}
-
 
 
 
@@ -59,51 +44,22 @@ export class HrEmployeeDialogComponent implements OnInit {
   filteredEmployee: Observable<Employee[]>;
   selectedEmployee: Employee | undefined;
   formcontrol = new FormControl('');
-  // jobTitleNameList: any;
-  // positionNameList: any;
+  jobTitleNameList: any;
+  positionNameList: any;
   workPlaceNameList: any;
   severanceReasonNameList: any;
   specializationNameList: any;
-  // hiringTypeNameList: any;
+  hiringTypeNameList: any;
   financialDegreeNameList: any;
-  // qualificationNameList: any;
-  // qualificationLevelNameList: any;
+  qualificationNameList: any;
+  qualificationLevelNameList: any;
   cityStateNameList: any;
   millitryStateNameList: any;
 
-  jobTitlesList: jobTitle[] = [];
-  jobTitleCtrl: FormControl;
-  filteredjobTitle: Observable<jobTitle[]>;
-  selectedjobTitle: jobTitle | undefined;
-
-
-  positionsList: position[] = [];
-  positionCtrl: FormControl;
-  filteredposition: Observable<position[]>;
-  selectedposition: position | undefined;
-
-
-
-
-
-  hiringTypesList: hiringType[] = [];
-  hiringTypeCtrl: FormControl;
-  filteredhiringType: Observable<hiringType[]>;
-  selectedhiringType: hiringType | undefined;
-
-
-  qualificationsList: qualification[] = [];
-  qualificationCtrl: FormControl;
-  filteredqualification: Observable<qualification[]>;
-  selectedqualification: qualification | undefined;
-
-
-  qualificationLevelsList: qualificationLevel[] = [];
-  qualificationLevelCtrl: FormControl;
-  filteredqualificationLevel: Observable<qualificationLevel[]>;
-  selectedqualificationLevel: qualificationLevel | undefined;
-
-
+  disciplinarysList: disciplinary[] = [];
+  disciplinaryCtrl: FormControl;
+  filtereddisciplinary: Observable<disciplinary[]>;
+  selecteddisciplinary: disciplinary | undefined;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
@@ -117,40 +73,17 @@ export class HrEmployeeDialogComponent implements OnInit {
       map(value => this._filterEmployees(value))
     );
 
-    this.jobTitleCtrl = new FormControl();
-    this.filteredjobTitle = this.jobTitleCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterjobTitles(value))
-    );
-    this.positionCtrl = new FormControl();
-    this.filteredposition = this.positionCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterpositions(value))
-    );
 
-    this.hiringTypeCtrl = new FormControl();
-    this.filteredhiringType = this.hiringTypeCtrl.valueChanges.pipe(
+    this.disciplinaryCtrl = new FormControl();
+    this.filtereddisciplinary = this.disciplinaryCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterhiringTypes(value))
+      map(value => this._filterdisciplinarys(value))
     );
-
-    this.qualificationCtrl = new FormControl();
-    this.filteredqualification = this.qualificationCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterqualifications(value))
-    );
-
-    this.qualificationLevelCtrl = new FormControl();
-    this.filteredqualificationLevel = this.qualificationLevelCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterqualificationLevels(value))
-    );
- 
   }
 
   ngOnInit(): void {
     this.getEmployees();
-    // this.getHrEmployee();
+    this.getHrEmployee();
     this.getjobTitle();
     this.getposition();
     this.getworkPlace();
@@ -165,12 +98,12 @@ export class HrEmployeeDialogComponent implements OnInit {
 
 
     this.groupForm = this.formBuilder.group({
-      code: ['',Validators.required],
-      name: ['',Validators.required],
-      national_Code: ['',Validators.required],
+      code: ['',],
+      name: ['',],
+      national_Code: ['',],
       birth_Date: ['', Validators.required],
-      gender: ['',Validators.required],
-      address: ['',Validators.required],
+      gender: [''],
+      address: [''],
       workingStateDate: ['', Validators.required],
       hiringDate: ['', Validators.required],
       financialDegreeDate: ['', Validators.required],
@@ -185,9 +118,9 @@ export class HrEmployeeDialogComponent implements OnInit {
       financialDegreeId: ['', Validators.required],
       cityStateId: ['', Validators.required],/////////////
       workPlaceId: ['', Validators.required],
-      departmentId: ['1', Validators.required],
+      departmentId: [1, Validators.required],
       severanceReasonId: ['', Validators.required],
-      maritalState: ['',Validators.required],
+      maritalState: ['',],
       transactionUserId: ['', Validators.required],
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
@@ -201,7 +134,7 @@ export class HrEmployeeDialogComponent implements OnInit {
       this.groupForm.controls['code'].setValue(this.editData.code);
       this.groupForm.controls['name'].setValue(this.editData.name);
 
-      this.groupForm.controls['national_Code'].setValue(this.editData.national_Code);
+      this.groupForm.controls['national_Code'].setValue((this.editData.national_Code).toString());
       this.groupForm.controls['birth_Date'].setValue(this.editData.birth_Date);
       this.groupForm.controls['gender'].setValue(this.editData.gender);
       this.groupForm.controls['address'].setValue(this.editData.address);
@@ -293,148 +226,29 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.emploeeCtrl.updateValueAndValidity();
   }
 
-  displaypositionName(position: any): string {
-    return position && position.name ? position.name : '';
+
+  displaydisciplinaryName(disciplinary: any): string {
+    return disciplinary && disciplinary.name ? disciplinary.name : '';
   }
-  positionSelected(event: MatAutocompleteSelectedEvent): void {
-    const position = event.option.value as position;
-    console.log("position selected: ", position);
-    this.selectedposition = position;
-    this.groupForm.patchValue({ name: position.name });
-    console.log("position in form: ", this.groupForm.getRawValue().name);
+  disciplinarySelected(event: MatAutocompleteSelectedEvent): void {
+    const disciplinary = event.option.value as disciplinary;
+    console.log("disciplinary selected: ", disciplinary);
+    this.selecteddisciplinary = disciplinary;
+    this.groupForm.patchValue({ disciplinaryId: disciplinary.id });
+    console.log("disciplinary in form: ", this.groupForm.getRawValue().disciplinaryId);
   }
-  private _filterpositions(value: string): position[] {
+  private _filterdisciplinarys(value: string): disciplinary[] {
     const filterValue = value;
-    return this.positionsList.filter(position =>
-      position.name.toLowerCase().includes(filterValue) || position.code.toLowerCase().includes(filterValue)
+    return this.disciplinarysList.filter(disciplinary =>
+      disciplinary.name.toLowerCase().includes(filterValue) || disciplinary.code.toLowerCase().includes(filterValue)
     );
   }
-  openAutoposition() {
-    this.positionCtrl.setValue(''); // Clear the input field value
+  openAutodisciplinary() {
+    this.disciplinaryCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
-    this.positionCtrl.updateValueAndValidity();
+    this.disciplinaryCtrl.updateValueAndValidity();
   }
-
-  displayjobTitleName(jobTitle: any): string {
-    return jobTitle && jobTitle.name ? jobTitle.name : '';
-  }
-  jobTitleSelected(event: MatAutocompleteSelectedEvent): void {
-    const jobTitle = event.option.value as jobTitle;
-    console.log("jobTitle selected: ", jobTitle);
-    this.selectedjobTitle = jobTitle;
-    this.groupForm.patchValue({ name: jobTitle.name });
-    console.log("jobTitle in form: ", this.groupForm.getRawValue().name);
-  }
-  private _filterjobTitles(value: string): jobTitle[] {
-    const filterValue = value;
-    return this.jobTitlesList.filter(jobTitle =>
-      jobTitle.name.toLowerCase().includes(filterValue) || jobTitle.code.toLowerCase().includes(filterValue)
-    );
-  }
-  openAutojobTitle() {
-    this.jobTitleCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
-    this.jobTitleCtrl.updateValueAndValidity();
-  }
-
-
-  displayhiringTypeName(hiringType: any): string {
-    return hiringType && hiringType.name ? hiringType.name : '';
-  }
-  hiringTypeSelected(event: MatAutocompleteSelectedEvent): void {
-    const hiringType = event.option.value as hiringType;
-    console.log("hiringType selected: ", hiringType);
-    this.selectedhiringType = hiringType;
-    this.groupForm.patchValue({ name: hiringType.name });
-    console.log("hiringType in form: ", this.groupForm.getRawValue().name);
-  }
-  private _filterhiringTypes(value: string): hiringType[] {
-    const filterValue = value;
-    return this.hiringTypesList.filter(hiringType =>
-      hiringType.name.toLowerCase().includes(filterValue) || hiringType.code.toLowerCase().includes(filterValue)
-    );
-  }
-  openAutohiringType() {
-    this.hiringTypeCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
-    this.hiringTypeCtrl.updateValueAndValidity();
-  }
-
-
-
-  displayqualificationName(qualification: any): string {
-    return qualification && qualification.name ? qualification.name : '';
-  }
-  qualificationSelected(event: MatAutocompleteSelectedEvent): void {
-    const qualification = event.option.value as qualification;
-    console.log("qualification selected: ", qualification);
-    this.selectedqualification = qualification;
-    this.groupForm.patchValue({ name: qualification.name });
-    console.log("qualification in form: ", this.groupForm.getRawValue().name);
-  }
-  private _filterqualifications(value: string): qualification[] {
-    const filterValue = value;
-    return this.qualificationsList.filter(qualification =>
-      qualification.name.toLowerCase().includes(filterValue) || qualification.code.toLowerCase().includes(filterValue)
-    );
-  }
-  openAutoqualification() {
-    this.qualificationCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
-    this.qualificationCtrl.updateValueAndValidity();
-  }
-
-
-
-  displayqualificationLevelName(qualificationLevel: any): string {
-    return qualificationLevel && qualificationLevel.name ? qualificationLevel.name : '';
-  }
-  qualificationLevelSelected(event: MatAutocompleteSelectedEvent): void {
-    const qualificationLevel = event.option.value as qualificationLevel;
-    console.log("qualificationLevel selected: ", qualificationLevel);
-    this.selectedqualificationLevel = qualificationLevel;
-    this.groupForm.patchValue({ name: qualificationLevel.name });
-    console.log("qualificationLevel in form: ", this.groupForm.getRawValue().name);
-  }
-  private _filterqualificationLevels(value: string): qualificationLevel[] {
-    const filterValue = value;
-    return this.qualificationLevelsList.filter(qualificationLevel =>
-      qualificationLevel.name.toLowerCase().includes(filterValue) || qualificationLevel.code.toLowerCase().includes(filterValue)
-    );
-  }
-  openAutoqualificationLevel() {
-    this.qualificationLevelCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
-    this.qualificationLevelCtrl.updateValueAndValidity();
-  }
-
-  // displaydisciplinaryName(disciplinary: any): string {
-  //   return disciplinary && disciplinary.name ? disciplinary.name : '';
-  // }
-  // disciplinarySelected(event: MatAutocompleteSelectedEvent): void {
-  //   const disciplinary = event.option.value as disciplinary;
-  //   console.log("disciplinary selected: ", disciplinary);
-  //   this.selecteddisciplinary = disciplinary;
-  //   this.groupForm.patchValue({ disciplinaryId: disciplinary.id });
-  //   console.log("disciplinary in form: ", this.groupForm.getRawValue().disciplinaryId);
-  // }
-  // private _filterdisciplinarys(value: string): disciplinary[] {
-  //   const filterValue = value;
-  //   return this.disciplinarysList.filter(disciplinary =>
-  //     disciplinary.name.toLowerCase().includes(filterValue) || disciplinary.code.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutodisciplinary() {
-  //   this.disciplinaryCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.disciplinaryCtrl.updateValueAndValidity();
-  // }
   async addEmployee() {
     if (!this.editData) {
       this.groupForm.removeControl('id')
@@ -461,6 +275,8 @@ export class HrEmployeeDialogComponent implements OnInit {
       // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
       // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
 
+      this.groupForm.getRawValue().national_Code.toString()
+      // this.groupForm.controls['national_Code'].setValue((this.editData.national_Code).toString());
 
 
       console.log('form', this.groupForm.value)
@@ -514,7 +330,7 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.api.getHrJobTitle()
       .subscribe({
         next: (res) => {
-          this.jobTitlesList = res;
+          this.jobTitleNameList = res;
           // console.log("store res: ", this.storeList);
         },
         error: (err) => {
@@ -528,7 +344,7 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.api.getHrPosition()
       .subscribe({
         next: (res) => {
-          this.positionsList = res;
+          this.positionNameList = res;
           // console.log("store res: ", this.storeList);
         },
         error: (err) => {
@@ -588,7 +404,7 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.api.getHrHiringType()
       .subscribe({
         next: (res) => {
-          this.hiringTypesList = res;
+          this.hiringTypeNameList = res;
           // console.log("store res: ", this.storeList);
         },
         error: (err) => {
@@ -616,7 +432,7 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.api.getQualification()
       .subscribe({
         next: (res) => {
-          this.qualificationsList = res;
+          this.qualificationNameList = res;
           // console.log("store res: ", this.storeList);
         },
         error: (err) => {
@@ -630,7 +446,7 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.api.getQualificationLevel()
       .subscribe({
         next: (res) => {
-          this.qualificationLevelsList = res;
+          this.qualificationLevelNameList = res;
           // console.log("store res: ", this.storeList);
         },
         error: (err) => {
@@ -681,19 +497,19 @@ export class HrEmployeeDialogComponent implements OnInit {
         }
       })
   }
-  // getHrEmployee() {
-  //   this.api.getHrEmployee()
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.disciplinarysList = res;
-  //         // console.log("store res: ", this.storeList);
-  //       },
-  //       error: (err) => {
-  //         // console.log("fetch store data err: ", err);
-  //         // alert("خطا اثناء جلب المخازن !");
-  //       }
-  //     })
-  // }
+  getHrEmployee() {
+    this.api.getHrEmployee()
+      .subscribe({
+        next: (res) => {
+          this.disciplinarysList = res;
+          // console.log("store res: ", this.storeList);
+        },
+        error: (err) => {
+          // console.log("fetch store data err: ", err);
+          // alert("خطا اثناء جلب المخازن !");
+        }
+      })
+  }
 
 
   getjobtitleByID(id: any) {
@@ -726,5 +542,3 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.toastr.success("تم الحفظ بنجاح");
   }
 }
-
-

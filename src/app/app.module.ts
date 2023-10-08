@@ -190,6 +190,8 @@ import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualificati
 import { HrQualificationLevelDialogComponent } from './modules/hr/index/hr-qualification-level-dialog/hr-qualification-level-dialog.component';
 import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
 import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-employee-qualification-dialog/hr-employee-qualification-dialog.component';
+import { HrAttendanceMachineComponent } from './modules/attendance/index/hr-attendance-machine/hr-attendance-machine.component';
+import { HrAttendanceMachineDialogComponent } from './modules/attendance/index/hr-attendance-machine-dialog/hr-attendance-machine-dialog.component';
 import { HrAttendancePermissionComponent } from './modules/attendance/index/hr-attendance-permission/hr-attendance-permission.component';
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/index/hr-employee-attendance-permission/hr-employee-attendance-permission.component';
@@ -364,6 +366,8 @@ import { HrAttendancHomeComponent } from './modules/attendance/index/hr-attendan
     HrQualificationLevelDialogComponent,
     HrEmployeeQualificationComponent,
     HrEmployeeQualificationDialogComponent,
+    HrAttendanceMachineDialogComponent,
+    HrAttendanceMachineComponent,
     HrAttendancePermissionComponent,
     HrAttendanceScheduleComponent,
     HrEmployeeAttendancePermissionComponent,
