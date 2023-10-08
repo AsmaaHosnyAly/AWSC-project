@@ -252,9 +252,7 @@ postHrEmployeeAppraisal(data: any) {
     data
   );
 }
-// getAllEmployee(): Observable<any> {
-//   return this.http.get<any>(`${this.url}/HrCity/get/all`);
-// }
+
   // HrCityState
   getHrCityState() {
     return this.http.get<any>(
@@ -1014,6 +1012,8 @@ postHrEmployeeAppraisal(data: any) {
     );
   }
   putEmployeeQualification(data: any) {
+    console.log("data:",data);
+    
     return this.http.put<any>(
       `${this.url}/HrEmployeeQualification/update`,
       data
@@ -2380,15 +2380,6 @@ postHrEmployeeAppraisal(data: any) {
   }
   getAllStore() {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
-  }
-  getAllQualification() {
-    return this.http.get<any>(`${this.url}/api/HrQualification/get/all`);
-  }
-  getAllQualificationLevel() {
-    return this.http.get<any>(`${this.url}/api/HrQualificationLevel/get/all`);
-  }
-  getAllSpecialization() {
-    return this.http.get<any>(`${this.url}/api/HrSpecialization/get/all`);
   }
   GetAddGeTAddDetailsByAddId(id: number) {
     return this.http.get<any>(

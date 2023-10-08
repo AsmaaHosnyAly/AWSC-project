@@ -40,39 +40,33 @@ export class HrEmployeeQualificationDialogComponent {
   filteredEmployee: Observable<Employee[]>;
   employees: Employee[] = [];
   selectedEmployee: Employee | undefined;
-  getEmployeeData: any;
-
-  qualificationCtrl: FormControl;
-  filteredQualification: Observable<Qualification[]>;
-  qualifications: Qualification[] = [];
-  selectedQualification: Qualification | undefined;
-  getQualificationData: any;
-
-  qualificationLevelCtrl: FormControl;
-  filteredQualificationLevel: Observable<QualificationLevel[]>;
-  qualificationLevels: QualificationLevel[] = [];
-  selectedqualificationLevel: QualificationLevel | undefined;
-  getQualificationLevelData: any;
 
   specializationCtrl: FormControl;
   filteredSpecialization: Observable<Specialization[]>;
   specializations: Specialization[] = [];
   selectedSpecialization: Specialization | undefined;
-  getSpecializationData: any;
+
+  qualificationCtrl: FormControl;
+  filteredQualification: Observable<Qualification[]>;
+  qualifications: Qualification[] = [];
+  selectedQualification: Qualification | undefined;
+
+  qualificationLevelCtrl: FormControl;
+  filteredQualificationLevel: Observable<QualificationLevel[]>;
+  qualificationLevels: QualificationLevel[] = [];
+  selectedqualificationLevel: QualificationLevel | undefined;
 
   formcontrol = new FormControl('');  
   EmployeeQualificationForm !:FormGroup;
   actionBtn : string = "حفظ"
   selectedOption:any;
 dataSource!: MatTableDataSource<any>;
+getEmployeeQualificationData: any;
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
 @ViewChild(MatAccordion)
 accordion!: MatAccordion;
-// citylist:any;
-// storeList: any;
-// cityName: any;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,
     private toastr: ToastrService,
@@ -86,6 +80,13 @@ accordion!: MatAccordion;
         map(value => this._filterEmployee(value))
       );
 
+      this.specializationCtrl = new FormControl();
+      this.filteredSpecialization = this.specializationCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterSpecialization(value))
+      );
+
+
       this.qualificationCtrl = new FormControl();
       this.filteredQualification = this.qualificationCtrl.valueChanges.pipe(
         startWith(''),
@@ -98,11 +99,7 @@ accordion!: MatAccordion;
         map(value => this._filterQualificationLevel(value))
       );
 
-      this.specializationCtrl = new FormControl();
-      this.filteredSpecialization = this.specializationCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterSpecialization(value))
-      );
+    
     }
     ngOnInit(): void {
       this.EmployeeQualificationForm = this.formBuilder.group({
@@ -118,20 +115,22 @@ accordion!: MatAccordion;
       // matautocompleteFieldName : [''],
       });
   
-      this.api.getAllEmployee().subscribe((employee)=>{
+      this.api.getEmployees().subscribe((employee)=>{
         this.employees = employee;
       });
 
-      this.api.getAllQualification().subscribe((qualification)=>{
+      this.api.getQualification().subscribe((qualification)=>{
         this.qualifications = qualification;
       });
 
-      this.api.getAllQualificationLevel().subscribe((qualificationLevel)=>{
+      this.api.getQualificationLevel().subscribe((qualificationLevel)=>{
         this.qualificationLevels = qualificationLevel;
       });
 
-      this.api.getAllSpecialization().subscribe((specialization)=>{
+      this.api.getHrspecialization().subscribe((specialization)=>{
         this.specializations = specialization;
+        console.log("specialization:",specialization);
+        
       });
       
       this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
@@ -141,21 +140,27 @@ accordion!: MatAccordion;
       }));
       if(this.editData){
         this.actionBtn = "تعديل";
-      this.getEmployeeData = this.editData;
-      this.getQualificationData = this.editData;
-      this.getQualificationLevelData = this.editData;
-      this.getSpecializationData = this.editData;
+      this.getEmployeeQualificationData = this.editData;
       this.EmployeeQualificationForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
         // this.cityStateForm.controls['code'].setValue(this.editData.code);      
       this.EmployeeQualificationForm.controls['date'].setValue(this.editData.date);
       this.EmployeeQualificationForm.controls['employeeId'].setValue(this.editData.employeeId);
+      this.EmployeeQualificationForm.controls['employeeName'].setValue(this.editData.employeeName);
       this.EmployeeQualificationForm.controls['qualificationId'].setValue(this.editData.qualificationId);
+      this.EmployeeQualificationForm.controls['qualificationName'].setValue(this.editData.qualificationName);
+
       this.EmployeeQualificationForm.controls['qualificationLevelId'].setValue(this.editData.qualificationLevelId);
+      this.EmployeeQualificationForm.controls['qualificationLeveName'].setValue(this.editData.qualificationLeveName);
+
       this.EmployeeQualificationForm.controls['specializationId'].setValue(this.editData.specializationId);
+      this.EmployeeQualificationForm.controls['specializationName'].setValue(this.editData.specializationName);
+
       this.EmployeeQualificationForm.controls['attachment'].setValue(this.editData.attachment);
       // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
       this.EmployeeQualificationForm.addControl('id', new FormControl('', Validators.required));
       this.EmployeeQualificationForm.controls['id'].setValue(this.editData.id);
+      console.log("this.editData.id: ",this.editData.id);
+      
       }
     }
 
@@ -182,6 +187,32 @@ accordion!: MatAccordion;
     
       // Open the autocomplete dropdown by triggering the value change event
       this.employeeCtrl.updateValueAndValidity();
+    }
+
+
+    displaySpecializationName(specialization: any): string {
+      return specialization && specialization.name ? specialization.name : '';
+    }
+
+    specializationSelected(event: MatAutocompleteSelectedEvent): void {
+      const specialization = event.option.value as Specialization;
+      this.selectedSpecialization = specialization;
+      this.EmployeeQualificationForm.patchValue({ specializationId: specialization.id });
+      this.EmployeeQualificationForm.patchValue({ specializationName: specialization.name });
+    }
+
+    private _filterSpecialization(value: string): Specialization[] {
+      const filterValue = value.toLowerCase();
+      return this.specializations.filter(specialization =>
+        specialization.name.toLowerCase().includes(filterValue) 
+      );
+    }
+
+    openAutoSpecialization() {
+      this.specializationCtrl.setValue(''); // Clear the input field value
+    
+      // Open the autocomplete dropdown by triggering the value change event
+      this.specializationCtrl.updateValueAndValidity();
     }
 
     displayQualificationName(qualification: any): string {
@@ -234,31 +265,7 @@ accordion!: MatAccordion;
       this.qualificationLevelCtrl.updateValueAndValidity();
     }
 
-    displaySpecializationName(specialization: any): string {
-      return specialization && specialization.name ? specialization.name : '';
-    }
-
-    specializationSelected(event: MatAutocompleteSelectedEvent): void {
-      const specialization = event.option.value as Specialization;
-      this.selectedSpecialization = specialization;
-      this.EmployeeQualificationForm.patchValue({ employeeId: specialization.id });
-      this.EmployeeQualificationForm.patchValue({ employeeName: specialization.name });
-    }
-
-    private _filterSpecialization(value: string): Specialization[] {
-      const filterValue = value.toLowerCase();
-      return this.specializations.filter(specialization =>
-        specialization.name.toLowerCase().includes(filterValue) 
-      );
-    }
-
-    openAutoSpecialization() {
-      this.specializationCtrl.setValue(''); // Clear the input field value
-    
-      // Open the autocomplete dropdown by triggering the value change event
-      this.specializationCtrl.updateValueAndValidity();
-    }
-
+   
   addEmployeeQualification(){
     if(!this.editData){
       
@@ -285,7 +292,12 @@ accordion!: MatAccordion;
   }
 
 
-  updateEmployeeQualification(){
+  updateEmployeeQualification(){    
+    this.EmployeeQualificationForm.controls['id'].setValue(this.editData.id);
+    this.EmployeeQualificationForm.controls['specializationId'].setValue(this.editData.specializationId);
+    this.EmployeeQualificationForm.controls['qualificationLevelId'].setValue(this.editData.qualificationLevelId);
+    this.EmployeeQualificationForm.controls['qualificationId'].setValue(this.editData.qualificationId);
+    
         this.api.putEmployeeQualification(this.EmployeeQualificationForm.value)
         .subscribe({
           next:(res)=>{
