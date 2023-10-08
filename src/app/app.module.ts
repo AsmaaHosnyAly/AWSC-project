@@ -190,6 +190,11 @@ import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualificati
 import { HrQualificationLevelDialogComponent } from './modules/hr/index/hr-qualification-level-dialog/hr-qualification-level-dialog.component';
 import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
 import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-employee-qualification-dialog/hr-employee-qualification-dialog.component';
+import { HrAttendancePermissionComponent } from './modules/attendance/index/hr-attendance-permission/hr-attendance-permission.component';
+import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
+import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/index/hr-employee-attendance-permission/hr-employee-attendance-permission.component';
+import { HrEmployeeAttendanceScheduleComponent } from './modules/attendance/index/hr-employee-attendance-schedule/hr-employee-attendance-schedule.component';
+import { HrAttendancePermissionDialogComponent } from './modules/attendance/index/hr-attendance-permission-dialog/hr-attendance-permission-dialog.component';
 
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
@@ -359,6 +364,11 @@ import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-em
     HrQualificationLevelDialogComponent,
     HrEmployeeQualificationComponent,
     HrEmployeeQualificationDialogComponent,
+    HrAttendancePermissionComponent,
+    HrAttendanceScheduleComponent,
+    HrEmployeeAttendancePermissionComponent,
+    HrEmployeeAttendanceScheduleComponent,
+    HrAttendancePermissionDialogComponent,
 
    
   ],
