@@ -149,13 +149,13 @@ commname:any;
         this.api.postProductserail(this.gradeForm.value)
         .subscribe({
           next:(res)=>{
-            // alert("تمت الاضافة بنجاح");
-            this.toastrSuccess()
+            this.toastrSuccess();
             this.gradeForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
-            alert("خطأ عند اضافة البيانات") 
+            console.log('error:',err)
+              this.toastrErrorSave(); 
           }
         })
       }
@@ -173,24 +173,30 @@ commname:any;
           next:(res)=>{
            console.log(res)
             // alert("تم التحديث بنجاح");
-            this.toastrEditSuccess();
+            this.toastrEdit();
             this.gradeForm.reset();
             this.dialogRef.close('update');
           },
           error:(err)=>{
-            console.log(err)
-            alert("خطأ عند تحديث البيانات");
+            this.toastrErrorEdit();
+        console.log('error:',err);
           }
         })
       }
       toastrSuccess(): void {
-        this.toastr.success("تم الحفظ بنجاح");
+        this.toastr.success('تم الحفظ بنجاح');
       }
-      toastrDeleteSuccess(): void {
-        this.toastr.success("تم الحذف بنجاح");
+    
+      toastrEdit(): void {
+        this.toastr.success('تم التحديث بنجاح');
       }
-      toastrEditSuccess(): void {
-        this.toastr.success("تم التعديل بنجاح");
+    
+      toastrErrorSave(): void {
+        this.toastr.error('!خطأ عند حفظ البيانات');
+      }
+    
+      toastrErrorEdit(): void {
+        this.toastr.error('!خطأ عند تحديث البيانات');
       }
   }
   

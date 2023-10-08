@@ -265,7 +265,7 @@ export class STRPlatoonDialogComponent implements OnInit {
   updatePlatoon() {
     this.api.putPlatoon(this.platoonForm.value).subscribe({
       next: (res) => {
-        alert('تم التحديث بنجاح');
+        this.toastrEdit();
         this.platoonForm.reset();
         this.dialogRef.close('update');
       },

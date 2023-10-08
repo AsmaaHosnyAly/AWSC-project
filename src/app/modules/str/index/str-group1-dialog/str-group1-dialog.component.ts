@@ -265,12 +265,12 @@ export class STRGroup1DialogComponent implements OnInit {
         this.api.postGroups(this.groupForm.value)
           .subscribe({
             next: (res) => {
-              this.toastrSuccess;
+              this.toastrSuccess();
               this.groupForm.reset();
               this.dialogRef.close('save');
             },
             error: (err) => {
-              this.toastrErrorSave;
+              this.toastrErrorSave();
             }
           })
       }
@@ -283,12 +283,12 @@ export class STRGroup1DialogComponent implements OnInit {
     this.api.putGroups(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          this.toastrEdit;
+          this.toastrEdit();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          this.toastrErrorEdit;
+          this.toastrErrorEdit();
         }
       })
   }

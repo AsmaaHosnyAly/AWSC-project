@@ -10,7 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { publishFacade } from '@angular/compiler';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { ToastrService } from 'ngx-toastr';
 export class Category {
   constructor(public id: number, public name: string) {}
 }
@@ -37,8 +37,8 @@ export class StrCostcenterDialogComponent implements OnInit {
     private api: ApiService,
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<StrCostcenterDialogComponent>
-  ) {
+    private dialogRef: MatDialogRef<StrCostcenterDialogComponent>,
+    private toastr: ToastrService) {
     this.centerCategoryCtrl = new FormControl();
     this.filteredCategories = this.centerCategoryCtrl.valueChanges.pipe(
       startWith(''),
@@ -140,12 +140,12 @@ export class StrCostcenterDialogComponent implements OnInit {
       if (this.costcenterForm.valid) {
         this.api.postCostCenter(this.costcenterForm.value).subscribe({
           next: (res) => {
-            alert('تم اضافة المخزن');
+            this.toastrSuccess();
             this.costcenterForm.reset();
             this.dialogRef.close('حفظ');
           },
           error: (err) => {
-            alert('!خطأ في العملية');
+            this.toastrErrorSave(); 
           },
         });
       }
@@ -157,12 +157,12 @@ export class StrCostcenterDialogComponent implements OnInit {
   updateCostCenter() {
     this.api.putCostCenter(this.costcenterForm.value).subscribe({
       next: (res) => {
-        alert('تم التحديث بنجاح');
+        this.toastrEdit();
         this.costcenterForm.reset();
         this.dialogRef.close('تحديث');
       },
       error: () => {
-        alert('خطأ في التحديث');
+        this.toastrErrorEdit();
       },
     });
   }
@@ -178,5 +178,21 @@ export class StrCostcenterDialogComponent implements OnInit {
         // alert("خطا اثناء جلب العناصر !");
       },
     });
+  }
+
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
   }
 }

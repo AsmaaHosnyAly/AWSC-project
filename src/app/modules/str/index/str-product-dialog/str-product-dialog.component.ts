@@ -210,6 +210,7 @@ export class StrProductDialogComponent implements OnInit {
       },
     });
   }
+  
 
   addProduct() {
     if (!this.editData) {
@@ -233,14 +234,13 @@ export class StrProductDialogComponent implements OnInit {
             this.productIdToEdit = res.id;
 
             this.toastrSuccess();
-            alert('تمت إضافة المنتج بنجاح');
             this.productForm.reset();
 
             this.dialogRef.close('save');
           },
           error: (err) => {
-            alert('حدث خطأ أثناء إضافة منتج');
-            console.log('post product with api err: ', err);
+            console.log('error:',err)
+              this.toastrErrorSave(); 
           },
         });
       }
@@ -254,13 +254,12 @@ export class StrProductDialogComponent implements OnInit {
     console.log('update product last values, id: ', this.productForm.value);
     this.api.putStrProduct(this.productForm.value).subscribe({
       next: (res) => {
-        alert('تم تحديث المنتج بنجاح');
-        this.toastrSuccess();
+        this.toastrEdit();
         this.productForm.reset();
         this.dialogRef.close('update');
       },
       error: () => {
-        alert('خطأ أثناء تحديث سجل المنتج !!');
+        this.toastrErrorEdit();
       },
     });
   }
@@ -281,5 +280,18 @@ export class StrProductDialogComponent implements OnInit {
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
   }
+
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
+  }
+  
 }
 

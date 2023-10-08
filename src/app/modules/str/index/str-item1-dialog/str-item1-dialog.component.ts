@@ -396,12 +396,12 @@ export class STRItem1DialogComponent implements OnInit {
         this.api.postItems(this.itemForm.value)
           .subscribe({
             next: (res) => {
-              this.toastrSuccess;
+              this.toastrSuccess();
               this.itemForm.reset();
               this.dialogRef.close('save');
             },
             error: (err) => {
-              this.toastrErrorSave;
+              this.toastrErrorSave();
 
             }
           })
@@ -419,12 +419,12 @@ export class STRItem1DialogComponent implements OnInit {
         next: (res) => {
     console.log("update data:",this.itemForm.value);
 
-          this.toastrEdit;
+          this.toastrEdit();
           this.itemForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          this.toastrErrorEdit;
+          this.toastrErrorEdit();
 
         }
       })

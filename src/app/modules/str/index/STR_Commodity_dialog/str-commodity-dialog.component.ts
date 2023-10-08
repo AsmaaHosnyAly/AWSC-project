@@ -148,8 +148,7 @@ export class StrCommodityDialogComponent implements OnInit {
             },
             error: (err) => {
               console.log('error:',err)
-              this.toastrErrorSave;
-              
+              this.toastrErrorSave();              
             }
           })
       }
@@ -203,7 +202,6 @@ export class StrCommodityDialogComponent implements OnInit {
 
   toastrErrorEdit(): void {
     this.toastr.error('!خطأ عند تحديث البيانات');
-
   }
 }
 
