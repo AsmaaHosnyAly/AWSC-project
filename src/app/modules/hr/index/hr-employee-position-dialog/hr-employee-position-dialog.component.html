@@ -49,10 +49,9 @@
                   </mat-autocomplete>
                 </mat-form-field>
               </div>    
-
+              <div class="child1">
+                  <mat-label>التاريخ</mat-label>
             <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>التاريخ</mat-label>
-
                 <input matInput [matDatepicker]="picker" formControlName="date">
                 <mat-datepicker-toggle matIconSuffix [for]="picker">
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -60,7 +59,7 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <!-- </div> -->
-
+              </div>
         </form>
     </div>
     <div mat-dialog-actions>
