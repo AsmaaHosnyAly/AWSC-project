@@ -17,7 +17,9 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HrQualitativeGroupDialogComponent } from '../hr-qualitative-group-dialog/hr-qualitative-group-dialog.component';
-
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-qualitative-group',
   templateUrl: './hr-qualitative-group.component.html',
@@ -33,10 +35,15 @@ export class HrQualitativeGroupComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,) { }
   ngOnInit(): void {
     // console.log(productForm)
     this.getAllHrQualitativeGroup();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -83,17 +90,27 @@ export class HrQualitativeGroupComponent {
   deleteHrQualitativeGroup(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrQualitativeGroup(id).subscribe({
+      this.api.deleteHrQualitativeGroup(id)
+      .subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
           this.getAllHrQualitativeGroup();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
+
 
 
 
@@ -105,5 +122,13 @@ export class HrQualitativeGroupComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
 }

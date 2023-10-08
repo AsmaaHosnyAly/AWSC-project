@@ -24,7 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { CommonModule } from '@angular/common';
 
 import { MatMenuModule } from '@angular/material/menu';
@@ -84,7 +84,7 @@ import { FiEntryDialogComponent } from './modules/fi/index/fi-entry-dialog/fi-en
 // import { FileUploadDialogComponent } from './modules/fi/indexle-upload-dialog/file-upload-dialog.component';
 import { FIAccountHierarchyComponent } from './modules/fi/index/fi-account-hierarchy/fi-account-hierarchy.component';
 import { FIAccountHierarchyDialogComponent } from './modules/fi/index/fi-account-hierarchy-dialog/fi-account-hierarchy-dialog.component';
-import { PipesModule } from '../app/pipes/pipes.module';
+import { PipesModule } from './core/pipes/pipes.module';
 import { FIEntrySourceComponent } from './modules/fi/index/fi-entry-source/fi-entry-source.component';
 import { FIEntrySourceDialogComponent } from './modules/fi/index/fi-entry-source-dialog/fi-entry-source-dialog.component';
 
@@ -108,14 +108,14 @@ import { HrPositionComponent } from './modules/hr/index/hr-position/hr-position.
 import { HrPositionDialogComponent } from './modules/hr/index/hr-position-dialog/hr-position-dialog.component';
 import { StrVendorComponent } from './modules/str/index/str-vendor/str-vendor.component';
 import { StrVendorDialogComponent } from './modules/str/index/str-vendor-dialog/str-vendor-dialog.component';
-import { MenubarComponent } from './menubar/menubar.component';
+import { MenubarComponent } from './pages/menubar/menubar.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { HrCityComponent } from './modules/hr/index/hr-city/hr-city.component';
 import { HrCityDialogComponent } from './modules/hr/index/hr-city-dialog/hr-city-dialog.component';
 import { HrCityStateComponent } from './modules/hr/index/hr-city-state/hr-city-state.component';
 import { HrCityStateDialogComponent } from './modules/hr/index/hr-city-state-dialog/hr-city-state-dialog.component';
 import { StrAccountsComponent } from './modules/str/index/str-accounts/str-accounts.component';
-import { StrEmployeesComponent } from './modules/str/index/str-employees/str-employees.component';
+import { StrEmployeesComponent } from './modules/hr/hr-home/str-employees.component';
 import { HrIncentiveAllowanceComponent } from './modules/hr/index/hr-incentive-allowance/hr-incentive-allowance.component';
 import { HrIncentiveAllowanceDialogComponent } from './modules/hr/index/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { HrHiringTypeComponent } from './modules/hr/index/hr-hiring-type/hr-hiring-type.component';
@@ -176,6 +176,20 @@ import { StrProudctSerialComponent } from './modules/str/index/str-proudct-seria
 import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component'; 
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
 import { StrUserstoreDialogComponent } from './modules/str/index/str-userstore-dialog/str-userstore-dialog.component';
+import { HrFinancialDegreeComponent } from './modules/hr/index/hr-financial-degree/hr-financial-degree.component';
+import { HrFinancialDegreeDialogComponent } from './modules/hr/index/hr-financial-degree-dialog/hr-financial-degree-dialog.component';
+import { HrEmployeeFinancialDegreeComponent } from './modules/hr/index/hr-employee-financial-degree/hr-employee-financial-degree.component';
+import { HrEmployeeFinancialDegreeDialogComponent } from './modules/hr/index/hr-employee-financial-degree-dialog/hr-employee-financial-degree-dialog.component';
+import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-position/hr-employee-position.component';
+import { HrEmployeePositionDialogComponent } from './modules/hr/index/hr-employee-position-dialog/hr-employee-position-dialog.component';
+import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
+import { HrEmployeeAppraisalDialogComponent } from './modules/hr/index/hr-employee-appraisal-dialog/hr-employee-appraisal-dialog.component';
+import { HrEmployeeComponent } from './modules/hr/index/hr-employee/hr-employee.component';
+import { HrEmployeeDialogComponent } from './modules/hr/index/hr-employee-dialog/hr-employee-dialog.component';
+import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualification-level/hr-qualification-level.component';
+import { HrQualificationLevelDialogComponent } from './modules/hr/index/hr-qualification-level-dialog/hr-qualification-level-dialog.component';
+import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
+import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-employee-qualification-dialog/hr-employee-qualification-dialog.component';
 
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
@@ -331,9 +345,20 @@ import { StrUserstoreDialogComponent } from './modules/str/index/str-userstore-d
     StrProudctSerialDialogComponent,
     StrUserstoreComponent,
     StrUserstoreDialogComponent,
-    
-   
-   
+    HrFinancialDegreeComponent,
+    HrFinancialDegreeDialogComponent,
+    HrEmployeeFinancialDegreeComponent,
+    HrEmployeeFinancialDegreeDialogComponent,
+    HrEmployeePositionComponent,
+    HrEmployeePositionDialogComponent,
+    HrEmployeeAppraisalComponent,
+    HrEmployeeAppraisalDialogComponent,
+    HrEmployeeComponent,
+    HrEmployeeDialogComponent,
+    HrQualificationLevelComponent,
+    HrQualificationLevelDialogComponent,
+    HrEmployeeQualificationComponent,
+    HrEmployeeQualificationDialogComponent,
 
    
   ],

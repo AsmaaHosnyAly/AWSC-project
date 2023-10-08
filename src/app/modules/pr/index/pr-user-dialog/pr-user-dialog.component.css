@@ -57,7 +57,7 @@
     display: flex;
     flex-direction: row;
     width: 65%;
-    margin: auto;
+    margin-right: 8%;
     /* justify-content: space-between; */
 }
 
@@ -132,7 +132,7 @@
 .groupAction {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 5%;
 }
 
@@ -141,12 +141,14 @@
   color: aliceblue;
   font-family: 'Cairo', sans-serif !important;
   display: block;
-  margin: auto;
+  /* margin: auto; */
   font-weight: bold;
   font-size: 15px;
   padding: 5px 30px;
   position: relative;
-  left: 12%;
+  left: -117% !important;
+  /* top: 60% !important; */
+  margin-top: 25%;
 }
 
 .restGroupInfo {
@@ -236,7 +238,7 @@
 
 table {
   margin: 28px 0;
-  width: 80%;
+  width: 90%;
   text-align: center;
 
 
@@ -298,8 +300,13 @@ table {
 }
 
 .tableFixHead {
-  height: 200px;
+  height: 150px;
   overflow: auto;
-  width: 65%;
+  width: 83%;
     margin: auto;
-}
+    max-height: 248px; 
+
+  }
+  .action button{
+    font-size: 10px;
+  }

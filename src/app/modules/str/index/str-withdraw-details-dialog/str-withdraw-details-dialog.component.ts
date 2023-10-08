@@ -21,6 +21,7 @@ import { formatDate } from '@angular/common';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
 export class item {
   constructor(public id: number, public name: string, public fullCode: string) { }
@@ -132,6 +133,8 @@ export class StrWithdrawDetailsDialogComponent {
   // productsList: any;
   itemSearchWay: any;
   activeItemSearchWay: any;
+
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -709,9 +712,9 @@ export class StrWithdrawDetailsDialogComponent {
 
   async getStores() {
     this.userRoles = localStorage.getItem('userRoles');
-    console.log('userRoles: ', this.userRoles.includes('15'));
+    console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc));
 
-    if (this.userRoles.includes('15')) {
+    if (this.userRoles.includes(this.userRoleStoresAcc)) {
       // console.log('user is manager -all stores available- , role: ', userRoles);
 
       this.api.getStore().subscribe({
@@ -936,7 +939,7 @@ export class StrWithdrawDetailsDialogComponent {
           // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
         }
-        else{
+        else {
           this.productIdValue = '';
         }
       })

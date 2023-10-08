@@ -13,6 +13,9 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
 // import { publishFacade } from '@angular/compiler';
 // import { STRGradeComponent } from '../str-grade/str-grade.component';
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class City {
   constructor(public id: number, public name: string) {}
 }
@@ -50,6 +53,8 @@ accordion!: MatAccordion;
 // cityName: any;
   constructor(private formBuilder : FormBuilder,
     private api : ApiService,
+    private toastr: ToastrService,
+    private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<HrCityStateDialogComponent>){
@@ -74,7 +79,11 @@ accordion!: MatAccordion;
         this.cities = city;
       });
       
-  
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addCityState();
+        return false; // Prevent the default browser behavior
+      }));
       if(this.editData){
         this.actionBtn = "تعديل";
       this.getCityStateData = this.editData;
@@ -127,7 +136,7 @@ accordion!: MatAccordion;
         this.api.postHrCityState(this.cityStateForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            this.toastrSuccess();
             this.cityStateForm.reset();
             this.dialogRef.close('save');
           },
@@ -146,7 +155,7 @@ accordion!: MatAccordion;
         this.api.putHrCityState(this.cityStateForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تم التحديث بنجاح");
+            this.toastrEditSuccess();
             this.cityStateForm.reset();
             this.dialogRef.close('update');
           },
@@ -155,5 +164,11 @@ accordion!: MatAccordion;
           }
         })
       }
-
+      toastrSuccess(): void {
+        this.toastr.success('تم الحفظ بنجاح');
+      }
+      
+      toastrEditSuccess(): void {
+        this.toastr.success('تم التعديل بنجاح');
+      }
 }

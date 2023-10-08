@@ -1,7 +1,4 @@
 
-
-
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -10,7 +7,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { HrDisciplinaryDialogComponent } from '../hr-disciplinary-dialog/hr-disciplinary-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-disciplinary',
   templateUrl: './hr-disciplinary.component.html',
@@ -24,10 +22,16 @@ export class HrDisciplinaryComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getDisciplinary();
+
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {
@@ -77,22 +81,29 @@ export class HrDisciplinaryComponent  implements OnInit {
   }
 
   deleteDisciplinary(id: number) {
-    var result = confirm("هل ترغب بتاكيد مسح نوع التعيين ؟ ");
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteHrDisciplinary(id)
-        .subscribe({
-          next: (res) => {
+      .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
             this.toastrDeleteSuccess();
-            // alert("تم حذف نوع التعيين بنجاح");
             this.getDisciplinary()
-          },
-          error: () => {
-            alert("خطأ أثناء حذف نوع التعيين !!");
-          }
-        })
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر'); 
+        },
+      });
     }
 
   }
+
+ 
 
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");

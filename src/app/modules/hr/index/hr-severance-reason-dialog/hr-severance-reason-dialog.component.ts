@@ -7,7 +7,9 @@ import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-severance-reason-dialog',
   templateUrl: './hr-severance-reason-dialog.component.html',
@@ -26,9 +28,9 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatAccordion)
 accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
-    private api : ApiService,
+    private api : ApiService,private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
-    @Inject(MAT_DIALOG_DATA) public editData : any,
+    @Inject(MAT_DIALOG_DATA) public editData : any,private toastr: ToastrService,
     private dialogRef : MatDialogRef<HrSeveranceReasonDialogComponent>){ }
     ngOnInit(): void {
       this.SeveranceReasonForm = this.formBuilder.group({
@@ -37,7 +39,11 @@ accordion!: MatAccordion;
       name : ['',Validators.required],
       id : ['',Validators.required],
       });
-  
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addSeveranceReason();
+        return false; // Prevent the default browser behavior
+      }));
       if(this.editData){
         this.actionBtn = "تعديل";
       this.SeveranceReasonForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
@@ -58,7 +64,8 @@ accordion!: MatAccordion;
         this.api.postSeveranceReason(this.SeveranceReasonForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            // alert("تمت الاضافة بنجاح");
+            this.toastrSuccess()
             this.SeveranceReasonForm.reset();
             this.dialogRef.close('save');
           },
@@ -75,7 +82,8 @@ accordion!: MatAccordion;
         this.api.putSeveranceReason(this.SeveranceReasonForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تم التحديث بنجاح");
+            // alert("تم التحديث بنجاح");
+            this.toastrEditSuccess()
             this.SeveranceReasonForm.reset();
             this.dialogRef.close('update');
           },
@@ -84,7 +92,15 @@ accordion!: MatAccordion;
           }
         })
       }
-  
+      toastrSuccess(): void {
+        this.toastr.success('تم الحفظ بنجاح');
+      }
+      toastrDeleteSuccess(): void {
+        this.toastr.success('تم الحذف بنجاح');
+      }
+      toastrEditSuccess(): void {
+        this.toastr.success('تم التعديل بنجاح');
+      }
   }
   
 

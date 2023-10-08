@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { __param } from 'tslib';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class HrPositionDialogComponent implements OnInit{
   userIdFromStorage: any;
 
   constructor(private formBuilder: FormBuilder,
-    private api: ApiService,
+    private api: ApiService,private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,private http:HttpClient,
     private dialogRef: MatDialogRef<HrPositionDialogComponent>,
     private toastr: ToastrService) { }
@@ -49,7 +50,11 @@ export class HrPositionDialogComponent implements OnInit{
     
 
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addPosition();
+      return false; // Prevent the default browser behavior
+    }));
     console.log("edit data", this.editData);
     if (this.editData) {
       this.actionBtn = "Update";
@@ -90,7 +95,7 @@ export class HrPositionDialogComponent implements OnInit{
                 this.productIdToEdit = res.id;
 
                 this.toastrSuccess();
-                alert("تمت إضافة الوظيفة بنجاح");
+                // alert("تمت إضافة الوظيفة بنجاح");
                 this.groupForm.reset();
 
                 this.dialogRef.close('save');
@@ -114,8 +119,8 @@ export class HrPositionDialogComponent implements OnInit{
     this.api.putHrPosition(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث الوظيفة بنجاح");
-          this.toastrSuccess();
+          // alert("تم تحديث الوظيفة بنجاح");
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -141,7 +146,13 @@ export class HrPositionDialogComponent implements OnInit{
 
 
   toastrSuccess(): void {
-    this.toastr.success("تم الحفظ بنجاح");
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 
 }

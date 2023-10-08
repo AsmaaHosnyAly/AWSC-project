@@ -17,6 +17,9 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HrCityStateDialogComponent } from '../hr-city-state-dialog/hr-city-state-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class City {
   constructor(public id: number, public name: string) {}
 }
@@ -41,7 +44,7 @@ export class HrCityStateComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
     this.cityCtrl = new FormControl();
     this.filteredCities = this.cityCtrl.valueChanges.pipe(
       startWith(''),
@@ -55,6 +58,11 @@ export class HrCityStateComponent {
     this.api.getHrCity().subscribe((cities) => {
       this.cities = cities;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -115,19 +123,29 @@ export class HrCityStateComponent {
   }
 
   deleteHrCityStates(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrCityState(id).subscribe({
+      this.api.deleteHrCityState(id)
+      .subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+            this.toastrDeleteSuccess();
           this.getHrCityStates();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+ 
+ 
+
   openAutoCity() {
     this.cityCtrl.setValue(''); // Clear the input field value
   
@@ -179,7 +197,9 @@ export class HrCityStateComponent {
   }
 
 
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

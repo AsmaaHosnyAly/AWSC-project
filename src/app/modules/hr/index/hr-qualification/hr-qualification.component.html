@@ -1,77 +1,86 @@
 <mat-card>
   <mat-card-content>
-    <mat-accordion class="example-headers-align" multi dir="rtl">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-description>
-              بحث متقدم
-            <mat-icon>account_circle</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-    <div class="search">
-        <mat-form-field appearance="outline">
-          <mat-label>المؤهل </mat-label>
-          <input #qualification matInput placeholder=" اسم المؤهل ">
-      </mat-form-field>
-      <mat-form-field appearance="outline">   
-        <mat-label>المجموعة النوعية</mat-label>     
-        <input matInput aria-label="qualitativeGroup" [matAutocomplete]="autoQualitativeGroup" [formControl]="qualitativeGroupCtrl" (click)="openAutoQualitativeGroup()" required/>
-        <mat-autocomplete #autoQualitativeGroup="matAutocomplete" [displayWith]="displayQualitativeGroup" (optionSelected)="qualitativeGroupSelected($event)">
-          <mat-option *ngFor="let qualitativeGroup of filteredQualitativeGroup | async" [value]="qualitativeGroup">
-            {{ qualitativeGroup.name }} 
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+    <!-- <mat-accordion class="example-headers-align" multi dir="rtl">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-description>
+                  بحث متقدم
+                <mat-icon>account_circle</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+        <div class="search">
+            <mat-form-field appearance="outline">
+              <mat-label>المؤهل </mat-label>
+              <input #qualification matInput placeholder=" اسم المؤهل ">
+          </mat-form-field>
+          <mat-form-field appearance="outline">   
+            <mat-label>المجموعة النوعية</mat-label>     
+            <input matInput aria-label="qualitativeGroup" [matAutocomplete]="autoQualitativeGroup" [formControl]="qualitativeGroupCtrl" (click)="openAutoQualitativeGroup()" required/>
+            <mat-autocomplete #autoQualitativeGroup="matAutocomplete" [displayWith]="displayQualitativeGroup" (optionSelected)="qualitativeGroupSelected($event)">
+              <mat-option *ngFor="let qualitativeGroup of filteredQualitativeGroup | async" [value]="qualitativeGroup">
+                {{ qualitativeGroup.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+    
+          <button (click)=" getQualification(qualification.value)" >عرض</button>
+          </div>
+          </mat-expansion-panel>
+        </mat-accordion> -->
 
-      <button (click)=" getQualification(qualification.value)" >عرض</button>
-      </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-    <mat-card-header>
-      <div class="child1 " >
-        <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
+        <div class="page-title" >   المؤهل</div>
+
+        <mat-card-header dir="ltr">
+          <div class="child1 " >
+            <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
+            
+            <span class="ms-2">اضافة</span>   <mat-icon class="me-1">add</mat-icon> 
+            </button>
+          </div>
+      
+          <div>
+            <input 
+              matInput
+              class="filter-search"
+              (keyup)="applyFilter($event)"
+              placeholder="بحث"
+              #input
+            />
+          </div>
+      
         
-        <span class="ms-2">اضافة</span>   <mat-icon class="me-1">add</mat-icon> 
-        </button>
-      </div>
+        </mat-card-header>
 
-      <mat-form-field>
-        <input
-          matInput
-          (keyup)="applyFilter($event)"
-          placeholder="بحث"
-          #input
-        />
-      </mat-form-field>
-    </mat-card-header>
-    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
+    
+        <div id="content" class="content">
+          <table matSort mat-table [dataSource]="dataSource"  dir="rtl">
 
       <!-- productCode Column -->
       <!-- <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> كود النوعية </th>
+        <th mat-header-cell *matHeaderCellDef > كود النوعية </th>
         <td mat-cell *matCellDef="let row"> {{row.code}} </td>
       </ng-container> -->
-        <!-- productName Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> المؤهل </th>
-          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-        </ng-container>
+      <!-- productName Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef > المؤهل </th>
+        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      </ng-container>
 
       <!-- category Column -->
       <ng-container matColumnDef="qualitativeGroupName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> المجموعة النوعية </th>
+        <th mat-header-cell *matHeaderCellDef > المجموعة النوعية </th>
         <td mat-cell *matCellDef="let row"> {{row.qualitativeGroupName}}</td>
       </ng-container>
 
       <!-- action Column -->
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> الحدث </th>
-        <td mat-cell *matCellDef="let row"> 
-          <button mat-icon-button (click)="editQualification(row)" color="primary">
+        <th mat-header-cell *matHeaderCellDef style="width: 15%;" >الإجراء</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="editQualification(row)" class="editbtn">
             <mat-icon>edit</mat-icon>
           </button>
           <button (click)="deleteQualification(row.id)" mat-icon-button color="warn">
-            <mat-icon>delete</mat-icon>
+            <mat-icon>delete_forever</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -82,10 +91,11 @@
 
       <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        <td class="mat-cell" colspan="4">لا توجد بيانات"{{input.value}}"</td>
       </tr>
 
     </table>
+  </div>
 
   </mat-card-content>
   <br>

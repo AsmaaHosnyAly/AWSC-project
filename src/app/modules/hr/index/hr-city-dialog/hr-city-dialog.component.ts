@@ -6,7 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-city-dialog',
   templateUrl: './hr-city-dialog.component.html',
@@ -21,17 +23,23 @@ export class HrCityDialogComponent {
 
   constructor(private formBuilder : FormBuilder,
      private api : ApiService,
+     private hotkeysService: HotkeysService,
      private readonly route:ActivatedRoute,
+     private toastr: ToastrService,
      @Inject(MAT_DIALOG_DATA) public editData : any,
      private dialogRef : MatDialogRef<HrCityDialogComponent>){
      }
   ngOnInit(): void {
     this.HrcityForm = this.formBuilder.group({
-      transactionUserId : ['',Validators.required],
+      transactionUserId : ['1',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addHrCities();
+      return false; // Prevent the default browser behavior
+    }));
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
@@ -50,7 +58,8 @@ export class HrCityDialogComponent {
         this.api.postHrCity(this.HrcityForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            // alert("تمت الاضافة بنجاح");
+            this.toastrSuccess();
             this.HrcityForm.reset();
             this.dialogRef.close('save');
           },
@@ -68,7 +77,8 @@ export class HrCityDialogComponent {
       this.api.putHrCity(this.HrcityForm.value)
       .subscribe({
         next:(res)=>{
-          alert("تم التحديث بنجاح");
+          // alert("تم التحديث بنجاح");
+          this.toastrEditSuccess();
           this.HrcityForm.reset();
           this.dialogRef.close('update');
         },
@@ -77,5 +87,11 @@ export class HrCityDialogComponent {
         }
       })
     }
-
+    toastrSuccess(): void {
+      this.toastr.success('تم الحفظ بنجاح');
+    }
+    
+    toastrEditSuccess(): void {
+      this.toastr.success('تم التعديل بنجاح');
+    }
 }

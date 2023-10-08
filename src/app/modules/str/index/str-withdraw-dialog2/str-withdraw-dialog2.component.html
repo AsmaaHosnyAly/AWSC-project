@@ -5,7 +5,7 @@
   </div>
 
   <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل إذن صرف ' : ' إضافة إذن صرف جديد'}}</h1>
-  <div mat-dialog-content class="mat-dialog-content" dir="rtl" style="overflow: hidden;">
+  <div mat-dialog-content class="mat-dialog-content" dir="rtl" >
 
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
       <div class="headerForm">
@@ -14,8 +14,8 @@
 
           <mat-form-field appearance="outline" class="groupInput" style="width: 90% !important;" >
             <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
-              <mat-option [value]="userRoles.includes('15') ? store.id : store.storeId"
-                *ngFor="let store of storeList">{{userRoles.includes('15') ? store.name :
+              <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
+                *ngFor="let store of storeList">{{userRoles.includes(userRoleStoresAcc) ? store.name :
                 store.storeName}}</mat-option>
             </mat-select>
           </mat-form-field>

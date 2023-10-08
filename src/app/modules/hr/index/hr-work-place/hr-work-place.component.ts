@@ -19,8 +19,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HrCityStateDialogComponent } from '../hr-city-state-dialog/hr-city-state-dialog.component';
 import { HrWorkPlacedialogComponent } from '../hr-work-placedialog/hr-work-placedialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+
+
 export class CityState {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string,) {}
 }
 
 @Component({
@@ -43,7 +48,7 @@ export class HrWorkPlaceComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,) {
     this.cityStateCtrl = new FormControl();
     this.filteredCityState = this.cityStateCtrl.valueChanges.pipe(
       startWith(''),
@@ -57,6 +62,11 @@ export class HrWorkPlaceComponent {
     this.api.getAllCityState().subscribe((citystate) => {
       this.CityStates = citystate;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -117,19 +127,32 @@ export class HrWorkPlaceComponent {
   }
 
   deleteHrWorkPlace(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrWorkPlace(id).subscribe({
+      this.api.deleteHrWorkPlace(id)
+      .subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
           this.getHrWorkPlace();
+  
+  
+  
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
+ 
   openAutoCityState() {
     this.cityStateCtrl.setValue(''); // Clear the input field value
   
@@ -190,5 +213,7 @@ export class HrWorkPlaceComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
 }

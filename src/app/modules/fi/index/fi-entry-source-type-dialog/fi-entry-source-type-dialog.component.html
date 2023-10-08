@@ -1,9 +1,15 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل المصدر   ' : 'إضافة مصدر جديد'}}</h1>
 <form [formGroup]="entrySourceTypeForm" dir="rtl">
-  <h1 mat-dialog-title>إضافة حساب</h1>
+ 
   <div mat-dialog-content>
     <form [formGroup]="entrySourceTypeForm">
+      <mat-label>اسم نوع مصدر الدخل</mat-label>
+
       <mat-form-field appearance="outline">
-        <mat-label>اسم نوع مصدر الدخل</mat-label>
         <input formControlName="name" matInput placeholder="ادخل نوع مصدر الدخل">
       </mat-form-field>
 
@@ -19,7 +25,7 @@
     </form>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addEntrySourceType()" style="margin-left: 8px;">{{actionBtn}}</button>
+    <button mat-raised-button  class="savebtn" (click)="addEntrySourceType()" style="margin-left: 8px;">{{actionBtn}}</button> 
+
   </div>
 </form>

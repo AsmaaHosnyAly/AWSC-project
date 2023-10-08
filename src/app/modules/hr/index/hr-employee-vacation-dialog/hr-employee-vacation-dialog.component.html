@@ -1,71 +1,103 @@
-<p>hr-employee-vacation-dialog works!</p>
-
-<h1 mat-dialog-title dir="rtl">اضافة اجازة موظف</h1>
-
-<div mat-dialog-content dir="rtl" style="padding: 30px;">
-    <form [formGroup]="groupForm">
-        <mat-form-field appearance="outline" class="groupInput">
-            <mat-label>الاسم </mat-label>
-            <input matInput placeholder="الاسم " formControlName="name">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="groupInput">
-            <mat-label>الايام </mat-label>
-            <input matInput placeholder="الايام " formControlName="nodDays" type="number">
-        </mat-form-field>
-
-        <mat-label>الموظف*</mat-label>
-        <mat-form-field appearance="outline">
-            <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="emploeeCtrl"
-                placeholder="{{editData ? editData.emplpoyeeName : ''}}" (click)="openAutoEmployee()"
-                required />
-            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
-                (optionSelected)="employeeSelected($event)">
-                <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                    {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-
-        <mat-label>الاجازة*</mat-label>
-        <mat-form-field appearance="outline">
-            <input matInput aria-label="commodity" [matAutocomplete]="autoVacation" [formControl]="vacationCtrl"
-                placeholder="{{editData ? editData.vacationName : ''}}" (click)="openAutoVacation()"
-                required />
-            <mat-autocomplete #autoVacation="matAutocomplete" [displayWith]="displayVacationName"
-                (optionSelected)="vacationSelected($event)">
-                <mat-option *ngFor="let vacation of filteredVacation | async" [value]="vacation">
-                    {{ vacation.name }} | {{ vacation.id }}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>تاريخ الابتداء</mat-label>
-            <input matInput [matDatepicker]="pickerStart" formControlName="startDate">
-            <mat-datepicker-toggle matIconSuffix [for]="pickerStart">
-                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #pickerStart></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>تاريخ الانتهاء</mat-label>
-            <input matInput [matDatepicker]="pickerEnd" formControlName="endDate">
-            <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
-                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #pickerEnd></mat-datepicker>
-        </mat-form-field>
-
-
-    </form>
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
 </div>
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل اجازة موظف ' : 'إضافة اجازة موظف '}}</h1>
 
-<div mat-dialog-action [align]="'end'">
-    <div class="groupAction">
-        <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button>
-        <button mat-raised-button class="confirmBtn" style="margin-left: 8px;"
-            (click)="addEmployeeVacation()">{{actionBtn.toLowerCase() =='save' ? 'اضافة':'تعديل'}}</button>
-    </div>
+<div mat-dialog-content dir="rtl" class="search">
+    <form [formGroup]="groupForm">
+
+        <div style="width: 70%;position: relative;right: 15%;">
+            <mat-label>الاسم </mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="الاسم " formControlName="name">
+            </mat-form-field>
+        </div>
+
+        <div style="display: flex;flex-direction: row;">
+            <div class="searchLabels">
+                <mat-label>الموظف*</mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="emploeeCtrl"
+                        placeholder="{{editData ? editData.emplpoyeeName : ''}}" (click)="openAutoEmployee()"
+                        required />
+                    <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                        (optionSelected)="employeeSelected($event)">
+                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                            {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="searchLabels">
+                <mat-label>الموظف البديل*</mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autosubEmployee" [formControl]="subemploeeCtrl"
+                        placeholder="{{editData ? editData.substituteEmpolyeeName : ''}}" (click)="openAutosubEmployee()"
+                        required />
+                    <mat-autocomplete #autosubEmployee="matAutocomplete" [displayWith]="displaysubEmployeeName"
+                        (optionSelected)="subemployeeSelected($event)">
+                        <mat-option *ngFor="let employee of filteredsubEmployee | async" [value]="employee">
+                            {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <!-- substituteEmpolyeeName -->
+        <div style="display: flex;flex-direction: row;">
+            <div class="searchLabels">
+                <mat-label>الاجازة*</mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoVacation" [formControl]="vacationCtrl"
+                        placeholder="{{editData ? editData.vacationName : ''}}" (click)="openAutoVacation()" required />
+                    <mat-autocomplete #autoVacation="matAutocomplete" [displayWith]="displayVacationName"
+                        (optionSelected)="vacationSelected($event)">
+                        <mat-option *ngFor="let vacation of filteredVacation | async" [value]="vacation">
+                            {{ vacation.name }} | {{ vacation.id }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="searchLabels">
+                <mat-label>الايام </mat-label>
+                <mat-form-field appearance="outline" class="groupInput">
+                    <input matInput placeholder="الايام " formControlName="nodDays" type="number">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div style="display: flex;flex-direction: row;">
+            <div class="searchLabels">
+                <mat-label>تاريخ االبداية</mat-label>
+                <mat-form-field appearance="outline" class="example-full-width">
+                    <input matInput [matDatepicker]="pickerStart" formControlName="startDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerStart">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>تاريخ الانتهاء</mat-label>
+                <mat-form-field appearance="outline" class="example-full-width">
+                    <input matInput [matDatepicker]="pickerEnd" formControlName="endDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickerEnd></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div mat-dialog-action [align]="'end'">
+            <div class="groupAction">
+                <!-- <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button> -->
+                <button mat-raised-button class="savebtn" style="margin-left: 8px;"
+                    (click)="addEmployeeVacation()">{{actionBtn.toLowerCase() =='save' ? 'اضافة':'تعديل'}}</button>
+            </div>
+        </div>
+    </form>
 </div>

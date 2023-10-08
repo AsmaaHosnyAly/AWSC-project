@@ -129,24 +129,25 @@
 
 
         <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
-        <div class="print-display" *ngIf="!loading">
-          <mat-icon (click)="
-          getSearchStrOpen(
-            no.value,  StartDate.value,EndDate.value,fiscalYear.value
-          )
-            " class="icons" title="بحث">search</mat-icon>
-
-          <mat-icon class="icons" title="عرض" (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
-            class="icons" title="تحميل">print</mat-icon>
-
-          <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
-            title="تحميل">get_app</mat-icon>
-
-          
-
-          <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
-        </div>
+        
     
+      </div>
+      <div class="print-display" *ngIf="!loading">
+        <mat-icon (click)="
+        getSearchStrOpen(
+          no.value,  StartDate.value,EndDate.value,fiscalYear.value
+        )
+          " class="icons" title="بحث">search</mat-icon>
+
+        <mat-icon class="icons" title="عرض" (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+          class="icons" title="تحميل">print</mat-icon>
+
+        <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
+          title="تحميل">get_app</mat-icon>
+
+        
+
+        <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
       </div>
     </form>
   </mat-expansion-panel>

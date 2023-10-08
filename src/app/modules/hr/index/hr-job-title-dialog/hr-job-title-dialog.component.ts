@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { __param } from 'tslib';
-
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-hr-job-title-dialog',
@@ -22,14 +22,14 @@ export class HrJobTitleDialogComponent implements OnInit{
   
   JobTitleList:any;
   groupForm !: FormGroup;
-  actionBtn: string = "Save";
+  actionBtn: string = "حفظ";
   groupSelectedSearch: any;
   
   productIdToEdit: any;
   userIdFromStorage: any;
 
   constructor(private formBuilder: FormBuilder,
-    private api: ApiService,
+    private api: ApiService,private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,private http:HttpClient,
     private dialogRef: MatDialogRef<HrJobTitleDialogComponent>,
     private toastr: ToastrService) { }
@@ -46,10 +46,14 @@ export class HrJobTitleDialogComponent implements OnInit{
     
 
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addJobTitle();
+      return false; // Prevent the default browser behavior
+    }));
     console.log("edit data", this.editData);
     if (this.editData) {
-      this.actionBtn = "Update";
+      this.actionBtn = "تعديل";
       // this.groupForm.controls['code'].setValue(this.editData.code);
       this.groupForm.controls['name'].setValue(this.editData.name);
    
@@ -87,10 +91,9 @@ export class HrJobTitleDialogComponent implements OnInit{
                 this.productIdToEdit = res.id;
 
                 this.toastrSuccess();
-                alert("تمت إضافة المنتج بنجاح");
                 this.groupForm.reset();
 
-                this.dialogRef.close('save');
+                this.dialogRef.close('حفظ');
               },
               error: (err) => {
                 alert("حدث خطأ أثناء إضافة منتج");
@@ -111,10 +114,10 @@ export class HrJobTitleDialogComponent implements OnInit{
     this.api.putHrJobTitle(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث المنتج بنجاح");
-          this.toastrSuccess();
+          this.toastrEditSuccess()
+          // this.toastrSuccess();
           this.groupForm.reset();
-          this.dialogRef.close('update');
+          this.dialogRef.close('تعديل');
         },
         error: () => {
           alert("خطأ أثناء تحديث سجل المنتج !!")
@@ -138,7 +141,13 @@ export class HrJobTitleDialogComponent implements OnInit{
 
 
   toastrSuccess(): void {
-    this.toastr.success("تم الحفظ بنجاح");
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
   }
 
 }

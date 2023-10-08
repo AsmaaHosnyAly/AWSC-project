@@ -6,7 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-vacation-dailog',
   templateUrl: './hr-vacation-dailog.component.html',
@@ -22,8 +24,8 @@ export class HrVacationDailogComponent {
   // groupEditId: any;
 
   constructor(private formBuilder : FormBuilder,
-     private api : ApiService,
-     private readonly route:ActivatedRoute,
+     private api : ApiService,  private toastr: ToastrService,
+     private readonly route:ActivatedRoute,private hotkeysService: HotkeysService,
      @Inject(MAT_DIALOG_DATA) public editData : any,
      private dialogRef : MatDialogRef<HrVacationDailogComponent>){
      }
@@ -33,7 +35,11 @@ export class HrVacationDailogComponent {
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addProduct();
+      return false; // Prevent the default browser behavior
+    }));
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
@@ -59,7 +65,8 @@ export class HrVacationDailogComponent {
         .subscribe({
           next:(res)=>{
             
-            alert("تمت الاضافة بنجاح");
+            // alert("تمت الاضافة بنجاح");
+            this.toastrSuccess()
             this.VacationsForm.reset();
             this.dialogRef.close('save');
           },
@@ -77,7 +84,8 @@ export class HrVacationDailogComponent {
       this.api.putVacation(this.VacationsForm.value )
       .subscribe({
         next:(res)=>{
-          alert("تم التحديث بنجاح");
+          // alert("تم التحديث بنجاح");
+          this.toastrEditSuccess()
           this.VacationsForm.reset();
           this.dialogRef.close('update');
         },
@@ -88,6 +96,14 @@ export class HrVacationDailogComponent {
     }
 
 
-
+    toastrSuccess(): void {
+      this.toastr.success('تم الحفظ بنجاح');
+    }
+    toastrDeleteSuccess(): void {
+      this.toastr.success('تم الحذف بنجاح');
+    }
+    toastrEditSuccess(): void {
+      this.toastr.success('تم التعديل بنجاح');
+    }
 
 }

@@ -10,7 +10,9 @@ import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class QualitativeGroup {
   constructor(public id: number, public name: string) {}
 }
@@ -39,8 +41,8 @@ export class HrQualificationDialogComponent {
 @ViewChild(MatAccordion)
 accordion!: MatAccordion;
   constructor(private formBuilder : FormBuilder,
-    private api : ApiService,
-    private readonly route:ActivatedRoute,
+    private api : ApiService,private toastr: ToastrService,
+    private readonly route:ActivatedRoute,private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<HrQualificationDialogComponent>){
       this.qualitativeGroupCtrl = new FormControl();
@@ -64,7 +66,11 @@ accordion!: MatAccordion;
         this.qualitativeGroups = qualitativeGroup;
       });
       
-  
+      this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.addQualification();
+        return false; // Prevent the default browser behavior
+      }));
       if(this.editData){
         this.actionBtn = "تعديل";
       this.getQualificationData = this.editData;
@@ -113,7 +119,8 @@ accordion!: MatAccordion;
         this.api.postQualification(this.qualificationForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            this.toastrSuccess()
+            // alert("تمت الاضافة بنجاح");
             this.qualificationForm.reset();
             this.dialogRef.close('save');
           },
@@ -130,7 +137,8 @@ accordion!: MatAccordion;
         this.api.putQualification(this.qualificationForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تم التحديث بنجاح");
+            // alert("تم التحديث بنجاح");
+            this.toastrEditSuccess()
             this.qualificationForm.reset();
             this.dialogRef.close('update');
           },
@@ -140,5 +148,17 @@ accordion!: MatAccordion;
         })
       }
   
+
+      
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
+
   }
   

@@ -1,12 +1,5 @@
 modules
-1-stores
-2-it
-3-accounts
-4-hr
-
-
-
-****************stores*******************
+****************module:1 stores المخازن*******************
 1-withdraw اذن صرف 
 2-STRAdd اذن اضافة
 3-str-openingStock الافتتاحية 
@@ -24,9 +17,49 @@ modules
 15-المصنع
 16-النوذج
 17- حسابات المخازن
-******************Roles************************
+18-PRODUCT_SERIAL مسلسل المنتج
+19-struserstore   المخازن المتاحة للموظف  
+20-StrStockTaking الجرد
+****************** module:2 Roles الصلاحيات************************
 
-18-pr-user
-19-pr-group
+21-pr-user المستخدمين
+22-pr-group المجموعات
+
+
+**************** module:3-accounts الحسابات*******************
+23-addAccount اضافة حساب
+24-AccountHierarchy شجرة الحساب
+25-FiAccountItem صنف الحساب  
+26-AccountParent اضافة حساب اب 
+27-FIJournal اضافة صحيفة
+28-EntrySource مصدر دخل
+29-EntrySourceType نوع مصدر الدخل 
+30-fi-entry القيود
+
+****************module:4 hr شئون العاملين*******************
+31-hr-jobTitle المسمي الوظيفي
+32-hr-incentive الحوافز
+33-hr-hiringType نوع التوظيف
+34-SeveranceReason الانقطاع
+35-hr-MillitryState موقف التجنيد
+36-city المحافظات
+37-cityState المراكز
+38-Qualification المؤهل
+39-QualitativeGroup المجموعة النوعية
+40-WorkPlace مكان العمل 
+41-specialization التخصصات
+42-hr-position المنصب
+43-hr-disciplinary الجزاءات
+44-hr-vacation الاجازات
+45-hr-employeeVacationBalance رصيد الاجازات
+46-hr-employeeVacation اجازات الموظفين 
+47-hr-EmployeeDisciplinary الدرجة الوظيفية
+48-hr-financialDegree الدرجات المالية
+49-hr-employeeFinancialDegree  الدرجة المالية للموظف
+50-hr-employee-position مناصب الموظفين
+51-hr-employeeAppraisal تقييم الموظفين
+52-HR employee الموظفين 
+53-Employee qualifications  مؤهل الموظف
+54-Qualification level نوع المؤهل 
 
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
 
 @Injectable({
@@ -20,9 +21,8 @@ export class GlobalService {
   test: any;
   public navFlag: boolean = true;
   userRoles: any;
-
-  // url = '192.168.1.23/api';
-  url='http://ims.aswan.gov.eg/api'
+  pageEnums=PagesEnums
+  url =this.pageEnums.URL
 
   public reportData: [] = [];
 
@@ -36,7 +36,7 @@ export class GlobalService {
 
   getUsers(): Observable<any> {
     return this.http.get(
-      `https://ims.aswan.gov.eg/api/AddReceipt/get-all-Receipt`
+      `${this.url}/api/AddReceipt/get-all-Receipt`
     );
   }
 
@@ -64,6 +64,9 @@ export class GlobalService {
     );
   }
 
+  getUserGroup(id:any){
+    return this.http.get<any>(`${this.url}/PRUser/get/with/group/${id}`);
+  }
   getGroup() {
     return this.http.get<any>(`${this.url}/PR_Group/get-all-groups`);
   }

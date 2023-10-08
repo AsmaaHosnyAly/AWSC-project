@@ -216,7 +216,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.router.navigate(['/employeeOpening'], { queryParams: { masterId: this.getMasterRowId.id } })
     this.dialog.open(StrEmployeeExchangeDetailsDialogComponent, {
       width: '98%',
-        height: '95%'
+        height: '85%'
     }).afterClosed().subscribe(val => {
       if (val === 'Save' || val === 'Update') {
         this.getAllDetailsForms();
@@ -803,7 +803,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.router.navigate(['/employeeOpening'], { queryParams: { masterId: this.getMasterRowId.id} })
     this.dialog.open(StrEmployeeExchangeDetailsDialogComponent, {
       width: '98%',
-      height: '95%',
+      height: '85%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {

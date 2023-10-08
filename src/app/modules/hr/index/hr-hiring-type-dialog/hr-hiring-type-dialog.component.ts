@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-hiring-type-dialog',
   templateUrl: './hr-hiring-type-dialog.component.html',
@@ -11,13 +12,14 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HrHiringTypeDialogComponent implements OnInit{
   groupForm !: FormGroup;
-  actionBtn: string = "Save";
+  actionBtn : string = "حفظ";
   employeesList: any;
   fiscalYearsList: any;
   userIdFromStorage: any;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrHiringTypeDialogComponent>,
     private toastr: ToastrService) { }
@@ -28,9 +30,13 @@ export class HrHiringTypeDialogComponent implements OnInit{
       name: ['', Validators.required],
       transactionUserId: ['', Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addHiringType();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
-      this.actionBtn = "Update";
+      this.actionBtn = "تعديل";
       this.groupForm.controls['name'].setValue(this.editData.name);
       this.userIdFromStorage = localStorage.getItem('transactionUserId');
 
@@ -77,9 +83,8 @@ export class HrHiringTypeDialogComponent implements OnInit{
     console.log("update HiringType last values, id: ", this.groupForm.value)
     this.api.putHrHiringType(this.groupForm.value)
       .subscribe({
-        next: (res) => {
-          alert("تم تحديث انواع التعيين بنجاح");
-          this.toastrSuccess();
+        next: (res) => {         
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -88,7 +93,9 @@ export class HrHiringTypeDialogComponent implements OnInit{
         }
       })
   }
-
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
   }

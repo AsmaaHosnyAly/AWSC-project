@@ -1,18 +1,19 @@
-// import { FiscalYear } from './../str/str-withdraw-details-dialog/str-withdraw-details-dialog.component';
-// import { FiscalYear } from './../hr/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
+  pageEnums = PagesEnums
+  url =this.pageEnums.URL
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
 
-  // url = '192.168.1.23/api';
-  url = 'http://ims.aswan.gov.eg/api'
+ 
   mycondition: any;
 
   // baseApiUrl = 'https://file.io';
@@ -181,6 +182,79 @@ export class ApiService {
   postHrCity(data: any) {
     return this.http.post<any>(`${this.url}/HrCity/Add`, data);
   }
+  // HrFinancialDegree
+  getHrFinancialDegree() {
+    return this.http.get<any>(
+      `${this.url}/HrFinancialDegree/get/all`
+    );
+  }
+  putHrFinancialDegree(data: any) {
+    return this.http.put<any>(
+      `${this.url}/HrFinancialDegree/update`,
+      data
+    );
+  }
+  deleteHrFinancialDegree(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/HrFinancialDegree/delete/${id}`
+    );
+  }
+  postHrFinancialDegree(data: any) {
+    return this.http.post<any>(
+      `${this.url}/HrFinancialDegree/Add`,
+      data
+    );
+  }
+ // HrEmployeeFinancialDegree
+ getEmployeeFinancialDegree() {
+  return this.http.get<any>(
+    `${this.url}/HrEmployeeFinancialDegree/get/all`
+  );
+}
+putEmployeeFinancialDegree(data: any) {
+  return this.http.put<any>(
+    `${this.url}/HrEmployeeFinancialDegree/update`,
+    data
+  );
+}
+deleteHrEmployeeFinancialDegree(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/HrEmployeeFinancialDegree/delete/${id}`
+  );
+}
+postHrEmployeeFinancialDegree(data: any) {
+  return this.http.post<any>(
+    `${this.url}/HrEmployeeFinancialDegree/Add`,
+    data
+  );
+}
+getAllFinancialDegree(): Observable<any> {
+  return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
+}
+// HrEmployeeAppraisal
+getHrEmployeeAppraisal() {
+  return this.http.get<any>(
+    `${this.url}/HrEmployeeAppraisal/get/all`
+  );
+}
+putHrEmployeeAppraisal(data: any) {
+  return this.http.put<any>(
+    `${this.url}/HrEmployeeAppraisal/update`,
+    data
+  );
+}
+deleteHrEmployeeAppraisal(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/HrEmployeeAppraisal/delete/${id}`
+  );
+}
+postHrEmployeeAppraisal(data: any) {
+  return this.http.post<any>(
+    `${this.url}/HrEmployeeAppraisal/Add`,
+    data
+  );
+}
+
   // HrCityState
   getHrCityState() {
     return this.http.get<any>(
@@ -207,7 +281,6 @@ export class ApiService {
   getAllCitis(): Observable<any> {
     return this.http.get<any>(`${this.url}/HrCity/get/all`);
   }
-
   //Fatma
 
   //Platoon
@@ -926,7 +999,64 @@ export class ApiService {
     return this.http.get<any>(
       `${this.url}/HrQualitativeGroup/get/all`
     );
+  } 
+  //HrEmployeeQualification
+
+  postEmployeeQualification(data: any) {
+    return this.http.post<any>(
+      `${this.url}/HrEmployeeQualification/Add`,
+      data
+    );
   }
+  getEmployeeQualification() {
+    return this.http.get<any>(
+      `${this.url}/HrEmployeeQualification/get/all`
+    );
+  }
+  putEmployeeQualification(data: any) {
+    console.log("data:",data);
+    
+    return this.http.put<any>(
+      `${this.url}/HrEmployeeQualification/update`,
+      data
+    );
+  }
+  deleteEmployeeQualification(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/HrEmployeeQualification/delete/${id}`
+    );
+  }
+  // getAllQualitativeGroups(): Observable<any> {
+  //   return this.http.get<any>(
+  //     `${this.url}/HrQualitativeGroup/get/all`
+  //   );
+  // }
+
+
+    //HrQualificationLevel
+
+    postQualificationLevel(data: any) {
+      return this.http.post<any>(
+        `${this.url}/HrQualificationLevel/Add`,
+        data
+      );
+    }
+    getQualificationLevel() {
+      return this.http.get<any>(
+        `${this.url}/HrQualificationLevel/get/all`
+      );
+    }
+    putQualificationLevel(data: any) {
+      return this.http.put<any>(
+        `${this.url}/HrQualificationLevel/update`,
+        data
+      );
+    }
+    deleteQualificationLevel(id: number) {
+      return this.http.delete<any>(
+        `${this.url}/HrQualificationLevel/delete/${id}`
+      );
+    }
 
   //HrSeveranceReason
 
@@ -2253,7 +2383,6 @@ export class ApiService {
   getAllStore() {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
   }
-
   GetAddGeTAddDetailsByAddId(id: number) {
     return this.http.get<any>(
       `${this.url}/STRAdd/GetAddGeTAddDetailsByAddId/` + id
@@ -2546,7 +2675,7 @@ export class ApiService {
   }
   deleteHrJobTitle(id: number) {
     return this.http.delete<any>(
-      `${this.url}/HrJobTitle/delete-JobTitle/` + id
+      `${this.url}/HrJobTitle/delete/` + id
     );
   }
   postHrJobTitle(data: any) {
@@ -2572,29 +2701,45 @@ export class ApiService {
     return this.http.put<any>(`${this.url}/HrPosition/update`, data);
   }
 
+
+  ///////////////////////////////// HR-employee-position /////////////////////////////
+  postHrEmployeePosition(data: any) {
+    return this.http.post<any>(`${this.url}/HrEmployeePosition/Add`, data);
+  }
+  getHrEmployeePosition() {
+    return this.http.get<any>(`${this.url}/HrEmployeePosition/get/all`);
+  }
+  putHrEmployeePosition(data: any) {
+    return this.http.put<any>(`${this.url}/HrEmployeePosition/update`, data);
+  }
+  deleteHrEmployeePosition(id: number) {
+    return this.http.delete<any>(`${this.url}/HrEmployeePosition/delete/${id}`);
+  }
+
+
   ///////////////////////////////// HR-IncentiveAllowance /////////////////////////////
   postHrIncentiveAllowance(data: any) {
     // console.log('form add data to apiii: ', data);
     return this.http.post<any>(
-      `${this.url}/HrIncentiveAllowance/Add-IncentiveAllowance`,
+      `${this.url}/HrIncentiveAllowance/Add`,
       data
     );
   }
   getHrIncentiveAllowance() {
     return this.http.get<any>(
-      `${this.url}/HrIncentiveAllowance/get-all-IncentiveAllowance`
+      `${this.url}/HrIncentiveAllowance/get/all`
     );
   }
   putHrIncentiveAllowance(data: any) {
     return this.http.put<any>(
-      `${this.url}/HrIncentiveAllowance/update-IncentiveAllowance`,
+      `${this.url}/HrIncentiveAllowance/update`,
       data
     );
   }
   deleteHrIncentiveAllowance(id: number) {
     // console.log('form delete data from apiii, id: ', id);
     return this.http.delete<any>(
-      `${this.url}/HrIncentiveAllowance/delete-IncentiveAllowance/` + id
+      `${this.url}/HrIncentiveAllowance/delete/` + id
     );
   }
 
@@ -2664,29 +2809,29 @@ export class ApiService {
     );
   }
 
-  /////////////HR Disciplinary////////////
+  /////////////HR disciplinary////////////
   postHrDisciplinary(data: any) {
     // console.log('form add data to apiii: ', data);
     return this.http.post<any>(
-      `${this.url}/HrDisciplinary/Add-Disciplinary`,
+      `${this.url}/HrDisciplinary/Add`,
       data
     );
   }
   getHrDisciplinary() {
     return this.http.get<any>(
-      `${this.url}/HrDisciplinary/get-all-Disciplinary`
+      `${this.url}/HrDisciplinary/get/all`
     );
   }
   putHrDisciplinary(data: any) {
     return this.http.put<any>(
-      `${this.url}/HrDisciplinary/update-Disciplinary`,
+      `${this.url}/HrDisciplinary/update`,
       data
     );
   }
   deleteHrDisciplinary(id: number) {
     // console.log('form delete data from apiii, id: ', id);
     return this.http.delete<any>(
-      `${this.url}/HrDisciplinary/delete-Disciplinary/` + id
+      `${this.url}/HrDisciplinary/delete/` + id
     );
   }
 
@@ -2694,39 +2839,41 @@ export class ApiService {
   postHrEmployeeDisciplinary(data: any) {
     console.log('post in employeedisciplinary: ', data);
     return this.http.post<any>(
-      `${this.url}/HrEmployeeDisciplinary/Add-EmployeeDisciplinary`,
+      `${this.url}/HrEmployeeDisciplinary/Add`,
       data
     );
   }
   getHrEmployeeDisciplinary() {
     return this.http.get<any>(
-      `${this.url}/HrEmployeeDisciplinary/get-all-EmployeeDisciplinary`
+      `${this.url}/HrEmployeeDisciplinary/get/all`
     );
   }
   putHrEmployeeDisciplinary(data: any) {
     console.log('put in employeedisciplinary: ', data);
 
     return this.http.put<any>(
-      `${this.url}/HrEmployeeDisciplinary/update-EmployeeDisciplinary`,
+      `${this.url}/HrEmployeeDisciplinary/update`,
       data
     );
   }
   deleteHrEmployeeDisciplinary(id: number) {
     // console.log('form delete data from apiii, id: ', id);
     return this.http.delete<any>(
-      `${this.url}/HrEmployeeDisciplinary/delete-EmployeeDisciplinary/` + id
+      `${this.url}/HrEmployeeDisciplinary/delete/` + id
     );
   }
 
   ///////////////////////////////// HR-EmployeeVacation /////////////////////////////
   postHrEmployeeVacation(data: any) {
-    // console.log('form add data to apiii: ', data);
+    console.log('form add data to apiii: ', data);
     return this.http.post<any>(`${this.url}/HrEmployeeVacation/Add`, data);
   }
   getHrEmployeeVacation() {
     return this.http.get<any>(`${this.url}/HrEmployeeVacation/get/all`);
   }
   putHrEmployeeVacation(data: any) {
+    console.log('form add data to apiii: ', data);
+
     return this.http.put<any>(`${this.url}/HrEmployeeVacation/update`, data);
   }
   deleteHrEmployeeVacation(id: number) {
@@ -3170,23 +3317,42 @@ export class ApiService {
       `${this.url}/STRProduct/get/all`
     );
   }
-  // FinancialDegree
-postFinancialDegree(data: any) {
-  return this.http.post<any>(`${this.url}/HrFinancialDegree/Add`, data);
-}
-// here
-getFinancialDegree() {
-  return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
-}
-putFinancialDegree(data: any) {
-  return this.http.put<any>(
-    `${this.url}/HrFinancialDegree/update`,
-    data
-  );
-}
-deleteFinancialDegree(id: number) {
-  return this.http.delete<any>(
-    `${this.url}/HrFinancialDegree/delete/${id}`
-  );
-}
+
+
+
+  ///////////hremployee////////////
+
+  // getHrEmployee() {
+  //   return this.http.get<any>(
+  //     `${this.url}/HREmployee/get/all`
+  //   );
+  // }
+
+
+  postHrEmployee(data: any) {
+    console.log('post in employee: ', data);
+    return this.http.post<any>(
+      `${this.url}/HREmployee/Add`,
+      data
+    );
+  }
+  getHrEmployee() {
+    return this.http.get<any>(
+      `${this.url}/HREmployee/get/all`
+    );
+  }
+  putHrEmployee(data: any) {
+    console.log('put in employee: ', data);
+
+    return this.http.put<any>(
+      `${this.url}/HrEmployee/update`,
+      data
+    );
+  }
+  deleteHrEmployee(id: number) {
+    // console.log('form delete data from apiii, id: ', id);
+    return this.http.delete<any>(
+      `${this.url}/HrEmployee/delete/` + id
+    );
+  }
 }

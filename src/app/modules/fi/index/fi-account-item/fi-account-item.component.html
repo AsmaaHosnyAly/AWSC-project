@@ -1,33 +1,7 @@
+<div class="page-title"> صنف الحساب</div>
 <mat-card>
-    <mat-card-content>
-      <mat-accordion class="example-headers-align" multi dir="rtl">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-description>
-                بحث متقدم
-              <mat-icon>search</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-      <div class="search">
-          <mat-form-field appearance="outline">
-            <mat-label>اسم الحساب </mat-label>
-            <input #account matInput placeholder="ادخل اسم الحساب ">
-        </mat-form-field>
-        <mat-form-field appearance="outline">   
-          <mat-label>الحساب</mat-label>     
-          <input matInput aria-label="account" [matAutocomplete]="autoaccount" [formControl]="accountCtrl" (click)="openAutoFiAccountItem()" required/>
-          <mat-autocomplete #autoaccount="matAutocomplete" [displayWith]="displayAccountName" (optionSelected)="accountSelected($event)">
-            <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
-              {{ account.name }} | {{ account.code }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-  
-        <button (click)=" getSearchAccountItem(account.value)" >عرض</button>
-        </div>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-card-header dir="rtl">
+    <mat-card-content>     
+      <mat-card-header dir="ltr" >
         <div class="child1 " >
           <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
           
@@ -35,43 +9,47 @@
           </button>
         </div>
   
-        <mat-form-field>
-          <input
+        <div>
+          <input 
             matInput
+            class="filter-search"
             (keyup)="applyFilter($event)"
             placeholder="بحث"
             #input
           />
-        </mat-form-field>
+        </div>
       </mat-card-header>
-      <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
-  
-        <!-- productCode Column -->
-        <!-- <ng-container matColumnDef="code">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> كود النوعية </th>
-          <td mat-cell *matCellDef="let row"> {{row.code}} </td>
-        </ng-container> -->
+      <div  class="div-table">
+      <table matSort mat-table [dataSource]="dataSource" >  
+    
           <!-- productName Column -->
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> الاسم </th>
-            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+            <th mat-header-cell *matHeaderCellDef> الاسم </th>
+            <td mat-cell *matCellDef="let row"> {{row.name? row.name : '  لايوجد بيانات'}}{{row.name}} </td>
           </ng-container>
   
         <!-- category Column -->
         <ng-container matColumnDef="accounName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> الحساب </th>
-          <td mat-cell *matCellDef="let row"> {{row.accounName}}</td>
+          <th mat-header-cell *matHeaderCellDef > الحساب </th>
+          <td mat-cell *matCellDef="let row">{{row.accounName? row.accounName : '  لايوجد بيانات'}}  </td>
         </ng-container>
+
+          <!-- itemcategory Column -->
+          <ng-container matColumnDef="accountItemCategoryName">
+            <th mat-header-cell *matHeaderCellDef> تصنيف الحساب </th>
+            <td mat-cell *matCellDef="let row"> {{row.accountItemCategoryName? row.accountItemCategoryName : '  لايوجد بيانات'}}</td>
+          </ng-container>
+       
   
         <!-- action Column -->
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> الحدث </th>
+          <th mat-header-cell *matHeaderCellDef  style="width: 15%;"> الاجراء </th>
           <td mat-cell *matCellDef="let row"> 
-            <button mat-icon-button (click)="editFiAccountItem(row)" color="primary">
+            <button mat-icon-button (click)="editFiAccountItem(row)" class="editbtn">
               <mat-icon>edit</mat-icon>
             </button>
             <button (click)="deleteFiAccountItem(row.id)" mat-icon-button color="warn">
-              <mat-icon>delete</mat-icon>
+              <mat-icon>delete_forever</mat-icon>
             </button>
           </td>
         </ng-container>
@@ -86,6 +64,7 @@
         </tr>
   
       </table>
+    </div>
   
     </mat-card-content>
     <br>

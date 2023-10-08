@@ -17,6 +17,9 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 export class Hierarchy {
   constructor(public id: number, public name: string, public level: string) {}
 }
@@ -42,7 +45,7 @@ export class FIAccountComponent implements OnInit {
   commidityDt: any = {
     id: 0,
   };
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
     this.hierarchyCtrl = new FormControl();
     this.filteredHierarchies = this.hierarchyCtrl.valueChanges.pipe(
       startWith(''),
@@ -56,6 +59,11 @@ export class FIAccountComponent implements OnInit {
     this.api.getAllAccountHierarchy().subscribe((hierarchies) => {
       this.hierarchies = hierarchies;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -121,20 +129,41 @@ export class FIAccountComponent implements OnInit {
       });
   }
 
-  deleteAccount(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح الحساب ؟ ');
+  // deleteAccount(id: number) {
+  //   var result = confirm('هل ترغب بتاكيد مسح الحساب ؟ ');
+  //   if (result) {
+  //     this.api.deleteAccount(id).subscribe({
+  //       next: (res) => {
+  //         alert('تم الحذف بنجاح');
+  //         this.getAllAccounts();
+  //       },
+  //       error: () => {
+  //         alert('خطأ فى حذف العنصر');
+  //       },
+  //     });
+  //   }
+  // }
+
+  deleteAccount(id:number){
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteAccount(id).subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          if(res == 'Succeeded'){
+            console.log("res of deleteAccount:",res)
+            this.toastrDeleteSuccess();
           this.getAllAccounts();
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+  
   async getSearchAccounts(name: any) {
     this.api.getAccount().subscribe({
       next: (res) => {
@@ -180,6 +209,9 @@ export class FIAccountComponent implements OnInit {
   }
 
 
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

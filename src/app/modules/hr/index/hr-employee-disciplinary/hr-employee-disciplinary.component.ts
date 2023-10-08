@@ -11,7 +11,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { HrEmployeeDisciplinaryDialogComponent } from '../hr-employee-disciplinary-dialog/hr-employee-disciplinary-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-hr-employee-disciplinary',
@@ -26,10 +27,15 @@ export class HrEmployeeDisciplinaryComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getDisciplinary();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {
@@ -43,7 +49,8 @@ export class HrEmployeeDisciplinaryComponent  implements OnInit {
 
   openDialog() {
     this.dialog.open(HrEmployeeDisciplinaryDialogComponent, {
-      width: '30%'
+      width: '50%',
+      height:'75%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getDisciplinary();
@@ -69,7 +76,8 @@ export class HrEmployeeDisciplinaryComponent  implements OnInit {
   editEmployeeDisciplinary(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(HrEmployeeDisciplinaryDialogComponent, {
-      width: '30%',
+      width: '50%',
+      height:'75%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {

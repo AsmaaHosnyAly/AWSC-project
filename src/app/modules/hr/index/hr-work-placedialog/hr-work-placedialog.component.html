@@ -1,15 +1,22 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مكان العمل    ' : 'إضافة  مكان العمل '}}</h1>
+
 <form [formGroup]="WorkPlaceCtrlForm" dir="rtl">
-    <h1 mat-dialog-title>إضافة مكان العمل</h1>
+    <!-- <h1 mat-dialog-title>إضافة مكان العمل</h1> -->
     <div mat-dialog-content>
       <form [formGroup]="WorkPlaceCtrlForm">
+        <mat-label>مكان العمل </mat-label>
+
         <mat-form-field appearance="outline">
-          <mat-label>مكان العمل </mat-label>
           <input formControlName="name" matInput placeholder="ادخل مكان العمل">
         </mat-form-field>
         <mat-label>المركز</mat-label>
+
         <mat-form-field appearance="outline">
           <input matInput aria-label="city" [matAutocomplete]="autoCity" [formControl]="cityStateCtrl"
-            placeholder="{{getWorkPlaceData ? getWorkPlaceData.cityName : ''}}" (click)="openAutoCityState()" required />
+            placeholder="{{getWorkPlaceData ? getWorkPlaceData.cityStateName : ''}}" (click)="openAutoCityState()" required />
           <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displaycityStateName"
             (optionSelected)="cityStateSelected($event)">
             <mat-option *ngFor="let city of filteredCityState | async" [value]="city">
@@ -20,8 +27,8 @@
       </form>
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-      <button mat-raised-button color="primary" (click)="addWorkPlace()" style="margin-left: 8px;">{{actionBtn}}</button>
+      <!-- <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button> -->
+      <button mat-raised-button class="savebtn" color="primary" (click)="addWorkPlace()" style="margin-left: 8px;">{{actionBtn}}</button>
     </div>
   </form>
 

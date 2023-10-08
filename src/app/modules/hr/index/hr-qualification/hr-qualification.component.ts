@@ -12,9 +12,12 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 import { HrQualificationDialogComponent } from '../hr-qualification-dialog/hr-qualification-dialog.component'; 
 export class QualitativeGroup {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string,private toastr: ToastrService) {}
 }
 
 
@@ -37,7 +40,7 @@ export class HrQualificationComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private api: ApiService) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
     this.qualitativeGroupCtrl = new FormControl();
     this.filteredQualitativeGroup = this.qualitativeGroupCtrl.valueChanges.pipe(
       startWith(''),
@@ -51,6 +54,11 @@ export class HrQualificationComponent implements OnInit {
     this.api.getAllQualitativeGroups().subscribe((qualitativeGroup) => {
       this.qualitativeGroups = qualitativeGroup;
     });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -116,19 +124,30 @@ export class HrQualificationComponent implements OnInit {
   }
 
   deleteQualification(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح المؤهل ؟ ');
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteQualification(id).subscribe({
+      this.api.deleteQualification(id)
+      .subscribe({
         next: (res) => {
-          alert('تم الحذف بنجاح');
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+          // alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
           this.getAllQualification();
+  
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          alert('خطأ فى حذف العنصر'); 
         },
       });
     }
   }
+
+
   
   async getQualification(name: any) {
     this.api.getQualification().subscribe({
@@ -182,5 +201,13 @@ export class HrQualificationComponent implements OnInit {
     }
   }
 
-
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success('تم التعديل بنجاح');
+  }
 }

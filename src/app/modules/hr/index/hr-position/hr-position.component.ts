@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { HrPositionDialogComponent } from '../hr-position-dialog/hr-position-dialog.component';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 // import { GlobalService } from '../services/global.service';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-position',
   templateUrl: './hr-position.component.html',
@@ -28,13 +29,18 @@ export class HrPositionComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor( private toastr: ToastrService,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private hotkeysService: HotkeysService,
     private api: ApiService
   ) {
     
   }
   ngOnInit(): void {
     this.getAllPositions();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog
@@ -87,7 +93,7 @@ export class HrPositionComponent  implements OnInit {
     if (result) {
       this.api.deleteHrPosition(id).subscribe({
         next: (res) => {
-          alert('Product deleted successfully');
+          this.toastrDeleteSuccess()
           this.getAllPositions();
         },
         error: () => {

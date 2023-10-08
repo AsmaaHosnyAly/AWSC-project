@@ -76,7 +76,7 @@ export class PrUserTableComponent implements OnInit {
   }
   openDialog() {
     this.dialog.open(PrUserDialogComponent, {
-      width: '98%',
+      width: '48%',
       height:'85%'
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
@@ -87,7 +87,7 @@ export class PrUserTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(PrUserDialogComponent, {
-        width: '98%',
+        width: '48%',
         height:'85%',
      data: row,
       })
@@ -109,8 +109,9 @@ export class PrUserTableComponent implements OnInit {
             return a.userId === id;
           });
 
+          var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
+
           for (let i = 0; i < this.matchedIds.length; i++) {
-            var result = confirm("هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟");
 
             if (this.matchedIds.length) {
               for (let i = 0; i < this.matchedIds.length; i++) {

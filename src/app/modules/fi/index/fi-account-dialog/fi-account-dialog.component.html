@@ -1,3 +1,9 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل حساب  ' : ' إضافة حساب جديد'}}</h1>
+
 <form [formGroup]="accountForm" dir="rtl">
   <h1 mat-dialog-title>إضافة حساب</h1>
   <div mat-dialog-content>
@@ -20,10 +26,7 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+      <button mat-raised-button class="savebtn"  (click)="addAccount()">{{actionBtn}}</button>
     </form>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button color="warn" mat-dialog-close>اغلاق</button>
-    <button mat-raised-button color="primary" (click)="addAccount()" style="margin-left: 8px;">{{actionBtn}}</button>
   </div>
 </form>

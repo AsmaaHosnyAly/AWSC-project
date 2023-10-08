@@ -6,7 +6,9 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { FIAccountHierarchyDialogComponent } from '../fi-account-hierarchy-dialog/fi-account-hierarchy-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-fi-account-hierarchy',
   templateUrl: './fi-account-hierarchy.component.html',
@@ -19,9 +21,14 @@ export class FIAccountHierarchyComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService){}
+  constructor(private dialog : MatDialog,private toastr: ToastrService, private api : ApiService,private hotkeysService: HotkeysService){}
   ngOnInit(): void {
     this.getFIAccountHierarchies();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
   openDialog() {
     this.dialog.open(FIAccountHierarchyDialogComponent, {
@@ -57,20 +64,28 @@ export class FIAccountHierarchyComponent {
     })
   }
   daleteFIAccountHierarchies(id:number){
-    if(confirm("Are you sure to delete ")) {
-      console.log("Implement delete functionality here");
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.deleteFIAccountHierarchy(id)
+      .subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+            this.toastrDeleteSuccess();
+          this.getFIAccountHierarchies();
+  
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر'); 
+        },
+      });
     }
-    this.api.deleteFIAccountHierarchy(id)
-    .subscribe({
-      next:(res)=>{
-        alert("تأكيد حذف الوحدة");
-        this.getFIAccountHierarchies();
-      },
-      error:()=>{
-        alert("خطأ عند الحذف")
-      }
-    })
   }
+
+  
 
   async getSearchGrades(level :any,name:any) {
     
@@ -112,7 +127,9 @@ export class FIAccountHierarchyComponent {
           })
           // this.getAllGrades()
         }
-  
+        toastrDeleteSuccess(): void {
+          this.toastr.success('تم الحذف بنجاح');
+        }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { PrintDialogComponent } from '../print-dialog/print-dialog.component'; 
+import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 
 export class store {
   constructor(public id: number, public name: string) {}
@@ -92,7 +92,6 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.getFiscalYears();
     this.getItems();
 
-
     this.groupDetailsForm = this.formBuilder.group({
       stR_Opening_StockId: [''], //MasterId
       qty: ['1'],
@@ -113,18 +112,19 @@ export class StrOpeningStockTableComponent implements OnInit {
       store: [''],
       storeId: [''],
       // itemId:[''],
-      StartDate:[''],
-      EndDate:[''],
-      report:[''],
-      reportType:['']
+      StartDate: [''],
+      EndDate: [''],
+      report: [''],
+      reportType: [''],
     });
-    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.openOpeningStockDialog();
-      return false; // Prevent the default browser behavior
-    }));
+    this.hotkeysService.add(
+      new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.openOpeningStockDialog();
+        return false; // Prevent the default browser behavior
+      })
+    );
   }
-  
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -159,7 +159,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
         width: '98%',
-        height: '95%',
+        height: '85%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -172,7 +172,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
         width: '95%',
-        height: '95%',
+        height: '85%',
         data: row,
       })
       .afterClosed()
@@ -317,31 +317,26 @@ export class StrOpeningStockTableComponent implements OnInit {
     //     }
     //   );
 
-
     var result = confirm('تاكيد الحذف ؟ ');
     console.log(' id in delete:', id);
     if (result) {
       this.api.deleteStrOpen(id).subscribe({
         next: (res) => {
-          this.api.getStrOpenAllDetails()
-            .subscribe({
-              next: (res) => {
+          this.api.getStrOpenAllDetails().subscribe({
+            next: (res) => {
+              this.matchedIds = res.filter((a: any) => {
+                // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                return a.stR_Opening_StockId === id;
+              });
 
-                this.matchedIds = res.filter((a: any) => {
-                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.stR_Opening_StockId === id;
-                });
-
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
-                }
-
-              },
-              error: (err) => {
-                // alert('خطا اثناء تحديد المجموعة !!');
-
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.deleteFormDetails(this.matchedIds[i].id);
               }
-            })
+            },
+            error: (err) => {
+              // alert('خطا اثناء تحديد المجموعة !!');
+            },
+          });
 
           this.toastrDeleteSuccess();
           this.getAllMasterForms();
@@ -447,42 +442,64 @@ export class StrOpeningStockTableComponent implements OnInit {
     });
   }
 
-  getSearchStrOpen(no: any, StartDate: any,EndDate:any, fiscalYear: any) {
+  getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
 
-    this.api.getStrOpenSearach(no, store, fiscalYear, item,StartDate,EndDate).subscribe({
-      next: (res) => {
-        this.dataSource2 = res;
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-      },
-    });
+    this.api
+      .getStrOpenSearach(no, store, fiscalYear, item, StartDate, EndDate)
+      .subscribe({
+        next: (res) => {
+          this.dataSource2 = res;
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        },
+      });
   }
 
-  downloadPdf(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+  downloadPdf(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupMasterForm.getRawValue().itemId;
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
 
-    this.api.openingStock(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType).subscribe({
-      next: (res) => {
-        console.log('search:', res);
-        const url: any = res.url;
-        window.open(url);
-        // let blob: Blob = res.body as Blob;
-        // let url = window.URL.createObjectURL(blob);
+    this.api
+      .openingStock(
+        no,
+        store,
+        StartDate,
+        EndDate,
+        fiscalYear,
+        item,
+        employee,
+        costCenter,
+        report,
+        reportType
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('search:', res);
+          const url: any = res.url;
+          window.open(url);
+          // let blob: Blob = res.body as Blob;
+          // let url = window.URL.createObjectURL(blob);
 
-        // this.dataSource = res;
-        // this.dataSource.paginator = this.paginator;
-        // this.dataSource.sort = this.sort;
-      },
-      error: (err) => {
-        console.log('eroorr', err);
-        window.open(err.url);
-      },
-    });
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
   }
   // previewPdf(no: any, date: any, fiscalYear: any) {
   //   let store = this.groupMasterForm.getRawValue().storeId;
@@ -510,38 +527,55 @@ export class StrOpeningStockTableComponent implements OnInit {
   //   });
   // }
 
-  previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+  previewPrint(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
-if(report!= null && reportType!=null){
+    if (report != null && reportType != null) {
+      this.api
+        .openingStock(
+          no,
+          store,
+          StartDate,
+          EndDate,
+          fiscalYear,
+          item,
+          employee,
+          costCenter,
+          report,
+          reportType
+        )
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '50%',
+            });
 
-
-    this.api
-      .openingStock(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-      .subscribe({
-        next: (res) => {
-          let blob: Blob = res.body as Blob;
-          console.log(blob);
-          let url = window.URL.createObjectURL(blob);
-          localStorage.setItem('url', JSON.stringify(url));
-          this.pdfurl = url;
-          this.dialog.open(PrintDialogComponent, {
-            width: '50%',
-          });
-
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-      });}
-      else{
-        alert("ادخل التقرير و نوع التقرير!")   }
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    } else {
+      alert('ادخل التقرير و نوع التقرير!');
+    }
   }
 
   toastrDeleteSuccess(): void {

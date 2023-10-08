@@ -7,24 +7,30 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { HrHiringTypeDialogComponent } from '../hr-hiring-type-dialog/hr-hiring-type-dialog.component';
 import { HrEmployeeVacationDialogComponent } from '../hr-employee-vacation-dialog/hr-employee-vacation-dialog.component';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 @Component({
   selector: 'app-hr-employee-vacation',
   templateUrl: './hr-employee-vacation.component.html',
   styleUrls: ['./hr-employee-vacation.component.css']
 })
 export class HrEmployeeVacationComponent implements OnInit{
-  displayedColumns: string[] = ['name', 'nodDays', 'emplpoyeeName', 'vacationName', 'startDate', 'endDate', 'action'];
+  displayedColumns: string[] = ['name', 'nodDays', 'emplpoyeeName','substituteEmpolyeeName', 'vacationName', 'startDate', 'endDate', 'action'];
 
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getHrEmployeeVacation();
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
   }
 
   applyFilter(event: Event) {
@@ -38,8 +44,9 @@ export class HrEmployeeVacationComponent implements OnInit{
 
   openDialog() {
     this.dialog.open(HrEmployeeVacationDialogComponent, {
-      width: '30%'
-    }).afterClosed().subscribe(val => {
+      width: '70%',
+      height:'75%',
+        }).afterClosed().subscribe(val => {
       if (val === 'save') {
         this.getHrEmployeeVacation();
       }
@@ -64,8 +71,9 @@ export class HrEmployeeVacationComponent implements OnInit{
   editEmployeeVacation(row: any) {
     // console.log("edit row: ", row)
     this.dialog.open(HrEmployeeVacationDialogComponent, {
-      width: '30%',
-      data: row
+      width: '70%',
+      height:'75%',
+            data: row
     }).afterClosed().subscribe(val => {
       if (val === 'update') {
         this.getHrEmployeeVacation();

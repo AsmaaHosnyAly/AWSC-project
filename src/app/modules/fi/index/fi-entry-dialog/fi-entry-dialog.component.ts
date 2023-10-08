@@ -3,13 +3,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ApiService } from '../../services/api.service';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
-import { FiEntryDetailsDialogComponent } from '../fi-entry-details-dialog/fi-entry-details-dialog.component'; 
-import { GlobalService } from 'src/app/pages/services/global.service'; 
-import { Router , Params} from '@angular/router';
+import { FiEntryDetailsDialogComponent } from '../fi-entry-details-dialog/fi-entry-details-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
+import { Router, Params } from '@angular/router';
 
 @Component({
   selector: 'app-fi-entry-dialog',
@@ -49,6 +49,9 @@ export class FiEntryDialogComponent implements OnInit {
   test: any;
   testMain: any;
 
+  currentDate: any;
+  defaultFiscalYearSelectValue: any;
+
   displayedColumns: string[] = ['credit', 'debit', 'accountName', 'fiAccountItemId', 'action'];
   sessionId = Math.random();
 
@@ -56,28 +59,34 @@ export class FiEntryDialogComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private formBuilder: FormBuilder,
-    private api: ApiService,public global:GlobalService,
+    private api: ApiService, public global: GlobalService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     // private toastr: ToastrService,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private router: Router) { }
+    private dialogRef: MatDialogRef<FiEntryDetailsDialogComponent>,
+    private router: Router) {
+
+    this.currentDate = new Date;
+
+  }
 
 
   ngOnInit(): void {
-    console.log("getDetailedRowData : ", this.getDetailedRowData)
-    this.getJournals();
+    // console.log("getDetailedRowData : ", this.getDetailedRowData);
+    this.getFiscalYears();
     this.getFiAccounts();
     this.getFiAccountItems();
     this.getFiEntrySource();
-    this.global.test =this.test;
+    this.global.test = this.test;
 
     this.getMasterRowId = this.editData;
 
     this.groupMasterForm = this.formBuilder.group({
       no: ['', Validators.required],
+      fiscalYearId: ['', Validators.required],
       journalId: ['', Validators.required],
       fiEntrySourceTypeId: ['', Validators.required],
       creditTotal: ['', Validators.required],
@@ -85,7 +94,8 @@ export class FiEntryDialogComponent implements OnInit {
       balance: ['', Validators.required],
       state: ['', Validators.required], //will rename to state
       transactionUserId: ['', Validators.required],
-      date: ['', Validators.required],
+      date: [this.currentDate, Validators.required],
+      description: ['']
     });
 
     this.groupDetailsForm = this.formBuilder.group({
@@ -100,13 +110,19 @@ export class FiEntryDialogComponent implements OnInit {
 
 
     if (this.editData) {
-      // console.log("master edit form: ", this.editData);
+      console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
 
       this.groupMasterForm.controls['journalId'].setValue(this.editData.journalId);
-      this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue(this.editData.fiEntrySourceTypeId)
+      this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue(this.editData.fiEntrySourceTypeId);
+
+      this.groupMasterForm.controls['balance'].setValue(this.editData.balance);
+      this.groupMasterForm.controls['creditTotal'].setValue(this.editData.creditTotal);
+      this.groupMasterForm.controls['debitTotal'].setValue(this.editData.debitTotal);
+      this.groupMasterForm.controls['state'].setValue(this.editData.state);
+      this.groupMasterForm.controls['description'].setValue(this.editData.description);
 
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
@@ -119,16 +135,35 @@ export class FiEntryDialogComponent implements OnInit {
 
   }
 
-  getJournals() {
+  getJournals(fiscalYear: any) {
     this.api.getJournals()
       .subscribe({
         next: (res) => {
           this.journalsList = res;
+          // console.log("fiscalYear Pass: ", fiscalYear);
+
           console.log("journals res: ", this.journalsList);
+
+          this.journalsList = res.filter((journal: any) => {
+            if (journal.fiscalYearId) {
+              // console.log("journals fiscalYear not null: ", journal);
+
+              return journal.fiscalYearId == fiscalYear;
+
+            }
+            else return false;
+            // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+          });
+
+          // console.log("journals res after filter: ", this.journalsList);
+
+
+          // this.journalsList = res.find((journal: { fiscalYearId: any; }) => journal.fiscalYearId == fiscalYear);
+          // console.log("journals res after filter: ", this.journalsList);
         },
         error: (err) => {
           console.log("fetch journals data err: ", err);
-          alert("خطا اثناء جلب الدفاتر !");
+          // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
@@ -138,11 +173,11 @@ export class FiEntryDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.accountsList = res;
-          console.log("accounts res: ", this.accountsList);
+          // console.log("accounts res: ", this.accountsList);
         },
         error: (err) => {
           console.log("fetch accounts data err: ", err);
-          alert("خطا اثناء جلب الدفاتر !");
+          // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
@@ -152,11 +187,11 @@ export class FiEntryDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.accountItemsList = res;
-          console.log("accountItems res: ", this.accountItemsList);
+          // console.log("accountItems res: ", this.accountItemsList);
         },
         error: (err) => {
           console.log("fetch accountItems data err: ", err);
-          alert("خطا اثناء جلب الدفاتر !");
+          // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
@@ -166,71 +201,120 @@ export class FiEntryDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.sourcesList = res;
-          console.log("sourcesList res: ", this.sourcesList);
+          // console.log("sourcesList res: ", this.sourcesList);
         },
         error: (err) => {
           console.log("fetch sourcesList data err: ", err);
-          alert("خطا اثناء جلب الانواع !");
+          // alert("خطا اثناء جلب الانواع !");
         }
       })
   }
 
+  async getFiscalYears() {
+    this.api.getFiscalYears()
+      .subscribe({
+        next: async (res) => {
+          this.fiscalYearsList = res;
+
+          this.api.getLastFiscalYear()
+            .subscribe({
+              next: async (res) => {
+                // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+                this.defaultFiscalYearSelectValue = await res;
+                console.log("selectedYearggggggggggggggggggg: ", this.defaultFiscalYearSelectValue);
+                if (this.editData) {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+                  this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
+                }
+                else {
+                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
+                  this.fiscalYearValueChanges(this.groupMasterForm.getRawValue().fiscalYearId);
+                  // this.getStrOpenAutoNo();
+                }
+              },
+              error: (err) => {
+                // console.log("fetch store data err: ", err);
+                // alert("خطا اثناء جلب المخازن !");
+              }
+            })
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
+
+  async fiscalYearValueChanges(fiscalyaerId: any) {
+    console.log("fiscalyaer: ", fiscalyaerId)
+    // this.fiscalYearSelectedId = await fiscalyaerId;
+    this.groupMasterForm.controls['fiscalYearId'].setValue(fiscalyaerId);
+    // this.isEdit = false;
+
+    // this.getStrOpenAutoNo();
+    this.getJournals(this.groupMasterForm.getRawValue().fiscalYearId);
+
+  }
+
   getAllDetailsForms() {
 
-    console.log("edddit get all data: ", this.editData)
-    console.log("mastered row get all data: ", this.getMasterRowId)
+    // console.log("edddit get all data: ", this.editData)
+    // console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      this.http.get<any>("http://ims.aswan.gov.eg/api/FIEntryDetails/get/all")
-        .subscribe(res => {
-          console.log("res to get all details form: ", res, "masterRowId: ", this.getMasterRowId.id);
+      this.api.getFiEntryDetails()
+        .subscribe({
+          next: (res) => {
 
-          this.matchedIds = res.filter((a: any) => {
-            // console.log("matchedIds: ", a.entryId == this.getMasterRowId.id, "res: ", this.matchedIds)
-            return a.entryId == this.getMasterRowId.id
-          })
+            this.matchedIds = res.filter((a: any) => {
+              // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+              return a.entryId == this.getMasterRowId.id
+            });
 
-          if (this.matchedIds) {
+            if (this.matchedIds) {
 
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
 
-            this.sumOfCreditTotals = 0;
-            this.sumOfDebitTotals = 0;
-            this.resultOfBalance = 0;
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfCreditTotals = this.sumOfCreditTotals + parseFloat(this.matchedIds[i].credit);
-              this.groupMasterForm.controls['creditTotal'].setValue(this.sumOfCreditTotals);
-              this.sumOfDebitTotals = this.sumOfDebitTotals + parseFloat(this.matchedIds[i].debit);
-              this.groupMasterForm.controls['debitTotal'].setValue(this.sumOfDebitTotals);
+              this.sumOfCreditTotals = 0;
+              this.sumOfDebitTotals = 0;
+              this.resultOfBalance = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfCreditTotals = this.sumOfCreditTotals + parseFloat(this.matchedIds[i].credit);
+                this.groupMasterForm.controls['creditTotal'].setValue(this.sumOfCreditTotals);
+                this.sumOfDebitTotals = this.sumOfDebitTotals + parseFloat(this.matchedIds[i].debit);
+                this.groupMasterForm.controls['debitTotal'].setValue(this.sumOfDebitTotals);
 
-              if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
-                this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
-                this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
+                if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
+                  this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
+                  this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
+                }
+                else {
+                  this.resultOfBalance = this.sumOfDebitTotals - this.sumOfCreditTotals;
+                  this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
+                }
+
+                if (this.resultOfBalance == 0) {
+                  this.groupMasterForm.controls['state'].setValue('مغلق');
+                }
+                else {
+                  this.groupMasterForm.controls['state'].setValue('مفتوح');
+                }
+                this.updateBothForms()
+
               }
-              else {
-                this.resultOfBalance = this.sumOfDebitTotals - this.sumOfCreditTotals;
-                this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
-              }
-
-              if (this.resultOfBalance == 0) {
-                this.groupMasterForm.controls['state'].setValue('مغلق');
-              }
-              else {
-                this.groupMasterForm.controls['state'].setValue('مفتوح');
-              }
-              this.updateBothForms()
 
             }
-          
+
+          },
+          error: (err) => {
+            // alert("حدث خطا ما !!")
+
+
           }
         }
-          , err => {
-            alert("حدث خطا ما !!")
-          }
         )
     }
-
 
   }
 
@@ -245,7 +329,7 @@ export class FiEntryDialogComponent implements OnInit {
     console.log("fiEntry master form: ", this.groupMasterForm.value)
 
     if (this.groupMasterForm.valid) {
-     
+
       console.log("Master add form : ", this.groupMasterForm.value)
       this.api.postFiEntry(this.groupMasterForm.value)
         .subscribe({
@@ -257,18 +341,18 @@ export class FiEntryDialogComponent implements OnInit {
             console.log("mastered res: ", this.getMasterRowId.id)
             this.MasterGroupInfoEntered = true;
 
-            alert("تم الحفظ بنجاح");
+            // alert("تم الحفظ بنجاح");
             this.toastrSuccess();
             this.getAllDetailsForms();
             this.addDetailsInfo();
           },
           error: (err) => {
             console.log("header post err: ", err);
-            alert("حدث خطأ أثناء إضافة مجموعة")
+            // alert("حدث خطأ أثناء إضافة مجموعة")
           }
         })
     }
-  
+
   }
 
   async addDetailsInfo() {
@@ -321,10 +405,10 @@ export class FiEntryDialogComponent implements OnInit {
               this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
             }
 
-            if(this.resultOfBalance == 0){
+            if (this.resultOfBalance == 0) {
               this.groupMasterForm.controls['state'].setValue('مغلق');
             }
-            else{
+            else {
               this.groupMasterForm.controls['state'].setValue('مفتوح');
             }
           }
@@ -336,7 +420,7 @@ export class FiEntryDialogComponent implements OnInit {
 
         console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
 
-        alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
+        // alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
 
         console.log("add details second time, details form: ", this.groupDetailsForm.value)
         console.log("add details second time, get detailed row data: ", !this.getDetailedRowData)
@@ -350,9 +434,9 @@ export class FiEntryDialogComponent implements OnInit {
                   "id": res
                 };
                 console.log("Details res: ", this.getDetailsRowId.id)
-                alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
+                // alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
 
-                alert("تمت إضافة التفاصيل بنجاح");
+                // alert("تمت إضافة التفاصيل بنجاح");
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.getAllDetailsForms();
@@ -410,7 +494,7 @@ export class FiEntryDialogComponent implements OnInit {
             this.api.putFiEntryDetails(this.groupDetailsForm.value)
               .subscribe({
                 next: (res) => {
-                  alert("تم تحديث التفاصيل بنجاح");
+                  // alert("تم تحديث التفاصيل بنجاح");
                   this.toastrSuccess();
                   // console.log("update res: ", res);
                   this.groupDetailsForm.reset();
@@ -419,7 +503,7 @@ export class FiEntryDialogComponent implements OnInit {
                 },
                 error: (err) => {
                   // console.log("update err: ", err)
-                  alert("خطأ أثناء تحديث سجل المجموعة !!")
+                  // alert("خطأ أثناء تحديث سجل المجموعة !!")
                 }
               })
             this.groupDetailsForm.removeControl('id')
@@ -428,7 +512,7 @@ export class FiEntryDialogComponent implements OnInit {
 
         },
         error: () => {
-          alert("خطأ أثناء تحديث سجل الصنف !!")
+          // alert("خطأ أثناء تحديث سجل الصنف !!")
         }
       })
   }
@@ -439,22 +523,13 @@ export class FiEntryDialogComponent implements OnInit {
       this.groupDetailsForm.controls['entryId'].setValue(this.getMasterRowId.id);
       this.updateDetailsForm();
     }
-   
+
   }
 
   editDetailsForm(row: any) {
-
-    // console.log("test edit pass row: ", row)
-    // if (this.editDataDetails || row) {
-    //   this.getDetailedRowData = row;
-
-    //   this.actionBtnDetails = "Update";
-    //   this.groupDetailsForm.controls['entryId'].setValue(this.getDetailedRowData.entryId);
-    //   console.log("test edit form details: ", this.groupDetailsForm.value)
-
-    // }
     this.dialog.open(FiEntryDetailsDialogComponent, {
-      width: '70%',
+      width: '95%',
+      height: '78%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
@@ -487,7 +562,7 @@ export class FiEntryDialogComponent implements OnInit {
 
   getItemByID(id: any) {
     // console.log("row item id: ", id);
-    return fetch(`https://ims.aswan.gov.eg/api/STR_Item/get-Item-by-id/${id}`)
+    return fetch(this.api.getItemById(id))
       .then(response => response.json())
       .then(json => {
         console.log("fetch item name by id res: ", json.name);
@@ -508,80 +583,43 @@ export class FiEntryDialogComponent implements OnInit {
   getAllMasterForms() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
-     
-      this.api.getFiEntry().subscribe({
-        next: (res) => {
-          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        },
-      });
+      this.dialogRef.close('save');
+
+      // this.api.getFiEntry().subscribe({
+      //   next: (res) => {
+      //     // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+      //     this.dataSource = new MatTableDataSource(res);
+      //     this.dataSource.paginator = this.paginator;
+      //     this.dataSource.sort = this.sort;
+      //   },
+      //   error: () => {
+      //     // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      //   },
+      // });
     }
   }
 
-  // getAllMasterForms() {
-  //    let result = window.confirm('هل تريد اغلاق الطلب');
-  //   if (result) {
-  //   this.api.getFiEntry().subscribe({
-  //     next: (res) => {
-  //       console.log('fiEntry from api: ', res);
-  //       this.dataSource2 = new MatTableDataSource(res);
-  //       this.dataSource2.paginator = this.paginator;
-  //       this.dataSource2.sort = this.sort;
-  //     },
-  //     error: () => {
-  //       alert('خطأ أثناء جلب سجلات المدخلات !!');
-  //     },
-  //   });
-  // }
 
   async updateMaster() {
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
 
-
-    this.groupMasterForm.controls['desstoreName'].setValue(
-      this.groupMasterForm.getRawValue().desstoreName
-    );
-
-    this.groupMasterForm.controls['deststoreId'].setValue(
-      this.groupMasterForm.getRawValue().deststoreId
-    );
-    // alert("deststoreId in updateeee: "+ this.groupMasterForm.getRawValue().deststoreId);
-
-    this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-
     console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
-    console.log("edit : ", this.groupDetailsForm.value)
+    // console.log("edit : ", this.groupDetailsForm.value)
     this.api.putFiEntry(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
           this.groupDetailsForm.reset();
-          // this.itemCtrl.setValue('');
-
-          // this.getAllDetailsForms();
           this.getDetailedRowData = '';
-          this.groupDetailsForm.controls['qty'].setValue(1);
-// this.toastrEditSuccess();
-          //   },
-          //   error: (err) => {
-          //     console.log("update err: ", err)
-          //     // alert("خطأ أثناء تحديث سجل المجموعة !!")
-          //   }
-          // })
-          // }
 
         },
 
       })
   }
-  OpenDetailsDialog(){
+  OpenDetailsDialog() {
     this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }])
     this.dialog.open(FiEntryDetailsDialogComponent, {
-      width: '70%',
+      width: '95%',
+      height: '78%'
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();

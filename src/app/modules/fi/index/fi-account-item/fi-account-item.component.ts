@@ -13,9 +13,9 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { FiAccountItemdDialogComponent } from '../fi-account-itemd-dialog/fi-account-itemd-dialog.component';
-export class Account {
-  constructor(public id: number, public name: string, public code: string) {}
-}
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-fi-account-item',
@@ -23,15 +23,12 @@ export class Account {
   styleUrls: ['./fi-account-item.component.css']
 })
 export class FiAccountItemComponent  implements OnInit {
-  accountCtrl: FormControl;
-  filteredAccounts: Observable<Account[]>;
-  accounts: Account[] = [];
-  selectedAccount!: Account;
+  getAccountItemData: any;
   formcontrol = new FormControl('');
   accountItemForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name', 'accounName', 'action'];
+  displayedColumns: string[] = [ 'name', 'accounName','accountItemCategoryName', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -39,25 +36,24 @@ export class FiAccountItemComponent  implements OnInit {
   // commidityDt: any = {
   //   id: 0,
   // };
-  constructor(private dialog: MatDialog, private api: ApiService) {
-    this.accountCtrl = new FormControl();
-    this.filteredAccounts = this.accountCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filterAccounts(value))
-    );
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
+ 
   }
   ngOnInit(): void {
     // console.log(productForm)
 
     this.getAllAccountItem();
-    this.api.getAllAccounts().subscribe((fiAccount) => {
-      this.accounts = fiAccount;
-    });
+    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.openDialog();
+      return false; // Prevent the default browser behavior
+    }));
+ 
   }
   openDialog() {
     this.dialog
       .open(FiAccountItemdDialogComponent, {
-        width: '30%',
+        width: '40%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -67,21 +63,7 @@ export class FiAccountItemComponent  implements OnInit {
       });
   }
 
-  displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
-  }
-  accountSelected(event: MatAutocompleteSelectedEvent): void {
-    const account = event.option.value as Account;
-    this.selectedAccount = account;
-    this.accountItemForm.patchValue({ accountId: account.id });
-    this.accountItemForm.patchValue({ accounName: account.name });
-  }
-  private _filterAccounts(value: string): Account[] {
-    const filterValue = value.toLowerCase();
-    return this.accounts.filter(account =>
-      account.name.toLowerCase().includes(filterValue) || account.code.toLowerCase().includes(filterValue)
-    );
-  }
+ 
 
   getAllAccountItem() {
     this.api.getFiAccountItem().subscribe({
@@ -99,7 +81,7 @@ export class FiAccountItemComponent  implements OnInit {
   editFiAccountItem(row: any) {
     this.dialog
       .open(FiAccountItemdDialogComponent, {
-        width: '30%',
+        width: '40%',
         data: row,
       })
       .afterClosed()
@@ -111,68 +93,33 @@ export class FiAccountItemComponent  implements OnInit {
   }
 
   deleteFiAccountItem(id: number) {
-    var result = confirm('هل ترغب بتاكيد مسح النوعية ؟ ');
-    if (result) {
-      this.api.deleteFiAccountItem(id).subscribe({
-        next: (res) => {
-          alert('تم الحذف بنجاح');
-          this.getAllAccountItem();
-        },
-        error: () => {
-          alert('خطأ فى حذف العنصر');
-        },
-      });
-    }
-  }
-  openAutoFiAccountItem() {
-    this.accountCtrl.setValue(''); // Clear the input field value
-  
-    // Open the autocomplete dropdown by triggering the value change event
-    this.accountCtrl.updateValueAndValidity();
-  }
-  async getSearchAccountItem(name: any) {
-    this.api.getFiAccountItem().subscribe({
+ var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+  if (result) {
+    this.api.deleteFiAccountItem(id)
+    .subscribe({
       next: (res) => {
-        //enter id
-        if (this.selectedAccount && name == '') {
-          console.log('filter ID id: ', this.selectedAccount, 'name: ', name);
+        if(res == 'Succeeded'){
+          console.log("res of deletestore:",res)
+          this.toastrDeleteSuccess();
+                  this.getAllAccountItem();
 
-          this.dataSource = res.filter(
-            (res: any) => res.accountId == this.selectedAccount.id!
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //enter both
-        else if (this.selectedAccount && name != '') {
-          console.log('filter both id: ', this.selectedAccount, 'name: ', name);
 
-          // this.dataSource = res.filter((res: any)=> res.name==name!)
-          this.dataSource = res.filter(
-            (res: any) =>
-              res.accountId == this.selectedAccount.id! &&
-              res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        //enter name
-        else {
-          console.log('filter name id: ', this.selectedAccount, 'name: ', name);
-          // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-          this.dataSource = res.filter((res: any) =>
-            res.name.toLowerCase().includes(name.toLowerCase())
-          );
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
+      }else{
+        alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+      }
       },
-      error: (err) => {
-        alert('Error');
+      error: () => {
+        alert('خطأ فى حذف العنصر'); 
       },
     });
-    // this.getAllProducts()
   }
+  }
+
+ 
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

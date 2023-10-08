@@ -5,7 +5,8 @@ import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, map, startWith } from 'rxjs';
-
+import { HotkeysService } from 'angular2-hotkeys';
+import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
 }
@@ -37,6 +38,7 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
+    private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrEmployeeVacationBalanceDialogComponent>,
     private toastr: ToastrService) {
@@ -66,7 +68,11 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
       balance: ['', Validators.required],
       transactionUserId: ['', Validators.required],
     });
-
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      // Call the deleteGrade() function in the current component
+      this.addEmployeeVacationBalance();
+      return false; // Prevent the default browser behavior
+    }));
     if (this.editData) {
       this.actionBtn = "Update";
       this.groupForm.controls['name'].setValue(this.editData.name);
@@ -174,8 +180,9 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
     this.api.putHrEmployeeVacationBalance(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث اجازة رصيد الموظف بنجاح");
-          this.toastrSuccess();
+          // alert("تم تحديث اجازة رصيد الموظف بنجاح");
+
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -217,5 +224,11 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }

@@ -1,16 +1,22 @@
-<p>hr-incentive-allowance works!</p>
-
-<mat-card-header dir="rtl">
-    <div class="child1 ">
-        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
-
-            <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+<mat-card>
+<div class="page-title" > الحوافز  </div>
+<mat-card-header dir="ltr">
+    <div class="child1 " >
+        <button mat-raised-button class="add" (click)="openDialog()"  dir="ltr" >
+        
+        <span class="ms-2">اضافة</span>   <mat-icon class="me-1">add</mat-icon> 
         </button>
-    </div>
-
-    <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="بحث" #input />
-    </mat-form-field>
+      </div>
+    
+      <div>
+        <input 
+          matInput
+          class="filter-search"
+          (keyup)="applyFilter($event)"
+          placeholder="بحث"
+          #input
+        />
+      </div>
 </mat-card-header>
 
 
@@ -27,41 +33,41 @@
     </header>
 
 
-    <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="rtl">
+    <table matSort mat-table [dataSource]="dataSource"   dir="rtl">
         <!-- no Column -->
         <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>الرقم</th>
+            <th mat-header-cell *matHeaderCellDef >الرقم</th>
             <td mat-cell *matCellDef="let row">{{ row.no }}</td>
         </ng-container>
 
         <!-- employeename Column -->
-        <ng-container matColumnDef="employeename">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> اسم الموظف </th>
+        <ng-container matColumnDef="employeename" >
+            <th  *matHeaderCellDef > اسم الموظف </th>
             <td mat-cell *matCellDef="let row">{{ row.employeename }}</td>
         </ng-container>
 
         <!-- fiscalYearName Column -->
-        <ng-container matColumnDef="fiscalYearName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> السنة المالية </th>
+        <ng-container matColumnDef="fiscalYearName" >
+            <th mat-header-cell *matHeaderCellDef > السنة المالية </th>
             <td mat-cell *matCellDef="let row">{{ row.fiscalYearName }}</td>
         </ng-container>
 
         <!-- date Column -->
         <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> التاريخ </th>
+            <th mat-header-cell *matHeaderCellDef > التاريخ </th>
             <td mat-cell *matCellDef="let row">{{ row.date | date : "shortDate" }}</td>
         </ng-container>
 
         <!-- action Column -->
         <ng-container matColumnDef="action">
-            <th mat-header-cell id="action1" *matHeaderCellDef mat-sort-header> الاجراء </th>
+            <th  id="action1" *matHeaderCellDef style="width: 15%;"> الاجراء </th>
             <td mat-cell *matCellDef="let row">
                 <div id="action2">
-                        <button mat-icon-button id="button1" (click)="editIncentiveAllowance(row)" color="primary">
+                        <button mat-icon-button id="button1" (click)="editIncentiveAllowance(row)" class="editbtn">
                         <mat-icon>edit</mat-icon>
                     </button>
                         <button mat-icon-button id="button2" color="warn" (click)="deleteIncentiveAllowance(row.id)">
-                        <mat-icon>delete</mat-icon>
+                        <mat-icon>delete_forever</mat-icon>
                     </button>
                 </div>
             </td>
@@ -92,3 +98,4 @@
     <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
 </mat-card-footer>
+</mat-card>
