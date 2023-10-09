@@ -39,7 +39,7 @@ export class HrEmployeeQualificationDialogComponent {
   employeeCtrl: FormControl;
   filteredEmployee: Observable<Employee[]>;
   employees: Employee[] = [];
-  selectedEmployee: Employee | undefined;
+  selectedEmployee: Employee | undefined; 
 
   specializationCtrl: FormControl;
   filteredSpecialization: Observable<Specialization[]>;

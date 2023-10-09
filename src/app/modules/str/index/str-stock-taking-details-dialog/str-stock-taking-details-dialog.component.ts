@@ -313,6 +313,7 @@ this.groupDetailsForm.controls['balance'].setValue((parseFloat(this.groupDetails
       .subscribe({
         next: (res) => {
           this.itemsList = res;
+          console.log("itemlist",this.itemsList)
         },
         error: (err) => {
           // console.log("fetch items data err: ", err);
@@ -480,5 +481,3 @@ this.groupDetailsForm.controls['balance'].setValue((parseFloat(this.groupDetails
     this.toastr.success("تم الحفظ بنجاح");
   }
 }
-
-
