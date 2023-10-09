@@ -4,8 +4,13 @@ mat-form-field{
     height: 90%;
     margin-left: 2%;
   }
-
- 
+  
+  form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
   
   .cdk-overlay-pane {
     position: relative!important;
@@ -20,13 +25,16 @@ mat-form-field{
    
     
   }
-
+  
   .close:hover{
     background-color: red;
     color:#ffff;
   }
+  .child1{
+    width: 47%;
+   
+  }
   
-
   .add-h1{
     text-align: center;
     font-family: 'Cairo', sans-serif !important;
@@ -37,8 +45,8 @@ mat-form-field{
     color: aliceblue;
     margin-top: -10px;
     
-}
-.div-btn{
+  }
+  .div-btn{
   margin: auto;
   width: 100%;
   display: flex;
@@ -46,20 +54,20 @@ mat-form-field{
   margin-bottom: 20px;
   margin-top: 0 !important;
   background-color: aquamarine;
-}
+  }
   
   
-.savebtn {
+  .savebtn {
   background-color: var(--bg-primary-color);
   color: aliceblue;
   font-family: 'Cairo', sans-serif !important;
   display: block;
   font-weight: bold;
   font-size: 15px;
- 
   width: 100%;
   padding: 10px 0px;
   height: 50px;
-}
+  }
   
-
+  
+  

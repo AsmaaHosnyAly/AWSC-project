@@ -97,7 +97,9 @@ import { HrAttendanceMachineComponent } from './modules/attendance/index/hr-atte
 import { HrAttendancePermissionComponent } from './modules/attendance/index/hr-attendance-permission/hr-attendance-permission.component';
 import { HrAttendanceMachineWorkPlaceComponent } from './modules/attendance/index/hr-attendance-machine-work-place/hr-attendance-machine-work-place.component';
 import { HrAttendancHomeComponent } from './modules/attendance/index/hr-attendanc-home/hr-attendanc-home.component';
+import { HrEmployeeAttendanceScheduleComponent } from './modules/attendance/index/hr-employee-attendance-schedule/hr-employee-attendance-schedule.component';
 import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/index/hr-employee-attendance-permission/hr-employee-attendance-permission.component';
+import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -348,7 +350,9 @@ const routes: Routes = [
        { path: 'hr-AttendancePermission', component: HrAttendancePermissionComponent },
        { path: 'hr-attendanceMachine', component: HrAttendanceMachineComponent },
        { path: 'hr-attendanceMachineWorkPlace', component: HrAttendanceMachineWorkPlaceComponent },
+       { path: 'hr-employeeAttendanceSchedule', component: HrEmployeeAttendanceScheduleComponent },
        { path: 'hr-EmployeeAttendancePermission', component: HrEmployeeAttendancePermissionComponent },
+       { path: 'hr-EmployeeAttendance', component: HrEmployeeAttendanceComponent },
 
        /*********************End Hr-attendance module  الحضور والانصراف***************************/
           

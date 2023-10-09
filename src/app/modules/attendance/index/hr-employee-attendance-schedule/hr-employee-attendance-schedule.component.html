@@ -1,1 +1,76 @@
-<p>hr-employee-attendance-schedule works!</p>
+<div class="page-title"> المنتجات</div>
+<div class="container"  ><!-- <p>str-product works!</p> -->
+    <div class="container" dir="rtl">
+        <div style="margin-top: 10px;">
+            <mat-card-header dir="ltr">
+                <div class="child1">
+                  <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
+                    <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+                  </button>
+                </div>
+          
+               <div>
+                <input  class="filter-search"
+                matInput
+                (keyup)="applyFilter($event)"
+                placeholder="بحث"
+                #input
+              />
+               </div>
+              </mat-card-header>
+            <div  class="div-table">
+                <table mat-table [dataSource]="dataSource" matSort>
+
+                  
+    
+                    <!-- name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef > جدول حضور الموظف </th>
+                        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                    </ng-container>
+    
+                    <!-- employeeName Column -->
+                    <ng-container matColumnDef="employeeName">
+                        <th mat-header-cell *matHeaderCellDef > الموظف</th>
+                        <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
+                    </ng-container>
+    
+                    <!-- attendanceScheduleName Column -->
+                    <ng-container matColumnDef="attendanceScheduleName">
+                        <th mat-header-cell *matHeaderCellDef > جدول الحضور </th>
+                        <td mat-cell *matCellDef="let row"> {{row.attendanceScheduleName}} </td>
+                    </ng-container>
+    
+                    <!-- attendancePermissionName Column -->
+                    <ng-container matColumnDef="attendancePermissionName">
+                        <th mat-header-cell *matHeaderCellDef> اذن الحضور</th>
+                        <td mat-cell *matCellDef="let row"> {{row.attendancePermissionName}} </td>
+                    </ng-container>
+    
+                    <!-- action Column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef style="width: 15%;"> الاجراء </th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-icon-button class="editbtn"  (click)="editProduct(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="deleteProduct(row.id)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">لا توجد بيانات مطابقة للبحث "{{input.value}}"</td>
+                    </tr>
+                </table>
+    
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" showFirstLastButtons aria-label="Select page of users"></mat-paginator>
+            </div>
+    
+        </div>
+    </div></div>

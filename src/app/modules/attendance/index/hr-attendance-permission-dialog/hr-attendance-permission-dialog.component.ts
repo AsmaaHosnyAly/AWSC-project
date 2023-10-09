@@ -18,7 +18,7 @@ import { Hotkey } from 'angular2-hotkeys';
 export class HrAttendancePermissionDialogComponent {
 
   formcontrol = new FormControl('');  
-  HrcityForm !:FormGroup;
+  HrAttendancePermissionForm!:FormGroup;
   actionBtn : string = "حفظ";
 
   // groupEditId: any;
@@ -32,7 +32,7 @@ export class HrAttendancePermissionDialogComponent {
      private dialogRef : MatDialogRef<HrAttendancePermissionDialogComponent>){
      }
   ngOnInit(): void {
-    this.HrcityForm = this.formBuilder.group({
+    this.HrAttendancePermissionForm  = this.formBuilder.group({
       transactionUserId : ['1',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
@@ -45,24 +45,24 @@ export class HrAttendancePermissionDialogComponent {
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
-      this.HrcityForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-      this.HrcityForm.controls['name'].setValue(this.editData.name);
+      this.HrAttendancePermissionForm .controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.HrAttendancePermissionForm .controls['name'].setValue(this.editData.name);
       // this.unitsForm.controls['id'].setValue(this.editData.id);
-      this.HrcityForm.addControl('id', new FormControl('', Validators.required));
-      this.HrcityForm.controls['id'].setValue(this.editData.id);
+      this.HrAttendancePermissionForm.addControl('id', new FormControl('', Validators.required));
+      this.HrAttendancePermissionForm.controls['id'].setValue(this.editData.id);
     }
   }
 
   addHrAttendancePermission(){
     if(!this.editData){
-      this.HrcityForm.removeControl('id')
-      if(this.HrcityForm.valid){
-        this.api.postHrAttendancePermission(this.HrcityForm.value)
+      this.HrAttendancePermissionForm.removeControl('id')
+      if(this.HrAttendancePermissionForm.valid){
+        this.api.postHrAttendancePermission(this.HrAttendancePermissionForm .value)
         .subscribe({
           next:(res)=>{
             // alert("تمت الاضافة بنجاح");
             this.toastrSuccess();
-            this.HrcityForm.reset();
+            this.HrAttendancePermissionForm .reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -76,12 +76,12 @@ export class HrAttendancePermissionDialogComponent {
     }
   }
   updateHrCities(){
-      this.api.putHrAttendancePermission(this.HrcityForm.value)
+      this.api.putHrAttendancePermission(this.HrAttendancePermissionForm .value)
       .subscribe({
         next:(res)=>{
           // alert("تم التحديث بنجاح");
           this.toastrEditSuccess();
-          this.HrcityForm.reset();
+          this.HrAttendancePermissionForm .reset();
           this.dialogRef.close('update');
         },
         error:()=>{

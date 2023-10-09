@@ -179,7 +179,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '82%'
+        height: '100%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -329,7 +329,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '82%',
+        height: '100%',
         data: row,
       })
       .afterClosed()
