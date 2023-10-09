@@ -32,7 +32,32 @@ export class ApiService {
       `${this.url}/STRUnit/delete/${id}`
     );
   }
+  /************Hr-Employee-attendence-permission crud*******************/
 
+  postHrEmployeeAttendancePermission(data: any) {
+    return this.http.post<any>(`${this.url}/HrEmployeeAttendancePermission/Add`, data);
+  }
+ 
+  getHrEmployeeAttendancePermission() {
+    return this.http.get<any>(`${this.url}/HrEmployeeAttendancePermission/get/all`);
+  }
+  putHrEmployeeAttendancePermission(data: any) {
+    return this.http.put<any>(
+      `${this.url}/HrEmployeeAttendancePermission/update`,
+      data
+    );
+  }
+  deleteHrEmployeeAttendancePermission(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/HrEmployeeAttendancePermission/delete/${id}`
+    );
+  }
+  getEmployees() {
+    return this.http.get<any>(`${this.url}/HREmployee/get/all`);
+  }
+  getAttendancePermission() {
+    return this.http.get<any>(`${this.url}/HrAttendancePermission/get/all`);
+  }
 
   ///////////////////////////////// HR-AttendanceMachine /////////////////////////////
   postHrAttendanceMachine(data: any) {
