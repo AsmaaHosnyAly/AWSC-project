@@ -1331,12 +1331,12 @@ export class ApiService {
   }
   getStrWithdrawDetails() {
     return this.http.get<any>(
-      `${this.url}/STRWithdrawDetails/get/all`
+      `${this.url}/api/STRWithdraw/get/{id}`
     );
   }
   getStrWithdrawDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STRWithdraw/GetallSTRWithDrawDetailsGetByWithDrawId/${id}`
+      `${this.url}/STRWithdrawDetails/get/${id}`
     );
   }
   putStrWithdrawDetails(data: any) {
@@ -1616,8 +1616,13 @@ export class ApiService {
 
   getStrStockTakingDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/StrStockTakingDetails/get/${id}`)
+      `${this.url}/StrStockTaking/get/StockTakingid/${id}`)
 
+  }
+
+  getStrAddDetailsByMasterId(id:any){
+    return this.http.get<any>(
+      `${this.url}/STRAdd/GeTAddDetailsByid/${id}`)
   }
 
   postStrStockTaking(data: any) {
