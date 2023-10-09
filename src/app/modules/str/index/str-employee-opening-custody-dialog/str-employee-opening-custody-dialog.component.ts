@@ -147,6 +147,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     this.getFiscalYears();
     this.getEmployees();
     this.getStrEmployeeOpenAutoNo();
+    this.getAllDetailsForms()
     // this.getCostCenters();
     // this.getPrice(); 
     let dateNow: Date = new Date()
@@ -416,6 +417,13 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
   //       // alert("خطا اثناء جلب رقم العنصر !");
   //     });
   // }
+  closeDialog() {
+    // let result = window.confirm('هل تريد اغلاق الطلب');
+    // if (result) {
+
+    this.dialogRef.close('Save');
+    // }
+  }
   getAllDetailsForms() {
 
     console.log("mastered row get all data: ", this.getMasterRowId)
