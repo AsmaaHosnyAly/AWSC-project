@@ -55,7 +55,26 @@ export class ApiService {
   getEmployees() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
   }
-  
+   /************Hr-Employee-attendence- crud*******************/
+
+   postHrEmployeeAttendance(data: any) {
+    return this.http.post<any>(`${this.url}/Add`, data);
+  }
+ 
+  getHrEmployeeAttendance() {
+    return this.http.get<any>(`${this.url}/get/all`);
+  }
+  putHrEmployeeAttendance(data: any) {
+    return this.http.put<any>(
+      `${this.url}/update`,
+      data
+    );
+  }
+  deleteHrEmployeeAttendance(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/delete/${id}`
+    );
+  }
 
   ///////////////////////////////// HR-AttendanceMachine /////////////////////////////
   postHrAttendanceMachine(data: any) {
