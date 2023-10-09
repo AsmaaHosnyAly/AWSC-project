@@ -90,4 +90,26 @@ export class ApiService {
   getHrWorkPlace() {
     return this.http.get<any>(`${this.url}/HrWorkPlace/get/all`);
   }
+
+
+  ///////////////////////////////// Hr-EmployeeAttendanceSchedule /////////////////////////////
+  postHrEmployeeAttendanceSchedule(data: any) {
+    return this.http.post<any>(`${this.url}/HrEmployeeAttendanceSchedule/Add`, data);
+  }
+  getHrEmployeeAttendanceSchedule() {
+    return this.http.get<any>(`${this.url}/HrEmployeeAttendanceSchedule/get/all`);
+  }
+  putHrEmployeeAttendanceSchedule(data: any) {
+    return this.http.put<any>(`${this.url}/HrEmployeeAttendanceSchedule/update`, data);
+  }
+  deleteHrEmployeeAttendanceSchedule(id: number) {
+    return this.http.delete<any>(`${this.url}/HrEmployeeAttendanceSchedule/delete/` + id);
+  }
+  getAllEmployees() {
+    return this.http.get<any>(`${this.url}/HREmployee/get/all`);
+  }
+  getAllAttendanceSchedules() {
+    return this.http.get<any>(`${this.url}/HrAttendanceSchedule/get/all`);
+  }
 }
+
