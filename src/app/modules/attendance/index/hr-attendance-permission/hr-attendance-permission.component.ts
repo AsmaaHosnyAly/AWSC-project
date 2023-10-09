@@ -26,7 +26,7 @@ export class HrAttendancePermissionComponent {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog,private hotkeysService: HotkeysService, private api : ApiService,private toastr: ToastrService){}
   ngOnInit(): void {
-    this.getHrCities();
+    this.getHrAttendancePermission();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openDialog();
@@ -38,11 +38,11 @@ export class HrAttendancePermissionComponent {
       width: '30%'
     }).afterClosed().subscribe(val=>{
       if(val === 'save'){
-        this.getHrCities();
+        this.getHrAttendancePermission();
       }
     })
   }
-  getHrCities(){
+  getHrAttendancePermission(){
     this.api.getHrAttendancePermission()
     .subscribe({
       next:(res)=>{
@@ -62,7 +62,7 @@ export class HrAttendancePermissionComponent {
       data:row
     }).afterClosed().subscribe(val=>{
       if(val === 'update'){
-        this.getHrCities();
+        this.getHrAttendancePermission();
       }
     })
   }
@@ -76,7 +76,7 @@ export class HrAttendancePermissionComponent {
             console.log("res of deletestore:",res)
           // alert('تم الحذف بنجاح');
           this.toastrDeleteSuccess();
-          this.getHrCities();
+          this.getHrAttendancePermission();
   
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
