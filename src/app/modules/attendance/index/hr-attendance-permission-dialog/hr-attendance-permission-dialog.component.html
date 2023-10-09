@@ -3,9 +3,9 @@
     <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
   </div>
   <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل اذن حضور   ' : ' إضافة اذن حضور'}}</h1> 
-  <form [formGroup]="HrcityForm" dir="rtl">    
+  <form [formGroup]="HrAttendancePermissionForm" dir="rtl">    
       <div mat-dialog-content>
-        <form [formGroup]="HrcityForm">
+        <form [formGroup]="HrAttendancePermissionForm">
       
           <mat-form-field appearance="outline">
             <mat-label> اذن الحضور</mat-label>
