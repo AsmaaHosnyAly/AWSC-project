@@ -663,6 +663,14 @@
           </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
+          <a
+            mat-list-item
+            class="sideNavSubItems"
+            routerLink="/hr-employeeAttendanceSchedule"
+            *ngIf="hasAccessRole(pageEnums.PR_USER)"
+          >
+            <p class="font">جدول حضور الموظفين</p>
+          </a>
        
         <a
           mat-list-item
