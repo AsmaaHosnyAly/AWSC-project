@@ -448,10 +448,10 @@ export class StrWithdrawDetailsDialogComponent {
             
             next: (res) => {
               // this.itemsList = res;
-              this.matchedIds = res[0].strWithdrawDetailsGetVM;
+              this.matchedIds = res[0].strWithDrawDetailsGetVM;
 
               if (this.matchedIds) {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithdrawDetailsGetVM);
+                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
                 this.dataSource = new MatTableDataSource(this.matchedIds);
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;

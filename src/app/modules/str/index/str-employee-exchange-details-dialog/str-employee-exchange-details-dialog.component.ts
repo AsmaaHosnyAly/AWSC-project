@@ -340,11 +340,11 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
 
   closeDialog() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
+    // let result = window.confirm('هل تريد اغلاق الطلب');
+    // if (result) {
 
       this.dialogRef.close('Save');
-    }
+    // }
   }
   getCodeByItem(item: any) {
     console.log("item by code: ", item, "code: ", this.itemsList);
@@ -378,14 +378,14 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
     if (this.getMasterRowId.id) {
 
-      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+      this.api.getStrEmployeeExchangeDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
-            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+            this.matchedIds = res[0].strEmployeeExchangeDetailsGetVM;
 
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strEmployeeExchangeDetailsGetVM);
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;

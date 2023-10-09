@@ -1139,7 +1139,7 @@ export class ApiService {
   }
   getStrEmployeeExchangeDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STREmployeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`
+      `${this.url}/STREmployeeExchangeDetails/get/${id}`
     );
   }
   putStrEmployeeExchangeDetails(data: any) {
@@ -1281,7 +1281,7 @@ export class ApiService {
   }
   getStrEmployeeOpenDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
+      `${this.url}/STREmployeeOpeningCustodyDetails/get/${id}`
     );
   }
   putStEmp(data: any) {
@@ -1336,7 +1336,7 @@ export class ApiService {
   }
   getStrWithdrawDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STRWithdrawDetails/get/${id}`
+      `${this.url}/STRWithdrawDetails/WithDraw/${id}`
     );
   }
   putStrWithdrawDetails(data: any) {

@@ -355,34 +355,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
   getAllDetailsForms() {
     if (this.getMasterRowId) {
-      // this.http.get<any>("http://ims.aswan.gov.eg/api/STREmployeeExchangeDetails/get/all")
-      //   .subscribe(res => {
-
-      //     this.matchedIds = res.filter((a: any) => {
-      //       return a.employee_ExchangeId == this.getMasterRowId.id
-      //     })
-
-      //     if (this.matchedIds) {
-
-      //       this.dataSource = new MatTableDataSource(this.matchedIds);
-      //       this.dataSource.paginator = this.paginator;
-      //       this.dataSource.sort = this.sort;
-
-      //       this.sumOfTotals = 0;
-      //       for (let i = 0; i < this.matchedIds.length; i++) {
-      //         alert("sumOfTTTotals: "+this.sumOfTotals);
-      //         this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-      //         this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-      //         this.updateBothForms();
-      //       }
-
-      //     }
-      //   }
-      //     , err => {
-      //       // alert("حدث خطا ما !!")
-      //     }
-      //   )
-
+    
       this.api.getStrEmployeeExchangeDetailsByMasterId(this.getMasterRowId.id)
       .subscribe({
         next: (res) => {
@@ -421,42 +394,11 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
   async updateMaster() {
     console.log("nnnvvvvvvvvvv: ", this.groupMasterForm.value);
-    
-    // if (this.getMasterRowId.id) {
-    //   if (this.getMasterRowId.id) {
-
-    //     if (this.groupDetailsForm.getRawValue().itemId) {
-
-    // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-    // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+ 
     this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
     // }
 
-    // this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId.id);
-    // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
-    // console.log("post d: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
 
-    // if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
-
-    //   this.api.postStrOpenDetails(this.groupDetailsForm.value)
-    //     .subscribe({
-    //       next: (res) => {
-    //         this.toastrSuccess();
-    //         this.groupDetailsForm.reset();
-    //         this.groupDetailsForm.controls['qty'].setValue(1);
-    //         this.itemCtrl.setValue('');
-    //         this.itemByFullCodeValue = '';
-    //         this.fullCodeValue = '';
-
-    //         this.updateDetailsForm()
-    //         this.getAllDetailsForms();
-    //       },
-    //       error: () => {
-    //         // alert("حدث خطأ أثناء إضافة مجموعة")
-    //       }
-    //     })
-    // } 
-    // else {
     console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
     console.log("edit : ", this.groupDetailsForm.value)
     this.api.putStrEmployeeExchange(this.groupMasterForm.value)
@@ -473,9 +415,12 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
           // this.itemCtrl.setValue('');
 
           // this.getAllDetailsForms();
+          
+          this.groupDetailsForm.controls['qty'].setValue(1);
+          this.groupDetailsForm.reset();
+    
           this.getDetailedRowData = '';
           this.groupDetailsForm.controls['qty'].setValue(1);
-
           //   },
           //   error: (err) => {
           //     console.log("update err: ", err)
