@@ -9,7 +9,15 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-
+export class Employee {
+  constructor(public id: number, public name: string) {}
+}
+export class Position {
+  constructor(public id: number, public name: string) {}
+}
+export class WorkPlace {
+  constructor(public id: number, public name: string) {}
+}
 @Component({
   selector: 'app-hr-employee-position-dialog',
   templateUrl: './hr-employee-position-dialog.component.html',
@@ -19,10 +27,22 @@ export class HrEmployeePositionDialogComponent implements OnInit {
   formcontrol = new FormControl('');
   HrEmployeePosition !: FormGroup;
   actionBtn: string = "حفظ";
+  getEmployeeData: any;
 
-  hrEmployeesList: any;
-  hrPositionsList: any;
-  hrWorkPlacesList: any;
+  employeeCtrl: FormControl;
+  filteredEmployee: Observable<Employee[]>;
+  employees: Employee[] = [];
+  selectedEmployee: Employee | undefined;
+
+  positionCtrl: FormControl;
+  filteredPosition: Observable<Position[]>;
+  positions: Position[] = [];
+  selectedPosition: Position | undefined;
+
+  workPlaceCtrl: FormControl;
+  filteredWorkPlace: Observable<WorkPlace[]>;
+  workPlaces: WorkPlace[] = [];
+  selectedWorkPlace: WorkPlace | undefined;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -31,12 +51,24 @@ export class HrEmployeePositionDialogComponent implements OnInit {
     private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrEmployeePositionDialogComponent>) {
-  }
-  ngOnInit(): void {
-    this.getHrEmployees();
-    this.getHrPositions();
-    this.getHrWorkPlaces();
+      this.employeeCtrl = new FormControl();
+      this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterEmployee(value))
+      );
 
+      this.positionCtrl = new FormControl();
+      this.filteredPosition = this.positionCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterPosition(value))
+      );
+      this.workPlaceCtrl = new FormControl();
+      this.filteredWorkPlace = this.workPlaceCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterWorkPlace(value))
+      );
+  }
+  ngOnInit(): void {  
     this.HrEmployeePosition = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       date: ['', Validators.required],
@@ -45,6 +77,17 @@ export class HrEmployeePositionDialogComponent implements OnInit {
       workPlaceId: ['', Validators.required],
       // id: ['', Validators.required],
     });
+
+    this.api.getEmployees().subscribe((employee)=>{
+      this.employees = employee;
+    });
+    this.api.getHrPosition().subscribe((position)=>{
+      this.positions = position;
+    });
+    this.api.getHrWorkPlace().subscribe((workPlace)=>{
+      this.workPlaces = workPlace;
+    });
+
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addHrEmployeePosition();
@@ -53,6 +96,7 @@ export class HrEmployeePositionDialogComponent implements OnInit {
     if (this.editData) {
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
+      this.getEmployeeData = this.editData;
       this.HrEmployeePosition.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.HrEmployeePosition.controls['date'].setValue(this.editData.date);
       this.HrEmployeePosition.controls['employeeId'].setValue(this.editData.employeeId);
@@ -103,46 +147,84 @@ export class HrEmployeePositionDialogComponent implements OnInit {
       })
   }
 
-  getHrEmployees() {
-    this.api.getHrEmployees()
-      .subscribe({
-        next: (res) => {
-          this.hrEmployeesList = res;
-        },
-        error: (err) => {
-          // this.toastrWarning();
-          // alert("خطأ عند استدعاء البيانات");
-        }
 
-      })
+
+  
+  displayEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
   }
 
-  getHrPositions() {
-    this.api.getHrPosition()
-      .subscribe({
-        next: (res) => {
-          this.hrPositionsList = res;
-        },
-        error: (err) => {
-          // this.toastrWarning();
-          // alert("خطأ عند استدعاء البيانات");
-        }
-
-      })
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    this.selectedEmployee = employee;
+    this.HrEmployeePosition.patchValue({ employeeId: employee.id });
+    this.HrEmployeePosition.patchValue({ employeeName: employee.name });
   }
 
-  getHrWorkPlaces() {
-    this.api.getHrWorkPlace()
-      .subscribe({
-        next: (res) => {
-          this.hrWorkPlacesList = res;
-        },
-        error: (err) => {
-          // this.toastrWarning();
-          // alert("خطأ عند استدعاء البيانات");
-        }
+  private _filterEmployee(value: string): Employee[] {
+    const filterValue = value.toLowerCase();
+    return this.employees.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue) 
+    );
+  }
 
-      })
+  openAutoemployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.employeeCtrl.updateValueAndValidity();
+  }
+
+    
+  displayPositionName(position: any): string {
+    return position && position.name ? position.name : '';
+  }
+
+  positionSelected(event: MatAutocompleteSelectedEvent): void {
+    const position = event.option.value as Position;
+    this.selectedPosition = position;
+    this.HrEmployeePosition.patchValue({ positionId: position.id });
+    this.HrEmployeePosition.patchValue({ positionName: position.name });
+  }
+
+  private _filterPosition(value: string): Position[] {
+    const filterValue = value.toLowerCase();
+    return this.positions.filter(position =>
+      position.name.toLowerCase().includes(filterValue) 
+    );
+  }
+
+  openAutoPosition() {
+    this.positionCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.positionCtrl.updateValueAndValidity();
+  }
+
+
+  displayWorkPlaceName(workPlace: any): string {
+    return workPlace && workPlace.name ? workPlace.name : '';
+  }
+
+  workPlaceSelected(event: MatAutocompleteSelectedEvent): void {
+    const workPlace = event.option.value as WorkPlace;
+    this.selectedWorkPlace = workPlace;
+    this.HrEmployeePosition.patchValue({ workPlaceId: workPlace.id });
+    this.HrEmployeePosition.patchValue({ workPlaceName: workPlace.name });
+  }
+
+  private _filterWorkPlace(value: string): WorkPlace[] {
+    const filterValue = value.toLowerCase();
+    return this.workPlaces.filter(workPlace =>
+      workPlace.name.toLowerCase().includes(filterValue) 
+    );
+  }
+
+  openAutoWorkPlace() {
+    this.workPlaceCtrl.setValue(''); // Clear the input field value
+  
+    // Open the autocomplete dropdown by triggering the value change event
+    this.workPlaceCtrl.updateValueAndValidity();
   }
 
   toastrSuccess(): void {

@@ -1,4 +1,7 @@
 export enum PagesEnums {
+  URL='http://ims.aswan.gov.eg/api',
+  // URL = 'http://192.168.1.23/api',
+  
   /*************MODULES***************/
   STORES=1,
   ROLES=2,

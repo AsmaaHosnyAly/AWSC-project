@@ -16,18 +16,18 @@ export class jobTitle {
   constructor(public id: number, public name: string, public code: string) { }
 }
 export class position {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string) { }
 }
 export class hiringType {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string) { }
 }
 
 export class qualification {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string) { }
 }
 
 export class qualificationLevel {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string) { }
 }
 
 
@@ -306,7 +306,7 @@ export class HrEmployeeDialogComponent implements OnInit {
   private _filterpositions(value: string): position[] {
     const filterValue = value;
     return this.positionsList.filter(position =>
-      position.name.toLowerCase().includes(filterValue) || position.code.toLowerCase().includes(filterValue)
+      position.name.toLowerCase().includes(filterValue) 
     );
   }
   openAutoposition() {
@@ -353,7 +353,7 @@ export class HrEmployeeDialogComponent implements OnInit {
   private _filterhiringTypes(value: string): hiringType[] {
     const filterValue = value;
     return this.hiringTypesList.filter(hiringType =>
-      hiringType.name.toLowerCase().includes(filterValue) || hiringType.code.toLowerCase().includes(filterValue)
+      hiringType.name.toLowerCase().includes(filterValue)
     );
   }
   openAutohiringType() {
@@ -378,7 +378,7 @@ export class HrEmployeeDialogComponent implements OnInit {
   private _filterqualifications(value: string): qualification[] {
     const filterValue = value;
     return this.qualificationsList.filter(qualification =>
-      qualification.name.toLowerCase().includes(filterValue) || qualification.code.toLowerCase().includes(filterValue)
+      qualification.name.toLowerCase().includes(filterValue) 
     );
   }
   openAutoqualification() {
@@ -403,7 +403,7 @@ export class HrEmployeeDialogComponent implements OnInit {
   private _filterqualificationLevels(value: string): qualificationLevel[] {
     const filterValue = value;
     return this.qualificationLevelsList.filter(qualificationLevel =>
-      qualificationLevel.name.toLowerCase().includes(filterValue) || qualificationLevel.code.toLowerCase().includes(filterValue)
+      qualificationLevel.name.toLowerCase().includes(filterValue) 
     );
   }
   openAutoqualificationLevel() {
@@ -726,5 +726,3 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.toastr.success("تم الحفظ بنجاح");
   }
 }
-
-

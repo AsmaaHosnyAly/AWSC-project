@@ -5,10 +5,11 @@
   <form [formGroup]="EmployeeQualificationForm" dir="rtl">
       <div mat-dialog-content>
         <form [formGroup]="EmployeeQualificationForm">
+          <div class="child1">
           <mat-label>الموظف</mat-label>
           <mat-form-field appearance="outline">
-            <input matInput aria-label="city" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-              placeholder="{{getEmployeeData ? getEmployeeData.employeeName : ''}}" (click)="openAutoemployee()" required />
+            <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+              placeholder="{{getEmployeeQualificationData ? getEmployeeQualificationData.employeeName : ''}}" (click)="openAutoemployee()" required />
             <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
               (optionSelected)="employeeSelected($event)">
               <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
@@ -16,10 +17,13 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+        <div class="child1">
           <mat-label>التخصص</mat-label>
+
           <mat-form-field appearance="outline">
-            <input matInput aria-label="city" [matAutocomplete]="autoSpecialization" [formControl]="employeeCtrl"
-              placeholder="{{getSpecializationData ? getSpecializationData.specializationName : ''}}" (click)="openAutoSpecialization()" required />
+            <input matInput aria-label="specialization" [matAutocomplete]="autoSpecialization" [formControl]="specializationCtrl"
+              placeholder="{{getEmployeeQualificationData ? getEmployeeQualificationData.specializationName : ''}}" (click)="openAutoSpecialization()" required />
             <mat-autocomplete #autoSpecialization="matAutocomplete" [displayWith]="displaySpecializationName"
               (optionSelected)="specializationSelected($event)">
               <mat-option *ngFor="let specialization of filteredSpecialization | async" [value]="specialization">
@@ -27,10 +31,12 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+        <div class="child1">
           <mat-label>المؤهل</mat-label>
           <mat-form-field appearance="outline">
-            <input matInput aria-label="city" [matAutocomplete]="autoQualification" [formControl]="qualificationCtrl"
-              placeholder="{{getQualificationData ? getQualificationData.qualificationName : ''}}" (click)="openAutoQualification()" required />
+            <input matInput aria-label="qualification" [matAutocomplete]="autoQualification" [formControl]="qualificationCtrl"
+              placeholder="{{getEmployeeQualificationData ? getEmployeeQualificationData.qualificationName : ''}}" (click)="openAutoQualification()" required />
             <mat-autocomplete #autoQualification="matAutocomplete" [displayWith]="displayQualificationName"
               (optionSelected)="qualificationSelected($event)">
               <mat-option *ngFor="let qualification of filteredQualification | async" [value]="qualification">
@@ -38,10 +44,12 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+        <div class="child1">
           <mat-label>مستوى المؤهل</mat-label>
           <mat-form-field appearance="outline">
-            <input matInput aria-label="city" [matAutocomplete]="autoQualificationLevel" [formControl]="qualificationLevelCtrl"
-              placeholder="{{getQualificationLevelData ? getQualificationLevelData.qualificationLeveName : ''}}" (click)="openAutoQualificationLevel()" required />
+            <input matInput aria-label="qualificationLevel" [matAutocomplete]="autoQualificationLevel" [formControl]="qualificationLevelCtrl"
+              placeholder="{{getEmployeeQualificationData ? getEmployeeQualificationData.qualificationLeveName : ''}}" (click)="openAutoQualificationLevel()" required />
             <mat-autocomplete #autoQualificationLevel="matAutocomplete" [displayWith]="displayQualificationLevelName"
               (optionSelected)="qualificationLevelSelected($event)">
               <mat-option *ngFor="let qualificationLevel of filteredQualificationLevel | async" [value]="qualificationLevel">
@@ -49,7 +57,8 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-
+        </div>
+        <div class="child1">
           <mat-form-field appearance="outline" class="example-full-width">
             <mat-label>التاريخ</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="date">
@@ -58,15 +67,18 @@
             </mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-
+        </div>
+        <div class="child1">
         <div class="text-center" style="margin-bottom: 10px;">
             <input class="form-control" type="file" >
         </div>
+      </div>
 
         </form>
+        <div mat-dialog-actions>
+          <button mat-raised-button class="savebtn" (click)="addEmployeeQualification()" style="margin-left: 8px;">{{actionBtn}}</button>
+        </div>
       </div>
-      <div mat-dialog-actions>
-        <button mat-raised-button class="savebtn" (click)="addEmployeeQualification()" style="margin-left: 8px;">{{actionBtn}}</button>
-      </div>
+    
     </form>
   

@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
@@ -54,7 +55,8 @@ vendorName: any;
     private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
-    private dialogRef : MatDialogRef<StrModelDailogComponent>){
+    private dialogRef : MatDialogRef<StrModelDailogComponent>,
+    private toastr: ToastrService) {
       this.vendorCtrl = new FormControl();
       this.filteredVendores = this.vendorCtrl.valueChanges.pipe(
         startWith(''),
@@ -153,12 +155,12 @@ vendorName: any;
         this.api.postModel(this.modelForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            this.toastrSuccess();
             this.modelForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
-            alert("خطأ عند اضافة البيانات") 
+            this.toastrErrorSave();
           }
         })
       }
@@ -175,16 +177,30 @@ vendorName: any;
         this.api.putModel(this.modelForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تم التحديث بنجاح");
+            this.toastrEdit();
             this.modelForm.reset();
             this.dialogRef.close('update');
           },
           error:()=>{
-            alert("خطأ عند تحديث البيانات");
+            this.toastrErrorEdit();
           }
         })
       }
-  
+      toastrSuccess(): void {
+        this.toastr.success('تم الحفظ بنجاح');
+      }
+    
+      toastrEdit(): void {
+        this.toastr.success('تم التحديث بنجاح');
+      }
+    
+      toastrErrorSave(): void {
+        this.toastr.error('!خطأ عند حفظ البيانات');
+      }
+    
+      toastrErrorEdit(): void {
+        this.toastr.error('!خطأ عند تحديث البيانات');
+      }
   }
   
 

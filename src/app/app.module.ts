@@ -190,6 +190,16 @@ import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualificati
 import { HrQualificationLevelDialogComponent } from './modules/hr/index/hr-qualification-level-dialog/hr-qualification-level-dialog.component';
 import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
 import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-employee-qualification-dialog/hr-employee-qualification-dialog.component';
+import { HrAttendanceMachineComponent } from './modules/attendance/index/hr-attendance-machine/hr-attendance-machine.component';
+import { HrAttendanceMachineDialogComponent } from './modules/attendance/index/hr-attendance-machine-dialog/hr-attendance-machine-dialog.component';
+import { HrAttendancePermissionComponent } from './modules/attendance/index/hr-attendance-permission/hr-attendance-permission.component';
+import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
+import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/index/hr-employee-attendance-permission/hr-employee-attendance-permission.component';
+import { HrEmployeeAttendanceScheduleComponent } from './modules/attendance/index/hr-employee-attendance-schedule/hr-employee-attendance-schedule.component';
+import { HrAttendancePermissionDialogComponent } from './modules/attendance/index/hr-attendance-permission-dialog/hr-attendance-permission-dialog.component';
+import { HrAttendanceMachineWorkPlaceComponent } from './modules/attendance/index/hr-attendance-machine-work-place/hr-attendance-machine-work-place.component';
+import { HrAttendanceMachineWorkPlaceDialogComponent } from './modules/attendance/index/hr-attendance-machine-work-place-dialog/hr-attendance-machine-work-place-dialog.component';
+import { HrAttendancHomeComponent } from './modules/attendance/index/hr-attendanc-home/hr-attendanc-home.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -358,6 +368,16 @@ import { HrEmployeeQualificationDialogComponent } from './modules/hr/index/hr-em
     HrQualificationLevelDialogComponent,
     HrEmployeeQualificationComponent,
     HrEmployeeQualificationDialogComponent,
+    HrAttendanceMachineDialogComponent,
+    HrAttendanceMachineComponent,
+    HrAttendancePermissionComponent,
+    HrAttendanceScheduleComponent,
+    HrEmployeeAttendancePermissionComponent,
+    HrEmployeeAttendanceScheduleComponent,
+    HrAttendancePermissionDialogComponent,
+    HrAttendanceMachineWorkPlaceComponent,
+    HrAttendanceMachineWorkPlaceDialogComponent,
+    HrAttendancHomeComponent,
 
    
   ],

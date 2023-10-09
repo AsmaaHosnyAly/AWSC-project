@@ -8,6 +8,7 @@ import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-str-units-dialog',
   templateUrl: './str-units-dialog.component.html',
@@ -26,7 +27,8 @@ export class STRUnitsDialogComponent {
      private hotkeysService: HotkeysService,
      private readonly route:ActivatedRoute,
      @Inject(MAT_DIALOG_DATA) public editData : any,
-     private dialogRef : MatDialogRef<STRUnitsDialogComponent>){
+     private dialogRef : MatDialogRef<STRUnitsDialogComponent>,
+     private toastr: ToastrService){
      }
   ngOnInit(): void {
     this.getExistingNames(); // Fetch existing names
@@ -84,12 +86,12 @@ export class STRUnitsDialogComponent {
         this.api.postunit(this.unitsForm.value)
         .subscribe({
           next:(res)=>{
-            alert("تمت الاضافة بنجاح");
+            this.toastrSuccess();
             this.unitsForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
-            alert("خطأ عند اضافة البيانات") 
+            this.toastrErrorSave();  
             console.log(err)
           }
         })
@@ -102,14 +104,28 @@ export class STRUnitsDialogComponent {
       this.api.putunit(this.unitsForm.value)
       .subscribe({
         next:(res)=>{
-          alert("تم التحديث بنجاح");
+          this.toastrEdit();
           this.unitsForm.reset();
           this.dialogRef.close('update');
         },
         error:()=>{
-          alert("خطأ عند تحديث البيانات");
+          this.toastrErrorEdit();
         }
       })
     }
-
+    toastrSuccess(): void {
+      this.toastr.success('تم الحفظ بنجاح');
+    }
+  
+    toastrEdit(): void {
+      this.toastr.success('تم التحديث بنجاح');
+    }
+  
+    toastrErrorSave(): void {
+      this.toastr.error('!خطأ عند حفظ البيانات');
+    }
+  
+    toastrErrorEdit(): void {
+      this.toastr.error('!خطأ عند تحديث البيانات');
+    }
 }

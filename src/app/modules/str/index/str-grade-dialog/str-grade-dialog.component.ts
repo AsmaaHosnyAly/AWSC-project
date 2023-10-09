@@ -18,6 +18,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 export class Commodity {
   constructor(public id: number, public name: string, public code: any) {}
 }
@@ -60,7 +61,8 @@ export class STRGradeDialogComponent {
     private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<STRGradeDialogComponent>
+    private dialogRef: MatDialogRef<STRGradeDialogComponent>,
+    private toastr: ToastrService
   ) {
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
@@ -234,12 +236,12 @@ export class STRGradeDialogComponent {
       if (this.gradeForm.valid) {
         this.api.postGrade(this.gradeForm.value).subscribe({
           next: (res) => {
-            alert('تمت الاضافة بنجاح');
+            this.toastrSuccess();
             this.gradeForm.reset();
             this.dialogRef.close('save');
           },
           error: (err) => {
-            alert('خطأ عند اضافة البيانات');
+            this.toastrErrorSave();
           },
         });
       }
@@ -252,13 +254,29 @@ export class STRGradeDialogComponent {
   updateGrade() {
     this.api.putGrade(this.gradeForm.value).subscribe({
       next: (res) => {
-        alert('تم التحديث بنجاح');
+        this.toastrEdit();
         this.gradeForm.reset();
         this.dialogRef.close('update');
       },
       error: () => {
-        alert('خطأ عند تحديث البيانات');
+        this.toastrErrorEdit();
       },
     });
+  }
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
+
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
+
   }
 }

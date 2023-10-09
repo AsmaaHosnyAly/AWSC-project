@@ -1,11 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -19,6 +14,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { UploadService } from 'src/app/upload.service';
+import { vendor } from '../str-model/str-model.component';
 export class Item {
   constructor(public id: number, public name: string) {}
 }
@@ -37,90 +33,75 @@ export class Model {
   styleUrls: ['./str-product-dialog.component.css'],
 })
 export class StrProductDialogComponent implements OnInit {
-  shortLink: string = '';
-  loading: boolean = false; // Flag variable
-  name: string = '';
-  file: any;
-  File = null; // Variable to store file
-  freshnessList = ['Brand new', 'Second Hand', 'Refurbished'];
-  productForm!: FormGroup;
-  actionBtn: string = 'Save';
-  groupSelectedSearch: any;
-  basketballPlayers: any;
-  fileToUpload: any;
-  attachementList: any;
-  url = 'http://ims.aswan.gov.eg/api'
-  itemName: any;
-  productIdToEdit: any;
-  userIdFromStorage: any;
-  existingNames: string[] = [];
-  itemsList: Item[] = [];
   itemCtrl: FormControl;
-  filteredItem: Observable<Item[]>;
+  filteredItems: Observable<Item[]>;
+  items: Item[] = [];
   selectedItem: Item | undefined;
-  formcontrol = new FormControl('');
-  autoCode: any;
-  vendorsList: Vendor[] = [];
   vendorCtrl: FormControl;
-  filteredVendor: Observable<Vendor[]>;
+  filteredVendors: Observable<Vendor[]>;
+  vendors: Vendor[] = [];
   selectedVendor: Vendor | undefined;
-
-  modelsList: Model[] = [];
   modelCtrl: FormControl;
-  filteredModel: Observable<Model[]>;
+  filteredModels: Observable<Model[]>;
+  models: Model[] = [];
   selectedModel: Model | undefined;
-
+  getProductData: any;
+  productForm!: FormGroup;
+  actionBtn: string = 'حفظ';
+  autoCode: any;
+  productIdToEdit: any;
+  existingNames: string[] = [];
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private http: HttpClient,
     private dialogRef: MatDialogRef<StrProductDialogComponent>,
-    private toastr: ToastrService,private uploadService: UploadService
+    private toastr: ToastrService
   ) {
     this.itemCtrl = new FormControl();
-    this.filteredItem = this.itemCtrl.valueChanges.pipe(
+    this.filteredItems = this.itemCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterItems(value))
     );
 
     this.vendorCtrl = new FormControl();
-    this.filteredVendor = this.vendorCtrl.valueChanges.pipe(
+    this.filteredVendors= this.vendorCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterVendors(value))
     );
 
     this.modelCtrl = new FormControl();
-    this.filteredModel = this.modelCtrl.valueChanges.pipe(
+    this.filteredModels = this.modelCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterModels(value))
     );
   }
 
   ngOnInit(): void {
-    this.getStoreAutoCode();
     this.getExistingNames(); // Fetch existing names
-    this.getItems();
-    this.getVendors();
-    this.getModels();
-
+    this.getProductAutoCode();
     this.productForm = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
       itemId: ['', Validators.required],
       vendorId: ['', Validators.required],
       modelId: ['', Validators.required],
-      attachment: [''],
-      altText: new FormControl(''),
-    description: new FormControl(''),
-
-      // platoonName: [''],
-      // attachment: [''],
-      transactionUserId: [''],
-      // altText: [''],
-      // description: [''],
+      transactionUserId: [1],
     });
+
+    this.api.getItems().subscribe((items) => {
+      this.items = items;
+    });
+
+    this.api.getVendors().subscribe((vendors) => {
+      this.vendors = vendors;
+    });
+
+    this.api.getModels().subscribe((models) => {
+      this.models = models;
+    });
+
     this.hotkeysService.add(
       new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
         // Call the deleteGrade() function in the current component
@@ -128,203 +109,110 @@ export class StrProductDialogComponent implements OnInit {
         return false; // Prevent the default browser behavior
       })
     );
-    console.log('edit data', this.editData);
+
     if (this.editData) {
-      this.actionBtn = 'Update';
+      this.actionBtn = 'تحديث';
+      this.getProductData = this.editData;
+      // alert( this.productForm.controls['name'].setValue(this.editData.name))
       this.productForm.controls['code'].setValue(this.editData.code);
       this.productForm.controls['name'].setValue(this.editData.name);
       this.productForm.controls['itemId'].setValue(this.editData.itemId);
+      // this.productForm.controls['itemName'].setValue(this.editData.itemName);
       this.productForm.controls['vendorId'].setValue(this.editData.vendorId);
+      // this.productForm.controls['vendorName'].setValue(this.editData.vendorName);
       this.productForm.controls['modelId'].setValue(this.editData.modelId);
-      this.productForm.controls['attachment'].setValue(
-        this.editData.attachment
-      );
-
-      // console.log("attachhh",this.editData.attachement
-      // )
-
-      // this.productForm.controls['platoonId'].setValue(this.editData.platoonId);
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
+      // this.productForm.controls['modelName'].setValue(this.editData.modelName);
 
       this.productForm.controls['transactionUserId'].setValue(
-        this.userIdFromStorage
+        this.editData.transactionUserId
       );
-      // this.productForm.controls['id'].setValue(this.editData.id);
-      this.productForm.addControl(
-        'id',
-        new FormControl('', Validators.required)
-      );
+      this.productForm.addControl('id', new FormControl('', Validators.required));
       this.productForm.controls['id'].setValue(this.editData.id);
     }
   }
 
-  private _filterItems(value: string): Item[] {
-    const filterValue = value;
-    return this.itemsList.filter((item) =>
-      item.name.toLowerCase().includes(filterValue)
-    );
-  }
   displayItemName(item: any): string {
     return item && item.name ? item.name : '';
   }
-  ItemSelected(event: MatAutocompleteSelectedEvent): void {
+
+  itemSelected(event: MatAutocompleteSelectedEvent): void {
     const item = event.option.value as Item;
-    console.log('item selected: ', item);
     this.selectedItem = item;
     this.productForm.patchValue({ itemId: item.id });
-    console.log('item in form: ', this.productForm.getRawValue().itemId);
+    this.productForm.patchValue({ itemName: item.name });
   }
-  openAutoItem() {
-    this.itemCtrl.setValue(''); // Clear the input field value
 
-    // Open the autocomplete dropdown by triggering the value change event
+  private _filterItems(value: string): Item[] {
+    const filterValue = value.toLowerCase();
+    return this.items.filter(
+      (item) => item.name.toLowerCase().includes(filterValue)
+      );
+  }
+
+  openAutoItem() {
+    this.itemCtrl.setValue('');
     this.itemCtrl.updateValueAndValidity();
   }
 
-  private _filterVendors(value: string): Vendor[] {
-    const filterValue = value;
-    return this.vendorsList.filter((vendor) =>
-      vendor.name.toLowerCase().includes(filterValue)
-    );
-  }
   displayVendorName(vendor: any): string {
     return vendor && vendor.name ? vendor.name : '';
   }
-  VendorSelected(event: MatAutocompleteSelectedEvent): void {
-    const vendor = event.option.value as Vendor;
-    console.log('vendor selected: ', vendor);
-    this.selectedItem = vendor;
-    this.productForm.patchValue({ vendorId: vendor.id });
-    console.log('vendor in form: ', this.productForm.getRawValue().vendorId);
-  }
-  openAutoVendor() {
-    this.vendorCtrl.setValue(''); // Clear the input field value
 
-    // Open the autocomplete dropdown by triggering the value change event
+  vendorSelected(event: MatAutocompleteSelectedEvent): void {
+    const vendor = event.option.value as Vendor;
+    this.selectedVendor = vendor;
+    this.productForm.patchValue({ vendorId: vendor.id });
+    this.productForm.patchValue({ vendorName: vendor.name });
+  }
+
+  private _filterVendors(value: string): Vendor[] {
+    const filterValue = value.toLowerCase();
+    return this.vendors.filter(
+      (vendor) => vendor.name.toLowerCase().includes(filterValue)
+      );
+  }
+
+  openAutoVendor() {
+    this.vendorCtrl.setValue('');
     this.vendorCtrl.updateValueAndValidity();
   }
 
-  private _filterModels(value: string): Vendor[] {
-    const filterValue = value;
-    return this.modelsList.filter((model) =>
-      model.name.toLowerCase().includes(filterValue)
-    );
-  }
   displayModelName(model: any): string {
     return model && model.name ? model.name : '';
   }
-  ModelSelected(event: MatAutocompleteSelectedEvent): void {
+
+  modelSelected(event: MatAutocompleteSelectedEvent): void {
     const model = event.option.value as Model;
-    console.log('model selected: ', model);
     this.selectedItem = model;
     this.productForm.patchValue({ modelId: model.id });
-    console.log('model in form: ', this.productForm.getRawValue().modelId);
-  }
-  openAutoModel() {
-    this.modelCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
-    this.modelCtrl.updateValueAndValidity();
+    this.productForm.patchValue({ modelName: model.name });
   }
 
-  // onChange(event: any) {
-  //   this.file = event.target.files[0];
-  //   console.log('file', this.file);
-  //   alert('on change function');
-  // }
-
-  // // OnClick of button Upload
-  // onUpload() {
-  //   let formdata = new FormData();
-  //   // formdata.set('name', this.file.name);
-  //   // formdata.set('file', this.file);
-  //   this.productForm.controls['attachment'].setValue(formdata);
-  //   console.log('form data', formdata);
-
-  //   // this.http.post("http://192.168.100.213/files/str-uploads",formdata).subscribe((response)=>{
-
-  //   // })
-
-  //   // this.loading = !this.loading;
-  //   this.api.upload(this.file).subscribe((event: any) => {
-  //     if (typeof event === 'object') {
-  //       // Short link via api response
-  //       this.shortLink = event.link;
-
-  //       this.loading = false; // Flag variable
-  //       console.log('shortlink', this.shortLink);
-  //       this.productForm.controls['attachment'].setValue(this.shortLink);
-  //       alert('display link: ' + this.productForm.getRawValue().attachment);
-  //     }
-  //   });
-  // }
-
-  onFileSelected(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const files : FileList | null = inputElement.files;
-  
-    if (files && files.length > 0) {
-      const file: File = files[0];
-      this.uploadService.uploadFile(file).subscribe(
-        filePath => {
-          // File uploaded successfully, do something with the returned file path
-          console.log('File path:', filePath);
-        },
-        error => {
-          // Handle the error
-          console.error('File upload error:', error);
-        }
+  private _filterModels(value: string): Model[] {
+    const filterValue = value.toLowerCase();
+    return this.models.filter(
+      (model) => model.name.toLowerCase().includes(filterValue)
       );
-    }
+  }
+
+  openAutoModel() {
+    this.modelCtrl.setValue('');
+    this.modelCtrl.updateValueAndValidity();
   }
 
   getExistingNames() {
     this.api.getStrProduct().subscribe({
       next: (res) => {
-        this.existingNames = res.map((item: any) => item.name);
+        this.existingNames = res.map((product: any) => product.name);
       },
       error: (err) => {
         console.log('Error fetching existing names:', err);
       },
     });
   }
+  
 
-  // handleFileInput(e: any) {
-  //   this.fileToUpload = e?.target?.files[0];
-  // }
-  // saveFileInfo()
-  // {
-  //   debugger
-  //   const formData: FormData = new FormData();
-  //   formData.append('file', this.fileToUpload);
-  //   // formData.append('altText', this.productForm.value.altText);
-  //   // formData.append('description', this.productForm.value.description);
-
-  //    // this.api.getUpload( )
-      
-  //       // .subscribe({
-  //       //   next: (res) => {
-  //       //     // this.priceCalled = res;
-  //       //     this.productForm.controls['attachement'].setValue(res);
-  //       //     // console.log("price avg called res: ", this.productForm.getRawValue().avgPrice);
-  //       //   },
-  //       //   error: (err) => {
-  //       //     // console.log("fetch fiscalYears data err: ", err);
-  //       //     // alert("خطا اثناء جلب متوسط السعر !");
-  //       //   }
-  //       // })
-
-  //   return this.http.post(`${this.url}/STRProduct/UploadFile`, formData,
-  //   {
-  //     headers : new HttpHeaders()})
-  //   .subscribe(() => alert("File uploaded"));
-  // }
-
-  async addProduct() {
-    // this.saveFileInfo()
-    // console.log("att",this.editData.attachement)
-
-    console.log('form entered values', this.productForm.value);
+  addProduct() {
     if (!this.editData) {
       const enteredName = this.productForm.get('name')?.value;
 
@@ -332,39 +220,12 @@ export class StrProductDialogComponent implements OnInit {
         alert('هذا الاسم موجود من قبل، قم بتغييره');
         return;
       }
-
       if (this.productForm.getRawValue().code) {
         this.productForm.controls['code'].setValue(this.autoCode);
       } else {
         this.productForm.controls['code'].setValue(this.autoCode);
       }
-
       this.productForm.removeControl('id');
-
-      // if (this.productForm.getRawValue().platoonId) {
-      // this.itemName = await this.getItemByID(this.productForm.getRawValue().platoonId);
-      // this.productForm.controls['platoonName'].setValue(this.platoonName);
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
-      this.productForm.controls['transactionUserId'].setValue(
-        this.userIdFromStorage
-      );
-
-      console.log('form add product value: ', this.productForm.value);
-
-            
-        // this.api.getUpload( )
-      
-        // .subscribe({
-        //   next: (res) => {
-        //     // this.priceCalled = res;
-        //     this.productForm.controls['attachement'].setValue(res);
-        //     // console.log("price avg called res: ", this.productForm.getRawValue().avgPrice);
-        //   },
-        //   error: (err) => {
-        //     // console.log("fetch fiscalYears data err: ", err);
-        //     // alert("خطا اثناء جلب متوسط السعر !");
-        //   }
-        // })
       if (this.productForm.valid) {
         
         this.api.postStrProduct(this.productForm.value).subscribe({
@@ -373,14 +234,13 @@ export class StrProductDialogComponent implements OnInit {
             this.productIdToEdit = res.id;
 
             this.toastrSuccess();
-            alert('تمت إضافة المنتج بنجاح');
             this.productForm.reset();
 
             this.dialogRef.close('save');
           },
           error: (err) => {
-            alert('حدث خطأ أثناء إضافة منتج');
-            console.log('post product with api err: ', err);
+            console.log('error:',err)
+              this.toastrErrorSave(); 
           },
         });
       }
@@ -394,69 +254,17 @@ export class StrProductDialogComponent implements OnInit {
     console.log('update product last values, id: ', this.productForm.value);
     this.api.putStrProduct(this.productForm.value).subscribe({
       next: (res) => {
-        alert('تم تحديث المنتج بنجاح');
-        this.toastrSuccess();
+        this.toastrEdit();
         this.productForm.reset();
         this.dialogRef.close('update');
       },
       error: () => {
-        alert('خطأ أثناء تحديث سجل المنتج !!');
+        this.toastrErrorEdit();
       },
     });
   }
 
-  getItems() {
-    this.api.getItems().subscribe({
-      next: (res) => {
-        this.itemsList = res;
-        console.log('itemsList res: ', this.itemsList);
-      },
-      error: (err) => {
-        console.log('fetch items data err: ', err);
-        alert('خطا اثناء جلب العناصر !');
-      },
-    });
-  }
-
-  getVendors() {
-    this.api.getVendors().subscribe({
-      next: (res) => {
-        this.vendorsList = res;
-        console.log('vendorsList res: ', this.vendorsList);
-      },
-      error: (err) => {
-        console.log('fetch vendors data err: ', err);
-        alert('خطا اثناء جلب البائعين !');
-      },
-    });
-  }
-
-  getModels() {
-    this.api.getModels().subscribe({
-      next: (res) => {
-        this.modelsList = res;
-        console.log('modelsList res: ', this.modelsList);
-      },
-      error: (err) => {
-        console.log('fetch models data err: ', err);
-        alert('خطا اثناء جلب النماذج !');
-      },
-    });
-  }
-  // getAttachement() {
-  //   this.api.Attachement()
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.modelsList = res;
-  //         console.log("modelsList res: ", this.modelsList);
-  //       },
-  //       error: (err) => {
-  //         console.log("fetch models data err: ", err);
-  //         alert("خطا اثناء جلب النماذج !");
-  //       }
-  //     })
-  // }
-  getStoreAutoCode() {
+  getProductAutoCode() {
     this.api.getProductAutoCode().subscribe({
       next: (res) => {
         this.autoCode = res;
@@ -472,4 +280,18 @@ export class StrProductDialogComponent implements OnInit {
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
   }
+
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
+  }
+  
 }
+

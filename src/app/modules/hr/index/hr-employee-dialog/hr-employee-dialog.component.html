@@ -216,7 +216,7 @@
                             <mat-autocomplete #autoposition="matAutocomplete" [displayWith]="displaypositionName"
                                 (optionSelected)="positionSelected($event)">
                                 <mat-option *ngFor="let position of filteredposition | async" [value]="position">
-                                    {{ position.name }} | {{ position.code }} | {{ position.id }}
+                                    {{ position.name }} |  {{ position.id }}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -238,7 +238,7 @@
                             <mat-autocomplete #autohiringType="matAutocomplete" [displayWith]="displayhiringTypeName"
                                 (optionSelected)="hiringTypeSelected($event)">
                                 <mat-option *ngFor="let hiringType of filteredhiringType | async" [value]="hiringType">
-                                    {{ hiringType.name }} | {{ hiringType.code }} | {{ hiringType.id }}
+                                    {{ hiringType.name }} | {{ hiringType.id }}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -356,7 +356,7 @@
                         <mat-autocomplete #autoqualification="matAutocomplete" [displayWith]="displayqualificationName"
                             (optionSelected)="qualificationSelected($event)">
                             <mat-option *ngFor="let qualification of filteredqualification | async" [value]="qualification">
-                                {{ qualification.name }} | {{ qualification.code }} | {{ qualification.id }}
+                                {{ qualification.name }} |  {{ qualification.id }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -378,7 +378,7 @@
                         <mat-autocomplete #autoqualificationLevel="matAutocomplete" [displayWith]="displayqualificationLevelName"
                             (optionSelected)="qualificationLevelSelected($event)">
                             <mat-option *ngFor="let qualificationLevel of filteredqualificationLevel | async" [value]="qualificationLevel">
-                                {{ qualificationLevel.name }} | {{ qualificationLevel.code }} | {{ qualificationLevel.id }}
+                                {{ qualificationLevel.name }} | {{ qualificationLevel.id }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>

@@ -2,16 +2,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
+  pageEnums = PagesEnums
+  url =this.pageEnums.URL
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
 
-  // url = 'http://192.168.1.23/api'
-  url = 'http://ims.aswan.gov.eg/api'
+ 
   mycondition: any;
 
   // baseApiUrl = 'https://file.io';
@@ -252,9 +254,7 @@ postHrEmployeeAppraisal(data: any) {
     data
   );
 }
-// getAllEmployee(): Observable<any> {
-//   return this.http.get<any>(`${this.url}/HrCity/get/all`);
-// }
+
   // HrCityState
   getHrCityState() {
     return this.http.get<any>(
@@ -1014,6 +1014,8 @@ postHrEmployeeAppraisal(data: any) {
     );
   }
   putEmployeeQualification(data: any) {
+    console.log("data:",data);
+    
     return this.http.put<any>(
       `${this.url}/HrEmployeeQualification/update`,
       data
@@ -2380,15 +2382,6 @@ postHrEmployeeAppraisal(data: any) {
   }
   getAllStore() {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
-  }
-  getAllQualification() {
-    return this.http.get<any>(`${this.url}/api/HrQualification/get/all`);
-  }
-  getAllQualificationLevel() {
-    return this.http.get<any>(`${this.url}/api/HrQualificationLevel/get/all`);
-  }
-  getAllSpecialization() {
-    return this.http.get<any>(`${this.url}/api/HrSpecialization/get/all`);
   }
   GetAddGeTAddDetailsByAddId(id: number) {
     return this.http.get<any>(
