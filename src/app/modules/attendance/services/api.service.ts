@@ -111,5 +111,19 @@ export class ApiService {
   getAllAttendanceSchedules() {
     return this.http.get<any>(`${this.url}/HrAttendanceSchedule/get/all`);
   }
+
+  ///////////////////////////////// Hr-AttendanceSchedule /////////////////////////////
+  postHrAttendanceSchedule(data: any) {
+    return this.http.post<any>(`${this.url}/HrAttendanceSchedule/Add`, data);
+  }
+  getHrAttendanceSchedule() {
+    return this.http.get<any>(`${this.url}/HrAttendanceSchedule/get/all`);
+  }
+  putHrAttendanceSchedule(data: any) {
+    return this.http.put<any>(`${this.url}/HrAttendanceSchedule/update`, data);
+  }
+  deleteAttendanceSchedule(id: number) {
+    return this.http.delete<any>(`${this.url}/HrAttendanceSchedule/delete/` + id);
+  }
 }
 
