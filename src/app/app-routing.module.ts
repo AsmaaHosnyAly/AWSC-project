@@ -98,6 +98,8 @@ import { HrAttendancePermissionComponent } from './modules/attendance/index/hr-a
 import { HrAttendanceMachineWorkPlaceComponent } from './modules/attendance/index/hr-attendance-machine-work-place/hr-attendance-machine-work-place.component';
 import { HrAttendancHomeComponent } from './modules/attendance/index/hr-attendanc-home/hr-attendanc-home.component';
 import { HrEmployeeAttendanceScheduleComponent } from './modules/attendance/index/hr-employee-attendance-schedule/hr-employee-attendance-schedule.component';
+import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/index/hr-employee-attendance-permission/hr-employee-attendance-permission.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -348,6 +350,7 @@ const routes: Routes = [
        { path: 'hr-attendanceMachine', component: HrAttendanceMachineComponent },
        { path: 'hr-attendanceMachineWorkPlace', component: HrAttendanceMachineWorkPlaceComponent },
        { path: 'hr-employeeAttendanceSchedule', component: HrEmployeeAttendanceScheduleComponent },
+       { path: 'hr-EmployeeAttendancePermission', component: HrEmployeeAttendancePermissionComponent },
 
        /*********************End Hr-attendance module  الحضور والانصراف***************************/
           

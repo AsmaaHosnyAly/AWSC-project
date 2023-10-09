@@ -201,6 +201,7 @@ import { HrAttendanceMachineWorkPlaceComponent } from './modules/attendance/inde
 import { HrAttendanceMachineWorkPlaceDialogComponent } from './modules/attendance/index/hr-attendance-machine-work-place-dialog/hr-attendance-machine-work-place-dialog.component';
 import { HrAttendancHomeComponent } from './modules/attendance/index/hr-attendanc-home/hr-attendanc-home.component';
 import { HrEmployeeAttendanceScheduleDialogeComponent } from './modules/attendance/index/hr-employee-attendance-schedule-dialoge/hr-employee-attendance-schedule-dialoge.component';
+import { HrEmployeeAttendancePermissionDialogComponent } from './modules/attendance/index/hr-employee-attendance-permission-dialog/hr-employee-attendance-permission-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -380,6 +381,7 @@ import { HrEmployeeAttendanceScheduleDialogeComponent } from './modules/attendan
     HrAttendanceMachineWorkPlaceDialogComponent,
     HrAttendancHomeComponent,
     HrEmployeeAttendanceScheduleDialogeComponent,
+    HrEmployeeAttendancePermissionDialogComponent,
 
    
   ],

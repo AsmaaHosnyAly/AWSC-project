@@ -669,6 +669,15 @@
           >
             <p class="font">جدول حضور الموظفين</p>
           </a>
+       
+        <a
+          mat-list-item
+          class="sideNavSubItems"
+          routerLink="/hr-EmployeeAttendancePermission"
+          *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+        >
+          <p class="font">تصريح  حضور الموظف </p>
+        </a>
         </mat-nav-list>
       </mat-expansion-panel>
     </mat-nav-list>
