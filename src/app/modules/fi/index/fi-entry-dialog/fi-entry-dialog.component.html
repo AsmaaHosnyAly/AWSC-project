@@ -9,7 +9,7 @@
             <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
                 <div class="headerForm">
-                    <div class="searchLabels" style="width: 5rem;">
+                    <div class="searchLabels" style="width: 8rem;" min=0>
                         <mat-label>الرقم*</mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
@@ -67,15 +67,7 @@
 
                   
 
-                    <div class="searchLabels">
-                        <mat-label>الموازنة</mat-label>
-
-                        <mat-form-field appearance="outline" class="groupInput">
-                            <input matInput placeholder="الموازنة" type="number"
-                                [value]="groupMasterForm ? groupMasterForm.getRawValue().balance : resultOfBalance"
-                                readonly>
-                        </mat-form-field>
-                    </div>
+                    
 
                     <div class="searchLabels">
                         <mat-label>مجموع الائتمان</mat-label>
@@ -93,6 +85,16 @@
                         <mat-form-field appearance="outline" class="groupInput">
                             <input matInput placeholder="مجموع المدين" type="number"
                                 [value]="groupMasterForm ? groupMasterForm.getRawValue().debitTotal : sumOfDebitTotals"
+                                readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="searchLabels">
+                        <mat-label>الفرق</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput">
+                            <input matInput placeholder="الفرق" type="number" pattern="\d{1,2}(\.\d{1,2})?"
+                                [value]="groupMasterForm ? groupMasterForm.getRawValue().balance : resultOfBalance"
                                 readonly>
                         </mat-form-field>
                     </div>
@@ -137,7 +139,7 @@
 
                     </div>
 
-                    <div class="tableFixHead">
+                    <div class="tableFixHead" >
                         <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
                             <!-- credit Column -->
@@ -160,7 +162,7 @@
 
                             <!-- fiAccountItemId Column -->
                             <ng-container matColumnDef="fiAccountItemId">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> صنف الحساب </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> البند الاحصائي</th>
                                 <td mat-cell *matCellDef="let row"> {{row.accountItemName}} </td>
                             </ng-container>
 

@@ -19,33 +19,33 @@ import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
   constructor(public id: number, public name: string) {}
 }
-export class attendancePermission {
+export class attendanceMachine {
   constructor(public id: number, public name: string) {}
 }
 
 @Component({
-  selector: 'app-hr-employee-attendance-permission-dialog',
-  templateUrl: './hr-employee-attendance-permission-dialog.component.html',
-  styleUrls: ['./hr-employee-attendance-permission-dialog.component.css']
+  selector: 'app-hr-employee-attendance-dialog',
+  templateUrl: './hr-employee-attendance-dialog.component.html',
+  styleUrls: ['./hr-employee-attendance-dialog.component.css']
 })
-export class HrEmployeeAttendancePermissionDialogComponent {
+export class HrEmployeeAttendanceDialogComponent {
   transactionUserId=localStorage.getItem('transactionUserId')
 
   formcontrol = new FormControl('');  
-  EmployeeAttendancePermission !:FormGroup;
+  EmployeeAttendance!:FormGroup;
   actionBtn : string = "حفظ"
   selectedOption:any;
-  getEmployeeAttendancePermissionData: any;
+  getEmployeeAttendanceData: any;
 
   employeeCtrl: FormControl;
   filteredEmployee: Observable<Employee[]>;
   employees: Employee[] = [];
   selectedEmployee: Employee | undefined;
 
-  attendancePermissionCtrl: FormControl;
-  filteredAttendancePermission: Observable<attendancePermission[]>;
-  attendancePermissions: attendancePermission[] = [];
-  selectedAttendancePermission: attendancePermission | undefined;
+  attendanceMachineCtrl: FormControl;
+  filteredAttendanceMachine: Observable<attendanceMachine[]>;
+  attendanceMachines: attendanceMachine[] = [];
+  selectedAttendanceMachine: attendanceMachine | undefined;
 dataSource!: MatTableDataSource<any>;
 
 @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -59,28 +59,30 @@ accordion!: MatAccordion;
     private hotkeysService: HotkeysService,
     private readonly route:ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public editData : any,
-    private dialogRef : MatDialogRef<HrEmployeeAttendancePermissionDialogComponent>){
+    private dialogRef : MatDialogRef<HrEmployeeAttendanceDialogComponent>){
       this.employeeCtrl = new FormControl();
       this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
         startWith(''),
         map(value => this._filterEmployee(value))
       );
 
-      this.attendancePermissionCtrl = new FormControl();
-      this.filteredAttendancePermission = this.attendancePermissionCtrl.valueChanges.pipe(
+      this.attendanceMachineCtrl = new FormControl();
+      this.filteredAttendanceMachine= this.attendanceMachineCtrl.valueChanges.pipe(
         startWith(''),
-        map(value => this._filterAttendancePermission(value))
+        map(value => this._filterAttendanceMachine(value))
       );
     }
     ngOnInit(): void {
-      this.EmployeeAttendancePermission = this.formBuilder.group({
+      this.EmployeeAttendance = this.formBuilder.group({
         //define the components of the form
-      transactionUserId : ['',Validators.required],
+      transactionUserId : [ 1 ,Validators.required],
       // code : ['',Validators.required],
       name : ['',Validators.required],
       date : ['',Validators.required],
+      attendance : ['',Validators.required],
+      departure : ['',Validators.required],
       employeeId : ['',Validators.required],
-      attendancePermissionId : ['',Validators.required],
+      attendanceMachineId : ['',Validators.required],
       id : ['',Validators.required],
       // matautocompleteFieldName : [''],
       });
@@ -88,28 +90,29 @@ accordion!: MatAccordion;
       this.api.getEmployees().subscribe((employee)=>{
         this.employees = employee;
       });
-      this.api.getHrAttendancePermission().subscribe((attendancePermission)=>{
-        this.attendancePermissions = attendancePermission;
+      this.api.getHrAttendanceMachine().subscribe((attendanceMachine)=>{
+        this.attendanceMachines = attendanceMachine;
       });
       
       this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
         // Call the deleteGrade() function in the current component
-        this.addEmployeeAttendancePermission();
+        this.addEmployeeAttendance();
         return false; // Prevent the default browser behavior
       }));
       if(this.editData){
         this.actionBtn = "تعديل";
-        this.getEmployeeAttendancePermissionData = this.editData;
-      this.EmployeeAttendancePermission.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+        this.getEmployeeAttendanceData = this.editData;
+      this.EmployeeAttendance.controls['transactionUserId'].setValue(this.editData.transactionUserId);
         // this.cityStateForm.controls['code'].setValue(this.editData.code);
-      this.EmployeeAttendancePermission.controls['name'].setValue(this.editData.name);
-      this.EmployeeAttendancePermission.controls['employeeId'].setValue(this.editData.employeeId);
-      this.EmployeeAttendancePermission.controls['date'].setValue(this.editData.date);
-      
-      this.EmployeeAttendancePermission.controls['attendancePermissionId'].setValue(this.editData.attendancePermissionId);
+      this.EmployeeAttendance.controls['name'].setValue(this.editData.name);
+      this.EmployeeAttendance.controls['employeeId'].setValue(this.editData.employeeId);
+      this.EmployeeAttendance.controls['date'].setValue(this.editData.date);
+      this.EmployeeAttendance.controls['attendance'].setValue(this.editData.attendance);
+      this.EmployeeAttendance.controls['departure'].setValue(this.editData.departure);
+      this.EmployeeAttendance.controls['attendanceMachineId'].setValue(this.editData.attendanceMachineId);
       // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
-      this.EmployeeAttendancePermission.addControl('id', new FormControl('', Validators.required));
-      this.EmployeeAttendancePermission.controls['id'].setValue(this.editData.id);
+      this.EmployeeAttendance.addControl('id', new FormControl('', Validators.required));
+      this.EmployeeAttendance.controls['id'].setValue(this.editData.id);
       }
     }
 
@@ -120,8 +123,8 @@ accordion!: MatAccordion;
     employeeSelected(event: MatAutocompleteSelectedEvent): void {
       const employee = event.option.value as Employee;
       this.selectedEmployee = employee;
-      this.EmployeeAttendancePermission.patchValue({ employeeId: employee.id });
-      this.EmployeeAttendancePermission.patchValue({ employeeName: employee.name });
+      this.EmployeeAttendance.patchValue({ employeeId: employee.id });
+      this.EmployeeAttendance.patchValue({ employeeName: employee.name });
     }
 
     private _filterEmployee(value: string): Employee[] {
@@ -137,45 +140,45 @@ accordion!: MatAccordion;
       // Open the autocomplete dropdown by triggering the value change event
       this.employeeCtrl.updateValueAndValidity();
     }
-    displayAttendancePermissionName(attendancePermission: any): string {
-      return attendancePermission && attendancePermission.name ? attendancePermission.name : '';
+    displayAttendanceMachineName(attendanceMachine: any): string {
+      return attendanceMachine && attendanceMachine.name ? attendanceMachine.name : '';
     }
 
-    attendancePermissionSelected(event: MatAutocompleteSelectedEvent): void {
-      const attendancePermission = event.option.value as Employee;
-      this.selectedAttendancePermission = attendancePermission;
-      this.EmployeeAttendancePermission.patchValue({ attendancePermissionId: attendancePermission.id });
-      this.EmployeeAttendancePermission.patchValue({ attendancePermissionName: attendancePermission.name });
+    attendanceMachineSelected(event: MatAutocompleteSelectedEvent): void {
+      const attendanceMachine = event.option.value as attendanceMachine;
+      this.selectedAttendanceMachine = attendanceMachine;
+      this.EmployeeAttendance.patchValue({ attendanceMachineId: attendanceMachine.id });
+      this.EmployeeAttendance.patchValue({ attendanceMachineName: attendanceMachine.name });
     }
 
-    private _filterAttendancePermission(value: string): Employee[] {
+    private _filterAttendanceMachine(value: string): attendanceMachine[] {
       const filterValue = value.toLowerCase();
-      return this.attendancePermissions.filter(attendancePermission =>
-        attendancePermission.name.toLowerCase().includes(filterValue) 
+      return this.attendanceMachines.filter(attendanceMachine =>
+        attendanceMachine.name.toLowerCase().includes(filterValue) 
       );
     }
 
-    openAutoAttendancePermission() {
-      this.attendancePermissionCtrl.setValue(''); // Clear the input field value
+    openAutoAttendanceMachine() {
+      this.attendanceMachineCtrl.setValue(''); // Clear the input field value
     
       // Open the autocomplete dropdown by triggering the value change event
-      this.attendancePermissionCtrl.updateValueAndValidity();
+      this.attendanceMachineCtrl.updateValueAndValidity();
     }
     
 
-  addEmployeeAttendancePermission(){
+  addEmployeeAttendance(){
     if(!this.editData){
       
-      this.EmployeeAttendancePermission.removeControl('id')
+      this.EmployeeAttendance.removeControl('id')
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
-      console.log("add: ", this.EmployeeAttendancePermission.value);
-      this.EmployeeAttendancePermission.controls['transactionUserId'].setValue(this.transactionUserId);
-      if(this.EmployeeAttendancePermission.valid){
-        this.api.postHrEmployeeAttendancePermission(this.EmployeeAttendancePermission.value)
+      console.log("add: ", this.EmployeeAttendance.value);
+      this.EmployeeAttendance.controls['transactionUserId'].setValue(this.transactionUserId);
+      if(this.EmployeeAttendance.valid){
+        this.api.postHrEmployeeAttendance(this.EmployeeAttendance.value)
         .subscribe({
           next:(res)=>{
             this.toastrSuccess();
-            this.EmployeeAttendancePermission.reset();
+            this.EmployeeAttendance.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -184,17 +187,17 @@ accordion!: MatAccordion;
         })
       }
     }else{
-      this.updateEmployeeAttendancePermission()
+      this.updateEmployeeAttendance()
     }
   }
 
 
-  updateEmployeeAttendancePermission(){
-        this.api.putHrEmployeeAttendancePermission(this.EmployeeAttendancePermission.value)
+  updateEmployeeAttendance(){
+        this.api.putHrEmployeeAttendance(this.EmployeeAttendance.value)
         .subscribe({
           next:(res)=>{
             this.toastrEditSuccess();
-            this.EmployeeAttendancePermission.reset();
+            this.EmployeeAttendance.reset();
             this.dialogRef.close('update');
           },
           error:()=>{

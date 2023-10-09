@@ -103,7 +103,7 @@ export class STRAddDialogComponent implements OnInit {
 
   currentDate: any;
 
-  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
 
   constructor(private formBuilder: FormBuilder,
 
@@ -201,7 +201,7 @@ export class STRAddDialogComponent implements OnInit {
 
 
 
-    
+
     if (this.editData) {
       this.isEdit = true;
       this.getAddData = this.editData;
@@ -247,6 +247,7 @@ export class STRAddDialogComponent implements OnInit {
     }
 
     this.getAllDetailsForms();
+    console.log("mastered row get all data: ", this.getMasterRowId)
 
     // localStorage.setItem('transactionUserId', JSON.stringify("mehrail"));
     this.userIdFromStorage = localStorage.getItem('transactionUserId');
@@ -334,16 +335,16 @@ export class STRAddDialogComponent implements OnInit {
 
         if (this.editData.hasOwnProperty('strWithDrawDetailsGetVM')) {
           this.btnDisabled = true;
-          this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
+          this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
             .subscribe({
               next: (res) => {
                 // this.itemsList = res;
                 console.log("enter getAllDetails: ", res);
                 // if(res[0].includes('strWithDrawDetailsGetVM'))
-                this.matchedIds = res[0].strWithDrawDetailsGetVM;
+                this.matchedIds = res[0].strAddDetailsGetVM;
 
                 if (this.matchedIds) {
-                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
                   this.dataSource = new MatTableDataSource(this.matchedIds);
                   this.dataSource.paginator = this.paginator;
                   this.dataSource.sort = this.sort;

@@ -203,6 +203,8 @@ import { HrAttendancHomeComponent } from './modules/attendance/index/hr-attendan
 import { HrEmployeeAttendanceScheduleDialogeComponent } from './modules/attendance/index/hr-employee-attendance-schedule-dialoge/hr-employee-attendance-schedule-dialoge.component';
 import { HrEmployeeAttendancePermissionDialogComponent } from './modules/attendance/index/hr-employee-attendance-permission-dialog/hr-employee-attendance-permission-dialog.component';
 import { HrAttendanceScheduleDialogComponent } from './modules/attendance/index/hr-attendance-schedule-dialog/hr-attendance-schedule-dialog.component';
+import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
+import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -384,6 +386,8 @@ import { HrAttendanceScheduleDialogComponent } from './modules/attendance/index/
     HrEmployeeAttendanceScheduleDialogeComponent,
     HrEmployeeAttendancePermissionDialogComponent,
     HrAttendanceScheduleDialogComponent,
+    HrEmployeeAttendanceComponent,
+    HrEmployeeAttendanceDialogComponent,
 
    
   ],

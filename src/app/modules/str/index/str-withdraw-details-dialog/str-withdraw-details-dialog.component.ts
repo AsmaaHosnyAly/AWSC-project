@@ -134,7 +134,7 @@ export class StrWithdrawDetailsDialogComponent {
   itemSearchWay: any;
   activeItemSearchWay: any;
 
-  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -425,51 +425,53 @@ export class StrWithdrawDetailsDialogComponent {
   }
 
   closeDialog() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
+    // let result = window.confirm('هل تريد اغلاق الطلب');
+    // if (result) {
 
-      this.dialogRef.close('Save');
-    }
+    this.dialogRef.close('Save');
+    // }
   }
 
 
 
   getAllDetailsForms() {
+    // let result = window.confirm('هل تريد اغلاق الطلب');
+    // if (result) {
 
-    if (this.getMasterRowId) {
-      this.api.getStrWithdrawDetails().subscribe(
-        (res) => {
-          console.log(
-            'res to get all details form: ',
-            res,
-            'masterRowId: ',
-            this.getMasterRowId.id
-          );
+      this.dialogRef.close('Save');
+      console.log("master Id: ", this.getMasterRowId.id)
 
-          this.matchedIds = res.filter((a: any) => {
-            // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
-            return a.stR_WithdrawId == this.getMasterRowId.id;
-          });
+      if (this.getMasterRowId.id) {
 
-          if (this.matchedIds) {
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+        this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
+          .subscribe({
+            
+            next: (res) => {
+              // this.itemsList = res;
+              this.matchedIds = res[0].strWithDrawDetailsGetVM;
 
-            this.sumOfTotals = 0;
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfTotals =
-                this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-              this.updateBothForms();
+              if (this.matchedIds) {
+                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+                this.dataSource = new MatTableDataSource(this.matchedIds);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+
+                this.sumOfTotals = 0;
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+
+                }
+              }
+            },
+            error: (err) => {
+
             }
-          }
-        },
-        (err) => {
-          // alert('حدث خطا ما !!');
-        }
-      );
-    }
+          })
+      }
+      // }
+    
+
 
   }
 
@@ -539,7 +541,69 @@ export class StrWithdrawDetailsDialogComponent {
       this.updateDetailsForm();
     }
   }
+  // async updateDetailsForm() {
 
+
+  //   // console.log("values master form: ", this.groupMasterForm.value)
+  //   console.log("values getMasterRowId: ", this.getMasterRowId)
+  //   console.log("values details form: ", this.groupDetailsForm.value)
+
+  //   // if (this.editData) {
+  //   //   this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
+  //   //   this.groupMasterForm.controls['id'].setValue(this.editData.id);
+  //   //   console.log("data item Name in edit: ", this.groupMasterForm.value)
+  //   // }
+  //   if (this.editData) {
+  //     this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+  //     this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+  //     // this.groupDetailsForm.controls['state'].setValue(this.editData.id);
+  //     this.groupDetailsForm.controls['avgPrice'].setValue(this.editData.avgPrice);
+  //     console.log("details foorm: ", this.groupDetailsForm.value)
+
+  //   }
+
+
+  //   // this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
+  //   // this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+  //   // this.groupMasterForm.controls['addId'].setValue(this.getMasterRowId.id);
+  //   // console.log("data item Name in edit without id: ", this.groupMasterForm.value)
+  //   this.isEdit = false;
+
+  //   // console.log("details before put foorm: ", this.groupDetailsForm.value)
+
+  //   // this.api.putStrAdd(this.groupMasterForm.value)
+  //   //   .subscribe({
+  //   //     next: (res) => {
+  //   //       // alert("تم الحفظ بنجاح");
+
+  //   this.groupDetailsForm.controls['addId'].setValue(this.getMasterRowId);
+  //   this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+  //   this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
+
+  //   console.log("details form values: ", this.groupDetailsForm.value, "details id: ", this.getDetailedRowData);
+  //   if (this.groupDetailsForm.value && this.editData) {
+  //     this.api.putStrWithdrawDetails(this.groupDetailsForm.value)
+  //       .subscribe({
+  //         next: (res) => {
+  //           // alert("تم الحفظ بنجاح");
+  //           this.toastrEditSuccess();
+  //           // console.log("update res: ", res);
+  //           this.groupDetailsForm.reset();
+  //           this.groupDetailsForm.controls['state'].setValue("جديد");
+  //           this.itemByFullCodeValue = '';
+  //           this.fullCodeValue = '';
+  //           // this.getAllDetailsForms();
+  //           // this.getDetailedRowData = '';
+  //           this.dialogRef.close('Update');
+  //         },
+  //         error: (err) => {
+  //           // console.log("update err: ", err)
+  //           // alert("خطأ أثناء تحديث سجل المجموعة !!")
+  //         }
+  //       })
+  //   }
+
+  // }
   async updateDetailsForm() {
     console.log(
       'store id in update:',
@@ -685,8 +749,8 @@ export class StrWithdrawDetailsDialogComponent {
   }
 
   getAllMasterForms() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
+    // let result = window.confirm('هل تريد اغلاق الطلب');
+    // if (result) {
       //   if(this.actionBtnMaster=='save'){
       //     this.dialogRef.close('save');
       // }
@@ -707,7 +771,7 @@ export class StrWithdrawDetailsDialogComponent {
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
         },
       });
-    }
+    // }
   }
 
   async getStores() {
