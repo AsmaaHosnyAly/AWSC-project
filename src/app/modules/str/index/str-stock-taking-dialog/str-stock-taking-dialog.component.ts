@@ -344,10 +344,10 @@ export class StrStockTakingDialogComponent implements OnInit {
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
-            // this.matchedIds = res[0].strEmployeeOpeningCustodyDetailsGetVM;
+            this.matchedIds = res[0].strStockTakingDetailsGetVM;
 
             if (this.matchedIds) {
-              // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strEmployeeOpeningCustodyDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strStockTakingDetailsGetVM);
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
@@ -398,7 +398,7 @@ export class StrStockTakingDialogComponent implements OnInit {
           this.fullCodeValue = '';
           this.getDetailedRowData = '';
           this.groupDetailsForm.controls['qty'].setValue(1);
-          this.toastrEditSuccess();
+          // this.toastrEditSuccess();
         },
 
       })
@@ -674,7 +674,7 @@ export class StrStockTakingDialogComponent implements OnInit {
               .subscribe({
                 next: () => {
                   // alert("تم تحديث التفاصيل بنجاح");
-                  this.toastrEditSuccess();
+                  // this.toastrEditSuccess();
                   // console.log("update res: ", res);
                   this.groupDetailsForm.reset();
                   this.getAllDetailsForms();
