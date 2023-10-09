@@ -55,9 +55,7 @@ export class ApiService {
   getEmployees() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
   }
-  getAttendancePermission() {
-    return this.http.get<any>(`${this.url}/HrAttendancePermission/get/all`);
-  }
+  
 
   ///////////////////////////////// HR-AttendanceMachine /////////////////////////////
   postHrAttendanceMachine(data: any) {

@@ -88,7 +88,7 @@ accordion!: MatAccordion;
       this.api.getEmployees().subscribe((employee)=>{
         this.employees = employee;
       });
-      this.api.getAttendancePermission().subscribe((attendancePermission)=>{
+      this.api.getHrAttendancePermission().subscribe((attendancePermission)=>{
         this.attendancePermissions = attendancePermission;
       });
       
