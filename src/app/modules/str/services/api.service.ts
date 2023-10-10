@@ -1139,7 +1139,7 @@ export class ApiService {
   }
   getStrEmployeeExchangeDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STREmployeeExchangeDetails/get/${id}`
+      `${this.url}/STREmployeeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`
     );
   }
   putStrEmployeeExchangeDetails(data: any) {
@@ -1280,8 +1280,9 @@ export class ApiService {
     );
   }
   getStrEmployeeOpenDetailsByMasterId(id: any) {
+    console.log("custodyId: ", id);
     return this.http.get<any>(
-      `${this.url}/STREmployeeOpeningCustodyDetails/get/${id}`
+      `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
     );
   }
   putStEmp(data: any) {

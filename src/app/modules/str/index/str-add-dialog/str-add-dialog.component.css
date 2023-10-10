@@ -258,14 +258,23 @@ th {
 
 table {
   width: 100%;
+  position: relative;
+  bottom: 0px !important;
+  /* z-index: 9999; */
+  /* height: 70%; */
 }
 
 .tableFixHead {
-  padding-top: 5px;
-  height: 200px;
+  padding-top: 0px;
+  margin-top: 2px;
+  height: 150px;
   overflow: auto;
 }
-
+.tableFixHead th{
+  height: .8rem !important;
+  /* width: 75%; */
+  /* padding: 0px !important; */
+}
 
 button:disabled {
   opacity: 0.5;
