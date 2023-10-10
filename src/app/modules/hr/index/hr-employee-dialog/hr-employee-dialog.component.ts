@@ -465,7 +465,7 @@ export class HrEmployeeDialogComponent implements OnInit {
 
 
 
-      console.log('form', this.groupForm.value)
+      console.log('form in ts', this.groupForm.value)
       console.log('jobtitle', this.groupForm.getRawValue().jobTitleId)
 
       if (this.groupForm.valid) {
@@ -500,8 +500,8 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.api.putHrEmployee(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث انواع التعيين بنجاح");
-          this.toastrSuccess();
+          // alert("تم تحديث انواع التعيين بنجاح");
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -740,5 +740,11 @@ export class HrEmployeeDialogComponent implements OnInit {
   }
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }
