@@ -77,7 +77,7 @@ accordion!: MatAccordion;
         //define the components of the form
       transactionUserId : [ 1 ,Validators.required],
       // code : ['',Validators.required],
-      name : ['',Validators.required],
+      // name : ['',Validators.required],
       date : ['',Validators.required],
       attendance : ['',Validators.required],
       departure : ['',Validators.required],
@@ -104,7 +104,7 @@ accordion!: MatAccordion;
         this.getEmployeeAttendanceData = this.editData;
       this.EmployeeAttendance.controls['transactionUserId'].setValue(this.editData.transactionUserId);
         // this.cityStateForm.controls['code'].setValue(this.editData.code);
-      this.EmployeeAttendance.controls['name'].setValue(this.editData.name);
+      // this.EmployeeAttendance.controls['name'].setValue(this.editData.name);
       this.EmployeeAttendance.controls['employeeId'].setValue(this.editData.employeeId);
       this.EmployeeAttendance.controls['date'].setValue(this.editData.date);
       this.EmployeeAttendance.controls['attendance'].setValue(this.editData.attendance);

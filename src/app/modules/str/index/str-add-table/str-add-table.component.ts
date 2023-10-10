@@ -357,7 +357,7 @@ export class STRAddTableComponent implements OnInit {
     this.dialog
       .open(STRAddDialogComponent, {
         width: '98%',
-        height: '85%',
+        height: '79%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -384,7 +384,7 @@ export class STRAddTableComponent implements OnInit {
     this.dialog
       .open(STRAddDialogComponent, {
         width: '98%',
-        height: '85%',
+        height: '79%',
         data: row,
       })
       .afterClosed()

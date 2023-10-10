@@ -76,13 +76,13 @@
 
                     <!-- group_Name Column -->
                     <ng-container matColumnDef="group_Name">
-                        <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 70%;" > المجموعة</th>
+                        <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 65%;" > المجموعة</th>
                         <td mat-cell *matCellDef="let row" > {{row.group_Name}} </td>
                     </ng-container>
 
 
                     <ng-container matColumnDef="action"  class="action">
-                        <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 25%;"  >الاجراء</th>
+                        <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 35%;"  >الاجراء</th>
                         <td mat-cell *matCellDef="let row" id="buttn" >
                             <button mat-icon-button class="editbtn" (click)="editDetailsForm(row)">
                                 <mat-icon>edit</mat-icon>
