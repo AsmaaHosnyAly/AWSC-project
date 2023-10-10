@@ -230,10 +230,11 @@ table {
 }
 
 .tableFixHead {
-  margin-top: 15px;
-  height: 200px;
+  margin-top: 1%;
+  height: 150px;
   overflow: auto;
   max-height: 248px; 
+  padding-top: 0px !important;
 }
 
 .searchLabels{
