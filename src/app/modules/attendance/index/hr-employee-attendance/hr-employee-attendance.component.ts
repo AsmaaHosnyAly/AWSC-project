@@ -33,7 +33,7 @@ export class HrEmployeeAttendanceComponent {
   EmployeeAttendanceForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name', 'employeeName','attendanceMachineName','date','attendance','departure', 'action'];
+  displayedColumns: string[] = ['employeeName','attendanceMachineName','date','attendance','departure', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
