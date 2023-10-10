@@ -2,9 +2,9 @@
   <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
 </div>
 <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل جدول الحضور    ' : ' إضافة جدول حضور جديد'}}</h1> 
-<form [formGroup]="EmployeeAttendancePermission" dir="rtl">
+<form [formGroup]="attendanceScheduleForm" dir="rtl">
     <div mat-dialog-content>
-      <form [formGroup]="EmployeeAttendancePermission">
+      <form [formGroup]="attendanceScheduleForm">
         <mat-label>الاسم </mat-label>
         <mat-form-field appearance="outline">
           <input formControlName="name" matInput placeholder="ادخل الاسم">
@@ -31,23 +31,15 @@
 </div>
 <div class="child1">
   <mat-label>ساعات العمل</mat-label>
-  <mat-form-field appearance="outline" >
-    <input matInput [matDatepicker]="picker3" formControlName="wrkHours">
-    <mat-datepicker-toggle matIconSuffix [for]="picker3">
-        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-    </mat-datepicker-toggle>
-    <mat-datepicker #picker3></mat-datepicker>
-</mat-form-field>
+  <mat-form-field appearance="outline">
+    <input formControlName="wrkHours" type="number" min="1" matInput placeholder="ادخل ساعات العمل">
+  </mat-form-field>
 </div>
 <div class="child1">
   <mat-label>موعد الحضور</mat-label>
-  <mat-form-field appearance="outline" >
-    <input matInput [matDatepicker]="picker4" formControlName="attendanceTime">
-    <mat-datepicker-toggle matIconSuffix [for]="picker4">
-        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-    </mat-datepicker-toggle>
-    <mat-datepicker #picker4></mat-datepicker>
-</mat-form-field>
+  <mat-form-field appearance="outline">
+    <input formControlName="attendanceTime" type="datetime-local" matInput placeholder="موعد الحضور">
+  </mat-form-field>
 </div>
 <div class="child1">
   <mat-label>سماحية الحضور </mat-label>
@@ -63,7 +55,7 @@
     </div>
       </form>
       <div mat-dialog-actions>
-        <button mat-raised-button class="savebtn" (click)="addEmployeeAttendancePermission()" style="margin-left: 8px;">{{actionBtn}}</button>
+        <button mat-raised-button class="savebtn" (click)="addattendanceSchedule()" style="margin-left: 8px;">{{actionBtn}}</button>
       </div>
     </div>
    

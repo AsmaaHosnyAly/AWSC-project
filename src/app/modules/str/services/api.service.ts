@@ -1450,6 +1450,11 @@ export class ApiService {
     console.log('form add product data to backend: ', data);
     return this.http.post<any>(`${this.url}/STRProduct/Add`, data);
   }
+
+  uploadStrProduct(data: any) {
+    console.log('form add product data to backend: ', data);
+    return this.http.post<any>(`${this.url}/STRProduct/upload`, data);
+  }
   getStrProduct() {
     return this.http.get<any>(`${this.url}/STRProduct/get/all`);
   }
