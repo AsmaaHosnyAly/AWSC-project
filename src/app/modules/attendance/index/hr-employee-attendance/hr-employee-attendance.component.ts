@@ -19,21 +19,21 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-import { HrAttendanceScheduleDialogComponent } from '../hr-attendance-schedule-dialog/hr-attendance-schedule-dialog.component';
+import { HrEmployeeAttendancePermissionDialogComponent } from '../hr-employee-attendance-permission-dialog/hr-employee-attendance-permission-dialog.component';
+import { HrEmployeeAttendanceDialogComponent } from '../hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
 
 
 @Component({
-  selector: 'app-hr-attendance-schedule',
-  templateUrl: './hr-attendance-schedule.component.html',
-  styleUrls: ['./hr-attendance-schedule.component.css']
+  selector: 'app-hr-employee-attendance',
+  templateUrl: './hr-employee-attendance.component.html',
+  styleUrls: ['./hr-employee-attendance.component.css']
 })
-export class HrAttendanceScheduleComponent {
-
+export class HrEmployeeAttendanceComponent {
   formcontrol = new FormControl('');
-  cityStateForm!: FormGroup;
+  EmployeeAttendanceForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name', 'startDate','endDate','wrkHours', 'attendanceTime', 'attendanceAllowance', 'departureAllowance', 'action'];
+  displayedColumns: string[] = [ 'name', 'employeeName','attendanceMachineName','date','attendance','departure', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -45,7 +45,7 @@ export class HrAttendanceScheduleComponent {
   ngOnInit(): void {
     // console.log(productForm)
 
-    this.getHrAttendanceSchedule();
+    this.getEmployeeAttendance();
     // this.api.getHrCity().subscribe((cities) => {
     //   this.cities = cities;
     // });
@@ -57,21 +57,21 @@ export class HrAttendanceScheduleComponent {
   }
   openDialog() {
     this.dialog
-      .open(HrAttendanceScheduleDialogComponent, {
+      .open(HrEmployeeAttendanceDialogComponent, {
         width: '50%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getHrAttendanceSchedule();
+          this.getEmployeeAttendance();
         }
       });
   }
 
 
 
-  getHrAttendanceSchedule() {
-    this.api.getHrAttendanceSchedule().subscribe({
+  getEmployeeAttendance() {
+    this.api.getHrEmployeeAttendance().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -83,30 +83,30 @@ export class HrAttendanceScheduleComponent {
     });
   }
 
-  editEmployeeAttendancePermission(row: any) {
+  editEmployeeAttendance(row: any) {
     this.dialog
-      .open(HrAttendanceScheduleDialogComponent, {
+      .open(HrEmployeeAttendanceDialogComponent, {
         width: '50%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getHrAttendanceSchedule();
+          this.getEmployeeAttendance();
         }
       });
   }
 
-  deleteAttendanceSchedule(id: number) {
+  deleteEmployeeAttendance(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteAttendanceSchedule(id)
+      this.api.deleteHrEmployeeAttendance(id)
       .subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
             this.toastrDeleteSuccess();
-          this.getHrAttendanceSchedule();
+          this.getEmployeeAttendance();
   
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")

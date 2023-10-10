@@ -67,6 +67,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   MasterGroupInfoEntered = false;
   dataSource!: MatTableDataSource<any>;
   matchedIds: any;
+  btnDisabled: boolean = false;
+
   getDetailedRowData: any;
   sumOfTotals = 0;
   getMasterRowId: any;
@@ -558,6 +560,8 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.storeName = await this.getStoreByID(
       this.groupMasterForm.getRawValue().storeId
     );
+    this.getAllDetailsForms();
+
 
     // this.sellerName = await this.getsellerByID(this.groupMasterForm.getRawValue().sellerId );
     // this.desstoreName =
@@ -811,46 +815,52 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   // }
 
+  // getAllDetailsForms() {
+   
+
+
+  //   if (this.getMasterRowId) {
+  //     if (this.editData) {
+  //       // console.log("check if details belongs to strAdd or strWithdraw: ", this.editData.hasOwnProperty('strWithDrawDetailsGetVM'));
+
+  //       if (this.editData.hasOwnProperty('strWithDrawDetailsGetVM')) {
+  //         this.btnDisabled = true;
+  //     console.log("masterRowId: ", this.getMasterRowId.id);
+  //     this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
+  //       .subscribe({
+  //         next: (res) => {
+  //           // this.itemsList = res;
+  //           this.matchedIds = res[0].strWithDrawDetailsGetVM;
+
+  //           if (this.matchedIds) {
+  //             console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+  //             this.dataSource = new MatTableDataSource(this.matchedIds);
+  //             this.dataSource.paginator = this.paginator;
+  //             this.dataSource.sort = this.sort;
+
+  //             this.sumOfTotals = 0;
+  //             for (let i = 0; i < this.matchedIds.length; i++) {
+  //               this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+  //               this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+  //               // alert('totalll: '+ this.sumOfTotals)
+  //               // this.updateBothForms();
+  //               this.updateMaster();
+  //             }
+  //           }
+  //         },
+  //         error: (err) => {
+  //           // console.log("fetch items data err: ", err);
+  //           // alert("خطا اثناء جلب العناصر !");
+  //         }
+  //       })
+  //   }
+  // }
   getAllDetailsForms() {
-    // console.log("mastered row get all data: ", this.getMasterRowId)
-    // if (this.getMasterRowId) {
-    //   this.api.getStrWithdrawDetails().subscribe(
-    //     (res) => {
-    //       console.log(
-    //         'res to get all details form: ',
-    //         res,
-    //         'masterRowId: ',
-    //         this.getMasterRowId.id
-    //       );
 
-    //       this.matchedIds = res.filter((a: any) => {
-    //         // console.log("matchedIds: ", a.stR_WithdrawId == this.getMasterRowId.id, "res: ", this.matchedIds)
-    //         return a.stR_WithdrawId == this.getMasterRowId.id;
-    //       });
-
-    //       if (this.matchedIds) {
-    //         this.dataSource = new MatTableDataSource(this.matchedIds);
-    //         this.dataSource.paginator = this.paginator;
-    //         this.dataSource.sort = this.sort;
-
-    //         this.sumOfTotals = 0;
-    //         for (let i = 0; i < this.matchedIds.length; i++) {
-    //           this.sumOfTotals =
-    //             this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-    //           this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-    //           this.updateBothForms();
-    //         }
-    //       }
-    //     },
-    //     (err) => {
-    //       alert('حدث خطا ما !!');
-    //     }
-    //   );
-    // }
-
-
+    console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      console.log("masterRowId: ", this.getMasterRowId.id);
+
+
       this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
@@ -878,8 +888,10 @@ export class StrWithdrawDialogComponent implements OnInit {
             // alert("خطا اثناء جلب العناصر !");
           }
         })
+
     }
   }
+
   async addDetailsInfo() {
     // console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "main id: ", this.getMasterRowId.id);
     console.log('masterrow', this.getMasterRowId.id);
@@ -947,116 +959,110 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   async updateDetailsForm() {
-    console.log(
-      'store id in update:',
-      this.groupMasterForm.getRawValue().storeId
+
+
+    this.desstoreName = await this.getDestStoreById(
+      this.groupMasterForm.getRawValue().deststoreId
     );
-    this.storeName = await this.getStoreByID(
-      this.groupMasterForm.getRawValue().storeId
+    
+    this.itemName = await this.getItemByID(
+      this.groupMasterForm.getRawValue().itemId
     );
+    
+  
+    // this.storeName = await this.getStoreByID(
+    //   this.groupMasterForm.getRawValue().storeId
+    // );
+    
+    // this.storeName = await this.getStoreByID(
+    //   this.groupMasterForm.getRawValue().storeId
+    // );
+    
+    // this.storeName = await this.getStoreByID(
+    //   this.groupMasterForm.getRawValue().storeId
+    // );
     // alert("update Store name: " + this.storeName)
-    this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-    this.groupMasterForm.controls['storeId'].setValue(
+    this.groupMasterForm.controls['itemName'].setValue(this.storeName);
+    this.groupMasterForm.controls['itemId'].setValue(
       this.groupMasterForm.getRawValue().storeId
     );
-    this.groupMasterForm.controls['fiscalYearId'].setValue(
-      this.groupMasterForm.getRawValue().fiscalYearId
+    this.groupMasterForm.controls['fullCode'].setValue(
+      this.groupMasterForm.getRawValue().fullCode
     );
-
-    this.employeeName = await this.getemployeeByID(this.editData.employeeId);
-    // alert("update costcentr id: " + this.groupMasterForm.getRawValue().costcenterId)
-    this.costcenterName = await this.getcostcenterByID(
-      this.groupMasterForm.getRawValue().costCenterId
+    this.groupMasterForm.controls['percentage'].setValue(
+      this.groupMasterForm.getRawValue().percentage
     );
+    this.groupMasterForm.controls['price'].setValue(
+      this.groupMasterForm.getRawValue().price
 
-    // this.desstoreName = await this.getDestStoreById(this.editData.deststoreId);
-
-    // console.log("data storeName in edit: ", this.groupMasterForm.value)
-
-    this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-    this.groupMasterForm.controls['employeeName'].setValue(
-      this.groupMasterForm.getRawValue().employeeName
+    );this.groupMasterForm.controls['qty'].setValue(
+      this.groupMasterForm.getRawValue().qty
     );
-
-    this.groupMasterForm.controls['costcenterName'].setValue(
-      this.costcenterName
+    this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
+      this.getMasterRowId.id
     );
-    this.groupMasterForm.controls['desstoreName'].setValue(
-      this.groupMasterForm.getRawValue().desstoreName
+    
+    this.groupMasterForm.controls['stateName'].setValue(
+      this.groupMasterForm.getRawValue().stateName
     );
-
-    this.groupMasterForm.controls['deststoreId'].setValue(
-      this.editData.deststoreId
+  
+    this.groupMasterForm.controls['state'].setValue(
+      this.groupMasterForm.getRawValue().state
     );
-    // alert("deststoreId::::::::"+this.groupMasterForm.getRawValue().deststoreId)
-    // console.log("values master form: ", this.groupMasterForm.value)
-    // console.log("values getMasterRowId: ", this.getMasterRowId)
-    // console.log("values details form: ", this.groupDetailsForm.value)
+    this.groupMasterForm.controls['total'].setValue(
+      this.groupMasterForm.getRawValue().total
+    );this.groupMasterForm.controls['transactionUserId'].setValue(
+      this.groupMasterForm.getRawValue().transactionUserId
+    );
 
     if (this.editData) {
-      this.groupMasterForm.addControl(
-        'id',
-        new FormControl('', Validators.required)
-      );
+      this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
-      this.groupMasterForm.controls['deststoreId'].setValue(this.editData.deststoreId);
-      // alert("desttoreid in edit dataaa:"+this.editData.deststoreId)
-      console.log('data item Name in edit: ', this.groupMasterForm.value);
-    }
-    if (this.getDetailedRowData) {
-      console.log('details foorm: ', this.groupDetailsForm.value);
-      this.groupDetailsForm.addControl(
-        'id',
-        new FormControl('', Validators.required)
-      );
-      this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
-      // this.groupDetailsForm.controls['state'].setValue(this.editData.id);
-      // this.groupDetailsForm.controls['avgPrice'].setValue(this.getDetailedRowData.avgPrice);
+      // console.log("data item Name in edit: ", this.groupMasterForm.value)
     }
 
-    this.groupMasterForm.addControl(
-      'id',
-      new FormControl('', Validators.required)
-    );
+    this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
     this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+    // this.groupMasterForm.controls['employee_ExchangeId'].setValue(this.getMasterRowId.id);
+    // console.log("data item Name in edit without id: ", this.groupMasterForm.value)
 
-    console.log('put before', this.groupMasterForm.value);
-    this.isEdit = false;
+    this.api.putStrWithdraw(this.groupMasterForm.value)
+      .subscribe({
+        next: (res) => {
+          // alert("تم التعديل بنجاح");
+          console.log("update res: ", res, "details form values: ", this.groupDetailsForm.value, "details id: ", this.getDetailedRowData);
+          // console.log("update res: ", res, "details form values: ", this.groupDetailsForm.value, "details id: ", this.getDetailedRowData);
+          if (this.groupDetailsForm.value && this.getDetailedRowData) {
 
-    this.api.putStrWithdraw(this.groupMasterForm.value).subscribe({
-      next: (res) => {
-        if (this.groupDetailsForm.value && this.getDetailedRowData) {
-          this.api
-            .putStrWithdrawDetails(this.groupDetailsForm.value)
-            .subscribe({
-              next: (res) => {
-                // alert("put")
-                this.toastrSuccess();
-                // console.log("update res: ", res);
-                this.groupDetailsForm.reset();
-                this.getAllDetailsForms();
-                this.itemCtrl.setValue('');
-                this.itemByFullCodeValue = '';
-                this.fullCodeValue = '';
-                this.getDetailedRowData = '';
-                // alert('تم التعديل بنجاح');
-                // this.toastrEditSuccess();
+            this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+            this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
 
-                // this.dialogRef.close('update');
-              },
-              error: (err) => {
-                // console.log("update err: ", err)
-                // alert("خطأ أثناء تحديث سجل المجموعة !!")
-              },
-            });
+            this.api.putStrWithdrawDetails(this.groupDetailsForm.value)
+              .subscribe({
+                next: () => {
+                  // alert("تم تحديث التفاصيل بنجاح");
+                  // this.toastrEditSuccess();
+                  // console.log("update res: ", res);
+                  this.groupDetailsForm.reset();
+                  this.getAllDetailsForms();
+                  this.getDetailedRowData = '';
+                  // this.dialogRef.close('update');
+                },
+                error: () => {
+                  // console.log("update err: ", err)
+                  // alert("خطأ أثناء تحديث سجل المجموعة !!")
+                }
+              })
+            this.groupDetailsForm.removeControl('id')
+
+          }
+
+          // this.dialogRef.close('update');
+        },
+        error: () => {
+          // alert("خطأ أثناء تحديث سجل الصنف !!")
         }
-
-        // this.dialogRef.close('update');
-      },
-      // error: () => {
-      //   alert("خطأ أثناء تحديث سجل الصنف !!")
-      // }
-    });
+      })
   }
 
   updateBothForms() {
@@ -1076,10 +1082,38 @@ export class StrWithdrawDialogComponent implements OnInit {
       this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
         this.getMasterRowId.id
       );
+      this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
+        this.getMasterRowId.id
+      );
       this.groupDetailsForm.controls['total'].setValue(
         parseFloat(this.groupDetailsForm.getRawValue().price) *
         parseFloat(this.groupDetailsForm.getRawValue().qty)
       );
+      // this.api.putStrAdd(this.groupMasterForm.value)
+      // .subscribe({
+      //   next: (res) => {
+      //     // alert("تم الحفظ بنجاح");
+      //     console.log("update res: ", res, "details form values: ", this.groupDetailsForm.value, "details id: ", this.getDetailedRowData);
+      //     if (this.groupDetailsForm.value && this.getDetailedRowData) {
+      //       this.api.putStrWithdrawDetails(this.groupDetailsForm.value)
+      //         .subscribe({
+      //           next: (res) => {
+      //             this.groupDetailsForm.reset();
+      //             this.getAllDetailsForms();
+      //             this.getDetailedRowData = '';
+      //             // this.dialogRef.close('update');
+      //           },
+      //           error: (err) => {
+      //             // console.log("update err: ", err)
+      //             // alert("خطأ أثناء تحديث سجل المجموعة !!")
+      //           }
+      //         })
+      //     }
+
+      //     // this.dialogRef.close('update');
+      //   },
+
+      // })
 
       this.updateDetailsForm();
     }
@@ -1121,8 +1155,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   getAllMasterForms() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
+    // let result = window.confirm('هل تريد اغلاق الطلب');
+    // if (result) {
       //   if(this.actionBtnMaster=='save'){
       //     this.dialogRef.close('save');
       // }
@@ -1143,7 +1177,7 @@ export class StrWithdrawDialogComponent implements OnInit {
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
         },
       });
-    }
+    // }
   }
 
   async getStores() {

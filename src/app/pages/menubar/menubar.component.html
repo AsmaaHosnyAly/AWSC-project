@@ -638,7 +638,7 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
-                routerLink="/pr-group"
+                routerLink="/hr-attendanceSchedule"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
               >
                 <p class="font">جدول الحضور</p>
@@ -679,7 +679,15 @@
           *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
         >
           <p class="font">تصريح  حضور الموظف </p>
-        </a>
+        </a>EmployeeAttendance
+        <a
+        mat-list-item
+        class="sideNavSubItems"
+        routerLink="/hr-EmployeeAttendance"
+        *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+      >
+        <p class="font"> حضور الموظف </p>
+      </a>
         </mat-nav-list>
       </mat-expansion-panel>
     </mat-nav-list>

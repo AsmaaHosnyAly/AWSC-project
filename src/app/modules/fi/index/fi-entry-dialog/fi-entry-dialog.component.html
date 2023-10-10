@@ -93,7 +93,7 @@
                         <mat-label>الفرق</mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
-                            <input matInput placeholder="الفرق" type="number"
+                            <input matInput placeholder="الفرق" type="number" pattern="\d{1,2}(\.\d{1,2})?"
                                 [value]="groupMasterForm ? groupMasterForm.getRawValue().balance : resultOfBalance"
                                 readonly>
                         </mat-form-field>
