@@ -247,7 +247,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.dialog
       .open(StrWithdrawDialogComponent, {
         width: '95%',
-        height: '85%',
+        height: '79%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -314,7 +314,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.dialog
       .open(StrWithdrawDialogComponent, {
         width: '95%',
-        height: '85%',
+        height: '79%',
         data: row,
       })
       .afterClosed()

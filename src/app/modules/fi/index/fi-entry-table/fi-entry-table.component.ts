@@ -179,7 +179,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '100%'
+        height: '79%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -329,7 +329,7 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '95%',
-        height: '100%',
+        height: '79%',
         data: row,
       })
       .afterClosed()
@@ -367,7 +367,6 @@ export class FiEntryTableComponent implements OnInit {
                     this.api.deleteFiEntry(id).subscribe({
                       next: (res) => {
                         // alert('تم حذف الرئيسي بنجاح');
-                        this.toastrDeleteSuccess();
                         this.getAllMasterForms();
                       },
                       error: () => {
