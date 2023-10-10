@@ -455,6 +455,9 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
   getFiEntryDetails() {
     return this.http.get<any>(`${this.url}/FIEntryDetails/get/all`);
   }
+  getFiEntryDetailsByMasterId(id :any) {
+    return this.http.get<any>(`${this.url}/FIEntryDetails/get/By/Header/${id}`);
+  }
   putFiEntryDetails(data: any) {
     console.log('put fiEntryDetails data with id: ', data);
     return this.http.put<any>(`${this.url}/FIEntryDetails/update/`, data);
