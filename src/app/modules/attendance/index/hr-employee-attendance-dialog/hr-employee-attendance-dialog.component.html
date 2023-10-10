@@ -5,13 +5,13 @@
   <form [formGroup]="EmployeeAttendance" dir="rtl">
       <div mat-dialog-content>
         <form [formGroup]="EmployeeAttendance">
-          <div class="child1">
+          <!-- <div class="child1">
           <mat-label>الاسم </mat-label>
           <mat-form-field appearance="outline">
             <input formControlName="name" matInput placeholder="ادخل الاسم">
           </mat-form-field>
-          </div>
-          <div class="child1">
+          </div> -->
+         
           <mat-label>الموظف</mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
@@ -23,7 +23,7 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-          </div>
+          
           <div class="child1">
           <mat-label>التصريح</mat-label>
           <mat-form-field appearance="outline">
@@ -38,26 +38,6 @@
           </mat-form-field>
           </div>
           <div class="child1">
-          <mat-label>الحضور</mat-label>
-          <mat-form-field appearance="outline" >
-            <input matInput [matDatepicker]="picker" formControlName="attendance">
-            <mat-datepicker-toggle matIconSuffix [for]="picker">
-                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-    </div>
-        <div class="child1">
-            <mat-label>الانصراف</mat-label>
-            <mat-form-field appearance="outline" >
-              <input matInput [matDatepicker]="picker2" formControlName="departure">
-              <mat-datepicker-toggle matIconSuffix [for]="picker2">
-                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-              </mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-          </mat-form-field>
-        </div>
-          <div class="child1">
             <mat-label>التاريخ</mat-label>
             <mat-form-field appearance="outline" >
               <input matInput [matDatepicker]="picker1" formControlName="date">
@@ -67,6 +47,20 @@
               <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
       </div>
+          <div class="child1">
+          <mat-label>الحضور</mat-label>
+          <mat-form-field appearance="outline" >
+            <input matInput type="time" formControlName="attendance">
+        </mat-form-field>
+       
+    </div>
+        <div class="child1">
+            <mat-label>الانصراف</mat-label>
+            <mat-form-field appearance="outline" >             
+            <input matInput type="time" formControlName="departure">
+          </mat-form-field>
+        </div>
+      
         </form>
         <div mat-dialog-actions>
           <button mat-raised-button class="savebtn" (click)="addEmployeeAttendance()" style="margin-left: 8px;">{{actionBtn}}</button>
