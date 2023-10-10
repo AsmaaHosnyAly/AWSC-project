@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 
 @Component({
   selector: 'app-hr-employee-attendance-schedule',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./hr-employee-attendance-schedule.component.css']
 })
 export class HrEmployeeAttendanceScheduleComponent {
-
+  
 }
+
+
