@@ -1139,7 +1139,7 @@ export class ApiService {
   }
   getStrEmployeeExchangeDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STREmployeeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`
+      `${this.url}/STREmployeeExchangeDetails/get/by/header/${id}`
     );
   }
   putStrEmployeeExchangeDetails(data: any) {
@@ -1282,7 +1282,7 @@ export class ApiService {
   getStrEmployeeOpenDetailsByMasterId(id: any) {
     console.log("custodyId: ", id);
     return this.http.get<any>(
-      `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
+      `${this.url}/STREmployeeOpeningCustodyDetails/get/by/header/${id}`
     );
   }
   putStEmp(data: any) {
@@ -1451,6 +1451,11 @@ export class ApiService {
     console.log('form add product data to backend: ', data);
     return this.http.post<any>(`${this.url}/STRProduct/Add`, data);
   }
+
+  uploadStrProduct(data: any) {
+    console.log('form add product data to backend: ', data);
+    return this.http.post<any>(`${this.url}/STRProduct/upload`, data);
+  }
   getStrProduct() {
     return this.http.get<any>(`${this.url}/STRProduct/get/all`);
   }
@@ -1502,7 +1507,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRAdd/get/all`);
   }
   getStrAddPaginateByUserId(userId: any, currentPage: any, pageSize: any) {
-    let urlPassed = `${this.url}/STRAdd/get/ByUserStore/${userId}?page=${currentPage}&pageSize=${pageSize}`;
+    let urlPassed = `${this.url}/STRAdd/get/By/User/Stores/${userId}?page=${currentPage}&pageSize=${pageSize}`;
     return urlPassed;
   }
   putStrAdd(data: any) {

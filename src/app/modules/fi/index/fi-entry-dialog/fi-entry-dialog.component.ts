@@ -290,11 +290,11 @@ export class FiEntryDialogComponent implements OnInit {
       this.api.getFiEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
           // this.itemsList = res;
-          this.matchedIds = res[0].FiEntryDetailsGetVM;
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].FiEntryDetailsGetVM);
+          this.matchedIds = res;
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
 
           if (this.matchedIds) {
-            // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].fiEntryDetailsGetVM);
+            // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
             this.dataSource = new MatTableDataSource(this.matchedIds);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
