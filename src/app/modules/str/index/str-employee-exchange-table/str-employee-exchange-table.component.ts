@@ -639,7 +639,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
           employeeId,
           costCenterId,
           report,
-          reportType
+          'pdf'
         )
         .subscribe({
           next: (res) => {
@@ -703,6 +703,9 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   //   location.reload();
   // }
 
+
+
+  
   printReport() {
     // this.loadAllData();
     let header: any = document.getElementById('header');

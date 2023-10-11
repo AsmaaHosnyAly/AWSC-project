@@ -726,7 +726,7 @@ export class StrWithdrawTableComponent implements OnInit {
           employee,
           costCenter,
           report,
-          reportType
+          'pdf'
         )
         .subscribe({
           next: (res) => {

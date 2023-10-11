@@ -89,8 +89,36 @@
 
 
 
-        <mat-icon class="icons" title="عرض" (click)="printReport()" class="icons" title="تحميل">print</mat-icon>
+          <div class="searchLabels">
+            <mat-label> التقارير</mat-label>
+  
+            <mat-form-field appearance="outline" class="searchForm">
+              <mat-select #report formControlName="report">
+                <mat-option value="StockTakingReport">تقرير </mat-option>
+                <!-- <mat-option value="EmployeeOpeningDetailsReport">تقرير تفصيلي</mat-option> -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+  
+          <div class="searchLabels">
+            <mat-label> نوع التقرير</mat-label>
+  
+            <mat-form-field appearance="outline" class="searchForm">
+              <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
+                <mat-option value="pdf"> PDF </mat-option>
+                <mat-option value="xls">Excel</mat-option>
+             
+  
+  
+              </mat-select>
+            </mat-form-field>
+          </div>
 
+          <mat-icon class="icons" title="عرض" (click)="previewPrint(no.value, date.value,fiscalYear.value,report.value,reportType.value)"
+          class="icons" title="تحميل">print</mat-icon>
+
+        <mat-icon (click)="download(no.value, date.value,fiscalYear.value,report.value,reportType.value)" class="icons"
+          title="تحميل">get_app</mat-icon>
 
 
         <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
