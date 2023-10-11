@@ -361,10 +361,10 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
         next: (res) => {
           // this.itemsList = res;
           console.log("enter getAllDetails: ", res)
-          this.matchedIds = res[0].strEmployeeExchangeDetailsGetVM;
+          this.matchedIds = res;
 
           if (this.matchedIds) {
-            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strEmployeeExchangeDetailsGetVM);
+            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
             this.dataSource = new MatTableDataSource(this.matchedIds);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
