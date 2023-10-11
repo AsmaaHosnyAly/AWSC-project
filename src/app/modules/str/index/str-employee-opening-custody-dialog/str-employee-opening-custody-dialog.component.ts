@@ -481,12 +481,12 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
           next: (res) => {
             console.log("res comming: ", res)
             // this.itemsList = res;
-            this.matchedIds = res[0].strEmployeeOpeningCustodyDetailsGetVM;
+            this.matchedIds = res;
 
             if (this.matchedIds) {
               console.log(
                 'eeeeeeeeeeeeeeeeeeeeeeeeeeee: ',
-                res[0].strEmployeeOpeningCustodyDetailsGetVM
+                res
               );
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;

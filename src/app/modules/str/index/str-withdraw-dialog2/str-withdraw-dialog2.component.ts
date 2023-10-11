@@ -865,10 +865,10 @@ export class StrWithdrawDialogComponent implements OnInit {
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
-            this.matchedIds = res[0].strWithDrawDetailsGetVM;
+            this.matchedIds = res;
 
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
