@@ -265,7 +265,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       destStoreUserId: [1, Validators.required],
       itemId: [''],
       stateId: [''],
-
+      // sourceInputId:[''],
       // withDrawNoId: ['' ],
 
       itemName: [''],
@@ -292,15 +292,24 @@ export class StrWithdrawDialogComponent implements OnInit {
       if (this.editData.employeeId == null) {
         this.actionName = 'sss';
         console.log('action btnnnnnnnnnnnnn', this.actionName);
-
+        let type='المخزن';
+        this.getListCtrl(type);
+this.getDestStores();
         this.groupMasterForm.controls['type'].setValue('المخزن');
         this.groupMasterForm.controls['sourceInput'].setValue(
           this.groupMasterForm.getRawValue().desstoreName
         );
+        // this.groupMasterForm.controls['sourceInputId'].setValue(
+        //   this.groupMasterForm.getRawValue().desstorId
+        // );
 
         // alert("deststore in edit:"+this.editData.deststoreId)
       } else {
         this.actionName = 'choose';
+        let type='الموظف';
+        this.getListCtrl(type);
+        this.getEmployees();
+
         this.groupMasterForm.controls['type'].setValue('الموظف');
         this.groupMasterForm.controls['sourceInput'].setValue(
           this.groupMasterForm.getRawValue().employeeName
@@ -315,7 +324,6 @@ export class StrWithdrawDialogComponent implements OnInit {
       console.log('master edit form: ', this.editData);
       // this.actionName= "ssss";
       this.actionBtnMaster = 'Update';
-
       console.log('employeeId in edittttt', this.editData.employeeId);
       this.groupMasterForm.controls['productionDate'].setValue(this.editData.productionDate)
       this.groupMasterForm.controls['expireDate'].setValue(this.editData.expireDate)
@@ -375,6 +383,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       this.isEditDataReadOnly = true;
     }
     //
+// this.listSelected();
 
     this.getAllDetailsForms();
 
@@ -1258,6 +1267,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     }
   }
   getEmployees() {
+    console.log("hey from employeeeeee")
     this.api.getEmployee().subscribe({
       next: (res) => {
         this.employeesList = res;
@@ -1493,10 +1503,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   listSelected(event: MatAutocompleteSelectedEvent): void {
     const list = event.option.value as List;
     this.selectedList = list;
-    // if(this.sourceSelected === "المورد"){
-    //   this.groupMasterForm.patchValue({ sellerId: list.id });
-    // this.groupMasterForm.patchValue({ sellerName: list.name });
-    // }
+  
     if (this.sourceSelected === 'الموظف') {
       this.groupMasterForm.patchValue({ employeeId: list.id });
       this.groupMasterForm.patchValue({ employeeName: list.name });
@@ -1525,28 +1532,17 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   getListCtrl(type: any) {
     this.sourceSelected = type;
-    // if(type==="المورد"){
-
-    //   this.api.getAllSellers().subscribe((lists)=>{
-    //     this.lists = lists;
-    //     console.log("rrr: ", lists)
-    //     this.groupMasterForm.controls['sourceStoreId'].setValue(null);
-    //   this.groupMasterForm.controls['employeeId'].setValue(null);
-
-    //   });
-    // }
+   
     if (type === 'الموظف') {
       this.api.getEmployee().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['deststoreId'].setValue(null);
-        // this.groupMasterForm.controls['sellerId'].setValue(null);
         this.groupMasterForm.controls['type'].setValue('الموظف');
         this.actionName = 'choose';
       });
     } else {
       this.api.getAllstores().subscribe((lists) => {
         this.lists = lists;
-        // this.groupMasterForm.controls['sellerId'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
         this.groupMasterForm.controls['type'].setValue('المخزن');
         this.actionName = 'store';

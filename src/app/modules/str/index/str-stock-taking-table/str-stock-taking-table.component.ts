@@ -247,7 +247,7 @@ export class StrStockTakingTableComponent implements OnInit {
   }
   openStockTkingkDialog() {
     this.dialog.open(StrStockTakingDialogComponent, {
-      width: '98%',
+      width: '72%',
       height: '79%',
     }).afterClosed().subscribe(val => {
       if (val === 'Save') {
@@ -259,7 +259,7 @@ export class StrStockTakingTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(StrStockTakingDialogComponent, {
-        width: '98%',
+        width: '72%',
       height: '79%',
         data: row,
       })
