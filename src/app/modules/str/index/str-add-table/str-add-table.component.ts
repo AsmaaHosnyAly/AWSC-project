@@ -285,6 +285,8 @@ export class STRAddTableComponent implements OnInit {
       this.pageSize = 5;
 
       this.isLoading = true;
+      console.log("first time: ");
+
 
       fetch(this.api.getStrAddPaginateByUserId(localStorage.getItem('transactionUserId'), this.currentPage, this.pageSize))
         .then(response => response.json())
@@ -307,6 +309,7 @@ export class STRAddTableComponent implements OnInit {
     }
     else {
       this.isLoading = true;
+      console.log("second time: ");
 
       fetch(this.api.getStrAddPaginateByUserId(localStorage.getItem('transactionUserId'), this.currentPage, this.pageSize))
         .then(response => response.json())

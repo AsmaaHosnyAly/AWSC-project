@@ -865,10 +865,10 @@ export class StrWithdrawDialogComponent implements OnInit {
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
-            this.matchedIds = res[0].strWithDrawDetailsGetVM;
+            this.matchedIds = res;
 
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
@@ -876,7 +876,7 @@ export class StrWithdrawDialogComponent implements OnInit {
               this.sumOfTotals = 0;
               for (let i = 0; i < this.matchedIds.length; i++) {
                 this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                this.groupMasterForm.controls['total'].setValue( Number(this.sumOfTotals.toFixed(2)));
                 // alert('totalll: '+ this.sumOfTotals)
                 // this.updateBothForms();
                 this.updateMaster();

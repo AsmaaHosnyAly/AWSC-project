@@ -341,10 +341,10 @@ export class STRAddDialogComponent implements OnInit {
                 // this.itemsList = res;
                 console.log("enter getAllDetails: ", res);
                 // if(res[0].includes('strWithDrawDetailsGetVM'))
-                this.matchedIds = res[0].strAddDetailsGetVM;
+                this.matchedIds = res;
 
                 if (this.matchedIds) {
-                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
+                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
                   this.dataSource = new MatTableDataSource(this.matchedIds);
                   this.dataSource.paginator = this.paginator;
                   this.dataSource.sort = this.sort;
@@ -373,10 +373,10 @@ export class STRAddDialogComponent implements OnInit {
                 // this.itemsList = res;
                 console.log("enter getAllDetails: ", res);
                 // if(res[0].includes('strWithDrawDetailsGetVM'))
-                this.matchedIds = res[0].strAddDetailsGetVM;
+                this.matchedIds = res;
 
                 if (this.matchedIds) {
-                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
+                  console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
                   this.dataSource = new MatTableDataSource(this.matchedIds);
                   this.dataSource.paginator = this.paginator;
                   this.dataSource.sort = this.sort;
