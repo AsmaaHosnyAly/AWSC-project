@@ -24,7 +24,7 @@ export class HrAttendanceScheduleDialogComponent {
   transactionUserId=localStorage.getItem('transactionUserId')
 
   formcontrol = new FormControl('');  
-  EmployeeAttendancePermission !:FormGroup;
+  attendanceScheduleForm !:FormGroup;
   actionBtn : string = "حفظ"
   selectedOption:any;
 dataSource!: MatTableDataSource<any>;
@@ -43,7 +43,7 @@ accordion!: MatAccordion;
     private dialogRef : MatDialogRef<HrAttendanceScheduleDialogComponent>){
     }
     ngOnInit(): void {
-      this.EmployeeAttendancePermission = this.formBuilder.group({
+      this.attendanceScheduleForm = this.formBuilder.group({
         //define the components of the form
       transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
@@ -58,37 +58,37 @@ accordion!: MatAccordion;
       
       this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
         // Call the deleteGrade() function in the current component
-        this.addEmployeeAttendancePermission();
+        this.addattendanceSchedule();
         return false; // Prevent the default browser behavior
       }));
       if(this.editData){
         this.actionBtn = "تعديل";
-      this.EmployeeAttendancePermission.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-      this.EmployeeAttendancePermission.controls['name'].setValue(this.editData.name);
-      this.EmployeeAttendancePermission.controls['startDate'].setValue(this.editData.startDate);
-      this.EmployeeAttendancePermission.controls['endDate'].setValue(this.editData.endDate);
-      this.EmployeeAttendancePermission.controls['wrkHours'].setValue(this.editData.wrkHours);
-      this.EmployeeAttendancePermission.controls['attendanceTime'].setValue(this.editData.attendanceTime);
-      this.EmployeeAttendancePermission.controls['attendanceAllowance'].setValue(this.editData.attendanceAllowance);
-      this.EmployeeAttendancePermission.controls['departureAllowance'].setValue(this.editData.departureAllowance);
-      this.EmployeeAttendancePermission.addControl('id', new FormControl('', Validators.required));
-      this.EmployeeAttendancePermission.controls['id'].setValue(this.editData.id);
+      this.attendanceScheduleForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.attendanceScheduleForm.controls['name'].setValue(this.editData.name);
+      this.attendanceScheduleForm.controls['startDate'].setValue(this.editData.startDate);
+      this.attendanceScheduleForm.controls['endDate'].setValue(this.editData.endDate);
+      this.attendanceScheduleForm.controls['wrkHours'].setValue(this.editData.wrkHours);
+      this.attendanceScheduleForm.controls['attendanceTime'].setValue(this.editData.attendanceTime);
+      this.attendanceScheduleForm.controls['attendanceAllowance'].setValue(this.editData.attendanceAllowance);
+      this.attendanceScheduleForm.controls['departureAllowance'].setValue(this.editData.departureAllowance);
+      this.attendanceScheduleForm.addControl('id', new FormControl('', Validators.required));
+      this.attendanceScheduleForm.controls['id'].setValue(this.editData.id);
       }
     }
 
-  addEmployeeAttendancePermission(){
+  addattendanceSchedule(){
     if(!this.editData){
       
-      this.EmployeeAttendancePermission.removeControl('id')
+      this.attendanceScheduleForm.removeControl('id')
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
-      console.log("add: ", this.EmployeeAttendancePermission.value);
-      this.EmployeeAttendancePermission.controls['transactionUserId'].setValue(this.transactionUserId);
-      if(this.EmployeeAttendancePermission.valid){
-        this.api.postHrAttendanceSchedule(this.EmployeeAttendancePermission.value)
+      console.log("add: ", this.attendanceScheduleForm.value);
+      this.attendanceScheduleForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      if(this.attendanceScheduleForm.valid){
+        this.api.postHrAttendanceSchedule(this.attendanceScheduleForm.value)
         .subscribe({
           next:(res)=>{
             this.toastrSuccess();
-            this.EmployeeAttendancePermission.reset();
+            this.attendanceScheduleForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -97,17 +97,17 @@ accordion!: MatAccordion;
         })
       }
     }else{
-      this.updateEmployeeAttendancePermission()
+      this.updateattendanceSchedule()
     }
   }
 
 
-  updateEmployeeAttendancePermission(){
-        this.api.putHrAttendanceSchedule(this.EmployeeAttendancePermission.value)
+  updateattendanceSchedule(){
+        this.api.putHrAttendanceSchedule(this.attendanceScheduleForm.value)
         .subscribe({
           next:(res)=>{
             this.toastrEditSuccess();
-            this.EmployeeAttendancePermission.reset();
+            this.attendanceScheduleForm.reset();
             this.dialogRef.close('update');
           },
           error:()=>{

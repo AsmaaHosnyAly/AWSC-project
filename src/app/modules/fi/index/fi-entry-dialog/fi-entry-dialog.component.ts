@@ -285,71 +285,35 @@ export class FiEntryDialogComponent implements OnInit {
 
   getAllDetailsForms() {
     // console.log("edddit get all data: ", this.editData)
-    // console.log("mastered row get all data: ", this.getMasterRowId)
+    console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      this.api.getFiEntryDetails().subscribe({
+      this.api.getFiEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
-          this.matchedIds = res.filter((a: any) => {
-            // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-            return a.entryId == this.getMasterRowId.id;
-          });
+          // this.itemsList = res;
+          this.matchedIds = res[0].FiEntryDetailsGetVM;
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].FiEntryDetailsGetVM);
 
           if (this.matchedIds) {
+            // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].fiEntryDetailsGetVM);
             this.dataSource = new MatTableDataSource(this.matchedIds);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
 
-            this.sumOfCreditTotals = 0;
-            this.sumOfDebitTotals = 0;
-            this.resultOfBalance = 0;
+            this.sumOfTotals = 0;
             for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfCreditTotals =
-                this.sumOfCreditTotals + parseFloat(this.matchedIds[i].credit);
-              this.groupMasterForm.controls['creditTotal'].setValue(
-                // this.sumOfCreditTotals
-                  Number(this.sumOfCreditTotals.toFixed(2))
-                
-              );
-              this.sumOfDebitTotals =
-                this.sumOfDebitTotals + parseFloat(this.matchedIds[i].debit);
-              this.groupMasterForm.controls['debitTotal'].setValue(
-                // this.sumOfDebitTotals
-                Number(this.sumOfDebitTotals.toFixed(2))
-
-              );
-
-              if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
-                this.resultOfBalance =
-                  this.sumOfCreditTotals - this.sumOfDebitTotals;
-                this.groupMasterForm.controls['balance'].setValue(
-                  Number(this.resultOfBalance.toFixed(2))
-                );
-              } else {
-                this.resultOfBalance =
-                  this.sumOfDebitTotals - this.sumOfCreditTotals;
-                this.groupMasterForm.controls['balance'].setValue(
-                  Number(this.resultOfBalance.toFixed(2))
-                );
-              }
-
-              if (this.resultOfBalance == 0) {
-                this.groupMasterForm.controls['state'].setValue('مغلق');
-              } else {
-                this.groupMasterForm.controls['state'].setValue('مفتوح');
-              }
-              this.updateBothForms();
+              this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+              // alert('totalll: '+ this.sumOfTotals)
+              // this.updateBothForms();
+              this.updateMaster();
             }
-            // alert('resultOFBalance before: ' + this.resultOfBalance);
-            //  this.resultOfBalance = Number(this.resultOfBalance.toFixed(2));
-            // alert(
-            //   'resultOFBalance: ' + Number(this.resultOfBalance.toFixed(2))
-            // );
           }
         },
         error: (err) => {
-          // alert("حدث خطا ما !!")
-        },
-      });
+          // console.log("fetch items data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
     }
   }
 
@@ -689,22 +653,22 @@ export class FiEntryDialogComponent implements OnInit {
     this.toastr.success('تم الحذف بنجاح');
   }
   getAllMasterForms() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
+    // let result = window.confirm('هل تريد اغلاق الطلب');
+    // if (result) {
       this.dialogRef.close('save');
 
-      // this.api.getFiEntry().subscribe({
-      //   next: (res) => {
-      //     // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-      //     this.dataSource = new MatTableDataSource(res);
-      //     this.dataSource.paginator = this.paginator;
-      //     this.dataSource.sort = this.sort;
-      //   },
-      //   error: () => {
-      //     // alert("خطأ أثناء جلب سجلات المجموعة !!");
-      //   },
-      // });
-    }
+      this.api.getFiEntry().subscribe({
+        next: (res) => {
+          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+          this.dataSource = new MatTableDataSource(res);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: () => {
+          // alert("خطأ أثناء جلب سجلات المجموعة !!");
+        },
+      });
+    // }
   }
 
   async updateMaster() {

@@ -58,21 +58,21 @@ export class ApiService {
    /************Hr-Employee-attendence- crud*******************/
 
    postHrEmployeeAttendance(data: any) {
-    return this.http.post<any>(`${this.url}/Add`, data);
+    return this.http.post<any>(`${this.url}/HrEmployeeAttendance/Add`, data);
   }
  
   getHrEmployeeAttendance() {
-    return this.http.get<any>(`${this.url}/get/all`);
+    return this.http.get<any>(`${this.url}/HrEmployeeAttendance/get/all`);
   }
   putHrEmployeeAttendance(data: any) {
     return this.http.put<any>(
-      `${this.url}/update`,
+      `${this.url}/HrEmployeeAttendance/update`,
       data
     );
   }
   deleteHrEmployeeAttendance(id: number) {
     return this.http.delete<any>(
-      `${this.url}/delete/${id}`
+      `${this.url}/HrEmployeeAttendance/delete/${id}`
     );
   }
 
