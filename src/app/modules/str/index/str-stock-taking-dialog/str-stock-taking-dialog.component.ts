@@ -728,7 +728,7 @@ export class StrStockTakingDialogComponent implements OnInit {
   editDetailsForm(row: any) {
 
 
-    this.router.navigate(['/StockTaking'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, date: this.groupMasterForm.getRawValue().date } })
+    this.router.navigate(['/StrStockTaking'], { queryParams: { StoreId: this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date }  })
     this.dialog.open(StrStockTakingDetailsDialogComponent, {
       width: '98%',
       height: '79%',      data: row,
