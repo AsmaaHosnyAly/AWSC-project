@@ -238,24 +238,22 @@ export class StrStockTakingTableComponent implements OnInit {
     });
   }
   openStockTkingkDialog() {
-    this.dialog
-      .open(StrStockTakingDialogComponent, {
-        width: '98%',
-        height: '79%',
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'Save') {
-          // alert("refreshhhh")
-          this.getAllMasterForms();
-        }
-      });
+    this.dialog.open(StrStockTakingDialogComponent, {
+      width: '72%',
+      height: '79%',
+    }).afterClosed().subscribe(val => {
+      if (val === 'Save') {
+        // alert("refreshhhh")
+        this.getAllMasterForms();
+      }
+    })
+
   }
   editMasterForm(row: any) {
     this.dialog
       .open(StrStockTakingDialogComponent, {
-        width: '98%',
-        height: '79%',
+        width: '72%',
+      height: '79%',
         data: row,
       })
       .afterClosed()
