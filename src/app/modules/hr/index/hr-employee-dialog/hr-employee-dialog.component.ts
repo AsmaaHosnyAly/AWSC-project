@@ -465,9 +465,22 @@ export class HrEmployeeDialogComponent implements OnInit {
 
 
 
-      console.log('form', this.groupForm.value)
+      console.log('form in ts', this.groupForm.value)
       console.log('jobtitle', this.groupForm.getRawValue().jobTitleId)
 
+      console.log("date json beore: ", this.groupForm.getRawValue().birth_Date);
+      console.log("date json after: ", this.groupForm.getRawValue().birth_Date.toISOString());
+      
+      this.groupForm.controls['birth_Date'].setValue(this.groupForm.getRawValue().birth_Date.toISOString());
+      this.groupForm.controls['qualificationDate'].setValue(this.groupForm.getRawValue().qualificationDate.toISOString());
+      this.groupForm.controls['hiringDate'].setValue(this.groupForm.getRawValue().hiringDate.toISOString());
+      this.groupForm.controls['workingStateDate'].setValue(this.groupForm.getRawValue().workingStateDate.toISOString());
+      this.groupForm.controls['financialDegreeDate'].setValue(this.groupForm.getRawValue().financialDegreeDate.toISOString());
+      this.groupForm.controls['national_Code'].setValue(this.groupForm.getRawValue().national_Code.toString());
+      this.groupForm.controls['code'].setValue(this.groupForm.getRawValue().code.toString());
+
+      console.log('post form sent', this.groupForm.value);
+      
       if (this.groupForm.valid) {
       this.api.postHrEmployee(this.groupForm.value)
         .subscribe({
@@ -500,8 +513,8 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.api.putHrEmployee(this.groupForm.value)
       .subscribe({
         next: (res) => {
-          alert("تم تحديث انواع التعيين بنجاح");
-          this.toastrSuccess();
+          // alert("تم تحديث انواع التعيين بنجاح");
+          this.toastrEditSuccess();
           this.groupForm.reset();
           this.dialogRef.close('update');
         },
@@ -740,5 +753,11 @@ export class HrEmployeeDialogComponent implements OnInit {
   }
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }

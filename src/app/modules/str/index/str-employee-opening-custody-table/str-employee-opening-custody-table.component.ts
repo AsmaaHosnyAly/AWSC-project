@@ -195,7 +195,7 @@ loading :boolean=false;
     this.dialog
       .open(STREmployeeOpeningCustodyDialogComponent, {
         width: '98%',
-        height: '85%',
+        height: '79%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -209,7 +209,7 @@ loading :boolean=false;
     this.dialog
       .open(STREmployeeOpeningCustodyDialogComponent, {
         width: '98%',
-        height: '85%',
+        height: '79%',
         data: row,
       })
       .afterClosed()

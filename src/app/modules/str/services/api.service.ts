@@ -937,7 +937,7 @@ export class ApiService {
   }
   getStrOpenDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STROpeningStock/GetopenstockDetailsByopenStockId/${id}`
+      `${this.url}/STROpeningStockDetails/Get/by/header/${id}`
     );
   }
   putStrOpenDetails(data: any, id: number) {
@@ -1139,7 +1139,7 @@ export class ApiService {
   }
   getStrEmployeeExchangeDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STREmployeeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`
+      `${this.url}/STREmployeeExchangeDetails/get/by/header/${id}`
     );
   }
   putStrEmployeeExchangeDetails(data: any) {
@@ -1282,7 +1282,7 @@ export class ApiService {
   getStrEmployeeOpenDetailsByMasterId(id: any) {
     console.log("custodyId: ", id);
     return this.http.get<any>(
-      `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
+      `${this.url}/STREmployeeOpeningCustodyDetails/get/by/header/${id}`
     );
   }
   putStEmp(data: any) {
@@ -1337,7 +1337,7 @@ export class ApiService {
   }
   getStrWithdrawDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STRWithdrawDetails/WithDraw/${id}`
+      `${this.url}/STRWithdrawDetails/get/by/header/${id}`
     );
   }
   putStrWithdrawDetails(data: any) {
@@ -1451,6 +1451,11 @@ export class ApiService {
     console.log('form add product data to backend: ', data);
     return this.http.post<any>(`${this.url}/STRProduct/Add`, data);
   }
+
+  uploadStrProduct(data: any) {
+    console.log('form add product data to backend: ', data);
+    return this.http.post<any>(`${this.url}/STRProduct/upload`, data);
+  }
   getStrProduct() {
     return this.http.get<any>(`${this.url}/STRProduct/get/all`);
   }
@@ -1502,7 +1507,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRAdd/get/all`);
   }
   getStrAddPaginateByUserId(userId: any, currentPage: any, pageSize: any) {
-    let urlPassed = `${this.url}/STRAdd/get/ByUserStore/${userId}?page=${currentPage}&pageSize=${pageSize}`;
+    let urlPassed = `${this.url}/STRAdd/get/By/User/Stores/${userId}?page=${currentPage}&pageSize=${pageSize}`;
     return urlPassed;
   }
   putStrAdd(data: any) {
@@ -1542,7 +1547,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRAddDetails/get/all`);
   }
   getStrAddDetailsByAddId(id: any) {
-    return this.http.get<any>(`${this.url}/STRAdd/GeTAddDetailsByAddId/${id}`);
+    return this.http.get<any>(`${this.url}/STRAddDetails/get/by/header/${id}`);
   }
   putStrAddDetails(data: any) {
     console.log('strOpenDetails data: ', data);
@@ -1617,14 +1622,14 @@ export class ApiService {
 
   getStrStockTakingDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/StrStockTaking/get/StockTakingid/${id}`)
+      `${this.url}/StrStockTakingDetails/get/by/header/${id}`)
 
   }
 
-  getStrAddDetailsByMasterId(id:any){
-    return this.http.get<any>(
-      `${this.url}/STRAdd/GeTAddDetailsByid/${id}`)
-  }
+  // getStrAddDetailsByMasterId(id:any){
+  //   return this.http.get<any>(
+  //     `${this.url}/STRAdd/GeTAddDetailsByid/${id}`)
+  // }
 
   postStrStockTaking(data: any) {
     console.log("data in posttt:", data)
