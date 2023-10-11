@@ -14,6 +14,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
@@ -121,7 +122,7 @@ export class STRItem1Component implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private toastr: ToastrService,
     private api: ApiService,
     private datePipe: DatePipe,
     private router: Router,
@@ -397,7 +398,7 @@ export class STRItem1Component implements OnInit {
         next: (res) => {
           if (res == 'Succeeded') {
             console.log('res of deletestore:', res);
-            alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
             this.getAllItems();
           } else {
             alert(' لا يمكن الحذف لارتباطها بجداول اخري!');
@@ -580,7 +581,9 @@ export class STRItem1Component implements OnInit {
   //   });
   //   // this.getAllProducts()
   // }
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
