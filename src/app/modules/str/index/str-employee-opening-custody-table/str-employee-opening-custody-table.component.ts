@@ -517,7 +517,7 @@ loading :boolean=false;
 
   
       this.api
-        .getStrEmployeeCustodyReport(no,  StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+        .getStrEmployeeCustodyReport(no,  StartDate,EndDate, fiscalYear, item, employee, costCenter,report,'pdf')
         .subscribe({
           next: (res) => {
             let blob: Blob = res.body as Blob;

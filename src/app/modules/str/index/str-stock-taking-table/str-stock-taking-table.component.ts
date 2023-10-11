@@ -1,6 +1,3 @@
-
-
-
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,29 +5,30 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { HttpClient } from '@angular/common/http';
+import { EmployeeExchangePrintDialogComponent } from '../employee-exchange-print-dialog/employee-exchange-print-dialog.component';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { StrStockTakingDialogComponent } from '../str-stock-taking-dialog/str-stock-taking-dialog.component';
 
-import { FormControl, FormControlName,FormBuilder,FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormControlName,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 
-
-
 export class store {
   constructor(public id: number, public name: string) {}
-
 }
-
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: string) {}
 }
-
 
 // export class Employee {
 //   constructor(public id: number, public name: string, public code: string) { }
@@ -43,21 +41,24 @@ export class item {
   constructor(public id: number, public name: string) {}
 }
 
-
-
-
 @Component({
   selector: 'app-str-stock-taking-table',
   templateUrl: './str-stock-taking-table.component.html',
-  styleUrls: ['./str-stock-taking-table.component.css']
+  styleUrls: ['./str-stock-taking-table.component.css'],
 })
 export class StrStockTakingTableComponent implements OnInit {
-  displayedColumns: string[] = ['no','storeName', 'fiscalyear', 'date', 'Action'];
+  displayedColumns: string[] = [
+    'no',
+    'storeName',
+    'fiscalyear',
+    'date',
+    'Action',
+  ];
   matchedIds: any;
   // storeList: any;
   storeName: any;
   // costCentersList: any;
-
+  pdfurl = '';
 
   storeList: store[] = [];
   storeCtrl: FormControl;
@@ -67,16 +68,13 @@ export class StrStockTakingTableComponent implements OnInit {
   // itemList:any;
   fiscalYearsList: any;
 
-  groupMasterForm !: FormGroup;
-  groupDetailsForm !: FormGroup;
+  groupMasterForm!: FormGroup;
+  groupDetailsForm!: FormGroup;
 
-
-  
   // costCentersList: costcenter[] = [];
   // costcenterCtrl: FormControl<any>;
   // filteredcostcenter: Observable<costcenter[]>;
   // selectedcostcenter: costcenter | undefined;
-
 
   itemsList: item[] = [];
   itemCtrl: FormControl;
@@ -94,14 +92,14 @@ export class StrStockTakingTableComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    private dialog: MatDialog,private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder,
     private http: HttpClient,
     private hotkeysService: HotkeysService,
-  
+
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
-
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),
@@ -120,7 +118,6 @@ export class StrStockTakingTableComponent implements OnInit {
       map((value) => this._filteritems(value))
     );
 
-
     // this.employeeCtrl = new FormControl();
     // this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
     //   startWith(''),
@@ -134,61 +131,57 @@ export class StrStockTakingTableComponent implements OnInit {
     this.getFiscalYears();
     // this.getEmployees();
     this.getItme();
-    this.getStores()
+    this.getStores();
     // this.getcostCenter();
 
     this.groupMasterForm = this.formBuilder.group({
-      no:[''],
+      no: [''],
       // employee:[''],
       // costcenter:[],
       // costCenterId:[''],
       // employeeId:[''],
 
-      itemName:[''],
-      itemId:[''],
-      fiscalYear:[''],
-      date:[''],
-      store:[''],
-      storeId:['']
-       });
+      itemName: [''],
+      itemId: [''],
+      fiscalYear: [''],
+      date: [''],
+      store: [''],
+      storeId: [''],
+    });
 
+    this.groupDetailsForm = this.formBuilder.group({
+      stR_WithdrawId: [''], //MasterId
+      systemQty: [''],
+      balance: [''],
+      qty: [''],
+      percentage: [''],
+      price: [''],
+      total: [''],
+      transactionUserId: [1],
+      destStoreUserId: [1],
+      itemId: [''],
+      stateId: [''],
 
+      // withDrawNoId: ['' ],
 
-       this.groupDetailsForm = this.formBuilder.group({
-        stR_WithdrawId: [''], //MasterId
-        systemQty:[''],
-        balance:[''],
-        qty: [''],
-        percentage: [''],
-        price: [''],
-        total: [''],
-        transactionUserId: [1],
-        destStoreUserId: [1],
-        itemId: [''],
-        stateId: [''],
-  
-        // withDrawNoId: ['' ],
-  
-        itemName: [''],
-        // avgPrice: [''],
-  
-        stateName: [''],
-  
-        // notesName: [''],
-      });
-      // this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-      //   // Call the deleteGrade() function in the current component
-      //   this.openEmployeeingStockDialog();
-      //   return false; // Prevent the default browser behavior
-      // }));
-    
+      itemName: [''],
+      // avgPrice: [''],
+
+      stateName: [''],
+
+      // notesName: [''],
+    });
+    // this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+    //   // Call the deleteGrade() function in the current component
+    //   this.openEmployeeingStockDialog();
+    //   return false; // Prevent the default browser behavior
+    // }));
   }
 
-  
-  getsearch(code:any){
+  getsearch(code: any) {
     if (code.keyCode == 13) {
       this.getAllMasterForms();
-     }
+    }
   }
   displaystoreName(store: any): string {
     return store && store.name ? store.name : '';
@@ -225,7 +218,6 @@ export class StrStockTakingTableComponent implements OnInit {
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
         this.groupDetailsForm.reset();
-
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -246,21 +238,24 @@ export class StrStockTakingTableComponent implements OnInit {
     });
   }
   openStockTkingkDialog() {
-    this.dialog.open(StrStockTakingDialogComponent, {
-      width: '98%',
-      height: '79%',
-    }).afterClosed().subscribe(val => {
-      if (val === 'Save') {
-        // alert("refreshhhh")
-        this.getAllMasterForms();
-      }
-    })
+    this.dialog
+      .open(StrStockTakingDialogComponent, {
+        width: '98%',
+        height: '79%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'Save') {
+          // alert("refreshhhh")
+          this.getAllMasterForms();
+        }
+      });
   }
   editMasterForm(row: any) {
     this.dialog
       .open(StrStockTakingDialogComponent, {
         width: '98%',
-      height: '79%',
+        height: '79%',
         data: row,
       })
       .afterClosed()
@@ -272,50 +267,40 @@ export class StrStockTakingTableComponent implements OnInit {
       });
   }
 
+  deleteBothForms(id: number) {
+    var result = confirm('تاكيد الحذف ؟ ');
+    console.log(' id in delete:', id);
+    if (result) {
+      this.api.deleteStrStockTking(id).subscribe({
+        next: (res) => {
+          this.http
+            .get<any>('http://ims.aswan.gov.eg/api/StrStockTaking/get/all')
+            .subscribe(
+              (res) => {
+                this.matchedIds = res.filter((a: any) => {
+                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                  return a.custodyId === id;
+                });
 
+                // for (let i = 0; i < this.matchedIds.length; i++) {
+                //   this.deleteFormDetails(this.matchedIds[i].id);
+                // }
+                // alert("تم حذف الاذن بنجاح");
+              },
+              (err) => {
+                // alert('خطا اثناء تحديد المجموعة !!');
+              }
+            );
 
-    deleteBothForms(id: number) {
-      var result = confirm('تاكيد الحذف ؟ ');
-  console.log(" id in delete:",id)
-      if (result) {
-        
-        this.api. deleteStrStockTking(id).subscribe({
-          next: (res) => {
-  
-            this.http
-              .get<any>('http://ims.aswan.gov.eg/api/StrStockTaking/get/all')
-              .subscribe(
-                (res) => {
-                  this.matchedIds = res.filter((a: any) => {
-                    // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                    return  a.custodyId === id
-                  });
-  
-                  // for (let i = 0; i < this.matchedIds.length; i++) {
-                  //   this.deleteFormDetails(this.matchedIds[i].id);
-                  // }
-                  // alert("تم حذف الاذن بنجاح");
-  
-                },
-                (err) => {
-                  // alert('خطا اثناء تحديد المجموعة !!');
-                }
-              );
-  
-            this.toastrDeleteSuccess();
-            this.getAllMasterForms();
-          },
-          error: () => {
-            // alert('خطأ أثناء حذف المجموعة !!');
-          },
-        });
-      }
+          this.toastrDeleteSuccess();
+          this.getAllMasterForms();
+        },
+        error: () => {
+          // alert('خطأ أثناء حذف المجموعة !!');
+        },
+      });
     }
-  
-
- 
-
-  
+  }
 
   getAllEmployees() {
     this.api.getAllEmployees().subscribe({
@@ -342,23 +327,19 @@ export class StrStockTakingTableComponent implements OnInit {
       },
     });
   }
-  
+
   getItme() {
-    this.api.getItems()
-      .subscribe({
-        next: (res) => {
-          this.itemsList = res;
-          console.log("item res: ", this.itemsList);
-        },
-        error: (err) => {
-          console.log("fetch employees data err: ", err);
-          // alert("خطا اثناء جلب الموظفين !");
-        }
-      })
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.itemsList = res;
+        console.log('item res: ', this.itemsList);
+      },
+      error: (err) => {
+        console.log('fetch employees data err: ', err);
+        // alert("خطا اثناء جلب الموظفين !");
+      },
+    });
   }
- 
-
-
 
   displayitemName(item: any): string {
     return item && item.name ? item.name : '';
@@ -384,152 +365,251 @@ export class StrStockTakingTableComponent implements OnInit {
     this.itemCtrl.updateValueAndValidity();
   }
 
+  downloadPrint(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
+    let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    let employee = this.groupMasterForm.getRawValue().employeeId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
+    let store = this.groupMasterForm.getRawValue().storeId;
 
+    this.api
+      .getStrEmployeeCustodyReport(
+        no,
+        StartDate,
+        EndDate,
+        fiscalYear,
+        item,
+        employee,
+        costCenter,
+        report,
+        reportType
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('search:', res);
+          const url: any = res.url;
+          window.open(url);
+          // let blob: Blob = res.body as Blob;
+          // let url = window.URL.createObjectURL(blob);
 
-
-
-
-getSearchStrStockTaking(no: any,date: any, fiscalYear: any) {
-    console.log(
-      'no. : ',
-      no,
-      'FISCALYEAR : ',
-      fiscalYear,
-      'date: ',
-      date,
-   
-    );
-
-
-   
-    let itemId=this.groupDetailsForm.getRawValue().itemId
-    let storeId=this.groupMasterForm.getRawValue().storeId
-
-
-
-
-
-    this.api.getSearchStrStockTaking( no,storeId, fiscalYear,itemId   )
-    .subscribe({
-      next: (res) => {
-        console.log("search employeeExchange 4res: ", res);
-
-        this.dataSource2 = res
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-    // this.api.getStrOpenSearach(no, store, date, fiscalYear).subscribe({
-    //   next: (res) => {
-    //     console.log('search openingStock res: ', res);
-
-    //     //enter no.
-    //     if (no != '' && !store && !date && !fiscalYear) {
-    //       // console.log("enter no. ")
-    //       // console.log("no. : ", no, "store: ", store, "date: ", date)
-    //       this.dataSource2 = res.filter((res: any) => res.no == no!);
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter store
-    //     else if (!no && store && !date && !fiscalYear) {
-    //       // console.log("enter store. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter((res: any) => res.storeId == store);
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter date
-    //     else if (!no && !store && date && !fiscalYear) {
-    //       // console.log("enter date. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter fiscalYear
-    //     else if (!no && !store && !date && fiscalYear) {
-    //       // console.log("enter date. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => res.fiscalyear == fiscalYear
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter no. & store
-    //     else if (no && store && !date && !fiscalYear) {
-    //       // console.log("enter no & store ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) => res.no == no! && res.storeId == store
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter no. & date
-    //     else if (no && !store && date && !fiscalYear) {
-    //       // console.log("enter no & date ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.no == no! &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter store & date
-    //     else if (!no && store && date && !fiscalYear) {
-    //       // console.log("enter store & date ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.storeId == store &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //enter all data
-    //     else if (no != '' && store != '' && date != '' && fiscalYear != '') {
-    //       // console.log("enter all data. ")
-    //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-    //       this.dataSource2 = res.filter(
-    //         (res: any) =>
-    //           res.no == no! &&
-    //           res.storeId == store &&
-    //           formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
-    //           res.fiscalyear == fiscalYear
-    //       );
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-
-    //     //didn't enter any data
-    //     else {
-    //       // console.log("enter no data ")
-    //       this.dataSource2 = res;
-    //       this.dataSource2.paginator = this.paginator;
-    //       this.dataSource2.sort = this.sort;
-    //     }
-    //   },
-    //   error: (err) => {
-    //     alert('Error');
-    //   },
-    // });
-  },
-  error: (err) => {
-    // alert("Error")
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
   }
-})
+
+  previewPrint(
+    no: any,
+    date: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
+    let itemId = this.groupDetailsForm.getRawValue().itemId;
+    let storeId = this.groupMasterForm.getRawValue().storeId;
+
+    if (report != null && reportType != null) {
+      this.api
+        .getStrStockTakingItem(no, storeId, fiscalYear, itemId, report, 'pdf')
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(EmployeeExchangePrintDialogComponent, {
+              width: '50%',
+            });
+
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    } else {
+      alert('ادخل التقرير و نوع التقرير!');
+    }
+  }
+
+
+  download(
+    no: any,
+    date: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
+    let itemId = this.groupDetailsForm.getRawValue().itemId;
+    let storeId = this.groupMasterForm.getRawValue().storeId;
+
+    if (report != null && reportType != null) {
+      this.api
+        .getStrStockTakingItem(no, storeId, fiscalYear, itemId, report, 'pdf')
+        .subscribe({
+          next: (res) => {
+            console.log('search:', res);
+            const url: any = res.url;
+            window.open(url);
+            // let blob: Blob = res.body as Blob;
+            // let url = window.URL.createObjectURL(blob);
+  
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    } else {
+      alert('ادخل التقرير و نوع التقرير!');
+    }
+  }
+  getSearchStrStockTaking(no: any, date: any, fiscalYear: any) {
+    console.log('no. : ', no, 'FISCALYEAR : ', fiscalYear, 'date: ', date);
+
+    let itemId = this.groupDetailsForm.getRawValue().itemId;
+    let storeId = this.groupMasterForm.getRawValue().storeId;
+
+    this.api
+      .getSearchStrStockTaking(no, storeId, fiscalYear, itemId)
+      .subscribe({
+        next: (res) => {
+          console.log('search employeeExchange 4res: ', res);
+
+          this.dataSource2 = res;
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+          // this.api.getStrOpenSearach(no, store, date, fiscalYear).subscribe({
+          //   next: (res) => {
+          //     console.log('search openingStock res: ', res);
+
+          //     //enter no.
+          //     if (no != '' && !store && !date && !fiscalYear) {
+          //       // console.log("enter no. ")
+          //       // console.log("no. : ", no, "store: ", store, "date: ", date)
+          //       this.dataSource2 = res.filter((res: any) => res.no == no!);
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+
+          //     //enter store
+          //     else if (!no && store && !date && !fiscalYear) {
+          //       // console.log("enter store. ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter((res: any) => res.storeId == store);
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+
+          //     //enter date
+          //     else if (!no && !store && date && !fiscalYear) {
+          //       // console.log("enter date. ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+
+          //     //enter fiscalYear
+          //     else if (!no && !store && !date && fiscalYear) {
+          //       // console.log("enter date. ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) => res.fiscalyear == fiscalYear
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+
+          //     //enter no. & store
+          //     else if (no && store && !date && !fiscalYear) {
+          //       // console.log("enter no & store ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) => res.no == no! && res.storeId == store
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+
+          //     //enter no. & date
+          //     else if (no && !store && date && !fiscalYear) {
+          //       // console.log("enter no & date ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) =>
+          //           res.no == no! &&
+          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+
+          //     //enter store & date
+          //     else if (!no && store && date && !fiscalYear) {
+          //       // console.log("enter store & date ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) =>
+          //           res.storeId == store &&
+          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+
+          //     //enter all data
+          //     else if (no != '' && store != '' && date != '' && fiscalYear != '') {
+          //       // console.log("enter all data. ")
+          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
+          //       this.dataSource2 = res.filter(
+          //         (res: any) =>
+          //           res.no == no! &&
+          //           res.storeId == store &&
+          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
+          //           res.fiscalyear == fiscalYear
+          //       );
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+
+          //     //didn't enter any data
+          //     else {
+          //       // console.log("enter no data ")
+          //       this.dataSource2 = res;
+          //       this.dataSource2.paginator = this.paginator;
+          //       this.dataSource2.sort = this.sort;
+          //     }
+          //   },
+          //   error: (err) => {
+          //     alert('Error');
+          //   },
+          // });
+        },
+        error: (err) => {
+          // alert("Error")
+        },
+      });
   }
 
   toastrDeleteSuccess(): void {
@@ -544,40 +624,5 @@ getSearchStrStockTaking(no: any,date: any, fiscalYear: any) {
     }
   }
 
-  printReport() {
-    // this.loadAllData();
-    let header: any = document.getElementById('header');
-    let paginator: any = document.getElementById('paginator');
-    let action1: any = document.getElementById('action1');
-    let action2: any = document.querySelectorAll('action2');
-    console.log(action2);
-    let button1: any = document.querySelectorAll('#button1');
-    console.log(button1);
-    let button2: any = document.getElementById('button2');
-    let button: any = document.getElementsByClassName('mdc-icon-button');
-    console.log(button);
-    let reportFooter: any = document.getElementById('reportFooter');
-    let date: any = document.getElementById('date');
-    header.style.display = 'grid';
-    paginator.style.display = 'none';
-    action1.style.display = 'none';
-    // button1.style.display = 'none';
-    // button2.style.display = 'none';
-    for (let index = 0; index < button.length; index++) {
-      let element = button[index];
-
-      element.hidden = true;
-    }
-    // reportFooter.style.display = 'block';
-    // date.style.display = 'block';
-    let printContent: any = document.getElementById('content')?.innerHTML;
-    let originalContent: any = document.body.innerHTML;
-    document.body.innerHTML = printContent;
-    // console.log(document.body.children);
-    document.body.style.cssText =
-      'direction:rtl;-webkit-print-color-adjust:exact;';
-    window.print();
-    document.body.innerHTML = originalContent;
-    location.reload();
-  }
+  
 }

@@ -105,7 +105,8 @@
 
           <mat-form-field appearance="outline" class="searchForm">
             <mat-select #report formControlName="report">
-              <mat-option value="EmployeeOpeningReport">تقرير 1</mat-option>
+              <mat-option value="EmployeeOpeningReport">تقرير </mat-option>
+              <mat-option value="EmployeeOpeningDetailsReport">تقرير تفصيلي</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -115,9 +116,9 @@
 
           <mat-form-field appearance="outline" class="searchForm">
             <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
-              <mat-option value="pdf"> .PDF </mat-option>
-              <mat-option value="txt">.TXT </mat-option>
-              <mat-option value="ppt"> .PPT</mat-option>
+              <mat-option value="pdf"> PDF </mat-option>
+              <mat-option value="xls">Excel</mat-option>
+           
 
 
             </mat-select>
