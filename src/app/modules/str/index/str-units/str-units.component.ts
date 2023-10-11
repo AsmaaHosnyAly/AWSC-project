@@ -7,7 +7,7 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { GlobalService } from 'src/app/pages/services/global.service';
-
+import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
@@ -23,7 +23,7 @@ export class STRUnitsComponent {
  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService , private http:HttpClient,private hotkeysService: HotkeysService){
+  constructor(private dialog : MatDialog,private toastr: ToastrService, private api : ApiService,private global:GlobalService , private http:HttpClient,private hotkeysService: HotkeysService){
     global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
     
  
@@ -81,7 +81,7 @@ export class STRUnitsComponent {
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getAllUnits();
   
         }else{
@@ -95,7 +95,9 @@ export class STRUnitsComponent {
     }
 }
 
-
+toastrDeleteSuccess(): void {
+  this.toastr.success('تم الحذف بنجاح');
+}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

@@ -922,7 +922,7 @@ export class STRAddTableComponent implements OnInit {
     let store = this.groupMasterForm.getRawValue().storeId;
 if(report !=null && reportType!=null){
     this.api
-      .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+      .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,'pdf')
       .subscribe({
         next: (res) => {
           let blob: Blob = res.body as Blob;

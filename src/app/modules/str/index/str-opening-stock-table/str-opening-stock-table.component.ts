@@ -551,7 +551,7 @@ export class StrOpeningStockTableComponent implements OnInit {
           employee,
           costCenter,
           report,
-          reportType
+          'pdf'
         )
         .subscribe({
           next: (res) => {

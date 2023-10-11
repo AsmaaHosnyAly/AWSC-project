@@ -13,7 +13,7 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 import { ApiService } from '../../services/api.service';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class StrStoreComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     global.getPermissionUserRoles(13,'stores', 'المخازن', '')
 
   }
@@ -106,7 +106,7 @@ this.api.deletestores(id)
 next:(res)=>{
   if(res == 'Succeeded'){
   console.log("res of deletestore:",res)
-alert("تم الحذف");
+  this.toastrDeleteSuccess();
 this.getAllStores();
 }else{
   alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
@@ -120,7 +120,9 @@ error:()=>{
 }
 })}
 }
-
+toastrDeleteSuccess(): void {
+  this.toastr.success('تم الحذف بنجاح');
+}
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
