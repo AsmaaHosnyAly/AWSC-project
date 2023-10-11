@@ -302,6 +302,7 @@ export class FiEntryDialogComponent implements OnInit {
             this.sumOfTotals = 0;
             for (let i = 0; i < this.matchedIds.length; i++) {
               this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+              this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
               this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
               // alert('totalll: '+ this.sumOfTotals)
               // this.updateBothForms();
