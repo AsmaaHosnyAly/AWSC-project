@@ -104,9 +104,11 @@ table {
 }
 
 .headerForm {
-  margin-right: 12%;
+  /* margin-right: 12%;
+   */
+  
     display: flex;
-    /* justify-content: space-between; */
+    justify-content:center;
     flex-wrap: wrap;
   
 }
