@@ -475,22 +475,13 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
 
   getAllDetailsForms() {
-    let result = window.confirm('هل تريد اغلاق الطلب');
-    if (result) {
-      //   if(this.actionBtnMaster=='save'){
-      //     this.dialogRef.close('save');
-      // }
-      // else{
-      //   this.dialogRef.close('update');
-
-      // }
-      // this.closeDialog();
+  
       this.dialogRef.close('Save');
       console.log("master Id: ", this.getMasterRowId.id)
 
       if (this.getMasterRowId.id) {
 
-        this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+        this.api.getStrEmployeeOpenDetailsByMasterId(this.getMasterRowId.id)
           .subscribe({
             next: (res) => {
               // this.itemsList = res;
@@ -517,7 +508,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
           })
       }
       // }
-    }
+    // }
 
 
   }

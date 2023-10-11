@@ -1,19 +1,21 @@
 <!-- Cards with media area -->
 <div class="routeContainer">
 
-    <!-- <mat-card class="example-card" *ngIf="hasAccessRole(pageEnums.COMMODITY)">
-      <mat-card-title-group>
+    <mat-card class="example-card" *ngIf="hasAccessModule(1)">
+      <mat-card-title-group routerLink="/hr-AttendanceHome">
         <mat-card-title class="tt"><mat-icon>book</mat-icon></mat-card-title>
         <mat-card-subtitle>الحضور والانصراف</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card>
 
-    <mat-card class="example-card"  *ngIf="this.shared.Benefits ==true">
+    
+
+    <!-- <mat-card class="example-card"  *ngIf="this.shared.Benefits ==true">
       <mat-card-title-group>
         <mat-card-title class="tt"><mat-icon> money</mat-icon></mat-card-title>
         <mat-card-subtitle>الاستحقاقات</mat-card-subtitle>
       </mat-card-title-group>
-    </mat-card> -->
+    </mat-card>  -->
 
     <mat-card class="example-card"  *ngIf="hasAccessModule(pageEnums.HR)"  >
       <mat-card-title-group routerLink="/hr-home">

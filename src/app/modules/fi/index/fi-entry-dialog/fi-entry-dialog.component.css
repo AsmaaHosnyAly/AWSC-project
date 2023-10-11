@@ -71,6 +71,7 @@
 
 .headerTable {
     align-items: center;
+   
 }
 
 .statusRadioBtns{
@@ -166,8 +167,6 @@ mat-radio-group{
     font-size: 16px;
     text-align: center !important;
     margin-top: 0px !important;
-  
-  
   }
 
   .sum-label-parent {

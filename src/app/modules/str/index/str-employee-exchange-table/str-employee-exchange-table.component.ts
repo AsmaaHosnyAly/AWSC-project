@@ -209,6 +209,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   getAllMasterForms() {
     this.api.getStrEmployeeExchange().subscribe({
       next: (res) => {
+        console.log("get all data: ", res);
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;

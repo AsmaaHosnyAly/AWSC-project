@@ -48,8 +48,8 @@
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
                             <mat-select formControlName="gender">
-                                <mat-option value="male">ذكر</mat-option>
-                                <mat-option value="female">انثي</mat-option>
+                                <mat-option value="ذكر">ذكر</mat-option>
+                                <mat-option value="انثي">انثي</mat-option>
 
                             </mat-select>
                         </mat-form-field>
@@ -73,8 +73,8 @@
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
                             <mat-select formControlName="maritalState">
-                                <mat-option value="single">اعزب</mat-option>
-                                <mat-option value="married">متزوج</mat-option>
+                                <mat-option value="اعزب">اعزب</mat-option>
+                                <mat-option value="متزوج">متزوج</mat-option>
 
                             </mat-select>
                         </mat-form-field>
@@ -91,6 +91,8 @@
                         </mat-form-field>
 
                     </div>
+                    
+
 
 
 
@@ -165,12 +167,13 @@
         </div> -->
 
 
-                <div mat-dialog-action [align]="'end'">
-                    <div class="groupAction">
-                        <a href="#tab2"><button mat-raised-button class="savebtn" style="margin-left: 8px;"
-                            >التالي</button></a>
-                    </div>
-                </div>
+        <div mat-dialog-action [align]="'end'">
+            <div class="groupAction">
+                <button mat-raised-button class="savebtn" style="margin-left: 8px;"
+                    (click)="addEmployee()">{{actionBtn.toLowerCase() =='save' ?
+                    'اضافة':'تعديل'}}</button>
+            </div>
+        </div>
             </mat-tab>
 
 
@@ -185,9 +188,7 @@
                 <div class="matTabLabels2">
                     <div class="searchLabels2">
                         <mat-label>المسمي الوظيفي</mat-label>
-
-                    
-                        <mat-form-field appearance="outline">
+                     <mat-form-field appearance="outline">
                             <input matInput aria-label="commodity" [matAutocomplete]="autoJobTitle"
                                 [formControl]="emploeeCtrl" placeholder="{{editData ? editData.jobTitleName: ''}}"
                                 (click)="openAutojobTitle()" required />
@@ -215,7 +216,7 @@
                             <mat-autocomplete #autoposition="matAutocomplete" [displayWith]="displaypositionName"
                                 (optionSelected)="positionSelected($event)">
                                 <mat-option *ngFor="let position of filteredposition | async" [value]="position">
-                                    {{ position.name }} | {{ position.code }} | {{ position.id }}
+                                    {{ position.name }} |  {{ position.id }}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -237,7 +238,7 @@
                             <mat-autocomplete #autohiringType="matAutocomplete" [displayWith]="displayhiringTypeName"
                                 (optionSelected)="hiringTypeSelected($event)">
                                 <mat-option *ngFor="let hiringType of filteredhiringType | async" [value]="hiringType">
-                                    {{ hiringType.name }} | {{ hiringType.code }} | {{ hiringType.id }}
+                                    {{ hiringType.name }} | {{ hiringType.id }}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -267,18 +268,18 @@
                         </mat-form-field>
 
                     </div>
-                    <!-- <div class="searchLabels2">
+                    <div class="searchLabels2">
                         <mat-label> الادارة التابع لها </mat-label>
                         <mat-form-field appearance="outline" class="groupInput">
-                            <mat-form-field appearance="outline" class="groupInput">
+                            <!-- <mat-form-field appearance="outline" class="groupInput"> -->
                                 <mat-select formControlName="departmentId">
-                                    <mat-option [value]="qualificationName.id"
-                                        *ngFor="let qualificationName of qualificationNameList">{{qualificationName.name}}</mat-option>
+                                    <mat-option [value]="departmentName.id"
+                                        *ngFor="let departmentName of departmentNameList">{{departmentName.name}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                        </mat-form-field>
+                        <!-- </mat-form-field> -->
 
-                    </div> -->
+                    </div>
                 </div>
 
                 <div class="matTabLabels2">
@@ -321,7 +322,8 @@
                 <div mat-dialog-action [align]="'end'">
                     <div class="groupAction">
                         <button mat-raised-button class="savebtn" style="margin-left: 8px;"
-                            (click)="addEmployee()">التالي</button>
+                            (click)="addEmployee()">{{actionBtn.toLowerCase() =='save' ?
+                            'اضافة':'تعديل'}}</button>
                     </div>
                 </div>
 
@@ -354,7 +356,7 @@
                         <mat-autocomplete #autoqualification="matAutocomplete" [displayWith]="displayqualificationName"
                             (optionSelected)="qualificationSelected($event)">
                             <mat-option *ngFor="let qualification of filteredqualification | async" [value]="qualification">
-                                {{ qualification.name }} | {{ qualification.code }} | {{ qualification.id }}
+                                {{ qualification.name }} |  {{ qualification.id }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -376,7 +378,7 @@
                         <mat-autocomplete #autoqualificationLevel="matAutocomplete" [displayWith]="displayqualificationLevelName"
                             (optionSelected)="qualificationLevelSelected($event)">
                             <mat-option *ngFor="let qualificationLevel of filteredqualificationLevel | async" [value]="qualificationLevel">
-                                {{ qualificationLevel.name }} | {{ qualificationLevel.code }} | {{ qualificationLevel.id }}
+                                {{ qualificationLevel.name }} | {{ qualificationLevel.id }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -424,10 +426,11 @@
                 </div> -->
 
 
-<div mat-dialog-action [align]="'end'">
+                <div mat-dialog-action [align]="'end'">
                     <div class="groupAction">
                         <button mat-raised-button class="savebtn" style="margin-left: 8px;"
-                            (click)="addEmployee()">التالي</button>
+                            (click)="addEmployee()">{{actionBtn.toLowerCase() =='save' ?
+                            'اضافة':'تعديل'}}</button>
                     </div>
                 </div>
 

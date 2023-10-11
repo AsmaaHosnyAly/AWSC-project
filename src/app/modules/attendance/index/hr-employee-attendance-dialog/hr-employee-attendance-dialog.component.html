@@ -1,0 +1,77 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل  تصريح موظف    ' : ' إضافة تصريح موظف جديد'}}</h1> 
+  <form [formGroup]="EmployeeAttendance" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="EmployeeAttendance">
+          <div class="child1">
+          <mat-label>الاسم </mat-label>
+          <mat-form-field appearance="outline">
+            <input formControlName="name" matInput placeholder="ادخل الاسم">
+          </mat-form-field>
+          </div>
+          <div class="child1">
+          <mat-label>الموظف</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+              placeholder="{{getEmployeeAttendanceData ? getEmployeeAttendanceData.employeeName : ''}}" (click)="openAutoemployee()" required />
+            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+              (optionSelected)="employeeSelected($event)">
+              <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                {{ employee.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          </div>
+          <div class="child1">
+          <mat-label>التصريح</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="attendanceMachine" [matAutocomplete]="attendanceMachine" [formControl]="attendanceMachineCtrl"
+              placeholder="{{getEmployeeAttendanceData ? getEmployeeAttendanceData.attendanceMachineName : ''}}" (click)="openAutoAttendanceMachine()" required />
+            <mat-autocomplete #attendanceMachine="matAutocomplete" [displayWith]="displayAttendanceMachineName"
+              (optionSelected)="attendanceMachineSelected($event)">
+              <mat-option *ngFor="let attendanceMachine of filteredAttendanceMachine | async" [value]="attendanceMachine">
+                {{ attendanceMachine.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          </div>
+          <div class="child1">
+          <mat-label>الحضور</mat-label>
+          <mat-form-field appearance="outline" >
+            <input matInput [matDatepicker]="picker" formControlName="attendance">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+        <div class="child1">
+            <mat-label>الانصراف</mat-label>
+            <mat-form-field appearance="outline" >
+              <input matInput [matDatepicker]="picker2" formControlName="departure">
+              <mat-datepicker-toggle matIconSuffix [for]="picker2">
+                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+          <div class="child1">
+            <mat-label>التاريخ</mat-label>
+            <mat-form-field appearance="outline" >
+              <input matInput [matDatepicker]="picker1" formControlName="date">
+              <mat-datepicker-toggle matIconSuffix [for]="picker1">
+                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+      </div>
+        </form>
+        <div mat-dialog-actions>
+          <button mat-raised-button class="savebtn" (click)="addEmployeeAttendance()" style="margin-left: 8px;">{{actionBtn}}</button>
+        </div>
+      </div>
+     
+    </form>
+  

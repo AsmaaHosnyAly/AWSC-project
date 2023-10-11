@@ -16,18 +16,18 @@ export class jobTitle {
   constructor(public id: number, public name: string, public code: string) { }
 }
 export class position {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string) { }
 }
 export class hiringType {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string) { }
 }
 
 export class qualification {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string) { }
 }
 
 export class qualificationLevel {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string) { }
 }
 
 
@@ -54,6 +54,7 @@ export class HrEmployeeDialogComponent implements OnInit {
   severanceReasonName: any;
   fiscalYearsList: any;
   userIdFromStorage: any;
+  departmentNameList:any;
   employeesList: Employee[] = [];
   emploeeCtrl: FormControl;
   filteredEmployee: Observable<Employee[]>;
@@ -162,6 +163,7 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.getqualificationLevel();
     this.getcityState();
     this.getmillitryState();
+    this.getdepartement();
 
 
     this.groupForm = this.formBuilder.group({
@@ -185,7 +187,7 @@ export class HrEmployeeDialogComponent implements OnInit {
       financialDegreeId: ['', Validators.required],
       cityStateId: ['', Validators.required],/////////////
       workPlaceId: ['', Validators.required],
-      departmentId: ['1', Validators.required],
+      departmentId: ['', Validators.required],
       severanceReasonId: ['', Validators.required],
       maritalState: ['',Validators.required],
       transactionUserId: ['', Validators.required],
@@ -300,13 +302,13 @@ export class HrEmployeeDialogComponent implements OnInit {
     const position = event.option.value as position;
     console.log("position selected: ", position);
     this.selectedposition = position;
-    this.groupForm.patchValue({ name: position.name });
-    console.log("position in form: ", this.groupForm.getRawValue().name);
+    this.groupForm.patchValue({ positionId: position.id });
+    console.log("position in form: ", this.groupForm.getRawValue().positionId);
   }
   private _filterpositions(value: string): position[] {
     const filterValue = value;
     return this.positionsList.filter(position =>
-      position.name.toLowerCase().includes(filterValue) || position.code.toLowerCase().includes(filterValue)
+      position.name.toLowerCase().includes(filterValue) 
     );
   }
   openAutoposition() {
@@ -323,8 +325,8 @@ export class HrEmployeeDialogComponent implements OnInit {
     const jobTitle = event.option.value as jobTitle;
     console.log("jobTitle selected: ", jobTitle);
     this.selectedjobTitle = jobTitle;
-    this.groupForm.patchValue({ name: jobTitle.name });
-    console.log("jobTitle in form: ", this.groupForm.getRawValue().name);
+    this.groupForm.patchValue({ jobTitleId: jobTitle.id });
+    console.log("jobTitle in form: ", this.groupForm.getRawValue().jobTitleId);
   }
   private _filterjobTitles(value: string): jobTitle[] {
     const filterValue = value;
@@ -347,13 +349,13 @@ export class HrEmployeeDialogComponent implements OnInit {
     const hiringType = event.option.value as hiringType;
     console.log("hiringType selected: ", hiringType);
     this.selectedhiringType = hiringType;
-    this.groupForm.patchValue({ name: hiringType.name });
-    console.log("hiringType in form: ", this.groupForm.getRawValue().name);
+    this.groupForm.patchValue({ hiringTypeId: hiringType.id });
+    console.log("hiringType in form: ", this.groupForm.getRawValue().hiringTypeId);
   }
   private _filterhiringTypes(value: string): hiringType[] {
     const filterValue = value;
     return this.hiringTypesList.filter(hiringType =>
-      hiringType.name.toLowerCase().includes(filterValue) || hiringType.code.toLowerCase().includes(filterValue)
+      hiringType.name.toLowerCase().includes(filterValue)
     );
   }
   openAutohiringType() {
@@ -372,13 +374,13 @@ export class HrEmployeeDialogComponent implements OnInit {
     const qualification = event.option.value as qualification;
     console.log("qualification selected: ", qualification);
     this.selectedqualification = qualification;
-    this.groupForm.patchValue({ name: qualification.name });
-    console.log("qualification in form: ", this.groupForm.getRawValue().name);
+    this.groupForm.patchValue({ qualificationId: qualification.id });
+    console.log("qualification in form: ", this.groupForm.getRawValue().qualificationId);
   }
   private _filterqualifications(value: string): qualification[] {
     const filterValue = value;
     return this.qualificationsList.filter(qualification =>
-      qualification.name.toLowerCase().includes(filterValue) || qualification.code.toLowerCase().includes(filterValue)
+      qualification.name.toLowerCase().includes(filterValue) 
     );
   }
   openAutoqualification() {
@@ -397,13 +399,13 @@ export class HrEmployeeDialogComponent implements OnInit {
     const qualificationLevel = event.option.value as qualificationLevel;
     console.log("qualificationLevel selected: ", qualificationLevel);
     this.selectedqualificationLevel = qualificationLevel;
-    this.groupForm.patchValue({ name: qualificationLevel.name });
-    console.log("qualificationLevel in form: ", this.groupForm.getRawValue().name);
+    this.groupForm.patchValue({ qualificationLevelId: qualificationLevel.id });
+    console.log("qualificationLevel in form: ", this.groupForm.getRawValue().qualificationLevelId);
   }
   private _filterqualificationLevels(value: string): qualificationLevel[] {
     const filterValue = value;
     return this.qualificationLevelsList.filter(qualificationLevel =>
-      qualificationLevel.name.toLowerCase().includes(filterValue) || qualificationLevel.code.toLowerCase().includes(filterValue)
+      qualificationLevel.name.toLowerCase().includes(filterValue) 
     );
   }
   openAutoqualificationLevel() {
@@ -466,7 +468,7 @@ export class HrEmployeeDialogComponent implements OnInit {
       console.log('form', this.groupForm.value)
       console.log('jobtitle', this.groupForm.getRawValue().jobTitleId)
 
-      // if (this.groupForm.valid) {
+      if (this.groupForm.valid) {
       this.api.postHrEmployee(this.groupForm.value)
         .subscribe({
           next: (res) => {
@@ -481,7 +483,7 @@ export class HrEmployeeDialogComponent implements OnInit {
             console.log("post HiringType with api err: ", err)
           }
         })
-      // }
+      }
 
     }
     else {
@@ -668,6 +670,20 @@ export class HrEmployeeDialogComponent implements OnInit {
       })
   }
 
+  getdepartement(){
+    this.api.getDepartment()
+    .subscribe({
+      next: (res) => {
+        this.departmentNameList = res;
+        // console.log("store res: ", this.storeList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert("خطا اثناء جلب المخازن !");
+      }
+    })
+  }
+
   getEmployees() {
     this.api.getEmployee()
       .subscribe({
@@ -726,5 +742,3 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.toastr.success("تم الحفظ بنجاح");
   }
 }
-
-

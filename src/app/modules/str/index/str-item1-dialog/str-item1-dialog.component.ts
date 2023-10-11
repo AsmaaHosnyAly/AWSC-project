@@ -12,6 +12,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 export class Unit {
   constructor(public id: number, public name: string) { }
 }
@@ -79,7 +80,8 @@ export class STRItem1DialogComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<STRItem1DialogComponent>) {
+    private dialogRef: MatDialogRef<STRItem1DialogComponent>,
+    private toastr: ToastrService) {
 
       this.unitCtrl = new FormControl();
     this.filteredUnits = this.unitCtrl.valueChanges.pipe(
@@ -394,12 +396,13 @@ export class STRItem1DialogComponent implements OnInit {
         this.api.postItems(this.itemForm.value)
           .subscribe({
             next: (res) => {
-              alert("تمت الاضافة بنجاح");
+              this.toastrSuccess();
               this.itemForm.reset();
               this.dialogRef.close('save');
             },
             error: (err) => {
-              alert("خطأ عند تحديث البيانات")
+              this.toastrErrorSave();
+
             }
           })
       }
@@ -416,14 +419,29 @@ export class STRItem1DialogComponent implements OnInit {
         next: (res) => {
     console.log("update data:",this.itemForm.value);
 
-          alert("تم التحديث بنجاح");
+          this.toastrEdit();
           this.itemForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
-          alert("خطأ عند تحديث البيانات");
+          this.toastrErrorEdit();
+
         }
       })
   }
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
+  }
 
+  toastrEdit(): void {
+    this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrErrorSave(): void {
+    this.toastr.error('!خطأ عند حفظ البيانات');
+  }
+
+  toastrErrorEdit(): void {
+    this.toastr.error('!خطأ عند تحديث البيانات');
+  }
 }

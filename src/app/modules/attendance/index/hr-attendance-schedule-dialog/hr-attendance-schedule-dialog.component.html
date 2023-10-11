@@ -1,0 +1,70 @@
+<div class="cdk-overlay-pane  ">
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+</div>
+<h1 mat-dialog-title class="add-h1">{{editData? '  تعديل جدول الحضور    ' : ' إضافة جدول حضور جديد'}}</h1> 
+<form [formGroup]="EmployeeAttendancePermission" dir="rtl">
+    <div mat-dialog-content>
+      <form [formGroup]="EmployeeAttendancePermission">
+        <mat-label>الاسم </mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="name" matInput placeholder="ادخل الاسم">
+        </mat-form-field>
+    <div class="child1">
+      <mat-label>تاريخ البدء</mat-label>
+      <mat-form-field appearance="outline" >
+        <input matInput [matDatepicker]="picker1" formControlName="startDate">
+        <mat-datepicker-toggle matIconSuffix [for]="picker1">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="child1">
+    <mat-label>تاريخ الانتهاء</mat-label>
+    <mat-form-field appearance="outline" >
+      <input matInput [matDatepicker]="picker2" formControlName="endDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker2">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+</div>
+<div class="child1">
+  <mat-label>ساعات العمل</mat-label>
+  <mat-form-field appearance="outline" >
+    <input matInput [matDatepicker]="picker3" formControlName="wrkHours">
+    <mat-datepicker-toggle matIconSuffix [for]="picker3">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker3></mat-datepicker>
+</mat-form-field>
+</div>
+<div class="child1">
+  <mat-label>موعد الحضور</mat-label>
+  <mat-form-field appearance="outline" >
+    <input matInput [matDatepicker]="picker4" formControlName="attendanceTime">
+    <mat-datepicker-toggle matIconSuffix [for]="picker4">
+        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker4></mat-datepicker>
+</mat-form-field>
+</div>
+<div class="child1">
+  <mat-label>سماحية الحضور </mat-label>
+  <mat-form-field appearance="outline">
+    <input formControlName="attendanceAllowance" matInput type="number" min="1">
+  </mat-form-field>
+  </div>
+  <div class="child1">
+    <mat-label>سماحية الانصراف </mat-label>
+    <mat-form-field appearance="outline">
+      <input formControlName="departureAllowance" matInput type="number" min="1">
+    </mat-form-field>
+    </div>
+      </form>
+      <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn" (click)="addEmployeeAttendancePermission()" style="margin-left: 8px;">{{actionBtn}}</button>
+      </div>
+    </div>
+   
+  </form>

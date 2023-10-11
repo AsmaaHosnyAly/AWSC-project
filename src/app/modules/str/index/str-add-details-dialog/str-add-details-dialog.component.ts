@@ -167,7 +167,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
     });
 
 
-    console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
+    console.log("get params: ", this.route.snapshot.queryParamMap.get('masterId'));
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
     this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('store');
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
@@ -575,29 +575,20 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
   }
   getAllDetailsForms() {
-    // let result = window.confirm('هل تريد اغلاق الطلب');
-    // if (result) {
-    //   //   if(this.actionBtnMaster=='save'){
-    //   //     this.dialogRef.close('save');
-    //   // }
-    //   // else{
-    //   //   this.dialogRef.close('update');
-
-    //   // }
-    //   // this.closeDialog();
+   
     this.dialogRef.close('Save');
     console.log("master Id: ", this.getMasterRowId.id)
 
     if (this.getMasterRowId.id) {
 
-      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+      this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
-            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+            this.matchedIds = res[0].strAddDetailsGetVM;
 
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;

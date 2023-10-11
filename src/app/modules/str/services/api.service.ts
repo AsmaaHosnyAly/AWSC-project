@@ -1119,7 +1119,7 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/STREmployeExchange/Add`, data);
   }
   getStrEmployeeExchange() {
-    return this.http.get<any>(`${this.url}/STREmployeExchange/get/all/`);
+    return this.http.get<any>(`${this.url}/STREmployeeExchange/get/all`);
   }
   putStrEmployeeExchange(data: any) {
     return this.http.put<any>(`${this.url}/STREmployeExchange/update`, data);
@@ -1139,7 +1139,7 @@ export class ApiService {
   }
   getStrEmployeeExchangeDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STREmployeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`
+      `${this.url}/STREmployeeExchange/GetEmployeeExchangeDetailsByEmployeeExchangeId/${id}`
     );
   }
   putStrEmployeeExchangeDetails(data: any) {
@@ -1280,6 +1280,7 @@ export class ApiService {
     );
   }
   getStrEmployeeOpenDetailsByMasterId(id: any) {
+    console.log("custodyId: ", id);
     return this.http.get<any>(
       `${this.url}/STREmployeeOpeningCustody/GetEmployeeOpeningCustodyDetailsByStrEmployeeOpeningCustodyId/${id}`
     );
@@ -1331,12 +1332,12 @@ export class ApiService {
   }
   getStrWithdrawDetails() {
     return this.http.get<any>(
-      `${this.url}/STRWithdrawDetails/get/all`
+      `${this.url}/api/STRWithdraw/get/{id}`
     );
   }
   getStrWithdrawDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/STRWithdraw/GetallSTRWithDrawDetailsGetByWithDrawId/${id}`
+      `${this.url}/STRWithdrawDetails/WithDraw/${id}`
     );
   }
   putStrWithdrawDetails(data: any) {
@@ -1616,8 +1617,13 @@ export class ApiService {
 
   getStrStockTakingDetailsByMasterId(id: any) {
     return this.http.get<any>(
-      `${this.url}/StrStockTakingDetails/get/${id}`)
+      `${this.url}/StrStockTaking/get/StockTakingid/${id}`)
 
+  }
+
+  getStrAddDetailsByMasterId(id:any){
+    return this.http.get<any>(
+      `${this.url}/STRAdd/GeTAddDetailsByid/${id}`)
   }
 
   postStrStockTaking(data: any) {

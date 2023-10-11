@@ -1,0 +1,57 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل  تصريح موظف    ' : ' إضافة تصريح موظف جديد'}}</h1> 
+  <form [formGroup]="EmployeeAttendancePermission" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="EmployeeAttendancePermission">
+          <div class="child1">
+          <mat-label>الاسم </mat-label>
+          <mat-form-field appearance="outline">
+            <input formControlName="name" matInput placeholder="ادخل الاسم">
+          </mat-form-field>
+          </div>
+          <div class="child1">
+          <mat-label>الموظف</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+              placeholder="{{getEmployeeAttendancePermissionData ? getEmployeeAttendancePermissionData.employeeName : ''}}" (click)="openAutoemployee()" required />
+            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+              (optionSelected)="employeeSelected($event)">
+              <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                {{ employee.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          </div>
+          <div class="child1">
+          <mat-label>التصريح</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="attendancePermission" [matAutocomplete]="attendancePermission" [formControl]="attendancePermissionCtrl"
+              placeholder="{{getEmployeeAttendancePermissionData ? getEmployeeAttendancePermissionData.attendancePermissionName : ''}}" (click)="openAutoAttendancePermission()" required />
+            <mat-autocomplete #attendancePermission="matAutocomplete" [displayWith]="displayAttendancePermissionName"
+              (optionSelected)="attendancePermissionSelected($event)">
+              <mat-option *ngFor="let attendancePermission of filteredAttendancePermission | async" [value]="attendancePermission">
+                {{ attendancePermission.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          </div>
+          <div class="child1">
+          <mat-label>التاريخ</mat-label>
+          <mat-form-field appearance="outline" >
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+        </form>
+        <div mat-dialog-actions>
+          <button mat-raised-button class="savebtn" (click)="addEmployeeAttendancePermission()" style="margin-left: 8px;">{{actionBtn}}</button>
+        </div>
+      </div>
+     
+    </form>
+  
