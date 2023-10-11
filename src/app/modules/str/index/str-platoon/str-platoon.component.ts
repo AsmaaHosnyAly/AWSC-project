@@ -20,6 +20,7 @@ import { map, startWith } from 'rxjs/operators';
 import { GlobalService } from 'src/app/pages/services/global.service'; 
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -70,7 +71,7 @@ export class STRPlatoonComponent implements OnInit {
 
   
   // selectedGrade: any;
-  constructor(private formBuilder : FormBuilder,private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+  constructor(private formBuilder : FormBuilder,private toastr: ToastrService,private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     this.commodityCtrl = new FormControl();
     this.filteredCommodities = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
@@ -203,7 +204,7 @@ export class STRPlatoonComponent implements OnInit {
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getAllPlatoons();
 
   
@@ -228,7 +229,9 @@ export class STRPlatoonComponent implements OnInit {
     this.platoonForm.get('gradeN')?.reset();
     this.getAllPlatoons();
   }
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

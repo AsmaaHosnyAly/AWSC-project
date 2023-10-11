@@ -15,7 +15,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-str-commodity',
     templateUrl: './STR_Commodity.component.html',
@@ -31,7 +31,7 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatPaginator) paginator!: MatPaginator;
 @ViewChild(MatSort) sort!: MatSort;
 
-constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
   this.global.getPermissionUserRoles(5, 'stores', ' السلعة', '');
 }
 
@@ -90,7 +90,7 @@ deletecommodity(id:number){
       next: (res) => {
         if(res == 'Succeeded'){
           console.log("res of deletestore:",res)
-        alert('تم الحذف بنجاح');
+          this.toastrDeleteSuccess();
         this.getAllcommodity();
       }else{
         alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
@@ -103,7 +103,9 @@ deletecommodity(id:number){
   }
 }
 
-
+toastrDeleteSuccess(): void {
+  this.toastr.success('تم الحذف بنجاح');
+}
 
 
 applyFilter(event: Event) {

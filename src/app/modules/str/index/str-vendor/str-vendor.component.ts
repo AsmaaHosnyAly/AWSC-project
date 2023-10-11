@@ -9,6 +9,7 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-str-vendor',
   templateUrl: './str-vendor.component.html',
@@ -21,7 +22,7 @@ export class StrVendorComponent {
 loading : boolean= false ;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog, private api : ApiService,private global:GlobalService,private hotkeysService: HotkeysService){
+  constructor(private dialog : MatDialog,private toastr: ToastrService, private api : ApiService,private global:GlobalService,private hotkeysService: HotkeysService){
     global.getPermissionUserRoles(15,'stores', 'المصنع', '')
 
   }
@@ -83,7 +84,7 @@ loading : boolean= false ;
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getAllVendors();
 
 
@@ -97,7 +98,9 @@ loading : boolean= false ;
         },
       });
     }}
-
+    toastrDeleteSuccess(): void {
+      this.toastr.success('تم الحذف بنجاح');
+    }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
