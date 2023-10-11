@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/pages/services/global.service'; 
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-str-grade',
   templateUrl: './str-grade.component.html',
@@ -36,7 +37,7 @@ export class STRGradeComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   
   
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     
     global.getPermissionUserRoles(4, 'stores', ' النوعية', '')
   }
@@ -98,7 +99,7 @@ export class STRGradeComponent implements OnInit {
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getAllGrades();
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
@@ -110,7 +111,9 @@ export class STRGradeComponent implements OnInit {
       });
     }
   }
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
 
 
   applyFilter(event: Event) {
