@@ -363,7 +363,7 @@ const routes: Routes = [
       { path: 'add-item-report', component: StrReportAddItemComponent },
 
       // error section
-      { path: '**', component: ErrorComponent },
+      // { path: '**', component: ErrorComponent },
     ],
   },
 ];
