@@ -25,7 +25,6 @@ export class Vendor {
 })
 export class StrModelDailogComponent {
 
-
   transactionUserId=localStorage.getItem('transactionUserId')
   vendorCtrl: FormControl;
   filteredVendores: Observable<Vendor[]>;

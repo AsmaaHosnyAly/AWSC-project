@@ -21,6 +21,7 @@ export class Account {
   })
 
 export class StrCommodityDialogComponent implements OnInit {
+  transactionUserId = localStorage.getItem('transactionUserId');
   accountCtrl: FormControl;
   filteredAccounts: Observable<Account[]>;
   accounts: Account[] = [];
@@ -55,7 +56,7 @@ export class StrCommodityDialogComponent implements OnInit {
       code: [''],
       name: ['', Validators.required],
       accountId: ['', Validators.required],
-      transactionUserId:[1, Validators.required],
+      transactionUserId: ['', Validators.required],
   
     });
 
@@ -137,6 +138,9 @@ export class StrCommodityDialogComponent implements OnInit {
         this.commodityForm.controls['code'].setValue(this.autoCode);
         console.log("no took auto number: ", this.commodityForm.getRawValue().code)
       }
+      this.commodityForm.controls['transactionUserId'].setValue(
+        this.transactionUserId
+      );
       if (this.commodityForm.valid) {
         console.log('commodityForm:',this.commodityForm.value)
         this.api.postCommodity(this.commodityForm.value)
