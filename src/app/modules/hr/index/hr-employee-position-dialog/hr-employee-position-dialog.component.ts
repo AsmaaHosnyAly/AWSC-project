@@ -24,6 +24,8 @@ export class WorkPlace {
   styleUrls: ['./hr-employee-position-dialog.component.css']
 })
 export class HrEmployeePositionDialogComponent implements OnInit {
+  transactionUserId=localStorage.getItem('transactionUserId')
+
   formcontrol = new FormControl('');
   HrEmployeePosition !: FormGroup;
   actionBtn: string = "حفظ";
@@ -109,7 +111,8 @@ export class HrEmployeePositionDialogComponent implements OnInit {
   }
 
   addHrEmployeePosition() {
-    this.HrEmployeePosition.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+    this.HrEmployeePosition.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+
 
     if (!this.editData) {
       this.HrEmployeePosition.removeControl('id')

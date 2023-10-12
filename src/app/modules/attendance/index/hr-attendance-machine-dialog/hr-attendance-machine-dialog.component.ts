@@ -17,6 +17,7 @@ import { Hotkey } from 'angular2-hotkeys';
 })
 export class HrAttendanceMachineDialogComponent implements OnInit {
   formcontrol = new FormControl('');
+  transactionUserId=localStorage.getItem('transactionUserId')
   HrAttendanceMachineForm !: FormGroup;
   actionBtn: string = "حفظ";
 

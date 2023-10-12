@@ -42,6 +42,7 @@ export class qualificationLevel {
 })
 
 export class HrEmployeeDialogComponent implements OnInit {
+  transactionUserId=localStorage.getItem('transactionUserId')
   groupForm !: FormGroup;
   actionBtn: string = "Save";
   jobTitleName: any;
@@ -264,7 +265,8 @@ export class HrEmployeeDialogComponent implements OnInit {
 
       // this.userIdFromStorage = localStorage.getItem('transactionUserId');
 
-      this.groupForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+      // this.groupForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
       this.groupForm.addControl('id', new FormControl('', Validators.required));
       this.groupForm.controls['id'].setValue(this.editData.id);
@@ -442,7 +444,9 @@ export class HrEmployeeDialogComponent implements OnInit {
       this.groupForm.removeControl('id')
 
       // this.userIdFromStorage = localStorage.getItem('transactionUserId');
-      this.groupForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+      // this.groupForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+
       // if (this.groupForm.getRawValue().jobTitleId) {
       //   this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);
       //   this.groupForm.controls['jobTitleName'].setValue(this.jobTitleName);

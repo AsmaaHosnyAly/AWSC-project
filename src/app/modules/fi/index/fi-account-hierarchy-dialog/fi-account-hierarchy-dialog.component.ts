@@ -58,6 +58,8 @@ export class FIAccountHierarchyDialogComponent {
   addFIAccountHierarchy(){
     if(!this.editData){
       this.FIAccountForm.removeControl('id')
+      this.FIAccountForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+
       if(this.FIAccountForm.valid){
         console.log("FIAccountForm :",this.FIAccountForm.value);
         

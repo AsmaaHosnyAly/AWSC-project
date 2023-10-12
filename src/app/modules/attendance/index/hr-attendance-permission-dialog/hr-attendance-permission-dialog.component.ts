@@ -57,6 +57,7 @@ export class HrAttendancePermissionDialogComponent {
   addHrAttendancePermission(){
     if(!this.editData){
       this.HrAttendancePermissionForm.removeControl('id')
+      this.HrAttendancePermissionForm .controls['transactionUserId'].setValue(this.editData.transactionUserId);
       if(this.HrAttendancePermissionForm.valid){
         this.api.postHrAttendancePermission(this.HrAttendancePermissionForm .value)
         .subscribe({
