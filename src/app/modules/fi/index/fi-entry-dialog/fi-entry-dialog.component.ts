@@ -290,11 +290,11 @@ export class FiEntryDialogComponent implements OnInit {
       this.api.getFiEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
           // this.itemsList = res;
-          this.matchedIds = res[0].FiEntryDetailsGetVM;
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].FiEntryDetailsGetVM);
+          this.matchedIds = res;
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
 
           if (this.matchedIds) {
-            // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].fiEntryDetailsGetVM);
+            // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
             this.dataSource = new MatTableDataSource(this.matchedIds);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -302,6 +302,7 @@ export class FiEntryDialogComponent implements OnInit {
             this.sumOfTotals = 0;
             for (let i = 0; i < this.matchedIds.length; i++) {
               this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+              this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
               this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
               // alert('totalll: '+ this.sumOfTotals)
               // this.updateBothForms();

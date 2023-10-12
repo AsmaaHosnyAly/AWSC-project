@@ -21,6 +21,7 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 import { StrModelDailogComponent } from '../str-model-dailog/str-model-dailog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { ToastrService } from 'ngx-toastr';
 export class vendor {
   constructor(public id: number, public name: string,public global:GlobalService) {}
 }
@@ -44,7 +45,7 @@ export class StrModelComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     this.vendorCtrl = new FormControl();
     this.filteredVendores = this.vendorCtrl.valueChanges.pipe(
       startWith(''),
@@ -129,7 +130,7 @@ export class StrModelComponent {
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getAllModels();
 
         }else{
@@ -195,7 +196,9 @@ export class StrModelComponent {
     // this.getAllProducts()
   }
 
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

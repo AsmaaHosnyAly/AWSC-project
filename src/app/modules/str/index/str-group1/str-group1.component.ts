@@ -102,7 +102,7 @@ export class STRGroup1Component implements OnInit{
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getAllGroups();
   
         }else{
@@ -116,7 +116,9 @@ export class STRGroup1Component implements OnInit{
     }
 }
 
-
+toastrDeleteSuccess(): void {
+  this.toastr.success('تم الحذف بنجاح');
+}
 
 
   

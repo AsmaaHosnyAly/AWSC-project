@@ -30,7 +30,7 @@ export class AccountItemCategory {
   styleUrls: ['./fi-account-itemd-dialog.component.css']
 })
 export class FiAccountItemdDialogComponent {
-  // transactionUserId=localStorage.getItem('transactionUserId')
+  transactionUserId=localStorage.getItem('transactionUserId')
   accountCtrl: FormControl;
   filteredAccounts: Observable<Account[]>;
   accounts: Account[] = [];
@@ -76,7 +76,7 @@ commodityName: any;
     ngOnInit(): void {
       this.accountItemForm = this.formBuilder.group({
         //define the components of the form
-      transactionUserId : ['1',Validators.required],
+      transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
       accountId : ['',Validators.required],
       accountItemCategoryId: ['',Validators.required],
@@ -165,7 +165,7 @@ commodityName: any;
       this.accountItemForm.removeControl('id')
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
       console.log("add: ", this.accountItemForm.value);
-      // this.accountItemForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.accountItemForm.controls['transactionUserId'].setValue(this.transactionUserId);
       
       if(this.accountItemForm.valid){
         this.api.postFiAccountItem(this.accountItemForm.value)

@@ -44,7 +44,7 @@ export class HrMillitryStateDialogComponent {
     if (this.editData) {
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
+      // this.userIdFromStorage = localStorage.getItem('transactionUserId');
       this.MillitryStatesForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.MillitryStatesForm.controls['name'].setValue(this.editData.name);
       // this.unitsForm.controls['id'].setValue(this.editData.id);

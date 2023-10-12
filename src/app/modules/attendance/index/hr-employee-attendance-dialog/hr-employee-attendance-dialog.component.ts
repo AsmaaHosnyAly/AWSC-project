@@ -75,7 +75,7 @@ accordion!: MatAccordion;
     ngOnInit(): void {
       this.EmployeeAttendance = this.formBuilder.group({
         //define the components of the form
-      transactionUserId : [ 1 ,Validators.required],
+      transactionUserId : [ '',Validators.required],
       // code : ['',Validators.required],
       // name : ['',Validators.required],
       date : ['',Validators.required],

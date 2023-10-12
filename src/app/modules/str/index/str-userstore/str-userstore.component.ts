@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../../services/api.service'; 
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -70,7 +70,7 @@ export class StrUserstoreComponent implements OnInit{
 
   
   // selectedGrade: any;
-  constructor(private formBuilder : FormBuilder,private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+  constructor(private formBuilder : FormBuilder,private toastr: ToastrService,private dialog: MatDialog, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     this.userCtrl = new FormControl();
     this.filteredUseres = this.userCtrl.valueChanges.pipe(
       startWith(''),
@@ -202,7 +202,7 @@ export class StrUserstoreComponent implements OnInit{
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
-          alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
           this.getAllPlatoons();
 
   
@@ -216,7 +216,9 @@ export class StrUserstoreComponent implements OnInit{
       });
     }
   }
-  
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
 
 
   // clearFields() {  

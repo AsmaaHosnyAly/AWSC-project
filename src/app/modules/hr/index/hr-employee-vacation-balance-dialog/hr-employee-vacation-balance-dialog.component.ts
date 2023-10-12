@@ -21,6 +21,7 @@ export class Vacation {
   styleUrls: ['./hr-employee-vacation-balance-dialog.component.css']
 })
 export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
+  transactionUserId=localStorage.getItem('transactionUserId')
   groupForm !: FormGroup;
   actionBtn: string = "Save";
   userIdFromStorage: any;
@@ -81,9 +82,8 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
       this.groupForm.controls['vactionId'].setValue(this.editData.vactionId);
       this.groupForm.controls['balance'].setValue(this.editData.balance);
 
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
       this.groupForm.addControl('id', new FormControl('', Validators.required));
       this.groupForm.controls['id'].setValue(this.editData.id);
@@ -147,8 +147,8 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
     if (!this.editData) {
       this.groupForm.removeControl('id')
 
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+
 
       console.log("add form with autoComplete: ", this.groupForm.value)
 

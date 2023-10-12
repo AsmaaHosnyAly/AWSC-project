@@ -21,7 +21,7 @@ export class FiscalYear {
   styleUrls: ['./hr-incentive-allowance-dialog.component.css']
 })
 export class HrIncentiveAllowanceDialogComponent implements OnInit {
-
+  transactionUserId=localStorage.getItem('transactionUserId')
   groupForm !: FormGroup;
   actionBtn : string = "حفظ";
   // groupSelectedSearch: any;
@@ -88,9 +88,8 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
       this.groupForm.controls['date'].setValue(this.editData.date);
       this.groupForm.controls['employeeId'].setValue(this.editData.employeeId);
       this.groupForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
       this.groupForm.addControl('id', new FormControl('', Validators.required));
       this.groupForm.controls['id'].setValue(this.editData.id);
@@ -155,8 +154,8 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
       // if (this.groupForm.getRawValue().platoonId) {
       // this.platoonName = await this.getPlatoonByID(this.groupForm.getRawValue().platoonId);
       // this.groupForm.controls['platoonName'].setValue(this.platoonName);
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+
       // this.groupForm.controls['createUserName'].setValue("211 static name");
 
       // alert(this.groupForm.getRawValue().platoonName)

@@ -47,7 +47,6 @@ export class StrVendorDialogComponent {
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
       this.vendorsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.vendorsForm.controls['name'].setValue(this.editData.name);
       // this.unitsForm.controls['id'].setValue(this.editData.id);
@@ -77,7 +76,6 @@ export class StrVendorDialogComponent {
       return;
     }
       this.vendorsForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      console.log("hhhhhh",this.transactionUserId);
 
       this.vendorsForm.removeControl('id')
       if(this.vendorsForm.valid){

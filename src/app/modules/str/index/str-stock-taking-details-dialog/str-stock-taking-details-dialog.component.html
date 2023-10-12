@@ -52,7 +52,7 @@
                 <mat-label>كمية السيستم</mat-label>
         
                 <mat-form-field appearance="outline" class="groupInput" style="width: 94%;">
-                    <input type="number" min="0" matInput placeholder=" الكمية في السيستم"  formControlName="systemQty" readonly=""
+                    <input type="number"  matInput placeholder=" الكمية في السيستم"  formControlName="systemQty" readonly=""
                         [value]="editData ? editData.systemQty : '1'">
                 </mat-form-field>
                </div>
@@ -85,7 +85,7 @@
         <mat-label>فرق الكمية</mat-label>
 
         <mat-form-field appearance="outline" class="groupInput" style="width: 92%;">
-            <input type="number" min="0" matInput placeholder="فرق الكمية"  formControlName="balance"
+            <input type="number" matInput placeholder="فرق الكمية"  formControlName="balance"
                 [value]="editData ? editData.balance : ''">
         </mat-form-field>
        </div>

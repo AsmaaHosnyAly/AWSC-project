@@ -40,8 +40,6 @@ import { StrCostcenterDialogComponent } from './modules/str/index/str-costcenter
 // import { StrItemComponent } from './modules/str/index_item/STR_item..component';
 // import { StrItemDialogComponent } from './modules/str/index_item_dialog/STR_item_dialog.component';
 import { MatRadioModule } from '@angular/material/radio';
-import { StrGroupComponent } from './modules/str/index/str-group/str-group.component';
-import { StrGroupDialogComponent } from './modules/str/index/str-group-dialog/str-group-dialog.component';
 import { StrStoreComponent } from './modules/str/index/str-store/str-store.component';
 import { StrStoreDialogComponent } from './modules/str/index/str-store-dialog/str-store-dialog.component';
 import { STRUnitsComponent } from './modules/str/index/str-units/str-units.component';
@@ -58,8 +56,6 @@ import { StrOpeningStockContainerComponent } from './modules/str/index/str-openi
 import { ToastrModule } from 'ngx-toastr';
 import { StrReportComponent } from './modules/str/index/str-report/str-report.component';
 import { MatStepperModule } from '@angular/material/stepper';
-import { STRPlatoon1Component } from './modules/str/index/str-platoon1/str-platoon1.component';
-import { STRPlatoon1DialogComponent } from './modules/str/index/str-platoon1-dialog/str-platoon1-dialog.component';
 import { StrEmployeeExchangeContainerComponent } from './modules/str/index/str-employee-exchange-container/str-employee-exchange-container.component';
 import { StrEmployeeExchangeDialogComponent } from './modules/str/index/str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 import { StrEmployeeExchangeTableComponent } from './modules/str/index/str-employee-exchange-table/str-employee-exchange-table.component';
@@ -151,7 +147,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FiEntryDetailsDialogComponent } from './modules/fi/index/fi-entry-details-dialog/fi-entry-details-dialog.component';
 import { StrOpeningStockDetailsDialogComponent } from './modules/str/index/str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import { Item1DialogComponent } from './modules/str/index/item1-dialog/item1-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { StrEmployeeOpeningCustodyDetailDailogComponent } from './modules/str/index/str-employee-opening-custody-detail-dailog/str-employee-opening-custody-detail-dailog.component';
 import { PrintDialogComponent } from './modules/str/index/print-dialog/print-dialog.component';
@@ -172,8 +167,8 @@ import { StrStockTakingDialogComponent } from './modules/str/index/str-stock-tak
 import { StrStockTakingTableComponent } from './modules/str/index/str-stock-taking-table/str-stock-taking-table.component';
 import { PageRolesComponent } from './pages/page-roles/page-roles.component';
 import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
-import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component'; 
-import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component'; 
+import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
+import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component';
 import { StrUserstoreComponent } from './modules/str/index/str-userstore/str-userstore.component';
 import { StrUserstoreDialogComponent } from './modules/str/index/str-userstore-dialog/str-userstore-dialog.component';
 import { HrFinancialDegreeComponent } from './modules/hr/index/hr-financial-degree/hr-financial-degree.component';
@@ -245,10 +240,6 @@ import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/
 
     StrCostcenterComponent,
     StrCostcenterDialogComponent,
-    // StrItemDialogComponent,
-    // StrItemComponent,
-    StrGroupComponent,
-    StrGroupDialogComponent,
     StrStoreComponent,
     StrStoreDialogComponent,
     STRUnitsComponent,
@@ -260,8 +251,6 @@ import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/
     StrOpeningStockTableComponent,
     StrOpeningStockContainerComponent,
     StrReportComponent,
-    STRPlatoon1Component,
-    STRPlatoon1DialogComponent,
     StrEmployeeExchangeContainerComponent,
     StrEmployeeExchangeDialogComponent,
     StrEmployeeExchangeTableComponent,
@@ -335,13 +324,11 @@ import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/
     PrUserTableComponent,
     FiEntryDetailsDialogComponent,
     StrOpeningStockDetailsDialogComponent,
-
-    Item1DialogComponent,
-                StrEmployeeOpeningCustodyDetailDailogComponent,
-                     PrHomeComponent,
-                StrEmployeeExchangeDetailsDialogComponent,
-                StrAddDetailsDialogComponent,
-                PrintDialogComponent,
+    StrEmployeeOpeningCustodyDetailDailogComponent,
+    PrHomeComponent,
+    StrEmployeeExchangeDetailsDialogComponent,
+    StrAddDetailsDialogComponent,
+    PrintDialogComponent,
     EmployeeExchangePrintDialogComponent,
     EmployeeCustodyPrintDialogComponent,
     StrAddPrintDialogComponent,
@@ -389,8 +376,6 @@ import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/
     HrAttendanceScheduleDialogComponent,
     HrEmployeeAttendanceComponent,
     HrEmployeeAttendanceDialogComponent,
-
-   
   ],
   imports: [
     BrowserModule,
@@ -430,7 +415,7 @@ import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/
     MatProgressSpinnerModule,
     NgxExtendedPdfViewerModule,
     MatTabsModule,
-    HotkeyModule.forRoot()
+    HotkeyModule.forRoot(),
     // FontAwesomeModule,
   ],
   providers: [
@@ -438,12 +423,9 @@ import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-      
-
     },
-    [HotkeysService]
+    [HotkeysService],
   ],
   bootstrap: [AppComponent],
-  
 })
 export class AppModule {}

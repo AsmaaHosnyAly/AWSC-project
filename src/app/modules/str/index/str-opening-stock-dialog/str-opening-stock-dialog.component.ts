@@ -283,10 +283,10 @@ export class StrOpeningStockDialogComponent implements OnInit {
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
-            this.matchedIds = res[0].strOpeningStockDetailsGetVM;
+            this.matchedIds = res;
 
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strOpeningStockDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
@@ -294,6 +294,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
               this.sumOfTotals = 0;
               for (let i = 0; i < this.matchedIds.length; i++) {
                 this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
                 this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
                 // alert('totalll: '+ this.sumOfTotals)
                 // this.updateBothForms();

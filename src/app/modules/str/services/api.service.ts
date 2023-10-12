@@ -282,7 +282,7 @@ export class ApiService {
     unit: any
   ) {
     `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
-    this.mycondition = `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
+    this.mycondition = `${this.url}/STRItem/get/Report?reportName=STRItemsReport&reportType=pdf`;
 
     if (!name == false) {
       this.mycondition = ` ${this.mycondition}&Name=${name}`;
@@ -388,8 +388,8 @@ export class ApiService {
       'reportName:', report, 'reportType:', reportType
 
     );
-    `${this.url}/STRAdd/getReport?`;
-    this.mycondition = `${this.url}/STRAdd/getReport?`;
+    `${this.url}/STRAdd/get/Report?`;
+    this.mycondition = `${this.url}/STRAdd/get/Report?reportName=${report}&reportType=${reportType}`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
@@ -456,8 +456,8 @@ export class ApiService {
       'reportName:', report, 'reportType:', reportType
 
     );
-    `${this.url}/STROpeningStock/getReport?`;
-    this.mycondition = `${this.url}/STROpeningStock/getReport?`;
+    `${this.url}/STROpeningStock/get/Report?`;
+    this.mycondition = `${this.url}/STROpeningStock/get/Report?reportName=${report}&reportType=${reportType}`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
@@ -521,8 +521,8 @@ export class ApiService {
 
     );
 
-    `${this.url}/STREmployeeOpeningCustody/getReport?`;
-    this.mycondition = `${this.url}/STREmployeeOpeningCustody/getReport?`;
+    `${this.url}/STREmployeeOpeningCustody/get/Report?`;
+    this.mycondition = `${this.url}/STREmployeeOpeningCustody/get/Report?reportName=${report}&reportType=${reportType}`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
@@ -565,8 +565,8 @@ export class ApiService {
     employeeId: any, costCenterId: any, report: any, reportType: any
 
   ) {
-    `${this.url}/STRItem/getReport?`;
-    this.mycondition = `${this.url}/STRItem/getReport?`;
+    `${this.url}/STRItem/get/Report?`;
+    this.mycondition = `${this.url}/STREmployeeExchange/get/Report?reportName=${report}&reportType=${reportType}`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
@@ -610,6 +610,41 @@ export class ApiService {
     });
   }
 
+
+  getStrStockTakingItem(
+    no: any,
+    storeId: any,
+    fiscalYear: any,
+    itemId: any ,
+    report: any, reportType: any
+
+  ) {
+
+    `${this.url}/STRItem/get/Report?`;
+    this.mycondition = `${this.url}/StrStockTaking/get/Report?reportName=${report}&reportType=${reportType}`;
+
+  if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    if (!storeId == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+    }
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
+    }
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
   getStr(
     no: any,
     store: any,
@@ -631,8 +666,8 @@ export class ApiService {
       'reportName:', report, 'reportType:', reportType
 
     );
-    `${this.url}/STRWithdraw/getReport??`;
-    this.mycondition = `${this.url}/STRWithdraw/getReport??`;
+    `${this.url}/STRWithdraw/get/Report?`;
+    this.mycondition = `${this.url}/STRWithdraw/get/Report?reportName=${report}&reportType==${reportType}`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&Name=${no}`;
@@ -1462,6 +1497,12 @@ export class ApiService {
   putStrProduct(data: any) {
     return this.http.put<any>(`${this.url}/STRProduct/update`, data);
   }
+
+  uploadedFile(data: any) {
+    console.log('form add product data to backend: ', data);
+    return this.http.post<any>(`${this.url}/STRProduct/UploadFile`, data);
+  }
+
   deleteStrProduct(id: number) {
     console.log('delete product data from api, id: ', id);
     return this.http.delete<any>(`${this.url}/STRProduct/Delete/` + id);

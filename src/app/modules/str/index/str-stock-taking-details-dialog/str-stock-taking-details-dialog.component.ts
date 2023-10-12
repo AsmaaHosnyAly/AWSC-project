@@ -131,6 +131,7 @@ export class StrStockTakingDetailsDialogComponent {
 
     console.log("get params: ", this.route.snapshot.queryParamMap.get('date'));
     this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('StoreId');
+    console.log("get params: ", this.route.snapshot.queryParamMap.get('StoreId'));
 
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
@@ -201,6 +202,8 @@ export class StrStockTakingDetailsDialogComponent {
     // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
     this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
 
+    console.log("getMasterRowStoreId: ", this.getMasterRowStoreId);
+
     this.api.getSumQuantity(
       this.getMasterRowStoreId,
       this.groupDetailsForm.getRawValue().itemId,
@@ -268,7 +271,7 @@ export class StrStockTakingDetailsDialogComponent {
         this.groupDetailsForm.controls['balance'].setValue((parseFloat(this.groupDetailsForm.getRawValue().systemQty) - parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
         this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
-        console.log("post d: ", this.groupDetailsForm.valid, "getDetailedRowData:", !this.getDetailedRowData);
+        console.log("post d: ", this.groupDetailsForm.value, "getDetailedRowData:", !this.getDetailedRowData);
 
         if (this.groupDetailsForm.valid ) {
 
@@ -412,6 +415,7 @@ export class StrStockTakingDetailsDialogComponent {
                 this.sumOfTotals = 0;
                 for (let i = 0; i < this.matchedIds.length; i++) {
                   this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                  this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
                   this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
 
                 }

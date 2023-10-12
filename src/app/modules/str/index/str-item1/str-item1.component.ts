@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
 import { ApiService } from '../../services/api.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -14,13 +13,13 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/pages/services/global.service';
-import { Item1DialogComponent } from '../item1-dialog/item1-dialog.component';
-
+import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 export class Commodity {
@@ -121,7 +120,7 @@ export class STRItem1Component implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private toastr: ToastrService,
     private api: ApiService,
     private datePipe: DatePipe,
     private router: Router,
@@ -397,7 +396,7 @@ export class STRItem1Component implements OnInit {
         next: (res) => {
           if (res == 'Succeeded') {
             console.log('res of deletestore:', res);
-            alert('تم الحذف بنجاح');
+            this.toastrDeleteSuccess();
             this.getAllItems();
           } else {
             alert(' لا يمكن الحذف لارتباطها بجداول اخري!');
@@ -447,140 +446,9 @@ export class STRItem1Component implements OnInit {
       });
   }
 
-  // async getSearch(name: any) {
-  //   this.api.getItem().subscribe({
-  //     next: (res) => {
-  //       //enter itemName
-  //       if (!this.selectedGroup && name && !this.selectedUnit) {
-  //         console.log('filter name id: ', this.selectedGroup, 'name: ', name);
-
-  //         // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-  //         this.dataSource = res.filter((res: any) =>
-  //           res.name.toLowerCase().includes(name.toLowerCase())
-  //         );
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       }
-
-  //       //enter selectedGroup
-  //       if (this.selectedGroup && name == '' && !this.selectedUnit) {
-  //         console.log('selectedGroup:', this.selectedGroup);
-
-  //         this.dataSource = res.filter(
-  //           (res: any) => res.groupId == this.selectedGroup.id
-  //         );
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       }
-
-  //       //enter selectedUnit
-  //       if (!this.selectedGroup && name == '' && this.selectedUnit) {
-  //         console.log('selectedUnit: ', this.selectedUnit, 'name: ', name);
-
-  //         this.dataSource = res.filter(
-  //           (res: any) => res.unitId == this.selectedUnit.id
-  //         );
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       }
-
-  //       //enter selectedUnit+selectedGroup
-  //       if (this.selectedUnit && name == '' && this.selectedGroup) {
-  //         console.log(
-  //           'filter Unit, Group: ',
-  //           this.selectedUnit,
-  //           this.selectedGroup
-  //         );
-
-  //         this.dataSource = res.filter(
-  //           (res: any) =>
-  //             res.unitId == this.selectedUnit.id &&
-  //             res.groupId == this.selectedGroup.id
-  //         );
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       }
-
-  //       //enter selectedGroup+item
-  //       else if (this.selectedGroup && name && !this.selectedUnit) {
-  //         console.log(
-  //           'selectedGroup ,name: ',
-  //           this.selectedGroup,
-  //           'name: ',
-  //           name
-  //         );
-
-  //         // this.dataSource = res.filter((res: any)=> res.name==name!)
-  //         this.dataSource = res.filter(
-  //           (res: any) =>
-  //             res.groupId == this.selectedGroup.id &&
-  //             res.name.toLowerCase().includes(name.toLowerCase())
-  //         );
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       }
-
-  //       //enter selectedUnit+item
-  //       else if (this.selectedUnit && name && !this.selectedGroup) {
-  //         console.log(
-  //           'selectedUnit, name: ',
-  //           this.selectedUnit,
-  //           'name: ',
-  //           name
-  //         );
-
-  //         // this.dataSource = res.filter((res: any)=> res.name==name!)
-  //         this.dataSource = res.filter(
-  //           (res: any) =>
-  //             res.unitId == this.selectedUnit.id &&
-  //             res.name.toLowerCase().includes(name.toLowerCase())
-  //         );
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       }
-
-  //       //enter all
-  //       else if (this.selectedUnit && this.selectedGroup && name) {
-  //         console.log(
-  //           'all: ',
-  //           this.selectedUnit,
-  //           this.selectedGroup,
-  //           'name: ',
-  //           name
-  //         );
-
-  //         // this.dataSource = res.filter((res: any)=> res.name==name!)
-  //         this.dataSource = res.filter(
-  //           (res: any) =>
-  //             res.unitId == this.selectedUnit.id &&
-  //             res.groupId == this.selectedGroup.id! &&
-  //             res.name.toLowerCase().includes(name.toLowerCase())
-  //         );
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       }
-
-  //       //enter itemName
-  //       else if (!this.selectedGroup && name == '' && !this.selectedUnit) {
-  //         console.log(
-  //           'filter name mmmm id: ',
-  //           this.selectedGroup,
-  //           'name: ',
-  //           name
-  //         );
-  //         // this.dataSource = res.filter((res: any)=> res.commodity==commidityID! && res.name==name!)
-  //         // this.dataSource = res.filter((res: any)=> res.name.toLowerCase().includes(name.toLowerCase()))
-  //         this.dataSource.paginator = this.paginator;
-  //         this.dataSource.sort = this.sort;
-  //       }
-  //     },
-  //     error: (err) => {
-  //       alert('Error');
-  //     },
-  //   });
-  //   // this.getAllProducts()
-  // }
-
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -750,7 +618,7 @@ export class STRItem1Component implements OnInit {
           let url = window.URL.createObjectURL(blob);
           localStorage.setItem('url', JSON.stringify(url));
           this.pdfurl = url;
-          this.dialog.open(Item1DialogComponent, {
+          this.dialog.open(STRItem1DialogComponent, {
             width: '70%',
           });
 
