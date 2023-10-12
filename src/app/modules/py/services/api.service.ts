@@ -12,4 +12,27 @@ export class ApiService {
   url =this.pageEnums.URL
   constructor(private http: HttpClient) {}
 
+
+  ///////////////////////////////// Py-Installment /////////////////////////////
+  postPyInstallment(data: any) {
+    return this.http.post<any>(`${this.url}/PyInstallment/Add`, data);
+  }
+  getPyInstallment() {
+    return this.http.get<any>(`${this.url}/PyInstallment/get/all`);
+  }
+  putPyInstallment(data: any) {
+    return this.http.put<any>(`${this.url}/PyInstallment/update`, data);
+  }
+  deletePyInstallment(id: number) {
+    return this.http.delete<any>(`${this.url}/PyInstallment/delete/` + id);
+  }
+
+  getEmployees() {
+    return this.http.get<any>(`${this.url}/HREmployee/get/all`);
+  }
+
+  getAllpyItems() {
+    return this.http.get<any>(`${this.url}/PyItem/get/all`);
+  }
+
 }

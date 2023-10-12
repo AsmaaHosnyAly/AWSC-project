@@ -99,7 +99,7 @@ import { HrEmployeeAttendanceScheduleComponent } from './modules/attendance/inde
 import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/index/hr-employee-attendance-permission/hr-employee-attendance-permission.component';
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
-
+import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -355,6 +355,12 @@ const routes: Routes = [
        { path: 'hr-EmployeeAttendance', component: HrEmployeeAttendanceComponent },
 
        /*********************End Hr-attendance module  الحضور والانصراف***************************/
+
+       /*********************start py module  المرتبات***************************/
+
+      //  { path: 'pyHome', component:  },
+       { path: 'PyInstallment', component: PyInstallmentComponent },
+       /*********************End py module  المرتبات***************************/
           
       //  report section
       { path: 'report', component: StrReportComponent },
