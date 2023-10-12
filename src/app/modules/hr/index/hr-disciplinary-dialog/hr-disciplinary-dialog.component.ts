@@ -11,6 +11,7 @@ import { Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./hr-disciplinary-dialog.component.css']
 })
 export class HrDisciplinaryDialogComponent implements OnInit{
+  transactionUserId=localStorage.getItem('transactionUserId')
   groupForm !: FormGroup;
   actionBtn: string = "Save";
   employeesList: any;
@@ -42,9 +43,7 @@ export class HrDisciplinaryDialogComponent implements OnInit{
       this.groupForm.controls['name'].setValue(this.editData.name);
   
 
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
-
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
       this.groupForm.addControl('id', new FormControl('', Validators.required));
       this.groupForm.controls['id'].setValue(this.editData.id);
@@ -57,8 +56,8 @@ export class HrDisciplinaryDialogComponent implements OnInit{
     if (!this.editData) {
       this.groupForm.removeControl('id')
 
-        this.userIdFromStorage = localStorage.getItem('transactionUserId');
-        this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+
        
         if (this.groupForm.valid) {
           this.api.postHrDisciplinary(this.groupForm.value)

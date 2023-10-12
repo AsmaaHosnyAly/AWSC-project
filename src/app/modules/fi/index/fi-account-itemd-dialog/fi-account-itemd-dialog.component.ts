@@ -165,7 +165,7 @@ commodityName: any;
       this.accountItemForm.removeControl('id')
       // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
       console.log("add: ", this.accountItemForm.value);
-      // this.accountItemForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.accountItemForm.controls['transactionUserId'].setValue(this.transactionUserId);
       
       if(this.accountItemForm.valid){
         this.api.postFiAccountItem(this.accountItemForm.value)
