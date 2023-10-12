@@ -80,7 +80,7 @@ export class HrPositionDialogComponent implements OnInit{
       this.groupForm.removeControl('id')
 
     
-      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
      
         console.log("form add product value: ", this.groupForm.value)
