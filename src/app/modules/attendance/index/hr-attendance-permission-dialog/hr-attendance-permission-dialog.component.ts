@@ -16,6 +16,7 @@ import { Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./hr-attendance-permission-dialog.component.css']
 })
 export class HrAttendancePermissionDialogComponent {
+  transactionUserId=localStorage.getItem('transactionUserId')
 
   formcontrol = new FormControl('');  
   HrAttendancePermissionForm!:FormGroup;
@@ -33,7 +34,7 @@ export class HrAttendancePermissionDialogComponent {
      }
   ngOnInit(): void {
     this.HrAttendancePermissionForm  = this.formBuilder.group({
-      transactionUserId : ['1',Validators.required],
+      transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
@@ -56,6 +57,7 @@ export class HrAttendancePermissionDialogComponent {
   addHrAttendancePermission(){
     if(!this.editData){
       this.HrAttendancePermissionForm.removeControl('id')
+      this.HrAttendancePermissionForm .controls['transactionUserId'].setValue(this.transactionUserId);
       if(this.HrAttendancePermissionForm.valid){
         this.api.postHrAttendancePermission(this.HrAttendancePermissionForm .value)
         .subscribe({

@@ -17,6 +17,8 @@ import { Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./fi-journal-dialog.component.css']
 })
 export class FIJournalDialogComponent {
+  transactionUserId=localStorage.getItem('transactionUserId')
+
   formcontrol = new FormControl('');
   FIJournal !: FormGroup;
   actionBtn: string = "حفظ";
