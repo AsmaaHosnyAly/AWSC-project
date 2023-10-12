@@ -445,7 +445,7 @@ export class HrEmployeeDialogComponent implements OnInit {
 
       // this.userIdFromStorage = localStorage.getItem('transactionUserId');
       // this.groupForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
-      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
       // if (this.groupForm.getRawValue().jobTitleId) {
       //   this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);

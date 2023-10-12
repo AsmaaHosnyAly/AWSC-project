@@ -147,7 +147,7 @@ export class HrEmployeeVacationBalanceDialogComponent implements OnInit{
     if (!this.editData) {
       this.groupForm.removeControl('id')
 
-      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
 
       console.log("add form with autoComplete: ", this.groupForm.value)

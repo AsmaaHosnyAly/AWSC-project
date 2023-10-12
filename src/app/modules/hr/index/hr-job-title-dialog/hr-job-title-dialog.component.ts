@@ -42,7 +42,7 @@ export class HrJobTitleDialogComponent implements OnInit{
       // code: ['', Validators.required],
       name: ['', Validators.required],
    
-      transactionUserId: [''],
+      transactionUserId: ['', Validators.required],
     
 
     });
@@ -76,7 +76,7 @@ export class HrJobTitleDialogComponent implements OnInit{
       this.groupForm.removeControl('id')
 
     
-      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
      
         console.log("form add product value: ", this.groupForm.value)

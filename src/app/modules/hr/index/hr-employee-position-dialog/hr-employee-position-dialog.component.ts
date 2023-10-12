@@ -99,7 +99,7 @@ export class HrEmployeePositionDialogComponent implements OnInit {
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
       this.getEmployeeData = this.editData;
-      this.HrEmployeePosition.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.HrEmployeePosition.controls['transactionUserId'].setValue(this.transactionUserId);
       this.HrEmployeePosition.controls['date'].setValue(this.editData.date);
       this.HrEmployeePosition.controls['employeeId'].setValue(this.editData.employeeId);
       this.HrEmployeePosition.controls['positionId'].setValue(this.editData.positionId);

@@ -60,7 +60,8 @@ export class HrAttendanceMachineDialogComponent implements OnInit {
   }
 
   addHrAttendanceMachine() {
-    this.HrAttendanceMachineForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+    this.HrAttendanceMachineForm.controls['transactionUserId'].setValue(this.transactionUserId);
+
     console.log("add form: ", this.HrAttendanceMachineForm.value);
 
     if (!this.editData) {

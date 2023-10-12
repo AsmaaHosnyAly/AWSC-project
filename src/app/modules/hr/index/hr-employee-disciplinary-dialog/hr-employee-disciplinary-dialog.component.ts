@@ -158,7 +158,7 @@ this.getdisciplinary();
     if (!this.editData) {
       this.groupForm.removeControl('id')
 
-      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
         this.employeeName = await this.getemployeeByID(this.groupForm.getRawValue().employeeId);
         this.disciplinaryName = await this.getdisciplinaryByID(this.groupForm.getRawValue().disciplinaryId);

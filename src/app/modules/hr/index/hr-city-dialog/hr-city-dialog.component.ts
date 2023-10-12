@@ -56,7 +56,7 @@ export class HrCityDialogComponent {
   addHrCities(){
     if(!this.editData){
       this.HrcityForm.removeControl('id')
-      this.HrcityForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.HrcityForm.controls['transactionUserId'].setValue(this.transactionUserId);
       if(this.HrcityForm.valid){
         this.api.postHrCity(this.HrcityForm.value)
         .subscribe({
