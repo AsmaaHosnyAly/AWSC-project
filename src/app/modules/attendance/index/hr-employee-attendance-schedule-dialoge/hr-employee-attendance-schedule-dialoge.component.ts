@@ -32,6 +32,7 @@ export class AttendancePermission {
   styleUrls: ['./hr-employee-attendance-schedule-dialoge.component.css']
 })
 export class HrEmployeeAttendanceScheduleDialogeComponent implements OnInit {
+  transactionUserId=localStorage.getItem('transactionUserId')
   employeeCtrl: FormControl;
   filteredEmployees: Observable<Employee[]>;
   employees: Employee[] = [];
@@ -86,7 +87,7 @@ export class HrEmployeeAttendanceScheduleDialogeComponent implements OnInit {
       employeeId: ['', Validators.required],
       attendanceScheduleId: ['', Validators.required],
       attendancePermissionId: ['', Validators.required],
-      transactionUserId: [1],
+      transactionUserId: ['',Validators.required],
     });
 
     this.api.getAllEmployees().subscribe((employees) => {

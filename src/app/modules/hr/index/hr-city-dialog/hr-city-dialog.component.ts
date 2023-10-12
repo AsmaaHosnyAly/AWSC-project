@@ -15,6 +15,8 @@ import { Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./hr-city-dialog.component.css']
 })
 export class HrCityDialogComponent {
+  transactionUserId=localStorage.getItem('transactionUserId')
+
   formcontrol = new FormControl('');  
   HrcityForm !:FormGroup;
   actionBtn : string = "حفظ";
@@ -31,7 +33,7 @@ export class HrCityDialogComponent {
      }
   ngOnInit(): void {
     this.HrcityForm = this.formBuilder.group({
-      transactionUserId : ['1',Validators.required],
+      transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
@@ -54,6 +56,7 @@ export class HrCityDialogComponent {
   addHrCities(){
     if(!this.editData){
       this.HrcityForm.removeControl('id')
+      this.HrcityForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       if(this.HrcityForm.valid){
         this.api.postHrCity(this.HrcityForm.value)
         .subscribe({

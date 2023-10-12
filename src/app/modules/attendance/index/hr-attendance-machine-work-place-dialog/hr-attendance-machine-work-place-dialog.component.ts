@@ -16,7 +16,7 @@ import { Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./hr-attendance-machine-work-place-dialog.component.css']
 })
 export class HrAttendanceMachineWorkPlaceDialogComponent implements OnInit {
-
+  transactionUserId=localStorage.getItem('transactionUserId')
   formcontrol = new FormControl('');
   HrAttendanceMachineWorkPlaceForm !: FormGroup;
   actionBtn: string = "حفظ";
@@ -68,7 +68,7 @@ export class HrAttendanceMachineWorkPlaceDialogComponent implements OnInit {
   }
 
   addHrAttendanceMachineWorkPlace() {
-    this.HrAttendanceMachineWorkPlaceForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+    this.HrAttendanceMachineWorkPlaceForm.controls['transactionUserId'].setValue(this.transactionUserId);
     console.log("add form: ", this.HrAttendanceMachineWorkPlaceForm.value);
 
     if (!this.editData) {
