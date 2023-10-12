@@ -129,21 +129,6 @@ export class FIAccountComponent implements OnInit {
       });
   }
 
-  // deleteAccount(id: number) {
-  //   var result = confirm('هل ترغب بتاكيد مسح الحساب ؟ ');
-  //   if (result) {
-  //     this.api.deleteAccount(id).subscribe({
-  //       next: (res) => {
-  //         alert('تم الحذف بنجاح');
-  //         this.getAllAccounts();
-  //       },
-  //       error: () => {
-  //         alert('خطأ فى حذف العنصر');
-  //       },
-  //     });
-  //   }
-  // }
-
   deleteAccount(id:number){
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
