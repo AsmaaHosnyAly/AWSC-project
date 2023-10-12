@@ -105,7 +105,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     'price',
     'qty',
     'total',
-    'percentage',
+    // 'percentage',
     'action',
   ];
 
@@ -165,8 +165,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   confirm: any;
 
-  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
-  
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
+
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
@@ -258,7 +258,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       stR_WithdrawId: ['', Validators.required], //MasterId
       employeeId: ['', Validators.required],
       qty: ['', Validators.required],
-      percentage: ['', Validators.required],
+      percentage: [''],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: [1, Validators.required],
@@ -292,9 +292,9 @@ export class StrWithdrawDialogComponent implements OnInit {
       if (this.editData.employeeId == null) {
         this.actionName = 'sss';
         console.log('action btnnnnnnnnnnnnn', this.actionName);
-        let type='المخزن';
+        let type = 'المخزن';
         this.getListCtrl(type);
-this.getDestStores();
+        this.getDestStores();
         this.groupMasterForm.controls['type'].setValue('المخزن');
         this.groupMasterForm.controls['sourceInput'].setValue(
           this.groupMasterForm.getRawValue().desstoreName
@@ -306,7 +306,7 @@ this.getDestStores();
         // alert("deststore in edit:"+this.editData.deststoreId)
       } else {
         this.actionName = 'choose';
-        let type='الموظف';
+        let type = 'الموظف';
         this.getListCtrl(type);
         this.getEmployees();
 
@@ -383,7 +383,7 @@ this.getDestStores();
       this.isEditDataReadOnly = true;
     }
     //
-// this.listSelected();
+    // this.listSelected();
 
     this.getAllDetailsForms();
 
@@ -825,7 +825,7 @@ this.getDestStores();
   // }
 
   // getAllDetailsForms() {
-   
+
 
 
   //   if (this.getMasterRowId) {
@@ -974,20 +974,20 @@ this.getDestStores();
     this.desstoreName = await this.getDestStoreById(
       this.groupMasterForm.getRawValue().deststoreId
     );
-    
+
     this.itemName = await this.getItemByID(
       this.groupMasterForm.getRawValue().itemId
     );
-    
-  
+
+
     // this.storeName = await this.getStoreByID(
     //   this.groupMasterForm.getRawValue().storeId
     // );
-    
+
     // this.storeName = await this.getStoreByID(
     //   this.groupMasterForm.getRawValue().storeId
     // );
-    
+
     // this.storeName = await this.getStoreByID(
     //   this.groupMasterForm.getRawValue().storeId
     // );
@@ -1005,23 +1005,23 @@ this.getDestStores();
     this.groupMasterForm.controls['price'].setValue(
       this.groupMasterForm.getRawValue().price
 
-    );this.groupMasterForm.controls['qty'].setValue(
+    ); this.groupMasterForm.controls['qty'].setValue(
       this.groupMasterForm.getRawValue().qty
     );
     this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
       this.getMasterRowId.id
     );
-    
+
     this.groupMasterForm.controls['stateName'].setValue(
       this.groupMasterForm.getRawValue().stateName
     );
-  
+
     this.groupMasterForm.controls['state'].setValue(
       this.groupMasterForm.getRawValue().state
     );
     this.groupMasterForm.controls['total'].setValue(
       this.groupMasterForm.getRawValue().total
-    );this.groupMasterForm.controls['transactionUserId'].setValue(
+    ); this.groupMasterForm.controls['transactionUserId'].setValue(
       this.groupMasterForm.getRawValue().transactionUserId
     );
 
@@ -1167,26 +1167,26 @@ this.getDestStores();
   getAllMasterForms() {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
-      //   if(this.actionBtnMaster=='save'){
-      //     this.dialogRef.close('save');
-      // }
-      // else{
-      //   this.dialogRef.close('update');
+    //   if(this.actionBtnMaster=='save'){
+    //     this.dialogRef.close('save');
+    // }
+    // else{
+    //   this.dialogRef.close('update');
 
-      // }
-      // this.closeDialog();
-      this.dialogRef.close('Save');
-      this.api.getStrWithdraw().subscribe({
-        next: (res) => {
-          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        },
-      });
+    // }
+    // this.closeDialog();
+    this.dialogRef.close('Save');
+    this.api.getStrWithdraw().subscribe({
+      next: (res) => {
+        // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: () => {
+        // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      },
+    });
     // }
   }
 
@@ -1504,7 +1504,7 @@ this.getDestStores();
   listSelected(event: MatAutocompleteSelectedEvent): void {
     const list = event.option.value as List;
     this.selectedList = list;
-  
+
     if (this.sourceSelected === 'الموظف') {
       this.groupMasterForm.patchValue({ employeeId: list.id });
       this.groupMasterForm.patchValue({ employeeName: list.name });
@@ -1533,7 +1533,7 @@ this.getDestStores();
 
   getListCtrl(type: any) {
     this.sourceSelected = type;
-   
+
     if (type === 'الموظف') {
       this.api.getEmployee().subscribe((lists) => {
         this.lists = lists;
