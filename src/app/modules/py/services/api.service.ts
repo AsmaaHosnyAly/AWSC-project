@@ -172,4 +172,23 @@ deleteTaxBracket(id: number) {
    
   }
 
+
+    ///////////////////////////////// Py-Item /////////////////////////////
+    postPyItem(data: any) {
+      return this.http.post<any>(`${this.url}/PyItem/Add`, data);
+    }
+    getPyItem() {
+      return this.http.get<any>(`${this.url}/PyItem/get/all`);
+    }
+    putPyItem(data: any) {
+      return this.http.put<any>(`${this.url}/PyItem/update`, data);
+    }
+    deletePyItem(id: number) {
+      return this.http.delete<any>(`${this.url}/PyItem/delete/` + id);
+    }
+  
+    getAllCategory() {
+      return this.http.get<any>(`${this.url}/PyItemCategory/get/all`);
+    }
+
 }

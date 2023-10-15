@@ -100,6 +100,7 @@ import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/in
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
+import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
 
 import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
 import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
@@ -364,6 +365,7 @@ const routes: Routes = [
 
       //  { path: 'pyHome', component:  },
        { path: 'PyInstallment', component: PyInstallmentComponent },
+       { path: 'PyItem', component: PyItemComponent },
        
        { path: 'Py-Exchange', component: PyExchangeContainerComponent },
 

@@ -1,0 +1,204 @@
+<div class="cdk-overlay-pane">
+  <button class="close" mat-button mat-dialog-close>
+    <mat-icon> clear</mat-icon>
+  </button>
+</div>
+<h1 mat-dialog-title class="add-h1">
+  {{ editData ? " تعديل بنود الأجور " : " إضافة بنود أجور جديدة" }}
+</h1>
+<form [formGroup]="PyItem" dir="rtl">
+  <div mat-dialog-content>
+    <form [formGroup]="PyItem">
+      <div class="child1">
+        <mat-label>الاسم</mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="name" matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>الكود</mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="code" type="number" matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>التصنيف</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="category"
+            [matAutocomplete]="autoCategory"
+            [formControl]="categoryCtrl"
+            placeholder="{{ getPyItem ? getPyItem.categoryName : '' }}"
+            (click)="openAutoCategory()"
+            required
+          />
+          <mat-autocomplete
+            #autoCategory="matAutocomplete"
+            [displayWith]="displayCategoryName"
+            (optionSelected)="categorySelected($event)"
+          >
+            <mat-option
+              *ngFor="let category of filteredCategories | async"
+              [value]="category"
+            >
+              {{ category.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>النوع</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select id="sourceInput" formControlName="type">
+            <mat-option value="خاضع للتأمينات">خاضع للتأمينات</mat-option>
+            <mat-option value="ضرائب">ضرائب</mat-option>
+            <mat-option value="عادى">عادى</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+      <div class="child1">
+        <mat-label>القيمة </mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="value" type="number" min="0" matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>القيمة بعد الإقفال </mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="resetValue" type="number" min="0" matInput />
+        </mat-form-field>
+        </div>
+
+      <div class="child1">
+        <mat-label>الحد الأدنى </mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="minValue" type="number" min="0" matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>الحد الأقصى </mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="maxValue" type="number" min="0" matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>نوع الإقفال</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select id="resetTypeInput" formControlName="resetType">
+            <mat-option value="A">A</mat-option>
+            <mat-option value="B">B</mat-option>
+            <mat-option value="C">C</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>طريقة التقريب</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select id="roundInput" formControlName="round">
+            <mat-option value="0">0</mat-option>
+            <mat-option value="1">1</mat-option>
+            <mat-option value="2">2</mat-option>
+            <mat-option value="3">3</mat-option>
+            <mat-option value="4">4</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      
+      <div class="child1">
+        <mat-label>طريقة الحساب</mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select id="calcTypeInput" formControlName="calcType">
+            <mat-option value="نسبة مئوية">نسبة مئوية</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-label>معادلة الحساب</mat-label>
+
+        <textarea
+          name="description"
+          formControlName="equation"
+          cols="73"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="child1">
+        <label id="example-radio-group-label" class="lable-radio"
+          >الجهة</label
+        >
+        <mat-radio-group formControlName="party" class="example-radio-group">
+          <mat-radio-button class="example-radio-button" value="الموظف">
+            الموظف
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value="الشركة">
+            الشركة
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="child1">
+        <label id="example-radio-group-label" class="lable-radio"
+          >نوع البند</label
+        >
+        <mat-radio-group formControlName="manner" class="example-radio-group">
+          <mat-radio-button class="example-radio-button" value="استحقاق">
+            استحقاق
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value="استقطاع">
+            استقطاع
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="child1">
+        <label id="example-radio-group-label" class="lable-radio">الحالة</label>
+        <mat-radio-group formControlName="status" class="example-radio-group">
+          <mat-radio-button class="example-radio-button" value="ساري">
+            سارى
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value="غير ساري">
+            غير ساري
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="child1">
+        <label id="example-radio-group-label" class="lable-radio"
+          >الظهور بهيكل الأجور</label
+        >
+        <mat-radio-group
+          formControlName="visibility"
+          class="example-radio-group"
+        >
+          <mat-radio-button class="example-radio-button" value=true>
+            نعم
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value=false>
+            لا
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </form>
+    <div mat-dialog-actions>
+      <button
+        mat-raised-button
+        class="savebtn"
+        (click)="AddItem()"
+        style="margin-left: 8px"
+      >
+        {{ actionBtn }}
+      </button>
+    </div>
+  </div>
+</form>
