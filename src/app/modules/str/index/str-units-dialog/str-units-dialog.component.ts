@@ -60,6 +60,7 @@ export class STRUnitsDialogComponent {
     this.api.getunit().subscribe({
       next: (res) => {
         this.existingNames = res.map((item: any) => item.name);
+       
       },
       error: (err) => {
         console.log('Error fetching existing names:', err);
