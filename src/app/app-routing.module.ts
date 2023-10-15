@@ -100,6 +100,7 @@ import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/in
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
+import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -360,6 +361,7 @@ const routes: Routes = [
 
       //  { path: 'pyHome', component:  },
        { path: 'PyInstallment', component: PyInstallmentComponent },
+       { path: 'PyItemCategory', component: PyItemCategoryComponent },
        /*********************End py module  المرتبات***************************/
           
       //  report section

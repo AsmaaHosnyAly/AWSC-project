@@ -35,4 +35,19 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/PyItem/get/all`);
   }
 
+    ///////////////////////////////// Py-Installment /////////////////////////////
+    postPyItemCategory(data: any) {
+      return this.http.post<any>(`${this.url}/PyItemCategory/Add`, data);
+    }
+    getPyItemCategory() {
+      return this.http.get<any>(`${this.url}/PyItemCategory/get/all`);
+    }
+    putPyItemCategory(data: any) {
+      return this.http.put<any>(`${this.url}/PyItemCategory/update`, data);
+    }
+    deletePyItemCategory(id: number) {
+      return this.http.delete<any>(`${this.url}/PyItemCategory/delete/` + id);
+    }
+  
+
 }
