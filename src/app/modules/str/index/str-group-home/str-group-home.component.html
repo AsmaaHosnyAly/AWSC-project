@@ -1,7 +1,7 @@
 <!-- Cards with media area -->
 <div class="routeContainer">
 
-    <mat-card class="example-card" *ngIf="hasAccessModule(1)">
+    <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)">
       <mat-card-title-group routerLink="/hr-AttendanceHome">
         <mat-card-title class="tt"><mat-icon>book</mat-icon></mat-card-title>
         <mat-card-subtitle>الحضور والانصراف</mat-card-subtitle>
@@ -17,7 +17,7 @@
       </mat-card-title-group>
     </mat-card>  -->
 
-    <mat-card class="example-card"  *ngIf="hasAccessModule(pageEnums.HR)"  >
+    <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)"  >
       <mat-card-title-group routerLink="/hr-home">
         <mat-card-title class="tt"><mat-icon>people</mat-icon></mat-card-title>
         <mat-card-subtitle>شئون العاملين</mat-card-subtitle>

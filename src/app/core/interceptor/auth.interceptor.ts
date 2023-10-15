@@ -14,12 +14,13 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(global:GlobalService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler) {
-    let token=localStorage.getItem("token")
+    let token=localStorage.getItem("accessToken")
     let role=localStorage.getItem("role")
     
     if(token){
       request=request.clone({
         headers:request.headers.set("Authorization",`bearer ${token}`).append("role",`${role}`)
+         
         
       })
     }

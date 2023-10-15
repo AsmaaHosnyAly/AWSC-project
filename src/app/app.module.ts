@@ -429,8 +429,9 @@ import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/
     MatProgressSpinnerModule,
     NgxExtendedPdfViewerModule,
     MatTabsModule,
-    HotkeyModule.forRoot()
-    // FontAwesomeModule,
+    HotkeyModule.forRoot(),
+   
+    // FontAwesomeModul
   ],
   providers: [
     {
