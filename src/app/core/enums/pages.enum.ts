@@ -7,6 +7,8 @@ export enum PagesEnums {
   ROLES='IT',
   ACCOUNTS = 'Accounts',
   HR='HR',
+  ATTENDANDCE='Atendance',
+  PY='PY',
   /*************USER_ROLES***************/
   /****************** module:1 STORES المخازن ************************/
   WITHDRAW = 'اذن صرف',
@@ -66,5 +68,13 @@ HR_employeeAppraisal ='تقييم الموظفين',
 HR_employee='الموظفين',
 Employee_qualifications='مؤهلات الوظف',
 Qualification_level='الدرجة العلمية',
+  /****************** module:5 Attendance  الحضور والانصراف************************/
 
+  hr_AttendancePermission='نوع الإذن',
+  hr_attendanceSchedule='الورديات',
+  hr_attendanceMachine='أجهزة البصمة',
+  hr_attendanceMachineWorkPlace='أماكن أجهزة البصمة',
+  hr_employeeAttendanceSchedule='ورديات الموظفين',
+  hr_EmployeeAttendancePermission='أذونات الموظفين',
+  hr_EmployeeAttendance='الحضور والإنصراف'
 }

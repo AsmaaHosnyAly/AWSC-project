@@ -557,50 +557,7 @@
         >
       </mat-expansion-panel>
       <!-- end Hr -->
-      <!-- start roles -->
-
-      <!-- start المرتبات-->
-      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.HR)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon color="primary" class="ms-2">people</mat-icon>
-            المرتبات
-          </mat-panel-title>
-          <mat-nav-list></mat-nav-list>
-        </mat-expansion-panel-header>
-
-        <mat-nav-list>
-          <mat-expansion-panel
-            dir="rtl"
-            style="
-              box-shadow: none;
-              border-bottom: 1px rgb(244, 237, 237) solid;
-              margin-top: 10px;
-            "
-          >
-            <mat-expansion-panel-header>
-              <mat-panel-title> التكويد </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a
-                mat-list-item
-                class="sideNavSubItems"
-                routerLink="/PyInstallment"
-                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
-                >الأقساط 
-              </a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-        </mat-nav-list>
-      </mat-expansion-panel>
-      <!-- end Hr -->
-      <!-- start roles -->
-
-      <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
-
-      <!-- end Hr -->
-      <!-- start roles -->
-      <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
+      
       <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -645,7 +602,7 @@
       </mat-expansion-panel>
       <!-- ens roles -->
           <!-- Start Attendance الحضور والانصراف  -->
-          <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
+          <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.ATTENDANDCE)">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon color="primary" class="ms-2">store</mat-icon>
@@ -754,34 +711,32 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
-                routerLink="hr-AttendancePermission"
-                *ngIf="hasAccessRole(pageEnums.PR_USER)"
-              >
-                <p class="font">اذن الحضور</p>
+                routerLink="/PyInstallment"
+                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                >الأقساط 
               </a>
               <a
                 mat-list-item
                 class="sideNavSubItems"
-                routerLink="/hr-attendanceSchedule"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-              >
-                <p class="font">جدول الحضور</p>
+                routerLink="/pytaxbracket"
+                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                >الوعاء الضريبي  
               </a>
               <a
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/hr-attendanceMachine"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+                *ngIf="hasAccessRole(pageEnums.hr_attendanceMachine)"
               >
-                <p class="font">الة الحضور</p>
+                <p class="font">أجهزة البصمة</p>
               </a>
               <a
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/hr-attendanceMachineWorkPlace"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+                *ngIf="hasAccessRole(pageEnums.hr_attendanceMachineWorkPlace)"
               >
-                <p class="font">مكان عمل الة الحضور</p>
+                <p class="font">أماكن أجهزة البصمة </p>
               </a>
             </mat-nav-list>
           </mat-expansion-panel>
@@ -791,26 +746,26 @@
             mat-list-item
             class="sideNavSubItems"
             routerLink="/hr-employeeAttendanceSchedule"
-            *ngIf="hasAccessRole(pageEnums.PR_USER)"
+            *ngIf="hasAccessRole(pageEnums.hr_employeeAttendanceSchedule)"
           >
-            <p class="font">جدول حضور الموظفين</p>
+            <p class="font">ورديات الموظفين</p>
           </a>
        
         <a
           mat-list-item
           class="sideNavSubItems"
           routerLink="/hr-EmployeeAttendancePermission"
-          *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          *ngIf="hasAccessRole(pageEnums.hr_EmployeeAttendancePermission)"
         >
-          <p class="font">تصريح  حضور الموظف </p>
+          <p class="font">أذونات الموظفين</p>
         </a>
         <a
         mat-list-item
         class="sideNavSubItems"
         routerLink="/hr-EmployeeAttendance"
-        *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+        *ngIf="hasAccessRole(pageEnums.hr_EmployeeAttendance)"
       >
-        <p class="font"> حضور الموظف </p>
+        <p class="font">الحضور والإنصراف</p>
       </a>
         </mat-nav-list>
       </mat-expansion-panel>
