@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/core/guards/shared.service';
 import { GlobalService } from '../services/global.service';
 import { ToastrService } from 'ngx-toastr';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,13 +15,17 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
   roles: any;
   transactionUserId: any;
+  modules:any
+  
+
 
   OnIinit(): void {
     this._compiler.clearCache();
+
   }
 
   loginForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(50)]), // Validators.pattern()
+    username: new FormControl('', [Validators.required, Validators.maxLength(50)]), // Validators.pattern()
     password: new FormControl('', [
       Validators.required,
       Validators.maxLength(10),
@@ -97,6 +102,49 @@ export class LoginComponent {
     //   });
     // }
   }
+
+  handleSubmitByJWT() {
+    
+    console.log("LOGIN FORM: ", this.loginForm.value);
+    if(this.loginForm.valid){
+      this.global.loginbyJWT(this.loginForm.value).subscribe({
+        next: (res) => {
+          console.log(res)
+          localStorage.setItem('transactionUserId', res.id);
+          this.global.isLogIn = true;
+          localStorage.setItem('accessToken', res.accessToken);
+          // localStorage.setItem('userRoles', res.roles);
+          localStorage.setItem('modules', res.modules);
+          this.toastrloginSuccess();
+          this.router.navigate(['/home']);
+        },
+        error: () => {
+         this.toastrloginfailed()
+        },
+      });
+    }
+
+    // if (this.loginForm.valid) {
+    //   console.log('login1', this.loginForm.value);
+    //   this.isSubmit = true;
+    //   this.global.login(this.loginForm.value).subscribe((res) => {
+    //     console.log('login2', res);
+     
+    //       localStorage.setItem('transactionUserId', res.id);
+    //       console.log(
+    //         'handelres',
+    //         localStorage.setItem('transactionUserId', res.id)
+    //       );
+    //       this.global.isLogIn = true;
+    //       localStorage.setItem('userRoles', res.roles);
+    //       this.toastrloginSuccess();
+    //       this.router.navigate(['/home']);
+        
+    //   });
+    // }
+  }
+
+
 
   //  this.global.getRolesByUserId(res.id).subscribe(res=>{
   //   console.log("res", res)

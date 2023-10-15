@@ -419,6 +419,8 @@ import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-
     NgxExtendedPdfViewerModule,
     MatTabsModule,
     HotkeyModule.forRoot(),
+   
+    // FontAwesomeModul
     // FontAwesomeModule,
   ],
   providers: [

@@ -21,7 +21,7 @@
       <form
         class="login-form"
         [formGroup]="loginForm"
-        (ngSubmit)="handleSubmit()"
+        (ngSubmit)="handleSubmitByJWT()"
       >
         <p>تسجيل الدخول</p>
         <label for="" class="details">اسم المستخدم</label>
@@ -29,7 +29,7 @@
           dir="rtl"
           type="text"
           class="form-control"
-          formControlName="name"
+          formControlName="username"
           autocomplete="off"
           autofocus="false"
         />
