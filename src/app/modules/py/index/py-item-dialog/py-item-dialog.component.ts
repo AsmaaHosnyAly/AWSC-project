@@ -81,6 +81,8 @@ export class PyItemDialogComponent implements OnInit {
   
       if (this.editData) {
         this.actionBtn = 'تحديث';
+        console.log("edit",this.editData);
+        
         this.getPyItem = this.editData;
         this.PyItem.controls['name'].setValue(this.editData.name);
         this.PyItem.controls['manner'].setValue(this.editData.manner);
@@ -92,6 +94,9 @@ export class PyItemDialogComponent implements OnInit {
         this.PyItem.controls['round'].setValue(this.editData.round);
         this.PyItem.controls['code'].setValue(this.editData.code);
         this.PyItem.controls['value'].setValue(this.editData.value);
+        this.PyItem.controls['status'].setValue(this.editData.status);
+        console.log("status", this.editData.status);
+        
         this.PyItem.controls['minValue'].setValue(this.editData.minValue);
         this.PyItem.controls['maxValue'].setValue(this.editData.maxValue);
         this.PyItem.controls['resetValue'].setValue(this.editData.resetValue);
@@ -154,7 +159,8 @@ export class PyItemDialogComponent implements OnInit {
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
-            alert(err) 
+            console.log("datttaaa:",this.PyItem.value);            
+            alert("خطأ عند اضافة البيانات") 
           }
         })
       }
@@ -165,7 +171,7 @@ export class PyItemDialogComponent implements OnInit {
 
 
   updateItem(){
-        this.api.putPyInstallment(this.PyItem.value)
+        this.api.putPyItem(this.PyItem.value)
         .subscribe({
           next:(res)=>{
             this.toastrEditSuccess();
