@@ -7,7 +7,7 @@ export enum PagesEnums {
   ROLES='IT',
   ACCOUNTS = 'Accounts',
   HR='HR',
-  ATTENDANDCE='Atendance',
+  ATTENDANDCE='Attendance',
   PY='PY',
   /*************USER_ROLES***************/
   /****************** module:1 STORES المخازن ************************/
