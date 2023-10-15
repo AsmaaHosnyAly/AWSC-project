@@ -363,13 +363,12 @@ const routes: Routes = [
       //  { path: 'pyHome', component:  },
        { path: 'PyInstallment', component: PyInstallmentComponent },
        { path: 'PyItemCategory', component: PyItemCategoryComponent },
+       { path: 'pytaxbracket', component:PyTaxBracketComponent},
        /*********************End py module  المرتبات***************************/
           
       //  report section
       { path: 'report', component: StrReportComponent },
       { path: 'add-item-report', component: StrReportAddItemComponent },
-   /*********************End py module  المرتبات***************************/
-   { path: 'pytaxbracket', component:PyTaxBracketComponent}
       // error section
       // { path: '**', component: ErrorComponent },
     ],
