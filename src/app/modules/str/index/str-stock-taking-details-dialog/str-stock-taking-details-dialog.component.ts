@@ -271,6 +271,7 @@ export class StrStockTakingDetailsDialogComponent {
         console.log("post d: ", this.groupDetailsForm.valid, "getDetailedRowData:", !this.getDetailedRowData);
 
         if (this.groupDetailsForm.valid ) {
+          console.log("form after post:",this.groupDetailsForm)
 
           this.api.postStrStockTakingDetails(this.groupDetailsForm.value)
             .subscribe({
