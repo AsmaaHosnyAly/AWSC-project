@@ -29,7 +29,7 @@ export class ApiService {
   }
   deleteHrAttendancePermission(id: number) {
     return this.http.delete<any>(
-      `${this.url}/STRUnit/delete/${id}`
+      `${this.url}/HrAttendancePermission/delete/${id}`
     );
   }
   /************Hr-Employee-attendence-permission crud*******************/
