@@ -95,7 +95,14 @@ export class STRAddDialogComponent implements OnInit {
 
   btnDisabled: boolean = false;
 
-  displayedColumns: string[] = ['itemName', 'avgPrice', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = [
+    'itemName', 
+    // 'avgPrice', 
+    'price', 
+    'qty', 
+    'total', 
+    'action'
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -179,7 +186,7 @@ export class STRAddDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       // productId: ['', Validators.required],
       itemName: ['', Validators.required],
-      avgPrice: ['', Validators.required],
+      avgPrice: [''],
       balanceQty: ['', Validators.required],
       percentage: [''],
       // storeId: ['', Validators.required],
