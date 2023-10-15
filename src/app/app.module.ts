@@ -204,6 +204,10 @@ import { PyInstallmentComponent } from './modules/py/index/py-installment/py-ins
 import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-dialog/py-installment-dialog.component';
 import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
 import { PyItemCategoryDialogComponent } from './modules/py/index/py-item-category-dialog/py-item-category-dialog.component';
+import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
+import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-dialog/py-tax-bracket-dialog.component';
+
+
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -383,6 +387,9 @@ import { PyItemCategoryDialogComponent } from './modules/py/index/py-item-catego
     PyInstallmentDialogComponent,
     PyItemCategoryComponent,
     PyItemCategoryDialogComponent,
+    PyTaxBracketComponent,
+    PyTaxBracketDialogComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -423,6 +430,8 @@ import { PyItemCategoryDialogComponent } from './modules/py/index/py-item-catego
     NgxExtendedPdfViewerModule,
     MatTabsModule,
     HotkeyModule.forRoot(),
+   
+    // FontAwesomeModul
     // FontAwesomeModule,
   ],
   providers: [

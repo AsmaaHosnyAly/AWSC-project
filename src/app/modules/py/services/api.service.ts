@@ -34,6 +34,20 @@ export class ApiService {
   getAllpyItems() {
     return this.http.get<any>(`${this.url}/PyItem/get/all`);
   }
+///////////////////////////////// PyTaxBracket /////////////////////////////
+postTaxBracket(data: any) {
+  return this.http.post<any>(`${this.url}/PyTaxBracket/Add`, data);
+}
+getTaxBracket() {
+  return this.http.get<any>(`${this.url}/PyTaxBracket/get/all`);
+}
+putTaxBracket(data: any) {
+  return this.http.put<any>(`${this.url}/PyTaxBracket/update`, data);
+}
+deleteTaxBracket(id: number) {
+  return this.http.delete<any>(`${this.url}/PyTaxBracket/delete/` + id);
+}
+
 
     ///////////////////////////////// Py-Installment /////////////////////////////
     postPyItemCategory(data: any) {

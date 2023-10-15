@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../services/global.service'; 
+import { GlobalService } from '../services/global.service';
 import { SharedService } from '../../core/guards/shared.service';
 import { Router } from '@angular/router';
 import { PagesEnums } from '../../core/enums/pages.enum';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-menubar',
@@ -10,8 +11,8 @@ import { PagesEnums } from '../../core/enums/pages.enum';
   styleUrls: ['./menubar.component.css'],
 })
 export class MenubarComponent {
-  str1:any
-  pageTitle:any
+  str1: any;
+  pageTitle: any;
   badgevisible = false;
   badgevisibility() {
     this.badgevisible = true;
@@ -19,24 +20,30 @@ export class MenubarComponent {
 
   transactionUserId = localStorage.getItem('transactionUserId');
   user: any;
-  userGroup:any
+  userGroup: any;
   sharedStores: any;
-  pageEnums = PagesEnums
-  constructor(public global: GlobalService,  public shared: SharedService,  private router: Router) {
+  pageEnums = PagesEnums;
+  decodedToken : any;
+  decodedToken1:any
+  decodedToken2:any
+  constructor(
+    public global: GlobalService,
+    public shared: SharedService,
+    private router: Router
+  ) {
     // this.refresh()
-   
-  
-  //  this.str1=localStorage.getItem('stores')
-  //   console.log(localStorage.getItem('stores'))
-  //   this.shared.roles
-  //   console.log('stores', this.shared.stores)
-  // //   console.log('roles',this.shared.roles)
-  // this.global.getPermissionUserRoles(1||2||3||4||5||6||7||8||9||10||11|12|13|14|15|16|17,'stores','','')
-  // this.global.getPermissionRolesScreens(18||19,'الصلاحيات','')
- 
-  this.getUserById();
- 
-   this.getUserGroupById()
+
+    //  this.str1=localStorage.getItem('stores')
+    //   console.log(localStorage.getItem('stores'))
+    //   this.shared.roles
+    //   console.log('stores', this.shared.stores)
+    // //   console.log('roles',this.shared.roles)
+    // this.global.getPermissionUserRoles(1||2||3||4||5||6||7||8||9||10||11|12|13|14|15|16|17,'stores','','')
+    // this.global.getPermissionRolesScreens(18||19,'الصلاحيات','')
+
+    this.getUserById();
+
+    this.getUserGroupById();
     //  this.global.getPermissionUserRoles(null, 'stores', 'الوحدة', '')
   }
 
@@ -44,7 +51,16 @@ export class MenubarComponent {
     this.global.bgColor = document
       .querySelector('section')
       ?.classList.add('screenBackground');
-    
+
+    // Retrieve the access token
+    const accessToken: any = localStorage.getItem('accessToken');
+    console.log('accessToken', accessToken);
+    // Decode the access token
+      this.decodedToken = jwt_decode(accessToken);
+    this. decodedToken1 = this.decodedToken.modules;
+    this.decodedToken2 = this.decodedToken.roles;
+     
+    console.log('decodedToken1 ', this.decodedToken1);
   }
   title = 'str-group';
 
@@ -63,42 +79,32 @@ export class MenubarComponent {
   }
   getUserGroupById() {
     this.global.getUserGroup(this.transactionUserId).subscribe((res) => {
-      console.log('usergrop',this.userGroup)
+      console.log('usergrop', this.userGroup);
       if (res) return (this.userGroup = res);
       else this.userGroup = '';
     });
   }
 
- 
-
   handleLogOut() {
-    localStorage.setItem('transactionUserId','')
+    localStorage.setItem('transactionUserId', '');
     localStorage.removeItem('userRoles');
     localStorage.removeItem('modules');
     this.global.isLogIn = false;
-    
   }
 
-refresh(){
-  
+  refresh() {
     window.location.reload();
   }
 
-  hasAccessModule(id:number):boolean{
-    const MODULES_LOCAL_STORAGE = window.localStorage.getItem('modules') 
-    const MODULES : Array<any> =MODULES_LOCAL_STORAGE!.split(',')
-    return MODULES.some((i:any)=>i == id)
+  hasAccessModule(name: string): boolean {
+    // const MODULES_LOCAL_STORAGE = window.localStorage.getItem('modules');
+    const MODULES_LOCAL_STORAGE = this.decodedToken1
+    const MODULES: Array<any> = MODULES_LOCAL_STORAGE
+    return MODULES.some((i: any) => i == name);
   }
-  hasAccessRole(id:number):boolean{
-    const USER_ROLES_LOCAL_STORAGE = window.localStorage.getItem('userRoles') 
-    const USER_ROLES : Array<any> = USER_ROLES_LOCAL_STORAGE!.split(',')
-    return USER_ROLES.some((i:any)=>i == id)
+  hasAccessRole(name: string): boolean {
+    const USER_ROLES_LOCAL_STORAGE =  this.decodedToken2
+    const USER_ROLES: Array<any> = USER_ROLES_LOCAL_STORAGE
+    return USER_ROLES.some((i: any) => i == name);
   }
-
-   
- 
-  }
-
-
-  
-
+}
