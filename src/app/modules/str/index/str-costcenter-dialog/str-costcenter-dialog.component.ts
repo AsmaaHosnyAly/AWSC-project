@@ -23,6 +23,7 @@ import { Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./str-costcenter-dialog.component.css'],
 })
 export class StrCostcenterDialogComponent implements OnInit {
+  transactionUserId=localStorage.getItem('transactionUserId')
   centerCategoryCtrl: FormControl;
   filteredCategories: Observable<Category[]>;
   categories: Category[] = [];
@@ -53,7 +54,7 @@ export class StrCostcenterDialogComponent implements OnInit {
       code: ['', Validators.required],
       name: ['', Validators.required],
       costCenterCategoryId: ['', Validators.required],
-      transactionUserId: [1],
+      transactionUserId : ['',Validators.required],
     });
 
     this.api.getAllCategories().subscribe((categories) => {
@@ -137,6 +138,7 @@ export class StrCostcenterDialogComponent implements OnInit {
         this.costcenterForm.controls['code'].setValue(this.autoCode);
       }
       this.costcenterForm.removeControl('id');
+      this.costcenterForm.controls['transactionUserId'].setValue(this.transactionUserId);
       if (this.costcenterForm.valid) {
         this.api.postCostCenter(this.costcenterForm.value).subscribe({
           next: (res) => {

@@ -33,6 +33,7 @@ export class Model {
   styleUrls: ['./str-product-dialog.component.css'],
 })
 export class StrProductDialogComponent implements OnInit {
+  transactionUserId = localStorage.getItem('transactionUserId');
   itemCtrl: FormControl;
   filteredItems: Observable<Item[]>;
   items: Item[] = [];
@@ -87,7 +88,7 @@ export class StrProductDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       vendorId: ['', Validators.required],
       modelId: ['', Validators.required],
-      transactionUserId: [1],
+      transactionUserId: ['', Validators.required],
     });
 
     this.api.getItems().subscribe((items) => {
@@ -226,6 +227,9 @@ export class StrProductDialogComponent implements OnInit {
         this.productForm.controls['code'].setValue(this.autoCode);
       }
       this.productForm.removeControl('id');
+      this.productForm.controls['transactionUserId'].setValue(
+        this.transactionUserId
+      );
       if (this.productForm.valid) {
         
         this.api.postStrProduct(this.productForm.value).subscribe({

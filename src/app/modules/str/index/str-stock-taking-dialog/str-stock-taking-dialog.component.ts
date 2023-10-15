@@ -355,7 +355,8 @@ export class StrStockTakingDialogComponent implements OnInit {
               this.sumOfTotals = 0;
               for (let i = 0; i < this.matchedIds.length; i++) {
                 this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+                this.groupMasterForm.controls['total'].setValue(Number(this.sumOfTotals.toFixed(2)));
                 // alert('totalll: '+ this.sumOfTotals)
                 // this.updateBothForms();
                 this.updateMaster();
@@ -407,7 +408,7 @@ export class StrStockTakingDialogComponent implements OnInit {
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id')
 
-    this.groupMasterForm.controls['total'].setValue(this.sumOfTotals)
+    this.groupMasterForm.controls['total'].setValue(Number(this.sumOfTotals.toFixed(2)))
     this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
 
     // alert("store name in add: " + this.storeName)
@@ -727,7 +728,7 @@ export class StrStockTakingDialogComponent implements OnInit {
   editDetailsForm(row: any) {
 
 
-    this.router.navigate(['/StockTaking'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, date: this.groupMasterForm.getRawValue().date } })
+    this.router.navigate(['/StrStockTaking'], { queryParams: { StoreId: this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date }  })
     this.dialog.open(StrStockTakingDetailsDialogComponent, {
       width: '98%',
       height: '79%',      data: row,

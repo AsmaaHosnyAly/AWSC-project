@@ -150,9 +150,9 @@ export class StrAddDetailsDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       // productId: [''],
       itemName: ['', Validators.required],
-      avgPrice: ['', Validators.required],
+      avgPrice: [''],
       balanceQty: ['', Validators.required],
-      percentage: ['100', Validators.required],
+      percentage: ['100'],
       // storeId: ['', Validators.required],
       // date: ['', Validators.required],
       // fiscalYearId: ['', Validators.required],
@@ -596,6 +596,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
               this.sumOfTotals = 0;
               for (let i = 0; i < this.matchedIds.length; i++) {
                 this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
                 this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
                 // alert('totalll: '+ this.sumOfTotals)
                 // this.updateBothForms();

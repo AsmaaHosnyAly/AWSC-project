@@ -95,7 +95,14 @@ export class STRAddDialogComponent implements OnInit {
 
   btnDisabled: boolean = false;
 
-  displayedColumns: string[] = ['itemName', 'avgPrice', 'price', 'qty', 'total', 'action'];
+  displayedColumns: string[] = [
+    'itemName', 
+    // 'avgPrice', 
+    'price', 
+    'qty', 
+    'total', 
+    'action'
+  ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -179,7 +186,7 @@ export class STRAddDialogComponent implements OnInit {
       itemId: ['', Validators.required],
       // productId: ['', Validators.required],
       itemName: ['', Validators.required],
-      avgPrice: ['', Validators.required],
+      avgPrice: [''],
       balanceQty: ['', Validators.required],
       percentage: [''],
       // storeId: ['', Validators.required],
@@ -352,6 +359,7 @@ export class STRAddDialogComponent implements OnInit {
                   this.sumOfTotals = 0;
                   for (let i = 0; i < this.matchedIds.length; i++) {
                     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                    this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
                     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
                     // alert('totalll: '+ this.sumOfTotals)
                     // this.updateBothForms();
@@ -384,6 +392,7 @@ export class STRAddDialogComponent implements OnInit {
                   this.sumOfTotals = 0;
                   for (let i = 0; i < this.matchedIds.length; i++) {
                     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                    this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
                     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
                     // alert('totalll: '+ this.sumOfTotals)
                     // this.updateBothForms();
@@ -418,6 +427,7 @@ export class STRAddDialogComponent implements OnInit {
                 this.sumOfTotals = 0;
                 for (let i = 0; i < this.matchedIds.length; i++) {
                   this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                  this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
                   this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
                   // alert('totalll: '+ this.sumOfTotals)
                   // this.updateBothForms();

@@ -375,9 +375,6 @@ export class STRItem1DialogComponent implements OnInit {
     this.itemForm.controls['fullCode'].setValue(this.fullCode);
     // this.itemForm.controls['no'].setValue(this.No);
     console.log('add: ', this.itemForm.value);
-    this.itemForm.controls['transactionUserId'].setValue(
-      this.transactionUserId
-    );
     if (!this.editData) {
       const enteredName = this.itemForm.get('name')?.value;
 

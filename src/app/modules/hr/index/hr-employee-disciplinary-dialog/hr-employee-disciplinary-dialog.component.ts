@@ -27,6 +27,7 @@ export class disciplinary {
   styleUrls: ['./hr-employee-disciplinary-dialog.component.css']
 })
 export class HrEmployeeDisciplinaryDialogComponent  implements OnInit{
+  transactionUserId=localStorage.getItem('transactionUserId')
   groupForm !: FormGroup;
   actionBtn: string = "Save";
   disciplinaryName:any;
@@ -98,9 +99,8 @@ this.getdisciplinary();
       this.groupForm.controls['disciplinaryId'].setValue(this.editData.disciplinaryId);
       this.groupForm.controls['date'].setValue(this.editData.date);
 
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
-
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+    
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
       this.groupForm.addControl('id', new FormControl('', Validators.required));
       this.groupForm.controls['id'].setValue(this.editData.id);
@@ -158,8 +158,8 @@ this.getdisciplinary();
     if (!this.editData) {
       this.groupForm.removeControl('id')
 
-        this.userIdFromStorage = localStorage.getItem('transactionUserId');
-        this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
+
         this.employeeName = await this.getemployeeByID(this.groupForm.getRawValue().employeeId);
         this.disciplinaryName = await this.getdisciplinaryByID(this.groupForm.getRawValue().disciplinaryId);
 

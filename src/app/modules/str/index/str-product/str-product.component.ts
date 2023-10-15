@@ -1,7 +1,6 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { StrGroupDialogComponent } from '../str-group-dialog/str-group-dialog.component';
 import { GlobalService } from 'src/app/pages/services/global.service'; 
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';

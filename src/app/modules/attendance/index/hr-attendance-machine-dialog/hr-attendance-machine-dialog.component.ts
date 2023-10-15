@@ -17,6 +17,7 @@ import { Hotkey } from 'angular2-hotkeys';
 })
 export class HrAttendanceMachineDialogComponent implements OnInit {
   formcontrol = new FormControl('');
+  transactionUserId=localStorage.getItem('transactionUserId')
   HrAttendanceMachineForm !: FormGroup;
   actionBtn: string = "حفظ";
 
@@ -59,7 +60,8 @@ export class HrAttendanceMachineDialogComponent implements OnInit {
   }
 
   addHrAttendanceMachine() {
-    this.HrAttendanceMachineForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+    this.HrAttendanceMachineForm.controls['transactionUserId'].setValue(this.transactionUserId);
+
     console.log("add form: ", this.HrAttendanceMachineForm.value);
 
     if (!this.editData) {

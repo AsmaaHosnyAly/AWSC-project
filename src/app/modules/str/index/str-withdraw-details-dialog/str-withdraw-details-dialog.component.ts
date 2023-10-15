@@ -89,7 +89,7 @@ export class StrWithdrawDetailsDialogComponent {
     'price',
     'qty',
     'total',
-    'percentage',
+    // 'percentage',
     'action',
   ];
 
@@ -186,7 +186,7 @@ export class StrWithdrawDetailsDialogComponent {
     this.groupDetailsForm = this.formBuilder.group({
       stR_WithdrawId: ['', Validators.required], //MasterId
       qty: ['1', Validators.required],
-      percentage: ['100', Validators.required],
+      percentage: ['100'],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: [1, Validators.required],
@@ -459,6 +459,7 @@ export class StrWithdrawDetailsDialogComponent {
                 this.sumOfTotals = 0;
                 for (let i = 0; i < this.matchedIds.length; i++) {
                   this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                  this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
                   this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
 
                 }
