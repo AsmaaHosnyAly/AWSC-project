@@ -206,6 +206,12 @@ import { PyExchangeComponent } from './modules/py/index/py-exchange-table/py-exc
 import { PyExchangeDialogComponent } from './modules/py/index/py-exchange-dialog/py-exchange-dialog.component';
 import { PyExchangeDetailsDialogComponent } from './modules/py/index/py-exchange-details-dialog/py-exchange-details-dialog.component';
 import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
+import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
+import { PyItemCategoryDialogComponent } from './modules/py/index/py-item-category-dialog/py-item-category-dialog.component';
+import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
+import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-dialog/py-tax-bracket-dialog.component';
+
+
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -387,6 +393,11 @@ import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-con
     PyExchangeDialogComponent,
     PyExchangeDetailsDialogComponent,
     PyExchangeContainerComponent,
+    PyItemCategoryComponent,
+    PyItemCategoryDialogComponent,
+    PyTaxBracketComponent,
+    PyTaxBracketDialogComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -427,6 +438,8 @@ import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-con
     NgxExtendedPdfViewerModule,
     MatTabsModule,
     HotkeyModule.forRoot(),
+   
+    // FontAwesomeModul
     // FontAwesomeModule,
   ],
   providers: [

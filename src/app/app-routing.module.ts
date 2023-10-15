@@ -102,6 +102,8 @@ import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-emp
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 
 import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
+import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
+import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -365,12 +367,15 @@ const routes: Routes = [
        
        { path: 'Py-Exchange', component: PyExchangeContainerComponent },
 
+       { path: 'PyItemCategory', component: PyItemCategoryComponent },
+       { path: 'pytaxbracket', component:PyTaxBracketComponent},
        /*********************End py module  المرتبات***************************/
-          
+        
+
+       
       //  report section
       { path: 'report', component: StrReportComponent },
       { path: 'add-item-report', component: StrReportAddItemComponent },
-
       // error section
       // { path: '**', component: ErrorComponent },
     ],

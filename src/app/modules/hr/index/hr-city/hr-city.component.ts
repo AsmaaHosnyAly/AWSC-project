@@ -7,7 +7,7 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { HrCityDialogComponent } from '../hr-city-dialog/hr-city-dialog.component';
 import { ToastrService } from 'ngx-toastr';
-import { HotkeysService } from 'angular2-hotkeys';
+import { HotkeysService } from 'angular2-hotkeys'; 
 import { Hotkey } from 'angular2-hotkeys';
 
 @Component({

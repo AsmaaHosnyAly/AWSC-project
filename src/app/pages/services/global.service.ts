@@ -52,6 +52,14 @@ export class GlobalService {
     );
   }
 
+  loginbyJWT(obj: any): Observable<any> {
+    console.log('obj ', obj);
+    return this.http.post<any>(
+      `${this.url}/Login`,obj
+      
+    );
+  }
+
   getRolesByUserId(userId: any): Observable<any> {
     console.log('userId ', userId);
     return this.http.get(`${this.url}/PRUser/get/role/${userId}`);
