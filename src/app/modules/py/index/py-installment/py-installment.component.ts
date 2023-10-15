@@ -29,7 +29,7 @@ export class PyInstallmentComponent implements OnInit {
   cityStateForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['no', 'startDate', 'value', 'installmentValue', 'installmentNo','paiedSum','employeeName','pyItemName','description','action'];  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['no', 'startDate', 'value', 'installmentValue', 'installmentNo','paiedSum','employeeName','pyItemName','action'];  dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
