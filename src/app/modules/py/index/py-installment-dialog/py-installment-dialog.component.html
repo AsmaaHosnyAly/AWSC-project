@@ -1,99 +1,98 @@
 <div class="cdk-overlay-pane  ">
-  <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+  <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
 </div>
-
-<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل جدول الأقساط ' : ' إضافة جدول أقساط جديد'}}</h1>
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل الأقساط ' : ' إضافة أقساط جديدة'}}</h1>
 <form [formGroup]="PyInstallmentForm" dir="rtl">
-<div mat-dialog-content>
-  <form [formGroup]="PyInstallmentForm">
+  <div mat-dialog-content>
+<form [formGroup]="PyInstallmentForm">
 
-    <div class="child1">
-    <mat-label>الرقم</mat-label>
-    <mat-form-field appearance="outline">
-      <input formControlName="name" matInput />
-    </mat-form-field>
-    </div>
-
-    <div class="child1">
-      <mat-label>تاريخ البدء</mat-label>
-      <mat-form-field appearance="outline" >
-        <input matInput [matDatepicker]="picker1" formControlName="startDate">
-        <mat-datepicker-toggle matIconSuffix [for]="picker1">
-            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-        </mat-datepicker-toggle>
-        <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
+  <div class="child1">
+  <mat-label>الرقم</mat-label>
+  <mat-form-field appearance="outline">
+    <input formControlName="no" matInput type="number" min="0"/>
+  </mat-form-field>
   </div>
 
   <div class="child1">
-    <mat-label>القيمة</mat-label>
+    <mat-label>تاريخ البدء</mat-label>
+    <mat-form-field appearance="outline" >
+      <input matInput [matDatepicker]="picker1" formControlName="startDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker1">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+      </mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+</div>
+
+<div class="child1">
+  <mat-label>القيمة</mat-label>
+  <mat-form-field appearance="outline">
+    <input formControlName="value" type="number" min="0" matInput />
+  </mat-form-field>
+  </div>
+
+  <div class="child1">
+    <mat-label>قيمة القسط</mat-label>
     <mat-form-field appearance="outline">
-      <input formControlName="name" matInput />
+      <input formControlName="installmentValue" type="number" min="0" matInput />
     </mat-form-field>
     </div>
 
     <div class="child1">
-      <mat-label>قيمة القسط</mat-label>
+      <mat-label>رقم القسط</mat-label>
       <mat-form-field appearance="outline">
-        <input formControlName="name" matInput />
+        <input formControlName="installmentNo"  type="number" min="0" matInput />
       </mat-form-field>
       </div>
 
       <div class="child1">
-        <mat-label>رقم القسط</mat-label>
+        <mat-label>المدفوعة</mat-label>
         <mat-form-field appearance="outline">
-          <input formControlName="name" matInput />
+          <input formControlName="paiedSum" type="number" min="0" matInput />
         </mat-form-field>
         </div>
 
-        <div class="child1">
-          <mat-label>الضرائب</mat-label>
-          <mat-form-field appearance="outline">
-            <input formControlName="name" matInput />
-          </mat-form-field>
-          </div>
 
+  <div class="child1">
+  <mat-label>الموظف</mat-label>
+  <mat-form-field appearance="outline">
+    <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+      placeholder="{{ getPyInstallmentData ? getPyInstallmentData.employeeName : '' }}" 
+      (click)="openAutoEmployee()" required />
+    <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+      (optionSelected)="employeeSelected($event)">
+      <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
+        {{ employee.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  </div>
 
-    <div class="child1">
-    <mat-label>الموظف</mat-label>
+  <div class="child1">
+    <mat-label>النوع</mat-label>
     <mat-form-field appearance="outline">
-      <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-        placeholder="{{ getPyInstallmentData ? getPyInstallmentData.employeeName : '' }}" 
-        (click)="openAutoEmployee()" required />
-      <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
-        (optionSelected)="employeeSelected($event)">
-        <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
-          {{ employee.name }}
+      <input matInput aria-label="pyItem" [matAutocomplete]="autopyItem" [formControl]="pyItemCtrl"
+      placeholder="{{ getPyInstallmentData ? getPyInstallmentData.pyItemName : '' }}" 
+        (click)="openAutoPyItem()" required />
+      <mat-autocomplete #autopyItem="matAutocomplete" [displayWith]="displayPyItemName"
+        (optionSelected)="pyItemSelected($event)">
+        <mat-option *ngFor="let pyItem of filteredPyItems | async" [value]="pyItem">
+          {{ pyItem.name }}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
     </div>
-
-    <div class="child1">
-      <mat-label>النوع</mat-label>
-      <mat-form-field appearance="outline">
-        <input matInput aria-label="pyItem" [matAutocomplete]="autopyItem" [formControl]="pyItemCtrl"
-        placeholder="{{ getPyInstallmentData ? getPyInstallmentData.pyItemName : '' }}" 
-          (click)="openAutoPyItem()" required />
-        <mat-autocomplete #autopyItem="matAutocomplete" [displayWith]="displayPyItemName"
-          (optionSelected)="pyItemSelected($event)">
-          <mat-option *ngFor="let pyItem of filteredPyItems | async" [value]="pyItem">
-            {{ pyItem.name }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+  <div>
+    <mat-label>الوصف</mat-label>
+    
+        <textarea name="description" formControlName="description"  cols="73" rows="5"></textarea>
       </div>
-
-      <div class="child1">
-        <mat-label>الوصف</mat-label>
-        <mat-form-field appearance="outline">
-          <input formControlName="name" matInput />
-        </mat-form-field>
-        </div>
-        
-    <button mat-raised-button class="savebtn" (click)="AddInstallment()" style="margin-left: 8px">
-      {{ actionBtn }}
-    </button>
-  </form>
+    </form>
+    <div mat-dialog-actions>
+  <button mat-raised-button class="savebtn" (click)="AddInstallment()" style="margin-left: 8px">
+    {{ actionBtn }}
+  </button>
 </div>
+</div>
+
 </form>
