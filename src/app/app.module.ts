@@ -202,6 +202,8 @@ import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-emp
 import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-dialog/py-installment-dialog.component';
+import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
+import { PyItemCategoryDialogComponent } from './modules/py/index/py-item-category-dialog/py-item-category-dialog.component';
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-dialog/py-tax-bracket-dialog.component';
 
@@ -383,6 +385,8 @@ import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-d
     HrEmployeeAttendanceDialogComponent,
     PyInstallmentComponent,
     PyInstallmentDialogComponent,
+    PyItemCategoryComponent,
+    PyItemCategoryDialogComponent,
     PyTaxBracketComponent,
     PyTaxBracketDialogComponent,
    
