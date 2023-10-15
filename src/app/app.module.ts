@@ -426,6 +426,8 @@ import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-d
     NgxExtendedPdfViewerModule,
     MatTabsModule,
     HotkeyModule.forRoot(),
+   
+    // FontAwesomeModul
     // FontAwesomeModule,
   ],
   providers: [
