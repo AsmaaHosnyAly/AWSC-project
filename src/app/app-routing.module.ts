@@ -365,7 +365,9 @@ const routes: Routes = [
        { path: 'PyItemCategory', component: PyItemCategoryComponent },
        { path: 'pytaxbracket', component:PyTaxBracketComponent},
        /*********************End py module  المرتبات***************************/
-          
+        
+
+       
       //  report section
       { path: 'report', component: StrReportComponent },
       { path: 'add-item-report', component: StrReportAddItemComponent },
