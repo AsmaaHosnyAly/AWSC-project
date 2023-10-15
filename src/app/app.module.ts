@@ -206,6 +206,8 @@ import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-
 import { PyItemCategoryDialogComponent } from './modules/py/index/py-item-category-dialog/py-item-category-dialog.component';
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-dialog/py-tax-bracket-dialog.component';
+import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
+import { TrInstructorDialogComponent } from './modules/training/index/tr-instructor-dialog/tr-instructor-dialog.component';
 
 
 
@@ -389,6 +391,8 @@ import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-d
     PyItemCategoryDialogComponent,
     PyTaxBracketComponent,
     PyTaxBracketDialogComponent,
+    TrInstructorComponent,
+    TrInstructorDialogComponent,
    
   ],
   imports: [
