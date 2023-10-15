@@ -5,17 +5,17 @@ import { ApiService } from '../../services/api.service';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { HrCityDialogComponent } from '../hr-city-dialog/hr-city-dialog.component';
+import { PyItemCategoryDialogComponent } from '../py-item-category-dialog/py-item-category-dialog.component';
 import { ToastrService } from 'ngx-toastr';
-import { HotkeysService } from 'angular2-hotkeys'; 
+import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
-  selector: 'app-hr-city',
-  templateUrl: './hr-city.component.html',
-  styleUrls: ['./hr-city.component.css']
+  selector: 'app-py-item-category',
+  templateUrl: './py-item-category.component.html',
+  styleUrls: ['./py-item-category.component.css']
 })
-export class HrCityComponent {
+export class PyItemCategoryComponent {
   title = 'angular13crud';
   displayedColumns: string[] = [ 'name', 'action'];
   dataSource!: MatTableDataSource<any>;
@@ -24,7 +24,7 @@ export class HrCityComponent {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog,private hotkeysService: HotkeysService, private api : ApiService,private toastr: ToastrService){}
   ngOnInit(): void {
-    this.getHrCities();
+    this.getPyItemCategory();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openDialog();
@@ -32,16 +32,16 @@ export class HrCityComponent {
     }));
   }
   openDialog() {
-    this.dialog.open(HrCityDialogComponent, {
+    this.dialog.open(PyItemCategoryDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val=>{
       if(val === 'save'){
-        this.getHrCities();
+        this.getPyItemCategory();
       }
     })
   }
-  getHrCities(){
-    this.api.getHrCity()
+  getPyItemCategory(){
+    this.api.getPyItemCategory()
     .subscribe({
       next:(res)=>{
         this.dataSource = new MatTableDataSource(res);
@@ -54,27 +54,27 @@ export class HrCityComponent {
       
     })
   }
-  editHrCities(row : any){
-    this.dialog.open(HrCityDialogComponent,{
+  editPyItemCategory(row : any){
+    this.dialog.open(PyItemCategoryDialogComponent,{
       width:'30%',
       data:row
     }).afterClosed().subscribe(val=>{
       if(val === 'update'){
-        this.getHrCities();
+        this.getPyItemCategory();
       }
     })
   }
-  daleteHrCities(id:number){
+  daletePyItemCategory(id:number){
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrCity(id)
+      this.api.deletePyItemCategory(id)
       .subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
           // alert('تم الحذف بنجاح');
           this.toastrDeleteSuccess();
-          this.getHrCities();
+          this.getPyItemCategory();
   
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
@@ -101,5 +101,6 @@ export class HrCityComponent {
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
+
 
 }

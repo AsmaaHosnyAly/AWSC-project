@@ -100,6 +100,7 @@ import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/in
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
+import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -361,8 +362,8 @@ const routes: Routes = [
 
       //  { path: 'pyHome', component:  },
        { path: 'PyInstallment', component: PyInstallmentComponent },
+       { path: 'PyItemCategory', component: PyItemCategoryComponent },
        { path: 'pytaxbracket', component:PyTaxBracketComponent},
-
        /*********************End py module  المرتبات***************************/
         
 
