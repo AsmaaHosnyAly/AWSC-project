@@ -200,6 +200,8 @@ import { HrEmployeeAttendancePermissionDialogComponent } from './modules/attenda
 import { HrAttendanceScheduleDialogComponent } from './modules/attendance/index/hr-attendance-schedule-dialog/hr-attendance-schedule-dialog.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
 import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
+import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
+import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-dialog/py-installment-dialog.component';
 
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
@@ -376,6 +378,8 @@ import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/
     HrAttendanceScheduleDialogComponent,
     HrEmployeeAttendanceComponent,
     HrEmployeeAttendanceDialogComponent,
+    PyInstallmentComponent,
+    PyInstallmentDialogComponent,
   ],
   imports: [
     BrowserModule,

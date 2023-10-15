@@ -118,9 +118,7 @@ export class HrEmployeeAttendanceScheduleDialogeComponent implements OnInit {
       this.EmployeeAttendanceScheduleForm.controls['employeeId'].setValue(this.editData.employeeId);
       this.EmployeeAttendanceScheduleForm.controls['attendanceScheduleId'].setValue(this.editData.attendanceScheduleId);
       this.EmployeeAttendanceScheduleForm.controls['attendancePermissionId'].setValue(this.editData.attendancePermissionId);
-      this.EmployeeAttendanceScheduleForm.controls['transactionUserId'].setValue(
-        this.editData.transactionUserId
-      );
+      this.EmployeeAttendanceScheduleForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
       this.EmployeeAttendanceScheduleForm.addControl('id', new FormControl('', Validators.required));
       this.EmployeeAttendanceScheduleForm.controls['id'].setValue(this.editData.id);
     }
@@ -210,6 +208,7 @@ export class HrEmployeeAttendanceScheduleDialogeComponent implements OnInit {
   addEmployeeAttendanceSchedule() {
     if (!this.editData) {
       const enteredName = this.EmployeeAttendanceScheduleForm.get('name')?.value;
+      this.EmployeeAttendanceScheduleForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
       if (this.existingNames.includes(enteredName)) {
         alert('هذا الاسم موجود من قبل، قم بتغييره');

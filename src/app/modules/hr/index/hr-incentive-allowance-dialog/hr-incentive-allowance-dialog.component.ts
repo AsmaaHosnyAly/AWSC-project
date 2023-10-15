@@ -154,7 +154,7 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
       // if (this.groupForm.getRawValue().platoonId) {
       // this.platoonName = await this.getPlatoonByID(this.groupForm.getRawValue().platoonId);
       // this.groupForm.controls['platoonName'].setValue(this.platoonName);
-      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
       // this.groupForm.controls['createUserName'].setValue("211 static name");
 
