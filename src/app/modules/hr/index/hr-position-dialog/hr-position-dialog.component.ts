@@ -24,7 +24,7 @@ import { Hotkey } from 'angular2-hotkeys';
 
 
 export class HrPositionDialogComponent implements OnInit{
- 
+  transactionUserId=localStorage.getItem('transactionUserId') 
   positionList:any;
   groupForm !: FormGroup;
   actionBtn: string = "Save";
@@ -61,9 +61,8 @@ export class HrPositionDialogComponent implements OnInit{
       // this.groupForm.controls['code'].setValue(this.editData.code);
       this.groupForm.controls['name'].setValue(this.editData.name);
    
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
       // this.groupForm.controls['id'].setValue(this.editData.id);
       this.groupForm.addControl('id', new FormControl('', Validators.required));
       this.groupForm.controls['id'].setValue(this.editData.id);
@@ -81,8 +80,8 @@ export class HrPositionDialogComponent implements OnInit{
       this.groupForm.removeControl('id')
 
     
-        this.userIdFromStorage = localStorage.getItem('transactionUserId');
-        this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
+
      
         console.log("form add product value: ", this.groupForm.value)
 

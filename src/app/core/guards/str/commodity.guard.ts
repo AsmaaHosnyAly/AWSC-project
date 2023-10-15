@@ -15,7 +15,6 @@ import jwt_decode from 'jwt-decode';
 })
 export class commodityGuard implements CanActivate {
   decodedToken : any;
-  decodedToken1:any
   decodedToken2:any
   constructor(
     private router: Router,
@@ -24,7 +23,6 @@ export class commodityGuard implements CanActivate {
     const accessToken: any = localStorage.getItem('accessToken');
     // Decode the access token
       this.decodedToken = jwt_decode(accessToken);
-    this. decodedToken1 = this.decodedToken.modules;
     this.decodedToken2 = this.decodedToken.roles;
   }
   canActivate(

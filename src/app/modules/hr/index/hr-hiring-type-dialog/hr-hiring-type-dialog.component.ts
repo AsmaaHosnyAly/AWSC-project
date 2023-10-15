@@ -11,6 +11,7 @@ import { Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./hr-hiring-type-dialog.component.css']
 })
 export class HrHiringTypeDialogComponent implements OnInit{
+  transactionUserId=localStorage.getItem('transactionUserId')
   groupForm !: FormGroup;
   actionBtn : string = "حفظ";
   employeesList: any;
@@ -38,9 +39,8 @@ export class HrHiringTypeDialogComponent implements OnInit{
     if (this.editData) {
       this.actionBtn = "تعديل";
       this.groupForm.controls['name'].setValue(this.editData.name);
-      this.userIdFromStorage = localStorage.getItem('transactionUserId');
+      this.groupForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
 
-      this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
       this.groupForm.addControl('id', new FormControl('', Validators.required));
       this.groupForm.controls['id'].setValue(this.editData.id);
@@ -52,9 +52,7 @@ export class HrHiringTypeDialogComponent implements OnInit{
    addHiringType() {
     if (!this.editData) {
       this.groupForm.removeControl('id')
-
-        this.userIdFromStorage = localStorage.getItem('transactionUserId');
-        this.groupForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
        
         if (this.groupForm.valid) {
           this.api.postHrHiringType(this.groupForm.value)

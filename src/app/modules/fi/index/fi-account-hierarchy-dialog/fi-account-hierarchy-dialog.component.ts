@@ -15,6 +15,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./fi-account-hierarchy-dialog.component.css']
 })
 export class FIAccountHierarchyDialogComponent {
+  transactionUserId=localStorage.getItem('transactionUserId')
+
   formcontrol = new FormControl('');  
   FIAccountForm !:FormGroup;
   actionBtn : string = "حفظ";
@@ -31,7 +33,7 @@ export class FIAccountHierarchyDialogComponent {
      }
   ngOnInit(): void {
     this.FIAccountForm = this.formBuilder.group({
-      transactionUserId : ['1',Validators.required],
+      transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
       level : ['',Validators.required],
@@ -56,6 +58,8 @@ export class FIAccountHierarchyDialogComponent {
   addFIAccountHierarchy(){
     if(!this.editData){
       this.FIAccountForm.removeControl('id')
+      this.FIAccountForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+
       if(this.FIAccountForm.valid){
         console.log("FIAccountForm :",this.FIAccountForm.value);
         

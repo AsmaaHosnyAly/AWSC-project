@@ -6,12 +6,10 @@ import { ErrorComponent } from './pages/error/error.component';
 import { STRUnitsComponent } from './modules/str/index/str-units/str-units.component';
 import { STRGradeComponent } from './modules/str/index/str-grade/str-grade.component';
 import { StrCostcenterComponent } from './modules/str/index/str-costcenter/str-costcenter.component';
-import { StrGroupComponent } from './modules/str/index/str-group/str-group.component';
 import { StrStoreComponent } from './modules/str/index/str-store/str-store.component';
 import { STRPlatoonComponent } from './modules/str/index/str-platoon/str-platoon.component';
 import { STRHomeComponent } from './modules/str/index/str-home/str-home.component';
 import { StrCommodityComponent } from './modules/str/index/STR_Commodity/STR_Commodity.component';
-import { STRPlatoon1Component } from './modules/str/index/str-platoon1/str-platoon1.component';
 import { StrOpeningStockContainerComponent } from './modules/str/index/str-opening-stock-container/str-opening-stock-container.component';
 import { StrReportComponent } from './modules/str/index/str-report/str-report.component';
 import { StrEmployeeExchangeContainerComponent } from './modules/str/index/str-employee-exchange-container/str-employee-exchange-container.component';
@@ -101,7 +99,7 @@ import { HrEmployeeAttendanceScheduleComponent } from './modules/attendance/inde
 import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/index/hr-employee-attendance-permission/hr-employee-attendance-permission.component';
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
-
+import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -357,6 +355,12 @@ const routes: Routes = [
        { path: 'hr-EmployeeAttendance', component: HrEmployeeAttendanceComponent },
 
        /*********************End Hr-attendance module  الحضور والانصراف***************************/
+
+       /*********************start py module  المرتبات***************************/
+
+      //  { path: 'pyHome', component:  },
+       { path: 'PyInstallment', component: PyInstallmentComponent },
+       /*********************End py module  المرتبات***************************/
           
       //  report section
       { path: 'report', component: StrReportComponent },

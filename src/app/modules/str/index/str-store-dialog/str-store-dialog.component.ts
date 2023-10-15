@@ -22,6 +22,7 @@ import { Hotkey } from 'angular2-hotkeys';
   styleUrls: ['./str-store-dialog.component.css'],
 })
 export class StrStoreDialogComponent implements OnInit {
+  transactionUserId = localStorage.getItem('transactionUserId');
   storeKeeperCtrl: FormControl;
   filteredStoreKeepers: Observable<Keeper[]>;
   keepers: Keeper[] = [];
@@ -52,7 +53,7 @@ export class StrStoreDialogComponent implements OnInit {
       code: ['', Validators.required],
       name: ['', Validators.required],
       storekeeperId: ['', Validators.required],
-      transactionUserId: [1],
+      transactionUserId: ['', Validators.required],
     });
 
     this.api.getEmployees().subscribe((keepers) => {
@@ -135,6 +136,9 @@ export class StrStoreDialogComponent implements OnInit {
         this.storeForm.controls['code'].setValue(this.autoCode);
       }
       this.storeForm.removeControl('id');
+      this.storeForm.controls['transactionUserId'].setValue(
+        this.transactionUserId
+      );
       if (this.storeForm.valid) {
         this.api.postStore(this.storeForm.value).subscribe({
           next: (res) => {

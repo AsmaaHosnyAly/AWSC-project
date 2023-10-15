@@ -1497,6 +1497,12 @@ export class ApiService {
   putStrProduct(data: any) {
     return this.http.put<any>(`${this.url}/STRProduct/update`, data);
   }
+
+  uploadedFile(data: any) {
+    console.log('form add product data to backend: ', data);
+    return this.http.post<any>(`${this.url}/STRProduct/UploadFile`, data);
+  }
+
   deleteStrProduct(id: number) {
     console.log('delete product data from api, id: ', id);
     return this.http.delete<any>(`${this.url}/STRProduct/Delete/` + id);
