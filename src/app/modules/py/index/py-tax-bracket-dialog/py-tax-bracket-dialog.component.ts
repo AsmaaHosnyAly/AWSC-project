@@ -9,14 +9,16 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
+
 @Component({
-  selector: 'app-str-units-dialog',
-  templateUrl: './str-units-dialog.component.html',
-  styleUrls: ['./str-units-dialog.component.css']
+  selector: 'app-py-tax-bracket-dialog',
+  templateUrl: './py-tax-bracket-dialog.component.html',
+  styleUrls: ['./py-tax-bracket-dialog.component.css']
 })
-export class STRUnitsDialogComponent {
+export class PyTaxBracketDialogComponent {
+
   formcontrol = new FormControl('');  
-  unitsForm !:FormGroup;
+  TaxBracketsForm !:FormGroup;
   actionBtn : string = "حفظ";
   userIdFromStorage: any;
   transactionUserId=localStorage.getItem('transactionUserId')
@@ -27,37 +29,39 @@ export class STRUnitsDialogComponent {
      private hotkeysService: HotkeysService,
      private readonly route:ActivatedRoute,
      @Inject(MAT_DIALOG_DATA) public editData : any,
-     private dialogRef : MatDialogRef<STRUnitsDialogComponent>,
+     private dialogRef : MatDialogRef<PyTaxBracketDialogComponent>,
      private toastr: ToastrService){
      }
   ngOnInit(): void {
     this.getExistingNames(); // Fetch existing names
-    this.unitsForm = this.formBuilder.group({
+    this.TaxBracketsForm = this.formBuilder.group({
       transactionUserId : ['',Validators.required],
-      name : ['',Validators.required],
+      value : ['',Validators.required],
+      ratio : ['',Validators.required],
       id : ['',Validators.required],
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
-      this.addUnits();
+      this.addTaxBrackets();
       return false; // Prevent the default browser behavior
     }));
 
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
-      this.unitsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-      this.unitsForm.controls['name'].setValue(this.editData.name);
+      this.TaxBracketsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.TaxBracketsForm.controls['value'].setValue(this.editData.value);
+      this.TaxBracketsForm.controls['ratio'].setValue(this.editData.ratio);
       // this.unitsForm.controls['id'].setValue(this.editData.id);
-      this.unitsForm.addControl('id', new FormControl('', Validators.required));
-      this.unitsForm.controls['id'].setValue(this.editData.id);
-      console.log(this.unitsForm.value)
+      this.TaxBracketsForm.addControl('id', new FormControl('', Validators.required));
+      this.TaxBracketsForm.controls['id'].setValue(this.editData.id);
+      console.log(this.TaxBracketsForm.value)
       
     }
   }
 
   getExistingNames() {
-    this.api.getunit().subscribe({
+    this.api.getTaxBracket().subscribe({
       next: (res) => {
         this.existingNames = res.map((item: any) => item.name);
        
@@ -69,9 +73,9 @@ export class STRUnitsDialogComponent {
   }
   
 
-  addUnits(){
+  addTaxBrackets(){
 
-    const enteredName = this.unitsForm.get('name')?.value;
+    const enteredName = this.TaxBracketsForm.get('ratio')?.value;
 
     if (this.existingNames.includes(enteredName)) {
       alert('هذا الاسم موجود من قبل، قم بتغييره');
@@ -79,15 +83,15 @@ export class STRUnitsDialogComponent {
     }
 
     if(!this.editData){
-      this.unitsForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.TaxBracketsForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      this.unitsForm.removeControl('id')
-      if(this.unitsForm.valid){
-        this.api.postunit(this.unitsForm.value)
+      this.TaxBracketsForm.removeControl('id')
+      if(this.TaxBracketsForm.valid){
+        this.api.postTaxBracket(this.TaxBracketsForm.value)
         .subscribe({
           next:(res)=>{
             this.toastrSuccess();
-            this.unitsForm.reset();
+            this.TaxBracketsForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -97,15 +101,15 @@ export class STRUnitsDialogComponent {
         })
       }
     }else{
-      this.updateunit()
+      this.updateTaxBracket()
     }
   }
-    updateunit(){
-      this.api.putunit(this.unitsForm.value)
+    updateTaxBracket(){
+      this.api.putTaxBracket(this.TaxBracketsForm.value)
       .subscribe({
         next:(res)=>{
           this.toastrEdit();
-          this.unitsForm.reset();
+          this.TaxBracketsForm.reset();
           this.dialogRef.close('update');
         },
         error:()=>{
@@ -129,3 +133,4 @@ export class STRUnitsDialogComponent {
       this.toastr.error('!خطأ عند تحديث البيانات');
     }
 }
+
