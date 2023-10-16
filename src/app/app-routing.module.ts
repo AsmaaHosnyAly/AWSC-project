@@ -100,6 +100,7 @@ import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/in
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
+import { PyGroupComponent } from './modules/py/index/py-group/py-group.component';
 import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
 
 import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
@@ -344,22 +345,31 @@ const routes: Routes = [
       { path: 'hr-employee-position', component: HrEmployeePositionComponent },
 
       { path: 'hr-employee', component: HrEmployeeComponent },
-       { path: 'EmployeeQualification', component: HrEmployeeQualificationComponent },
+      { path: 'EmployeeQualification', component: HrEmployeeQualificationComponent },
 
-     
+
 
       /*********************End Hr modules شئون العاميلن***************************/
 
-       /*********************start Hr-attendance module  الحضور والانصراف***************************/
+      /*********************start Hr-attendance module  الحضور والانصراف***************************/
 
-       { path: 'hr-AttendanceHome', component: HrAttendancHomeComponent },
-       { path: 'hr-AttendancePermission', component: HrAttendancePermissionComponent },
-       { path: 'hr-attendanceMachine', component: HrAttendanceMachineComponent },
-       { path: 'hr-attendanceMachineWorkPlace', component: HrAttendanceMachineWorkPlaceComponent },
-       { path: 'hr-attendanceSchedule', component: HrAttendanceScheduleComponent },
-       { path: 'hr-employeeAttendanceSchedule', component: HrEmployeeAttendanceScheduleComponent },
-       { path: 'hr-EmployeeAttendancePermission', component: HrEmployeeAttendancePermissionComponent },
-       { path: 'hr-EmployeeAttendance', component: HrEmployeeAttendanceComponent },
+      { path: 'hr-AttendanceHome', component: HrAttendancHomeComponent },
+      { path: 'hr-AttendancePermission', component: HrAttendancePermissionComponent },
+      { path: 'hr-attendanceMachine', component: HrAttendanceMachineComponent },
+      { path: 'hr-attendanceMachineWorkPlace', component: HrAttendanceMachineWorkPlaceComponent },
+      { path: 'hr-attendanceSchedule', component: HrAttendanceScheduleComponent },
+      { path: 'hr-employeeAttendanceSchedule', component: HrEmployeeAttendanceScheduleComponent },
+      { path: 'hr-EmployeeAttendancePermission', component: HrEmployeeAttendancePermissionComponent },
+      { path: 'hr-EmployeeAttendance', component: HrEmployeeAttendanceComponent },
+
+      /*********************End Hr-attendance module  الحضور والانصراف***************************/
+
+      /*********************start py module  المرتبات***************************/
+
+      //  { path: 'pyHome', component:  },
+      { path: 'PyInstallment', component: PyInstallmentComponent },
+      { path: 'PyItemGroup', component: PyGroupComponent },
+      /*********************End py module  المرتبات***************************/
 
        /*********************End Hr-attendance module  الحضور والانصراف***************************/
        /*********************start TR   التدريب***************************/
@@ -395,4 +405,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
