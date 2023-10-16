@@ -111,6 +111,7 @@ import { TrCourseCategoryComponent } from './modules/training/index/tr-course-ca
 import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
+import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 import { accountGuard } from './core/guards/fi/account.guard';
 import { fiAccountItemGuard } from './core/guards/fi/fi-account-item.guard';
@@ -528,19 +529,14 @@ const routes: Routes = [
       },
 
       /*********************End Hr-attendance module  الحضور والانصراف***************************/
-
-       { path: 'TR-Instructor', component: TrInstructorComponent },
-       { path: 'Tr-CourseCategory', component: TrCourseCategoryComponent },
-       { path: 'Tr-CoporteClient', component: TrCoporteClientComponent },
-       /*********************start TR   التدريب***************************/
-       /*********************start py module  المرتبات***************************/
-       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
-       { path: 'Tr-Course', component: TrCourseComponent },
+       
       /*********************start TR   التدريب***************************/
-
       { path: 'TR-Instructor', component: TrInstructorComponent },
+      { path: 'Tr-CourseCategory', component: TrCourseCategoryComponent },
+      { path: 'Tr-CoporteClient', component: TrCoporteClientComponent },
       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
-
+      { path: 'Tr-Course', component: TrCourseComponent },
+      { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
       /*********************End  TR   التدريب***************************/
       /*********************start py module  المرتبات***************************/
 
