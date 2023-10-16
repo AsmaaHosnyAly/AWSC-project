@@ -415,9 +415,7 @@ const routes: Routes = [
        { path: 'pyHome', component:PyHomeComponent  },
        { path: 'PyInstallment', component: PyInstallmentComponent },
        { path: 'PyItem', component: PyItemComponent },
-       
        { path: 'Py-Exchange', component: PyExchangeContainerComponent },
-
        { path: 'PyItemCategory', component: PyItemCategoryComponent },
        { path: 'pytaxbracket', component:PyTaxBracketComponent},
        { path: 'PyItemGroup', component: PyGroupComponent },
