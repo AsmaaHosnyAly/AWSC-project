@@ -1,45 +1,49 @@
-<div  >
-    <mat-card>
-      <div class="card-parent">
-        
-        
-        <mat-card class="card-class" routerLink="/PyInstallment" *ngIf="hasAccessRole(pageEnums.PyInstallment)">    
-          <mat-card-content>
-              <mat-card-title>الأقساط</mat-card-title>
-          </mat-card-content>
-        </mat-card> 
-        <mat-card class="card-class" routerLink="/PyItem" *ngIf="hasAccessRole(pageEnums.PyItem)">    
-          <mat-card-content>
-              <mat-card-title>بنود الإجور</mat-card-title>
-          </mat-card-content>
-        </mat-card>
-        <mat-card class="card-class" routerLink="/PyItemCategory" *ngIf="hasAccessRole(pageEnums.PyItemCategory)">    
-          <mat-card-content>
-              <mat-card-title> تصنيفات بنود الاجور</mat-card-title>
-          </mat-card-content>
-        </mat-card>
-        <mat-card class="card-class" routerLink="/pytaxbracket" *ngIf="hasAccessRole(pageEnums.pytaxbracket)">    
-          <mat-card-content>
-              <mat-card-title>الوعاء الضريبى</mat-card-title>
-          </mat-card-content>
-        </mat-card>  
-      
-       
-       
-      
-       
-       
-        
-     
-       
-        
-       
+<div>
+  <mat-card>
+    <div class="card-parent">
 
-        
-       
-      </div>
-    
-    </mat-card>
-   
-  
-  </div>
+
+      <mat-card class="card-class" routerLink="/PyInstallment" *ngIf="hasAccessRole(pageEnums.PyInstallment)">
+        <mat-card-content>
+          <mat-card-title>الأقساط</mat-card-title>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="card-class" routerLink="/PyItem" *ngIf="hasAccessRole(pageEnums.PyItem)">
+        <mat-card-content>
+          <mat-card-title>بنود الإجور</mat-card-title>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="card-class" routerLink="/PyItemCategory" *ngIf="hasAccessRole(pageEnums.PyItemCategory)">
+        <mat-card-content>
+          <mat-card-title> تصنيفات بنود الاجور</mat-card-title>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="card-class" routerLink="/pytaxbracket" *ngIf="hasAccessRole(pageEnums.pytaxbracket)">
+        <mat-card-content>
+          <mat-card-title>الوعاء الضريبى</mat-card-title>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="card-class" routerLink="/PyItemGroup" *ngIf="hasAccessRole(pageEnums.PyItemGroup)">
+        <mat-card-content>
+          <mat-card-title>مجموعات الإجور</mat-card-title>
+        </mat-card-content>
+      </mat-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+  </mat-card>
+
+
+</div>

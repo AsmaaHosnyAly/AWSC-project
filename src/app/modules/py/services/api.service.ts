@@ -34,35 +34,35 @@ export class ApiService {
   getAllpyItems() {
     return this.http.get<any>(`${this.url}/PyItem/get/all`);
   }
-///////////////////////////////// PyTaxBracket /////////////////////////////
-postTaxBracket(data: any) {
-  return this.http.post<any>(`${this.url}/PyTaxBracket/Add`, data);
-}
-getTaxBracket() {
-  return this.http.get<any>(`${this.url}/PyTaxBracket/get/all`);
-}
-putTaxBracket(data: any) {
-  return this.http.put<any>(`${this.url}/PyTaxBracket/update`, data);
-}
-deleteTaxBracket(id: number) {
-  return this.http.delete<any>(`${this.url}/PyTaxBracket/delete/` + id);
-}
+  ///////////////////////////////// PyTaxBracket /////////////////////////////
+  postTaxBracket(data: any) {
+    return this.http.post<any>(`${this.url}/PyTaxBracket/Add`, data);
+  }
+  getTaxBracket() {
+    return this.http.get<any>(`${this.url}/PyTaxBracket/get/all`);
+  }
+  putTaxBracket(data: any) {
+    return this.http.put<any>(`${this.url}/PyTaxBracket/update`, data);
+  }
+  deleteTaxBracket(id: number) {
+    return this.http.delete<any>(`${this.url}/PyTaxBracket/delete/` + id);
+  }
 
 
-    ///////////////////////////////// Py-Installment /////////////////////////////
-    postPyItemCategory(data: any) {
-      return this.http.post<any>(`${this.url}/PyItemCategory/Add`, data);
-    }
-    getPyItemCategory() {
-      return this.http.get<any>(`${this.url}/PyItemCategory/get/all`);
-    }
-    putPyItemCategory(data: any) {
-      return this.http.put<any>(`${this.url}/PyItemCategory/update`, data);
-    }
-    deletePyItemCategory(id: number) {
-      return this.http.delete<any>(`${this.url}/PyItemCategory/delete/` + id);
-    }
-  
+  ///////////////////////////////// Py-Installment /////////////////////////////
+  postPyItemCategory(data: any) {
+    return this.http.post<any>(`${this.url}/PyItemCategory/Add`, data);
+  }
+  getPyItemCategory() {
+    return this.http.get<any>(`${this.url}/PyItemCategory/get/all`);
+  }
+  putPyItemCategory(data: any) {
+    return this.http.put<any>(`${this.url}/PyItemCategory/update`, data);
+  }
+  deletePyItemCategory(id: number) {
+    return this.http.delete<any>(`${this.url}/PyItemCategory/delete/` + id);
+  }
+
 
   ////////py exchange///////
 
@@ -78,18 +78,18 @@ deleteTaxBracket(id: number) {
   deletePyExchange(id: number) {
     return this.http.delete<any>(`${this.url}/PyExchange/delete/` + id);
   }
-  getPyExchangePaginate(currentPage: any, pageSize: any){
+  getPyExchangePaginate(currentPage: any, pageSize: any) {
 
-    console.log("currentt pagggeeeeee",currentPage)
+    console.log("currentt pagggeeeeee", currentPage)
     let urlPassed = `${this.url}/PyExchange/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
     return urlPassed;
   }
-  getFiEntrySearach(no: any,name:any,  startDate: any, endDate: any) {
+  getFiEntrySearach(no: any, name: any, startDate: any, endDate: any) {
     console.log(
       "values search passed: 'no: '", no,
       "' startDate: '", startDate,
       "' endDate: '", endDate,
-   
+
     );
     this.mycondition = `${this.url}/FIEntry/search?`;
 
@@ -106,18 +106,18 @@ deleteTaxBracket(id: number) {
     // if (!item == false) {
     //   this.mycondition = ` ${this.mycondition}&item=${item}`;
     // }
-    
-   
-   
+
+
+
     if (!startDate == false) {
       this.mycondition = ` ${this.mycondition}&StartDate=${startDate}`;
     }
     if (!endDate == false) {
       this.mycondition = ` ${this.mycondition}&EndDate=${endDate}`;
     }
-   
-   
-   
+
+
+
 
 
     console.log('url', this.mycondition);
@@ -131,7 +131,7 @@ deleteTaxBracket(id: number) {
   getPyExchangeDetails() {
     return this.http.get<any>(`${this.url}/PyExchangeDetails/get/all`);
   }
-  getPyExchangeDetailsByMasterId(id :any) {
+  getPyExchangeDetailsByMasterId(id: any) {
     return this.http.get<any>(`${this.url}/PyExchangeDetails/get/By/header/${id}`);
   }
   putPyExchangeDetails(data: any) {
@@ -169,27 +169,27 @@ deleteTaxBracket(id: number) {
   }
   getEmployee() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
-   
+
   }
 
 
-    ///////////////////////////////// Py-Item /////////////////////////////
-    postPyItem(data: any) {
-      return this.http.post<any>(`${this.url}/PyItem/Add`, data);
-    }
-    getPyItem() {
-      return this.http.get<any>(`${this.url}/PyItem/get/all`);
-    }
-    putPyItem(data: any) {
-      return this.http.put<any>(`${this.url}/PyItem/update`, data);
-    }
-    deletePyItem(id: number) {
-      return this.http.delete<any>(`${this.url}/PyItem/delete/` + id);
-    }
-  
-    getAllCategory() {
-      return this.http.get<any>(`${this.url}/PyItemCategory/get/all`);
-    }
+  ///////////////////////////////// Py-Item /////////////////////////////
+  postPyItem(data: any) {
+    return this.http.post<any>(`${this.url}/PyItem/Add`, data);
+  }
+  getPyItem() {
+    return this.http.get<any>(`${this.url}/PyItem/get/all`);
+  }
+  putPyItem(data: any) {
+    return this.http.put<any>(`${this.url}/PyItem/update`, data);
+  }
+  deletePyItem(id: number) {
+    return this.http.delete<any>(`${this.url}/PyItem/delete/` + id);
+  }
+
+  getAllCategory() {
+    return this.http.get<any>(`${this.url}/PyItemCategory/get/all`);
+  }
 
 
   /////////////////////// Py-ItemGroup & ItemGroupDetails & ItemGroupEmployee ///////////////////////
@@ -198,6 +198,10 @@ deleteTaxBracket(id: number) {
   }
   getPyItemGroup() {
     return this.http.get<any>(`${this.url}/PyItemGroup/get/all`);
+  }
+  getPyItemGroupPaginate(currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/PyItemGroup/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putPyItemGroup(data: any) {
     return this.http.put<any>(`${this.url}/PyItemGroup/update`, data);
@@ -213,6 +217,9 @@ deleteTaxBracket(id: number) {
   getPyItemGroupDetails() {
     return this.http.get<any>(`${this.url}/PyItemGroupDetails/get/all`);
   }
+  getPyItemGroupDetailsByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/PyItemGroupDetails/get/by/header/${id}`);
+  }
   putPyItemGroupDetails(data: any) {
     return this.http.put<any>(`${this.url}/PyItemGroupDetails/update`, data);
   }
@@ -220,8 +227,20 @@ deleteTaxBracket(id: number) {
     return this.http.delete<any>(`${this.url}/PyItemGroupDetails/delete/` + id);
   }
 
-  // getAllpyItems() {
-  //   return this.http.get<any>(`${this.url}/PyItem/get/all`);
-  // }
+  postPyItemGroupEmployee(data: any) {
+    return this.http.post<any>(`${this.url}/PyItemGroupEmployee/Add`, data);
+  }
+  getPyItemGroupEmployee() {
+    return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/all`);
+  }
+  getPyItemGroupEmployeeByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/by/header/${id}`);
+  }
+  putPyItemGroupEmployee(data: any) {
+    return this.http.put<any>(`${this.url}/PyItemGroupEmployee/update`, data);
+  }
+  deletePyItemGroupEmployee(id: number) {
+    return this.http.delete<any>(`${this.url}/PyItemGroupEmployee/delete/` + id);
+  }
 
 }

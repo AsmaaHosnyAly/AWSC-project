@@ -223,6 +223,7 @@ import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-cl
 import { TrCoporteClientDialogComponent } from './modules/training/index/tr-coporte-client-dialog/tr-coporte-client-dialog.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
+import { PyGroupDetailEmployeeDialogComponent } from './modules/py/index/py-group-detail-employee-dialog/py-group-detail-employee-dialog.component';
 import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
 import { TrClassRoomDialogComponent } from './modules/training/index/tr-class-room-dialog/tr-class-room-dialog.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
@@ -427,6 +428,7 @@ import { TrInstructorCourseDialogComponent } from './modules/training/index/tr-i
     TrInstructorDialogComponent,   
     TrCourseTypeComponent,
     TrCourseTypeDialogComponent,
+    PyGroupDetailEmployeeDialogComponent,
     TrClassRoomComponent,
     TrClassRoomDialogComponent,
     TrInstructorDialogComponent,
