@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 @Component({
-  selector: 'app-hr-city-dialog',
+  selector: 'app-hr-city-dialog', 
   templateUrl: './hr-city-dialog.component.html',
   styleUrls: ['./hr-city-dialog.component.css']
 })
