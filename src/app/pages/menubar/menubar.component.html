@@ -785,27 +785,12 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
-                routerLink="/hr-attendanceSchedule"
+                routerLink="/Tr-CourseType"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
               >
-                <p class="font">جدول الحضور</p>
+                <p class="font">نوع الدورة التدريبية</p>
               </a>
-              <a
-                mat-list-item
-                class="sideNavSubItems"
-                routerLink="/hr-attendanceMachine"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-              >
-                <p class="font">الة الحضور</p>
-              </a>
-              <a
-                mat-list-item
-                class="sideNavSubItems"
-                routerLink="/hr-attendanceMachineWorkPlace"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-              >
-                <p class="font">مكان عمل الة الحضور</p>
-              </a>
+            
             </mat-nav-list>
           </mat-expansion-panel>
         </mat-nav-list>
@@ -819,22 +804,7 @@
             <p class="font">جدول حضور الموظفين</p>
           </a>
        
-        <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/hr-EmployeeAttendancePermission"
-          *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-        >
-          <p class="font">تصريح  حضور الموظف </p>
-        </a>
-        <a
-        mat-list-item
-        class="sideNavSubItems"
-        routerLink="/hr-EmployeeAttendance"
-        *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-      >
-        <p class="font"> حضور الموظف </p>
-      </a>
+        
         </mat-nav-list>
       </mat-expansion-panel>
        <!-- End Training   التدريب  -->
