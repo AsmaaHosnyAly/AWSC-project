@@ -37,7 +37,7 @@ import { StrVendorComponent } from './modules/str/index/str-vendor/str-vendor.co
 import { HrJobTitleComponent } from './modules/hr/index/hr-job-title/hr-job-title.component';
 import { HrPositionComponent } from './modules/hr/index/hr-position/hr-position.component';
 import { StrAccountsComponent } from './modules/str/index/str-accounts/str-accounts.component';
-import { StrEmployeesComponent } from './modules/hr/hr-home/str-employees.component';
+import { StrEmployeesComponent } from './modules/hr/index/hr-home/str-employees.component';
 import { HrMillitryStateComponent } from './modules/hr/index/hr-millitry-state/hr-millitry-state.component';
 import { HrVacationComponent } from './modules/hr/index/hr-vacation/hr-vacation.component';
 import { HrIncentiveAllowanceComponent } from './modules/hr/index/hr-incentive-allowance/hr-incentive-allowance.component';
@@ -107,6 +107,7 @@ import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
+import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -370,7 +371,7 @@ const routes: Routes = [
        /*********************start TR   التدريب***************************/
        /*********************start py module  المرتبات***************************/
 
-      //  { path: 'pyHome', component:  },
+       { path: 'pyHome', component:PyHomeComponent  },
        { path: 'PyInstallment', component: PyInstallmentComponent },
        { path: 'PyItem', component: PyItemComponent },
        

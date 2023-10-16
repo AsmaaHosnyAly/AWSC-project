@@ -111,7 +111,7 @@ import { HrCityDialogComponent } from './modules/hr/index/hr-city-dialog/hr-city
 import { HrCityStateComponent } from './modules/hr/index/hr-city-state/hr-city-state.component';
 import { HrCityStateDialogComponent } from './modules/hr/index/hr-city-state-dialog/hr-city-state-dialog.component';
 import { StrAccountsComponent } from './modules/str/index/str-accounts/str-accounts.component';
-import { StrEmployeesComponent } from './modules/hr/hr-home/str-employees.component';
+import { StrEmployeesComponent } from './modules/hr/index/hr-home/str-employees.component';
 import { HrIncentiveAllowanceComponent } from './modules/hr/index/hr-incentive-allowance/hr-incentive-allowance.component';
 import { HrIncentiveAllowanceDialogComponent } from './modules/hr/index/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { HrHiringTypeComponent } from './modules/hr/index/hr-hiring-type/hr-hiring-type.component';
@@ -216,6 +216,7 @@ import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr
 import { TrInstructorDialogComponent } from './modules/training/index/tr-instructor-dialog/tr-instructor-dialog.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
+import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 
 
 
@@ -410,6 +411,7 @@ import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-
     TrInstructorDialogComponent,
     TrCourseTypeComponent,
     TrCourseTypeDialogComponent,
+    PyHomeComponent,
   ],
   imports: [
     BrowserModule,
