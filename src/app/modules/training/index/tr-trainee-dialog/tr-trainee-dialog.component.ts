@@ -9,21 +9,22 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+
 export class Employee {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
-export class TrainingCenter {
-  constructor(public id: number, public name: string) {}
+export class TrCoporteClient {
+  constructor(public id: number, public name: string) { }
 }
 
 
 @Component({
-  selector: 'app-tr-instructor-dialog',
-  templateUrl: './tr-instructor-dialog.component.html',
-  styleUrls: ['./tr-instructor-dialog.component.css']
+  selector: 'app-tr-trainee-dialog',
+  templateUrl: './tr-trainee-dialog.component.html',
+  styleUrls: ['./tr-trainee-dialog.component.css']
 })
-export class TrInstructorDialogComponent {
-  transactionUserId=localStorage.getItem('transactionUserId')
+export class TrTraineeDialogComponent implements OnInit {
+  transactionUserId = localStorage.getItem('transactionUserId')
 
   formcontrol = new FormControl('');
   TrInstructorForm !: FormGroup;
@@ -32,13 +33,13 @@ export class TrInstructorDialogComponent {
 
   employeeCtrl: FormControl;
   filteredEmployee: Observable<Employee[]>;
-  employees: Employee[] = [];
+  employeesList: Employee[] = [];
   selectedEmployee: Employee | undefined;
 
-  trainingCenterCtrl: FormControl;
-  filteredTrainingCenter: Observable<TrainingCenter[]>;
-  trainingCenters: TrainingCenter[] = [];
-  selectedTrainingCenter: TrainingCenter | undefined;
+  trCoporteClientCtrl: FormControl;
+  filteredtrCoporteClient: Observable<TrCoporteClient[]>;
+  trCoporteClientsList: TrCoporteClient[] = [];
+  selectedTrCoporteClient: TrCoporteClient | undefined;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -47,40 +48,40 @@ export class TrInstructorDialogComponent {
     private readonly route: ActivatedRoute,
     private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<TrInstructorDialogComponent>) {
-      this.employeeCtrl = new FormControl();
-      this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterEmployee(value))
-      );
+    private dialogRef: MatDialogRef<TrTraineeDialogComponent>) {
 
-      this.trainingCenterCtrl = new FormControl();
-      this.filteredTrainingCenter = this.trainingCenterCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterTrainingCenter(value))
-      );
-   
+    this.employeeCtrl = new FormControl();
+    this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterEmployee(value))
+    );
+
+    this.trCoporteClientCtrl = new FormControl();
+    this.filteredtrCoporteClient = this.trCoporteClientCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterTrCoporteClient(value))
+    );
+
   }
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.TrInstructorForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       employeeId: ['', Validators.required],
-      trainingCenterId: ['', Validators.required],
-     
-      // id: ['', Validators.required],
+      corporationCLinetId: ['', Validators.required]
     });
 
-    this.api.getHrEmployees().subscribe((employee)=>{
-      this.employees = employee;
+    this.api.getHrEmployees().subscribe((employee) => {
+      this.employeesList = employee;
     });
-    this.api.getTrainingCenter().subscribe((trainingCenter)=>{
-      this.trainingCenters = trainingCenter;
+
+    this.api.getTrCoporteClient().subscribe((trCoporteClient) => {
+      this.trCoporteClientsList = trCoporteClient;
     });
-  
+
 
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
-      this.addTrInstructor();
+      this.addTrTrainee();
       return false; // Prevent the default browser behavior
     }));
     if (this.editData) {
@@ -89,44 +90,43 @@ export class TrInstructorDialogComponent {
       this.getTrInstructorData = this.editData;
       this.TrInstructorForm.controls['transactionUserId'].setValue(this.transactionUserId);
       this.TrInstructorForm.controls['employeeId'].setValue(this.editData.employeeId);
-      this.TrInstructorForm.controls['trainingCenterId'].setValue(this.editData.trainingCenterId);
-      // this.unitsForm.controls['id'].setValue(this.editData.id);
+      this.TrInstructorForm.controls['corporationCLinetId'].setValue(this.editData.corporationCLinetId);
+
       this.TrInstructorForm.addControl('id', new FormControl('', Validators.required));
       this.TrInstructorForm.controls['id'].setValue(this.editData.id);
     }
   }
 
-  addTrInstructor() {
+  addTrTrainee() {
     this.TrInstructorForm.controls['transactionUserId'].setValue(this.transactionUserId);
-    console.log("this.TrInstructorForm.value :",this.TrInstructorForm.value);
-    
+    console.log("this.TrInstructorForm.value :", this.TrInstructorForm.value);
+
 
     if (!this.editData) {
       this.TrInstructorForm.removeControl('id')
       if (this.TrInstructorForm.valid) {
-        this.api.postTrInstructor(this.TrInstructorForm.value)
+        this.api.postTrTrainee(this.TrInstructorForm.value)
           .subscribe({
             next: (res) => {
-              // alert("تمت الاضافة بنجاح");
               this.toastrSuccess();
               this.TrInstructorForm.reset();
               this.dialogRef.close('save');
             },
             error: (err) => {
-              alert("خطأ عند اضافة البيانات")
+              // alert("خطأ عند اضافة البيانات")
               console.log(err)
             }
           })
       }
-    } else {
-      this.updateTrInstructor()
+    }
+    else {
+      this.updateTrTrainee()
     }
   }
-  updateTrInstructor() {
-    this.api.putTrInstructor(this.TrInstructorForm.value)
+  updateTrTrainee() {
+    this.api.putTrTrainee(this.TrInstructorForm.value)
       .subscribe({
         next: (res) => {
-          // alert("تم التحديث بنجاح");
           this.toastrEditSuccess();
           this.TrInstructorForm.reset();
           this.dialogRef.close('update');
@@ -139,7 +139,7 @@ export class TrInstructorDialogComponent {
 
 
 
-  
+
   displayEmployeeName(employee: any): string {
     return employee && employee.name ? employee.name : '';
   }
@@ -148,47 +148,45 @@ export class TrInstructorDialogComponent {
     const employee = event.option.value as Employee;
     this.selectedEmployee = employee;
     this.TrInstructorForm.patchValue({ employeeId: employee.id });
-    this.TrInstructorForm.patchValue({ employeeName: employee.name });
   }
 
   private _filterEmployee(value: string): Employee[] {
     const filterValue = value.toLowerCase();
-    return this.employees.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) 
+    return this.employeesList.filter(employee =>
+      employee.name.toLowerCase().includes(filterValue)
     );
   }
 
   openAutoemployee() {
     this.employeeCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.employeeCtrl.updateValueAndValidity();
   }
 
-    
-  displayTrainingCenterName(trainingCenter: any): string {
-    return trainingCenter && trainingCenter.name ? trainingCenter.name : '';
+
+  displayTrCoporteClientName(trCoporteClient: any): string {
+    return trCoporteClient && trCoporteClient.name ? trCoporteClient.name : '';
   }
 
-  trainingCenterSelected(event: MatAutocompleteSelectedEvent): void {
-    const trainingCenter = event.option.value as TrainingCenter;
-    this.selectedTrainingCenter = trainingCenter;
-    this.TrInstructorForm.patchValue({ trainingCenterId: trainingCenter.id });
-    this.TrInstructorForm.patchValue({ trainingCenterName: trainingCenter.name });
+  TrCoporteClientSelected(event: MatAutocompleteSelectedEvent): void {
+    const trCoporteClient = event.option.value as TrCoporteClient;
+    this.selectedTrCoporteClient = trCoporteClient;
+    this.TrInstructorForm.patchValue({ corporationCLinetId: trCoporteClient.id });
   }
 
-  private _filterTrainingCenter(value: string): TrainingCenter[] {
+  private _filterTrCoporteClient(value: string): TrCoporteClient[] {
     const filterValue = value.toLowerCase();
-    return this.trainingCenters.filter(trainingCenter =>
-      trainingCenter.name.toLowerCase().includes(filterValue) 
+    return this.trCoporteClientsList.filter(trCoporteClient =>
+      trCoporteClient.name.toLowerCase().includes(filterValue)
     );
   }
 
-  openAutoTrainingCenter() {
-    this.trainingCenterCtrl.setValue(''); // Clear the input field value
-  
+  openAutoTrCoporteClient() {
+    this.trCoporteClientCtrl.setValue(''); // Clear the input field value
+
     // Open the autocomplete dropdown by triggering the value change event
-    this.trainingCenterCtrl.updateValueAndValidity();
+    this.trCoporteClientCtrl.updateValueAndValidity();
   }
 
 

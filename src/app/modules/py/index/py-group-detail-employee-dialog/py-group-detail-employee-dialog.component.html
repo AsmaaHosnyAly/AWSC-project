@@ -1,11 +1,10 @@
-<!-- <p>py-group-detail-dialog works!</p> -->
+<!-- <p>py-group-detail-employee-dialog works!</p> -->
 <div class="cdk-overlay-pane  ">
     <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
 </div>
 
-<!-- <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل مجموعات الاجور </h1> -->
-<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل مجموعات الاجور ' : 'اكمل تفاصيل مجموعات الاجور '}} </h1>
+<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل موظفين مجموعات الاجور ' : 'اكمل تفاصيل موظفين مجموعات الاجور '}} </h1>
 
 
 <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
@@ -16,15 +15,15 @@
         <div class="detailsForm" dir="rtl">
 
             <div style="display: flex; flex-direction: column;">
-                <mat-label> الحساب* </mat-label>
+                <mat-label> الموظف* </mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
-                    <input matInput aria-label="commodity" [matAutocomplete]="autoPyItem" [formControl]="pyItemCtrl"
-                        placeholder="{{editData ? editData.pyItemName : ''}}" (click)="openAutoPyItem()" required />
-                    <mat-autocomplete #autoPyItem="matAutocomplete" [displayWith]="displayPyItemName"
-                        (optionSelected)="PyItemSelected($event)">
-                        <mat-option *ngFor="let pyItem of filteredPyItem | async" [value]="pyItem">
-                            {{ pyItem.name }}
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+                        placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoEmployee()" required />
+                    <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                        (optionSelected)="EmployeeSelected($event)">
+                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                            {{ employee.name }}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>

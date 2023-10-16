@@ -11,18 +11,17 @@ import { Params, Router } from '@angular/router';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
-export class PyItem {
+export class Employee {
   constructor(public id: number, public name: string) { }
 }
 
 
 @Component({
-  selector: 'app-py-group-detail-dialog',
-  templateUrl: './py-group-detail-dialog.component.html',
-  styleUrls: ['./py-group-detail-dialog.component.css']
+  selector: 'app-py-group-detail-employee-dialog',
+  templateUrl: './py-group-detail-employee-dialog.component.html',
+  styleUrls: ['./py-group-detail-employee-dialog.component.css']
 })
-
-export class PyGroupDetailDialogComponent implements OnInit {
+export class PyGroupDetailEmployeeDialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId');
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
@@ -42,7 +41,6 @@ export class PyGroupDetailDialogComponent implements OnInit {
   journalsList: any;
   sourcesList: any;
 
-  employeesList: any;
   distEmployeesList: any;
   costCentersList: any;
   itemsList: any;
@@ -53,10 +51,10 @@ export class PyGroupDetailDialogComponent implements OnInit {
   deleteConfirmBtn: any;
   dialogRefDelete: any;
 
-  PyItemsList: PyItem[] = [];
-  pyItemCtrl: FormControl;
-  filteredPyItem: Observable<PyItem[]>;
-  selectedPyItem: PyItem | undefined;
+  employeesList: Employee[] = [];
+  employeeCtrl: FormControl;
+  filteredEmployee: Observable<Employee[]>;
+  selectedEmployee: Employee | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -67,26 +65,27 @@ export class PyGroupDetailDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<PyGroupDetailDialogComponent>,
+    private dialogRef: MatDialogRef<PyGroupDetailEmployeeDialogComponent>,
 
     private toastr: ToastrService,
     private route: Router) {
 
-    this.pyItemCtrl = new FormControl();
-    this.filteredPyItem = this.pyItemCtrl.valueChanges.pipe(
+    this.employeeCtrl = new FormControl();
+    this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterPyItems(value))
+
+      map((value) => this._filterEmployee(value))
     );
 
   }
 
   ngOnInit(): void {
-    this.getPyItems();
+    this.getEmployees();
     // this.getFiAccountItems();
 
     this.groupDetailsForm = this.formBuilder.group({
       itemGroupId: ['', Validators.required],
-      pyItemId: ['', Validators.required],
+      employeeId: ['', Validators.required],
       transactionUserId: ['', Validators.required],
     });
     console.log("details edit form before: ", this.editData);
@@ -97,7 +96,7 @@ export class PyGroupDetailDialogComponent implements OnInit {
 
       this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
       this.groupDetailsForm.controls['itemGroupId'].setValue(this.editData.itemGroupId);
-      this.groupDetailsForm.controls['pyItemId'].setValue(this.editData.pyItemId);
+      this.groupDetailsForm.controls['employeeId'].setValue(this.editData.employeeId);
 
       this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
       this.groupDetailsForm.controls['id'].setValue(this.editData.id);
@@ -105,33 +104,36 @@ export class PyGroupDetailDialogComponent implements OnInit {
       console.log("details edit form after: ", this.editData);
 
     }
+    // this.api.getEmployee().subscribe((employees) => {
+    //   this.employeesList = employees;
+    // });
 
   }
 
-  private _filterPyItems(value: string): PyItem[] {
+  private _filterEmployee(value: string): Employee[] {
     const filterValue = value;
     console.log("filterValue222:", filterValue);
 
-    return this.PyItemsList.filter(
-      (pyItem) =>
-        pyItem.name.toLowerCase().includes(filterValue)
+    return this.employeesList.filter(
+      (employee) =>
+        employee.name.toLowerCase().includes(filterValue)
     );
   }
 
-  displayPyItemName(pyItem: any): string {
-    return pyItem && pyItem.name ? pyItem.name : '';
+  displayEmployeeName(employee: any): string {
+    return employee && employee.name ? employee.name : '';
   }
-  PyItemSelected(event: MatAutocompleteSelectedEvent): void {
-    const pyItem = event.option.value as PyItem;
-    console.log("pyItem selected: ", pyItem);
-    this.selectedPyItem = pyItem;
-    this.groupDetailsForm.patchValue({ pyItemId: pyItem.id });
+  EmployeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log("employee selected: ", employee);
+    this.selectedEmployee = employee;
+    this.groupDetailsForm.patchValue({ employeeId: employee.id });
   }
-  openAutoPyItem() {
-    this.pyItemCtrl.setValue(''); // Clear the input field value
+  openAutoEmployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
-    this.pyItemCtrl.updateValueAndValidity();
+    this.employeeCtrl.updateValueAndValidity();
   }
 
 
@@ -151,7 +153,7 @@ export class PyGroupDetailDialogComponent implements OnInit {
 
         if (this.groupDetailsForm.valid) {
 
-          this.api.postPyItemGroupDetails(this.groupDetailsForm.value)
+          this.api.postPyItemGroupEmployee(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
                 this.getDetailsRowId = {
@@ -181,7 +183,7 @@ export class PyGroupDetailDialogComponent implements OnInit {
     else {
       console.log("Enteeeeerrr edit condition: ", this.groupDetailsForm.value)
 
-      this.api.putPyItemGroupDetails(this.groupDetailsForm.value)
+      this.api.putPyItemGroupEmployee(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
             this.toastrSuccess();
@@ -198,15 +200,15 @@ export class PyGroupDetailDialogComponent implements OnInit {
   }
 
 
-  getPyItems() {
-    this.api.getPyItem()
+  getEmployees() {
+    this.api.getEmployee()
       .subscribe({
         next: (res) => {
-          this.PyItemsList = res;
-          console.log("pyItems res: ", this.PyItemsList);
+          this.employeesList = res;
+          console.log("employees res: ", this.employeesList);
         },
         error: (err) => {
-          console.log("fetch pyItems data err: ", err);
+          console.log("fetch employees data err: ", err);
           // alert("خطا اثناء جلب الدفاتر !");
         }
       })
@@ -216,7 +218,7 @@ export class PyGroupDetailDialogComponent implements OnInit {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
 
-      this.dialogRef.close('Save');
+    this.dialogRef.close('Save');
     // }
   }
 

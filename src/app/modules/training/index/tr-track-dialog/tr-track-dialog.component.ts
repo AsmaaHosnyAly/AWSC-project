@@ -1,3 +1,4 @@
+
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
@@ -8,49 +9,42 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ApiService } from '../../services/api.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
+import { TrTrackDetailsDialogComponent } from '../tr-track-details-dialog/tr-track-details-dialog.component';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { Router, Params } from '@angular/router';
-import { Observable, map, startWith } from 'rxjs';
-import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { PyGroupDetailDialogComponent } from '../py-group-detail-dialog/py-group-detail-dialog.component';
-import { PyGroupDetailEmployeeDialogComponent } from '../py-group-detail-employee-dialog/py-group-detail-employee-dialog.component';
+import { Observable, map, startWith } from 'rxjs';
 
 
-export class PyItem {
-  constructor(public id: number, public name: string) { }
-}
+
+
 
 @Component({
-  selector: 'app-py-group-dialog',
-  templateUrl: './py-group-dialog.component.html',
-  styleUrls: ['./py-group-dialog.component.css']
+  selector: 'app-tr-track-dialog',
+  templateUrl: './tr-track-dialog.component.html',
+  styleUrls: ['./tr-track-dialog.component.css']
 })
 
-export class PyGroupDialogComponent implements OnInit {
-  transactionUserId = localStorage.getItem('transactionUserId')
+
+export class TrTrackDialogComponent implements OnInit {
   groupDetailsForm!: FormGroup;
   groupMasterForm!: FormGroup;
   actionBtnMaster: string = 'Save';
   actionBtnDetails: string = 'Save';
   MasterGroupInfoEntered = false;
   dataSource!: MatTableDataSource<any>;
-  dataSourceEmployee!: MatTableDataSource<any>;
   matchedIds: any;
   getDetailedRowData: any;
   sumOfTotals = 0;
   sumOfCreditTotals = 0;
   sumOfDebitTotals = 0;
   resultOfBalance = 0;
-
+  isEdit: boolean = false;
+  autoprice: any;
   getMasterRowId: any;
   getDetailsRowId: any;
   journalsList: any;
@@ -73,9 +67,15 @@ export class PyGroupDialogComponent implements OnInit {
   currentDate: any;
   defaultFiscalYearSelectValue: any;
 
-  displayedColumns: string[] = ['pyItemName', 'action'];
-  displayedEmployeesColumns: string[] = ['employeeName', 'action'];
 
+
+  
+
+  displayedColumns: string[] = [
+    
+    'courseId', 'trackId', 
+    'action',
+  ];
   sessionId = Math.random();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -91,100 +91,153 @@ export class PyGroupDialogComponent implements OnInit {
     // private toastr: ToastrService,
     private dialog: MatDialog,
     private toastr: ToastrService,
-    private dialogRef: MatDialogRef<PyGroupDialogComponent>,
+    private dialogRef: MatDialogRef<TrTrackDetailsDialogComponent>,
     private router: Router
   ) {
     this.currentDate = new Date();
+
+   
+
   }
 
   ngOnInit(): void {
-
+    // console.log("getDetailedRowData : ", this.getDetailedRowData);
     // this.getFiscalYears();
     // this.getFiAccounts();
     // this.getFiAccountItems();
-    // this.getFiEntrySource();
-    // this.global.test = this.test;
+    // this.getTrTarck();
+    // this.getCourse();
+    this.global.test = this.test;
 
     this.getMasterRowId = this.editData;
 
+    console.log('masterrrowwwwww:',this.getMasterRowId)
+
     this.groupMasterForm = this.formBuilder.group({
+      price: ['', Validators.required],
       name: ['', Validators.required],
-      transactionUserId: ['', Validators.required]
+      updateUserName: [1],
+
+      transactionUserId: ['', Validators.required],
+      // date: [, Validators.required],
+      description: [''],
     });
 
-    // this.groupDetailsForm = this.formBuilder.group({
-    //   entryId: ['', Validators.required],
-    //   credit: ['', Validators.required],
-    //   debit: ['', Validators.required],
-    //   accountId: ['', Validators.required],
-    //   fiAccountItemId: ['', Validators.required],
-    //   transactionUserId: ['', Validators.required],
-    // });
+    this.groupDetailsForm = this.formBuilder.group({
+      // tr_trackId: ['', Validators.required],
+      trackId: ['', Validators.required],
+      // name: ['', Validators.required],
+      // value: ['', Validators.required],
+      courseId: ['', Validators.required],
+      // employeeId: ['', Validators.required],
+
+      transactionUserId: ['', Validators.required],
+      updateUserName: [1],
+
+    });
 
     if (this.editData) {
       console.log('master edit form: ', this.editData);
       this.actionBtnMaster = 'Update';
-      this.groupMasterForm.controls['name'].setValue(this.editData.name);
-      this.groupMasterForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.groupMasterForm.controls['price'].setValue(this.editData.price);
+      // this.groupMasterForm.controls['date'].setValue(this.editData.date);
+      // this.groupMasterForm.controls['pyItemName'].setValue(this.editData.pyItemName);
 
-      this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
+      this.groupMasterForm.controls['updateUserName'].setValue(1);
+
+      this.groupMasterForm.controls['name'].setValue(
+        this.editData.name
+      );
+      // this.groupMasterForm.controls['fiTrackSourceTypeId'].setValue(
+      //   this.editData.fiTrackSourceTypeId
+      // );
+
+      // this.groupMasterForm.controls['balance'].setValue(this.editData.balance);
+      // this.groupMasterForm.controls['creditTotal'].setValue(
+      //   this.editData.creditTotal
+      // );
+      // this.groupMasterForm.controls['debitTotal'].setValue(
+      //   this.editData.debitTotal
+      // );
+      // this.groupMasterForm.controls['state'].setValue(this.editData.state);
+      this.groupMasterForm.controls['description'].setValue(
+        this.editData.description
+      );
+
+      this.groupMasterForm.addControl(
+        'id',
+        new FormControl('', Validators.required)
+      );
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
     }
 
     this.getAllDetailsForms();
-    this.getAllDetailsEmployeeForms();
+
+    this.userIdFromStorage = localStorage.getItem('transactionUserId');
+    this.groupMasterForm.controls['transactionUserId'].setValue(
+      this.userIdFromStorage
+    );
   }
 
-  getAllDetailsForms() {
 
+
+
+
+ 
+
+  // getTrTarck() {
+  //   this.api.getTrTarck().subscribe({
+  //     next: (res) => {
+  //       this.TracksList = res;
+  //       // console.log("sourcesList res: ", this.sourcesList);
+  //     },
+  //     error: (err) => {
+  //       console.log('fetch sourcesList data err: ', err);
+  //       // alert("خطا اثناء جلب الانواع !");
+  //     },
+  //   });
+  // }
+  // getCourse() {
+  //   this.api.getTrCourse().subscribe({
+  //     next: (res) => {
+  //       this.CoursesList = res;
+  //       // console.log("sourcesList res: ", this.sourcesList);
+  //     },
+  //     error: (err) => {
+  //       console.log('fetch sourcesList data err: ', err);
+  //       // alert("خطا اثناء جلب الانواع !");
+  //     },
+  //   });
+  // }
+
+
+
+
+  getAllDetailsForms() {
+    // console.log("edddit get all data: ", this.editData)
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      this.api.getPyItemGroupDetailsByHeaderId(this.getMasterRowId.id).subscribe({
+      this.api.getTrTrackDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
-
+          // this.itemsList = res;
           this.matchedIds = res;
           console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
 
           if (this.matchedIds) {
-
+            // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
             this.dataSource = new MatTableDataSource(this.matchedIds);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
 
-            // this.sumOfTotals = 0;
-            // for (let i = 0; i < this.matchedIds.length; i++) {
-            //   this.updateMaster();
-            // }
-          }
-        },
-        error: (err) => {
-          // console.log("fetch items data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
-    }
-  }
-
-  getAllDetailsEmployeeForms() {
-
-    console.log("mastered row get all data: ", this.getMasterRowId)
-    if (this.getMasterRowId) {
-      this.api.getPyItemGroupEmployeeByHeaderId(this.getMasterRowId.id).subscribe({
-        next: (res) => {
-
-          this.matchedIds = res;
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
-
-          if (this.matchedIds) {
-
-            this.dataSourceEmployee = new MatTableDataSource(this.matchedIds);
-            this.dataSourceEmployee.paginator = this.paginator;
-            this.dataSourceEmployee.sort = this.sort;
-
-            // this.sumOfTotals = 0;
-            // for (let i = 0; i < this.matchedIds.length; i++) {
-            //   this.updateMaster();
-            // }
+            this.sumOfTotals = 0;
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+              this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+              // alert('totalll: '+ this.sumOfTotals)
+              // this.updateBothForms();
+              this.updateMaster();
+            }
           }
         },
         error: (err) => {
@@ -197,15 +250,19 @@ export class PyGroupDialogComponent implements OnInit {
 
   async nextToAddFormDetails() {
     this.groupMasterForm.removeControl('id');
-    this.groupMasterForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-    console.log('fiEntry master form: ', this.groupMasterForm.value);
+    // this.groupMasterForm.controls['creditTotal'].setValue(0);
+    // this.groupMasterForm.controls['debitTotal'].setValue(0);
+    // this.groupMasterForm.controls['balance'].setValue(0);
+    // this.groupMasterForm.controls['state'].setValue('مغلق');
+
+    console.log('fiTrack master form: ', this.groupMasterForm.value);
 
     if (this.groupMasterForm.valid) {
       console.log('Master add form : ', this.groupMasterForm.value);
-      this.api.postPyItemGroup(this.groupMasterForm.value).subscribe({
+      this.api.postTrTarck(this.groupMasterForm.value).subscribe({
         next: (res) => {
-          console.log('ID itemGroup after post: ', res);
+          console.log('ID fiTrack after post: ', res);
           this.getMasterRowId = {
             id: res,
           };
@@ -215,7 +272,6 @@ export class PyGroupDialogComponent implements OnInit {
           // alert("تم الحفظ بنجاح");
           this.toastrSuccess();
           this.getAllDetailsForms();
-          this.getAllDetailsEmployeeForms();
           this.addDetailsInfo();
         },
         error: (err) => {
@@ -227,59 +283,74 @@ export class PyGroupDialogComponent implements OnInit {
   }
 
   async addDetailsInfo() {
-    console.log('check id for insert: ', this.getDetailedRowData, 'edit data form: ', this.editData, 'main id: ', this.getMasterRowId.id);
+    console.log(
+      'check id for insert: ',
+      this.getDetailedRowData,
+      'edit data form: ',
+      this.editData,
+      'main id: ',
+      this.getMasterRowId.id
+    );
 
     if (this.getMasterRowId.id) {
       if (this.getMasterRowId.id) {
-        console.log('form  headerId: ', this.getMasterRowId);
+        console.log(
+          'form  headerId: ',
+          this.getMasterRowId,
+          'details form: ',
+          this.groupDetailsForm.value
+        );
 
-        // // this.groupDetailsForm.controls['transactionUserId'].setValue(this.transactionUserId);
-        // // this.groupDetailsForm.controls['entryId'].setValue(this.getMasterRowId.id);
 
-        // console.log(
-        //   'add details second time, get detailed row data: ',
-        //   !this.getDetailedRowData
-        // );
 
-        // // alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
+        this.groupDetailsForm.controls['transactionUserId'].setValue(
+          this.userIdFromStorage
+        );
+        this.groupDetailsForm.controls['trackId'].setValue(
+          this.getMasterRowId.id
+        );
 
-        // console.log(
-        //   'add details second time, details form: ',
-        //   this.groupDetailsForm.value
-        // );
-        // console.log(
-        //   'add details second time, get detailed row data: ',
-        //   !this.getDetailedRowData
-        // );
+        console.log(
+          'add details second time, get detailed row data: ',
+          !this.getDetailedRowData
+        );
 
-        // if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
-        //   this.api.postPyItemGroupDetails(this.groupDetailsForm.value).subscribe({
-        //     next: (res) => {
-        //       this.getDetailsRowId = {
-        //         id: res,
-        //       };
-        //       console.log('Details res: ', this.getDetailsRowId.id);
-        //       // alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
+        // alert("item name controller: " + this.groupDetailsForm.getRawValue().itemName + " transactionUserId controller: " + this.groupDetailsForm.getRawValue().transactionUserId)
 
-        //       // alert("تمت إضافة التفاصيل بنجاح");
-        //       this.toastrSuccess();
-        //       this.groupDetailsForm.reset();
-        //       this.getAllDetailsForms();
-        //       this.updateDetailsForm();
-        //     },
-        //     error: () => {
-        //       // alert("حدث خطأ أثناء إضافة مجموعة")
-        //     },
-        //   });
-        // } else {
-        //   this.updateBothForms();
-        // }
+        console.log(
+          'add details second time, details form: ',
+          this.groupDetailsForm.value
+        );
+        console.log(
+          'add details second time, get detailed row data: ',
+          !this.getDetailedRowData
+        );
 
+        if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
+          this.api.postTrTrackDetails(this.groupDetailsForm.value).subscribe({
+            next: (res) => {
+              this.getDetailsRowId = {
+                id: res,
+              };
+              console.log('Details res: ', this.getDetailsRowId.id);
+              // alert("postDetails res credit: " + this.sumOfCreditTotals + " credit res: " + res.credit)
+
+              // alert("تمت إضافة التفاصيل بنجاح");
+              this.toastrSuccess();
+              this.groupDetailsForm.reset();
+              this.getAllDetailsForms();
+              this.updateDetailsForm();
+            },
+            error: () => {
+              // alert("حدث خطأ أثناء إضافة مجموعة")
+            },
+          });
+        } else {
+          this.updateBothForms();
+        }
       }
-    }
-    else {
-      // this.updateDetailsForm();
-      this.updateMaster();
+    } else {
+      this.updateDetailsForm();
     }
   }
 
@@ -307,7 +378,7 @@ export class PyGroupDialogComponent implements OnInit {
       'update details form: ',
       this.groupDetailsForm.value
     );
-    this.api.putPyItemGroup(this.groupMasterForm.value).subscribe({
+    this.api.putTrTarck(this.groupMasterForm.value).subscribe({
       next: (res) => {
         // alert("تم التعديل بنجاح");
         console.log(
@@ -344,14 +415,13 @@ export class PyGroupDialogComponent implements OnInit {
             this.groupDetailsForm.value
           );
 
-          this.api.putPyItemGroupDetails(this.groupDetailsForm.value).subscribe({
+          this.api.putTrTrackDetails(this.groupDetailsForm.value).subscribe({
             next: (res) => {
               // alert("تم تحديث التفاصيل بنجاح");
               this.toastrSuccess();
               // console.log("update res: ", res);
               this.groupDetailsForm.reset();
               this.getAllDetailsForms();
-              this.getAllDetailsEmployeeForms();
               this.getDetailedRowData = '';
             },
             error: (err) => {
@@ -369,14 +439,14 @@ export class PyGroupDialogComponent implements OnInit {
   }
 
   updateBothForms() {
-    // console.log("pass id: ", this.getMasterRowId.id, "pass No: ", this.groupMasterForm.getRawValue().no, "pass StoreId: ", this.groupMasterForm.getRawValue().storeId, "pass Date: ", this.groupMasterForm.getRawValue().date)
+    // console.log("pass id: ", this.getMasterRowId.id, "pass price: ", this.groupMasterForm.getRawValue().price, "pass StoreId: ", this.groupMasterForm.getRawValue().storeId, "pass Date: ", this.groupMasterForm.getRawValue().date)
     if (
-      this.groupMasterForm.getRawValue().no != '' &&
+      this.groupMasterForm.getRawValue().price != '' &&
       this.groupMasterForm.getRawValue().storeId != '' &&
       this.groupMasterForm.getRawValue().fiscalYearId != '' &&
       this.groupMasterForm.getRawValue().date != ''
     ) {
-      this.groupDetailsForm.controls['entryId'].setValue(
+      this.groupDetailsForm.controls['trackId'].setValue(
         this.getMasterRowId.id
       );
       this.updateDetailsForm();
@@ -384,9 +454,11 @@ export class PyGroupDialogComponent implements OnInit {
   }
 
   editDetailsForm(row: any) {
+    this.router.navigate(['/TrTrack', {queryParams: { masterId: this.getMasterRowId.id } }]);
+
     this.dialog
-      .open(PyGroupDetailDialogComponent, {
-        width: '40%',
+      .open(TrTrackDetailsDialogComponent, {
+        width: '55%',
         height: '78%',
         data: row,
       })
@@ -403,7 +475,7 @@ export class PyGroupDialogComponent implements OnInit {
 
     var result = confirm('هل ترغب بتاكيد الحذف ؟');
     if (result) {
-      this.api.deletePyItemGroupDetails(id).subscribe({
+      this.api.deleteTrTrackDetails(id).subscribe({
         next: (res) => {
           // alert("تم الحذف بنجاح");
           this.toastrDeleteSuccess();
@@ -416,46 +488,20 @@ export class PyGroupDialogComponent implements OnInit {
     }
   }
 
-  editDetailsEmployeeForm(row: any) {
-    this.dialog
-      .open(PyGroupDetailEmployeeDialogComponent, {
-        width: '40%',
-        height: '78%',
-        data: row,
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'save' || val === 'update') {
-          this.getAllDetailsEmployeeForms();
-        }
-      });
+
+
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
   }
-
-  deleteFormDetailsEmployee(id: number) {
-    console.log('details id: ', id);
-
-    var result = confirm('هل ترغب بتاكيد الحذف ؟');
-    if (result) {
-      this.api.deletePyItemGroupEmployee(id).subscribe({
-        next: (res) => {
-          // alert("تم الحذف بنجاح");
-          this.toastrDeleteSuccess();
-          this.getAllDetailsEmployeeForms();
-        },
-        error: () => {
-          // alert("خطأ أثناء حذف التفاصيل !!");
-        },
-      });
-    }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
   }
-
-  /////////////////////////////////////////////////////////////////////////////////////
   getAllMasterForms() {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
     this.dialogRef.close('save');
 
-    this.api.getPyItemGroup().subscribe({
+    this.api.getTrTarck().subscribe({
       next: (res) => {
         // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
         this.dataSource = new MatTableDataSource(res);
@@ -472,22 +518,27 @@ export class PyGroupDialogComponent implements OnInit {
   async updateMaster() {
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
 
-    console.log('ooo:', !this.getDetailedRowData);
-
-    this.api.putPyItemGroup(this.groupMasterForm.value).subscribe({
+    console.log(
+      'update both: ',
+      this.groupDetailsForm.valid,
+      'ooo:',
+      !this.getDetailedRowData
+    );
+    // console.log("edit : ", this.groupDetailsForm.value)
+    this.api.putTrTarck(this.groupMasterForm.value).subscribe({
       next: (res) => {
-        // this.groupDetailsForm.reset();
-        this.toastrUpdateSuccess();
+        this.groupDetailsForm.reset();
         this.getDetailedRowData = '';
       },
     });
   }
-
   OpenDetailsDialog() {
-    this.router.navigate(['/PyItemGroup', { masterId: this.getMasterRowId.id }]);
+    console.log("master row id before passed: ", this.getMasterRowId)
+
+    this.router.navigate(['/TrTrack'], { queryParams: { masterId: this.getMasterRowId.id} })
     this.dialog
-      .open(PyGroupDetailDialogComponent, {
-        width: '40%',
+      .open(TrTrackDetailsDialogComponent, {
+        width: '55%',
         height: '78%',
       })
       .afterClosed()
@@ -497,29 +548,6 @@ export class PyGroupDialogComponent implements OnInit {
         }
       });
   }
-
-  OpenDetailsEmployeeDialog() {
-    this.router.navigate(['/PyItemGroup', { masterId: this.getMasterRowId.id }]);
-    this.dialog
-      .open(PyGroupDetailEmployeeDialogComponent, {
-        width: '40%',
-        height: '78%',
-      })
-      .afterClosed()
-      .subscribe((val) => {
-        if (val === 'save' || val === 'update') {
-          this.getAllDetailsEmployeeForms();
-        }
-      });
-  }
-
-  toastrSuccess(): void {
-    this.toastr.success('تم الحفظ بنجاح');
-  }
-  toastrUpdateSuccess(): void {
-    this.toastr.success('تم التعديل بنجاح');
-  }
-  toastrDeleteSuccess(): void {
-    this.toastr.success('تم الحذف بنجاح');
-  }
 }
+
+

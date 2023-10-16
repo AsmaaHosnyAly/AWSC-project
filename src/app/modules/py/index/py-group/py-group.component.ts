@@ -1,26 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-} from '@angular/material/dialog';
-import { PyInstallmentDialogComponent } from '../py-installment-dialog/py-installment-dialog.component';
+import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { map, startWith } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
-import { MatOptionSelectionChange } from '@angular/material/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { HotkeysService } from 'angular2-hotkeys';
-import { Hotkey } from 'angular2-hotkeys';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { formatDate } from '@angular/common';
+import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
+import {
+  FormControl,
+  FormControlName,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PyGroupDialogComponent } from '../py-group-dialog/py-group-dialog.component';
+
+interface PyItemGroup {
+  name: string;
+  Action: string;
+}
 
 @Component({
   selector: 'app-py-group',
@@ -29,104 +30,228 @@ import { PyGroupDialogComponent } from '../py-group-dialog/py-group-dialog.compo
 })
 export class PyGroupComponent implements OnInit {
 
-  formcontrol = new FormControl('');
-  InstallmentForm!: FormGroup;
+  ELEMENT_DATA: PyItemGroup[] = [];
+  isLoading = false;
+  totalRows = 0;
+  pageSize = 5;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
 
-  displayedColumns: string[] = ['name', 'action'];
-  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'Action'];
+
+  pdfurl = '';
+  groupMasterForm!: FormGroup;
+  groupDetailsForm!: FormGroup;
+  matchedIds: any;
+  storeList: any;
+  storeName: any;
+  fiscalYearsList: any;
+  employeesList: any;
+  costCentersList: any;
+  journalsList: any;
+  // accountsList: any;
+  sourcesList: any;
+
+  masterRowIdDelete: any;
+
+  // dataSource2!: MatTableDataSource<any>;
+  dataSource2: MatTableDataSource<PyItemGroup> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  pageIndex: any;
+  length: any;
 
-  constructor(private dialog: MatDialog, private toastr: ToastrService,
+  ngAfterViewInit() {
+    this.dataSource2.paginator = this.paginator;
+  }
+
+  constructor(
     private api: ApiService,
-    private hotkeysService: HotkeysService) { }
+    private dialog: MatDialog,
+    private http: HttpClient, private formBuilder: FormBuilder,
+    @Inject(LOCALE_ID) private locale: string,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit(): void {
-
-    this.getAllItemGroups();
-
-    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.openDialog();
-      return false; // Prevent the default browser behavior
-    }));
+    this.getAllMasterForms();
   }
 
   openDialog() {
     this.dialog
       .open(PyGroupDialogComponent, {
-        width: '43%',
+        width: '50%',
+        height: '79%'
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save') {
-          this.getAllItemGroups();
+        if (val === 'save' || val === 'update') {
+          this.getAllMasterForms();
         }
       });
   }
 
-  getAllItemGroups() {
-    this.api.getPyItemGroup().subscribe({
-      next: (res) => {
-        console.log("master itemGroup res: ", res);
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
 
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: (err) => {
-        // alert('Error');
-      },
-    });
+    if (this.dataSource2.paginator) {
+      this.dataSource2.paginator.firstPage();
+    }
+  }
+  getAllMasterForms() {
+    // loadData() {
+    if (!this.currentPage) {
+      this.currentPage = 0;
+
+      this.isLoading = true;
+
+      fetch(this.api.getPyItemGroupPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+    else {
+      this.isLoading = true;
+
+      fetch(this.api.getPyItemGroupPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+
+
   }
 
-  editItemGroup(row: any) {
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    this.getAllMasterForms();
+  }
+
+  editMasterForm(row: any) {
     this.dialog
       .open(PyGroupDialogComponent, {
-        width: '43%',
+        width: '50%',
+        height: '79%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update') {
-          this.getAllItemGroups();
+        if (val === 'update' || val === 'save') {
+          this.getAllMasterForms();
         }
       });
   }
 
-  deleteItemGroup(id: number) {
-    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+  deleteAllForms(id: number) {
+    this.masterRowIdDelete = id;
+    var result = confirm('تاكيد الحذف ؟ ');
+
     if (result) {
       this.api.deletePyItemGroup(id).subscribe({
         next: (res) => {
-          if (res == 'Succeeded') {
-            // console.log("res of deleteInstallment:", res);
-            this.toastrDeleteSuccess();
-            this.getAllItemGroups();
-          }
-          else {
-            alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-          }
+          this.api.getPyItemGroupDetailsByHeaderId(id)
+            .subscribe({
+              next: (res) => {
+
+                this.matchedIds = res;
+
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.deleteFormDetails(this.matchedIds[i].id);
+                  this.deleteFormDetailsEmployee(this.matchedIds[i].id);
+                }
+
+              },
+              error: (err) => {
+                this.toastrDeleteError();
+
+              }
+            })
+
+          this.getAllMasterForms();
         },
         error: () => {
-          alert('خطأ فى حذف العنصر');
+          // alert('خطأ أثناء حذف المجموعة !!');
         },
       });
     }
   }
 
+  deleteMaster() {
+    this.api.deletePyItemGroup(this.masterRowIdDelete).subscribe({
+      next: (res) => {
+        this.toastrDeleteSuccess();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+  }
+
+  deleteFormDetails(id: number) {
+    this.api.deletePyItemGroupDetails(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
+        this.deleteMaster();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+  }
+
+  deleteFormDetailsEmployee(id: number) {
+    this.api.deletePyItemGroupEmployee(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
+        this.deleteMaster();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+  }
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+  toastrDeleteError(): void {
+    this.toastr.error('خطا اثناء حذف البيانات !!');
   }
 }

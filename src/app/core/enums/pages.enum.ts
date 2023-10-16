@@ -83,6 +83,7 @@ Qualification_level='الدرجة العلمية',
 /****************** module:6 Py الرواتب************************/
   PyInstallment='الأقساط',
   PyItem='بنود الأجور',
+  PyItemGroup='مجموعات الأجور',
   PyItemCategory='تصنيفات بنود الاجور',
   pytaxbracket='الوعاء الضريبي'
 }

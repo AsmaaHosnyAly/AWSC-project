@@ -1,0 +1,69 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل قاعة التدريب   ' : 'إضافة  قاعة التدريب جديد'}}</h1>
+  <form [formGroup]="modelForm" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="modelForm">
+        
+          <mat-form-field appearance="outline">
+            <mat-label>الكود</mat-label>
+            <input formControlName="code" matInput placeholder="ادخل الكود">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>الاسم</mat-label>
+            <input formControlName="name" matInput placeholder="ادخل الاسم">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+          <mat-label>العنوان</mat-label>
+          <input formControlName="address" matInput placeholder="ادخل العنوان">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>النوع</mat-label>
+        <input formControlName="type" matInput placeholder="ادخل النوع">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>السعة</mat-label>
+        <input formControlName="capacity" matInput placeholder="ادخل السعه">
+      </mat-form-field>
+      <div class="radio " style="display: flex;flex-direction: column;width: 52%;">
+        <mat-label style="margin-top: 9px;"> متاح*</mat-label>
+        <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
+        <mat-radio-group style="display: flex;flex-direction: row;" aria-label="Select an option"
+            formControlName="isActive" 
+           >
+            <mat-radio-button [value]= true >متاح</mat-radio-button>
+            <mat-radio-button [value] = false >غير متاح</mat-radio-button>
+            
+        </mat-radio-group>
+
+    </div>
+          <mat-label>موقع القاعة</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="cityState" [matAutocomplete]="autoCityState" [formControl]="cityStateCtrl"
+              placeholder="{{getModelData  ? getModelData.cityStateName : ''}}" (click)="openAutoCityState()" required />
+            <mat-autocomplete #autoCityState="matAutocomplete" [displayWith]="displayCityStateName"
+              (optionSelected)="cityStateSelected($event)">
+              <mat-option *ngFor="let cityState of filteredCityStates | async" [value]="cityState">
+                {{ cityState.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-label>مركز التدريب</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="trainingCenter" [matAutocomplete]="autoTrainingCenter" [formControl]="trainingCenterCtrl"
+              placeholder="{{getModelData  ? getModelData.trainingCenterName : ''}}" (click)="openAutoTrainingCenter()" required />
+            <mat-autocomplete #autoTrainingCenter="matAutocomplete" [displayWith]="displayTrainingCenterName"
+              (optionSelected)="trainingCenterSelected($event)">
+              <mat-option *ngFor="let trainingCenter of filteredTrainingCenteres | async" [value]="trainingCenter">
+                {{ trainingCenter.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn"  (click)="addClassRoom()" style="margin-left: 8px;">{{actionBtn}}</button>
+      </div>
+    </form>

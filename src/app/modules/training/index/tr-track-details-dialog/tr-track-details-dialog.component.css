@@ -18,9 +18,9 @@
     flex-direction: row;
     justify-content: space-between;
     margin-left: -10%;
-}
-
-.groupAction button {
+  }
+  
+  .groupAction button {
     background-color: var(--bg-primary-color) !important;
     color: aliceblue;
     font-family: 'Cairo', sans-serif !important;
@@ -29,7 +29,7 @@
     font-weight: bold;
     font-size: 15px;
     padding: 5px 30px;
-}
+  }
 
 .restGroupInfo {
     display: block;
@@ -62,43 +62,41 @@
     flex-direction: column;
     overflow: hidden;
     width: 60%;
-    margin-left: 21%;
-
-    margin-top: -5%;
+   margin-left: 21%;
+  
+    margin-top:3%;
     /* justify-content: space-between; */
     padding: 5%;
-
-}
-
-.detailsForm .groupInput {
+  
+  }
+  
+  .detailsForm .groupInput {
     flex-basis: 19%;
-}
-
-.detailsForm .third-parent {
-
+  }
+  
+  .detailsForm .third-parent {
+  
     flex-basis: 15%;
-
-
-}
+  
+  
+  }
 
 .headerTable {
     align-items: center;
 }
 
-.statusRadioBtns {
+.statusRadioBtns{
     display: flex;
 }
 
-mat-radio-group {
+mat-radio-group{
     padding: 2%;
     margin-top: -3%;
 }
-
-.searchLabels {
+.searchLabels{
     display: flex;
     flex-direction: column;
 }
-
 .add-h1 {
     text-align: center;
     font-family: 'Cairo', sans-serif !important;
@@ -106,15 +104,24 @@ mat-radio-group {
     color: var(--bg-primary-color) !important;
     margin-top: 10px;
     box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
-
-}
-
-.cdk-overlay-pane {
+  
+  }
+  .cdk-overlay-pane {
     position: relative !important;
-}
-
-.close {
+  }
+  
+  .close {
     position: absolute;
     top: 0;
     right: 0;
-}
+   
+  
+  
+  }
+
+  .detailsLabels{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 50% !important;
+  }

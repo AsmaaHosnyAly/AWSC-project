@@ -1,0 +1,123 @@
+<div class="container">
+    <div class="cdk-overlay-pane  ">
+        <button class="close" mat-button (click)="getAllMasterForms()"> <mat-icon> clear</mat-icon></button>
+    </div>
+
+    <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل المسار' : ' إضافة المسار'}}</h1>
+    <div mat-dialog-content dir="rtl">
+        <div mat-dialog-content class="mat-dialog-content" dir="rtl">
+            <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
+
+                <div class="headerForm">
+
+
+
+                    <div class="searchLabels" style="width: 8rem;">
+                        <mat-label>الاسم*</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+                            <input matInput placeholder="الاسم" formControlName="name">
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="searchLabels" style="width: 8rem;" min=0>
+                        <mat-label>السعر:</mat-label>
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+
+                            <input id="autoNoInput" matInput formControlName="price"
+                               type="number" min="0">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="searchLabels" style="width: 17rem;">
+                        <mat-label>الوصف</mat-label>
+
+                        <mat-form-field appearance="outline" style="width:96% ;">
+                            <input formControlName="description" matInput placeholder="الوصف ...">
+                        </mat-form-field>
+                    </div>
+
+
+
+
+
+
+
+
+
+                </div>
+                <div dir="ltr">
+                    <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
+              editDataDetails || MasterGroupInfoEntered
+                ? 'nextButtonEditHeaderDetails'
+                : 'nextButtonAddNewHeader'
+            ">
+                        حفظ
+                    </button>
+                </div>
+
+            </form>
+
+
+            <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
+
+                <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+
+
+                    <div mat-dialog-action [align]="'end'"
+                        style="display: flex; width: 100%; justify-content: space-between; ">
+                        <div class="groupAction">
+                            <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل الاذن</button>
+
+                        </div>
+
+                        <div class="groupAction">
+                            <button mat-raised-button class="savebtn" (click)="OpenDetailsDialog()">اضافة بيان</button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tableFixHead">
+                        <table mat-table [dataSource]="dataSource" matSort class="headerTable">
+
+                            <!-- credit Column -->
+                            <ng-container matColumnDef="courseId">
+                                <th mat-header-cell *matHeaderCellDef> الكورس</th>
+                                <td mat-cell *matCellDef="let row"> {{row.courseId}} </td>
+                            </ng-container>
+
+                            <!-- debit Column -->
+                            <ng-container matColumnDef="trackId">
+                                <th mat-header-cell *matHeaderCellDef> المسار</th>
+                                <td mat-cell *matCellDef="let row"> {{row.trackId}} </td>
+                            </ng-container>
+
+                           
+
+                            <!-- action Column -->
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef> الاجراء </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+
+                        </table>
+                        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
