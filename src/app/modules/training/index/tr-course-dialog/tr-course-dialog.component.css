@@ -52,7 +52,7 @@ margin-top: 0 !important;
 background-color: aquamarine;
 }
 .child1{
-  width: 23%;
+  width: 47%;
   display: flex;
   flex-direction: column;
 }
@@ -71,7 +71,3 @@ height: 50px;
 }
 
 
-.lable-radio{
-  color:var(--bg-primary-color);
-  font-weight: bold;
-}

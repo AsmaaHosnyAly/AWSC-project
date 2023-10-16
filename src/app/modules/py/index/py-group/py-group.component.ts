@@ -1,39 +1,50 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import { PyInstallmentDialogComponent } from '../py-installment-dialog/py-installment-dialog.component';
 import { ApiService } from '../../services/api.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-import { PyItemDialogComponent } from '../py-item-dialog/py-item-dialog.component';
-
+import { ToastrService } from 'ngx-toastr';
+import { PyGroupDialogComponent } from '../py-group-dialog/py-group-dialog.component';
 
 @Component({
-  selector: 'app-py-item',
-  templateUrl: './py-item.component.html',
-  styleUrls: ['./py-item.component.css']
+  selector: 'app-py-group',
+  templateUrl: './py-group.component.html',
+  styleUrls: ['./py-group.component.css']
 })
-export class PyItemComponent implements OnInit {
+export class PyGroupComponent implements OnInit {
 
   formcontrol = new FormControl('');
-  cityStateForm!: FormGroup;
-  title = 'Angular13Crud';
-  //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['name', 'code', 'type','categoryName', 'manner','party', 'value','minValue','maxValue','action'];  dataSource!: MatTableDataSource<any>;
+  InstallmentForm!: FormGroup;
+
+  displayedColumns: string[] = ['name', 'action'];
+  dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
-  
-  }
+
+  constructor(private dialog: MatDialog, private toastr: ToastrService,
+    private api: ApiService,
+    private hotkeysService: HotkeysService) { }
+
   ngOnInit(): void {
 
-    this.getPyItem();
+    this.getAllItemGroups();
 
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
@@ -41,75 +52,75 @@ export class PyItemComponent implements OnInit {
       return false; // Prevent the default browser behavior
     }));
   }
+
   openDialog() {
     this.dialog
-      .open(PyItemDialogComponent, {
-        width: '50%',
+      .open(PyGroupDialogComponent, {
+        width: '43%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getPyItem();
+          this.getAllItemGroups();
         }
       });
   }
 
-
-
-  getPyItem() {
-    this.api.getPyItem().subscribe({
+  getAllItemGroups() {
+    this.api.getPyItemGroup().subscribe({
       next: (res) => {
+        console.log("master itemGroup res: ", res);
+
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },
       error: (err) => {
-        alert('Error');
+        // alert('Error');
       },
     });
   }
 
-  editPyItem(row: any) {
+  editItemGroup(row: any) {
     this.dialog
-      .open(PyItemDialogComponent, {
-        width: '50%',
+      .open(PyGroupDialogComponent, {
+        width: '43%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getPyItem();
+          this.getAllItemGroups();
         }
       });
   }
 
-  deletePyItem(id: number) {
+  deleteItemGroup(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePyItem(id)
-      .subscribe({
+      this.api.deletePyItemGroup(id).subscribe({
         next: (res) => {
-          if(res == 'Succeeded'){
-            console.log("res of deletestore:",res)
+          if (res == 'Succeeded') {
+            // console.log("res of deleteInstallment:", res);
             this.toastrDeleteSuccess();
-          this.getPyItem();
-  
-        }else{
-          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-        }
+            this.getAllItemGroups();
+          }
+          else {
+            alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+          }
         },
         error: () => {
-          alert('خطأ فى حذف العنصر'); 
+          alert('خطأ فى حذف العنصر');
         },
       });
     }
   }
- 
 
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

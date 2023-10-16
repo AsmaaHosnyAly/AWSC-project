@@ -10,12 +10,12 @@
 
     
 
-    <!-- <mat-card class="example-card"  *ngIf="this.shared.Benefits ==true">
-      <mat-card-title-group>
+    <mat-card class="example-card"  *ngIf="this.shared.Benefits ==true">
+      <mat-card-title-group routerLink="/pyHome">
         <mat-card-title class="tt"><mat-icon> money</mat-icon></mat-card-title>
         <mat-card-subtitle>الاستحقاقات</mat-card-subtitle>
       </mat-card-title-group>
-    </mat-card>  -->
+    </mat-card> 
 
     <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)"  >
       <mat-card-title-group routerLink="/hr-home">

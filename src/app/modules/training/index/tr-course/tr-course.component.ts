@@ -9,21 +9,20 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-import { PyItemDialogComponent } from '../py-item-dialog/py-item-dialog.component';
+import { TrCourseDialogComponent } from '../tr-course-dialog/tr-course-dialog.component';
 
 
 @Component({
-  selector: 'app-py-item',
-  templateUrl: './py-item.component.html',
-  styleUrls: ['./py-item.component.css']
+  selector: 'app-tr-course',
+  templateUrl: './tr-course.component.html',
+  styleUrls: ['./tr-course.component.css']
 })
-export class PyItemComponent implements OnInit {
+export class TrCourseComponent implements OnInit {
 
   formcontrol = new FormControl('');
-  cityStateForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['name', 'code', 'type','categoryName', 'manner','party', 'value','minValue','maxValue','action'];  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'hours', 'cost','price', 'courseCategoryName','courseTypeName','description','action'];  dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -33,7 +32,7 @@ export class PyItemComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.getPyItem();
+    this.getTrCourse();
 
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
@@ -43,21 +42,21 @@ export class PyItemComponent implements OnInit {
   }
   openDialog() {
     this.dialog
-      .open(PyItemDialogComponent, {
+      .open(TrCourseDialogComponent, {
         width: '50%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getPyItem();
+          this.getTrCourse();
         }
       });
   }
 
 
 
-  getPyItem() {
-    this.api.getPyItem().subscribe({
+  getTrCourse() {
+    this.api.getCourse().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -69,30 +68,30 @@ export class PyItemComponent implements OnInit {
     });
   }
 
-  editPyItem(row: any) {
+  editTrCourse(row: any) {
     this.dialog
-      .open(PyItemDialogComponent, {
+      .open(TrCourseDialogComponent, {
         width: '50%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getPyItem();
+          this.getTrCourse();
         }
       });
   }
 
-  deletePyItem(id: number) {
+  deleteTrCourse(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePyItem(id)
+      this.api.deleteCourse(id)
       .subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
             this.toastrDeleteSuccess();
-          this.getPyItem();
+          this.getTrCourse();
   
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
