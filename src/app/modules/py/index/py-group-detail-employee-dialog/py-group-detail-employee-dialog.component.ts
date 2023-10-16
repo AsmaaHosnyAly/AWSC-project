@@ -73,13 +73,15 @@ export class PyGroupDetailEmployeeDialogComponent implements OnInit {
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
+      
       map((value) => this._filterEmployee(value))
-    );
-
-  }
+      );
+      
+      console.log("filteredEmployee22222222",this.filteredEmployee);
+    }
 
   ngOnInit(): void {
-    this.getEmployees();
+    // this.getEmployees();
     // this.getFiAccountItems();
 
     this.groupDetailsForm = this.formBuilder.group({
@@ -103,6 +105,9 @@ export class PyGroupDetailEmployeeDialogComponent implements OnInit {
       console.log("details edit form after: ", this.editData);
 
     }
+    this.api.getEmployee().subscribe((employees) => {
+      this.employeesList = employees;
+    });
 
   }
 

@@ -18,7 +18,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PyGroupDialogComponent } from '../py-group-dialog/py-group-dialog.component';
 
-interface USER {
+interface PyItemGroup {
   name: string;
   Action: string;
 }
@@ -30,7 +30,7 @@ interface USER {
 })
 export class PyGroupComponent implements OnInit {
 
-  ELEMENT_DATA: USER[] = [];
+  ELEMENT_DATA: PyItemGroup[] = [];
   isLoading = false;
   totalRows = 0;
   pageSize = 5;
@@ -55,7 +55,7 @@ export class PyGroupComponent implements OnInit {
   masterRowIdDelete: any;
 
   // dataSource2!: MatTableDataSource<any>;
-  dataSource2: MatTableDataSource<USER> = new MatTableDataSource();
+  dataSource2: MatTableDataSource<PyItemGroup> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
