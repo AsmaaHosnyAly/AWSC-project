@@ -226,6 +226,8 @@ import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrCourseDialogComponent } from './modules/training/index/tr-course-dialog/tr-course-dialog.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
+import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
+import { TrInstructorCourseDialogComponent } from './modules/training/index/tr-instructor-course-dialog/tr-instructor-course-dialog.component';
 
 
 
@@ -431,6 +433,8 @@ import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
     TrCourseComponent,
     TrCourseDialogComponent,
     PyHomeComponent,
+    TrInstructorCourseComponent,
+    TrInstructorCourseDialogComponent,
   ],
   imports: [
     BrowserModule,
