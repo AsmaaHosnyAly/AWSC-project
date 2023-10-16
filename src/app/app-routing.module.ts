@@ -107,6 +107,7 @@ import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
+import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -366,8 +367,10 @@ const routes: Routes = [
 
        { path: 'TR-Instructor', component: TrInstructorComponent },
        { path: 'Tr-CourseType', component: TrCourseTypeComponent },
+       { path: 'Tr-ClassRoom', component: TrClassRoomComponent},
 
        /*********************start TR   التدريب***************************/
+
        /*********************start py module  المرتبات***************************/
 
       //  { path: 'pyHome', component:  },

@@ -216,6 +216,8 @@ import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr
 import { TrInstructorDialogComponent } from './modules/training/index/tr-instructor-dialog/tr-instructor-dialog.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
+import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
+import { TrClassRoomDialogComponent } from './modules/training/index/tr-class-room-dialog/tr-class-room-dialog.component';
 
 
 
@@ -410,6 +412,8 @@ import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-
     TrInstructorDialogComponent,   
     TrCourseTypeComponent,
     TrCourseTypeDialogComponent,
+    TrClassRoomComponent,
+    TrClassRoomDialogComponent,
   ],
   imports: [
     BrowserModule,
