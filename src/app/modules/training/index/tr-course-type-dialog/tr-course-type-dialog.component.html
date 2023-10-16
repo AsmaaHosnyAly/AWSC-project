@@ -1,1 +1,30 @@
-<p>tr-course-type-dialog works!</p>
+<div class="cdk-overlay-pane">
+  <button class="close" mat-button mat-dialog-close>
+    <mat-icon> clear</mat-icon>
+  </button>
+</div>
+<h1 mat-dialog-title class="add-h1">
+  {{ editData ? " تعديل نوع الدورة التدريبية" : " إضافة نوع دورة تدريبية جديدة" }}
+</h1>
+<form [formGroup]="courseTypeForm" dir="rtl">
+  <div mat-dialog-content>
+    <form [formGroup]="courseTypeForm">
+
+        <mat-label>الاسم</mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="name" matInput />
+        </mat-form-field>
+
+    </form>
+    <div mat-dialog-actions>
+      <button
+        mat-raised-button
+        class="savebtn"
+        (click)="addCourseType()"
+        style="margin-left: 8px"
+      >
+        {{ actionBtn }}
+      </button>
+    </div>
+  </div>
+</form>

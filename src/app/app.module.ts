@@ -217,9 +217,20 @@ import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-
 import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-dialog/py-tax-bracket-dialog.component';
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 import { TrInstructorDialogComponent } from './modules/training/index/tr-instructor-dialog/tr-instructor-dialog.component';
+import { TrCourseCategoryComponent } from './modules/training/index/tr-course-category/tr-course-category.component';
+import { TrCourseCategoryDialogComponent } from './modules/training/index/tr-course-category-dialog/tr-course-category-dialog.component';
+import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
+import { TrCoporteClientDialogComponent } from './modules/training/index/tr-coporte-client-dialog/tr-coporte-client-dialog.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
+import { PyGroupDetailEmployeeDialogComponent } from './modules/py/index/py-group-detail-employee-dialog/py-group-detail-employee-dialog.component';
+import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
+import { TrClassRoomDialogComponent } from './modules/training/index/tr-class-room-dialog/tr-class-room-dialog.component';
+import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
+import { TrCourseDialogComponent } from './modules/training/index/tr-course-dialog/tr-course-dialog.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
+import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
+import { TrInstructorCourseDialogComponent } from './modules/training/index/tr-instructor-course-dialog/tr-instructor-course-dialog.component';
 
 
 
@@ -414,10 +425,25 @@ import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
     PyTaxBracketComponent,
     PyTaxBracketDialogComponent,
     TrInstructorComponent,
-    TrInstructorDialogComponent,
+    TrInstructorDialogComponent,   
     TrCourseTypeComponent,
     TrCourseTypeDialogComponent,
+    PyGroupDetailEmployeeDialogComponent,
+    TrClassRoomComponent,
+    TrClassRoomDialogComponent,
+    TrInstructorDialogComponent,
+    TrCourseCategoryComponent,
+    TrCourseCategoryDialogComponent,
+    TrCoporteClientComponent,
+    TrCoporteClientDialogComponent,
+   
+    TrCourseTypeComponent,
+    TrCourseTypeDialogComponent,
+    TrCourseComponent,
+    TrCourseDialogComponent,
     PyHomeComponent,
+    TrInstructorCourseComponent,
+    TrInstructorCourseDialogComponent,
   ],
   imports: [
     BrowserModule,

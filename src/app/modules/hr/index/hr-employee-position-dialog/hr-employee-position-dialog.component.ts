@@ -111,7 +111,7 @@ export class HrEmployeePositionDialogComponent implements OnInit {
   }
 
   addHrEmployeePosition() {
-    this.HrEmployeePosition.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+    this.HrEmployeePosition.controls['transactionUserId'].setValue(this.transactionUserId);
 
 
     if (!this.editData) {

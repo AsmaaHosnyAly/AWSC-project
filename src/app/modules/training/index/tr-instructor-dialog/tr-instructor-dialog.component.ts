@@ -28,7 +28,7 @@ export class TrInstructorDialogComponent {
   formcontrol = new FormControl('');
   TrInstructorForm !: FormGroup;
   actionBtn: string = "حفظ";
-  getEmployeeData: any;
+  getTrInstructorData: any;
 
   employeeCtrl: FormControl;
   filteredEmployee: Observable<Employee[]>;
@@ -64,10 +64,9 @@ export class TrInstructorDialogComponent {
   ngOnInit(): void {  
     this.TrInstructorForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
-      date: ['', Validators.required],
       employeeId: ['', Validators.required],
-      positionId: ['', Validators.required],
-      workPlaceId: ['', Validators.required],
+      trainingCenterId: ['', Validators.required],
+     
       // id: ['', Validators.required],
     });
 
@@ -87,12 +86,10 @@ export class TrInstructorDialogComponent {
     if (this.editData) {
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
-      this.getEmployeeData = this.editData;
+      this.getTrInstructorData = this.editData;
       this.TrInstructorForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      this.TrInstructorForm.controls['date'].setValue(this.editData.date);
       this.TrInstructorForm.controls['employeeId'].setValue(this.editData.employeeId);
-      this.TrInstructorForm.controls['positionId'].setValue(this.editData.positionId);
-      this.TrInstructorForm.controls['workPlaceId'].setValue(this.editData.workPlaceId);
+      this.TrInstructorForm.controls['trainingCenterId'].setValue(this.editData.trainingCenterId);
       // this.unitsForm.controls['id'].setValue(this.editData.id);
       this.TrInstructorForm.addControl('id', new FormControl('', Validators.required));
       this.TrInstructorForm.controls['id'].setValue(this.editData.id);
@@ -100,8 +97,9 @@ export class TrInstructorDialogComponent {
   }
 
   addTrInstructor() {
-    this.TrInstructorForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-
+    this.TrInstructorForm.controls['transactionUserId'].setValue(this.transactionUserId);
+    console.log("this.TrInstructorForm.value :",this.TrInstructorForm.value);
+    
 
     if (!this.editData) {
       this.TrInstructorForm.removeControl('id')
