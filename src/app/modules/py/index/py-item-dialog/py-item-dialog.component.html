@@ -103,13 +103,10 @@
       <div class="child1">
         <mat-label>طريقة التقريب</mat-label>
         <mat-form-field appearance="outline">
-          <mat-select id="roundInput" formControlName="round">
-            <mat-option value="0">0</mat-option>
-            <mat-option value="1">1</mat-option>
-            <mat-option value="2">2</mat-option>
-            <mat-option value="3">3</mat-option>
-            <mat-option value="4">4</mat-option>
-          </mat-select>
+          <input formControlName="round" type="number"  pattern="^[0-4]{1}$" matInput>
+          <mat-error *ngIf="PyItem.get('round')?.invalid && PyItem.get('round')?.touched" >
+             ادخل طريقة التقريب ويجب أن يحتوي على رقم واحد من 0:4.
+          </mat-error>
         </mat-form-field>
       </div>
       
@@ -164,10 +161,10 @@
       <div class="child1">
         <label id="example-radio-group-label" class="lable-radio">الحالة</label>
         <mat-radio-group formControlName="status" class="example-radio-group">
-          <mat-radio-button class="example-radio-button" value="ساري">
-            سارى
+          <mat-radio-button class="example-radio-button" value="ساري" >
+            ساري
           </mat-radio-button>
-          <mat-radio-button class="example-radio-button" value="غير ساري">
+          <mat-radio-button class="example-radio-button" value="غير ساري" >
             غير ساري
           </mat-radio-button>
         </mat-radio-group>
@@ -181,11 +178,11 @@
           formControlName="visibility"
           class="example-radio-group"
         >
-          <mat-radio-button class="example-radio-button" value=true>
-            نعم
+          <mat-radio-button class="example-radio-button" [value]="true">
+إظهار
           </mat-radio-button>
-          <mat-radio-button class="example-radio-button" value=false>
-            لا
+          <mat-radio-button class="example-radio-button" [value]="false">
+            إخفاء
           </mat-radio-button>
         </mat-radio-group>
       </div>

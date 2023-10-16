@@ -695,7 +695,7 @@
            <!-- End Attendance الحضور والانصراف  -->
   
          <!-- Start PY  المرتبات  -->
-         <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.HR)">
+         <mat-expansion-panel dir="rtl" >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon color="primary" class="ms-2">people</mat-icon>
@@ -721,7 +721,7 @@
                   mat-list-item
                   class="sideNavSubItems"
                   routerLink="/PyInstallment"
-                  *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                  *ngIf="hasAccessRole(pageEnums.PyInstallment)"
                   >الأقساط 
                 </a>
 
@@ -729,7 +729,7 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/PyItem"
-                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                *ngIf="hasAccessRole(pageEnums.PyItem)"
                 >بنود الأجور 
               </a>
 
@@ -737,14 +737,14 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/PyItemCategory"
-                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                *ngIf="hasAccessRole(pageEnums.PyItemCategory)"
                 >تصنيفات بنودالاجور
               </a>
               <a
               mat-list-item
               class="sideNavSubItems"
               routerLink="/pytaxbracket"
-              *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+              *ngIf="hasAccessRole(pageEnums.pytaxbracket)"
               > الوعاء الضريبي
             </a>
               </mat-nav-list>
@@ -785,27 +785,12 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
-                routerLink="/hr-attendanceSchedule"
+                routerLink="/Tr-CourseType"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
               >
-                <p class="font">جدول الحضور</p>
+                <p class="font">نوع الدورة التدريبية</p>
               </a>
-              <a
-                mat-list-item
-                class="sideNavSubItems"
-                routerLink="/hr-attendanceMachine"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-              >
-                <p class="font">الة الحضور</p>
-              </a>
-              <a
-                mat-list-item
-                class="sideNavSubItems"
-                routerLink="/hr-attendanceMachineWorkPlace"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-              >
-                <p class="font">مكان عمل الة الحضور</p>
-              </a>
+            
             </mat-nav-list>
           </mat-expansion-panel>
         </mat-nav-list>
@@ -819,22 +804,7 @@
             <p class="font">جدول حضور الموظفين</p>
           </a>
        
-        <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/hr-EmployeeAttendancePermission"
-          *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-        >
-          <p class="font">تصريح  حضور الموظف </p>
-        </a>
-        <a
-        mat-list-item
-        class="sideNavSubItems"
-        routerLink="/hr-EmployeeAttendance"
-        *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-      >
-        <p class="font"> حضور الموظف </p>
-      </a>
+        
         </mat-nav-list>
       </mat-expansion-panel>
        <!-- End Training   التدريب  -->
