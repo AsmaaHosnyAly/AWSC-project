@@ -356,7 +356,7 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
   }
   async addDetailsInfo() {
     this.getMasterRowId = this.route.url.split('=').pop();
-    this.groupDetailsForm.controls['exchangeId'].setValue(this.getMasterRowId);
+    this.groupDetailsForm.controls['exchangeId'].setValue(this.groupDetailsForm.getRawValue().exchangeId);
     this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
     console.log("check : ", this.route.url.split('=').pop());
     console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "haeder id: ", this.groupDetailsForm.getRawValue().exchangeId);
