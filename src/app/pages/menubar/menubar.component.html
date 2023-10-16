@@ -785,6 +785,14 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
+                routerLink="/Tr-Course"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              >
+                <p class="font"> الدورات التدريبية</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
                 routerLink="/Tr-CourseType"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
               >

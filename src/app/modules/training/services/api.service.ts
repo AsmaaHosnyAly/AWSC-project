@@ -14,7 +14,7 @@ export class ApiService {
 
 
 
-  /********************************  unit crud  **********************************/
+  /********************************  Instructor crud  **********************************/
 
   postTrInstructor(data: any) {
     return this.http.post<any>(`${this.url}/TrInstructor/Add`, data);
@@ -41,5 +41,48 @@ export class ApiService {
   getTrainingCenter() {
     return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
   }
- 
+
+  /********************************  CourseType crud  **********************************/
+
+  postCourseType(data: any) {
+    return this.http.post<any>(`${this.url}/TrCourseType/Add`, data);
+  }
+  getCourseType() {
+    return this.http.get<any>(`${this.url}/TrCourseType/get/all`);
+  }
+  putCourseType(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrCourseType/update`,
+      data
+    );
+  }
+  deleteCourseType(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrCourseType/Delete/${id}`
+    );
+  }
+
+    /********************************  TrCourse crud  **********************************/
+
+    postCourse(data: any) {
+      return this.http.post<any>(`${this.url}/TrCourse/Add`, data);
+    }
+    getCourse() {
+      return this.http.get<any>(`${this.url}/TrCourse/get/all`);
+    }
+    putCourse(data: any) {
+      return this.http.put<any>(
+        `${this.url}/TrCourse/update`,
+        data
+      );
+    }
+    deleteCourse(id: number) {
+      return this.http.delete<any>(
+        `${this.url}/TrCourse/Delete/${id}`
+      );
+      
+    }
+    getAllCategory() {
+      return this.http.get<any>(`${this.url}/TrCourseCategory/get/all `);
+    }
 }

@@ -108,6 +108,7 @@ import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
+import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 import { accountGuard } from './core/guards/fi/account.guard';
 import { fiAccountItemGuard } from './core/guards/fi/fi-account-item.guard';
@@ -526,6 +527,9 @@ const routes: Routes = [
 
       /*********************End Hr-attendance module  الحضور والانصراف***************************/
 
+       { path: 'TR-Instructor', component: TrInstructorComponent },
+       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
+       { path: 'Tr-Course', component: TrCourseComponent },
       /*********************start TR   التدريب***************************/
 
       { path: 'TR-Instructor', component: TrInstructorComponent },
