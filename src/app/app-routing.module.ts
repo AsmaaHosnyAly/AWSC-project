@@ -109,6 +109,11 @@ import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
+import { accountGuard } from './core/guards/fi/account.guard';
+import { fiAccountItemGuard } from './core/guards/fi/fi-account-item.guard';
+import { entrySourceTypeGuard } from './core/guards/fi/entry-source-type.guard';
+import { fiEntryGuard } from './core/guards/fi/fi-entry.guard';
+import { fIJournalGuard } from './core/guards/fi/fijournal.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -238,53 +243,53 @@ const routes: Routes = [
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
-      {
-        path: 'AccountHierarchy',
-        component: FIAccountHierarchyComponent,
-        canActivate: [productSerialGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
-      },
+      // {
+      //   path: 'AccountHierarchy',
+      //   component: FIAccountHierarchyComponent,
+      //   canActivate: [productSerialGuard],
+      //   data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      // },
       {
         path: 'EntrySource',
         component: FIEntrySourceComponent,
-        canActivate: [productSerialGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+        canActivate: [accountGuard],
+        data: { PageLsit: [PagesEnums.ADD_ACCOUNT] },
       },
       {
         path: 'EntrySourceType',
         component: FIEntrySourceTypeComponent,
-        canActivate: [productSerialGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+        canActivate: [entrySourceTypeGuard],
+        data: { PageLsit: [PagesEnums.EntrySourceType] },
       },
-      {
-        path: 'AccountParent',
-        component: FIAccountParentComponent,
-        canActivate: [productSerialGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
-      },
+      // {
+      //   path: 'AccountParent',
+      //   component: FIAccountParentComponent,
+      //   canActivate: [productSerialGuard],
+      //   data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      // },
       {
         path: 'FiAccountItem',
         component: FiAccountItemComponent,
-        canActivate: [productSerialGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+        canActivate: [fiAccountItemGuard],
+        data: { PageLsit: [PagesEnums.FiAccountItem] },
       },
       {
         path: 'FIJournal',
         component: FIJournalComponent,
-        canActivate: [productSerialGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+        canActivate: [fIJournalGuard],
+        data: { PageLsit: [PagesEnums.FIJournal] },
       },
       {
         path: 'fi-entry',
         component: FiEntryContainerComponent,
-        canActivate: [productSerialGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+        canActivate: [fiEntryGuard],
+        data: { PageLsit: [PagesEnums. FI_ENTRY] },
       },
       {
         path: 'account',
         component: FIAccountComponent,
-        canActivate: [productSerialGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+        canActivate: [accountGuard],
+        data: { PageLsit: [PagesEnums.ADD_ACCOUNT] },
       },
       /**********************End account modules الحسابات **********************/
 
@@ -306,51 +311,126 @@ const routes: Routes = [
       /*********************End Roles modules الصلاحيات***************************/
 
       /*********************Start Hr modules شئون العاميلن***************************/
-      { path: 'hr-home', component: StrEmployeesComponent ,
-      canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'city', component: HrCityComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'cityState', component: HrCityStateComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'QualitativeGroup', component: HrQualitativeGroupComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'WorkPlace', component: HrWorkPlaceComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'specialization', component: HrSpecializationComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-jobTitle', component: HrJobTitleComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-position', component: HrPositionComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-MillitryState', component: HrMillitryStateComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'hr-vacation', component: HrVacationComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-incentive', component: HrIncentiveAllowanceComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'hr-hiringType', component: HrHiringTypeComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'SeveranceReason', component: HrSeveranceReasonComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'Qualification', component: HrQualificationComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'QualificationLevel', component: HrQualificationLevelComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'hr-employeeVacation', component: HrEmployeeVacationComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },}, //waiting back to update
+      {
+        path: 'hr-home',
+        component: StrEmployeesComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'city',
+        component: HrCityComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'cityState',
+        component: HrCityStateComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'QualitativeGroup',
+        component: HrQualitativeGroupComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'WorkPlace',
+        component: HrWorkPlaceComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'specialization',
+        component: HrSpecializationComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-jobTitle',
+        component: HrJobTitleComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-position',
+        component: HrPositionComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-MillitryState',
+        component: HrMillitryStateComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-vacation',
+        component: HrVacationComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-incentive',
+        component: HrIncentiveAllowanceComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-hiringType',
+        component: HrHiringTypeComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'SeveranceReason',
+        component: HrSeveranceReasonComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'Qualification',
+        component: HrQualificationComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'QualificationLevel',
+        component: HrQualificationLevelComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-employeeVacation',
+        component: HrEmployeeVacationComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      }, //waiting back to update
       {
         path: 'hr-employeeVacationBalance',
         component: HrEmployeeVacationBalanceComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
-      { path: 'hr-position', component: HrPositionComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-disciplinary', component: HrDisciplinaryComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-financialDegree', component: HrFinancialDegreeComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
+      {
+        path: 'hr-position',
+        component: HrPositionComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-disciplinary',
+        component: HrDisciplinaryComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-financialDegree',
+        component: HrFinancialDegreeComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
       {
         path: 'hr-employeeFinancialDegree',
         component: HrEmployeeFinancialDegreeComponent,
@@ -371,58 +451,98 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
 
-      { path: 'hr-employee-position', component: HrEmployeePositionComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
+      {
+        path: 'hr-employee-position',
+        component: HrEmployeePositionComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
 
-      { path: 'hr-employee', component: HrEmployeeComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'EmployeeQualification', component: HrEmployeeQualificationComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-
-
+      {
+        path: 'hr-employee',
+        component: HrEmployeeComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'EmployeeQualification',
+        component: HrEmployeeQualificationComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
 
       /*********************End Hr modules شئون العاميلن***************************/
 
       /*********************start Hr-attendance module  الحضور والانصراف***************************/
 
-      { path: 'hr-AttendanceHome', component: HrAttendancHomeComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'hr-AttendancePermission', component: HrAttendancePermissionComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-attendanceMachine', component: HrAttendanceMachineComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-attendanceMachineWorkPlace', component: HrAttendanceMachineWorkPlaceComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-attendanceSchedule', component: HrAttendanceScheduleComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'hr-employeeAttendanceSchedule', component: HrEmployeeAttendanceScheduleComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
-      { path: 'hr-EmployeeAttendancePermission', component: HrEmployeeAttendancePermissionComponent , canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },},
-      { path: 'hr-EmployeeAttendance', component: HrEmployeeAttendanceComponent, canActivate: [productSerialGuard],
-      data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] }, },
+      {
+        path: 'hr-AttendanceHome',
+        component: HrAttendancHomeComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-AttendancePermission',
+        component: HrAttendancePermissionComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-attendanceMachine',
+        component: HrAttendanceMachineComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-attendanceMachineWorkPlace',
+        component: HrAttendanceMachineWorkPlaceComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-attendanceSchedule',
+        component: HrAttendanceScheduleComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-employeeAttendanceSchedule',
+        component: HrEmployeeAttendanceScheduleComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-EmployeeAttendancePermission',
+        component: HrEmployeeAttendancePermissionComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'hr-EmployeeAttendance',
+        component: HrEmployeeAttendanceComponent,
+        canActivate: [productSerialGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
 
       /*********************End Hr-attendance module  الحضور والانصراف***************************/
 
-       /*********************start TR   التدريب***************************/
+      /*********************start TR   التدريب***************************/
 
-       { path: 'TR-Instructor', component: TrInstructorComponent },
-       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
+      { path: 'TR-Instructor', component: TrInstructorComponent },
+      { path: 'Tr-CourseType', component: TrCourseTypeComponent },
 
-       /*********************End  TR   التدريب***************************/
-       /*********************start py module  المرتبات***************************/
+      /*********************End  TR   التدريب***************************/
+      /*********************start py module  المرتبات***************************/
 
-       { path: 'pyHome', component:PyHomeComponent  },
-       { path: 'PyInstallment', component: PyInstallmentComponent },
-       { path: 'PyItem', component: PyItemComponent },
-       { path: 'Py-Exchange', component: PyExchangeContainerComponent },
-       { path: 'PyItemCategory', component: PyItemCategoryComponent },
-       { path: 'pytaxbracket', component:PyTaxBracketComponent},
-       { path: 'PyItemGroup', component: PyGroupComponent },
-       /*********************End py module  المرتبات***************************/
-        
+      { path: 'pyHome', component: PyHomeComponent },
+      { path: 'PyInstallment', component: PyInstallmentComponent },
+      { path: 'PyItem', component: PyItemComponent },
+      { path: 'Py-Exchange', component: PyExchangeContainerComponent },
+      { path: 'PyItemCategory', component: PyItemCategoryComponent },
+      { path: 'pytaxbracket', component: PyTaxBracketComponent },
+      { path: 'PyItemGroup', component: PyGroupComponent },
+      /*********************End py module  المرتبات***************************/
 
-       
       //  report section
       { path: 'report', component: StrReportComponent },
       { path: 'add-item-report', component: StrReportAddItemComponent },
@@ -436,4 +556,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
