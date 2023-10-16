@@ -39,11 +39,18 @@ export class StrGroupHomeComponent {
   // }
  
   hasAccessModule(name: string): boolean {
+    console.log('name passed: ', name);
     // const MODULES_LOCAL_STORAGE = window.localStorage.getItem('modules');
-    const MODULES_LOCAL_STORAGE = this.decodedToken1
-    const MODULES: Array<any> = MODULES_LOCAL_STORAGE
-    return MODULES.some((i: any) => i == name);
+    const MODULES_LOCAL_STORAGE = this.decodedToken1;
+    const MODULES: Array<any> = MODULES_LOCAL_STORAGE;
+    console.log('array : ', MODULES);
+    if (MODULES != undefined) {
+      return MODULES.some((i: any) => i == name);
+    } else {
+      return false;
+    }
   }
+  
   handleLogOut(){
     localStorage.removeItem('token')
     this.global.isLogIn = false
