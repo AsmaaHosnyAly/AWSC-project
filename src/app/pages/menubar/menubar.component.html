@@ -433,7 +433,7 @@
                 *ngIf="hasAccessRole(pageEnums.pytaxbracket)"> الوعاء الضريبي
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/PyItemGroup"
-              *ngIf="hasAccessRole(pageEnums.PyItemGroup)">مجموعات الاجور 
+                *ngIf="hasAccessRole(pageEnums.PyItemGroup)">مجموعات الاجور
               </a>
             </mat-nav-list>
           </mat-expansion-panel>
@@ -477,6 +477,10 @@
               <a mat-list-item class="sideNavSubItems" routerLink="TR-Instructor"
                 *ngIf="hasAccessRole(pageEnums.PR_USER)">
                 <p class="font"> المدربين</p>
+              </a>
+              <a mat-list-item class="sideNavSubItems" routerLink="/TrTrainee"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+                <p class="font"> المتدربين</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="Tr-InstructorCourse"
                 *ngIf="hasAccessRole(pageEnums.PR_USER)">
