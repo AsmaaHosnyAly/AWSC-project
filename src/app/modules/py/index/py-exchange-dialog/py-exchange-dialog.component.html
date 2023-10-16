@@ -144,36 +144,36 @@
 
                             <!-- credit Column -->
                             <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> الاسم</th>
+                                <th mat-header-cell *matHeaderCellDef > الاسم</th>
                                 <td mat-cell *matCellDef="let row"> {{row.name}} </td>
                             </ng-container>
 
                             <!-- debit Column -->
                             <ng-container matColumnDef="value">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> القيمة</th>
+                                <th mat-header-cell *matHeaderCellDef > القيمة</th>
                                 <td mat-cell *matCellDef="let row"> {{row.value}} </td>
                             </ng-container>
 
                             <!-- accountName Column -->
                             <ng-container matColumnDef="exChangeId">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> الحساب </th>
+                                <th mat-header-cell *matHeaderCellDef > الصرفيات </th>
                                 <td mat-cell *matCellDef="let row"> {{row.exChangeId}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="employeeId">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header> الموظف </th>
+                                <th mat-header-cell *matHeaderCellDef > الموظف </th>
                                 <td mat-cell *matCellDef="let row"> {{row.employeeId}} </td>
                             </ng-container>
 
                             <!-- PyItemId Column -->
-                            <ng-container matColumnDef="PyItemId">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> الصنف </th>
-                                <td mat-cell *matCellDef="let row"> {{row.PyItemId}} </td>
+                            <ng-container matColumnDef="pyItemId">
+                                <th mat-header-cell *matHeaderCellDef  style="width: 25%;"> الصنف </th>
+                                <td mat-cell *matCellDef="let row"> {{row.pyItemId}} </td>
                             </ng-container>
 
                             <!-- action Column -->
                             <ng-container matColumnDef="action">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> الاجراء </th>
+                                <th mat-header-cell *matHeaderCellDef  style="width: 15%;"> الاجراء </th>
                                 <td mat-cell *matCellDef="let row">
                                     <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
                                         <mat-icon>edit</mat-icon>

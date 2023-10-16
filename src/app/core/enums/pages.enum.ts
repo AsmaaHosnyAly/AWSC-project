@@ -9,6 +9,8 @@ export enum PagesEnums {
   HR='HR',
   ATTENDANDCE='Attendance',
   PY='PY',
+  
+
   /*************USER_ROLES***************/
   /****************** module:1 STORES المخازن ************************/
   WITHDRAW = 'اذن صرف',
@@ -37,7 +39,7 @@ export enum PagesEnums {
    /****************** module:3 ACCOUNTS الحسابات************************/
   ADD_ACCOUNT='الحسابات',
   AccountHierarchy=24,
-  FiAccountItem=' البنود الاحصائية',
+  FiAccountItem='البنود الاحصائية',
   AccountParent=26,
   FIJournal='اليوميات',
   EntrySource ='مصدر الدخل',
@@ -76,5 +78,11 @@ Qualification_level='الدرجة العلمية',
   hr_attendanceMachineWorkPlace='أماكن أجهزة البصمة',
   hr_employeeAttendanceSchedule='ورديات الموظفين',
   hr_EmployeeAttendancePermission='أذونات الموظفين',
-  hr_EmployeeAttendance='الحضور والإنصراف'
+  hr_EmployeeAttendance='الحضور والإنصراف',
+
+/****************** module:6 Py الرواتب************************/
+  PyInstallment='الأقساط',
+  PyItem='بنود الأجور',
+  PyItemCategory='تصنيفات بنود الاجور',
+  pytaxbracket='الوعاء الضريبي'
 }

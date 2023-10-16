@@ -13,7 +13,7 @@
                 <mat-label>الموظف</mat-label>
                 <mat-form-field appearance="outline">
                   <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-                    placeholder="{{getEmployeeData ? getEmployeeData.employeeName : ''}}" (click)="openAutoemployee()" required />
+                    placeholder="{{getTrInstructorData ? getTrInstructorData.employeeName : ''}}" (click)="openAutoemployee()" required />
                   <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
                     (optionSelected)="employeeSelected($event)">
                     <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
@@ -27,7 +27,7 @@
       
                 <mat-form-field appearance="outline">
                   <input matInput aria-label="specialization" [matAutocomplete]="autoPosition" [formControl]="trainingCenterCtrl"
-                    placeholder="{{getEmployeeData ? getEmployeeData.positionName : ''}}" (click)="openAutoTrainingCenter()" required />
+                    placeholder="{{getTrInstructorData ? getTrInstructorData.trainingCenterName : ''}}" (click)="openAutoTrainingCenter()" required />
                   <mat-autocomplete #autoPosition="matAutocomplete" [displayWith]="displayTrainingCenterName"
                     (optionSelected)="trainingCenterSelected($event)">
                     <mat-option *ngFor="let trainingCenter of filteredTrainingCenter | async" [value]="trainingCenter">
@@ -35,17 +35,6 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-              </div>   
-              <div class="child1">
-                  <mat-label>التاريخ</mat-label>
-            <mat-form-field appearance="outline" class="example-full-width">
-                <input matInput [matDatepicker]="picker" formControlName="date">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-            <!-- </div> -->
               </div>
         </form>
     </div>
