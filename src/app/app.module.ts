@@ -202,6 +202,9 @@ import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-emp
 import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-dialog/py-installment-dialog.component';
+import { PyGroupComponent } from './modules/py/index/py-group/py-group.component';
+import { PyGroupDialogComponent } from './modules/py/index/py-group-dialog/py-group-dialog.component';
+import { PyGroupDetailDialogComponent } from './modules/py/index/py-group-detail-dialog/py-group-detail-dialog.component';
 import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
 import { PyItemDialogComponent } from './modules/py/index/py-item-dialog/py-item-dialog.component';
 import { PyExchangeComponent } from './modules/py/index/py-exchange-table/py-exchange.component';
@@ -397,6 +400,9 @@ import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
     HrEmployeeAttendanceDialogComponent,
     PyInstallmentComponent,
     PyInstallmentDialogComponent,
+    PyGroupComponent,
+    PyGroupDialogComponent,
+    PyGroupDetailDialogComponent,
     PyItemComponent,
     PyItemDialogComponent,
     PyExchangeComponent,
