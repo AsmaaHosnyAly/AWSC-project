@@ -774,22 +774,8 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a
-                mat-list-item
-                class="sideNavSubItems"
-                routerLink="TR-Instructor"
-                *ngIf="hasAccessRole(pageEnums.PR_USER)"
-              >
-                <p class="font"> المدربين</p>
-              </a>
-              <a
-                mat-list-item
-                class="sideNavSubItems"
-                routerLink="/Tr-CourseCategory"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
-              >
-                <p class="font"> تصنيف الدورة التدريبية</p>
-              </a>
+              
+              
               <a
               mat-list-item
               class="sideNavSubItems"
@@ -801,11 +787,12 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
-                routerLink="/Tr-CoporteClient"
+                routerLink="/Tr-CourseCategory"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
               >
-                <p class="font">عملاءالشركات </p>
+                <p class="font"> تصنيف الدورة التدريبية</p>
               </a>
+              
               <a
               mat-list-item
               class="sideNavSubItems"
@@ -813,6 +800,30 @@
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
               >
                 <p class="font">نوع الدورة التدريبية</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="TR-Instructor"
+                *ngIf="hasAccessRole(pageEnums.PR_USER)"
+              >
+                <p class="font"> المدربين</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="Tr-InstructorCourse"
+                *ngIf="hasAccessRole(pageEnums.PR_USER)"
+              >
+                <p class="font"> دورات المدربين</p>
+              </a>
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/Tr-CoporteClient"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              >
+                <p class="font">عملاءالشركات </p>
               </a>
             
             </mat-nav-list>

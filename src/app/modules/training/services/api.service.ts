@@ -128,4 +128,26 @@ export class ApiService {
     getAllCategory() {
       return this.http.get<any>(`${this.url}/TrCourseCategory/get/all `);
     }
+
+      /********************************  TrInstructorCourse crud  **********************************/
+
+      postInstructorCourse(data: any) {
+        return this.http.post<any>(`${this.url}/TrInstructorCourse/Add`, data);
+      }
+      getInstructorCourse() {
+        return this.http.get<any>(`${this.url}/TrInstructorCourse/get/all`);
+      }
+      putInstructorCourse(data: any) {
+        return this.http.put<any>(
+          `${this.url}/TrInstructorCourse/update`,
+          data
+        );
+      }
+      deleteInstructorCourse(id: number) {
+        return this.http.delete<any>(
+          `${this.url}/TrInstructorCourse/Delete/${id}`
+        );
+        
+      }
+      
 }
