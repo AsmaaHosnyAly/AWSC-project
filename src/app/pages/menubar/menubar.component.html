@@ -695,7 +695,7 @@
            <!-- End Attendance الحضور والانصراف  -->
   
          <!-- Start PY  المرتبات  -->
-         <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.HR)">
+         <mat-expansion-panel dir="rtl" >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon color="primary" class="ms-2">people</mat-icon>
@@ -721,7 +721,7 @@
                   mat-list-item
                   class="sideNavSubItems"
                   routerLink="/PyInstallment"
-                  *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                  *ngIf="hasAccessRole(pageEnums.PyInstallment)"
                   >الأقساط 
                 </a>
 
@@ -729,7 +729,7 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/PyItem"
-                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                *ngIf="hasAccessRole(pageEnums.PyItem)"
                 >بنود الأجور 
               </a>
 
@@ -737,14 +737,14 @@
                 mat-list-item
                 class="sideNavSubItems"
                 routerLink="/PyItemCategory"
-                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                *ngIf="hasAccessRole(pageEnums.PyItemCategory)"
                 >تصنيفات بنودالاجور
               </a>
               <a
               mat-list-item
               class="sideNavSubItems"
               routerLink="/pytaxbracket"
-              *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+              *ngIf="hasAccessRole(pageEnums.pytaxbracket)"
               > الوعاء الضريبي
             </a>
               </mat-nav-list>

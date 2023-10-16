@@ -111,7 +111,7 @@ import { HrCityDialogComponent } from './modules/hr/index/hr-city-dialog/hr-city
 import { HrCityStateComponent } from './modules/hr/index/hr-city-state/hr-city-state.component';
 import { HrCityStateDialogComponent } from './modules/hr/index/hr-city-state-dialog/hr-city-state-dialog.component';
 import { StrAccountsComponent } from './modules/str/index/str-accounts/str-accounts.component';
-import { StrEmployeesComponent } from './modules/hr/hr-home/str-employees.component';
+import { StrEmployeesComponent } from './modules/hr/index/hr-home/str-employees.component';
 import { HrIncentiveAllowanceComponent } from './modules/hr/index/hr-incentive-allowance/hr-incentive-allowance.component';
 import { HrIncentiveAllowanceDialogComponent } from './modules/hr/index/hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { HrHiringTypeComponent } from './modules/hr/index/hr-hiring-type/hr-hiring-type.component';
@@ -202,6 +202,9 @@ import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-emp
 import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-dialog/py-installment-dialog.component';
+import { PyGroupComponent } from './modules/py/index/py-group/py-group.component';
+import { PyGroupDialogComponent } from './modules/py/index/py-group-dialog/py-group-dialog.component';
+import { PyGroupDetailDialogComponent } from './modules/py/index/py-group-detail-dialog/py-group-detail-dialog.component';
 import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
 import { PyItemDialogComponent } from './modules/py/index/py-item-dialog/py-item-dialog.component';
 import { PyExchangeComponent } from './modules/py/index/py-exchange-table/py-exchange.component';
@@ -218,6 +221,7 @@ import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/t
 import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrCourseDialogComponent } from './modules/training/index/tr-course-dialog/tr-course-dialog.component';
+import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 
 
 
@@ -398,6 +402,9 @@ import { TrCourseDialogComponent } from './modules/training/index/tr-course-dial
     HrEmployeeAttendanceDialogComponent,
     PyInstallmentComponent,
     PyInstallmentDialogComponent,
+    PyGroupComponent,
+    PyGroupDialogComponent,
+    PyGroupDetailDialogComponent,
     PyItemComponent,
     PyItemDialogComponent,
     PyExchangeComponent,
@@ -414,6 +421,7 @@ import { TrCourseDialogComponent } from './modules/training/index/tr-course-dial
     TrCourseTypeDialogComponent,
     TrCourseComponent,
     TrCourseDialogComponent,
+    PyHomeComponent,
   ],
   imports: [
     BrowserModule,
