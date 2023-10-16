@@ -202,6 +202,9 @@ import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-emp
 import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-dialog/py-installment-dialog.component';
+import { PyGroupComponent } from './modules/py/index/py-group/py-group.component';
+import { PyGroupDialogComponent } from './modules/py/index/py-group-dialog/py-group-dialog.component';
+import { PyGroupDetailDialogComponent } from './modules/py/index/py-group-detail-dialog/py-group-detail-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -379,6 +382,9 @@ import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-
     HrEmployeeAttendanceDialogComponent,
     PyInstallmentComponent,
     PyInstallmentDialogComponent,
+    PyGroupComponent,
+    PyGroupDialogComponent,
+    PyGroupDetailDialogComponent,
   ],
   imports: [
     BrowserModule,
