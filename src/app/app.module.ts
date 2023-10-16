@@ -219,6 +219,7 @@ import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr
 import { TrInstructorDialogComponent } from './modules/training/index/tr-instructor-dialog/tr-instructor-dialog.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
+import { PyGroupDetailEmployeeDialogComponent } from './modules/py/index/py-group-detail-employee-dialog/py-group-detail-employee-dialog.component';
 
 
 
@@ -416,6 +417,7 @@ import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-
     TrInstructorDialogComponent,
     TrCourseTypeComponent,
     TrCourseTypeDialogComponent,
+    PyGroupDetailEmployeeDialogComponent,
   ],
   imports: [
     BrowserModule,
