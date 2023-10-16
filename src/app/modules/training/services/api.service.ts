@@ -41,6 +41,31 @@ export class ApiService {
   getTrainingCenter() {
     return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
   }
+  /********************************  classroom  **********************************/
+  postClassRoom(data: any) {
+    return this.http.post<any>(`${this.url}/TrClassRoom/Add`, data);
+  }
+  // here
+  getClassRoom() {
+    return this.http.get<any>(`${this.url}/TrClassRoom/get/all`);
+  }
+  putClassRoom(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrClassRoom/update`,
+      data
+    );
+  }
+  deleteClassRoom(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrClassRoom/Delete/${id}`
+    );
+  }
+  getAllCityState() {
+    return this.http.get<any>(`${this.url}/HrCityState/get/all`);
+  }
+  getAllTrainingCenter(){
+    return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+  }
   /********************************  TrCourseCategory crud  **********************************/
 
   postTrCourseCategory(data: any) {

@@ -110,6 +110,7 @@ import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr
 import { TrCourseCategoryComponent } from './modules/training/index/tr-course-category/tr-course-category.component';
 import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
+import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
@@ -528,6 +529,20 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
 
+       /*********************End Hr-attendance module  الحضور والانصراف***************************/
+       /*********************start TR   التدريب***************************/
+
+       { path: 'TR-Instructor', component: TrInstructorComponent },
+       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
+       { path: 'Tr-ClassRoom', component: TrClassRoomComponent},
+
+       /*********************start TR   التدريب***************************/
+
+       /*********************start py module  المرتبات***************************/
+
+      //  { path: 'pyHome', component:  },
+       { path: 'PyInstallment', component: PyInstallmentComponent },
+       { path: 'PyItem', component: PyItemComponent },
       /*********************End Hr-attendance module  الحضور والانصراف***************************/
        
       /*********************start TR   التدريب***************************/

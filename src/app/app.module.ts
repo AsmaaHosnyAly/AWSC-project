@@ -223,6 +223,8 @@ import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-cl
 import { TrCoporteClientDialogComponent } from './modules/training/index/tr-coporte-client-dialog/tr-coporte-client-dialog.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
+import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
+import { TrClassRoomDialogComponent } from './modules/training/index/tr-class-room-dialog/tr-class-room-dialog.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrCourseDialogComponent } from './modules/training/index/tr-course-dialog/tr-course-dialog.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
@@ -422,6 +424,11 @@ import { TrInstructorCourseDialogComponent } from './modules/training/index/tr-i
     PyTaxBracketComponent,
     PyTaxBracketDialogComponent,
     TrInstructorComponent,
+    TrInstructorDialogComponent,   
+    TrCourseTypeComponent,
+    TrCourseTypeDialogComponent,
+    TrClassRoomComponent,
+    TrClassRoomDialogComponent,
     TrInstructorDialogComponent,
     TrCourseCategoryComponent,
     TrCourseCategoryDialogComponent,
