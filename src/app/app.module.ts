@@ -220,6 +220,11 @@ import { TrInstructorDialogComponent } from './modules/training/index/tr-instruc
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
+import { TrTrackContainerComponent } from './modules/training/index/tr-track-container/tr-track-container.component';
+import { TrTrackTableComponent } from './modules/training/index/tr-track-table/tr-track-table.component';
+import { TrTrackDialogComponent } from './modules/training/index/tr-track-dialog/tr-track-dialog.component';
+import { TrTrackDetailsDialogComponent } from './modules/training/index/tr-track-details-dialog/tr-track-details-dialog.component';
+import { ReportsComponent } from './modules/str/index/reports/reports.component';
 
 
 
@@ -418,6 +423,11 @@ import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
     TrCourseTypeComponent,
     TrCourseTypeDialogComponent,
     PyHomeComponent,
+    TrTrackContainerComponent,
+    TrTrackTableComponent,
+    TrTrackDialogComponent,
+    TrTrackDetailsDialogComponent,
+    ReportsComponent,
   ],
   imports: [
     BrowserModule,
