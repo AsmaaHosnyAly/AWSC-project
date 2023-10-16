@@ -23,9 +23,9 @@ export class MenubarComponent {
   userGroup: any;
   sharedStores: any;
   pageEnums = PagesEnums;
-  decodedToken : any;
-  decodedToken1:any
-  decodedToken2:any
+  decodedToken: any;
+  decodedToken1: any;
+  decodedToken2: any;
   constructor(
     public global: GlobalService,
     public shared: SharedService,
@@ -56,10 +56,10 @@ export class MenubarComponent {
     const accessToken: any = localStorage.getItem('accessToken');
     console.log('accessToken', accessToken);
     // Decode the access token
-      this.decodedToken = jwt_decode(accessToken);
-    this. decodedToken1 = this.decodedToken.modules;
+    this.decodedToken = jwt_decode(accessToken);
+    this.decodedToken1 = this.decodedToken.modules;
     this.decodedToken2 = this.decodedToken.roles;
-     
+
     console.log('decodedToken1 ', this.decodedToken1);
   }
   title = 'str-group';
@@ -89,6 +89,7 @@ export class MenubarComponent {
     localStorage.setItem('transactionUserId', '');
     localStorage.removeItem('userRoles');
     localStorage.removeItem('modules');
+    localStorage.removeItem('accessToken');
     this.global.isLogIn = false;
   }
 
@@ -97,14 +98,25 @@ export class MenubarComponent {
   }
 
   hasAccessModule(name: string): boolean {
+    console.log('name passed: ', name);
     // const MODULES_LOCAL_STORAGE = window.localStorage.getItem('modules');
-    const MODULES_LOCAL_STORAGE = this.decodedToken1
-    const MODULES: Array<any> = MODULES_LOCAL_STORAGE
-    return MODULES.some((i: any) => i == name);
+    const MODULES_LOCAL_STORAGE = this.decodedToken1;
+    const MODULES: Array<any> = MODULES_LOCAL_STORAGE;
+    console.log('array : ', MODULES);
+    if (MODULES != undefined) {
+      return MODULES.some((i: any) => i == name);
+    } else {
+      return false;
+    }
   }
   hasAccessRole(name: string): boolean {
-    const USER_ROLES_LOCAL_STORAGE =  this.decodedToken2
-    const USER_ROLES: Array<any> = USER_ROLES_LOCAL_STORAGE
-    return USER_ROLES.some((i: any) => i == name);
+    const USER_ROLES_LOCAL_STORAGE = this.decodedToken2;
+    const USER_ROLES: Array<any> = USER_ROLES_LOCAL_STORAGE;
+
+    if (USER_ROLES != undefined) {
+      return USER_ROLES.some((i: any) => i == name);
+    } else {
+      return false;
+    }
   }
 }
