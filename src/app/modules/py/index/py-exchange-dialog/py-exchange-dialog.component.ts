@@ -66,7 +66,7 @@ export class PyExchangeDialogComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
     'value',
-    'exChangeId','employeeId',    'PyItemId',
+    'exChangeId','employeeId','pyItemId',
     'action',
   ];
   sessionId = Math.random();
@@ -115,7 +115,7 @@ export class PyExchangeDialogComponent implements OnInit {
       exchangeId: ['', Validators.required],
       name: ['', Validators.required],
       value: ['', Validators.required],
-      itemId: ['', Validators.required],
+      pyItemId: ['', Validators.required],
       employeeId: ['', Validators.required],
 
       transactionUserId: ['', Validators.required], 
@@ -128,6 +128,8 @@ export class PyExchangeDialogComponent implements OnInit {
     this.actionBtnMaster = 'Update';
     this.groupMasterForm.controls['no'].setValue(this.editData.no);
     this.groupMasterForm.controls['date'].setValue(this.editData.date);
+    // this.groupMasterForm.controls['pyItemName'].setValue(this.editData.pyItemName);
+
     this.groupMasterForm.controls['updateUserName'].setValue(1);
 
     this.groupMasterForm.controls['name'].setValue(
