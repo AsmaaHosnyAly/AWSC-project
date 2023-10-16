@@ -139,6 +139,7 @@ import { hrDisciplinaryGuard } from './core/guards/hr/hr-disciplinary.guard';
 import { hrFinancialDegreeGuard } from './core/guards/hr/hr-financial-degree.guard';
 import { hrEmployeeFinancialDegreeGuard } from './core/guards/hr/hr-employee-financial-degree.guard';
 import { hrEmployeeAppraisalGuard } from './core/guards/hr/hr-employee-appraisal.guard';
+import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -555,6 +556,7 @@ const routes: Routes = [
        { path: 'TR-Instructor', component: TrInstructorComponent },
        { path: 'Tr-CourseType', component: TrCourseTypeComponent },
        { path: 'Tr-ClassRoom', component: TrClassRoomComponent},
+       { path: 'TrTrainee', component: TrTraineeComponent},
 
        /*********************start TR   التدريب***************************/
 
