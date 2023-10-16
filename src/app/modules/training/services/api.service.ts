@@ -37,10 +37,6 @@ export class ApiService {
   getHrEmployees() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
   }
-  
-  getTrainingCenter() {
-    return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
-  }
   /********************************  TrCourseCategory crud  **********************************/
 
   postTrCourseCategory(data: any) {
@@ -147,7 +143,34 @@ export class ApiService {
         return this.http.delete<any>(
           `${this.url}/TrInstructorCourse/Delete/${id}`
         );
-        
+                
+      }
+
+      /********************************  TrInstructorCourse crud  **********************************/
+
+      postTrainingCenter(data: any) {
+        return this.http.post<any>(`${this.url}/TrTrainingCenter/Add`, data);
+      }  
+  
+      getTrainingCenter() {
+        return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+      }
+
+      putTrainingCenter(data: any) {
+        return this.http.put<any>(
+          `${this.url}/TrTrainingCenter/update`,
+          data
+        );
+      }
+      deleteTrainingCenter(id: number) {
+        return this.http.delete<any>(
+          `${this.url}/TrTrainingCenter/Delete/${id}`
+        );
+                
+      }
+
+      getAllCities() {
+        return this.http.get<any>(`${this.url}/HrCity/get/all`);
       }
       
 }

@@ -112,6 +112,7 @@ import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-cl
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
+import { TrTrainingCenterComponent } from './modules/training/index/tr-training-center/tr-training-center.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 import { accountGuard } from './core/guards/fi/account.guard';
 import { fiAccountItemGuard } from './core/guards/fi/fi-account-item.guard';
@@ -537,6 +538,8 @@ const routes: Routes = [
       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
       { path: 'Tr-Course', component: TrCourseComponent },
       { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
+      { path: 'Tr-TrainingCenter', component: TrTrainingCenterComponent },
+      
       /*********************End  TR   التدريب***************************/
       /*********************start py module  المرتبات***************************/
 
