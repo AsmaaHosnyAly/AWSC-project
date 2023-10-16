@@ -41,5 +41,5 @@ export class ApiService {
   getTrainingCenter() {
     return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
   }
- 
+  
 }
