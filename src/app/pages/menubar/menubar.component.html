@@ -556,8 +556,15 @@
           مؤهل الموظف</a
         >
       </mat-expansion-panel>
-      <!-- end Hr --> 
+      <!-- end Hr -->
+
+
+      <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
+
+      <!-- end Hr -->
       <!-- start roles -->
+      <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
+      <!-- <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)"> -->
       <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -717,6 +724,15 @@
                   *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
                   >الأقساط 
                 </a>
+
+                <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/PyItem"
+                *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)"
+                >بنود الأجور 
+              </a>
+
                 <a
                 mat-list-item
                 class="sideNavSubItems"
@@ -761,10 +777,10 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
-                routerLink="hr-AttendancePermission"
+                routerLink="TR-Instructor"
                 *ngIf="hasAccessRole(pageEnums.PR_USER)"
               >
-                <p class="font">اذن الحضور</p>
+                <p class="font"> المدربين</p>
               </a>
               <a
                 mat-list-item

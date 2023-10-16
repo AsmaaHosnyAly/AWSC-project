@@ -15,21 +15,21 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-import { PyInstallmentDialogComponent } from '../py-installment-dialog/py-installment-dialog.component';
+import { PyItemDialogComponent } from '../py-item-dialog/py-item-dialog.component';
 
 
 @Component({
-  selector: 'app-py-installment',
-  templateUrl: './py-installment.component.html',
-  styleUrls: ['./py-installment.component.css']
+  selector: 'app-py-item',
+  templateUrl: './py-item.component.html',
+  styleUrls: ['./py-item.component.css']
 })
-export class PyInstallmentComponent implements OnInit {
+export class PyItemComponent implements OnInit {
 
   formcontrol = new FormControl('');
   cityStateForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['no', 'startDate', 'value', 'installmentValue', 'installmentNo','paiedSum','employeeName','pyItemName','action'];  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'code', 'type','categoryName', 'manner','party', 'value','minValue','maxValue','action'];  dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -39,7 +39,7 @@ export class PyInstallmentComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.getPyInstallment();
+    this.getPyItem();
 
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
@@ -49,21 +49,21 @@ export class PyInstallmentComponent implements OnInit {
   }
   openDialog() {
     this.dialog
-      .open(PyInstallmentDialogComponent, {
+      .open(PyItemDialogComponent, {
         width: '50%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getPyInstallment();
+          this.getPyItem();
         }
       });
   }
 
 
 
-  getPyInstallment() {
-    this.api.getPyInstallment().subscribe({
+  getPyItem() {
+    this.api.getPyItem().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -75,30 +75,30 @@ export class PyInstallmentComponent implements OnInit {
     });
   }
 
-  editInstallment(row: any) {
+  editPyItem(row: any) {
     this.dialog
-      .open(PyInstallmentDialogComponent, {
+      .open(PyItemDialogComponent, {
         width: '50%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getPyInstallment();
+          this.getPyItem();
         }
       });
   }
 
-  deleteInstallment(id: number) {
+  deletePyItem(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePyInstallment(id)
+      this.api.deletePyItem(id)
       .subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
             this.toastrDeleteSuccess();
-          this.getPyInstallment();
+          this.getPyItem();
   
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")

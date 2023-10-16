@@ -1,0 +1,139 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
+            clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1"> اكمل تفاصيل الصرفيات </h1>
+
+
+<form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
+
+
+
+    <div style="overflow: hidden !important;">
+        <div class="detailsForm" dir="rtl">
+
+         <div style="display: flex;flex-direction: row;">
+            <div class="searchLabels" style="width: 17rem;">
+                <mat-label>الاسم:</mat-label>
+                <mat-form-field appearance="outline" class="groupInput" style="width: 98%;">
+      
+                  <input  matInput formControlName="name"
+                    >
+                </mat-form-field>
+      
+              </div>
+              <div class="searchLabels" style="width: 17rem;">
+                <mat-label>القيمة:</mat-label>
+                <mat-form-field appearance="outline" class="groupInput"  style="width: 100%;" >
+      
+                  <input  matInput formControlName="value" 
+                  >
+                </mat-form-field>
+      
+              </div>
+         </div>
+<!-- 
+            <div class="searchLabels">
+                <mat-label> الحساب* </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoAccount" [formControl]="accountCtrl"
+                        placeholder="{{editData ? editData.accountName : ''}}" (click)="openAutoAccount()" required />
+                    <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
+                        (optionSelected)="AccountSelected($event)">
+                        <mat-option *ngFor="let account of filteredAccount | async" [value]="account">
+                            {{ account.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div> -->
+
+            <!-- <div class="searchLabels">
+                <mat-label> الحساب </mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput">
+                    <mat-select placeholder="الحساب " formControlName="accountId"
+                        [value]="getDetailedRowData ? getDetailedRowData.accountId : ''">
+                        <mat-option [value]="account.id"
+                            *ngFor="let account of accountsList">{{account.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+
+            <!-- <div class="searchLabels">
+                <mat-label> صنف الحساب </mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput">
+                    <mat-select placeholder="صنف الحساب " formControlName="fiAccountItemId"
+                        [value]="getDetailedRowData ? getDetailedRowData.fiAccountItemId : ''">
+                        <mat-option [value]="accountItem.id"
+                            *ngFor="let accountItem of accountItemsList">{{accountItem.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+
+            <div class="searchLabels">
+                <mat-label> الصنف*</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                    <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
+                        placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
+                        (click)="openAutoitem()" required />
+                    <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
+                        (optionSelected)="itemSelected($event)">
+                        <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+                            {{ item.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels">
+                <mat-label> الموظف*</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                    <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
+                    placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoemployee()" required />
+                    <mat-autocomplete #autoemployee="matAutocomplete" [displayWith]="displayemployeeName"
+                        (optionSelected)="employeeSelected($event)">
+                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                            {{ employee.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels">
+                <mat-label> الصرفيات</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                    <input matInput aria-label="exchange" [matAutocomplete]="autoexchange" [formControl]="exchangeCtrl"
+                    placeholder="{{editData ? editData.exchangeName : ''}}" (click)="openAutoexchange()" required />
+                    <mat-autocomplete #autoexchange="matAutocomplete" [displayWith]="displayexchangeName"
+                        (optionSelected)="exchangeSelected($event)">
+                        <mat-option *ngFor="let exchange of filteredexchange | async" [value]="exchange">
+                            {{ exchange.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+           
+
+            <div mat-dialog-action [align]="'end'">
+                <div class="groupAction">
+                    <button mat-raised-button color="primary" style="margin-left: 8px;"
+                        (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
+                        'اضافة':'تعديل'}}</button>
+                    <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

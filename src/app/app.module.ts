@@ -202,10 +202,21 @@ import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-emp
 import { HrEmployeeAttendanceDialogComponent } from './modules/attendance/index/hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-dialog/py-installment-dialog.component';
+import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
+import { PyItemDialogComponent } from './modules/py/index/py-item-dialog/py-item-dialog.component';
+import { PyExchangeComponent } from './modules/py/index/py-exchange-table/py-exchange.component';
+import { PyExchangeDialogComponent } from './modules/py/index/py-exchange-dialog/py-exchange-dialog.component';
+import { PyExchangeDetailsDialogComponent } from './modules/py/index/py-exchange-details-dialog/py-exchange-details-dialog.component';
+import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
 import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
 import { PyItemCategoryDialogComponent } from './modules/py/index/py-item-category-dialog/py-item-category-dialog.component';
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-dialog/py-tax-bracket-dialog.component';
+import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
+import { TrInstructorDialogComponent } from './modules/training/index/tr-instructor-dialog/tr-instructor-dialog.component';
+import { TrTarckComponent } from './modules/training/index/tr-tarck/tr-tarck.component';
+import { TrTarckDialogComponent } from './modules/training/index/tr-tarck-dialog/tr-tarck-dialog.component';
+
 
 
 
@@ -385,10 +396,21 @@ import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-d
     HrEmployeeAttendanceDialogComponent,
     PyInstallmentComponent,
     PyInstallmentDialogComponent,
+    PyItemComponent,
+    PyItemDialogComponent,
+    PyExchangeComponent,
+    PyExchangeDialogComponent,
+    PyExchangeDetailsDialogComponent,
+    PyExchangeContainerComponent,
     PyItemCategoryComponent,
     PyItemCategoryDialogComponent,
     PyTaxBracketComponent,
     PyTaxBracketDialogComponent,
+    TrInstructorComponent,
+    TrInstructorDialogComponent,
+    TrTarckComponent,
+    TrTarckDialogComponent,
+
    
   ],
   imports: [

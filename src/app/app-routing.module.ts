@@ -100,8 +100,12 @@ import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/in
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
+import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
+
+import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
 import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
+import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -357,11 +361,20 @@ const routes: Routes = [
        { path: 'hr-EmployeeAttendance', component: HrEmployeeAttendanceComponent },
 
        /*********************End Hr-attendance module  الحضور والانصراف***************************/
+       /*********************start TR   التدريب***************************/
 
+       { path: 'TR-Instructor', component: TrInstructorComponent },
+       
+
+       /*********************start TR   التدريب***************************/
        /*********************start py module  المرتبات***************************/
 
       //  { path: 'pyHome', component:  },
        { path: 'PyInstallment', component: PyInstallmentComponent },
+       { path: 'PyItem', component: PyItemComponent },
+       
+       { path: 'Py-Exchange', component: PyExchangeContainerComponent },
+
        { path: 'PyItemCategory', component: PyItemCategoryComponent },
        { path: 'pytaxbracket', component:PyTaxBracketComponent},
        /*********************End py module  المرتبات***************************/

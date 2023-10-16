@@ -1,4 +1,4 @@
-<div class="page-title"> الأقساط</div>
+<div class="page-title"> بنود الأجور</div>
 <mat-card>
   <mat-card-content>
   <mat-card-header dir="ltr" class="parent-search">
@@ -23,17 +23,28 @@
       <div  class="div-table">
       <table matSort mat-table [dataSource]="dataSource">
   
-        <!-- no Column -->
-      <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef > الرقم </th>
-        <td mat-cell *matCellDef="let row"> {{row.no}}</td>
+        <!-- name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef > الاسم </th>
+        <td mat-cell *matCellDef="let row"> {{row.name}}</td>
+      </ng-container>      
+
+      <!-- code Column -->
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef > الكود </th>
+        <td mat-cell *matCellDef="let row"> {{row.code}}</td>
       </ng-container>
 
+      <!-- manner Column -->
+      <ng-container matColumnDef="manner">
+        <th mat-header-cell *matHeaderCellDef > نوع البند </th>
+        <td mat-cell *matCellDef="let row"> {{row.manner}}</td>
+      </ng-container>
 
-      <!-- startDate Column -->
-      <ng-container matColumnDef="startDate">
-        <th mat-header-cell *matHeaderCellDef > تاريخ البدء </th>
-        <td mat-cell *matCellDef="let row"> {{row.startDate | date }}</td>
+      <!-- type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef > النوع </th>
+        <td mat-cell *matCellDef="let row"> {{row.type }}</td>
       </ng-container>
 
       <!-- value Column -->
@@ -42,43 +53,38 @@
         <td mat-cell *matCellDef="let row"> {{row.value}}</td>
       </ng-container>
 
-      <!-- installmentValue Column -->
-      <ng-container matColumnDef="installmentValue">
-        <th mat-header-cell *matHeaderCellDef > قيمة القسط </th>
-        <td mat-cell *matCellDef="let row"> {{row.installmentValue}}</td>
+      <!-- party Column -->
+      <ng-container matColumnDef="party">
+        <th mat-header-cell *matHeaderCellDef > الجهة </th>
+        <td mat-cell *matCellDef="let row"> {{row.party}}</td>
       </ng-container>
 
-      <!-- installmentNo Column -->
-      <ng-container matColumnDef="installmentNo">
-        <th mat-header-cell *matHeaderCellDef > رقم القسط </th>
-        <td mat-cell *matCellDef="let row"> {{row.installmentNo}}</td>
+      <!-- minValue Column -->
+      <ng-container matColumnDef="minValue">
+        <th mat-header-cell *matHeaderCellDef > الحد الأدنى </th>
+        <td mat-cell *matCellDef="let row"> {{row.minValue}}</td>
       </ng-container>
 
-      <!-- paiedSum Column -->
-      <ng-container matColumnDef="paiedSum">
-        <th mat-header-cell *matHeaderCellDef > المدفوعة</th>
-        <td mat-cell *matCellDef="let row"> {{row.paiedSum}}</td>
+      <!-- maxValue Column -->
+      <ng-container matColumnDef="maxValue">
+        <th mat-header-cell *matHeaderCellDef > الحد الأقصى</th>
+        <td mat-cell *matCellDef="let row"> {{row.maxValue}}</td>
       </ng-container>
 
-      <!-- installmentNo Column -->
-      <ng-container matColumnDef="employeeName">
-        <th mat-header-cell *matHeaderCellDef > الموظف </th>
-        <td mat-cell *matCellDef="let row"> {{row.employeeName}}</td>
+      <!-- categoryName Column -->
+      <ng-container matColumnDef="categoryName">
+        <th mat-header-cell *matHeaderCellDef > التصنيف </th>
+        <td mat-cell *matCellDef="let row"> {{row.categoryName}}</td>
       </ng-container>
-
-      <!-- installmentValue Column -->
-      <ng-container matColumnDef="pyItemName">
-        <th mat-header-cell *matHeaderCellDef > النوع </th>
-        <td mat-cell *matCellDef="let row"> {{row.pyItemName}}</td>
-      </ng-container>
+      
         <!-- action Column -->
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef style="width: 15%;" >الإجراء </th>
           <td mat-cell *matCellDef="let row"> 
-            <button mat-icon-button (click)="editInstallment(row)" class="editbtn">
+            <button mat-icon-button (click)="editPyItem(row)" class="editbtn">
               <mat-icon>edit</mat-icon>
             </button>
-            <button (click)="deleteInstallment(row.id)" mat-icon-button color="warn">
+            <button (click)="deletePyItem(row.id)" mat-icon-button color="warn">
               <mat-icon>delete_forever</mat-icon>
             </button>
           </td>
@@ -103,4 +109,5 @@
       <mat-paginator [pageSizeOptions]="[5,10,25,50,100]" showFirstLastButtons></mat-paginator>
     </mat-card-footer>
   </mat-card>
+
 
