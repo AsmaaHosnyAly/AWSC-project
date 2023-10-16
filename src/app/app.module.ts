@@ -205,6 +205,23 @@ import { PyInstallmentDialogComponent } from './modules/py/index/py-installment-
 import { PyGroupComponent } from './modules/py/index/py-group/py-group.component';
 import { PyGroupDialogComponent } from './modules/py/index/py-group-dialog/py-group-dialog.component';
 import { PyGroupDetailDialogComponent } from './modules/py/index/py-group-detail-dialog/py-group-detail-dialog.component';
+import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
+import { PyItemDialogComponent } from './modules/py/index/py-item-dialog/py-item-dialog.component';
+import { PyExchangeComponent } from './modules/py/index/py-exchange-table/py-exchange.component';
+import { PyExchangeDialogComponent } from './modules/py/index/py-exchange-dialog/py-exchange-dialog.component';
+import { PyExchangeDetailsDialogComponent } from './modules/py/index/py-exchange-details-dialog/py-exchange-details-dialog.component';
+import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
+import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
+import { PyItemCategoryDialogComponent } from './modules/py/index/py-item-category-dialog/py-item-category-dialog.component';
+import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
+import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-dialog/py-tax-bracket-dialog.component';
+import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
+import { TrInstructorDialogComponent } from './modules/training/index/tr-instructor-dialog/tr-instructor-dialog.component';
+import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
+import { TrCourseTypeDialogComponent } from './modules/training/index/tr-course-type-dialog/tr-course-type-dialog.component';
+
+
+
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -385,6 +402,20 @@ import { PyGroupDetailDialogComponent } from './modules/py/index/py-group-detail
     PyGroupComponent,
     PyGroupDialogComponent,
     PyGroupDetailDialogComponent,
+    PyItemComponent,
+    PyItemDialogComponent,
+    PyExchangeComponent,
+    PyExchangeDialogComponent,
+    PyExchangeDetailsDialogComponent,
+    PyExchangeContainerComponent,
+    PyItemCategoryComponent,
+    PyItemCategoryDialogComponent,
+    PyTaxBracketComponent,
+    PyTaxBracketDialogComponent,
+    TrInstructorComponent,
+    TrInstructorDialogComponent,
+    TrCourseTypeComponent,
+    TrCourseTypeDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -425,6 +456,8 @@ import { PyGroupDetailDialogComponent } from './modules/py/index/py-group-detail
     NgxExtendedPdfViewerModule,
     MatTabsModule,
     HotkeyModule.forRoot(),
+   
+    // FontAwesomeModul
     // FontAwesomeModule,
   ],
   providers: [

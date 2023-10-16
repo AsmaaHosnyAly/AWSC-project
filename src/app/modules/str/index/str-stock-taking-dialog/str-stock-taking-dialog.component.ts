@@ -356,7 +356,7 @@ export class StrStockTakingDialogComponent implements OnInit {
               for (let i = 0; i < this.matchedIds.length; i++) {
                 this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
                 this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                this.groupMasterForm.controls['total'].setValue(Number(this.sumOfTotals.toFixed(2)));
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
                 // alert('totalll: '+ this.sumOfTotals)
                 // this.updateBothForms();
                 this.updateMaster();

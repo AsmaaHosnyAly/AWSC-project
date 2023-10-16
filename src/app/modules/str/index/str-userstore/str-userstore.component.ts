@@ -52,13 +52,13 @@ export class StrUserstoreComponent implements OnInit{
   // selectedCommodity = this.commodities[0];
   // selectedGrade = this.grades[0];  
   formcontrol = new FormControl('');
-  platoonForm!: FormGroup;
+  userStorrForm!: FormGroup;
   platoon: any;
   title = 'angular13crud';
   displayedColumns: string[] = [
    
     'userName',
-    'storeName',
+    'storeName',    
     'action',
   ];
   dataSource!: MatTableDataSource<any>;
@@ -124,16 +124,16 @@ export class StrUserstoreComponent implements OnInit{
   userSelected(event: MatAutocompleteSelectedEvent): void {
     const user = event.option.value as User;
     this.selectedUser = user;
-    this.platoonForm.patchValue({ userId: user.id });
-    this.platoonForm.patchValue({ userName: user.name });
+    this.userStorrForm.patchValue({ userId: user.id });
+    this.userStorrForm.patchValue({ userName: user.name });
     console.log("commodityname:",user.name )
   }
 
   storeSelected(event: MatAutocompleteSelectedEvent): void {
     const store = event.option.value as Store;
     this.selectedStore = store;
-    this.platoonForm.patchValue({ storeId: store.id });
-    this.platoonForm.patchValue({ storeName: store.name });
+    this.userStorrForm.patchValue({ storeId: store.id });
+    this.userStorrForm.patchValue({ storeName: store.name });
   }
 
   private _filterUseres(value: string): User[] {
@@ -223,10 +223,10 @@ export class StrUserstoreComponent implements OnInit{
 
   // clearFields() {  
     
-  //   this.platoonForm.get('platoonName')?.reset();
-  //   // this.platoonForm.get('commodityN')?.reset();
+  //   this.userStorrForm.get('platoonName')?.reset();
+  //   // this.userStorrForm.get('commodityN')?.reset();
     
-  //   this.platoonForm.get('gradeN')?.reset();
+  //   this.userStorrForm.get('gradeN')?.reset();
   //   this.getAllPlatoons();
   // }
 

@@ -101,6 +101,13 @@ import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-att
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 import { PyGroupComponent } from './modules/py/index/py-group/py-group.component';
+import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
+
+import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
+import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
+import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
+import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
+import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -364,10 +371,30 @@ const routes: Routes = [
       { path: 'PyItemGroup', component: PyGroupComponent },
       /*********************End py module  المرتبات***************************/
 
+       /*********************End Hr-attendance module  الحضور والانصراف***************************/
+       /*********************start TR   التدريب***************************/
+
+       { path: 'TR-Instructor', component: TrInstructorComponent },
+       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
+
+       /*********************start TR   التدريب***************************/
+       /*********************start py module  المرتبات***************************/
+
+      //  { path: 'pyHome', component:  },
+       { path: 'PyInstallment', component: PyInstallmentComponent },
+       { path: 'PyItem', component: PyItemComponent },
+       
+       { path: 'Py-Exchange', component: PyExchangeContainerComponent },
+
+       { path: 'PyItemCategory', component: PyItemCategoryComponent },
+       { path: 'pytaxbracket', component:PyTaxBracketComponent},
+       /*********************End py module  المرتبات***************************/
+        
+
+       
       //  report section
       { path: 'report', component: StrReportComponent },
       { path: 'add-item-report', component: StrReportAddItemComponent },
-
       // error section
       // { path: '**', component: ErrorComponent },
     ],
