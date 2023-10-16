@@ -214,6 +214,10 @@ import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-
 import { PyTaxBracketDialogComponent } from './modules/py/index/py-tax-bracket-dialog/py-tax-bracket-dialog.component';
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 import { TrInstructorDialogComponent } from './modules/training/index/tr-instructor-dialog/tr-instructor-dialog.component';
+import { TrCourseCategoryComponent } from './modules/training/index/tr-course-category/tr-course-category.component';
+import { TrCourseCategoryDialogComponent } from './modules/training/index/tr-course-category-dialog/tr-course-category-dialog.component';
+import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
+import { TrCoporteClientDialogComponent } from './modules/training/index/tr-coporte-client-dialog/tr-coporte-client-dialog.component';
 
 
 
@@ -405,6 +409,10 @@ import { TrInstructorDialogComponent } from './modules/training/index/tr-instruc
     PyTaxBracketDialogComponent,
     TrInstructorComponent,
     TrInstructorDialogComponent,
+    TrCourseCategoryComponent,
+    TrCourseCategoryDialogComponent,
+    TrCoporteClientComponent,
+    TrCoporteClientDialogComponent,
    
   ],
   imports: [

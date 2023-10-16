@@ -106,6 +106,8 @@ import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-con
 import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
+import { TrCourseCategoryComponent } from './modules/training/index/tr-course-category/tr-course-category.component';
+import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -364,8 +366,8 @@ const routes: Routes = [
        /*********************start TR   التدريب***************************/
 
        { path: 'TR-Instructor', component: TrInstructorComponent },
-       
-
+       { path: 'Tr-CourseCategory', component: TrCourseCategoryComponent },
+       { path: 'Tr-CoporteClient', component: TrCoporteClientComponent },
        /*********************start TR   التدريب***************************/
        /*********************start py module  المرتبات***************************/
 

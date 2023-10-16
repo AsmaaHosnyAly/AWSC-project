@@ -41,5 +41,47 @@ export class ApiService {
   getTrainingCenter() {
     return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
   }
- 
+  /********************************  TrCourseCategory crud  **********************************/
+
+  postTrCourseCategory(data: any) {
+    return this.http.post<any>(`${this.url}/TrCourseCategory/Add`, data);
+  }
+  // here
+  getTrCourseCategory() {
+    return this.http.get<any>(`${this.url}/TrCourseCategory/get/all`);
+  }
+  putTrCourseCategory(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrCourseCategory/update`,
+      data
+    );
+  }
+  deleteTrCourseCategory(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrCourseCategory/Delete/${id}`
+    );
+  }
+   /********************************  TrCourseCategory crud  **********************************/
+
+   postTrCoporteClient(data: any) {
+    return this.http.post<any>(`${this.url}/TrCoporteClient/Add`, data);
+  }
+  // here
+  getTrCoporteClient() {
+    return this.http.get<any>(`${this.url}/TrCoporteClient/get/all`);
+  }
+  putTrCoporteClient(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrCoporteClient/update`,
+      data
+    );
+  }
+  deleteTrCoporteClient(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrCoporteClient/Delete/${id}`
+    );
+  }
+  getAllCitis(): Observable<any> {
+    return this.http.get<any>(`${this.url}/HrCity/get/all`);
+  }
 }
