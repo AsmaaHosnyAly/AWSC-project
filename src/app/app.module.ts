@@ -236,6 +236,8 @@ import { TrTrackDetailsDialogComponent } from './modules/training/index/tr-track
 import { ReportsComponent } from './modules/str/index/reports/reports.component';
 import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
 import { TrInstructorCourseDialogComponent } from './modules/training/index/tr-instructor-course-dialog/tr-instructor-course-dialog.component';
+import { TrTrainingCenterComponent } from './modules/training/index/tr-training-center/tr-training-center.component';
+import { TrTrainingCenterDialogComponent } from './modules/training/index/tr-training-center-dialog/tr-training-center-dialog.component';
 import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
 import { TrTraineeDialogComponent } from './modules/training/index/tr-trainee-dialog/tr-trainee-dialog.component';
 
@@ -456,6 +458,8 @@ import { TrTraineeDialogComponent } from './modules/training/index/tr-trainee-di
     ReportsComponent,
     TrInstructorCourseComponent,
     TrInstructorCourseDialogComponent,
+    TrTrainingCenterComponent,
+    TrTrainingCenterDialogComponent,
     TrTraineeComponent,
     TrTraineeDialogComponent,
   ],

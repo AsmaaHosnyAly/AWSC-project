@@ -490,6 +490,16 @@
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font">عملاءالشركات </p>
               </a>
+
+              <a
+                mat-list-item
+                class="sideNavSubItems"
+                routerLink="/Tr-TrainingCenter"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              >
+                <p class="font">مراكز التدريب </p>
+              </a>
+            
               <a mat-list-item class="sideNavSubItems" routerLink="/Tr-ClassRoom"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font">قاعات التدريب</p>

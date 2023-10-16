@@ -140,7 +140,7 @@ export class TrCourseDialogComponent implements OnInit {
   
     courseTypeSelected(event: MatAutocompleteSelectedEvent): void {
       const courseType = event.option.value as CourseType;
-      this.selectedCategory = courseType;
+      this.selectedCourseType = courseType;
       this.trCourseForm.patchValue({ courseTypeId: courseType.id });
       this.trCourseForm.patchValue({ courseTypeName: courseType.name });
     }
@@ -190,12 +190,12 @@ export class TrCourseDialogComponent implements OnInit {
         })
       }
     }else{
-      this.updateItem()
+      this.updateCourse()
     }
   }
 
 
-  updateItem(){
+  updateCourse(){
         this.api.putCourse(this.trCourseForm.value)
         .subscribe({
           next:(res)=>{

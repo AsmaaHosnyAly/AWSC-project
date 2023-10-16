@@ -1,1 +1,124 @@
-<p>tr-instructor-course-dialog works!</p>
+<div class="cdk-overlay-pane">
+  <button class="close" mat-button mat-dialog-close>
+    <mat-icon> clear</mat-icon>
+  </button>
+</div>
+<h1 mat-dialog-title class="add-h1">
+  {{ editData ? " تعديل دورات مدربين " : " إضافة دورات مدربين جديدة" }}
+</h1>
+<form [formGroup]="InstructorCourseForm" dir="rtl">
+  <div mat-dialog-content>
+    <form [formGroup]="InstructorCourseForm">
+
+      
+      <div class="child1">
+        <mat-label>المدرب</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="instructor"
+            [matAutocomplete]="autoInstructor"
+            [formControl]="instructorCtrl"
+            (click)="openAutoInstructor()"
+            required
+          />
+          <mat-autocomplete
+            #autoInstructor="matAutocomplete"
+            [displayWith]="displayInstructorName"
+            (optionSelected)="instructorSelected($event)"
+          >
+            <mat-option
+              *ngFor="let instructor of filteredInstructors | async"
+              [value]="instructor"
+            >
+              {{ instructor.employeeName }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>الدورات التدريبية</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="Course"
+            [matAutocomplete]="autoCourse"
+            [formControl]="courseCtrl"
+            placeholder="{{ getInstructorCourseForm ? getInstructorCourseForm.courseName : '' }}"
+            (click)="openAutoCourse()"
+            required
+          />
+          <mat-autocomplete
+            #autoCourse="matAutocomplete"
+            [displayWith]="displayCourseName"
+            (optionSelected)="courseSelected($event)"
+          >
+            <mat-option
+              *ngFor="let course of filteredCourses | async"
+              [value]="course"
+            >
+              {{ course.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>التقييم</mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="rating" matInput />
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label>السعر</mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="price" type="number" min="1" matInput />
+        </mat-form-field>
+      </div>
+
+
+      <div>
+        <mat-label>ملاحظات</mat-label>
+
+        <textarea
+          name="description"
+          formControlName="notes"
+          cols="73"
+          rows="3"
+        ></textarea>
+      </div>
+
+
+
+      <div class="child1">
+        <label id="example-radio-group-label" class="lable-radio"
+          >النشاط</label
+        >
+        <mat-radio-group
+          formControlName="isActive"
+          class="example-radio-group"
+        >
+          <mat-radio-button class="example-radio-button" [value]="true">
+            نشط
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" [value]="false">
+            غير نشط
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </form>
+    <div mat-dialog-actions>
+      <button
+        mat-raised-button
+        class="savebtn"
+        (click)="addCourse()"
+        style="margin-left: 8px"
+      >
+        {{ actionBtn }}
+      </button>
+    </div>
+  </div>
+</form>
+
