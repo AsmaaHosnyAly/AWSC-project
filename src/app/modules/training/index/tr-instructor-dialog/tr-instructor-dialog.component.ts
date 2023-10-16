@@ -64,7 +64,6 @@ export class TrInstructorDialogComponent {
   ngOnInit(): void {  
     this.TrInstructorForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
-      date: ['', Validators.required],
       employeeId: ['', Validators.required],
       trainingCenterId: ['', Validators.required],
      
@@ -98,8 +97,9 @@ export class TrInstructorDialogComponent {
   }
 
   addTrInstructor() {
-    this.TrInstructorForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-
+    this.TrInstructorForm.controls['transactionUserId'].setValue(this.transactionUserId);
+    console.log("this.TrInstructorForm.value :",this.TrInstructorForm.value);
+    
 
     if (!this.editData) {
       this.TrInstructorForm.removeControl('id')
