@@ -5,17 +5,17 @@ import { ApiService } from '../../services/api.service';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { HrCityDialogComponent } from '../hr-city-dialog/hr-city-dialog.component';
+import { TrCourseCategoryDialogComponent } from '../tr-course-category-dialog/tr-course-category-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys'; 
 import { Hotkey } from 'angular2-hotkeys';
- 
+
 @Component({
-  selector: 'app-hr-city',
-  templateUrl: './hr-city.component.html',
-  styleUrls: ['./hr-city.component.css']
+  selector: 'app-tr-course-category',
+  templateUrl: './tr-course-category.component.html',
+  styleUrls: ['./tr-course-category.component.css']
 })
-export class HrCityComponent {
+export class TrCourseCategoryComponent {
   title = 'angular13crud';
   displayedColumns: string[] = [ 'name', 'action'];
   dataSource!: MatTableDataSource<any>;
@@ -24,7 +24,7 @@ export class HrCityComponent {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog,private hotkeysService: HotkeysService, private api : ApiService,private toastr: ToastrService){}
   ngOnInit(): void {
-    this.getHrCities();
+    this.getTrCourseCategory();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openDialog();
@@ -32,16 +32,16 @@ export class HrCityComponent {
     }));
   }
   openDialog() {
-    this.dialog.open(HrCityDialogComponent, {
+    this.dialog.open(TrCourseCategoryDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val=>{
       if(val === 'save'){
-        this.getHrCities();
+        this.getTrCourseCategory();
       }
     })
   }
-  getHrCities(){
-    this.api.getHrCity()
+  getTrCourseCategory(){
+    this.api.getTrCourseCategory()
     .subscribe({
       next:(res)=>{
         this.dataSource = new MatTableDataSource(res);
@@ -54,27 +54,27 @@ export class HrCityComponent {
       
     })
   }
-  editHrCities(row : any){
-    this.dialog.open(HrCityDialogComponent,{
+  editTrCourseCategory(row : any){
+    this.dialog.open(TrCourseCategoryDialogComponent,{
       width:'30%',
       data:row
     }).afterClosed().subscribe(val=>{
       if(val === 'update'){
-        this.getHrCities();
+        this.getTrCourseCategory();
       }
     })
   }
-  daleteHrCities(id:number){
+  daleteTrCourseCategory(id:number){
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteHrCity(id)
+      this.api.deleteTrCourseCategory(id)
       .subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
           // alert('تم الحذف بنجاح');
           this.toastrDeleteSuccess();
-          this.getHrCities();
+          this.getTrCourseCategory();
   
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")

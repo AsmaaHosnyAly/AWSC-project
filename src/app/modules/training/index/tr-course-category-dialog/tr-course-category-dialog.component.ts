@@ -9,16 +9,17 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+
 @Component({
-  selector: 'app-hr-city-dialog', 
-  templateUrl: './hr-city-dialog.component.html',
-  styleUrls: ['./hr-city-dialog.component.css']
+  selector: 'app-tr-course-category-dialog',
+  templateUrl: './tr-course-category-dialog.component.html',
+  styleUrls: ['./tr-course-category-dialog.component.css']
 })
-export class HrCityDialogComponent {
+export class TrCourseCategoryDialogComponent {
   transactionUserId=localStorage.getItem('transactionUserId')
 
   formcontrol = new FormControl('');  
-  HrcityForm !:FormGroup;
+  TrCourseCategoryForm !:FormGroup;
   actionBtn : string = "حفظ";
 
   // groupEditId: any;
@@ -29,41 +30,41 @@ export class HrCityDialogComponent {
      private readonly route:ActivatedRoute,
      private toastr: ToastrService,
      @Inject(MAT_DIALOG_DATA) public editData : any,
-     private dialogRef : MatDialogRef<HrCityDialogComponent>){
+     private dialogRef : MatDialogRef<TrCourseCategoryDialogComponent>){
      }
   ngOnInit(): void {
-    this.HrcityForm = this.formBuilder.group({
+    this.TrCourseCategoryForm = this.formBuilder.group({
       transactionUserId : ['',Validators.required],
       name : ['',Validators.required],
       id : ['',Validators.required],
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
-      this.addHrCities();
+      this.addTrCourseCategory();
       return false; // Prevent the default browser behavior
     }));
     if(this.editData){
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
-      this.HrcityForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-      this.HrcityForm.controls['name'].setValue(this.editData.name);
+      this.TrCourseCategoryForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.TrCourseCategoryForm.controls['name'].setValue(this.editData.name);
       // this.unitsForm.controls['id'].setValue(this.editData.id);
-      this.HrcityForm.addControl('id', new FormControl('', Validators.required));
-      this.HrcityForm.controls['id'].setValue(this.editData.id);
+      this.TrCourseCategoryForm.addControl('id', new FormControl('', Validators.required));
+      this.TrCourseCategoryForm.controls['id'].setValue(this.editData.id);
     }
   }
 
-  addHrCities(){
+  addTrCourseCategory(){
     if(!this.editData){
-      this.HrcityForm.removeControl('id')
-      this.HrcityForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      if(this.HrcityForm.valid){
-        this.api.postHrCity(this.HrcityForm.value)
+      this.TrCourseCategoryForm.removeControl('id')
+      this.TrCourseCategoryForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      if(this.TrCourseCategoryForm.valid){
+        this.api.postTrCourseCategory(this.TrCourseCategoryForm.value)
         .subscribe({
           next:(res)=>{
             // alert("تمت الاضافة بنجاح");
             this.toastrSuccess();
-            this.HrcityForm.reset();
+            this.TrCourseCategoryForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -73,16 +74,16 @@ export class HrCityDialogComponent {
         })
       }
     }else{
-      this.updateHrCities()
+      this.updateTrCourseCategory()
     }
   }
-  updateHrCities(){
-      this.api.putHrCity(this.HrcityForm.value)
+  updateTrCourseCategory(){
+      this.api.putTrCourseCategory(this.TrCourseCategoryForm.value)
       .subscribe({
         next:(res)=>{
           // alert("تم التحديث بنجاح");
           this.toastrEditSuccess();
-          this.HrcityForm.reset();
+          this.TrCourseCategoryForm.reset();
           this.dialogRef.close('update');
         },
         error:()=>{

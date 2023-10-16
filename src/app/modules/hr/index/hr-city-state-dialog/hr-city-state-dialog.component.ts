@@ -20,7 +20,7 @@ export class City {
   constructor(public id: number, public name: string) {}
 }
 
-
+ 
 @Component({
   selector: 'app-hr-city-state-dialog',
   templateUrl: './hr-city-state-dialog.component.html',

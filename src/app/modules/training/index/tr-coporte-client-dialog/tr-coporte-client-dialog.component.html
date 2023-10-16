@@ -1,0 +1,63 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل عملاء شركة  ' : ' إضافة عملاء شركة'}}</h1>
+
+<!-- <form [formGroup]="HrEmployeePosition" dir="rtl"> -->
+<div dir="rtl">
+    <div mat-dialog-content>
+        <form [formGroup]="TrCoporteClientForm">
+
+          
+              <div class="child1">
+                <mat-label>اسم العميل</mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="name" matInput placeholder="اسم تصنيف">
+              </mat-form-field>
+            </div>
+            <div class="child1">
+              <mat-label>الكود</mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="code" matInput placeholder=" الكود">
+              </mat-form-field>
+            </div>
+            <div class="child1">
+              <mat-label>رقم الهاتف </mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="phone" matInput placeholder="رقم الهاتف">
+              </mat-form-field>
+            </div>
+            <div class="child1">
+              <mat-label>الايميل </mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="email" matInput placeholder=" الايميل">
+              </mat-form-field>
+            </div>
+            <div class="child1">
+              <mat-label>العنوان </mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="address" matInput placeholder=" العنوان">
+              </mat-form-field>
+            </div>
+            <div class="child1">
+              <mat-label>المحافظة</mat-label>
+              <mat-form-field appearance="outline">
+                <input matInput aria-label="city" [matAutocomplete]="autoCity" [formControl]="cityCtrl"
+                  placeholder="{{getHrTrCoporteClientData ? getHrTrCoporteClientData.cityName : ''}}" (click)="openAutoCity()" required />
+                <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displaycityName"
+                  (optionSelected)="citySelected($event)">
+                  <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+                    {{ city.name }} 
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              </div>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn" (click)="addTrCoporteClient()"
+            style="margin-left: 8px;">{{actionBtn}}</button>
+    </div>
+</div>
+<!-- </form> -->

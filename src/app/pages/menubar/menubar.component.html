@@ -785,6 +785,14 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
+                routerLink="/Tr-CourseCategory"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              >
+                <p class="font"> تصنيف الدورة التدريبية</p>
+              </a>
+              <a
+              mat-list-item
+              class="sideNavSubItems"
                 routerLink="/Tr-Course"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
               >
@@ -793,6 +801,14 @@
               <a
                 mat-list-item
                 class="sideNavSubItems"
+                routerLink="/Tr-CoporteClient"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              >
+                <p class="font">عملاءالشركات </p>
+              </a>
+              <a
+              mat-list-item
+              class="sideNavSubItems"
                 routerLink="/Tr-CourseType"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
               >
