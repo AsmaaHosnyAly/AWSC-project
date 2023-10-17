@@ -38,6 +38,14 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
   }
 
+  postExternalInstructor(data: any) {
+    console.log(
+      'InstructorId33333dataaa: ',
+      data
+    );
+    return this.http.post<any>(`${this.url}/TrInstructorData/Add`, data);
+  }
+
   ////////////////////////////////trtrack//////////////////////////////////////////
   postTrTarck(data: any) {
     return this.http.post<any>(`${this.url}/TrTarck/Add`, data);

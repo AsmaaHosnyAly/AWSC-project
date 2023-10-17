@@ -1,46 +1,202 @@
-<div class="cdk-overlay-pane  ">
-    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+<div class="cdk-overlay-pane">
+  <button class="close" mat-button mat-dialog-close>
+    <mat-icon> clear</mat-icon>
+  </button>
 </div>
 
-<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل  مدرب ' : ' إضافة  مدرب جديد'}}</h1>
+<h1 mat-dialog-title class="add-h1">
+  {{ editData ? " تعديل  مدرب " : " إضافة  مدرب جديد" }}
+</h1>
 
 <!-- <form [formGroup]="HrEmployeePosition" dir="rtl"> -->
 <div dir="rtl">
-    <div mat-dialog-content>
-        <form [formGroup]="TrInstructorForm">
+  <div mat-dialog-content>
+    <form [formGroup]="TrInstructorForm">
+      <div class="child1">
+        <mat-label>مركز التدريب</mat-label>
 
-            <div class="child1">
-                <mat-label>الموظف</mat-label>
-                <mat-form-field appearance="outline">
-                  <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-                    placeholder="{{getTrInstructorData ? getTrInstructorData.employeeName : ''}}" (click)="openAutoemployee()" required />
-                  <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
-                    (optionSelected)="employeeSelected($event)">
-                    <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                      {{ employee.name }} 
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-              </div>
-              <div class="child1">
-                <mat-label>مركز التدريب</mat-label>
-      
-                <mat-form-field appearance="outline">
-                  <input matInput aria-label="specialization" [matAutocomplete]="autoPosition" [formControl]="trainingCenterCtrl"
-                    placeholder="{{getTrInstructorData ? getTrInstructorData.trainingCenterName : ''}}" (click)="openAutoTrainingCenter()" required />
-                  <mat-autocomplete #autoPosition="matAutocomplete" [displayWith]="displayTrainingCenterName"
-                    (optionSelected)="trainingCenterSelected($event)">
-                    <mat-option *ngFor="let trainingCenter of filteredTrainingCenter | async" [value]="trainingCenter">
-                      {{ trainingCenter.name }} 
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-              </div>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="specialization"
+            [matAutocomplete]="autoPosition"
+            [formControl]="trainingCenterCtrl"
+            placeholder="{{
+              getTrInstructorData ? getTrInstructorData.trainingCenterName : ''
+            }}"
+            (click)="openAutoTrainingCenter()"
+            required
+          />
+          <mat-autocomplete
+            #autoPosition="matAutocomplete"
+            [displayWith]="displayTrainingCenterName"
+            (optionSelected)="trainingCenterSelected($event)"
+          >
+            <mat-option
+              *ngFor="let trainingCenter of filteredTrainingCenter | async"
+              [value]="trainingCenter"
+            >
+              {{ trainingCenter.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="child1">
+        <mat-label style="display: block"> المدرب*</mat-label>
+        <mat-radio-group
+          class="radio-div"
+          aria-label="Select an option"
+          (change)="setInstructor($event)"
+        >
+          <mat-radio-button value="موظف">موظف</mat-radio-button>
+          <mat-radio-button value="خارجي">خارجي</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="child1">
+        <mat-label>الموظف</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="employee"
+            [matAutocomplete]="autoEmployee"
+            [formControl]="employeeCtrl"
+            placeholder="{{
+              getTrInstructorData ? getTrInstructorData.employeeName : ''
+            }}"
+            (click)="openAutoemployee()"
+            required
+          />
+          <mat-autocomplete
+            #autoEmployee="matAutocomplete"
+            [displayWith]="displayEmployeeName"
+            (optionSelected)="employeeSelected($event)"
+          >
+            <mat-option
+              *ngFor="let employee of filteredEmployee | async"
+              [value]="employee"
+            >
+              {{ employee.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="ext">
+        <!-- <form  [ngClass]="(instructorType == 'خارجي') ? 'formAble' : 'formDisable'"> -->
+        <form
+          class="frm-mtt"
+          [formGroup]="TrExternalInstructorForm"
+          *ngIf="instructorType == 'خارجي'"
+        >
+          <h1 mat-dialog-title style="display: block" class="add2-h1">
+            {{ editData ? " تعديل  مدرب خارجى " : " إضافة  مدرب خارجى جديد" }}
+          </h1>
+          <div class="box-parent">
+            <div class="child2">
+              <mat-label>الاسم</mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="name" matInput />
+              </mat-form-field>
+            </div>
+
+            <div class="child2">
+              <mat-label>الكود</mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="code" matInput />
+              </mat-form-field>
+            </div>
+
+            <div class="child2">
+              <mat-label>التليفون</mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="phone" matInput />
+              </mat-form-field>
+            </div>
+
+            <div class="child2">
+              <mat-label>البريد الإلكترونى</mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="email"  matInput />
+              </mat-form-field>
+            </div>
+
+            <div class="child2">
+              <mat-label>الموقع</mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="position" matInput />
+              </mat-form-field>
+            </div>
+
+            <div class="child2">
+              <mat-label>العنوان</mat-label>
+              <mat-form-field appearance="outline">
+                <input formControlName="address" matInput />
+              </mat-form-field>
+            </div>
+
+            <div class="child2">
+              <mat-label>المدينة</mat-label>
+              <mat-form-field appearance="outline">
+                <input
+                  matInput
+                  aria-label="city"
+                  [matAutocomplete]="autoCity"
+                  [formControl]="cityCtrl"
+                  placeholder="{{
+                    getTrExternalInstructorForm
+                      ? getTrExternalInstructorForm.cityName
+                      : ''
+                  }}"
+                  (click)="openAutoCity()"
+                  required
+                />
+                <mat-autocomplete
+                  #autoCity="matAutocomplete"
+                  [displayWith]="displayCityName"
+                  (optionSelected)="citySelected($event)"
+                >
+                  <mat-option
+                    *ngFor="let city of filteredCities | async"
+                    [value]="city"
+                  >
+                    {{ city.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+
+            <div class="child2">
+              <label id="example-radio-group-label" class="lable-radio"
+                >النشاط</label
+              >
+              <mat-radio-group
+                formControlName="gender"
+                class="example-radio-group"
+              >
+                <mat-radio-button class="example-radio-button" value="ذكر">
+                  ذكر
+                </mat-radio-button>
+                <mat-radio-button class="example-radio-button" value="أنثى">
+                  أنثى
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
         </form>
-    </div>
-    <div mat-dialog-actions>
-        <button mat-raised-button class="savebtn" (click)="addTrInstructor()"
-            style="margin-left: 8px;">{{actionBtn}}</button>
-    </div>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      mat-raised-button
+      class="savebtn"
+      (click)="addTrInstructor()"
+      style="margin-left: 8px"
+    >
+      {{ actionBtn }}
+    </button>
+  </div>
 </div>
 <!-- </form> -->
