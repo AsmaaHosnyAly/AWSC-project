@@ -563,7 +563,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
   set_Percentage(state: any) {
 
     console.log("state value changed: ", state.value);
-    this.groupDetailsForm.controls['state'].setValue(state.value);
+    // this.groupDetailsForm.controls['state'].setValue(state.value);
 
     if (this.groupDetailsForm.getRawValue().state == "مستعمل") {
       this.isReadOnlyPercentage = false;

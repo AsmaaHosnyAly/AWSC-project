@@ -54,7 +54,7 @@ export class MenubarComponent {
 
     // Retrieve the access token
     const accessToken: any = localStorage.getItem('accessToken');
-    console.log('accessToken', accessToken);
+    // console.log('accessToken', accessToken);
     // Decode the access token
     this.decodedToken = jwt_decode(accessToken);
     this.decodedToken1 = this.decodedToken.modules;
@@ -98,11 +98,11 @@ export class MenubarComponent {
   }
 
   hasAccessModule(name: string): boolean {
-    console.log('name passed: ', name);
+    // console.log('name passed: ', name);
     // const MODULES_LOCAL_STORAGE = window.localStorage.getItem('modules');
     const MODULES_LOCAL_STORAGE = this.decodedToken1;
     const MODULES: Array<any> = MODULES_LOCAL_STORAGE;
-    console.log('array : ', MODULES);
+    // console.log('array : ', MODULES);
     if (MODULES != undefined) {
       return MODULES.some((i: any) => i == name);
     } else {
