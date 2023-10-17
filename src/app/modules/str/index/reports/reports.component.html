@@ -14,7 +14,7 @@
 
 
 
-      <div class="searchLabels">
+      <!-- <div class="searchLabels">
         <mat-label>مخزن *</mat-label>
 
         <mat-form-field appearance="outline" class="searchForm" >
@@ -27,6 +27,17 @@
               {{ store.name }} | {{ store.id }}
             </mat-option>
           </mat-autocomplete>
+        </mat-form-field>
+      </div> -->
+      <div class="searchLabels">
+        <mat-label>المخازن:</mat-label>
+
+        <mat-form-field appearance="outline" class="groupInput" >
+          <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
+            <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
+              *ngFor="let store of storeList">{{userRoles.includes(userRoleStoresAcc) ? store.name :
+              store.storeName}}</mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
 
@@ -70,28 +81,45 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
+
+
+    
       <div style="display: flex; flex-direction: column;margin-left: 10px;">
         <mat-label> تاريخ البداية</mat-label>
         <mat-form-field appearance="outline" class="searchForm">
-
-          <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate">
-          <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <input #StartDate  formControlName="StartDate" type="datetime-local" matInput >
+          <!-- <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate"> -->
+          <!-- <mat-datepicker-toggle matIconSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
 
           </mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker #picker></mat-datepicker> -->
         </mat-form-field>
       </div>
+
+      <!-- <mat-form-field>
+        <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControl]="dateControl"
+           [min]="minDate" [max]="maxDate" [disabled]="disabled">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+           [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+           [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian" 
+           [disableMinute]="disableMinute" [hideTime]="hideTime">
+        </ngx-mat-datetime-picker>
+     </mat-form-field> -->
+
+
       <div style="display: flex; flex-direction: column;">
         <mat-label>تاريخ النهاية</mat-label>
         <mat-form-field appearance="outline" class="searchForm" >
+          <input #EndDate  formControlName="EndDate" type="datetime-local" matInput >
 
-          <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate">
-          <mat-datepicker-toggle matIconSuffix [for]="picke">
+          <!-- <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate"> -->
+          <!-- <mat-datepicker-toggle matIconSuffix [for]="picke">
             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
 
           </mat-datepicker-toggle>
-          <mat-datepicker #picke></mat-datepicker>
+          <mat-datepicker #picke></mat-datepicker> -->
         </mat-form-field>
       </div>
 
@@ -108,8 +136,8 @@
 
       <mat-form-field appearance="outline" class="searchForm" >
         <mat-select  #report plceholder="اختر  التقرير" formControlName="report">
-          <mat-option value="STRWithdrawReport">تقرير</mat-option>
-          <mat-option value="STRWithdrawDetailsReport"> تقرير تفصيلي </mat-option>
+          <mat-option value="STRItemsTransactionReport">كارت صنف</mat-option>
+          <mat-option value="STRItemsTakingReport"> جرد كميات المخزون  </mat-option>
 
         </mat-select>
       </mat-form-field>
@@ -142,10 +170,10 @@
         (click)="previewPrint( StartDate.value,EndDate.value,report.value,reportType.value)" class="icons"
         title="تحميل">print</mat-icon>
 
-      <!-- <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value,report.value,reportType.value)"
-        class="icons" title="تحميل">get_app</mat-icon> -->
+      <mat-icon (click)="downloadPrint( StartDate.value,EndDate.value,report.value,reportType.value)"
+        class="icons" title="تحميل">get_app</mat-icon>
 
-      <!-- <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon> -->
+      <mat-icon (click)="refreshData()" class="icons" title="حذف قيم البحث">restore</mat-icon>
     </div>
 
     <!-- </div> -->
