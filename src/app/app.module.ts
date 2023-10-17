@@ -240,6 +240,8 @@ import { TrTrainingCenterComponent } from './modules/training/index/tr-training-
 import { TrTrainingCenterDialogComponent } from './modules/training/index/tr-training-center-dialog/tr-training-center-dialog.component';
 import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
 import { TrTraineeDialogComponent } from './modules/training/index/tr-trainee-dialog/tr-trainee-dialog.component';
+import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-training-center-course/tr-training-center-course.component';
+import { TrTrainingCenterCourseDialogComponent } from './modules/training/index/tr-training-center-course-dialog/tr-training-center-course-dialog.component';
 
 
 
@@ -462,6 +464,8 @@ import { TrTraineeDialogComponent } from './modules/training/index/tr-trainee-di
     TrTrainingCenterDialogComponent,
     TrTraineeComponent,
     TrTraineeDialogComponent,
+    TrTrainingCenterCourseComponent,
+    TrTrainingCenterCourseDialogComponent,
   ],
   imports: [
     BrowserModule,

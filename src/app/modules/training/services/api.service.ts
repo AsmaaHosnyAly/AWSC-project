@@ -296,6 +296,29 @@ export class ApiService {
   deleteTrTrainee(id: number) {
     return this.http.delete<any>(`${this.url}/TrTrainee/Delete/${id}`);
   }
-
-  
+/******************************** TrTrainingCenterCourse **********************************/
+postTrainingCenterCourse(data: any) {
+  return this.http.post<any>(`${this.url}/TrTrainingCenterCourse/Add`, data);
+}
+// here
+getTrainingCenterCourse() {
+  return this.http.get<any>(`${this.url}/TrTrainingCenterCourse/get/all`);
+}
+putTrainingCenterCourse(data: any) {
+  return this.http.put<any>(
+    `${this.url}/TrTrainingCenterCourse/update`,
+    data
+  );
+}
+deleteTrainingCenterCourse(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/TrTrainingCenterCourse/Delete/${id}`
+  );
+}
+getAllCourse() {
+  return this.http.get<any>(`${this.url}/TrCourse/get/all`);
+}
+getAllTrainingCenterr() {
+  return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+}
 }
