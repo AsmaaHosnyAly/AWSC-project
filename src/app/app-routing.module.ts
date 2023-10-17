@@ -146,6 +146,7 @@ import { hrFinancialDegreeGuard } from './core/guards/hr/hr-financial-degree.gua
 import { hrEmployeeFinancialDegreeGuard } from './core/guards/hr/hr-employee-financial-degree.guard';
 import { hrEmployeeAppraisalGuard } from './core/guards/hr/hr-employee-appraisal.guard';
 import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
+import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-training-center-course/tr-training-center-course.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -584,7 +585,7 @@ const routes: Routes = [
       { path: 'Tr-Course', component: TrCourseComponent },
       { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
       { path: 'Tr-TrainingCenter', component: TrTrainingCenterComponent },
-      
+      { path: 'Tr-trainingCenterCourse', component:TrTrainingCenterCourseComponent},
       /*********************End  TR   التدريب***************************/
       /*********************start py module  المرتبات***************************/
 
