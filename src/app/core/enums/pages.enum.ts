@@ -18,7 +18,7 @@ export enum PagesEnums {
   STR_OPENING_STOCK = 'الافتتاحية',
   EMPLOYEE_OPENING ='نقل عهده',
   EMPLOYEE_OPENING_CUSTODY ='افتتاحي لعهد',
-  COMMODITY = 'السلعة',
+  COMMODITY ='السلعة',
   GRADE = 'النوعية',
   STR_PLATOON = 'الفصيلة',
   GROUP1 = 'المجموعة',
