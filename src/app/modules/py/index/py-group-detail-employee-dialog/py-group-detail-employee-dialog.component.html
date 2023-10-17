@@ -22,7 +22,7 @@
                         placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoEmployee()" required />
                     <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
                         (optionSelected)="EmployeeSelected($event)">
-                        <mat-option *ngFor="let employee of employeesList" [value]="employee">
+                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
                             {{ employee.name }}
                         </mat-option>
                     </mat-autocomplete>

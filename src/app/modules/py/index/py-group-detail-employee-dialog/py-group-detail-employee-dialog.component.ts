@@ -73,6 +73,7 @@ export class PyGroupDetailEmployeeDialogComponent implements OnInit {
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
+
       map((value) => this._filterEmployee(value))
     );
 
@@ -103,6 +104,9 @@ export class PyGroupDetailEmployeeDialogComponent implements OnInit {
       console.log("details edit form after: ", this.editData);
 
     }
+    // this.api.getEmployee().subscribe((employees) => {
+    //   this.employeesList = employees;
+    // });
 
   }
 
