@@ -138,8 +138,10 @@ export class PyExchangeComponent  implements OnInit {
     this.groupMasterForm = this.formBuilder.group({
  
       no: [''],
-      name:[''],
-      date:[''],
+     
+      startDate:[''],
+      endDate:[''],
+      fiscalYaerId:[''],
 
       // JournalId: [''],
       // FiEntrySourceTypeId: [''],
@@ -243,6 +245,7 @@ export class PyExchangeComponent  implements OnInit {
             this.paginator.length = this.length;
           });
           this.isLoading = false;
+          this.groupMasterForm.reset();
         }, error => {
           console.log(error);
           this.isLoading = false;
@@ -418,7 +421,7 @@ export class PyExchangeComponent  implements OnInit {
       },
     });
   }
-  getSearchFiEntry(no: any,name:any,  startDate: any, endDate: any) {
+  getSearchFiEntry(no: any,fiscalyear:any, startDate: any, endDate: any) {
 
     console.log(
       'no.: ', no,
@@ -427,7 +430,7 @@ export class PyExchangeComponent  implements OnInit {
     );
 
     this.api
-      .getFiEntrySearach(no,name, startDate, endDate)
+      .getPyExchangeSearach(no,fiscalyear, startDate, endDate)
       .subscribe({
         next: (res) => {
           console.log('search fiEntry res: ', res);
