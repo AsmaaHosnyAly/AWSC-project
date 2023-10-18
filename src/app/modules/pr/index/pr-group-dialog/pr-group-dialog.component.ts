@@ -207,7 +207,7 @@ export class PrGroupDialogComponent implements OnInit {
         // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
         this.getAllDetailsForms();
-        
+
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
           this.api.getPrGroupRole()
