@@ -87,13 +87,13 @@
       <div style="display: flex; flex-direction: column;margin-left: 10px;">
         <mat-label> تاريخ البداية</mat-label>
         <mat-form-field appearance="outline" class="searchForm">
-          <input #StartDate  formControlName="StartDate" type="datetime-local" matInput >
-          <!-- <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate"> -->
-          <!-- <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <!-- <input #StartDate  formControlName="StartDate" type="datetime-local" matInput > -->
+          <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate">
+          <mat-datepicker-toggle matIconSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
 
           </mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker> -->
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
 
@@ -112,14 +112,14 @@
       <div style="display: flex; flex-direction: column;">
         <mat-label>تاريخ النهاية</mat-label>
         <mat-form-field appearance="outline" class="searchForm" >
-          <input #EndDate  formControlName="EndDate" type="datetime-local" matInput >
+          <!-- <input #EndDate  formControlName="EndDate" type="datetime-local" matInput > -->
 
-          <!-- <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate"> -->
-          <!-- <mat-datepicker-toggle matIconSuffix [for]="picke">
+          <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate">
+          <mat-datepicker-toggle matIconSuffix [for]="picke">
             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
 
           </mat-datepicker-toggle>
-          <mat-datepicker #picke></mat-datepicker> -->
+          <mat-datepicker #picke></mat-datepicker>
         </mat-form-field>
       </div>
 
