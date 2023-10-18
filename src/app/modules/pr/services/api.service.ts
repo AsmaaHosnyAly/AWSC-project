@@ -93,8 +93,7 @@ deletePrGroupRole(HeaderId: number) {
   }
   deletePrUserGroup(HeaderId: number) {
     console.log('deleted detaild row id: ', HeaderId);
-    return this.http.delete<any>(`${this.url}/PRUserGroup/delete/` + HeaderId);
+    return this.http.delete<any>(`${this.url}/PRUserGroup/delete` + HeaderId);
   }
-
 
 }

@@ -99,6 +99,7 @@ export class PrUserDialogComponent implements OnInit {
 
 
     if (this.editData) {
+      console.log("edit data: ", this.editData);
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['name'].setValue(this.editData.name);
       // this.groupMasterForm.controls['password'].setValue(this.editData.password);
