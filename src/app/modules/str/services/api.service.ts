@@ -1019,7 +1019,7 @@ export class ApiService {
 
   getLastFiscalYear() {
     return this.http.get<any>(
-      `${this.url}/STRFiscalYear/getLastfisicalyear/all`
+      `${this.url}/STRFiscalYear/get/Last/fisical/year`
     );
   }
 
