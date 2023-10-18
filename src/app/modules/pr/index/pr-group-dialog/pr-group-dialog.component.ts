@@ -15,6 +15,10 @@ export class PrRole {
   constructor(public id: number, public name: string) { }
 }
 
+export class PrModule {
+  constructor(public id: number, public name: string) { }
+}
+
 @Component({
   selector: 'app-pr-group-dialog',
   templateUrl: './pr-group-dialog.component.html',
@@ -51,6 +55,11 @@ export class PrGroupDialogComponent implements OnInit {
   selectedPrRole: PrRole | undefined;
   formcontrol = new FormControl('');
 
+  prModulesList: PrModule[] = [];
+  prModuleCtrl: FormControl;
+  filteredPrModule: Observable<PrModule[]>;
+  selectedPrModule: PrModule | undefined;
+
   displayedColumns: string[] = ['roleName', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -72,16 +81,24 @@ export class PrGroupDialogComponent implements OnInit {
       map(value => this._filterPrRoles(value))
     );
 
+    this.prModuleCtrl = new FormControl();
+    this.filteredPrModule = this.prModuleCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterPrModules(value))
+    );
+
   }
 
 
   ngOnInit(): void {
     this.getPrRole();
+    this.getPrModule();
 
     this.getMasterRowId = this.editData;
 
     this.groupMasterForm = this.formBuilder.group({
       name: ['', Validators.required],
+      moduleId: [''],
       transactionUserId: ['', Validators.required],
     });
 
@@ -96,6 +113,7 @@ export class PrGroupDialogComponent implements OnInit {
     if (this.editData) {
       this.actionBtnMaster = "Update";
       this.groupMasterForm.controls['name'].setValue(this.editData.name);
+      this.groupMasterForm.controls['moduleId'].setValue(this.editData.moduleId);
 
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
@@ -130,6 +148,30 @@ export class PrGroupDialogComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.prRoleCtrl.updateValueAndValidity();
+  }
+
+
+  private _filterPrModules(value: string): PrRole[] {
+    const filterValue = value;
+    return this.prModulesList.filter(prModule =>
+      prModule.name.toLowerCase().includes(filterValue)
+    );
+  }
+  displayPrModuleName(prModule: any): string {
+    return prModule && prModule.name ? prModule.name : '';
+  }
+  PrModuleSelected(event: MatAutocompleteSelectedEvent): void {
+    const prModule = event.option.value as PrModule;
+    console.log("prModule selected: ", prModule);
+    this.selectedPrModule = prModule;
+    this.groupMasterForm.patchValue({ moduleId: prModule.id });
+    console.log("moduleId in form: ", this.groupMasterForm.getRawValue().moduleId);
+  }
+  openAutoPrModule() {
+    this.prModuleCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.prModuleCtrl.updateValueAndValidity();
   }
 
 
@@ -207,7 +249,7 @@ export class PrGroupDialogComponent implements OnInit {
         // this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
         this.getAllDetailsForms();
-        
+
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
           this.api.getPrGroupRole()
@@ -353,7 +395,7 @@ export class PrGroupDialogComponent implements OnInit {
 
     if (this.editDataDetails || row) {
       this.getDetailedRowData = row;
-      // console.log("details: ", this.getDetailedRowData, this.getMasterRowId)
+      console.log("edit details: ", this.getDetailedRowData)
 
       if (this.getDetailedRowData) {
         this.getDetailRowId = {
@@ -413,6 +455,19 @@ export class PrGroupDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.prRoleList = res;
+        },
+        error: (err) => {
+          // console.log("fetch store data err: ", err);
+          // alert("خطا اثناء جلب المخازن !");
+        }
+      })
+  }
+
+  getPrModule() {
+    this.api.getPrModules()
+      .subscribe({
+        next: (res) => {
+          this.prModulesList = res;
         },
         error: (err) => {
           // console.log("fetch store data err: ", err);
