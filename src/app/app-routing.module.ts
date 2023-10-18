@@ -89,7 +89,7 @@ import { HrEmployeePositionComponent } from './modules/hr/index/hr-employee-posi
 import { HrEmployeeAppraisalComponent } from './modules/hr/index/hr-employee-appraisal/hr-employee-appraisal.component';
 import { HrQualificationLevelComponent } from './modules/hr/index/hr-qualification-level/hr-qualification-level.component';
 import { HrEmployeeQualificationComponent } from './modules/hr/index/hr-employee-qualification/hr-employee-qualification.component';
-
+import { ReportsComponent } from './modules/str/index/reports/reports.component';
 import { HrEmployeeComponent } from './modules/hr/index/hr-employee/hr-employee.component';
 import { HrAttendanceMachineComponent } from './modules/attendance/index/hr-attendance-machine/hr-attendance-machine.component';
 import { HrAttendancePermissionComponent } from './modules/attendance/index/hr-attendance-permission/hr-attendance-permission.component';
@@ -106,13 +106,19 @@ import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
 import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
 import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
+// import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
+
+
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 import { TrCourseCategoryComponent } from './modules/training/index/tr-course-category/tr-course-category.component';
 import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
+import { TrTrackContainerComponent } from './modules/training/index/tr-track-container/tr-track-container.component';
+
 import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
+import { TrTrainingCenterComponent } from './modules/training/index/tr-training-center/tr-training-center.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 import { accountGuard } from './core/guards/fi/account.guard';
 import { fiAccountItemGuard } from './core/guards/fi/fi-account-item.guard';
@@ -140,6 +146,7 @@ import { hrFinancialDegreeGuard } from './core/guards/hr/hr-financial-degree.gua
 import { hrEmployeeFinancialDegreeGuard } from './core/guards/hr/hr-employee-financial-degree.guard';
 import { hrEmployeeAppraisalGuard } from './core/guards/hr/hr-employee-appraisal.guard';
 import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
+import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-training-center-course/tr-training-center-course.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -260,6 +267,9 @@ const routes: Routes = [
       },
       { path: 'struserstore', component: StrUserstoreComponent },
       { path: 'StrStockTaking', component: StrStockTakingContainerComponent },
+      { path: 'reports', component:       ReportsComponent
+    },
+
       /***********************end store modules المخازن **********************/
 
       /***********************Start account modules الحسابات **********************/
@@ -574,9 +584,16 @@ const routes: Routes = [
       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
       { path: 'Tr-Course', component: TrCourseComponent },
       { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
+      { path: 'Tr-TrainingCenter', component: TrTrainingCenterComponent },
+      { path: 'Tr-trainingCenterCourse', component:TrTrainingCenterCourseComponent},
       /*********************End  TR   التدريب***************************/
       /*********************start py module  المرتبات***************************/
 
+       { path: 'PyItemCategory', component: PyItemCategoryComponent },
+       { path: 'pytaxbracket', component:PyTaxBracketComponent},
+       /*********************End py module  المرتبات***************************/
+       
+       { path: 'TrTrack', component:  TrTrackContainerComponent},
       { path: 'pyHome', component: PyHomeComponent },
       { path: 'PyInstallment', component: PyInstallmentComponent },
       { path: 'PyItem', component: PyItemComponent },

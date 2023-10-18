@@ -644,6 +644,7 @@ export class ApiService {
       responseType: 'blob',
     });
   }
+  
 
   getStr(
     no: any,
@@ -1950,4 +1951,117 @@ export class ApiService {
       `${this.url}/StrUserStore/delete/${id}`
     );
   }
+
+
+
+
+  ////////////////////reports//////////////
+  getreports(
+  
+    store: any,StartDate: any, EndDate: any,item: any, report: any, reportType: any
+  ) {
+    console.log(
+     
+      'store : ',
+      store,
+      'startdate: ',
+      StartDate,'item',item,
+     
+      'reportName:', report, 'reportType:', reportType
+
+    );
+    `${this.url}/STRItem/Get/Sum/Of/Qty/Between/Two/Date?`;
+    this.mycondition = `${this.url}/STRItem/Get/Sum/Of/Qty/Between/Two/Date?reportName=${report}&reportType=${reportType}`;
+
+    
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    }
+
+
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+
+   
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    }
+    
+    
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+  getTranscriptreports(
+  
+    store: any,StartDate: any, EndDate: any,item: any, report: any, reportType: any
+  ) {
+    console.log(
+     
+      'store : ',
+      store,
+      'startdate: ',
+      StartDate,'item',item,
+     
+      'reportName:', report, 'reportType:', reportType
+
+    );
+    `${this.url}/STRItem/Get/Item/Transactions?`;
+    this.mycondition = `${this.url}/STRItem/Get/Item/Transactions?reportName=${report}&reportType=${reportType}`;
+
+    
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    }
+
+
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+
+   
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    }
+    
+    
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+
+  
 }

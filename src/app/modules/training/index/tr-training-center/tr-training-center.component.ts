@@ -8,19 +8,19 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-import { TrInstructorCourseDialogComponent } from '../tr-instructor-course-dialog/tr-instructor-course-dialog.component';
+import { TrTrainingCenterDialogComponent } from '../tr-training-center-dialog/tr-training-center-dialog.component';
 
 @Component({
-  selector: 'app-tr-instructor-course',
-  templateUrl: './tr-instructor-course.component.html',
-  styleUrls: ['./tr-instructor-course.component.css']
+  selector: 'app-tr-training-center',
+  templateUrl: './tr-training-center.component.html',
+  styleUrls: ['./tr-training-center.component.css']
 })
-export class TrInstructorCourseComponent implements OnInit {
+export class TrTrainingCenterComponent implements OnInit {
 
   formcontrol = new FormControl('');
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = ['instructorName', 'rating', 'courseName','price', 'notes','action'];  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'code', 'phone','email', 'address','cityName','action'];  dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -30,7 +30,7 @@ export class TrInstructorCourseComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.getInstructorCourse();
+    this.getTrainingCenter();
 
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
@@ -40,21 +40,21 @@ export class TrInstructorCourseComponent implements OnInit {
   }
   openDialog() {
     this.dialog
-      .open(TrInstructorCourseDialogComponent, {
+      .open(TrTrainingCenterDialogComponent, {
         width: '50%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getInstructorCourse();
+          this.getTrainingCenter();
         }
       });
   }
 
 
 
-  getInstructorCourse() {
-    this.api.getInstructorCourse().subscribe({
+  getTrainingCenter() {
+    this.api.getTrainingCenter().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -66,30 +66,30 @@ export class TrInstructorCourseComponent implements OnInit {
     });
   }
 
-  editInstructorCourse(row: any) {
+  editTrainingCenter(row: any) {
     this.dialog
-      .open(TrInstructorCourseDialogComponent, {
+      .open(TrTrainingCenterDialogComponent, {
         width: '50%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getInstructorCourse();
+          this.getTrainingCenter();
         }
       });
   }
 
-  deleteInstructorCourse(id: number) {
+  deleteTrainingCenter(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteInstructorCourse(id)
+      this.api.deleteTrainingCenter(id)
       .subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
             this.toastrDeleteSuccess();
-          this.getInstructorCourse();
+          this.getTrainingCenter();
   
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")

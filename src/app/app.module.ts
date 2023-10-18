@@ -229,10 +229,19 @@ import { TrClassRoomDialogComponent } from './modules/training/index/tr-class-ro
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrCourseDialogComponent } from './modules/training/index/tr-course-dialog/tr-course-dialog.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
+import { TrTrackContainerComponent } from './modules/training/index/tr-track-container/tr-track-container.component';
+import { TrTrackTableComponent } from './modules/training/index/tr-track-table/tr-track-table.component';
+import { TrTrackDialogComponent } from './modules/training/index/tr-track-dialog/tr-track-dialog.component';
+import { TrTrackDetailsDialogComponent } from './modules/training/index/tr-track-details-dialog/tr-track-details-dialog.component';
+import { ReportsComponent } from './modules/str/index/reports/reports.component';
 import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
 import { TrInstructorCourseDialogComponent } from './modules/training/index/tr-instructor-course-dialog/tr-instructor-course-dialog.component';
+import { TrTrainingCenterComponent } from './modules/training/index/tr-training-center/tr-training-center.component';
+import { TrTrainingCenterDialogComponent } from './modules/training/index/tr-training-center-dialog/tr-training-center-dialog.component';
 import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
 import { TrTraineeDialogComponent } from './modules/training/index/tr-trainee-dialog/tr-trainee-dialog.component';
+import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-training-center-course/tr-training-center-course.component';
+import { TrTrainingCenterCourseDialogComponent } from './modules/training/index/tr-training-center-course-dialog/tr-training-center-course-dialog.component';
 
 
 
@@ -444,10 +453,19 @@ import { TrTraineeDialogComponent } from './modules/training/index/tr-trainee-di
     TrCourseComponent,
     TrCourseDialogComponent,
     PyHomeComponent,
+    TrTrackContainerComponent,
+    TrTrackTableComponent,
+    TrTrackDialogComponent,
+    TrTrackDetailsDialogComponent,
+    ReportsComponent,
     TrInstructorCourseComponent,
     TrInstructorCourseDialogComponent,
+    TrTrainingCenterComponent,
+    TrTrainingCenterDialogComponent,
     TrTraineeComponent,
     TrTraineeDialogComponent,
+    TrTrainingCenterCourseComponent,
+    TrTrainingCenterCourseDialogComponent,
   ],
   imports: [
     BrowserModule,

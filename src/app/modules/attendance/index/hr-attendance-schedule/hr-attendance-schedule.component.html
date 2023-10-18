@@ -49,7 +49,7 @@
           <!-- attendanceTime Column -->
           <ng-container matColumnDef="attendanceTime">
             <th  *matHeaderCellDef>موعد الحضور</th>
-            <td mat-cell *matCellDef="let row">{{ row.attendanceTime | date:'hh:mm a'  }}</td>
+            <td mat-cell *matCellDef="let row">{{ row.attendanceTime | date:'mm/dd/yyyy -- hh:mm a'  }}</td>
           </ng-container>
           <!-- attendanceAllowance Column -->
           <ng-container matColumnDef="attendanceAllowance">

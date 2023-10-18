@@ -38,9 +38,88 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
   }
 
-  getTrainingCenter() {
-    return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+  postExternalInstructor(data: any) {
+    console.log(
+      'InstructorId33333dataaa: ',
+      data
+    );
+    return this.http.post<any>(`${this.url}/TrInstructorData/Add`, data);
   }
+
+  ////////////////////////////////trtrack//////////////////////////////////////////
+  postTrTarck(data: any) {
+    return this.http.post<any>(`${this.url}/TrTarck/Add`, data);
+  }
+  getTrTarck() {
+    return this.http.get<any>(`${this.url}/TrTarck/get/all`);
+  }
+  putTrTarck(data: any) {
+    return this.http.put<any>(`${this.url}/TrTarck/update`, data);
+  }
+  deleteTrTarck(id: number) {
+    return this.http.delete<any>(`${this.url}/TrTarck/delete/` + id);
+  }
+  getTrTarckPaginate(currentPage: any, pageSize: any){
+
+    console.log("currentt pagggeeeeee",currentPage)
+    let urlPassed = `${this.url}/TrTarck/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
+
+  postTrTrackDetails(data: any) {
+    return this.http.post<any>(`${this.url}/TrTrackDetails/Add`, data);
+  }
+  getTrTrackDetails() {
+    return this.http.get<any>(`${this.url}/TrTrackDetails/get/all`);
+  }
+  getTrTrackDetailsByMasterId(id :any) {
+    return this.http.get<any>(`${this.url}/TrTrackDetails/get/by/header/${id}`);
+  }
+  putTrTrackDetails(data: any) {
+    console.log('put TrTrackDetails data with id: ', data);
+    return this.http.put<any>(`${this.url}/TrTrackDetails/update/`, data);
+  }
+  deleteTrTrackDetails(HeaderId: number) {
+    console.log('deleted row id: ', HeaderId);
+    return this.http.delete<any>(
+      `${this.url}/TrTrackDetails/delete/` + HeaderId
+    );
+  }
+
+
+
+  
+  getLastFiscalYear() {
+    return this.http.get<any>(
+      `${this.url}/STRFiscalYear/getLastfisicalyear/all`
+    );
+  }
+
+  getFiscalYearById(id: any) {
+    return this.http.get<any>(`${this.url}/STRFiscalYear/get/${id}`);
+  }
+  getTrackById(id: any) {
+    let urlPassed = `${this.url}/TrTarck/get/${id}`;
+    return urlPassed;
+  }
+
+  getcourseById(id: any) {
+    let urlPassed = `${this.url}/TrCourse/get/${id}`;
+    return urlPassed;
+  }
+  getItems() {
+    return this.http.get<any>(`${this.url}/STRItem/get/all`);
+  }
+  getEmployee() {
+    return this.http.get<any>(`${this.url}/HREmployee/get/all`);
+   
+  }
+
+  getTrCourse(){
+    return this.http.get<any>(`${this.url}/TrCourse/get/all`);
+
+  }
+ 
   /********************************  classroom  **********************************/
   postClassRoom(data: any) {
     return this.http.post<any>(`${this.url}/TrClassRoom/Add`, data);
@@ -154,6 +233,34 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/TrCourseCategory/get/all `);
   }
 
+
+      /********************************  TrInstructorCourse crud  **********************************/
+
+      postTrainingCenter(data: any) {
+        return this.http.post<any>(`${this.url}/TrTrainingCenter/Add`, data);
+      }  
+  
+      getTrainingCenter() {
+        return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+      }
+
+      putTrainingCenter(data: any) {
+        return this.http.put<any>(
+          `${this.url}/TrTrainingCenter/update`,
+          data
+        );
+      }
+      deleteTrainingCenter(id: number) {
+        return this.http.delete<any>(
+          `${this.url}/TrTrainingCenter/Delete/${id}`
+        );
+                
+      }
+
+      getAllCities() {
+        return this.http.get<any>(`${this.url}/HrCity/get/all`);
+      }
+      
   /********************************  TrInstructorCourse crud  **********************************/
 
   postInstructorCourse(data: any) {
@@ -189,6 +296,29 @@ export class ApiService {
   deleteTrTrainee(id: number) {
     return this.http.delete<any>(`${this.url}/TrTrainee/Delete/${id}`);
   }
-
-  
+/******************************** TrTrainingCenterCourse **********************************/
+postTrainingCenterCourse(data: any) {
+  return this.http.post<any>(`${this.url}/TrTrainingCenterCourse/Add`, data);
+}
+// here
+getTrainingCenterCourse() {
+  return this.http.get<any>(`${this.url}/TrTrainingCenterCourse/get/all`);
+}
+putTrainingCenterCourse(data: any) {
+  return this.http.put<any>(
+    `${this.url}/TrTrainingCenterCourse/update`,
+    data
+  );
+}
+deleteTrainingCenterCourse(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/TrTrainingCenterCourse/Delete/${id}`
+  );
+}
+getAllCourse() {
+  return this.http.get<any>(`${this.url}/TrCourse/get/all`);
+}
+getAllTrainingCenterr() {
+  return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+}
 }
