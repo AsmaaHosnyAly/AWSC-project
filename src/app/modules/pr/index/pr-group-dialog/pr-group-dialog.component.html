@@ -18,21 +18,6 @@
             </mat-form-field>
 
         </div>
-
-        <div class="headerForm" style="width: 22rem;margin-right: 35%;">
-            <mat-label>القسم*</mat-label>
-            <mat-form-field appearance="outline" class="child-num" style="width: 90%;">
-                <input matInput aria-label="commodity" [matAutocomplete]="ModuleId" [formControl]="prModuleCtrl"
-                    placeholder="{{editData ? editData.moduleName : ''}}" (click)="openAutoPrModule()" required />
-                <mat-autocomplete #ModuleId="matAutocomplete" [displayWith]="displayPrModuleName"
-                    (optionSelected)="PrModuleSelected($event)">
-                    <mat-option *ngFor="let prModule of filteredPrModule | async" [value]="prModule">
-                        {{ prModule.name }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </div>
-
         <div dir="ltr">
             <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
                 [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">التالى</button>

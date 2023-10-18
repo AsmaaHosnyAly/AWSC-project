@@ -19,7 +19,6 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 export class PrGroupTableComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
-    'moduleName',
     'Action',
   ];
   matchedIds: any;
