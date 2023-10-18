@@ -16,14 +16,14 @@ import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 export class Employee {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class TrainingCenter {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 export class City {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 @Component({
@@ -86,8 +86,9 @@ export class TrInstructorDialogComponent {
   ngOnInit(): void {
     this.TrInstructorForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
-      employeeId: ['', Validators.required],
-      trainingCenterId: ['', Validators.required],
+      employeeId: [''],
+      trainingCenterId: [''],
+      state: ['', Validators.required]
 
       // id: ['', Validators.required],
     });
@@ -158,7 +159,7 @@ export class TrInstructorDialogComponent {
   }
 
   private _filterEmployee(value: string): Employee[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.employees.filter((employee) =>
       employee.name.toLowerCase().includes(filterValue)
     );
@@ -185,7 +186,7 @@ export class TrInstructorDialogComponent {
   }
 
   private _filterTrainingCenter(value: string): TrainingCenter[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.trainingCenters.filter((trainingCenter) =>
       trainingCenter.name.toLowerCase().includes(filterValue)
     );
@@ -210,7 +211,7 @@ export class TrInstructorDialogComponent {
   }
 
   private _filterCities(value: string): City[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.cities.filter((city) =>
       city.name.toLowerCase().includes(filterValue)
     );
@@ -243,20 +244,26 @@ export class TrInstructorDialogComponent {
     }
   }
 
-  addTrInstructor() {
+  async addTrInstructor() {
     this.TrInstructorForm.controls['transactionUserId'].setValue(
       this.transactionUserId
     );
-    console.log('this.TrInstructorForm.value :', this.TrInstructorForm.value);
+    this.TrExternalInstructorForm.controls['transactionUserId'].setValue(
+      this.transactionUserId
+    );
+
+    // console.log('this.TrInstructorForm.value :', this.TrInstructorForm.value);
+
 
     if (!this.editData) {
+
       this.TrInstructorForm.removeControl('id');
-      if (this.TrInstructorForm.valid) {
-        this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
+      if (this.TrInstructorForm.valid && this.TrInstructorForm.getRawValue().state != 'خارجي') {
+        await this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
           next: (res) => {
             this.TrExternalInstructorForm.controls['instructorId'].setValue(res);
-            console.log("InstructorId: ", this.TrExternalInstructorForm.getRawValue().instructorId)
-            // alert("تمت الاضافة بنجاح");
+            console.log("InstructorId: ", this.TrExternalInstructorForm.getRawValue().instructorId);
+
             this.toastrSuccess();
             this.TrInstructorForm.reset();
             this.dialogRef.close('save');
@@ -266,16 +273,26 @@ export class TrInstructorDialogComponent {
             console.log(err);
           },
         });
-        console.log("datttaaa",this.TrExternalInstructorForm.value);
-
-        if (this.TrExternalInstructorForm.valid) {
-          this.api.postExternalInstructor(this.TrExternalInstructorForm.value).subscribe({
+      }
+      else if (this.TrInstructorForm.valid && this.TrInstructorForm.getRawValue().state == 'خارجي') {
+        if (this.TrInstructorForm.valid) {
+          await this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
             next: (res) => {
-              
-              // alert("تمت الاضافة بنجاح");
-              this.toastrSuccess();
-              this.TrExternalInstructorForm.reset();
-              this.dialogRef.close('save');
+              this.TrExternalInstructorForm.controls['instructorId'].setValue(res);
+              console.log("InstructorId: ", this.TrExternalInstructorForm.getRawValue().instructorId);
+
+              if (this.TrExternalInstructorForm.valid) {
+                this.addTrExternalInstructor();
+                
+                this.toastrSuccess();
+                this.TrInstructorForm.reset();
+                this.dialogRef.close('save');
+              }
+              else {
+                this.toastrWarning();
+
+              }
+
             },
             error: (err) => {
               alert('خطأ عند اضافة البيانات');
@@ -283,9 +300,40 @@ export class TrInstructorDialogComponent {
             },
           });
         }
+        else {
+          this.toastrWarning();
+
+        }
+      }
+      else {
+        this.toastrWarning();
+
       }
     } else {
       this.updateTrInstructor();
+    }
+  }
+
+  addTrExternalInstructor() {
+    // alert(" resId external fun: " + this.TrExternalInstructorForm.getRawValue().instructorId);
+
+    this.TrExternalInstructorForm.controls['transactionUserId'].setValue(
+      this.transactionUserId
+    );
+    console.log("datttaaa", this.TrExternalInstructorForm.value);
+
+    if (this.TrExternalInstructorForm.valid) {
+      this.api.postExternalInstructor(this.TrExternalInstructorForm.value).subscribe({
+        next: (res) => {
+          this.toastrSuccess();
+          this.TrExternalInstructorForm.reset();
+          this.dialogRef.close('save');
+        },
+        error: (err) => {
+          alert('خطأ عند اضافة البيانات');
+          console.log(err);
+        },
+      });
     }
   }
   updateTrInstructor() {
@@ -304,6 +352,9 @@ export class TrInstructorDialogComponent {
 
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
+  }
+  toastrWarning(): void {
+    this.toastr.warning('برجاء اكمال البيانات !');
   }
 
   toastrEditSuccess(): void {
