@@ -8,22 +8,9 @@
 <!-- <form [formGroup]="HrEmployeePosition" dir="rtl"> -->
 <div dir="rtl">
     <div mat-dialog-content>
-        <form [formGroup]="TrInstructorForm">
+        <form [formGroup]="TrTraineeForm">
 
-            <div class="child1">
-                <mat-label>الموظف*</mat-label>
-                <mat-form-field appearance="outline">
-                    <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-                        placeholder="{{editData ? editData.employeeName : ''}}"
-                        (click)="openAutoemployee()" required />
-                    <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
-                        (optionSelected)="employeeSelected($event)">
-                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                            {{ employee.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
+
             <div class="child1">
                 <mat-label>عملاء الشركة*</mat-label>
 
@@ -41,6 +28,34 @@
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
+
+            <div class="child1">
+                <div class="radio " style="display: flex;flex-direction: column;width: 52%;">
+                    <mat-label style="margin-top: 9px;"> حالةالصنف*</mat-label>
+                    <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
+                    <mat-radio-group style="display: flex;flex-direction: row;" aria-label="Select an option"
+                        (change)="set_Percentage($event)">
+                        <mat-radio-button value="موظف">موظف</mat-radio-button>
+                        <mat-radio-button value="خارجى">خارجى</mat-radio-button>
+                    </mat-radio-group>
+
+                </div>
+            </div>
+
+            <div class="child1">
+                <mat-label>الموظف*</mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+                        placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoemployee()" required/>
+                    <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                        (optionSelected)="employeeSelected($event)">
+                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                            {{ employee.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
         </form>
     </div>
     <div mat-dialog-actions>
