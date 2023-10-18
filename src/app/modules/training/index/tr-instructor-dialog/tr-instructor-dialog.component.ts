@@ -248,7 +248,6 @@ export class TrInstructorDialogComponent {
       this.transactionUserId
     );
     console.log('this.TrInstructorForm.value :', this.TrInstructorForm.value);
-
     if (!this.editData) {
       this.TrInstructorForm.removeControl('id');
       if (this.TrInstructorForm.valid) {
