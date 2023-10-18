@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
 import { TrTrackDialogComponent } from './../tr-track-dialog/tr-track-dialog.component';
+import { MAT_DIALOG_DATA,  MatDialogRef } from '@angular/material/dialog';
 
 // import { PyExchangeDialogComponent } from '../fi-entry-dialog/fi-entry-dialog.component';
 import {
@@ -20,7 +21,13 @@ import {
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+export class Course {
+  constructor(public id: number, public name: string) { }
+}
 
+export class Track {
+  constructor(public id: number, public name: string) { }
+}
 interface USER {
   no: string;
   balance: string;
@@ -82,6 +89,17 @@ export class TrTrackTableComponent implements OnInit {
   selectedAccount: Account | undefined;
 
 
+  CoursesList: Course[] = [];
+  CourseCtrl: FormControl;
+  filteredCourse: Observable<Course[]>;
+  selectedCourse: Course | undefined;
+
+
+  TracksList: Track[] = [];
+  TrackCtrl: FormControl;
+  filteredTrack: Observable<Track[]>;
+  selectedTrack: Track | undefined;
+
   employeesList: Employee[] = [];
   employeeCtrl: FormControl<any>;
   filteredEmployee: Observable<Employee[]>;
@@ -126,12 +144,24 @@ export class TrTrackTableComponent implements OnInit {
       startWith(''),
       map((value) => this._filterAccounts(value))
     );
+    this.CourseCtrl = new FormControl();
+    this.filteredCourse = this.CourseCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterCourses(value))
+    );
+
+    this.TrackCtrl = new FormControl();
+    this.filteredTrack = this.TrackCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterTracks(value))
+    );
 
   }
 
   ngOnInit(): void {
     this.getAllMasterForms();
     this.getTrTarck();
+    this.getCourse();
     this.getItems();
     this.getEmployees();
 
@@ -142,6 +172,10 @@ export class TrTrackTableComponent implements OnInit {
       
       name:[''],
       price:[''],
+      // courseId:[''],
+      // trackId:[''],
+      startDate:[''],
+      endDate:[''],
 
       // JournalId: [''],
       // FiEntrySourceTypeId: [''],
@@ -248,6 +282,7 @@ export class TrTrackTableComponent implements OnInit {
         }, error => {
           console.log(error);
           this.isLoading = false;
+          this,this.groupMasterForm.reset();
         });
     }
     else {
@@ -298,12 +333,73 @@ export class TrTrackTableComponent implements OnInit {
     // this.currentPage = event.previousPageIndex;
     this.getAllMasterForms();
   }
+  displayCourseName(Course: any): string {
+    return Course && Course.name ? Course.name : '';
+  }
+  CourseSelected(event: MatAutocompleteSelectedEvent): void {
+    const Course = event.option.value as Course;
+    console.log('Course selected: ', Course);
+    this.selectedCourse = Course;
+    this.groupMasterForm.patchValue({ courseId: Course.id });
+    console.log('CourseId', this.groupMasterForm.getRawValue().courseId)
 
+  }
+  private _filterCourses(value: string): Course[] {
+    const filterValue = value;
+    return this.CoursesList.filter((Course: any) =>
+      Course.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutoCourse() {
+    this.CourseCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.CourseCtrl.updateValueAndValidity();
+  }
+
+
+  displayTrackName(Track: any): string {
+    return Track && Track.name ? Track.name : '';
+  }
+  TrackSelected(event: MatAutocompleteSelectedEvent): void {
+    const Track = event.option.value as Track;
+    console.log('Track selected: ', Track);
+    this.selectedTrack = Track;
+    this.groupMasterForm.patchValue({ trackId: Track.id });
+    console.log('TrackId', this.groupMasterForm.getRawValue().trackId)
+
+  }
+  private _filterTracks(value: string): Track[] {
+    const filterValue = value;
+    return this.TracksList.filter((Track: any) =>
+      Track.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  openAutoTrack() {
+    this.TrackCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.TrackCtrl.updateValueAndValidity();
+  }
 
   getTrTarck() {
     this.api.getTrTarck().subscribe({
       next: (res) => {
-        this.sourcesList = res;
+        this.TracksList = res;
+        console.log('sources res: ', this.sourcesList);
+      },
+      error: (err) => {
+        console.log('fetch sources data err: ', err);
+        // alert('خطا اثناء جلب الدفاتر !');
+      },
+    });
+  }
+  getCourse() {
+    this.api.getTrCourse().subscribe({
+      next: (res) => {
+        this.CoursesList = res;
         console.log('sources res: ', this.sourcesList);
       },
       error: (err) => {
@@ -420,29 +516,31 @@ export class TrTrackTableComponent implements OnInit {
       },
     });
   }
-  // getSearchFiEntry(no: any,name:any,  startDate: any, endDate: any) {
+  getSearchFiEntry( startDate: any, endDate: any) {
+    let track = this.groupMasterForm.getRawValue().trackId;
+    let course = this.groupMasterForm.getRawValue().courseId;
 
-  //   console.log(
-  //     'no.: ', no,
-  //     'startDate: ', startDate,
-  //     'endDate: ', endDate,
-  //   );
+    console.log(
+ 
+      'startDate: ', startDate,
+      'endDate: ', endDate,
+    );
 
-  //   this.api
-  //     .getFiEntrySearach(no,name, startDate, endDate)
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log('search fiEntry res: ', res);
+    this.api
+      .getTrTrackSearach( startDate, endDate,track,course)
+      .subscribe({
+        next: (res) => {
+          console.log('search fiEntry res: ', res);
 
-  //         this.dataSource2 = res;
-  //         this.dataSource2.paginator = this.paginator;
-  //         this.dataSource2.sort = this.sort;
-  //       },
-  //       error: (err) => {
-  //         // alert('Error');
-  //       },
-  //     });
-  // }
+          this.dataSource2 = res;
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        },
+        error: (err) => {
+          // alert('Error');
+        },
+      });
+  }
 
   displayEmployeeName(employee: any): string {
     return employee && employee.name ? employee.name : '';

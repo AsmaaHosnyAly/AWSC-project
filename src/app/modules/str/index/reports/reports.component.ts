@@ -17,6 +17,7 @@ import { Hotkey } from 'angular2-hotkeys';
 import { DatePipe } from '@angular/common';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import jwt_decode from 'jwt-decode';
 
 import {
   FormControl,
@@ -86,6 +87,8 @@ export class ReportsComponent implements OnInit {
   selectedReportTypeTitle: any;
   dateNow: any;
   nextDate: any;
+  decodedToken: any;
+  decodedToken2: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -131,6 +134,13 @@ export class ReportsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    const accessToken: any = localStorage.getItem('accessToken');
+    // console.log('accessToken', accessToken);
+    // Decode the access token
+    this.decodedToken = jwt_decode(accessToken);
+    this.decodedToken2 = this.decodedToken.roles;
+    console.log('accessToken2', this.decodedToken2);
     // this.selectedReportNameTitle = this.reportNameList[0].titleval;
     // console.log('select report name: ', this.selectedReportNameTitle);
 
@@ -203,7 +213,8 @@ export class ReportsComponent implements OnInit {
   getStores() {
 
     console.log("storereeeeeeeee")
-    this.userRoles = localStorage.getItem('userRoles');
+    this.userRoles = this.decodedToken2;
+
     console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc))
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {
