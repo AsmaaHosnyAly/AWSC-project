@@ -942,7 +942,7 @@ export class ApiService {
   ///////////////////////////////// STR-OpeningStock & details/////////////////////////////
   getStrOpenAutoNo(storeId: any, fiscalYearId: any) {
     return this.http.get<any>(
-      `${this.url}/STROpeningStock/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalYearId}`
+      `${this.url}/STROpeningStock/get/Get/Last/No?StoreId=${storeId}&FiscalYearId=${fiscalYearId}`
     );
   }
 
