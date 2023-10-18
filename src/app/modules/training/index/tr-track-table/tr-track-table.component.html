@@ -9,41 +9,46 @@
                 <mat-icon>search</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
-        <div class="search">
+        <form [formGroup]="groupMasterForm">
+            <div class="search">
+        
             <div class="searchLabels">
-                <mat-label>الرقم</mat-label>
+                <mat-label>الكورس*</mat-label>
 
-                <mat-form-field appearance="outline">
-                    <input #no matInput placeholder="ادخل الرقم" type="number" min="0">
-                </mat-form-field>
-            </div>
-            <div class="searchLabels">
-                <mat-label>الاسم</mat-label>
-
-                <mat-form-field appearance="outline">
-                    <input #name matInput placeholder="ادخل الاسم">
-                </mat-form-field>
-            </div>
-            <div class="searchLabels">
-
-                <mat-label>الموظف:</mat-label>
-
-                <mat-form-field appearance="outline" class="searchForm">
-                    <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-                        formControlName="employee" (click)="openAutoEmployee()" required />
-                    <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
-                        (optionSelected)="employeeSelected($event)">
-                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                            {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoCourse" [formControl]="CourseCtrl"
+                        formControlName="courseId"
+                        (click)="openAutoCourse()" required />
+                    <mat-autocomplete #autoCourse="matAutocomplete" [displayWith]="displayCourseName"
+                        (optionSelected)="CourseSelected($event)">
+                        <mat-option *ngFor="let Course of filteredCourse | async" [value]="Course">
+                            {{ Course.name }}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
             </div>
+
+            <div class="searchLabels">
+                <mat-label>المسار*</mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoTrack" [formControl]="TrackCtrl"
+                        formControlName="trackId" 
+                        (click)="openAutoTrack()" required />
+                    <mat-autocomplete #autoTrack="matAutocomplete" [displayWith]="displayTrackName"
+                        (optionSelected)="TrackSelected($event)">
+                        <mat-option *ngFor="let Track of filteredTrack | async" [value]="Track">
+                            {{ Track.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            
             <div class="searchLabels">
                 <mat-label>تاريخ البداية</mat-label>
 
-                <mat-form-field appearance="outline" class="example-full-width">
-                    <input #startDate matInput [matDatepicker]="picker">
+                <mat-form-field appearance="outline" class="example-full-width" >
+                    <input #startDate matInput [matDatepicker]="picker" formControlName="startDate">
                     <mat-datepicker-toggle matIconSuffix [for]="picker">
                         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                     </mat-datepicker-toggle>
@@ -55,59 +60,14 @@
                 <mat-label>تاريخ النهاية</mat-label>
 
                 <mat-form-field appearance="outline" class="example-full-width">
-                    <input #endDate matInput [matDatepicker]="pickerEnd">
+                    <input #endDate matInput [matDatepicker]="pickerEnd" formControlName="endDate">
                     <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
                         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                     </mat-datepicker-toggle>
                     <mat-datepicker #pickerEnd></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="searchLabels">
-
-                <mat-label>الصنف:</mat-label>
-
-                <mat-form-field appearance="outline" class="searchForm">
-                    <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
-                        formControlName="itemName" (click)="openAutoitem()" required />
-                    <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
-                        (optionSelected)="itemSelected($event)">
-                        <mat-option *ngFor="let item of filtereditem | async" [value]="item">
-                            {{ item.name }} | {{ item.id }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-
-
-
-            <!-- <div class="searchLabels">
-            <mat-label> دفتر اليوميه </mat-label>
-
-            <mat-form-field appearance="outline">
-                <mat-select #journalId plceholder="اختر مركز التكلفة">
-                    <mat-option *ngFor="let journal of journalsList"
-                        [value]="journal.id">{{journal.description}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-           </div>
-
-           <div class="searchLabels">
-            <mat-label>نوع مصدر الادخال</mat-label>
-
-            <mat-form-field appearance="outline">
-            <mat-select #sourceId plceholder="اختر النوع">
-                <mat-option *ngFor="let source of sourcesList" [value]="source.id">{{source.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-       </div> -->
-
-            <!-- <mat-form-field appearance="outline">
-                <mat-label> الحساب </mat-label>
-                <mat-select #accountId plceholder="اختر الموظف المحول اليه">
-                    <mat-option *ngFor="let account of accountsList"
-                        [value]="account.id">{{account.name}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
+          
 
             <!-- <div class="searchLabels">
                 <mat-label> الحساب </mat-label>
@@ -145,9 +105,9 @@
             </div> -->
 
             <div class="print-display">
-                <mat-icon  class="icons"
+                <mat-icon  class="icons" (click)="getSearchFiEntry( startDate.value, endDate.value)"
                     title="بحث">search</mat-icon>
-                    <!-- (click)="getSearchFiEntry(no.value,name.value,  startDate.value, endDate.value)" -->
+                   
             
 
                 <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
@@ -180,6 +140,7 @@
 
 
         </div>
+    </form>
     </mat-expansion-panel>
 </mat-accordion>
 

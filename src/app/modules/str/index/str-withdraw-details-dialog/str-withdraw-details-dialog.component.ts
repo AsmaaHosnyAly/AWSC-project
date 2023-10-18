@@ -22,6 +22,7 @@ import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
+import jwt_decode from 'jwt-decode';
 
 export class item {
   constructor(public id: number, public name: string, public fullCode: string) { }
@@ -92,7 +93,8 @@ export class StrWithdrawDetailsDialogComponent {
     // 'percentage',
     'action',
   ];
-
+  decodedToken: any;
+  decodedToken2: any;
   // isReadOnlyEmployee: any = false;
   isReadOnlyPercentage: any = true;
   deststoresList: any;
@@ -172,8 +174,18 @@ export class StrWithdrawDetailsDialogComponent {
   }
 
   ngOnInit(): void {
+
+    // this.selectedTitle = this.titleList[0].titleval;
+    const accessToken: any = localStorage.getItem('accessToken');
+    // console.log('accessToken', accessToken);
+    // Decode the access token
+    this.decodedToken = jwt_decode(accessToken);
+    this.decodedToken2 = this.decodedToken.roles;
+
+
     this.getItems();
     this.getProducts();
+    this.getStores();
 
     this.getDestStores();
 
@@ -776,7 +788,7 @@ export class StrWithdrawDetailsDialogComponent {
   }
 
   async getStores() {
-    this.userRoles = localStorage.getItem('userRoles');
+    this.userRoles = this.decodedToken2;
     console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc));
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {

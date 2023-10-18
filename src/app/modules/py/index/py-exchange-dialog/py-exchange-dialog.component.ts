@@ -96,14 +96,15 @@ export class PyExchangeDialogComponent implements OnInit {
     // this.getFiAccounts();
     // this.getFiAccountItems();
     this.getPyExchange();
+    this.getfiscalYear();
     this.global.test = this.test;
 
     this.getMasterRowId = this.editData;
-
+console.log('masterrrr roowwwww idddd',this.getMasterRowId)
     this.groupMasterForm = this.formBuilder.group({
       no: ['', Validators.required],
       name: ['', Validators.required],
-
+fiscalYearId:[''],
       updateUserName:[1],
 
       transactionUserId: ['', Validators.required],
@@ -128,6 +129,8 @@ export class PyExchangeDialogComponent implements OnInit {
     this.actionBtnMaster = 'Update';
     this.groupMasterForm.controls['no'].setValue(this.editData.no);
     this.groupMasterForm.controls['date'].setValue(this.editData.date);
+    this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+
     // this.groupMasterForm.controls['pyItemName'].setValue(this.editData.pyItemName);
 
     this.groupMasterForm.controls['updateUserName'].setValue(1);
@@ -156,6 +159,8 @@ export class PyExchangeDialogComponent implements OnInit {
       new FormControl('', Validators.required)
     );
     this.groupMasterForm.controls['id'].setValue(this.editData.id);
+    this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+
   }
 
   this.getAllDetailsForms();
@@ -166,7 +171,39 @@ export class PyExchangeDialogComponent implements OnInit {
   );
 }
 
+async nextToAddFormDetails() {
+  this.groupMasterForm.removeControl('id');
 
+  // this.groupMasterForm.controls['creditTotal'].setValue(0);
+  // this.groupMasterForm.controls['debitTotal'].setValue(0);
+  // this.groupMasterForm.controls['balance'].setValue(0);
+  // this.groupMasterForm.controls['state'].setValue('مغلق');
+
+  console.log('fiexchange master form: ', this.groupMasterForm.value);
+
+  if (this.groupMasterForm.valid) {
+    console.log('Master add form : ', this.groupMasterForm.value);
+    this.api.postPyExchange(this.groupMasterForm.value).subscribe({
+      next: (res) => {
+        console.log('ID fiexchange after post: ', res);
+        this.getMasterRowId = {
+          id: res,};
+
+        console.log('mastered res: ', this.getMasterRowId);
+        this.MasterGroupInfoEntered = true;
+
+        // alert("تم الحفظ بنجاح");
+        this.toastrSuccess();
+        this.getAllDetailsForms();
+        this.addDetailsInfo();
+      },
+      error: (err) => {
+        console.log('header post err: ', err);
+        // alert("حدث خطأ أثناء إضافة مجموعة")
+      },
+    });
+  }
+}
 
 
 
@@ -185,7 +222,18 @@ getPyExchange() {
   });
 }
 
-
+getfiscalYear() {
+  this.api.getFiscalYears().subscribe({
+    next: (res) => {
+      this.fiscalYearsList = res;
+      // console.log("sourcesList res: ", this.sourcesList);
+    },
+    error: (err) => {
+      console.log('fetch sourcesList data err: ', err);
+      // alert("خطا اثناء جلب الانواع !");
+    },
+  });
+}
 
 
 
@@ -224,39 +272,7 @@ getAllDetailsForms() {
   }
 }
 
-  async nextToAddFormDetails() {
-  this.groupMasterForm.removeControl('id');
 
-  // this.groupMasterForm.controls['creditTotal'].setValue(0);
-  // this.groupMasterForm.controls['debitTotal'].setValue(0);
-  // this.groupMasterForm.controls['balance'].setValue(0);
-  // this.groupMasterForm.controls['state'].setValue('مغلق');
-
-  console.log('fiexchange master form: ', this.groupMasterForm.value);
-
-  if (this.groupMasterForm.valid) {
-    console.log('Master add form : ', this.groupMasterForm.value);
-    this.api.postPyExchange(this.groupMasterForm.value).subscribe({
-      next: (res) => {
-        console.log('ID fiexchange after post: ', res);
-        this.getMasterRowId = {
-          id: res,
-        };
-        console.log('mastered res: ', this.getMasterRowId.id);
-        this.MasterGroupInfoEntered = true;
-
-        // alert("تم الحفظ بنجاح");
-        this.toastrSuccess();
-        this.getAllDetailsForms();
-        this.addDetailsInfo();
-      },
-      error: (err) => {
-        console.log('header post err: ', err);
-        // alert("حدث خطأ أثناء إضافة مجموعة")
-      },
-    });
-  }
-}
 
   async addDetailsInfo() {
   console.log(
