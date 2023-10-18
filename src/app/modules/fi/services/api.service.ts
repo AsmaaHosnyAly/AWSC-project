@@ -384,7 +384,7 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
 
   getLastFiscalYear() {
     return this.http.get<any>(
-      `${this.url}/STRFiscalYear/getLastfisicalyear/all`
+      `${this.url}/STRFiscalYear/get/Last/fisical/year`
     );
   }
 

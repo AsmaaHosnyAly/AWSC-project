@@ -25,6 +25,7 @@ import { formatDate } from '@angular/common';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
+import jwt_decode from 'jwt-decode';
 
 export class Employee {
   constructor(public id: number, public name: string) { }
@@ -102,8 +103,11 @@ export class StrStockTakingDialogComponent implements OnInit {
   getCustodyData: any;
   userRoles: any;
 
-  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
-  
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
+
+  decodedToken: any;
+  decodedToken2: any;
+
   defaultStoreSelectValue: any;
   displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'systemQty', 'balance', 'qty', 'total', 'action'];
 
@@ -147,6 +151,15 @@ export class StrStockTakingDialogComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    const accessToken: any = localStorage.getItem('accessToken');
+    // console.log('accessToken', accessToken);
+    // Decode the access token
+    this.decodedToken = jwt_decode(accessToken);
+    this.decodedToken2 = this.decodedToken.roles;
+    console.log('accessToken2', this.decodedToken2);
+
+
     this.getStores();
     this.getItems();
     this.getFiscalYears();
@@ -375,7 +388,8 @@ export class StrStockTakingDialogComponent implements OnInit {
     this.router.navigate(['/StrStockTaking'], { queryParams: { StoreId: this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrStockTakingDetailsDialogComponent, {
       width: '98%',
-      height: '79%',    }).afterClosed().subscribe(val => {
+      height: '79%',
+    }).afterClosed().subscribe(val => {
       if (val === 'Save' || val === 'Update') {
         this.getAllDetailsForms();
       }
@@ -728,10 +742,10 @@ export class StrStockTakingDialogComponent implements OnInit {
   editDetailsForm(row: any) {
 
 
-    this.router.navigate(['/StrStockTaking'], { queryParams: { StoreId: this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date }  })
+    this.router.navigate(['/StrStockTaking'], { queryParams: { StoreId: this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrStockTakingDetailsDialogComponent, {
       width: '98%',
-      height: '79%',      data: row,
+      height: '79%', data: row,
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();
@@ -781,7 +795,9 @@ export class StrStockTakingDialogComponent implements OnInit {
 
   }
   async getStores() {
-    this.userRoles = localStorage.getItem('userRoles');
+    // this.userRoles = localStorage.getItem('userRoles');
+    this.userRoles = this.decodedToken2;
+
     console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc))
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {

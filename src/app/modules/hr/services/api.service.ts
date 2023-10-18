@@ -1311,7 +1311,7 @@ postHrEmployeeAppraisal(data: any) {
   ///////////////////////////////// STR-OpeningStock & details/////////////////////////////
   getStrOpenAutoNo(storeId: any, fiscalYearId: any) {
     return this.http.get<any>(
-      `${this.url}/STROpeningStock/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalYearId}`
+      `${this.url}/STROpeningStock/get/Get/Last/No?StoreId=${storeId}&FiscalYearId=${fiscalYearId}`
     );
   }
 
@@ -1384,7 +1384,7 @@ postHrEmployeeAppraisal(data: any) {
 
   getLastFiscalYear() {
     return this.http.get<any>(
-      `${this.url}/STRFiscalYear/getLastfisicalyear/all`
+      `${this.url}/STRFiscalYear/get/Last/fisical/year`
     );
   }
 
