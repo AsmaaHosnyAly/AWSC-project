@@ -27,7 +27,7 @@ export class TrTraineeDialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId')
 
   formcontrol = new FormControl('');
-  TrInstructorForm !: FormGroup;
+  TrTraineeForm !: FormGroup;
   actionBtn: string = "حفظ";
   getTrInstructorData: any;
 
@@ -40,6 +40,7 @@ export class TrTraineeDialogComponent implements OnInit {
   filteredtrCoporteClient: Observable<TrCoporteClient[]>;
   trCoporteClientsList: TrCoporteClient[] = [];
   selectedTrCoporteClient: TrCoporteClient | undefined;
+  isReadOnlyPercentage = true;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -64,7 +65,7 @@ export class TrTraineeDialogComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    this.TrInstructorForm = this.formBuilder.group({
+    this.TrTraineeForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       employeeId: ['', Validators.required],
       corporationCLinetId: ['', Validators.required]
@@ -88,28 +89,28 @@ export class TrTraineeDialogComponent implements OnInit {
       console.log("edit data: ", this.editData)
       this.actionBtn = "تعديل";
       this.getTrInstructorData = this.editData;
-      this.TrInstructorForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      this.TrInstructorForm.controls['employeeId'].setValue(this.editData.employeeId);
-      this.TrInstructorForm.controls['corporationCLinetId'].setValue(this.editData.corporationCLinetId);
+      this.TrTraineeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.TrTraineeForm.controls['employeeId'].setValue(this.editData.employeeId);
+      this.TrTraineeForm.controls['corporationCLinetId'].setValue(this.editData.corporationCLinetId);
 
-      this.TrInstructorForm.addControl('id', new FormControl('', Validators.required));
-      this.TrInstructorForm.controls['id'].setValue(this.editData.id);
+      this.TrTraineeForm.addControl('id', new FormControl('', Validators.required));
+      this.TrTraineeForm.controls['id'].setValue(this.editData.id);
     }
   }
 
   addTrTrainee() {
-    this.TrInstructorForm.controls['transactionUserId'].setValue(this.transactionUserId);
-    console.log("this.TrInstructorForm.value :", this.TrInstructorForm.value);
+    this.TrTraineeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+    console.log("TrTraineeForm value :", this.TrTraineeForm.value);
 
 
     if (!this.editData) {
-      this.TrInstructorForm.removeControl('id')
-      if (this.TrInstructorForm.valid) {
-        this.api.postTrTrainee(this.TrInstructorForm.value)
+      this.TrTraineeForm.removeControl('id')
+      if (this.TrTraineeForm.valid) {
+        this.api.postTrTrainee(this.TrTraineeForm.value)
           .subscribe({
             next: (res) => {
               this.toastrSuccess();
-              this.TrInstructorForm.reset();
+              this.TrTraineeForm.reset();
               this.dialogRef.close('save');
             },
             error: (err) => {
@@ -124,11 +125,11 @@ export class TrTraineeDialogComponent implements OnInit {
     }
   }
   updateTrTrainee() {
-    this.api.putTrTrainee(this.TrInstructorForm.value)
+    this.api.putTrTrainee(this.TrTraineeForm.value)
       .subscribe({
         next: (res) => {
           this.toastrEditSuccess();
-          this.TrInstructorForm.reset();
+          this.TrTraineeForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
@@ -147,11 +148,11 @@ export class TrTraineeDialogComponent implements OnInit {
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
     this.selectedEmployee = employee;
-    this.TrInstructorForm.patchValue({ employeeId: employee.id });
+    this.TrTraineeForm.patchValue({ employeeId: employee.id });
   }
 
   private _filterEmployee(value: string): Employee[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.employeesList.filter(employee =>
       employee.name.toLowerCase().includes(filterValue)
     );
@@ -172,11 +173,11 @@ export class TrTraineeDialogComponent implements OnInit {
   TrCoporteClientSelected(event: MatAutocompleteSelectedEvent): void {
     const trCoporteClient = event.option.value as TrCoporteClient;
     this.selectedTrCoporteClient = trCoporteClient;
-    this.TrInstructorForm.patchValue({ corporationCLinetId: trCoporteClient.id });
+    this.TrTraineeForm.patchValue({ corporationCLinetId: trCoporteClient.id });
   }
 
   private _filterTrCoporteClient(value: string): TrCoporteClient[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.trCoporteClientsList.filter(trCoporteClient =>
       trCoporteClient.name.toLowerCase().includes(filterValue)
     );
@@ -187,6 +188,27 @@ export class TrTraineeDialogComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.trCoporteClientCtrl.updateValueAndValidity();
+  }
+
+
+  set_Percentage(state: any) {
+
+    console.log("state value changed: ", state.value);
+    // this.TrTraineeForm.controls['state'].setValue(state.value);
+
+    if (state.value == "موظف") {
+      this.employeeCtrl.enable();
+      // this.isReadOnlyPercentage = false;
+    }
+    else {
+      this.isReadOnlyPercentage = true;
+      // this.TrTraineeForm.controls['percentage'].setValue(100);
+      this.employeeCtrl.disable();
+      this.TrTraineeForm.controls['employeeId'].enable();
+      this.TrTraineeForm.controls['employeeId'].setValue(0);
+
+    }
+
   }
 
 
