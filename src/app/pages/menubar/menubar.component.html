@@ -442,7 +442,7 @@
 
       <!-- End PY التدريب   -->
       <!-- Start  Training التدريب   -->
-      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
+      <mat-expansion-panel dir="rtl" >
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon color="primary" class="ms-2">store</mat-icon>
@@ -474,8 +474,8 @@
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font">نوع الدورة التدريبية</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="TR-Instructor"
-                *ngIf="hasAccessRole(pageEnums.PR_USER)">
+              <a mat-list-item class="sideNavSubItems" routerLink="/TR-Instructor"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font"> المدربين</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/TrTrainee"
@@ -503,6 +503,10 @@
               <a mat-list-item class="sideNavSubItems" routerLink="/Tr-ClassRoom"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font">قاعات التدريب</p>
+              </a>
+              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-trainingCenterCourse"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+                <p class="font"> دورات مركز التدريب</p>
               </a>
             </mat-nav-list>
           </mat-expansion-panel>

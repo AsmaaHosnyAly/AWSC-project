@@ -1,0 +1,53 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل  دورات مركز التدريب   ' : 'إضافة  دورات مركز التدريب  جديد'}}</h1>
+  <form [formGroup]="modelForm" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="modelForm">
+        
+            <mat-label>مركز التدريب</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="traingingCenter" [matAutocomplete]="autoTraingingCenter" [formControl]="traingingCenterCtrl"
+              placeholder="{{getModelData  ? getModelData.traingingCenterName : ''}}" (click)="openAutoTraingingCenter()" required />
+            <mat-autocomplete #autoTraingingCenter="matAutocomplete" [displayWith]="displayTraingingCenterName"
+              (optionSelected)="traingingCenterSelected($event)">
+              <mat-option *ngFor="let trainingCenter of filteredTraingingCenteres | async" [value]="trainingCenter">
+                {{ trainingCenter.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-label> الدورة التدربية</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="course" [matAutocomplete]="autoCityState" [formControl]="courseCtrl"
+              placeholder="{{getModelData  ? getModelData.courseName : ''}}" (click)="openAutoCourse()" required />
+            <mat-autocomplete #autoCityState="matAutocomplete" [displayWith]="displayCourseName"
+              (optionSelected)="courseSelected($event)">
+              <mat-option *ngFor="let course of filteredCourses | async" [value]="course">
+                {{ course.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+          <mat-label>تقييم</mat-label>
+          <input formControlName="rating" matInput placeholder=" ادخل تقييم">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>السعر</mat-label>
+        <input formControlName="price" matInput placeholder="ادخل السعر">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>ملاحظات</mat-label>
+        <input formControlName="notes" matInput placeholder="ادخل ملاحظات">
+      </mat-form-field>
+      
+         
+        
+        </form>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn"  (click)="addtrainCourse()" style="margin-left: 8px;">{{actionBtn}}</button>
+      </div>
+    </form>
+
