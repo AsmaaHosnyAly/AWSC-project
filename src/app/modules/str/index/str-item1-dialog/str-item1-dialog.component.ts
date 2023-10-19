@@ -229,6 +229,8 @@ export class STRItem1DialogComponent implements OnInit {
     this.itemForm.patchValue({ commodityId: commodity.id });
     this.itemForm.patchValue({ commodityName: commodity.name });
     this.itemForm.patchValue({ commoditycode: commodity.code });
+  
+    
   }
 
   gradeSelected(event: MatAutocompleteSelectedEvent): void {
