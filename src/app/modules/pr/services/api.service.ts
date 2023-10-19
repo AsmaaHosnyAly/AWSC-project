@@ -55,7 +55,7 @@ putPrGroupRole(data: any) {
 }
 deletePrGroupRole(HeaderId: number) {
   console.log('deleted detaild row id: ', HeaderId);
-  return this.http.delete<any>(`${this.url}/PRGroupRole/delete/` + HeaderId);
+  return this.http.delete<any>(`${this.url}/PRGroupRole/delete/${HeaderId}`);
 }
 
   ///////////////////////////////// PR-User & PR-UserGroup /////////////////////////////
@@ -93,7 +93,7 @@ deletePrGroupRole(HeaderId: number) {
   }
   deletePrUserGroup(HeaderId: number) {
     console.log('deleted detaild row id: ', HeaderId);
-    return this.http.delete<any>(`${this.url}/PRUserGroup/delete` + HeaderId);
+    return this.http.delete<any>(`${this.url}/PRUserGroup/delete/${HeaderId}`);
   }
 
 }

@@ -295,6 +295,7 @@ export class PrGroupDialogComponent implements OnInit {
     // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
 
     if (this.editData) {
+      console.log("editData: ", this.editData);
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
     }
@@ -387,6 +388,8 @@ export class PrGroupDialogComponent implements OnInit {
           },
           error: () => {
             // alert("خطأ أثناء حذف التفاصيل !!");
+            this.getAllDetailsForms()
+
           }
         })
     }
