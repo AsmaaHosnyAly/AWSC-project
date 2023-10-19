@@ -17,6 +17,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
+import jwt_decode from 'jwt-decode';
 
 import {
   FormControl,
@@ -131,6 +132,9 @@ export class STRAddTableComponent implements OnInit {
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
 
+  decodedToken: any;
+  decodedToken2: any;
+
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
   // @ViewChild(MatPaginator) paginatorPendingWithdraw!: MatPaginator;
   @ViewChild('paginatorLegal')
@@ -195,6 +199,12 @@ export class STRAddTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const accessToken: any = localStorage.getItem('accessToken');
+    // console.log('accessToken', accessToken);
+    // Decode the access token
+    this.decodedToken = jwt_decode(accessToken);
+    this.decodedToken2 = this.decodedToken.roles;
+    console.log('accessToken2', this.decodedToken2);
 
     this.selectedReportName = "STRWithdrawReport";
 
@@ -504,7 +514,8 @@ export class STRAddTableComponent implements OnInit {
   // }
 
   getStores() {
-    this.userRoles = localStorage.getItem('userRoles');
+    // this.userRoles = localStorage.getItem('userRoles');
+    this.userRoles = this.decodedToken2;
     console.log('userRoles manager: ', this.userRoles.includes(this.userRoleStoresAcc))
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {

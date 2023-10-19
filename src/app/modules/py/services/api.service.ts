@@ -67,12 +67,14 @@ export class ApiService {
   ////////py exchange///////
 
   postPyExchange(data: any) {
+    console.log('data:',data)
     return this.http.post<any>(`${this.url}/PyExchange/Add`, data);
   }
   getPyExchange() {
     return this.http.get<any>(`${this.url}/PyExchange/get/all`);
   }
   putPyExchange(data: any) {
+    console.log("data in put",data);
     return this.http.put<any>(`${this.url}/PyExchange/update`, data);
   }
   deletePyExchange(id: number) {
@@ -84,21 +86,21 @@ export class ApiService {
     let urlPassed = `${this.url}/PyExchange/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
     return urlPassed;
   }
-  getFiEntrySearach(no: any, name: any, startDate: any, endDate: any) {
+  getPyExchangeSearach(no: any, fiscalyear: any, startDate: any, endDate: any) {
     console.log(
       "values search passed: 'no: '", no,
       "' startDate: '", startDate,
       "' endDate: '", endDate,
 
     );
-    this.mycondition = `${this.url}/FIEntry/search?`;
+    this.mycondition = `${this.url}/PyExchange/search?`;
 
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
-    if (!name == false) {
-      this.mycondition = ` ${this.mycondition}&name=${name}`;
+    if (!fiscalyear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalyear}`;
     }
     // if (!employee == false) {
     //   this.mycondition = ` ${this.mycondition}&employee=${employee}`;
@@ -132,6 +134,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/PyExchangeDetails/get/all`);
   }
   getPyExchangeDetailsByMasterId(id: any) {
+    console.log("id in get datails:",id);
     return this.http.get<any>(`${this.url}/PyExchangeDetails/get/By/header/${id}`);
   }
   putPyExchangeDetails(data: any) {
@@ -153,7 +156,7 @@ export class ApiService {
 
   getLastFiscalYear() {
     return this.http.get<any>(
-      `${this.url}/STRFiscalYear/getLastfisicalyear/all`
+      `${this.url}/STRFiscalYear/get/Last/fisical/year`
     );
   }
 
@@ -243,4 +246,10 @@ export class ApiService {
     return this.http.delete<any>(`${this.url}/PyItemGroupEmployee/delete/` + id);
   }
 
+
+
+
+  getFiscalYears() {
+    return this.http.get<any>(`${this.url}/STRFiscalYear/get/all`);
+  }
 }

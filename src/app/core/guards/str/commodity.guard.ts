@@ -53,9 +53,11 @@ export class commodityGuard implements CanActivate {
 //  return false;
 let pages = route.data['PageLsit'] as Array<string>;
 const USER_ROLES_LOCAL_STORAGE =this.decodedToken2
+console.log('decodedToken2',USER_ROLES_LOCAL_STORAGE)
 const USER_ROLES : Array<any> = USER_ROLES_LOCAL_STORAGE
 // pages && !MODULES.some((i:any)=>i == pages[0])
-if(pages && !USER_ROLES.some((i:any)=>i == pages[0])||pages && !USER_ROLES.some((i:any)=>i == pages[0]== undefined)){
+console.log("commidty",pages && !USER_ROLES.some((i:any)=>i == pages[0]))
+if(pages && !USER_ROLES.some((i:any)=>i == pages[0])){
   alert('عفوا لا تمتلك الصلاحية ')
   this.router.navigate(['/home']);
   return false

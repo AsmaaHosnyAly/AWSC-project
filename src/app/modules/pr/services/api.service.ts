@@ -10,38 +10,16 @@ import { PagesEnums } from 'src/app/core/enums/pages.enum';
 })
 export class ApiService {
   pageEnums = PagesEnums
-  url =this.pageEnums.URL
-  constructor(private http: HttpClient) {}
+  url = this.pageEnums.URL
+  constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
 
- 
-  
- ///////////////////////////////// PR-Group & PR-GroupRole/////////////////////////////
- getPrRole() {
-  return this.http.get<any>(`${this.url}/PRRole/get/all`);
-}
 
-postPrGroup(data: any) {
-  return this.http.post<any>(`${this.url}/PRGroup/Add`, data);
-}
-getItems() {
-  return this.http.get<any>(`${this.url}/STRItem/get/all`);
-}
 
-getPrGroupRole() {
-  return this.http.get<any>(`${this.url}/PRGroupRole/get/all`);
-}
-getPrGroup() {
-  return this.http.get<any>(`${this.url}/PRGroup/get/all`);
-}
-putPrGroup(data: any) {
-  console.log('prGroup edit data: ', data);
-  return this.http.put<any>(`${this.url}/PRGroup/update`, data);
-}
-deletePrGroup(id: number) {
-  console.log('deleted header bbbb row id: ', id);
-  return this.http.delete<any>(`${this.url}/PRGroup/delete/` + id);
-}
+  ///////////////////////////////// PR-Group & PR-GroupRole/////////////////////////////
+  getPrModules() {
+    return this.http.get<any>(`${this.url}/PRModule/get/all`);
+  }
 
 postPrGroupRole(data: any) {
   return this.http.post<any>(`${this.url}/PRGroupRole/add`, data);
@@ -55,7 +33,7 @@ putPrGroupRole(data: any) {
 }
 deletePrGroupRole(HeaderId: number) {
   console.log('deleted detaild row id: ', HeaderId);
-  return this.http.delete<any>(`${this.url}/PRGroupRole/delete/` + HeaderId);
+  return this.http.delete<any>(`${this.url}/PRGroupRole/delete/${HeaderId}`);
 }
 
   ///////////////////////////////// PR-User & PR-UserGroup /////////////////////////////
@@ -93,8 +71,7 @@ deletePrGroupRole(HeaderId: number) {
   }
   deletePrUserGroup(HeaderId: number) {
     console.log('deleted detaild row id: ', HeaderId);
-    return this.http.delete<any>(`${this.url}/PRUserGroup/delete/` + HeaderId);
+    return this.http.delete<any>(`${this.url}/PRUserGroup/delete/${HeaderId}`);
   }
-
 
 }

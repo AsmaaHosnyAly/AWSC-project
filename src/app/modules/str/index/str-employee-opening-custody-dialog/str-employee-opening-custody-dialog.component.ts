@@ -29,15 +29,16 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
+import jwt_decode from 'jwt-decode';
 
 export class Employee {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class CostCenter {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class Item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 @Component({
@@ -119,6 +120,9 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
 
   employeeName: any;
 
+  decodedToken: any;
+  decodedToken2: any;
+
   userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
 
   // toastr: any;
@@ -157,6 +161,14 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    const accessToken: any = localStorage.getItem('accessToken');
+    // console.log('accessToken', accessToken);
+    // Decode the access token
+    this.decodedToken = jwt_decode(accessToken);
+    this.decodedToken2 = this.decodedToken.roles;
+    console.log('accessToken2', this.decodedToken2);
+
     // this.getStores();
     this.getItems();
     this.getFiscalYears();
@@ -741,7 +753,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
           );
           this.groupDetailsForm.controls['total'].setValue(
             parseFloat(this.groupDetailsForm.getRawValue().price) *
-              parseFloat(this.groupDetailsForm.getRawValue().qty)
+            parseFloat(this.groupDetailsForm.getRawValue().qty)
           );
 
           console.log(
@@ -993,7 +1005,9 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     }
   }
   async getStores() {
-    this.userRoles = localStorage.getItem('userRoles');
+    // this.userRoles = localStorage.getItem('userRoles');
+    this.userRoles = this.decodedToken2;
+
     console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc));
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {

@@ -284,7 +284,7 @@
 
           <a mat-list-item class="sideNavSubItems" routerLink="/hr-EmployeeDisciplinary"
             *ngIf="hasAccessRole(pageEnums.HR_Employee_Disciplinary)">
-            الدرجة الوظيفية</a>
+            جزاءات الموظفين</a>
           <a mat-list-item class="sideNavSubItems" routerLink="/hr-financialDegree"
             *ngIf="hasAccessRole(pageEnums.HR_financialDegree)">
             الدرجة المالية</a>
@@ -313,7 +313,7 @@
       <!-- start roles -->
       <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
       <!-- <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)"> -->
-      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
+      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.ROLES)">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon color="primary" class="ms-2">store</mat-icon>
@@ -433,7 +433,7 @@
                 *ngIf="hasAccessRole(pageEnums.pytaxbracket)"> الوعاء الضريبي
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/PyItemGroup"
-                *ngIf="hasAccessRole(pageEnums.PyItemGroup)">مجموعات الاجور
+                >مجموعات الاجور
               </a>
             </mat-nav-list>
           </mat-expansion-panel>
@@ -512,9 +512,9 @@
           </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
-          <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeAttendanceSchedule"
+          <a mat-list-item class="sideNavSubItems" routerLink="/TrTrack"
             *ngIf="hasAccessRole(pageEnums.PR_USER)">
-            <p class="font">جدول حضور الموظفين</p>
+            <p class="font">المسار</p>
           </a>
 
 

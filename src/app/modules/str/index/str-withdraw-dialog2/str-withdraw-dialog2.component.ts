@@ -25,6 +25,7 @@ import { StrWithdrawDetailsDialogComponent } from '../str-withdraw-details-dialo
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
+import jwt_decode from 'jwt-decode';
 
 export class deststore {
   constructor(public id: number, public name: string) { }
@@ -95,7 +96,8 @@ export class StrWithdrawDialogComponent implements OnInit {
   // deststoreList:any;
   desstoreName: any;
   autoNo: any;
-
+  decodedToken: any;
+  decodedToken2: any;
   fiscalYearValue: any;
   deststoreValue: any;
   storeSelectedId: any;
@@ -210,7 +212,12 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedTitle = this.titleList[0].titleval;
-
+    const accessToken: any = localStorage.getItem('accessToken');
+    // console.log('accessToken', accessToken);
+    // Decode the access token
+    this.decodedToken = jwt_decode(accessToken);
+    this.decodedToken2 = this.decodedToken.roles;
+    console.log('accessToken2', this.decodedToken2);
     this.getStores();
     this.getItems();
     this.getFiscalYears();
@@ -1193,7 +1200,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   async getStores() {
     console.log("dynamic userRole pageEnum: ", this.userRoleStoresAcc);
 
-    this.userRoles = localStorage.getItem('userRoles');
+    this.userRoles = this.decodedToken2;
     console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc));
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {
