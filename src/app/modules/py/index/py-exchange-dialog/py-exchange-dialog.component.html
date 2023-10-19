@@ -105,6 +105,16 @@
                             <input formControlName="description" matInput placeholder="الوصف ...">
                         </mat-form-field>
                     </div>
+                    <div class="searchLabels">
+                        <mat-label>السنة المالية:</mat-label>
+        
+                        <mat-form-field appearance="outline" class="child-num" >
+                            <mat-select  #FiscalYearId placeholder="السنة المالية" formControlName="fiscalYearId">
+                                <mat-option [value]="fiscalYear.id"
+                                    *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
 
                 </div>
                 <div dir="ltr">

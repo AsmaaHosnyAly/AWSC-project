@@ -60,7 +60,7 @@ export class MenubarComponent {
     this.decodedToken1 = this.decodedToken.modules;
     this.decodedToken2 = this.decodedToken.roles;
 
-    console.log('decodedToken1 ', this.decodedToken1);
+    console.log('decodedToken2 ', this.decodedToken2);
   }
   title = 'str-group';
 

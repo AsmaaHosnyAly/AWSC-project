@@ -282,8 +282,7 @@ export class TrInstructorDialogComponent {
               console.log("InstructorId: ", this.TrExternalInstructorForm.getRawValue().instructorId);
 
               if (this.TrExternalInstructorForm.valid) {
-                this.addTrExternalInstructor();
-                
+                this.addTrExternalInstructor();                
                 this.toastrSuccess();
                 this.TrInstructorForm.reset();
                 this.dialogRef.close('save');
@@ -295,7 +294,7 @@ export class TrInstructorDialogComponent {
 
             },
             error: (err) => {
-              alert('خطأ عند اضافة البيانات');
+              alert('1خطأ عند اضافة البيانات');
               console.log(err);
             },
           });
@@ -330,7 +329,7 @@ export class TrInstructorDialogComponent {
           this.dialogRef.close('save');
         },
         error: (err) => {
-          alert('خطأ عند اضافة البيانات');
+          alert('2خطأ عند اضافة البيانات');
           console.log(err);
         },
       });
@@ -345,7 +344,7 @@ export class TrInstructorDialogComponent {
         this.dialogRef.close('update');
       },
       error: () => {
-        alert('خطأ عند تحديث البيانات');
+        alert('3خطأ عند تحديث البيانات');
       },
     });
   }

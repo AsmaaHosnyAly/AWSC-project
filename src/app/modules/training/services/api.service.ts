@@ -12,7 +12,7 @@ export class ApiService {
   url = this.pageEnums.URL
   constructor(private http: HttpClient) { }
 
-
+mycondition:any;
 
   /********************************  Instructor crud  **********************************/
 
@@ -87,11 +87,44 @@ export class ApiService {
   }
 
 
+  getTrTrackSearach( startDate: any, endDate: any,track:any,course:any) {
+    console.log(
+      "' startDate: '", startDate,
+      "' endDate: '", endDate,
 
+    );
+    this.mycondition = `${this.url}/TrTrackDetails/search?`;
+
+
+    
+    if (!track == false) {
+      this.mycondition = ` ${this.mycondition}&TrackId=${track}`;
+    }
+    if (!course == false) {
+      this.mycondition = ` ${this.mycondition}&CourseId=${course}`;
+    }
+
+
+
+    if (!startDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${startDate}`;
+    }
+    if (!endDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${endDate}`;
+    }
+
+
+
+
+
+    console.log('url', this.mycondition);
+
+    return this.http.get<any>(`${this.mycondition}`);
+  }
   
   getLastFiscalYear() {
     return this.http.get<any>(
-      `${this.url}/STRFiscalYear/getLastfisicalyear/all`
+      `${this.url}/STRFiscalYear/get/Last/fisical/year`
     );
   }
 

@@ -17,6 +17,7 @@ import { Hotkey } from 'angular2-hotkeys';
 import { DatePipe } from '@angular/common';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import jwt_decode from 'jwt-decode';
 
 import {
   FormControl,
@@ -69,7 +70,7 @@ export class ReportsComponent implements OnInit {
   userRoles: any;
 
 
-  storeName:any;
+  storeName: any;
   storeList: any;
   storeCtrl: FormControl;
   filteredstore: Observable<store[]>;
@@ -84,8 +85,10 @@ export class ReportsComponent implements OnInit {
   selectedReportNameTitle: any;
   reportTypeList: any;
   selectedReportTypeTitle: any;
-  dateNow:any;
-  nextDate:any;
+  dateNow: any;
+  nextDate: any;
+  decodedToken: any;
+  decodedToken2: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -131,6 +134,13 @@ export class ReportsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    const accessToken: any = localStorage.getItem('accessToken');
+    // console.log('accessToken', accessToken);
+    // Decode the access token
+    this.decodedToken = jwt_decode(accessToken);
+    this.decodedToken2 = this.decodedToken.roles;
+    console.log('accessToken2', this.decodedToken2);
     // this.selectedReportNameTitle = this.reportNameList[0].titleval;
     // console.log('select report name: ', this.selectedReportNameTitle);
 
@@ -138,13 +148,13 @@ export class ReportsComponent implements OnInit {
     // console.log('select report type: ', this.selectedReportTypeTitle);
 
 
-    this.dateNow =new Date;
+    this.dateNow = new Date;
     console.log('Date = ' + this.dateNow);
-  
-    this.nextDate=new Date;
-    this.dateNow.setDate( this.dateNow.getDate() + 1 );
+
+    this.nextDate = new Date;
+    this.nextDate.setDate(this.nextDate.getDate() + 1);
     this.getItems();
-console.log('nrxtdate:',this.nextDate)
+    console.log('nrxtdate:', this.nextDate)
     // this.getAllMasterForms();
     this.getStores();
 
@@ -167,7 +177,7 @@ console.log('nrxtdate:',this.nextDate)
 
 
 
-  
+
   }
 
 
@@ -200,10 +210,11 @@ console.log('nrxtdate:',this.nextDate)
   //     },
   //   });
   // }
-getStores() {
+  getStores() {
 
     console.log("storereeeeeeeee")
-    this.userRoles = localStorage.getItem('userRoles');
+    this.userRoles = this.decodedToken2;
+
     console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc))
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {
@@ -211,18 +222,18 @@ getStores() {
 
       this.api.getStore()
         .subscribe({
-          next:  (res) => {
+          next: (res) => {
             this.storeList = res;
-            this.defaultStoreSelectValue =  res[Object.keys(res)[0]];
+            this.defaultStoreSelectValue = res[Object.keys(res)[0]];
             console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
-            if (this.groupMasterForm) {
-              this.groupMasterForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
-            }
-            else {
-              console.log("selected new data : ", this.defaultStoreSelectValue.storeId);
+            // if (this.groupMasterForm) {
+            //   this.groupMasterForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
+            // }
+            // else {
+            console.log("selected new data : ", this.defaultStoreSelectValue.storeId);
 
-              // this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
-            }
+            this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
+            // }
 
           },
           error: (err) => {
@@ -234,19 +245,21 @@ getStores() {
     else {
       this.api.getUserStores(localStorage.getItem('transactionUserId'))
         .subscribe({
-          next:(res) => {
+          next: (res) => {
             this.storeList = res;
-            console.log("storelist",this.storeList)
-            this.defaultStoreSelectValue =  res[Object.keys(res)[0]];
+            console.log("storelist", this.storeList)
+            this.defaultStoreSelectValue = res[Object.keys(res)[0]];
             console.log("selected storebbbbbbbbbbbbbbb user: ", this.defaultStoreSelectValue);
-            if (this.groupMasterForm) {
-              console.log("selected edit data : ", this.groupMasterForm);
-              this.groupMasterForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
-            }
-            else {
-              console.log("selected new data : ", this.defaultStoreSelectValue.storeId);
-              // this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.storeId);
-            }
+            // if (this.groupMasterForm) {
+            //   console.log("selected edit data : ", this.groupMasterForm.value);
+            //   console.log("storeId : ", this.groupMasterForm.getRawValue().storeId);
+
+            //   this.groupMasterForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId);
+            // }
+            // else {
+            console.log("selected new data : ", this.defaultStoreSelectValue.storeId);
+            this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.storeId);
+            // }
 
           },
           error: (err) => {
@@ -323,36 +336,7 @@ getStores() {
     this.storeCtrl.updateValueAndValidity();
   }
 
-  // getSearchStrWithdraw(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
-  //   let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-  //   let employee = this.groupMasterForm.getRawValue().employeeId;
-  //   let item = this.groupDetailsForm.getRawValue().itemId;
-  //   let store = this.groupMasterForm.getRawValue().storeId;
 
-  //   console.log('itemId in ts:', this.groupDetailsForm.getRawValue().itemId);
-
-  //   this.api
-  //     .getStrWithdrawSearch(
-  //       no,
-  //       store,
-  //       StartDate,
-  //       EndDate,
-  //       fiscalYear,
-  //       item,
-  //       employee,
-  //       costCenter
-  //     )
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.dataSource2 = res;
-  //         this.dataSource2.paginator = this.paginator;
-  //         this.dataSource2.sort = this.sort;
-  //       },
-  //       error: (err) => {
-  //         console.log('eroorr', err);
-  //       },
-  //     });
-  // }
   downloadPrint(
 
     StartDate: any,
@@ -364,70 +348,43 @@ getStores() {
 
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
-    if (report == 'STRItemsTransactionReport') {
-      this.api
-        .getTranscriptreports(
 
-          store,
-          StartDate,
-          EndDate,
+    this.api
+      .getTranscriptreports(
 
-          item,
+        store,
+        StartDate,
+        EndDate,
 
-          report,
-          'pdf'
-        )
-        .subscribe({
-          next: (res) => {
-            console.log('search:', res);
-            const url: any = res.url;
-            window.open(url);
-            // let blob: Blob = res.body as Blob;
-            // let url = window.URL.createObjectURL(blob);
+        item,
 
-            // this.dataSource = res;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
-          },
-          error: (err) => {
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
-        });
-    }
-    else {
-      this.api
-        .getreports(
-          store,
-          StartDate,
-          EndDate,
-          item,
-          report, 'pdf'
-        )
-        .subscribe({
-          next: (res) => {
-            let blob: Blob = res.body as Blob;
-            console.log(blob);
-            let url = window.URL.createObjectURL(blob);
-            localStorage.setItem('url', JSON.stringify(url));
-            this.pdfurl = url;
-            this.dialog.open(PrintDialogComponent, {
-              width: '50%',
-            });
+        report,
+        'pdf'
+      )
+      .subscribe({
+        next: (res) => {
+          console.log('search:', res);
+          const url: any = res.url;
+          window.open(url);
+          // let blob: Blob = res.body as Blob;
+          // let url = window.URL.createObjectURL(blob);
 
-            // this.dataSource = res;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
-          },
-          error: (err) => {
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
-        });
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
 
-    }
 
   }
+
+
+
+
 
   // printReport() {
   //   // this.loadAllData();
@@ -482,66 +439,36 @@ getStores() {
     let store = this.groupMasterForm.getRawValue().storeId;
     console.log("reportt nMAE", report);
     if (report != null && reportType != null) {
-      if (report == 'STRItemsTransactionReport') {
-        this.api
-          .getTranscriptreports(
-            store,
-            StartDate,
-            EndDate,
-            item,
-            report, 'pdf'
-          )
-          .subscribe({
-            next: (res) => {
-              let blob: Blob = res.body as Blob;
-              console.log(blob);
-              let url = window.URL.createObjectURL(blob);
-              localStorage.setItem('url', JSON.stringify(url));
-              this.pdfurl = url;
-              this.dialog.open(PrintDialogComponent, {
-                width: '50%',
-              });
+      console.log("in iff conditionnnn")
+      this.api
+        .getTranscriptreports(
+          store,
+          StartDate,
+          EndDate,
+          item,
+          report, 'pdf'
+        )
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '50%',
+            });
 
-              // this.dataSource = res;
-              // this.dataSource.paginator = this.paginator;
-              // this.dataSource.sort = this.sort;
-            },
-            error: (err) => {
-              console.log('eroorr', err);
-              window.open(err.url);
-            },
-          });
-      }
-      else {
-        this.api
-          .getreports(
-            store,
-            StartDate,
-            EndDate,
-            item,
-            report, 'pdf'
-          )
-          .subscribe({
-            next: (res) => {
-              let blob: Blob = res.body as Blob;
-              console.log(blob);
-              let url = window.URL.createObjectURL(blob);
-              localStorage.setItem('url', JSON.stringify(url));
-              this.pdfurl = url;
-              this.dialog.open(PrintDialogComponent, {
-                width: '50%',
-              });
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
 
-              // this.dataSource = res;
-              // this.dataSource.paginator = this.paginator;
-              // this.dataSource.sort = this.sort;
-            },
-            error: (err) => {
-              console.log('eroorr', err);
-              window.open(err.url);
-            },
-          });
-      }
     }
 
     else {

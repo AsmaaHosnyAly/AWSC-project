@@ -71,7 +71,7 @@
 }
 
 .groupAction button {
-  background-color:var(--bg-primary-color);
+  background-color: var(--bg-primary-color);
   color: aliceblue;
   font-family: 'Cairo', sans-serif !important;
   display: block;
@@ -82,6 +82,7 @@
   position: relative;
   left: -100%;
 }
+
 .restGroupInfo {
   display: block;
 }
@@ -102,7 +103,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-
+  flex-direction: column;
 }
 
 .child-num {
@@ -227,8 +228,8 @@ th {
 
 }
 
-.editbtn{
-  --mat-icon-color:rgb(129, 135, 138);
+.editbtn {
+  --mat-icon-color: rgb(129, 135, 138);
 }
 
 table {
@@ -239,5 +240,5 @@ table {
   height: 200px;
   overflow: auto;
   width: 65%;
-    margin: auto;
+  margin: auto;
 }
