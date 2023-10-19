@@ -363,7 +363,7 @@ const routes: Routes = [
         path: 'cityState',
         component: HrCityStateComponent,
         canActivate: [cityStateGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+        data: { PageLsit: [PagesEnums.CITY_STATE] },
       },
       {
         path: 'QualitativeGroup',
