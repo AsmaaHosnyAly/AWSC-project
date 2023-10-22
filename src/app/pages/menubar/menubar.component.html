@@ -136,6 +136,10 @@
             *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)">
             <p class="font">الإفتتاحي العهد</p>
           </a>
+          <a mat-list-item routerLink="/reports" class="sideNavSubItems"
+          *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)">
+          <p class="font">التقارير </p>
+        </a>
           <a mat-list-item routerLink="/StrStockTaking" class="sideNavSubItems"
             *ngIf="hasAccessRole(pageEnums.StrStockTaking)">
             <p class="font">الجرد </p>
