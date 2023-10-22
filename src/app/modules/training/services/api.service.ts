@@ -12,7 +12,7 @@ export class ApiService {
   url = this.pageEnums.URL
   constructor(private http: HttpClient) { }
 
-mycondition:any;
+  mycondition: any;
 
   /********************************  Instructor crud  **********************************/
 
@@ -59,9 +59,9 @@ mycondition:any;
   deleteTrTarck(id: number) {
     return this.http.delete<any>(`${this.url}/TrTarck/delete/` + id);
   }
-  getTrTarckPaginate(currentPage: any, pageSize: any){
+  getTrTarckPaginate(currentPage: any, pageSize: any) {
 
-    console.log("currentt pagggeeeeee",currentPage)
+    console.log("currentt pagggeeeeee", currentPage)
     let urlPassed = `${this.url}/TrTarck/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
     return urlPassed;
   }
@@ -72,7 +72,7 @@ mycondition:any;
   getTrTrackDetails() {
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/all`);
   }
-  getTrTrackDetailsByMasterId(id :any) {
+  getTrTrackDetailsByMasterId(id: any) {
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/by/header/${id}`);
   }
   putTrTrackDetails(data: any) {
@@ -87,7 +87,7 @@ mycondition:any;
   }
 
 
-  getTrTrackSearach( startDate: any, endDate: any,track:any,course:any) {
+  getTrTrackSearach(startDate: any, endDate: any, track: any, course: any) {
     console.log(
       "' startDate: '", startDate,
       "' endDate: '", endDate,
@@ -96,7 +96,7 @@ mycondition:any;
     this.mycondition = `${this.url}/TrTrackDetails/search?`;
 
 
-    
+
     if (!track == false) {
       this.mycondition = ` ${this.mycondition}&TrackId=${track}`;
     }
@@ -121,13 +121,17 @@ mycondition:any;
 
     return this.http.get<any>(`${this.mycondition}`);
   }
-  
+
   getLastFiscalYear() {
     return this.http.get<any>(
       `${this.url}/STRFiscalYear/get/Last/fisical/year`
     );
   }
-
+  getFiscalYears() {
+    return this.http.get<any>(
+      `${this.url}/STRFiscalYear/get/all`
+    );
+  }
   getFiscalYearById(id: any) {
     return this.http.get<any>(`${this.url}/STRFiscalYear/get/${id}`);
   }
@@ -145,14 +149,14 @@ mycondition:any;
   }
   getEmployee() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
-   
+
   }
 
-  getTrCourse(){
+  getTrCourse() {
     return this.http.get<any>(`${this.url}/TrCourse/get/all`);
 
   }
- 
+
   /********************************  classroom  **********************************/
   postClassRoom(data: any) {
     return this.http.post<any>(`${this.url}/TrClassRoom/Add`, data);
@@ -267,33 +271,33 @@ mycondition:any;
   }
 
 
-      /********************************  TrInstructorCourse crud  **********************************/
+  /********************************  TrInstructorCourse crud  **********************************/
 
-      postTrainingCenter(data: any) {
-        return this.http.post<any>(`${this.url}/TrTrainingCenter/Add`, data);
-      }  
-  
-      getTrainingCenter() {
-        return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
-      }
+  postTrainingCenter(data: any) {
+    return this.http.post<any>(`${this.url}/TrTrainingCenter/Add`, data);
+  }
 
-      putTrainingCenter(data: any) {
-        return this.http.put<any>(
-          `${this.url}/TrTrainingCenter/update`,
-          data
-        );
-      }
-      deleteTrainingCenter(id: number) {
-        return this.http.delete<any>(
-          `${this.url}/TrTrainingCenter/Delete/${id}`
-        );
-                
-      }
+  getTrainingCenter() {
+    return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+  }
 
-      getAllCities() {
-        return this.http.get<any>(`${this.url}/HrCity/get/all`);
-      }
-      
+  putTrainingCenter(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrTrainingCenter/update`,
+      data
+    );
+  }
+  deleteTrainingCenter(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrTrainingCenter/Delete/${id}`
+    );
+
+  }
+
+  getAllCities() {
+    return this.http.get<any>(`${this.url}/HrCity/get/all`);
+  }
+
   /********************************  TrInstructorCourse crud  **********************************/
 
   postInstructorCourse(data: any) {
@@ -329,29 +333,91 @@ mycondition:any;
   deleteTrTrainee(id: number) {
     return this.http.delete<any>(`${this.url}/TrTrainee/Delete/${id}`);
   }
-/******************************** TrTrainingCenterCourse **********************************/
-postTrainingCenterCourse(data: any) {
-  return this.http.post<any>(`${this.url}/TrTrainingCenterCourse/Add`, data);
-}
-// here
-getTrainingCenterCourse() {
-  return this.http.get<any>(`${this.url}/TrTrainingCenterCourse/get/all`);
-}
-putTrainingCenterCourse(data: any) {
-  return this.http.put<any>(
-    `${this.url}/TrTrainingCenterCourse/update`,
-    data
-  );
-}
-deleteTrainingCenterCourse(id: number) {
-  return this.http.delete<any>(
-    `${this.url}/TrTrainingCenterCourse/Delete/${id}`
-  );
-}
-getAllCourse() {
-  return this.http.get<any>(`${this.url}/TrCourse/get/all`);
-}
-getAllTrainingCenterr() {
-  return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
-}
+  /******************************** TrTrainingCenterCourse **********************************/
+  postTrainingCenterCourse(data: any) {
+    return this.http.post<any>(`${this.url}/TrTrainingCenterCourse/Add`, data);
+  }
+  // here
+  getTrainingCenterCourse() {
+    return this.http.get<any>(`${this.url}/TrTrainingCenterCourse/get/all`);
+  }
+  putTrainingCenterCourse(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrTrainingCenterCourse/update`,
+      data
+    );
+  }
+  deleteTrainingCenterCourse(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrTrainingCenterCourse/Delete/${id}`
+    );
+  }
+  getAllCourse() {
+    return this.http.get<any>(`${this.url}/TrCourse/get/all`);
+  }
+  getAllTrainingCenterr() {
+    return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+  }
+
+
+  //////////////////// Tr-Plan & TrPlanFinancier & TrPlanInstructor & TrPlanPosition ///////////////////
+  getPurpose() {
+    return this.http.get<any>(`${this.url}/TrPurpose/get/all`);
+  }
+
+  getFinancialDegree() {
+    return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
+  }
+
+
+  postTrPlan(data: any) {
+    return this.http.post<any>(`${this.url}/TrPlan/Add`, data);
+  }
+  getTrPlan() {
+    return this.http.get<any>(`${this.url}/TrPlan/get/all`);
+  }
+  // getPyItemGroupPaginate(currentPage: any, pageSize: any) {
+  //   let urlPassed = `${this.url}/PyItemGroup/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+  //   return urlPassed;
+  // }
+  putTrPlan(data: any) {
+    return this.http.put<any>(`${this.url}/TrPlan/update`, data);
+  }
+  deleteTrPlan(id: number) {
+    return this.http.delete<any>(`${this.url}/TrPlan/Delete/` + id);
+  }
+
+
+  // postPyItemGroupDetails(data: any) {
+  //   return this.http.post<any>(`${this.url}/PyItemGroupDetails/Add`, data);
+  // }
+  // getPyItemGroupDetails() {
+  //   return this.http.get<any>(`${this.url}/PyItemGroupDetails/get/all`);
+  // }
+  // getPyItemGroupDetailsByHeaderId(id: any) {
+  //   return this.http.get<any>(`${this.url}/PyItemGroupDetails/get/by/header/${id}`);
+  // }
+  // putPyItemGroupDetails(data: any) {
+  //   return this.http.put<any>(`${this.url}/PyItemGroupDetails/update`, data);
+  // }
+  // deletePyItemGroupDetails(id: number) {
+  //   return this.http.delete<any>(`${this.url}/PyItemGroupDetails/delete/` + id);
+  // }
+
+  // postPyItemGroupEmployee(data: any) {
+  //   return this.http.post<any>(`${this.url}/PyItemGroupEmployee/Add`, data);
+  // }
+  // getPyItemGroupEmployee() {
+  //   return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/all`);
+  // }
+  // getPyItemGroupEmployeeByHeaderId(id: any) {
+  //   return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/by/header/${id}`);
+  // }
+  // putPyItemGroupEmployee(data: any) {
+  //   return this.http.put<any>(`${this.url}/PyItemGroupEmployee/update`, data);
+  // }
+  // deletePyItemGroupEmployee(id: number) {
+  //   return this.http.delete<any>(`${this.url}/PyItemGroupEmployee/delete/` + id);
+  // }
+  //////////////////////////////////////////////////////////////////////////////
 }
