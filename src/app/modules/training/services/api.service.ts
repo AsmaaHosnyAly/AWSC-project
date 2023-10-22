@@ -354,4 +354,23 @@ getAllCourse() {
 getAllTrainingCenterr() {
   return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
 }
+ /********************************  Purpose  **********************************/
+
+ postPurpose(data: any) {
+  return this.http.post<any>(`${this.url}/TrPurpose/Add`, data);
+}
+getPurpose() {
+  return this.http.get<any>(`${this.url}/TrPurpose/get/alll`);
+}
+putPurpose(data: any) {
+  return this.http.put<any>(
+    `${this.url}/TrPurpose/update`,
+    data
+  );
+}
+deletePurpose(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/TrPurpose/Delete/${id}`
+  );
+}
 }
