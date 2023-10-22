@@ -3,7 +3,7 @@
             clear</mat-icon></button>
 </div>
 
-<h1 mat-dialog-title class="add-h1"> اكمل تفاصيل المسار </h1>
+<h1 mat-dialog-title class="add-h1"> اكمل تفاصيل حزم تدريبية </h1>
 
 
 <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
@@ -22,7 +22,7 @@
 
                     <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoCourse" [formControl]="CourseCtrl"
-                            formControlName="courseId" placeholder="{{editData ? editData.CourseName : ''}}"
+                            formControlName="courseId" #courseId placeholder="{{editData ? editData.courseName : ''}}"
                             (click)="openAutoCourse()" required />
                         <mat-autocomplete #autoCourse="matAutocomplete" [displayWith]="displayCourseName"
                             (optionSelected)="CourseSelected($event)">
@@ -38,7 +38,7 @@
 
                     <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoTrack" [formControl]="TrackCtrl"
-                            formControlName="trackId" placeholder="{{editData ? editData.TrackName : ''}}"
+                            formControlName="trackId" #trackId placeholder="{{editData ? editData.trackName : ''}}"
                             (click)="openAutoTrack()" required />
                         <mat-autocomplete #autoTrack="matAutocomplete" [displayWith]="displayTrackName"
                             (optionSelected)="TrackSelected($event)">

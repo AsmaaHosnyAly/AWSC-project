@@ -14,7 +14,7 @@ import { ApiService } from '../../services/api.service';
 import { Params, Router } from '@angular/router';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 
 // export class Exchange {
@@ -116,7 +116,7 @@ export class TrTrackDetailsDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<TrTrackDetailsDialogComponent>,
 
     private toastr: ToastrService,
-    private router: Router,private route: ActivatedRoute) {
+    private router: Router, private route: ActivatedRoute) {
 
 
     this.CourseCtrl = new FormControl();
@@ -139,12 +139,13 @@ export class TrTrackDetailsDialogComponent implements OnInit {
     // this.getTrTrack();
     this.getMasterRowId = this.editData;
     // this.getFiAccountItems();
+    console.log("edit data in details", this.editData)
 
     this.groupDetailsForm = this.formBuilder.group({
       // exchangeId: ['', Validators.required],
       courseId: ['', Validators.required],
-      courseName:[''], 
-           trackName:[''],
+      courseName: [''],
+      trackName: [''],
 
       // value: ['', Validators.required],
       // employeeId: ['', Validators.required],
@@ -160,7 +161,7 @@ export class TrTrackDetailsDialogComponent implements OnInit {
     console.log("check : ", this.route.url);
 
 
-    console.log("masterrowid",this.getMasterRowId)
+    console.log("masterrowid", this.getMasterRowId)
     if (this.editData) {
       console.log("details edit form: ", this.editData);
       // this.actionBtnMaster = "Update";
@@ -363,6 +364,8 @@ export class TrTrackDetailsDialogComponent implements OnInit {
   getAllDetailsForms() {
     // console.log("edddit get all data: ", this.editData)
     console.log("mastered row get all data: ", this.getMasterRowId)
+    this.dialogRef.close('Save');
+
     if (this.getMasterRowId.id) {
       this.api.getTrTrackDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
@@ -468,78 +471,38 @@ export class TrTrackDetailsDialogComponent implements OnInit {
 
   async updateDetailsForm() {
     if (this.editData) {
-      this.groupMasterForm.addControl(
-        'id',new FormControl('', Validators.required)
-      );
-      this.groupMasterForm.controls['id'].setValue(this.editData.id);
+      this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+      console.log('data item Name in edit: ', this.groupDetailsForm.value);
+      // }
+      this.groupDetailsForm.controls['price'].setValue(this.editData.price);
     }
 
-   
-    // this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+
+    // this.groupDetailsForm.controls['id'].setValue(this.getMasterRowId.id);
     // console.log(
     //   'enteeeeeeeeeer to update master form: ',
-    //   this.groupMasterForm.getRawValue().creditTotal
+    //   this.groupDetailsForm.getRawValue().creditTotal
     // );
+    if (this.groupDetailsForm.valid) {
+      this.api
+        .putTrTrackDetails(this.groupDetailsForm.value)
+        .subscribe({
+          next: (res) => {
+            this.groupDetailsForm.reset();
+            this.getAllDetailsForms();
+        
+            this.getDetailedRowData = '';
+            // alert('تم التعديل بنجاح');
+            this.toastrEditSuccess();
 
-    this.api.putTrTarck(this.groupMasterForm.value).subscribe({
-      next: (res) => {
-        // alert("تم التعديل بنجاح");
-        console.log(
-          'update res: ',
-          res,
-          'details form values: ',
-          this.groupDetailsForm.value,
-          'details id: ',
-          this.getDetailedRowData
-        );
-        if (this.groupDetailsForm.value && this.getDetailedRowData) {
-          this.groupDetailsForm.addControl(
-            'id',
-            new FormControl('', Validators.required)
-          );
-          this.groupDetailsForm.controls['id'].setValue(
-            this.getDetailedRowData.id
-          );
-
-          if (!this.groupDetailsForm.getRawValue().credit) {
-            console.log('enter credit only');
-            this.groupDetailsForm.controls['credit'].setValue(
-              this.getDetailedRowData.credit
-            );
-          } else if (!this.groupDetailsForm.getRawValue().debit) {
-            console.log('enter debit only');
-            this.groupDetailsForm.controls['debit'].setValue(
-              this.getDetailedRowData.debit
-            );
-          }
-
-          console.log(
-            'details form submit to edit: ',
-            this.groupDetailsForm.value
-          );
-
-          this.api.putTrTrackDetails(this.groupDetailsForm.value).subscribe({
-            next: (res) => {
-              // alert("تم تحديث التفاصيل بنجاح");
-              // console.log("update res: ", res);
-              this.groupDetailsForm.reset();
-              this.getAllDetailsForms();
-              this.getDetailedRowData = '';
-              this.toastrSuccess();
-
-            },
-            error: (err) => {
-              // console.log("update err: ", err)
-              // alert("خطأ أثناء تحديث سجل المجموعة !!")
-            },
-          });
-          this.groupDetailsForm.removeControl('id');
-        }
-      },
-      error: () => {
-        // alert("خطأ أثناء تحديث سجل الصنف !!")
-      },
-    });
+            this.dialogRef.close('Update');
+          },
+          error: (err) => {
+            console.log("update err: ", err)
+            // alert("خطأ أثناء تحديث سجل المجموعة !!")
+          },
+        });
+    }
   }
 
 
@@ -687,11 +650,15 @@ export class TrTrackDetailsDialogComponent implements OnInit {
     if (result) {
 
       this.dialogRef.close('Save');
+      this.getAllDetailsForms();
     }
   }
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+  toastrEditSuccess(): void {
+    this.toastr.success("تم التعديل بنجاح");
   }
 }
 
