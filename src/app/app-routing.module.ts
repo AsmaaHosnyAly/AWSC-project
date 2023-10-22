@@ -146,6 +146,7 @@ import { hrEmployeeFinancialDegreeGuard } from './core/guards/hr/hr-employee-fin
 import { hrEmployeeAppraisalGuard } from './core/guards/hr/hr-employee-appraisal.guard';
 import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
 import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-training-center-course/tr-training-center-course.component';
+import { TrPlanComponent } from './modules/training/index/tr-plan/tr-plan.component';
 import { TrPlanCourseDataComponent } from './modules/training/index/tr-plan-course-data/tr-plan-course-data.component';
 import { TrPurposeComponent } from './modules/training/index/tr-purpose/tr-purpose.component';
 const routes: Routes = [
@@ -562,7 +563,23 @@ const routes: Routes = [
       },
 
        /*********************End Hr-attendance module  الحضور والانصراف***************************/
-      
+       /*********************start TR   التدريب***************************/
+
+       { path: 'TR-Instructor', component: TrInstructorComponent },
+       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
+       { path: 'Tr-ClassRoom', component: TrClassRoomComponent},
+       { path: 'TrTrainee', component: TrTraineeComponent},
+       { path: 'TrPlan', component: TrPlanComponent},
+
+       /*********************start TR   التدريب***************************/
+
+       /*********************start py module  المرتبات***************************/
+
+      //  { path: 'pyHome', component:  },
+       { path: 'PyInstallment', component: PyInstallmentComponent },
+       { path: 'PyItem', component: PyItemComponent },
+      /*********************End Hr-attendance module  الحضور والانصراف***************************/
+       
       /*********************start TR   التدريب***************************/
       
       { path: 'Tr-ClassRoom', component: TrClassRoomComponent},
