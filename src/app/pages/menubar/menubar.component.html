@@ -4,11 +4,11 @@
       <mat-icon>menu</mat-icon>
     </button>
 
-    <img routerLink="/home" class="toolbar-img" src="../assets/images/water logo.png" alt="user photo" />
-    <div class="toolbarUserContent" routerLink="/home">
+    <img routerLink="/home" class="toolbar-img" src="../assets/images/logo.png" alt="user photo" routerLink="/home"/>
+    <!-- <div class="toolbarUserContent" routerLink="/home">
       <p>شركة مياةالشرب</p>
       <p>والصرف الصحى باسوان</p>
-    </div>
+    </div> -->
   </div>
   <div id="pageTitle">
     <div class="d-flex align-items-center">
@@ -508,6 +508,10 @@
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font"> دورات مركز التدريب</p>
               </a>
+              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Purpos"
+              *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+              <p class="font">  الغرض من الدورة التدريبية</p>
+            </a>
             </mat-nav-list>
           </mat-expansion-panel>
         </mat-nav-list>
@@ -516,6 +520,14 @@
             *ngIf="hasAccessRole(pageEnums.PR_USER)">
             <p class="font">حزم تدريبية</p>
           </a>
+          <a mat-list-item class="sideNavSubItems" routerLink="/TrPlanCourseData"
+          *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+          <p class="font">بيانات الخطة التدريبة</p>
+        </a>
+        <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Purpose"
+        *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+        <p class="font">غرض التدريب</p>
+      </a>
 
 
         </mat-nav-list>

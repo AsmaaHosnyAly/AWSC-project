@@ -366,6 +366,24 @@ gethrCity(){
   return this.http.get<any>(`${this.url}/HrCity/get/all`);
 }
 gethrCityState(){
-  return this.http.get<any>(`${this.url}/HrCityState/get/all`);
+  return this.http.get<any>(`${this.url}/HrCityState/get/all`);}
+ /********************************  trPurpose  **********************************/
+
+ postPurpose(data: any) {
+  return this.http.post<any>(`${this.url}/TrPurpose/Add`, data);
+}
+getPurpose() {
+  return this.http.get<any>(`${this.url}/TrPurpose/get/all`);
+}
+putPurpose(data: any) {
+  return this.http.put<any>(
+    `${this.url}/TrPurpose/update`,
+    data
+  );
+}
+deletePurpose(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/TrPurpose/Delete/${id}`
+  );
 }
 }
