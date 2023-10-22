@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild,Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validator, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,7 +9,9 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 // export class Employee {
 //   constructor(public id: number, public name: string) { }
 // }
@@ -30,11 +32,13 @@ export class cityState {
   styleUrls: ['./tr-trainee-dialog.component.css']
 })
 export class TrTraineeDialogComponent implements OnInit {
+  
   transactionUserId = localStorage.getItem('transactionUserId')
+  // actionBtn: string = "Save";
 
   formcontrol = new FormControl('');
   TrTraineeForm !: FormGroup;
-  actionBtn: string = "حفظ";
+  actionBtn: string = "Save";
   getTrInstructorData: any;
 
   // employeeCtrl: FormControl;
@@ -47,6 +51,7 @@ export class TrTraineeDialogComponent implements OnInit {
   trCoporteClientsList: TrCoporteClient[] = [];
   selectedTrCoporteClient: TrCoporteClient | undefined;
 
+  dataSource!: MatTableDataSource<any>;
 
 
   cityCtrl: FormControl;
@@ -59,15 +64,15 @@ export class TrTraineeDialogComponent implements OnInit {
   cityStatesList: cityState[] = [];
   selectedcityState: cityState | undefined;
   isReadOnlyPercentage = true;
-
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     private toastr: ToastrService,
-    @Inject(MAT_DIALOG_DATA) public editData: any,
-    private dialogRef: MatDialogRef<TrTraineeDialogComponent>) {
+    @Inject(MAT_DIALOG_DATA) public editData: any,private dialogRef: MatDialogRef<TrTraineeDialogComponent>) {
 
     // this.employeeCtrl = new FormControl();
     // this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
@@ -98,8 +103,8 @@ export class TrTraineeDialogComponent implements OnInit {
     this.TrTraineeForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       // employeeId: ['', Validators.required],
-      corporationCLinetId: ['', Validators.required],
-      cityStateId:[1,Validators.required],
+      corporationCLientId: ['', Validators.required],
+      cityStateId:[9,Validators.required],
       cityId:['',Validators.required],
 
       name:['',Validators.required],
@@ -135,7 +140,7 @@ export class TrTraineeDialogComponent implements OnInit {
       this.getTrInstructorData = this.editData;
       this.TrTraineeForm.controls['transactionUserId'].setValue(this.transactionUserId);
       // this.TrTraineeForm.controls['employeeId'].setValue(this.editData.employeeId);
-      this.TrTraineeForm.controls['corporationCLinetId'].setValue(this.editData.corporationCLinetId);
+      this.TrTraineeForm.controls['corporationCLientId'].setValue(this.editData.corporationCLientId);
 
 
 
@@ -159,7 +164,13 @@ export class TrTraineeDialogComponent implements OnInit {
   addTrTrainee() {
     this.TrTraineeForm.controls['transactionUserId'].setValue(this.transactionUserId);
     console.log("TrTraineeForm value :", this.TrTraineeForm.value);
-
+    // this.TrTraineeForm.controls['name'].setValue(this.TrTraineeForm.getRawValue().name);
+    // this.TrTraineeForm.controls['code'].setValue(this.TrTraineeForm.getRawValue().code);
+    // this.TrTraineeForm.controls['phone'].setValue(this.TrTraineeForm.getRawValue().phone);
+    // this.TrTraineeForm.controls['email'].setValue(this.TrTraineeForm.getRawValue().email);
+    // this.TrTraineeForm.controls['address'].setValue(this.TrTraineeForm.getRawValue().address);
+    // this.TrTraineeForm.controls['gender'].setValue(this.TrTraineeForm.getRawValue().gender);
+    // this.TrTraineeForm.controls['cityId'].setValue(this.TrTraineeForm.getRawValue().cityId);
 
     if (!this.editData) {
       this.TrTraineeForm.removeControl('id')
@@ -169,7 +180,9 @@ export class TrTraineeDialogComponent implements OnInit {
             next: (res) => {
               this.toastrSuccess();
               this.TrTraineeForm.reset();
-              this.dialogRef.close('save');
+              this.getTrTrainee();
+              
+              // this.dialogRef.close('Save');
             },
             error: (err) => {
               // alert("خطأ عند اضافة البيانات")
@@ -181,6 +194,23 @@ export class TrTraineeDialogComponent implements OnInit {
     else {
       this.updateTrTrainee()
     }
+  }
+
+  getTrTrainee() {
+     this.dialogRef.close('Save');
+
+    this.api.getTrTrainee()
+      .subscribe({
+        next: (res) => {
+          this.dataSource = new MatTableDataSource(res);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          // this.toastrWarning();
+        }
+
+      })
   }
   updateTrTrainee() {
     this.api.putTrTrainee(this.TrTraineeForm.value)
@@ -295,7 +325,7 @@ export class TrTraineeDialogComponent implements OnInit {
   TrCoporteClientSelected(event: MatAutocompleteSelectedEvent): void {
     const trCoporteClient = event.option.value as TrCoporteClient;
     this.selectedTrCoporteClient = trCoporteClient;
-    this.TrTraineeForm.patchValue({ corporationCLinetId: trCoporteClient.id });
+    this.TrTraineeForm.patchValue({ corporationCLientId: trCoporteClient.id });
   }
 
   private _filterTrCoporteClient(value: string): TrCoporteClient[] {
