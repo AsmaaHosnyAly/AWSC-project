@@ -17,7 +17,7 @@ import { TrTraineeDialogComponent } from '../tr-trainee-dialog/tr-trainee-dialog
 })
 export class TrTraineeComponent implements OnInit {
 
-  displayedColumns: string[] = ['employeeName','name','code','phone','gender','address','email','corporationCLinetName', 'action'];
+  displayedColumns: string[] = ['name','code','phone','gender','address','email','corporationCLinetName', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -38,7 +38,7 @@ export class TrTraineeComponent implements OnInit {
       width: '60%',
       height:'79%'
     }).afterClosed().subscribe(val => {
-      if (val === 'save') {
+      if (val === 'Save') {
         this.getTrTrainee();
       }
     })
@@ -65,7 +65,7 @@ export class TrTraineeComponent implements OnInit {
       height:'79%',
       data: row
     }).afterClosed().subscribe(val => {
-      if (val === 'update') {
+      if (val === 'Update' || 'Save') {
         this.getTrTrainee();
       }
     })
