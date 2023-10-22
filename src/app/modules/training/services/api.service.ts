@@ -354,7 +354,7 @@ getAllCourse() {
 getAllTrainingCenterr() {
   return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
 }
- /********************************  Purpose  **********************************/
+ /********************************  trPurpose  **********************************/
 
  postPurpose(data: any) {
   return this.http.post<any>(`${this.url}/TrPurpose/Add`, data);
