@@ -360,7 +360,7 @@ getAllTrainingCenterr() {
   return this.http.post<any>(`${this.url}/TrPurpose/Add`, data);
 }
 getPurpose() {
-  return this.http.get<any>(`${this.url}/TrPurpose/get/alll`);
+  return this.http.get<any>(`${this.url}/TrPurpose/get/all`);
 }
 putPurpose(data: any) {
   return this.http.put<any>(

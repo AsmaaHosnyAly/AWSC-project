@@ -114,7 +114,6 @@ import { TrCourseCategoryComponent } from './modules/training/index/tr-course-ca
 import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrTrackContainerComponent } from './modules/training/index/tr-track-container/tr-track-container.component';
-
 import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
