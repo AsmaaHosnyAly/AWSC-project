@@ -516,6 +516,10 @@
             *ngIf="hasAccessRole(pageEnums.PR_USER)">
             <p class="font">المسار</p>
           </a>
+          <a mat-list-item class="sideNavSubItems" routerLink="/TrPlanCourseData"
+          *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+          <p class="font">بيانات الخطة التدريبة</p>
+        </a>
 
 
         </mat-nav-list>
