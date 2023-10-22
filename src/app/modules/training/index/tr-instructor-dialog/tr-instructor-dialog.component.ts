@@ -239,7 +239,7 @@ export class TrInstructorDialogComponent {
       // this.TrInstructorForm.controls['employeeId'].disable();
       this.employeeCtrl.disable();
       this.TrInstructorForm.controls['employeeId'].enable();
-      this.TrInstructorForm.controls['employeeId'].setValue(33);
+      this.TrInstructorForm.controls['employeeId'].setValue(null);
       // alert("enable"+ this.instructorType);
     }
   }

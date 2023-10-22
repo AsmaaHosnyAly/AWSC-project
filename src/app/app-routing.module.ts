@@ -114,7 +114,6 @@ import { TrCourseCategoryComponent } from './modules/training/index/tr-course-ca
 import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
 import { TrCourseTypeComponent } from './modules/training/index/tr-course-type/tr-course-type.component';
 import { TrTrackContainerComponent } from './modules/training/index/tr-track-container/tr-track-container.component';
-
 import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-class-room.component';
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
@@ -148,6 +147,8 @@ import { hrEmployeeAppraisalGuard } from './core/guards/hr/hr-employee-appraisal
 import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
 import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-training-center-course/tr-training-center-course.component';
 import { TrPlanComponent } from './modules/training/index/tr-plan/tr-plan.component';
+import { TrPlanCourseDataComponent } from './modules/training/index/tr-plan-course-data/tr-plan-course-data.component';
+import { TrPurposeComponent } from './modules/training/index/tr-purpose/tr-purpose.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -364,7 +365,7 @@ const routes: Routes = [
         path: 'cityState',
         component: HrCityStateComponent,
         canActivate: [cityStateGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+        data: { PageLsit: [PagesEnums.CITY_STATE] },
       },
       {
         path: 'QualitativeGroup',
@@ -580,6 +581,9 @@ const routes: Routes = [
       /*********************End Hr-attendance module  الحضور والانصراف***************************/
        
       /*********************start TR   التدريب***************************/
+      
+      { path: 'Tr-ClassRoom', component: TrClassRoomComponent},
+      { path: 'TrTrainee', component: TrTraineeComponent},
       { path: 'TR-Instructor', component: TrInstructorComponent },
       { path: 'Tr-CourseCategory', component: TrCourseCategoryComponent },
       { path: 'Tr-CoporteClient', component: TrCoporteClientComponent },
@@ -588,14 +592,13 @@ const routes: Routes = [
       { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
       { path: 'Tr-TrainingCenter', component: TrTrainingCenterComponent },
       { path: 'Tr-trainingCenterCourse', component:TrTrainingCenterCourseComponent},
-      /*********************End  TR   التدريب***************************/
-      /*********************start py module  المرتبات***************************/
+      { path: 'TrTrack', component:  TrTrackContainerComponent},
+      { path: 'TrPlanCourseData', component:  TrPlanCourseDataComponent},
+      { path: 'Tr-Purpose', component:TrPurposeComponent},
 
-       { path: 'PyItemCategory', component: PyItemCategoryComponent },
-       { path: 'pytaxbracket', component:PyTaxBracketComponent},
-       /*********************End py module  المرتبات***************************/
-       
-       { path: 'TrTrack', component:  TrTrackContainerComponent},
+      /*********************End  TR   التدريب***************************/
+
+      /*********************start py module  المرتبات***************************/
       { path: 'pyHome', component: PyHomeComponent },
       { path: 'PyInstallment', component: PyInstallmentComponent },
       { path: 'PyItem', component: PyItemComponent },

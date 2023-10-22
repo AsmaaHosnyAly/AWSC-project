@@ -67,6 +67,7 @@ export class ApiService {
   }
 
   postTrTrackDetails(data: any) {
+    console.log("post details data:", data)
     return this.http.post<any>(`${this.url}/TrTrackDetails/Add`, data);
   }
   getTrTrackDetails() {
@@ -76,8 +77,8 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/by/header/${id}`);
   }
   putTrTrackDetails(data: any) {
-    console.log('put TrTrackDetails data with id: ', data);
-    return this.http.put<any>(`${this.url}/TrTrackDetails/update/`, data);
+    console.log('put TrTrackDetails data: ', data);
+    return this.http.put<any>(`${this.url}/TrTrackDetails/update`, data);
   }
   deleteTrTrackDetails(HeaderId: number) {
     console.log('deleted row id: ', HeaderId);
@@ -322,6 +323,7 @@ export class ApiService {
   /////////////////////////////////////// TrTrainee ////////////////////////////////////////
 
   postTrTrainee(data: any) {
+    console.log("data in post trainee dialog:", data)
     return this.http.post<any>(`${this.url}/TrTrainee/Add`, data);
   }
   getTrTrainee() {
@@ -334,41 +336,11 @@ export class ApiService {
     return this.http.delete<any>(`${this.url}/TrTrainee/Delete/${id}`);
   }
   /******************************** TrTrainingCenterCourse **********************************/
-  postTrainingCenterCourse(data: any) {
-    return this.http.post<any>(`${this.url}/TrTrainingCenterCourse/Add`, data);
-  }
-  // here
-  getTrainingCenterCourse() {
-    return this.http.get<any>(`${this.url}/TrTrainingCenterCourse/get/all`);
-  }
-  putTrainingCenterCourse(data: any) {
-    return this.http.put<any>(
-      `${this.url}/TrTrainingCenterCourse/update`,
-      data
-    );
-  }
-  deleteTrainingCenterCourse(id: number) {
-    return this.http.delete<any>(
-      `${this.url}/TrTrainingCenterCourse/Delete/${id}`
-    );
-  }
-  getAllCourse() {
-    return this.http.get<any>(`${this.url}/TrCourse/get/all`);
-  }
-  getAllTrainingCenterr() {
-    return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
-  }
-
 
   //////////////////// Tr-Plan & TrPlanFinancier & TrPlanInstructor & TrPlanPosition ///////////////////
-  getPurpose() {
-    return this.http.get<any>(`${this.url}/TrPurpose/get/all`);
-  }
-
   getFinancialDegree() {
     return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
   }
-
 
   postTrPlan(data: any) {
     return this.http.post<any>(`${this.url}/TrPlan/Add`, data);
@@ -420,4 +392,60 @@ export class ApiService {
   //   return this.http.delete<any>(`${this.url}/PyItemGroupEmployee/delete/` + id);
   // }
   //////////////////////////////////////////////////////////////////////////////
+
+
+
+  /******************************** TrTrainingCenterCourse **********************************/
+  postTrainingCenterCourse(data: any) {
+    return this.http.post<any>(`${this.url}/TrTrainingCenterCourse/Add`, data);
+  }
+  // here
+  getTrainingCenterCourse() {
+    return this.http.get<any>(`${this.url}/TrTrainingCenterCourse/get/all`);
+  }
+  putTrainingCenterCourse(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrTrainingCenterCourse/update`,
+      data
+    );
+  }
+  deleteTrainingCenterCourse(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrTrainingCenterCourse/Delete/${id}`
+    );
+  }
+  getAllCourse() {
+    return this.http.get<any>(`${this.url}/TrCourse/get/all`);
+  }
+  getAllTrainingCenterr() {
+    return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
+  }
+
+
+  /////city///
+  gethrCity() {
+    return this.http.get<any>(`${this.url}/HrCity/get/all`);
+  }
+  gethrCityState() {
+    return this.http.get<any>(`${this.url}/HrCityState/get/all`);
+  }
+  /********************************  trPurpose  **********************************/
+
+  postPurpose(data: any) {
+    return this.http.post<any>(`${this.url}/TrPurpose/Add`, data);
+  }
+  getPurpose() {
+    return this.http.get<any>(`${this.url}/TrPurpose/get/all`);
+  }
+  putPurpose(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrPurpose/update`,
+      data
+    );
+  }
+  deletePurpose(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrPurpose/Delete/${id}`
+    );
+  }
 }
