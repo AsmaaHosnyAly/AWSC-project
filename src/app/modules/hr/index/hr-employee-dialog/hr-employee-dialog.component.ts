@@ -444,28 +444,10 @@ export class HrEmployeeDialogComponent implements OnInit {
       this.groupForm.removeControl('id')
 
       // this.userIdFromStorage = localStorage.getItem('transactionUserId');
-      // this.groupForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+      // // this.groupForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
       this.groupForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      // if (this.groupForm.getRawValue().jobTitleId) {
-      //   this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);
-      //   this.groupForm.controls['jobTitleName'].setValue(this.jobTitleName);
-
-      // }
-
-      // if (this.groupForm.getRawValue().positionId) {
-      //   this.positionName = await this.getpositionByID(this.groupForm.getRawValue().positionId);
-      //   this.groupForm.controls['positionName'].setValue(this.positionName);
-
-      // }
-
-
-      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
-      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
-      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
-      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
-      // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().employeeId);
-      // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
+ 
 
 
 
@@ -473,7 +455,6 @@ export class HrEmployeeDialogComponent implements OnInit {
       console.log('jobtitle', this.groupForm.getRawValue().jobTitleId)
 
       console.log("date json beore: ", this.groupForm.getRawValue().birth_Date);
-      console.log("date json after: ", this.groupForm.getRawValue().birth_Date.toISOString());
       
       this.groupForm.controls['birth_Date'].setValue(this.groupForm.getRawValue().birth_Date.toISOString());
       this.groupForm.controls['qualificationDate'].setValue(this.groupForm.getRawValue().qualificationDate.toISOString());
@@ -484,7 +465,7 @@ export class HrEmployeeDialogComponent implements OnInit {
       this.groupForm.controls['code'].setValue(this.groupForm.getRawValue().code.toString());
 
       console.log('post form sent', this.groupForm.value);
-      
+    console.log("group form after post:",this.groupForm.valid)
       if (this.groupForm.valid) {
       this.api.postHrEmployee(this.groupForm.value)
         .subscribe({

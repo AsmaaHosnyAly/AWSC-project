@@ -2777,7 +2777,7 @@ postHrEmployeeAppraisal(data: any) {
 
   getDepartment(){
     return this.http.get<any>(
-      `${this.url}/Department/get/all`
+      `${this.url}/HrDepartment/get/all`
     );
   }
   putMillitryState(data: any) {
