@@ -67,17 +67,19 @@ mycondition:any;
   }
 
   postTrTrackDetails(data: any) {
+    console.log("post details data:",data)
     return this.http.post<any>(`${this.url}/TrTrackDetails/Add`, data);
   }
   getTrTrackDetails() {
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/all`);
   }
   getTrTrackDetailsByMasterId(id :any) {
+    console.log("show id in get details:",id)
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/by/header/${id}`);
   }
   putTrTrackDetails(data: any) {
-    console.log('put TrTrackDetails data with id: ', data);
-    return this.http.put<any>(`${this.url}/TrTrackDetails/update/`, data);
+    console.log('put TrTrackDetails data: ', data);
+    return this.http.put<any>(`${this.url}/TrTrackDetails/update`, data);
   }
   deleteTrTrackDetails(HeaderId: number) {
     console.log('deleted row id: ', HeaderId);
@@ -318,6 +320,7 @@ mycondition:any;
   /////////////////////////////////////// TrTrainee ////////////////////////////////////////
 
   postTrTrainee(data: any) {
+    console.log("data in post trainee dialog:",data)
     return this.http.post<any>(`${this.url}/TrTrainee/Add`, data);
   }
   getTrTrainee() {
@@ -354,6 +357,16 @@ getAllCourse() {
 getAllTrainingCenterr() {
   return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
 }
+
+
+
+
+/////city///
+gethrCity(){
+  return this.http.get<any>(`${this.url}/HrCity/get/all`);
+}
+gethrCityState(){
+  return this.http.get<any>(`${this.url}/HrCityState/get/all`);}
  /********************************  trPurpose  **********************************/
 
  postPurpose(data: any) {

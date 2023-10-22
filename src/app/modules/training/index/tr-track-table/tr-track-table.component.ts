@@ -172,8 +172,8 @@ export class TrTrackTableComponent implements OnInit {
       
       name:[''],
       price:[''],
-      // courseId:[''],
-      // trackId:[''],
+      courseId:[''],
+      trackId:[''],
       startDate:[''],
       endDate:[''],
 
