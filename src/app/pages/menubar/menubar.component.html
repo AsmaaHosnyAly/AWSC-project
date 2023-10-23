@@ -232,10 +232,18 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="/account"
+              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-activity"
                 *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
-                <p class="font"> الحسابات</p>
+                <p class="font"> النشاط</p>
               </a>
+              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Function"
+              *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
+              <p class="font"> الوظيفي</p>
+            </a>
+            <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Region"
+            *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
+            <p class="font"> المنطقة</p>
+          </a>
               <!-- <a
                 mat-list-item
                 class="sideNavSubItems"
@@ -244,7 +252,7 @@
               >
                 <p class="font">مستويات الحساب</p>
               </a> -->
-              <a mat-list-item class="sideNavSubItems" routerLink="/FiAccountItem"
+              <!-- <a mat-list-item class="sideNavSubItems" routerLink="/FiAccountItem"
                 (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
                 *ngIf="hasAccessRole(pageEnums.FiAccountItem)">
                 <p class="font"> البنود الاحصائية</p>
@@ -261,7 +269,7 @@
                 (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
                 *ngIf="hasAccessRole(pageEnums.EntrySourceType)">
                 <p class="font">نوع مصدر الدخل</p>
-              </a>
+              </a> -->
             </mat-nav-list>
           </mat-expansion-panel>
           <a mat-list-item class="sideNavSubItems" routerLink="/FIJournal"
