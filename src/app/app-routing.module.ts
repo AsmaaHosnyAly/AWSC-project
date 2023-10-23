@@ -150,6 +150,12 @@ import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-tra
 import { TrPlanComponent } from './modules/training/index/tr-plan/tr-plan.component';
 import { TrPlanCourseDataComponent } from './modules/training/index/tr-plan-course-data/tr-plan-course-data.component';
 import { TrPurposeComponent } from './modules/training/index/tr-purpose/tr-purpose.component';
+
+/////////////cc///////////////////////
+import { CcActivityComponent } from './modules/cc/index/cc-activity/cc-activity.component';
+import { CcFunctionComponent } from './modules/cc/index/cc-function/cc-function.component';
+import { CcRegionComponent } from './modules/cc/index/cc-region/cc-region.component';
+import { CcSubRegionComponent } from './modules/cc/index/cc-sub-region/cc-sub-region.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -623,6 +629,18 @@ const routes: Routes = [
   { path: 'add-item-report', component: StrReportAddItemComponent },
   // error section
   // { path: '**', component: ErrorComponent },
+
+
+
+  ////////////////////////////////CC///////////////////
+  
+  { path: 'Cc-activity', component: CcActivityComponent },
+  
+  { path: 'Cc-Function', component: CcFunctionComponent },
+  
+  { path: 'Cc-Region', component: CcRegionComponent },
+  { path: 'Cc-SubRegion', component: CcSubRegionComponent },
+
 ],
   },
 ];
