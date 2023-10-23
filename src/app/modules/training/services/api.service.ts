@@ -22,6 +22,7 @@ export class ApiService {
   // here
   getTrInstructor() {
     return this.http.get<any>(`${this.url}/TrInstructor/get/all`);
+    // return this.http.get<any>(`${this.url}/TrInstructorData/get/all`);
   }
   putTrInstructor(data: any) {
     return this.http.put<any>(
@@ -344,6 +345,9 @@ export class ApiService {
   getHrPosition() {
     return this.http.get<any>(`${this.url}/HrPosition/get/all`);
   }
+  getTrFinancial() {
+    return this.http.get<any>(`${this.url}/TrFinancier/get/all`);
+  }
 
   postTrPlan(data: any) {
     return this.http.post<any>(`${this.url}/TrPlan/Add`, data);
@@ -363,21 +367,21 @@ export class ApiService {
   }
 
 
-  // postPyItemGroupDetails(data: any) {
-  //   return this.http.post<any>(`${this.url}/PyItemGroupDetails/Add`, data);
-  // }
-  // getPyItemGroupDetails() {
-  //   return this.http.get<any>(`${this.url}/PyItemGroupDetails/get/all`);
-  // }
+  postTrFinancier(data: any) {
+    return this.http.post<any>(`${this.url}/TrPlanFinancier/Add`, data);
+  }
+  getTrFinancier() {
+    return this.http.get<any>(`${this.url}/TrPlanFinancier/get/all`);
+  }
   // getPyItemGroupDetailsByHeaderId(id: any) {
   //   return this.http.get<any>(`${this.url}/PyItemGroupDetails/get/by/header/${id}`);
   // }
-  // putPyItemGroupDetails(data: any) {
-  //   return this.http.put<any>(`${this.url}/PyItemGroupDetails/update`, data);
-  // }
-  // deletePyItemGroupDetails(id: number) {
-  //   return this.http.delete<any>(`${this.url}/PyItemGroupDetails/delete/` + id);
-  // }
+  putTrFinancier(data: any) {
+    return this.http.put<any>(`${this.url}/TrPlanFinancier/update`, data);
+  }
+  deleteTrFinancier(id: number) {
+    return this.http.delete<any>(`${this.url}/TrPlanFinancier/Delete/` + id);
+  }
 
 
   postTrPlanInstructor(data: any) {
@@ -386,9 +390,9 @@ export class ApiService {
   getTrPlanInstructor() {
     return this.http.get<any>(`${this.url}/TrPlanInstructor/get/all`);
   }
-  // getPyItemGroupEmployeeByHeaderId(id: any) {
-  //   return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/by/header/${id}`);
-  // }
+  getTrInstructorByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/TrPlanInstructor/get/Instructors/By/Plan/${id}`);
+  }
   putTrPlanInstructor(data: any) {
     return this.http.put<any>(`${this.url}/TrPlanInstructor/update`, data);
   }

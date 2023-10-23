@@ -3,7 +3,7 @@
             clear</mat-icon></button>
 </div>
 
-<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل خطة المنصب ' : 'اكمل تفاصيل خطة المنصب '}} </h1>
+<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل خطة الفئة المستهدفة ' : 'اكمل تفاصيل خطة الفئة المستهدفة '}} </h1>
 
 
 <form [formGroup]="planpositionsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
@@ -14,7 +14,7 @@
         <div class="detailsForm" dir="rtl">
 
             <div style="display: flex; flex-direction: column;">
-                <mat-label> المنصب* </mat-label>
+                <mat-label> الفئة المستهدفة* </mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                     <input matInput aria-label="commodity" [matAutocomplete]="autoPosition" [formControl]="positionCtrl"

@@ -260,6 +260,11 @@ import { CcRegionComponent } from './modules/cc/index/cc-region/cc-region.compon
 import { CcRegionDialogComponent } from './modules/cc/index/cc-region-dialog/cc-region-dialog.component';
 import { CcSubRegionComponent } from './modules/cc/index/cc-sub-region/cc-sub-region.component';
 import { CcSubRegionDialogComponent } from './modules/cc/index/cc-sub-region-dialog/cc-sub-region-dialog.component';
+import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excuted.component';
+import { TrExcutedDialogComponent } from './modules/training/index/tr-excuted-dialog/tr-excuted-dialog.component';
+import { TrExcutedInstructorDetailsDialogComponent } from './modules/training/index/tr-excuted-instructor-details-dialog/tr-excuted-instructor-details-dialog.component';
+import { TrExcutedPositionDetailsDialogComponent } from './modules/training/index/tr-excuted-position-details-dialog/tr-excuted-position-details-dialog.component';
+import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index/tr-excuted-trainee-details-dialog/tr-excuted-trainee-details-dialog.component';
 
 
 
@@ -503,6 +508,11 @@ import { CcSubRegionDialogComponent } from './modules/cc/index/cc-sub-region-dia
     CcSubRegionComponent,
     CcSubRegionDialogComponent,
    
+    TrExcutedComponent,
+    TrExcutedDialogComponent,
+    TrExcutedInstructorDetailsDialogComponent,
+    TrExcutedPositionDetailsDialogComponent,
+    TrExcutedTraineeDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,
