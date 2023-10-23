@@ -1,0 +1,43 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
+            clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل خطة المنصب ' : 'اكمل تفاصيل خطة المنصب '}} </h1>
+
+
+<form [formGroup]="planpositionsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
+
+
+
+    <div style="overflow: hidden !important;">
+        <div class="detailsForm" dir="rtl">
+
+            <div style="display: flex; flex-direction: column;">
+                <mat-label> المنصب* </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoPosition" [formControl]="positionCtrl"
+                        placeholder="{{editData ? editData.positionId: ''}}" (click)="openAutoPosition()" required />
+                    <mat-autocomplete #autoPosition="matAutocomplete" [displayWith]="displayPositionName"
+                        (optionSelected)="PositionSelected($event)">
+                        <mat-option *ngFor="let position of filteredPosition | async" [value]="position">
+                            {{ position.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div mat-dialog-action [align]="'end'">
+                <div class="groupAction">
+                    <button mat-raised-button color="primary" style="margin-left: 8px;"
+                        (click)="addDetailsInfo()">{{editData ?
+                        'تعديل':'اضافة'}}</button>
+                    <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
