@@ -21,6 +21,8 @@ import { Router, Params } from '@angular/router';
 import { Observable, map, startWith } from 'rxjs';
 import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { TrPlanInstructorDetailsDialogComponent } from '../tr-plan-instructor-details-dialog/tr-plan-instructor-details-dialog.component';
+import { TrPlanPositionDetailsDialogComponent } from '../tr-plan-position-details-dialog/tr-plan-position-details-dialog.component';
 
 // export class PyItem {
 //   constructor(public id: number, public name: string) { }
@@ -61,6 +63,7 @@ export class TrPlanDialogComponent implements OnInit {
   MasterGroupInfoEntered = false;
   dataSource!: MatTableDataSource<any>;
   dataSourceEmployee!: MatTableDataSource<any>;
+  dataSourcePosition!: MatTableDataSource<any>;
   matchedIds: any;
   getDetailedRowData: any;
   sumOfTotals = 0;
@@ -91,7 +94,8 @@ export class TrPlanDialogComponent implements OnInit {
   defaultFiscalYearSelectValue: any;
 
   displayedColumns: string[] = ['pyItemName', 'action'];
-  displayedEmployeesColumns: string[] = ['employeeName', 'action'];
+  displayedEmployeesColumns: string[] = ['instructorId', 'action'];
+  displayedPositionsColumns: string[] = ['positionId', 'action'];
 
   sessionId = Math.random();
 
@@ -218,6 +222,7 @@ export class TrPlanDialogComponent implements OnInit {
 
     this.getAllDetailsForms();
     this.getAllDetailsEmployeeForms();
+    this.getAllDetailsPositionForms();
   }
 
 
@@ -390,28 +395,60 @@ export class TrPlanDialogComponent implements OnInit {
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
       // this.api.getPyItemGroupEmployeeByHeaderId(this.getMasterRowId.id).subscribe({
-      //   next: (res) => {
+      this.api.getTrPlanInstructor().subscribe({
+        next: (res) => {
 
-      //     this.matchedIds = res;
-      //     console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+          this.matchedIds = res.filter((a: any) => {
+            return a.planId === this.getMasterRowId.id;
+          });
 
-      //     if (this.matchedIds) {
+          // this.matchedIds = res;
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
 
-      //       this.dataSourceEmployee = new MatTableDataSource(this.matchedIds);
-      //       this.dataSourceEmployee.paginator = this.paginator;
-      //       this.dataSourceEmployee.sort = this.sort;
+          if (this.matchedIds) {
 
-      //       // this.sumOfTotals = 0;
-      //       // for (let i = 0; i < this.matchedIds.length; i++) {
-      //       //   this.updateMaster();
-      //       // }
-      //     }
-      //   },
-      //   error: (err) => {
-      //     // console.log("fetch items data err: ", err);
-      //     // alert("خطا اثناء جلب العناصر !");
-      //   }
-      // })
+            this.dataSourceEmployee = new MatTableDataSource(this.matchedIds);
+            this.dataSourceEmployee.paginator = this.paginator;
+            this.dataSourceEmployee.sort = this.sort;
+
+          }
+        },
+        error: (err) => {
+          // console.log("fetch items data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+    }
+  }
+
+  getAllDetailsPositionForms() {
+
+    console.log("mastered row get plan position details data: ", this.getMasterRowId)
+    if (this.getMasterRowId) {
+      // this.api.getPyItemGroupEmployeeByHeaderId(this.getMasterRowId.id).subscribe({
+      this.api.getTrPlanPosition().subscribe({
+        next: (res) => {
+
+          this.matchedIds = res.filter((a: any) => {
+            return a.planId === this.getMasterRowId.id;
+          });
+
+          // this.matchedIds = res;
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee plan position details: ", res);
+
+          if (this.matchedIds) {
+
+            this.dataSourcePosition = new MatTableDataSource(this.matchedIds);
+            this.dataSourcePosition.paginator = this.paginator;
+            this.dataSourcePosition.sort = this.sort;
+
+          }
+        },
+        error: (err) => {
+          // console.log("fetch items data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
     }
   }
 
@@ -469,6 +506,8 @@ export class TrPlanDialogComponent implements OnInit {
       .subscribe((val) => {
         if (val === 'save' || val === 'update') {
           this.getAllDetailsForms();
+          this.getAllDetailsEmployeeForms();
+          this.getAllDetailsPositionForms();
         }
       });
   }
@@ -491,9 +530,27 @@ export class TrPlanDialogComponent implements OnInit {
   //   }
   // }
 
-  editDetailsEmployeeForm(row: any) {
+  deleteFormDetailsPosition(id: number) {
+    console.log('details id: ', id);
+
+    var result = confirm('هل ترغب بتاكيد الحذف ؟');
+    if (result) {
+      this.api.deleteTrPlanPosition(id).subscribe({
+        next: (res) => {
+          this.toastrDeleteSuccess();
+          this.getAllDetailsForms();
+          this.getAllDetailsPositionForms();
+        },
+        error: () => {
+          // alert("خطأ أثناء حذف التفاصيل !!");
+        },
+      });
+    }
+  }
+
+  editDetailsInstrutcorForm(row: any) {
     this.dialog
-      .open(TrPlanDialogComponent, {
+      .open(TrPlanInstructorDetailsDialogComponent, {
         width: '40%',
         height: '78%',
         data: row,
@@ -502,6 +559,21 @@ export class TrPlanDialogComponent implements OnInit {
       .subscribe((val) => {
         if (val === 'save' || val === 'update') {
           this.getAllDetailsEmployeeForms();
+        }
+      });
+  }
+
+  editDetailsPositionForm(row: any) {
+    this.dialog
+      .open(TrPlanPositionDetailsDialogComponent, {
+        width: '40%',
+        height: '78%',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save' || val === 'update') {
+          this.getAllDetailsPositionForms();
         }
       });
   }
@@ -568,19 +640,34 @@ export class TrPlanDialogComponent implements OnInit {
     //   });
   }
 
-  OpenDetailsEmployeeDialog() {
-    this.router.navigate(['/PyItemGroup', { masterId: this.getMasterRowId.id }]);
+  OpenDetailsInstructorDialog() {
+    this.router.navigate(['/TrPlan', { masterId: this.getMasterRowId.id }]);
     this.dialog
-    // .open(PyGroupDetailEmployeeDialogComponent, {
-    //   width: '40%',
-    //   height: '78%',
-    // })
-    // .afterClosed()
-    // .subscribe((val) => {
-    //   if (val === 'save' || val === 'update') {
-    //     this.getAllDetailsEmployeeForms();
-    //   }
-    // });
+      .open(TrPlanInstructorDetailsDialogComponent, {
+        width: '40%',
+        height: '78%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save' || val === 'update') {
+          this.getAllDetailsEmployeeForms();
+        }
+      });
+  }
+
+  OpenDetailsPositionDialog() {
+    this.router.navigate(['/TrPlan', { masterId: this.getMasterRowId.id }]);
+    this.dialog
+      .open(TrPlanPositionDetailsDialogComponent, {
+        width: '40%',
+        height: '78%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save' || val === 'update') {
+          this.getAllDetailsPositionForms();
+        }
+      });
   }
 
   getTrainingCenter() {

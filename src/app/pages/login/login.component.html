@@ -33,13 +33,13 @@
           autocomplete="off"
           autofocus="false"
         />
-        <div *ngIf="isSubmit && userName?.invalid">
-          <div
-            class="alert alert-danger"
-            *ngIf="userName?.errors?.['required']"
+        <div *ngIf="username?.invalid">
+          <label
+            class="alert alert-danger  "
+            *ngIf="username?.errors?.['required']"
           >
             ادخل اسم المستخدم
-          </div>
+        </label>
         </div>
 
         <label for="" class="details">كلمة المرور </label>
@@ -50,13 +50,13 @@
           formControlName="password"
           autocomplete="off"
         />
-        <div *ngIf="isSubmit && userPassword?.invalid">
+        <div *ngIf="password?.invalid" error>
           <div
-            class="alert alert-danger"
-            *ngIf="userPassword?.errors?.['required']"
+            class="alert alert-danger "
+            *ngIf="password?.errors?.['required']"
           >
             ادخل كلمة المرور
-          </div>
+        </div>
         </div>
 
         <!-- <div class="alert alert-danger" *ngIf="isSubmit && userData?.['password']?.invalid">
@@ -64,7 +64,7 @@
             </div> -->
         <button class="btn">الدخول</button>
 
-        <div *ngIf="isSubmit && userPassword?.invalid">
+        <div *ngIf="isSubmit && password?.invalid">
           <div class="alert alert-danger" *ngIf="isSubmit && isActive == false">
             عفوا لا تمتلك صلاحية الدخول
           </div>

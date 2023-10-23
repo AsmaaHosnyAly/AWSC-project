@@ -245,7 +245,7 @@
 
             <mat-tab label="تفاصيل المدربين">
                 <div class="groupAction" style="margin-top: 5%; margin-right: -60%;">
-                    <button mat-raised-button class="savebtn" (click)="OpenDetailsEmployeeDialog()">اضافة
+                    <button mat-raised-button class="savebtn" (click)="OpenDetailsInstructorDialog()">اضافة
                         موظف</button>
 
                 </div>
@@ -254,10 +254,10 @@
 
                     <table mat-table [dataSource]="dataSourceEmployee" matSort class="headerTable">
 
-                        <!-- employeeName Column -->
-                        <ng-container matColumnDef="employeeName">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> الموظف</th>
-                            <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
+                        <!-- instructorId Column -->
+                        <ng-container matColumnDef="instructorId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> المدرب</th>
+                            <td mat-cell *matCellDef="let row"> {{row.instructorId}} </td>
                         </ng-container>
 
                         <!-- action Column -->
@@ -265,7 +265,7 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> الاجراء
                             </th>
                             <td mat-cell *matCellDef="let row">
-                                <button mat-icon-button color="primary" (click)="editDetailsEmployeeForm(row)">
+                                <button mat-icon-button color="primary" (click)="editDetailsInstrutcorForm(row)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                                 <!-- <button mat-icon-button color="warn" (click)="deleteFormDetailsEmployee(row.id)"> -->
@@ -285,19 +285,19 @@
 
             <mat-tab label="تفاصيل المناصب">
                 <div class="groupAction" style="margin-top: 5%; margin-right: -60%;">
-                    <button mat-raised-button class="savebtn" (click)="OpenDetailsEmployeeDialog()">اضافة
+                    <button mat-raised-button class="savebtn" (click)="OpenDetailsPositionDialog()">اضافة
                         منصب</button>
 
                 </div>
 
                 <div class="tableFixHead">
 
-                    <table mat-table [dataSource]="dataSourceEmployee" matSort class="headerTable">
+                    <table mat-table [dataSource]="dataSourcePosition" matSort class="headerTable">
 
-                        <!-- employeeName Column -->
-                        <ng-container matColumnDef="employeeName">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> الموظف</th>
-                            <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
+                        <!-- instructorId Column -->
+                        <ng-container matColumnDef="positionId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> المنصب</th>
+                            <td mat-cell *matCellDef="let row"> {{row.positionId}} </td>
                         </ng-container>
 
                         <!-- action Column -->
@@ -305,17 +305,17 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> الاجراء
                             </th>
                             <td mat-cell *matCellDef="let row">
-                                <button mat-icon-button color="primary" (click)="editDetailsEmployeeForm(row)">
+                                <button mat-icon-button color="primary" (click)="editDetailsPositionForm(row)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <!-- <button mat-icon-button color="warn" (click)="deleteFormDetailsEmployee(row.id)"> -->
+                                <button mat-icon-button color="warn" (click)="deleteFormDetailsPosition(row.id)">
                                     <mat-icon>delete</mat-icon>
-                                <!-- </button> -->
+                                </button>
                             </td>
                         </ng-container>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedEmployeesColumns; sticky: true"></tr>
-                        <tr mat-row *matRowDef="let emprow; columns: displayedEmployeesColumns"></tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedPositionsColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let emprow; columns: displayedPositionsColumns"></tr>
 
                     </table>
                     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
