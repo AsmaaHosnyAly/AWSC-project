@@ -248,6 +248,7 @@ import { TrPlanCourseDataComponent } from './modules/training/index/tr-plan-cour
 import { TrPlanCourseDataDialogComponent } from './modules/training/index/tr-plan-course-data-dialog/tr-plan-course-data-dialog.component';
 import { TrPurposeComponent } from './modules/training/index/tr-purpose/tr-purpose.component';
 import { TrPurposeDialogComponent } from './modules/training/index/tr-purpose-dialog/tr-purpose-dialog.component';
+import { FiReportsComponent } from './modules/fi/index/fi-reports/fi-reports.component';
 
 
 
@@ -478,6 +479,7 @@ import { TrPurposeDialogComponent } from './modules/training/index/tr-purpose-di
     TrPlanCourseDataDialogComponent,
     TrPurposeComponent,
     TrPurposeDialogComponent,
+    FiReportsComponent,
   ],
   imports: [
     BrowserModule,
