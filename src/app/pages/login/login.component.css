@@ -148,6 +148,9 @@
     width: 55%;
     font-size: 14px;
   }
+  .error{
+    width: 20px;
+  }
 
   .login-form input {
     margin: auto;
