@@ -13,9 +13,9 @@ import { Params, Router } from '@angular/router';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
-export class Exchange {
-  constructor(public id: number, public name: string) { }
-}
+// export class Exchange {
+//   constructor(public id: number, public name: string) { }
+// }
 
 export class item {
   constructor(public id: number, public name: string, public fullCode: string) { }
@@ -73,10 +73,10 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
 
-  exchangesList: Exchange[] = [];
-  exchangeCtrl: FormControl;
-  filteredexchange: Observable<Exchange[]>;
-  selectedexchange: Exchange | undefined;
+  // exchangesList: Exchange[] = [];
+  // exchangeCtrl: FormControl;
+  // filteredexchange: Observable<Exchange[]>;
+  // selectedexchange: Exchange | undefined;
 
   // displayedColumns: string[] = ['name', 'value', 'accountName', 'fiAccountItemId', 'action'];
 
@@ -106,28 +106,28 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
       map((value) => this._filteritems(value))
     );
 
-    this.exchangeCtrl = new FormControl();
-    this.filteredexchange = this.exchangeCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filterexchanges(value))
-    );
+    // this.exchangeCtrl = new FormControl();
+    // this.filteredexchange = this.exchangeCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map((value) => this._filterexchanges(value))
+    // );
 
   }
 
   ngOnInit(): void {
     this.getEmployees();
     this.getItems();
-    this.getExchange();
+    // this.getExchange();
     // this.getFiAccountItems();
 
     this.groupDetailsForm = this.formBuilder.group({
-      exchangeId: ['', Validators.required],
+      exChangeId: [, Validators.required],
       name: ['', Validators.required],
       value: ['', Validators.required],
       employeeId: ['', Validators.required],
-      itemId: ['', Validators.required],
+      pyItemId: ['', Validators.required],
       transactionUserId: ['', Validators.required],
-      updateUserName:[1],
+      // updateUserName:[1],
     });
     console.log("details edit form before: ", this.editData);
 
@@ -136,9 +136,9 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
       // this.actionBtnMaster = "Update";
 
       this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
-      this.groupDetailsForm.controls['exchangeId'].setValue(this.editData.exchangeId);
+      this.groupDetailsForm.controls['exChangeId'].setValue(this.editData.exChangeId);
       this.groupDetailsForm.controls['employeeId'].setValue(this.editData.employeeId);
-      this.groupDetailsForm.controls['itemId'].setValue(this.editData.itemId);
+      this.groupDetailsForm.controls['pyItemId'].setValue(this.editData.pyItemId);
 
       this.groupDetailsForm.controls['name'].setValue(this.editData.name);
       this.groupDetailsForm.controls['value'].setValue(this.editData.value)
@@ -178,30 +178,30 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
   }
 
 
-  displayexchangeName(exchange: any): string {
-    return exchange && exchange.name ? exchange.name : '';
-  }
-  exchangeSelected(event: MatAutocompleteSelectedEvent): void {
-    const exchange = event.option.value as Exchange;
-    console.log('exchange selected: ', exchange);
-    this.selectedexchange = exchange;
-    this.groupDetailsForm.patchValue({ exchangeId: exchange.id });
-    console.log('exchangeId',this.groupDetailsForm.getRawValue().exchangeId)
+  // displayexchangeName(exchange: any): string {
+  //   return exchange && exchange.name ? exchange.name : '';
+  // }
+  // exchangeSelected(event: MatAutocompleteSelectedEvent): void {
+  //   const exchange = event.option.value as Exchange;
+  //   console.log('exchange selected: ', exchange);
+  //   this.selectedexchange = exchange;
+  //   this.groupDetailsForm.patchValue({ exChangeId: exchange.id });
+  //   console.log('exChangeId',this.groupDetailsForm.getRawValue().exChangeId)
 
-  }
-  private _filterexchanges(value: string): Exchange[] {
-    const filterValue = value;
-    return this.exchangesList.filter((exchange:any) =>
-      exchange.name.toLowerCase().includes(filterValue)
-    );
-  }
+  // }
+  // private _filterexchanges(value: string): Exchange[] {
+  //   const filterValue = value;
+  //   return this.exchangesList.filter((exchange:any) =>
+  //     exchange.name.toLowerCase().includes(filterValue)
+  //   );
+  // }
 
-  openAutoexchange() {
-    this.exchangeCtrl.setValue(''); // Clear the input field value
+  // openAutoexchange() {
+  //   this.exchangeCtrl.setValue(''); // Clear the input field value
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.exchangeCtrl.updateValueAndValidity();
-  }
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.exchangeCtrl.updateValueAndValidity();
+  // }
 
 
 
@@ -215,12 +215,12 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item;
-    this.groupDetailsForm.patchValue({ itemId: item.id });
+    this.groupDetailsForm.patchValue({ pyItemId: item.id });
     this.groupDetailsForm.patchValue({ fullCode: item.fullCode });
-    console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
-    this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+    console.log('item in form: ', this.groupDetailsForm.getRawValue().pyItemId);
+    this.itemOnChange(this.groupDetailsForm.getRawValue().pyItemId);
 
-    this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
+    this.getCodeByItem(this.groupDetailsForm.getRawValue().pyItemId);
 
   
  
@@ -287,19 +287,53 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
 
   }
 
-  getExchange() {
-    this.api.getPyExchange().subscribe({
-      next: (res) => {
-        this.exchangesList = res;
-        // console.log("exchanges res: ", this.exchangesList);
-      },
-      error: (err) => {
-        // console.log("fetch items data err: ", err);
-        // alert("خطا اثناء جلب العناصر !");
-      },
-    });
-  }
+  // getExchange() {
+  //   this.api.getPyExchange().subscribe({
+  //     next: (res) => {
+  //       this.exchangesList = res;
+  //       // console.log("exchanges res: ", this.exchangesList);
+  //     },
+  //     error: (err) => {
+  //       // console.log("fetch items data err: ", err);
+  //       // alert("خطا اثناء جلب العناصر !");
+  //     },
+  //   });
+  // }
+  async updateDetailsForm() {
+    if (this.editData) {
+      this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+      console.log('data item Name in edit: ', this.groupDetailsForm.value);
+      // }
+      this.groupDetailsForm.controls['price'].setValue(this.editData.price);
+    }
 
+
+    // this.groupDetailsForm.controls['id'].setValue(this.getMasterRowId.id);
+    // console.log(
+    //   'enteeeeeeeeeer to update master form: ',
+    //   this.groupDetailsForm.getRawValue().creditTotal
+    // );
+    if (this.groupDetailsForm.valid) {
+      this.api
+        .putPyExchangeDetails(this.groupDetailsForm.value)
+        .subscribe({
+          next: (res) => {
+            this.groupDetailsForm.reset();
+            this.getAllDetailsForms();
+        
+            this.getDetailedRowData = '';
+            alert('تم التعديل بنجاح');
+            // this.toastrEditSuccess();
+
+            this.dialogRef.close('Update');
+          },
+          error: (err) => {
+            console.log("update err: ", err)
+            // alert("خطأ أثناء تحديث سجل المجموعة !!")
+          },
+        });
+    }
+  }
 
   getItems() {
     this.api.getItems().subscribe({
@@ -331,7 +365,7 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
     if (code.keyCode == 13) {
       this.itemsList.filter((a: any) => {
         if (a.fullCode === code.target.value) {
-          this.groupDetailsForm.controls['itemId'].setValue(a.id);
+          this.groupDetailsForm.controls['pyItemId'].setValue(a.id);
           this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
           console.log("item by code: ", a.name);
           this.itemCtrl.setValue(a.name);
@@ -354,12 +388,39 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
 
 
   }
+
+  getAllDetailsForms() {
+    // console.log("edddit get all data: ", this.editData)
+    console.log("mastered row get all data: ", this.getMasterRowId)
+    this.dialogRef.close('Save');
+
+    if (this.getMasterRowId.id) {
+      this.api.getPyExchangeDetailsByMasterId(this.getMasterRowId.id).subscribe({
+        next: (res) => {
+          // this.itemsList = res;
+          this.matchedIds = res;
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+
+          if (this.matchedIds) {
+            // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+            this.dataSource = new MatTableDataSource(this.matchedIds);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+
+          }
+        },
+        error: (err) => {
+
+        }
+      })
+    }
+  }
   async addDetailsInfo() {
     this.getMasterRowId = this.route.url.split('=').pop();
-    this.groupDetailsForm.controls['exchangeId'].setValue(this.groupDetailsForm.getRawValue().exchangeId);
+    this.groupDetailsForm.controls['exChangeId'].setValue(this.getMasterRowId);
     this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
     console.log("check : ", this.route.url.split('=').pop());
-    console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "haeder id: ", this.groupDetailsForm.getRawValue().exchangeId);
+    console.log("check id for insert: ", this.getDetailedRowData, "edit data form: ", this.editData, "haeder id: ", this.groupDetailsForm.getRawValue().exChangeId);
 
     if (!this.editData) {
       console.log("Enteeeeerrr post condition: ", this.groupDetailsForm.value)
@@ -412,6 +473,7 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
                 // alert("تمت إضافة التفاصيل بنجاح");
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
+                this.getAllDetailsForms();
 
                 this.dialogRef.close('save');
 

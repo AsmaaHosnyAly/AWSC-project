@@ -513,7 +513,51 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
     return this.http.get<any>(`${this.mycondition}`);
   }
 
+ /////////////////////reports/////////////////////////
+ getTranscriptreports(
+  
+  StartDate: any, EndDate: any,account: any, report: any, reportType: any
+) {
+  console.log(
+   
+   
+    'startdate: ',
+    StartDate,'account',account,
+   
+    'reportName:', report, 'reportType:', reportType
+
+  );
+  `${this.url}/STRItem/get/Report?`;
+  this.mycondition = `${this.url}/STRItem/get/Report?reportName=${report}&reportType=${reportType}`;
+
+  
  
+
+
+  if (!StartDate == false) {
+    this.mycondition = ` ${this.mycondition}&startdate=${StartDate}`;
+  }
+  if (!EndDate == false) {
+    this.mycondition = ` ${this.mycondition}&enddate=${EndDate}`;
+  }
+
+ 
+  if (!account == false) {
+    this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+  }
+  
+  
+
+  console.log('url', this.mycondition);
+
+  // return this.http.get<any>(`${this.mycondition}`);
+  return this.http.get(`${this.mycondition}`, {
+    observe: 'response',
+    responseType: 'blob',
+  });
+}
+
+
   
     
 }

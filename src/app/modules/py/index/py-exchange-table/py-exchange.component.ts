@@ -133,7 +133,7 @@ export class PyExchangeComponent  implements OnInit {
     this.getItems();
     this.getEmployees();
 
-
+this.getfiscalYear();
 
     this.groupMasterForm = this.formBuilder.group({
  
@@ -141,7 +141,7 @@ export class PyExchangeComponent  implements OnInit {
      
       startDate:[''],
       endDate:[''],
-      fiscalYaerId:[''],
+      fiscalYearId:[''],
 
       // JournalId: [''],
       // FiEntrySourceTypeId: [''],
@@ -408,7 +408,18 @@ export class PyExchangeComponent  implements OnInit {
       },
     });
   }
-
+  getfiscalYear() {
+    this.api.getFiscalYears().subscribe({
+      next: (res) => {
+        this.fiscalYearsList = res;
+        // console.log("store res: ", this.storeList);
+      },
+      error: (err) => {
+        // console.log("fetch store data err: ", err);
+        // alert("خطا اثناء جلب المخازن !");
+      },
+    });
+  }
   getItems() {
     this.api.getItems().subscribe({
       next: (res) => {
