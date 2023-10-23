@@ -88,7 +88,7 @@ export class TrInstructorDialogComponent {
       transactionUserId: ['', Validators.required],
       employeeId: [''],
       trainingCenterId: [''],
-      state: ['', Validators.required]
+      type: ['', Validators.required],
 
       // id: ['', Validators.required],
     });
@@ -222,19 +222,19 @@ export class TrInstructorDialogComponent {
     this.cityCtrl.updateValueAndValidity();
   }
 
-  setInstructor(state: any) {
-    this.instructorType = state.value;
-    console.log('state value changed: ', state.value);
-    // this.TrInstructorForm.controls['state'].setValue(state.value);
+  setInstructor(type: any) {
+    this.instructorType = type.value;
+    console.log('type value changed: ', type.value);
+    // this.TrInstructorForm.controls['type'].setValue(type.value);
 
-    if (state.value == 'موظف') {
+    if (type.value == 'موظف') {
       this.openAutoemployee();
       this.employeeCtrl.enable();
       // this.TrInstructorForm.controls['employeeId'].enable();
       console.log('test employee arr: ', this.employeeCtrl);
       // alert("disable"+ this.instructorType);
     }
-    if (state.value == 'خارجي') {
+    if (type.value == 'خارجي') {
       // this.TrInstructorForm.controls['percentage'].setValue(100);
       // this.TrInstructorForm.controls['employeeId'].disable();
       this.employeeCtrl.disable();
@@ -258,7 +258,7 @@ export class TrInstructorDialogComponent {
     if (!this.editData) {
 
       this.TrInstructorForm.removeControl('id');
-      if (this.TrInstructorForm.valid && this.TrInstructorForm.getRawValue().state != 'خارجي') {
+      if (this.TrInstructorForm.valid && this.TrInstructorForm.getRawValue().type != 'خارجي') {
         await this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
           next: (res) => {
             this.TrExternalInstructorForm.controls['instructorId'].setValue(res);
@@ -274,7 +274,7 @@ export class TrInstructorDialogComponent {
           },
         });
       }
-      else if (this.TrInstructorForm.valid && this.TrInstructorForm.getRawValue().state == 'خارجي') {
+      else if (this.TrInstructorForm.valid && this.TrInstructorForm.getRawValue().type == 'خارجي') {
         if (this.TrInstructorForm.valid) {
           await this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
             next: (res) => {
