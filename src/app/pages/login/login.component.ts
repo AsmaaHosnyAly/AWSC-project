@@ -46,10 +46,10 @@ export class LoginComponent {
     this._compiler.clearCache();
   }
 
-  get userName() {
-    return this.loginForm.get('name');
+  get username() {
+    return this.loginForm.get('username');
   }
-  get userPassword() {
+  get password() {
     return this.loginForm.get('password');
   }
 

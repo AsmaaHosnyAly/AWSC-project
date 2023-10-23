@@ -23,7 +23,12 @@
         <mat-card-subtitle>شئون العاملين</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card>
-  
+    <mat-card class="example-card"  *ngIf="this.shared.costs ==true">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>credit_card</mat-icon></mat-card-title>
+        <mat-card-subtitle>التكاليف</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
     <!-- <mat-card class="example-card">
       <mat-card-title-group>
         <mat-card-title class="tt"><mat-icon> local_library</mat-icon></mat-card-title>
@@ -31,12 +36,7 @@
       </mat-card-title-group>
     </mat-card>
 
-    <mat-card class="example-card"  *ngIf="this.shared.costs ==true">
-      <mat-card-title-group>
-        <mat-card-title class="tt"><mat-icon>credit_card</mat-icon></mat-card-title>
-        <mat-card-subtitle>التكاليف</mat-card-subtitle>
-      </mat-card-title-group>
-    </mat-card> -->
+    
 
     <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.ACCOUNTS)" >
       <mat-card-title-group routerLink="/fi-home">
@@ -45,14 +45,9 @@
       </mat-card-title-group>
     </mat-card>
   
-    <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)" >
-      <mat-card-title-group routerLink="/str-home">
-        <mat-card-title class="tt"><mat-icon> store_mall_directory</mat-icon></mat-card-title>
-        <mat-card-subtitle >المخازن و حسابات المخازن</mat-card-subtitle>
-      </mat-card-title-group>
-    </mat-card>
+   
 
-    <!-- <mat-card class="example-card" >
+    <mat-card class="example-card" >
       <mat-card-title-group>
         <mat-card-title class="tt"><mat-icon>donut_large</mat-icon></mat-card-title>
         <mat-card-subtitle>الصرف الصناعى</mat-card-subtitle>
@@ -80,12 +75,6 @@
       </mat-card-title-group>
     </mat-card>
 
-    <mat-card class="example-card"  *ngIf="this.shared.training ==true">
-      <mat-card-title-group>
-        <mat-card-title class="tt"><mat-icon>supervised_user_circle</mat-icon></mat-card-title>
-        <mat-card-subtitle>الادارة العامة للتدريب</mat-card-subtitle>
-      </mat-card-title-group>
-    </mat-card>
 
 
 
@@ -101,11 +90,24 @@
         <mat-card-subtitle>الادارة العامة للشئون القانونية</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card> -->
-
+    <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)" >
+      <mat-card-title-group routerLink="/str-home">
+        <mat-card-title class="tt"><mat-icon> store_mall_directory</mat-icon></mat-card-title>
+        <mat-card-subtitle >المخازن و حسابات المخازن</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
     <mat-card class="example-card"*ngIf="hasAccessModule(pageEnums.ROLES)">
       <mat-card-title-group routerLink="/pr-home">
         <mat-card-title class="tt"><mat-icon>verified_user</mat-icon></mat-card-title>
         <mat-card-subtitle> الصلاحيات</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+
+    
+    <mat-card class="example-card"  *ngIf="this.shared.training ==true">
+      <mat-card-title-group>
+        <mat-card-title class="tt"><mat-icon>supervised_user_circle</mat-icon></mat-card-title>
+        <mat-card-subtitle>الادارة العامة للتدريب</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card>
 
