@@ -248,6 +248,9 @@ import { TrPlanCourseDataComponent } from './modules/training/index/tr-plan-cour
 import { TrPlanCourseDataDialogComponent } from './modules/training/index/tr-plan-course-data-dialog/tr-plan-course-data-dialog.component';
 import { TrPurposeComponent } from './modules/training/index/tr-purpose/tr-purpose.component';
 import { TrPurposeDialogComponent } from './modules/training/index/tr-purpose-dialog/tr-purpose-dialog.component';
+import { TrPlanFinancierDetailsDialogComponent } from './modules/training/index/tr-plan-financier-details-dialog/tr-plan-financier-details-dialog.component';
+import { TrPlanInstructorDetailsDialogComponent } from './modules/training/index/tr-plan-instructor-details-dialog/tr-plan-instructor-details-dialog.component';
+import { TrPlanPositionDetailsDialogComponent } from './modules/training/index/tr-plan-position-details-dialog/tr-plan-position-details-dialog.component';
 
 
 
@@ -478,6 +481,9 @@ import { TrPurposeDialogComponent } from './modules/training/index/tr-purpose-di
     TrPlanCourseDataDialogComponent,
     TrPurposeComponent,
     TrPurposeDialogComponent,
+    TrPlanFinancierDetailsDialogComponent,
+    TrPlanInstructorDetailsDialogComponent,
+    TrPlanPositionDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -341,6 +341,9 @@ export class ApiService {
   getFinancialDegree() {
     return this.http.get<any>(`${this.url}/HrFinancialDegree/get/all`);
   }
+  getHrPosition() {
+    return this.http.get<any>(`${this.url}/HrPosition/get/all`);
+  }
 
   postTrPlan(data: any) {
     return this.http.post<any>(`${this.url}/TrPlan/Add`, data);
@@ -376,21 +379,39 @@ export class ApiService {
   //   return this.http.delete<any>(`${this.url}/PyItemGroupDetails/delete/` + id);
   // }
 
-  // postPyItemGroupEmployee(data: any) {
-  //   return this.http.post<any>(`${this.url}/PyItemGroupEmployee/Add`, data);
-  // }
-  // getPyItemGroupEmployee() {
-  //   return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/all`);
-  // }
+
+  postTrPlanInstructor(data: any) {
+    return this.http.post<any>(`${this.url}/TrPlanInstructor/Add`, data);
+  }
+  getTrPlanInstructor() {
+    return this.http.get<any>(`${this.url}/TrPlanInstructor/get/all`);
+  }
   // getPyItemGroupEmployeeByHeaderId(id: any) {
   //   return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/by/header/${id}`);
   // }
-  // putPyItemGroupEmployee(data: any) {
-  //   return this.http.put<any>(`${this.url}/PyItemGroupEmployee/update`, data);
+  putTrPlanInstructor(data: any) {
+    return this.http.put<any>(`${this.url}/TrPlanInstructor/update`, data);
+  }
+  deleteTrPlanInstructor(id: number) {
+    return this.http.delete<any>(`${this.url}/TrPlanInstructor/Delete/` + id);
+  }
+
+
+  postTrPlanPosition(data: any) {
+    return this.http.post<any>(`${this.url}/TrPlanPosition/Add`, data);
+  }
+  getTrPlanPosition() {
+    return this.http.get<any>(`${this.url}/TrPlanPosition/get/all`);
+  }
+  // getPyItemGroupEmployeeByHeaderId(id: any) {
+  //   return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/by/header/${id}`);
   // }
-  // deletePyItemGroupEmployee(id: number) {
-  //   return this.http.delete<any>(`${this.url}/PyItemGroupEmployee/delete/` + id);
-  // }
+  putTrPlanPosition(data: any) {
+    return this.http.put<any>(`${this.url}/TrPlanPosition/update`, data);
+  }
+  deleteTrPlanPosition(id: number) {
+    return this.http.delete<any>(`${this.url}/TrPlanPosition/Delete/` + id);
+  }
   //////////////////////////////////////////////////////////////////////////////
 
 
