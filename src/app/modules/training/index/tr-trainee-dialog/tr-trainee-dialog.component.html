@@ -58,8 +58,12 @@
                     <div class="searchLabels" style="width: 15rem;">
                         <mat-label>النوع *</mat-label>
 
-                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
-                            <input matInput placeholder="النوع " formControlName="gender">
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
+                            <mat-select formControlName="gender">
+                                <mat-option value="ذكر">ذكر</mat-option>
+                                <mat-option value="انثي">انثي</mat-option>
+
+                            </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
@@ -116,7 +120,8 @@
     </div>
     <div mat-dialog-actions>
         <button mat-raised-button class="savebtn" (click)="addTrTrainee()"
-          >{{actionBtn}}</button>
+          >{{actionBtn.toLowerCase() =='Save' ?
+          'تعديل':'اضافة'}}</button>
     </div>
 </div>
 <!-- </form> -->
