@@ -251,6 +251,11 @@ import { TrPurposeDialogComponent } from './modules/training/index/tr-purpose-di
 import { TrPlanFinancierDetailsDialogComponent } from './modules/training/index/tr-plan-financier-details-dialog/tr-plan-financier-details-dialog.component';
 import { TrPlanInstructorDetailsDialogComponent } from './modules/training/index/tr-plan-instructor-details-dialog/tr-plan-instructor-details-dialog.component';
 import { TrPlanPositionDetailsDialogComponent } from './modules/training/index/tr-plan-position-details-dialog/tr-plan-position-details-dialog.component';
+import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excuted.component';
+import { TrExcutedDialogComponent } from './modules/training/index/tr-excuted-dialog/tr-excuted-dialog.component';
+import { TrExcutedInstructorDetailsDialogComponent } from './modules/training/index/tr-excuted-instructor-details-dialog/tr-excuted-instructor-details-dialog.component';
+import { TrExcutedPositionDetailsDialogComponent } from './modules/training/index/tr-excuted-position-details-dialog/tr-excuted-position-details-dialog.component';
+import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index/tr-excuted-trainee-details-dialog/tr-excuted-trainee-details-dialog.component';
 
 
 
@@ -484,6 +489,11 @@ import { TrPlanPositionDetailsDialogComponent } from './modules/training/index/t
     TrPlanFinancierDetailsDialogComponent,
     TrPlanInstructorDetailsDialogComponent,
     TrPlanPositionDetailsDialogComponent,
+    TrExcutedComponent,
+    TrExcutedDialogComponent,
+    TrExcutedInstructorDetailsDialogComponent,
+    TrExcutedPositionDetailsDialogComponent,
+    TrExcutedTraineeDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,

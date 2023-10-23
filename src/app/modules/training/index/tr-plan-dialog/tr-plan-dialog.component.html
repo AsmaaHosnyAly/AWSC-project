@@ -204,7 +204,7 @@
         </div>
 
         <mat-tab-group mat-stretch-tabs style="margin-top: 5%;">
-            <mat-tab label="تفاصيل المالية">
+            <mat-tab label="تفاصيل جهة التمويل">
 
                 <div class="groupAction" style="margin-top: 5%; margin-right: -70%;">
                     <button mat-raised-button class="savebtn" (click)="OpenDetailsDialog()">اضافة بند</button>
@@ -216,7 +216,7 @@
 
                         <!-- pyItemName Column -->
                         <ng-container matColumnDef="pyItemName">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> بنود الاجور</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> جهة التمويل</th>
                             <td mat-cell *matCellDef="let row"> {{row.pyItemName}} </td>
                         </ng-container>
 
@@ -229,7 +229,7 @@
                                     <mat-icon>edit</mat-icon>
                                 </button>
                                 <!-- <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)"> -->
-                                    <mat-icon>delete</mat-icon>
+                                <mat-icon>delete</mat-icon>
                                 <!-- </button> -->
                             </td>
                         </ng-container>
@@ -246,18 +246,18 @@
             <mat-tab label="تفاصيل المدربين">
                 <div class="groupAction" style="margin-top: 5%; margin-right: -60%;">
                     <button mat-raised-button class="savebtn" (click)="OpenDetailsInstructorDialog()">اضافة
-                        موظف</button>
+                        بند</button>
 
                 </div>
 
                 <div class="tableFixHead">
 
-                    <table mat-table [dataSource]="dataSourceEmployee" matSort class="headerTable">
+                    <table mat-table [dataSource]="dataSourceInstructor" matSort class="headerTable">
 
-                        <!-- instructorId Column -->
-                        <ng-container matColumnDef="instructorId">
+                        <!-- name Column -->
+                        <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> المدرب</th>
-                            <td mat-cell *matCellDef="let row"> {{row.instructorId}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
                         </ng-container>
 
                         <!-- action Column -->
@@ -268,14 +268,14 @@
                                 <button mat-icon-button color="primary" (click)="editDetailsInstrutcorForm(row)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <!-- <button mat-icon-button color="warn" (click)="deleteFormDetailsEmployee(row.id)"> -->
+                                <button mat-icon-button color="warn" (click)="deleteFormDetailsInstructor(row.id)">
                                     <mat-icon>delete</mat-icon>
-                                <!-- </button> -->
+                                </button>
                             </td>
                         </ng-container>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedEmployeesColumns; sticky: true"></tr>
-                        <tr mat-row *matRowDef="let emprow; columns: displayedEmployeesColumns"></tr>
+                        <tr mat-header-row *matHeaderRowDef="displayedInstructorsColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let emprow; columns: displayedInstructorsColumns"></tr>
 
                     </table>
                     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
@@ -283,10 +283,10 @@
             </mat-tab>
 
 
-            <mat-tab label="تفاصيل المناصب">
+            <mat-tab label="تفاصيل الفئات المستهدفة">
                 <div class="groupAction" style="margin-top: 5%; margin-right: -60%;">
                     <button mat-raised-button class="savebtn" (click)="OpenDetailsPositionDialog()">اضافة
-                        منصب</button>
+                        بند</button>
 
                 </div>
 
@@ -296,7 +296,7 @@
 
                         <!-- instructorId Column -->
                         <ng-container matColumnDef="positionId">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> المنصب</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> الفئة المستهدفة</th>
                             <td mat-cell *matCellDef="let row"> {{row.positionId}} </td>
                         </ng-container>
 
