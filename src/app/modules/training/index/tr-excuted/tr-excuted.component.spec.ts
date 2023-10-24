@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrPurposeComponent } from './tr-purpose.component';
+import { TrExcutedComponent } from './tr-excuted.component';
 
-describe('TrPurposeComponent', () => {
-  let component: TrPurposeComponent;
-  let fixture: ComponentFixture<TrPurposeComponent>;
+describe('TrExcutedComponent', () => {
+  let component: TrExcutedComponent;
+  let fixture: ComponentFixture<TrExcutedComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TrPurposeComponent]
+      declarations: [TrExcutedComponent]
     });
-    fixture = TestBed.createComponent(TrPurposeComponent);
+    fixture = TestBed.createComponent(TrExcutedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

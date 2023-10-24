@@ -1,0 +1,57 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل نوعية   ' : ' إضافة  نوعية جديدة'}}</h1>
+  <form [formGroup]="CcSubRegionForm" dir="rtl">
+   
+    <div mat-dialog-content>
+      <form [formGroup]="CcSubRegionForm">
+        <div class="child1">
+        <mat-label>كود المنطقة</mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود المنطقة">
+          <mat-error *ngIf="CcSubRegionForm.get('code')?.invalid && CcSubRegionForm.get('code')?.touched" readonly>
+             كود المنطقة مطلوب ويجب أن يحتوي على رقم واحد.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="child1">
+        <mat-label>المنطقة الفرعية </mat-label>
+        <mat-form-field appearance="outline">
+          <input formControlName="name" matInput placeholder="ادخل المنطقة الفرعية">
+        </mat-form-field>
+      </div>
+      <div class="child1">
+        <mat-label>المنطقة</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput aria-label="CcRegion" [matAutocomplete]="autoCcRegion" [formControl]="CcRegionCtrl"
+            placeholder="{{getCcSubRegionData ? getCcSubRegionData.name : 'اختر منطقة'}}" (click)="openAutoCcRegion()" required />
+          <mat-autocomplete #autoCcRegion="matAutocomplete" [displayWith]="displayCcRegionName"
+            (optionSelected)="CcRegionSelected($event)">
+            <mat-option *ngFor="let CcRegion of filteredCcRegion | async" [value]="CcRegion">
+              {{ CcRegion.name }} | {{ CcRegion.code }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <!-- <div class="child1">
+        <mat-label>الحساب</mat-label>
+        <mat-form-field appearance="outline">
+          <input matInput aria-label="account" [matAutocomplete]="autoAccount" [formControl]="accountCtrl"
+            placeholder="{{getGradeData ? getGradeData.accountName : 'اختر حساب'}}" (click)="openAutoAccount()" required />
+          <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
+            (optionSelected)="accountSelected($event)">
+            <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
+              {{ account.name }} | {{ account.code }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div> -->
+        <button mat-raised-button class="savebtn" (click)="addCcSubRegion()" >{{actionBtn}}</button>
+      </form>
+    </div>
+     
+      
+    
+  </form>

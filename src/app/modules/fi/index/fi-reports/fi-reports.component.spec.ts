@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrTraineeComponent } from './tr-trainee.component';
+import { FiReportsComponent } from './fi-reports.component';
 
-describe('TrTraineeComponent', () => {
-  let component: TrTraineeComponent;
-  let fixture: ComponentFixture<TrTraineeComponent>;
+describe('FiReportsComponent', () => {
+  let component: FiReportsComponent;
+  let fixture: ComponentFixture<FiReportsComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TrTraineeComponent]
+      declarations: [FiReportsComponent]
     });
-    fixture = TestBed.createComponent(TrTraineeComponent);
+    fixture = TestBed.createComponent(FiReportsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

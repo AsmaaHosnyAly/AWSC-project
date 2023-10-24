@@ -1,0 +1,44 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
+            clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل خطة الممول ' : 'اكمل تفاصيل خطة الممول '}} </h1>
+
+
+<form [formGroup]="planFinanciersForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
+
+
+
+    <div style="overflow: hidden !important;">
+        <div class="detailsForm" dir="rtl">
+
+            <div style="display: flex; flex-direction: column;">
+                <mat-label> الممول* </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoFinancier"
+                        [formControl]="financierCtrl" placeholder="{{editData ? editData.financierId: ''}}"
+                        (click)="openAutoFinancier()" required />
+                    <mat-autocomplete #autoFinancier="matAutocomplete" [displayWith]="displayFinancierName"
+                        (optionSelected)="FinancierSelected($event)">
+                        <mat-option *ngFor="let financier of filteredFinancier | async" [value]="financier">
+                            {{ financier.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div mat-dialog-action [align]="'end'">
+                <div class="groupAction">
+                    <button mat-raised-button color="primary" style="margin-left: 8px;"
+                        (click)="addDetailsInfo()">{{editData ?
+                        'تعديل':'اضافة'}}</button>
+                    <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

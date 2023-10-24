@@ -1,0 +1,331 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل الخطة ' : 'إضافة خطة '}}</h1>
+
+
+<div mat-dialog-content dir="rtl" class="search" style="overflow-x:hidden;">
+    <form [formGroup]="groupMasterForm">
+
+        <div class="matTabLabels">
+
+            <div class="searchLabels" style="width: 23%;">
+                <mat-label> العنوان* </mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput" style="width: 90%;">
+                    <input matInput placeholder="العنوان " formControlName="tittle">
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels" style="width: 15%;">
+                <mat-label> الايام* </mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput" style="width: 90%;">
+                    <input matInput placeholder="الايام " type="number" min="0" formControlName="days">
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels" style="width: 23%;">
+                <mat-label>تاريخ الابتداء*</mat-label>
+
+                <mat-form-field appearance="outline" style="width: 90%;">
+                    <input matInput [matDatepicker]="startDate" formControlName="startDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="startDate">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #startDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels" style="width: 23%;">
+                <mat-label>تاريخ الانتهاء*</mat-label>
+
+                <mat-form-field appearance="outline" style="width: 90%;">
+                    <input matInput [matDatepicker]="endDate" formControlName="endDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="endDate">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #endDate></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels" style="width: 15%;">
+                <mat-label> عدد المتدربين* </mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput" style="width: 90%;">
+                    <input matInput placeholder="المتدربين " type="number" min="0" formControlName="noTrainee">
+                </mat-form-field>
+            </div>
+
+        </div>
+
+        <div class="matTabLabels">
+
+            <div class="searchLabels" style="width: 23%;">
+                <div style="display: flex; flex-direction: column;">
+                    <mat-label> مركز التدريب* </mat-label>
+
+                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                        <input matInput aria-label="commodity" [matAutocomplete]="autoTrainingCenter"
+                            [formControl]="trainingCenterCtrl"
+                            placeholder="{{editData ? editData.trainingCenterName : ''}}"
+                            (click)="openAutoTrainingCenter()" required />
+                        <mat-autocomplete #autoTrainingCenter="matAutocomplete"
+                            [displayWith]="displayTrainingCenterName" (optionSelected)="TrainingCenterSelected($event)">
+                            <mat-option *ngFor="let trainingCenter of filteredTrainingCenter | async"
+                                [value]="trainingCenter">
+                                {{ trainingCenter.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+            <div class="searchLabels" style="width: 23%;">
+                <div style="display: flex; flex-direction: column;">
+                    <mat-label> الصف* </mat-label>
+
+                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                        <input matInput aria-label="commodity" [matAutocomplete]="autoClassRoom"
+                            [formControl]="classRoomCtrl" placeholder="{{editData ? editData.classRoomName : ''}}"
+                            (click)="openAutoClassRoom()" required />
+                        <mat-autocomplete #autoClassRoom="matAutocomplete" [displayWith]="displayClassRoomName"
+                            (optionSelected)="ClassRoomSelected($event)">
+                            <mat-option *ngFor="let classRoom of filteredClassRoom | async" [value]="classRoom">
+                                {{ classRoom.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+            <div class="searchLabels" style="width: 23%;">
+                <mat-label>السنة المالية*</mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                    <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
+                        <mat-option [value]="fiscalYear.id"
+                            *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels" style="width: 23%;">
+                <div style="display: flex; flex-direction: column;">
+                    <mat-label> الدورة التدريبية* </mat-label>
+
+                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                        <input matInput aria-label="commodity" [matAutocomplete]="autoCourse" [formControl]="courseCtrl"
+                            placeholder="{{editData ? editData.courseName : ''}}" (click)="openAutoCourse()" required />
+                        <mat-autocomplete #autoCourse="matAutocomplete" [displayWith]="displayCourseName"
+                            (optionSelected)="CourseSelected($event)">
+                            <mat-option *ngFor="let course of filteredCourse | async" [value]="course">
+                                {{ course.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+            <div class="searchLabels" style="width: 23%;">
+                <div style="display: flex; flex-direction: column;">
+                    <mat-label> الغرض* </mat-label>
+
+                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                        <input matInput aria-label="commodity" [matAutocomplete]="autoPurpose"
+                            [formControl]="purposeCtrl" placeholder="{{editData ? editData.purposeName : ''}}"
+                            (click)="openAutoPurpose()" required />
+                        <mat-autocomplete #autoPurpose="matAutocomplete" [displayWith]="displayPurposeName"
+                            (optionSelected)="PurposeSelected($event)">
+                            <mat-option *ngFor="let purpose of filteredPurpose | async" [value]="purpose">
+                                {{ purpose.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="matTabLabels">
+
+            <div class="searchLabels" style="width: 23%;">
+                <div style="display: flex; flex-direction: column;">
+                    <mat-label> الدرجة المالية* </mat-label>
+
+                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                        <input matInput aria-label="commodity" [matAutocomplete]="autoFinancialDegree"
+                            [formControl]="financialDegreeCtrl"
+                            placeholder="{{editData ? editData.finanacielDegreeName : ''}}"
+                            (click)="openAutoFinancialDegree()" required />
+                        <mat-autocomplete #autoFinancialDegree="matAutocomplete"
+                            [displayWith]="displayFinancialDegreeName"
+                            (optionSelected)="FinancialDegreeSelected($event)">
+                            <mat-option *ngFor="let financialDegree of filteredFinancialDegree | async"
+                                [value]="financialDegree">
+                                {{ financialDegree.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div dir="ltr">
+            <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
+      editDataDetails || MasterGroupInfoEntered
+        ? 'nextButtonEditHeaderDetails'
+        : 'nextButtonAddNewHeader'
+    ">
+                حفظ
+            </button>
+        </div>
+
+    </form>
+
+
+    <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+
+
+        <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
+            <div class="groupAction" style="width: 100%;">
+                <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل الاذن</button>
+
+            </div>
+
+        </div>
+
+        <mat-tab-group mat-stretch-tabs style="margin-top: 5%;">
+            <mat-tab label="تفاصيل جهة التمويل">
+
+                <div class="groupAction" style="margin-top: 5%; margin-right: -70%;">
+                    <button mat-raised-button class="savebtn" (click)="OpenDetailsDialog()">اضافة بند</button>
+
+                </div>
+
+                <div class="tableFixHead">
+                    <table mat-table [dataSource]="dataSource" matSort class="headerTable">
+
+                        <!-- pyItemName Column -->
+                        <ng-container matColumnDef="pyItemName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> جهة التمويل</th>
+                            <td mat-cell *matCellDef="let row"> {{row.pyItemName}} </td>
+                        </ng-container>
+
+                        <!-- action Column -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> الاجراء
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <!-- <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)"> -->
+                                <mat-icon>delete</mat-icon>
+                                <!-- </button> -->
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+
+                    </table>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+                </div>
+            </mat-tab>
+
+
+            <mat-tab label="تفاصيل المدربين">
+                <div class="groupAction" style="margin-top: 5%; margin-right: -60%;">
+                    <button mat-raised-button class="savebtn" (click)="OpenDetailsInstructorDialog()">اضافة
+                        بند</button>
+
+                </div>
+
+                <div class="tableFixHead">
+
+                    <table mat-table [dataSource]="dataSourceInstructor" matSort class="headerTable">
+
+                        <!-- name Column -->
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> المدرب</th>
+                            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                        </ng-container>
+
+                        <!-- action Column -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> الاجراء
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button color="primary" (click)="editDetailsInstrutcorForm(row)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="deleteFormDetailsInstructor(row.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedInstructorsColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let emprow; columns: displayedInstructorsColumns"></tr>
+
+                    </table>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+                </div>
+            </mat-tab>
+
+
+            <mat-tab label="تفاصيل الفئات المستهدفة">
+                <div class="groupAction" style="margin-top: 5%; margin-right: -60%;">
+                    <button mat-raised-button class="savebtn" (click)="OpenDetailsPositionDialog()">اضافة
+                        بند</button>
+
+                </div>
+
+                <div class="tableFixHead">
+
+                    <table mat-table [dataSource]="dataSourcePosition" matSort class="headerTable">
+
+                        <!-- instructorId Column -->
+                        <ng-container matColumnDef="positionId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> الفئة المستهدفة</th>
+                            <td mat-cell *matCellDef="let row"> {{row.positionId}} </td>
+                        </ng-container>
+
+                        <!-- action Column -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> الاجراء
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button color="primary" (click)="editDetailsPositionForm(row)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="deleteFormDetailsPosition(row.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedPositionsColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let emprow; columns: displayedPositionsColumns"></tr>
+
+                    </table>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+
+
+
+    </div>
+
+</div>

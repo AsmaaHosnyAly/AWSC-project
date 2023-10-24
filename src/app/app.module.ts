@@ -242,8 +242,29 @@ import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-train
 import { TrTraineeDialogComponent } from './modules/training/index/tr-trainee-dialog/tr-trainee-dialog.component';
 import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-training-center-course/tr-training-center-course.component';
 import { TrTrainingCenterCourseDialogComponent } from './modules/training/index/tr-training-center-course-dialog/tr-training-center-course-dialog.component';
+import { TrPlanComponent } from './modules/training/index/tr-plan/tr-plan.component';
+import { TrPlanDialogComponent } from './modules/training/index/tr-plan-dialog/tr-plan-dialog.component';
+import { TrPlanCourseDataComponent } from './modules/training/index/tr-plan-course-data/tr-plan-course-data.component';
+import { TrPlanCourseDataDialogComponent } from './modules/training/index/tr-plan-course-data-dialog/tr-plan-course-data-dialog.component';
 import { TrPurposeComponent } from './modules/training/index/tr-purpose/tr-purpose.component';
 import { TrPurposeDialogComponent } from './modules/training/index/tr-purpose-dialog/tr-purpose-dialog.component';
+import { FiReportsComponent } from './modules/fi/index/fi-reports/fi-reports.component';
+import { TrPlanFinancierDetailsDialogComponent } from './modules/training/index/tr-plan-financier-details-dialog/tr-plan-financier-details-dialog.component';
+import { TrPlanInstructorDetailsDialogComponent } from './modules/training/index/tr-plan-instructor-details-dialog/tr-plan-instructor-details-dialog.component';
+import { TrPlanPositionDetailsDialogComponent } from './modules/training/index/tr-plan-position-details-dialog/tr-plan-position-details-dialog.component';
+import { CcActivityComponent } from './modules/cc/index/cc-activity/cc-activity.component';
+import { CcActivityDialogComponent } from './modules/cc/index/cc-activity-dialog/cc-activity-dialog.component';
+import { CcFunctionComponent } from './modules/cc/index/cc-function/cc-function.component';
+import { CcFunctionDialogComponent } from './modules/cc/index/cc-function-dialog/cc-function-dialog.component';
+import { CcRegionComponent } from './modules/cc/index/cc-region/cc-region.component';
+import { CcRegionDialogComponent } from './modules/cc/index/cc-region-dialog/cc-region-dialog.component';
+import { CcSubRegionComponent } from './modules/cc/index/cc-sub-region/cc-sub-region.component';
+import { CcSubRegionDialogComponent } from './modules/cc/index/cc-sub-region-dialog/cc-sub-region-dialog.component';
+import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excuted.component';
+import { TrExcutedDialogComponent } from './modules/training/index/tr-excuted-dialog/tr-excuted-dialog.component';
+import { TrExcutedInstructorDetailsDialogComponent } from './modules/training/index/tr-excuted-instructor-details-dialog/tr-excuted-instructor-details-dialog.component';
+import { TrExcutedPositionDetailsDialogComponent } from './modules/training/index/tr-excuted-position-details-dialog/tr-excuted-position-details-dialog.component';
+import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index/tr-excuted-trainee-details-dialog/tr-excuted-trainee-details-dialog.component';
 
 
 
@@ -468,8 +489,30 @@ import { TrPurposeDialogComponent } from './modules/training/index/tr-purpose-di
     TrTraineeDialogComponent,
     TrTrainingCenterCourseComponent,
     TrTrainingCenterCourseDialogComponent,
+    TrPlanComponent,
+    TrPlanDialogComponent,
+    TrPlanCourseDataComponent,
+    TrPlanCourseDataDialogComponent,
     TrPurposeComponent,
     TrPurposeDialogComponent,
+    FiReportsComponent,
+    TrPlanFinancierDetailsDialogComponent,
+    TrPlanInstructorDetailsDialogComponent,
+    TrPlanPositionDetailsDialogComponent,
+    CcActivityComponent,
+    CcActivityDialogComponent,
+    CcFunctionComponent,
+    CcFunctionDialogComponent,
+    CcRegionComponent,
+    CcRegionDialogComponent,
+    CcSubRegionComponent,
+    CcSubRegionDialogComponent,
+   
+    TrExcutedComponent,
+    TrExcutedDialogComponent,
+    TrExcutedInstructorDetailsDialogComponent,
+    TrExcutedPositionDetailsDialogComponent,
+    TrExcutedTraineeDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,

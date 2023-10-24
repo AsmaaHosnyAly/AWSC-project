@@ -128,6 +128,7 @@ export class ApiService {
   }
 
   postPyExchangeDetails(data: any) {
+    console.log("exchange post:",data)
     return this.http.post<any>(`${this.url}/PyExchangeDetails/Add`, data);
   }
   getPyExchangeDetails() {

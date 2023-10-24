@@ -8,59 +8,120 @@
 <!-- <form [formGroup]="HrEmployeePosition" dir="rtl"> -->
 <div dir="rtl">
     <div mat-dialog-content>
-        <form [formGroup]="TrTraineeForm">
+        <form [formGroup]="TrTraineeForm" style="overflow: hidden !important;">
+            <div class="headerForm" >
+           
+       
+                <div style="display: flex;flex-direction: row;justify-content: space-around;">
+
+                    <div class="searchLabels" style="width: 13rem;">
+                        <mat-label>الاسم*</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+                            <input matInput placeholder="الاسم" formControlName="name">
+                        </mat-form-field>
+                    </div>
+                    <div class="searchLabels" style="width: 13rem;">
+                        <mat-label>الكود*</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+                            <input matInput placeholder="الكود" formControlName="code"  min="0">
+                        </mat-form-field>
+                    </div>
+                    <div class="searchLabels" style="width: 15rem;">
+                        <mat-label>رقم الهاتف*</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+                            <input matInput placeholder="رقم الهاتف" formControlName="phone"  maxlength="11">
+                        </mat-form-field>
+                    </div>
+                </div>
 
 
-            <div class="child1">
-                <mat-label>عملاء الشركة*</mat-label>
 
-                <mat-form-field appearance="outline">
-                    <input matInput aria-label="specialization" [matAutocomplete]="autoTrCoporteClient"
-                        [formControl]="trCoporteClientCtrl"
-                        placeholder="{{editData ? editData.corporationCLinetName : ''}}"
-                        (click)="openAutoTrCoporteClient()" required />
-                    <mat-autocomplete #autoTrCoporteClient="matAutocomplete" [displayWith]="displayTrCoporteClientName"
-                        (optionSelected)="TrCoporteClientSelected($event)">
-                        <mat-option *ngFor="let trCoporteClient of filteredtrCoporteClient | async"
-                            [value]="trCoporteClient">
-                            {{ trCoporteClient.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
+                <div style="display: flex;flex-direction: row;justify-content: space-around;">
 
-            <div class="child1">
-                <div class="radio " style="display: flex;flex-direction: column;width: 52%;">
-                    <mat-label style="margin-top: 9px;"> حالةالصنف*</mat-label>
-                    <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
-                    <mat-radio-group style="display: flex;flex-direction: row;" aria-label="Select an option"
-                        (change)="set_Percentage($event)">
-                        <mat-radio-button value="موظف">موظف</mat-radio-button>
-                        <mat-radio-button value="خارجى">خارجى</mat-radio-button>
-                    </mat-radio-group>
+                    <div class="searchLabels" style="width: 13rem;">
+                        <mat-label>البريد الالكتروني*</mat-label>
 
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+                            <input matInput placeholder="البريد الالكتروني" formControlName="email" type="email">
+                        </mat-form-field>
+                    </div>
+                    <div class="searchLabels" style="width: 13rem;">
+                        <mat-label>العنوان*</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+                            <input matInput placeholder="العنوان" formControlName="address">
+                        </mat-form-field>
+                    </div>
+                    <div class="searchLabels" style="width: 15rem;">
+                        <mat-label>النوع *</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
+                            <mat-select formControlName="gender">
+                                <mat-option value="ذكر">ذكر</mat-option>
+                                <mat-option value="انثي">انثي</mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div style="display: flex;flex-direction: row;">
+
+                    <div class="searchLabels" style="width: 13rem;">
+                        <mat-label>الرقم القومي *</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+                            <input matInput placeholder="الرقم القومي " formControlName="nationalId"  maxlength="24">
+                        </mat-form-field>
+                    </div>
+                    <div class="searchLabels" style="width: 13rem;">
+                        <mat-label>المدينة*</mat-label>
+
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <input matInput aria-label="specialization" [matAutocomplete]="autocity"
+                                [formControl]="cityCtrl"
+                                placeholder="{{editData ? editData.corporationCLinetName : ''}}"
+                                (click)="openAutocity()" required />
+                            <mat-autocomplete #autocity="matAutocomplete"
+                                [displayWith]="displaycityName"
+                                (optionSelected)="citySelected($event)">
+                                <mat-option *ngFor="let city of filteredcity | async"
+                                    [value]="city">
+                                    {{ city.name }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="searchLabels" style="width: 15rem;">
+                        <mat-label>عملاء الشركة*</mat-label>
+
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <input matInput aria-label="specialization" [matAutocomplete]="autoTrCoporteClient"
+                                [formControl]="trCoporteClientCtrl"
+                                placeholder="{{editData ? editData.corporationCLinetName : ''}}"
+                                (click)="openAutoTrCoporteClient()" required />
+                            <mat-autocomplete #autoTrCoporteClient="matAutocomplete"
+                                [displayWith]="displayTrCoporteClientName"
+                                (optionSelected)="TrCoporteClientSelected($event)">
+                                <mat-option *ngFor="let trCoporteClient of filteredtrCoporteClient | async"
+                                    [value]="trCoporteClient">
+                                    {{ trCoporteClient.name }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                
                 </div>
             </div>
-
-            <div class="child1">
-                <mat-label>الموظف*</mat-label>
-                <mat-form-field appearance="outline">
-                    <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-                        placeholder="{{editData ? editData.employeeName : ''}}" (click)="openAutoemployee()" required/>
-                    <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
-                        (optionSelected)="employeeSelected($event)">
-                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                            {{ employee.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-
         </form>
     </div>
     <div mat-dialog-actions>
         <button mat-raised-button class="savebtn" (click)="addTrTrainee()"
-            style="margin-left: 8px;">{{actionBtn}}</button>
+          >{{actionBtn.toLowerCase() =='Save' ?
+          'تعديل':'اضافة'}}</button>
     </div>
 </div>
 <!-- </form> -->

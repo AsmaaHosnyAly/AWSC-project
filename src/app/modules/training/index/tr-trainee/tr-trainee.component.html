@@ -18,10 +18,42 @@
             <table matSort mat-table [dataSource]="dataSource">
 
                 <!-- employeeName Column -->
-                <ng-container matColumnDef="employeeName">
+                <!-- <ng-container matColumnDef="employeeName">
+                    <th mat-header-cell *matHeaderCellDef> الموظف </th>
+                    <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
+                </ng-container> -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> الاسم </th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef> االكود </th>
+                    <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+                </ng-container>
+                <ng-container matColumnDef="phone">
+                    <th mat-header-cell *matHeaderCellDef> الهاتف </th>
+                    <td mat-cell *matCellDef="let row"> {{row.phone}} </td>
+                </ng-container>
+                <ng-container matColumnDef="gender">
+                    <th mat-header-cell *matHeaderCellDef> النوع </th>
+                    <td mat-cell *matCellDef="let row"> {{row.gender}} </td>
+                </ng-container>
+                <ng-container matColumnDef="address">
+                    <th mat-header-cell *matHeaderCellDef> العنوان </th>
+                    <td mat-cell *matCellDef="let row"> {{row.address}} </td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> البريد الالكتروني </th>
+                    <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+                </ng-container>
+                <!-- <ng-container matColumnDef="employeeName">
                     <th mat-header-cell *matHeaderCellDef> الموظف </th>
                     <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
                 </ng-container>
+                <ng-container matColumnDef="employeeName">
+                    <th mat-header-cell *matHeaderCellDef> الموظف </th>
+                    <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
+                </ng-container> -->
 
                 <!-- corporationCLinetName Column -->
                 <ng-container matColumnDef="corporationCLinetName">
