@@ -20,6 +20,7 @@ import {
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 
 @Component({
@@ -34,7 +35,9 @@ export class HrMillitryStateComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog : MatDialog,private hotkeysService: HotkeysService, private api : ApiService, private toastr: ToastrService,){}
+  constructor(private dialog : MatDialog,private hotkeysService: HotkeysService, private api : ApiService, private toastr: ToastrService,private global:GlobalService){
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+  }
   ngOnInit(): void {
     this.getAllMillitryStates();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {

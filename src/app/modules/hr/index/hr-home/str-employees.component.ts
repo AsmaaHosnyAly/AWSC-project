@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PagesEnums } from 'src/app/core/enums/pages.enum'; 
 import jwt_decode from 'jwt-decode';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-str-employees',
@@ -16,7 +17,8 @@ export class StrEmployeesComponent {
   userRole= localStorage.getItem('userRoles')
  
 
-  constructor(){
+  constructor(private global:GlobalService){
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
     const accessToken: any = localStorage.getItem('accessToken');
     this.decodedToken = jwt_decode(accessToken);
     this. decodedToken1 = this.decodedToken.modules;

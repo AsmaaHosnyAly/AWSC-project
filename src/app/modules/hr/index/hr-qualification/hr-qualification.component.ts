@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { HrQualificationDialogComponent } from '../hr-qualification-dialog/hr-qualification-dialog.component'; 
+import { GlobalService } from 'src/app/pages/services/global.service';
 export class QualitativeGroup {
   constructor(public id: number, public name: string,private toastr: ToastrService) {}
 }
@@ -40,7 +41,8 @@ export class HrQualificationComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,private global:GlobalService) {
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
     this.qualitativeGroupCtrl = new FormControl();
     this.filteredQualitativeGroup = this.qualitativeGroupCtrl.valueChanges.pipe(
       startWith(''),

@@ -21,6 +21,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HrEmployeeFinancialDegreeDialogComponent } from '../hr-employee-financial-degree-dialog/hr-employee-financial-degree-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 export class City {
   constructor(public id: number, public name: string) {}
 }
@@ -45,7 +46,8 @@ export class HrEmployeeFinancialDegreeComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService,private toastr: ToastrService) {
+  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService,private toastr: ToastrService, private global:GlobalService) {
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
     this.cityCtrl = new FormControl();
     this.filteredCities = this.cityCtrl.valueChanges.pipe(
       startWith(''),
