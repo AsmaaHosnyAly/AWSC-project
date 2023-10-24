@@ -97,7 +97,7 @@ export class TrPlanDialogComponent implements OnInit {
   displayedColumns: string[] = ['pyItemName', 'action'];
   // displayedEmployeesColumns: string[] = ['instructorId', 'action'];
   displayedInstructorsColumns: string[] = ['name', 'action'];
-  displayedPositionsColumns: string[] = ['positionId', 'action'];
+  displayedPositionsColumns: string[] = ['positionName', 'action'];
 
   sessionId = Math.random();
 
@@ -423,20 +423,15 @@ export class TrPlanDialogComponent implements OnInit {
 
     console.log("mastered row get plan position details data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      // this.api.getPyItemGroupEmployeeByHeaderId(this.getMasterRowId.id).subscribe({
-      this.api.getTrPlanPosition().subscribe({
+      this.api.getTrPlanPositionByHeaderId(this.getMasterRowId.id).subscribe({
         next: (res) => {
 
-          this.matchedIds = res.filter((a: any) => {
-            return a.planId === this.getMasterRowId.id;
-          });
-
           // this.matchedIds = res;
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee plan position details: ", res);
+          console.log("trPlanPosition DETAILS res: ", res);
 
-          if (this.matchedIds) {
+          if (res) {
 
-            this.dataSourcePosition = new MatTableDataSource(this.matchedIds);
+            this.dataSourcePosition = new MatTableDataSource(res);
             this.dataSourcePosition.paginator = this.paginator;
             this.dataSourcePosition.sort = this.sort;
 
@@ -562,6 +557,7 @@ export class TrPlanDialogComponent implements OnInit {
   }
 
   editDetailsPositionForm(row: any) {
+    console.log("position details row: ", row);
     this.dialog
       .open(TrPlanPositionDetailsDialogComponent, {
         width: '40%',
