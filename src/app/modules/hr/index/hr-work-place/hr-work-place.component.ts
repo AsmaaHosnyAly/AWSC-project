@@ -22,6 +22,7 @@ import { HrWorkPlacedialogComponent } from '../hr-work-placedialog/hr-work-place
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 
 export class CityState {
@@ -48,7 +49,8 @@ export class HrWorkPlaceComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,private global:GlobalService) {
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
     this.cityStateCtrl = new FormControl();
     this.filteredCityState = this.cityStateCtrl.valueChanges.pipe(
       startWith(''),
