@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { HrSpecializationDialogComponent } from '../hr-specialization-dialog/hr-specialization-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 
 export class Qualification {
@@ -44,7 +45,8 @@ export class HrSpecializationComponent {
   // commidityDt: any = {
   //   id: 0,
   // };
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,) {
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,private global:GlobalService) {
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
     this.QualificationCtrl = new FormControl();
     this.filteredQualification = this.QualificationCtrl.valueChanges.pipe(
       startWith(''),

@@ -11,6 +11,7 @@ import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 // import { GlobalService } from '../services/global.service';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 @Component({
   selector: 'app-hr-position',
   templateUrl: './hr-position.component.html',
@@ -30,9 +31,10 @@ export class HrPositionComponent  implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor( private toastr: ToastrService,
     private dialog: MatDialog,private hotkeysService: HotkeysService,
-    private api: ApiService
+    private api: ApiService,
+    private global:GlobalService
   ) {
-    
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
   }
   ngOnInit(): void {
     this.getAllPositions();
