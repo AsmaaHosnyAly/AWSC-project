@@ -40,7 +40,7 @@ export class FIJournalComponent {
 private hotkeysService: HotkeysService,
      private api : ApiService,private toastr: ToastrService, private formBuilder: FormBuilder,private global:GlobalService,
      @Inject(LOCALE_ID) private locale: string){
-      global.getPermissionUserRoles('Store', 'stores', 'إدارة الحسابات ', '')
+      global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
      }
   ngOnInit(): void {
     this.getFIJournals();
