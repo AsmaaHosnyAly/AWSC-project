@@ -558,6 +558,74 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
 }
 
 
-  
+  //////////////////FiEntryreport////////////////
+  getStr(
+    no: any,
+    store: any,
+    StartDate: any, EndDate: any,
+    fiscalYear: any,
+    item: any,
+    employee: any,
+    costCenter: any, report: any, reportType: any
+  ) {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      store,
+      'date: ',
+      StartDate,
+      'fiscalYear: ',
+      fiscalYear,
+      'reportName:', report, 'reportType:', reportType
+
+    );
+    `${this.url}/STRWithdraw/get/Report?`;
+    this.mycondition = `${this.url}/STRWithdraw/get/Report?reportName=${report}&reportType==${reportType}`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    }
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    }
+
+
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${fiscalYear}`;
+    }
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    }
+    if (!employee == false) {
+      this.mycondition = ` ${this.mycondition}&PlatoonId=${employee}`;
+    }
+    if (!costCenter == false) {
+      this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
     
 }

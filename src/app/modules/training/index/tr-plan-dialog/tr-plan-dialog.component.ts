@@ -62,7 +62,8 @@ export class TrPlanDialogComponent implements OnInit {
   actionBtnDetails: string = 'Save';
   MasterGroupInfoEntered = false;
   dataSource!: MatTableDataSource<any>;
-  dataSourceEmployee!: MatTableDataSource<any>;
+  // dataSourceEmployee!: MatTableDataSource<any>;
+  dataSourceInstructor!: MatTableDataSource<any>;
   dataSourcePosition!: MatTableDataSource<any>;
   matchedIds: any;
   getDetailedRowData: any;
@@ -94,7 +95,8 @@ export class TrPlanDialogComponent implements OnInit {
   defaultFiscalYearSelectValue: any;
 
   displayedColumns: string[] = ['pyItemName', 'action'];
-  displayedEmployeesColumns: string[] = ['instructorId', 'action'];
+  // displayedEmployeesColumns: string[] = ['instructorId', 'action'];
+  displayedInstructorsColumns: string[] = ['name', 'action'];
   displayedPositionsColumns: string[] = ['positionId', 'action'];
 
   sessionId = Math.random();
@@ -394,22 +396,18 @@ export class TrPlanDialogComponent implements OnInit {
 
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      // this.api.getPyItemGroupEmployeeByHeaderId(this.getMasterRowId.id).subscribe({
-      this.api.getTrPlanInstructor().subscribe({
+      this.api.getTrInstructorByHeaderId(this.getMasterRowId.id).subscribe({
         next: (res) => {
+          console.log("TrInstructor: ", res);
 
-          this.matchedIds = res.filter((a: any) => {
-            return a.planId === this.getMasterRowId.id;
-          });
-
-          // this.matchedIds = res;
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+          this.matchedIds = res;
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee TrInstructor: ", res);
 
           if (this.matchedIds) {
 
-            this.dataSourceEmployee = new MatTableDataSource(this.matchedIds);
-            this.dataSourceEmployee.paginator = this.paginator;
-            this.dataSourceEmployee.sort = this.sort;
+            this.dataSourceInstructor = new MatTableDataSource(this.matchedIds);
+            this.dataSourceInstructor.paginator = this.paginator;
+            this.dataSourceInstructor.sort = this.sort;
 
           }
         },
@@ -578,23 +576,22 @@ export class TrPlanDialogComponent implements OnInit {
       });
   }
 
-  // deleteFormDetailsEmployee(id: number) {
-  //   console.log('details id: ', id);
+  deleteFormDetailsInstructor(id: number) {
+    console.log('details id: ', id);
 
-  //   var result = confirm('هل ترغب بتاكيد الحذف ؟');
-  //   if (result) {
-  //     this.api.deletePyItemGroupEmployee(id).subscribe({
-  //       next: (res) => {
-  //         // alert("تم الحذف بنجاح");
-  //         this.toastrDeleteSuccess();
-  //         this.getAllDetailsEmployeeForms();
-  //       },
-  //       error: () => {
-  //         // alert("خطأ أثناء حذف التفاصيل !!");
-  //       },
-  //     });
-  //   }
-  // }
+    var result = confirm('هل ترغب بتاكيد الحذف ؟');
+    if (result) {
+      this.api.deleteTrPlanInstructor(id).subscribe({
+        next: (res) => {
+          this.toastrDeleteSuccess();
+          this.getAllDetailsEmployeeForms();
+        },
+        error: () => {
+          // alert("خطأ أثناء حذف التفاصيل !!");
+        },
+      });
+    }
+  }
 
 
   getAllMasterForms() {

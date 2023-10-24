@@ -411,12 +411,12 @@ export class STRItem1DialogComponent implements OnInit {
   }
 
   updateItem() {
-    console.log('item form after put:',this.itemForm)
+    console.log("update data:",this.itemForm.value);
     this.api.putItem(this.itemForm.value)
     
       .subscribe({
         next: (res) => {
-    console.log("update data:",this.itemForm.value);
+  
 
           this.toastrEdit();
           this.itemForm.reset();

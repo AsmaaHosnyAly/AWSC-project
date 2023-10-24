@@ -438,66 +438,66 @@ export class FiEntryTableComponent implements OnInit {
         },
       });
   }
-  //   previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
-  //     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-  //     let employee = this.groupMasterForm.getRawValue().employeeId;
-  //     let item = this.groupMasterForm.getRawValue().itemId;
-  //     let store = this.groupMasterForm.getRawValue().storeId;
-  // if(report!= null && reportType!=null){
-  //     this.api
-  //       .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-  //       .subscribe({
-  //         next: (res) => {
-  //           let blob: Blob = res.body as Blob;
-  //           console.log(blob);
-  //           let url = window.URL.createObjectURL(blob);
-  //           localStorage.setItem('url', JSON.stringify(url));
-  //           this.pdfurl = url;
-  //           this.dialog.open(PrintDialogComponent, {
-  //             width: '50%',
-  //           });
+    previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+      let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+      let employee = this.groupMasterForm.getRawValue().employeeId;
+      let item = this.groupMasterForm.getRawValue().itemId;
+      let store = this.groupMasterForm.getRawValue().storeId;
+  if(report!= null && reportType!=null){
+      this.api
+        .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '50%',
+            });
 
-  //           // this.dataSource = res;
-  //           // this.dataSource.paginator = this.paginator;
-  //           // this.dataSource.sort = this.sort;
-  //         },
-  //         error: (err) => {
-  //           console.log('eroorr', err);
-  //           window.open(err.url);
-  //         },
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
 
-  //       });}
-  //       else{
-  // alert("ادخل التقرير و نوع التقرير!")      }
-  //   }
+        });}
+        else{
+  alert("ادخل التقرير و نوع التقرير!")      }
+    }
 
 
-  //   downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
-  //     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-  //     let employee = this.groupMasterForm.getRawValue().employeeId;
-  //     let item = this.groupDetailsForm.getRawValue().itemId;
-  //     let store = this.groupMasterForm.getRawValue().storeId;
+    downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
+      let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+      let employee = this.groupMasterForm.getRawValue().employeeId;
+      let item = this.groupDetailsForm.getRawValue().itemId;
+      let store = this.groupMasterForm.getRawValue().storeId;
 
-  //     this.api
-  //     .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
-  //     .subscribe({
-  //         next: (res) => {
-  //           console.log('search:', res);
-  //           const url: any = res.url;
-  //           window.open(url);
-  //           // let blob: Blob = res.body as Blob;
-  //           // let url = window.URL.createObjectURL(blob);
+      this.api
+      .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+      .subscribe({
+          next: (res) => {
+            console.log('search:', res);
+            const url: any = res.url;
+            window.open(url);
+            // let blob: Blob = res.body as Blob;
+            // let url = window.URL.createObjectURL(blob);
 
-  //           // this.dataSource = res;
-  //           // this.dataSource.paginator = this.paginator;
-  //           // this.dataSource.sort = this.sort;
-  //         },
-  //         error: (err) => {
-  //           console.log('eroorr', err);
-  //           window.open(err.url);
-  //         },
-  //       });
-  //   }
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
