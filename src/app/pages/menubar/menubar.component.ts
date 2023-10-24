@@ -31,15 +31,7 @@ export class MenubarComponent {
     public shared: SharedService,
     private router: Router
   ) {
-    // this.refresh()
-
-    //  this.str1=localStorage.getItem('stores')
-    //   console.log(localStorage.getItem('stores'))
-    //   this.shared.roles
-    //   console.log('stores', this.shared.stores)
-    // //   console.log('roles',this.shared.roles)
-    // this.global.getPermissionUserRoles(1||2||3||4||5||6||7||8||9||10||11|12|13|14|15|16|17,'stores','','')
-    // this.global.getPermissionRolesScreens(18||19,'الصلاحيات','')
+   
 
     this.getUserById();
 

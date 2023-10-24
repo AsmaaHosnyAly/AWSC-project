@@ -24,7 +24,7 @@ export class STRUnitsComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog,private toastr: ToastrService, private api : ApiService,private global:GlobalService , private http:HttpClient,private hotkeysService: HotkeysService){
-    global.getPermissionUserRoles(9, 'stores', 'الوحدة', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
     
  
   }

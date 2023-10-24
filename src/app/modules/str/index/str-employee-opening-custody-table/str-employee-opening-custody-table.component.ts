@@ -21,6 +21,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PrintDialogComponent } from './../print-dialog/print-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 
 
@@ -92,12 +93,17 @@ loading :boolean=false;
     private formBuilder: FormBuilder,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private global:GlobalService
   ) {
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filtercostcenters(value))
+
+    
+
     );
 
     this.itemCtrl = new FormControl();

@@ -169,7 +169,7 @@ export class STRItem1DialogComponent implements OnInit {
     if (this.editData) {
       this.actionBtn = "تعديل";
       this.getItemData = this.editData;
-      this.itemForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.itemForm.controls['transactionUserId'].setValue(this.transactionUserId);
       this.itemForm.controls['fullCode'].setValue(this.editData.fullCode);
       this.itemForm.controls['type'].setValue(this.editData.type);
       this.itemForm.controls['isActive'].setValue(this.editData.isActive);
@@ -411,7 +411,7 @@ export class STRItem1DialogComponent implements OnInit {
   }
 
   updateItem() {
-    
+    console.log('item form after put:',this.itemForm)
     this.api.putItem(this.itemForm.value)
     
       .subscribe({
@@ -420,6 +420,7 @@ export class STRItem1DialogComponent implements OnInit {
 
           this.toastrEdit();
           this.itemForm.reset();
+          console.log("update data rest:", this.itemForm.value);
           this.dialogRef.close('update');
         },
         error: () => {

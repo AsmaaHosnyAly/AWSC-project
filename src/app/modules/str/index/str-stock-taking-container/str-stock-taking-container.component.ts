@@ -23,6 +23,6 @@ export class StrStockTakingContainerComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog: MatDialog, private api: ApiService,global:GlobalService){
-    global.getPermissionUserRoles(5, 'stores', 'إدارة المخازن وحسابات المخازن -  الجرد اليدوي     ', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
   }
 }

@@ -83,7 +83,7 @@ export class StrUserstoreComponent implements OnInit{
       map((value) => this._filterStores(value))
     );
 
-    global.getPermissionUserRoles(7,'stores', 'الفصيلة', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
   }
   ngOnInit(): void {
     this.getAllPlatoons();
