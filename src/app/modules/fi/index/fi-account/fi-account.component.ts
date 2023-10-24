@@ -20,6 +20,7 @@ import { Observable } from 'rxjs';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalService } from 'src/app/pages/services/global.service';
 export class Hierarchy {
   constructor(public id: number, public name: string, public level: string) {}
 }
@@ -45,12 +46,13 @@ export class FIAccountComponent implements OnInit {
   commidityDt: any = {
     id: 0,
   };
-  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService,private global:GlobalService) {
     this.hierarchyCtrl = new FormControl();
     this.filteredHierarchies = this.hierarchyCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterHierarchies(value))
     );
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
   }
   ngOnInit(): void {
     // console.log(productForm)

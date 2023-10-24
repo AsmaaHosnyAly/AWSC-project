@@ -16,6 +16,7 @@ import { FiAccountItemdDialogComponent } from '../fi-account-itemd-dialog/fi-acc
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-fi-account-item',
@@ -36,8 +37,8 @@ export class FiAccountItemComponent  implements OnInit {
   // commidityDt: any = {
   //   id: 0,
   // };
-  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
- 
+  constructor(private global:GlobalService,private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
   }
   ngOnInit(): void {
     // console.log(productForm)

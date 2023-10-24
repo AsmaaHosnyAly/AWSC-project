@@ -31,7 +31,7 @@ export class StrStoreComponent  implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
-    global.getPermissionUserRoles(13,'stores', 'المخازن', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
 
   }
   ngOnInit(): void {

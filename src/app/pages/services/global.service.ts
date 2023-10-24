@@ -3,12 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
+import jwt_decode from 'jwt-decode';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalService {
+  decodedToken: any;
+  decodedToken1: any;
+  decodedToken2: any;
   public shortLink = '';
   isLogIn = false;
   bgColor: any;
@@ -20,7 +24,7 @@ export class GlobalService {
   accounts = false;
   test: any;
   public navFlag: boolean = true;
-  userRoles: any;
+  userModules: any;
   pageEnums=PagesEnums
   url =this.pageEnums.URL
 
@@ -31,7 +35,16 @@ export class GlobalService {
     private router: Router,
     
   ) {
-    this.userRoles = localStorage.getItem('userRoles')?.split(',');
+      // Retrieve the access token
+      const accessToken: any = localStorage.getItem('accessToken');
+      // console.log('accessToken', accessToken);
+      // Decode the access token
+      this.decodedToken = jwt_decode(accessToken);
+      this.decodedToken1 = this.decodedToken.modules;
+      this.decodedToken2 = this.decodedToken.roles;
+  
+      console.log('decodedToken2 ', this.decodedToken2);
+    this.userModules = localStorage.getItem('userRoles')?.split(',');
   }
 
   getUsers(): Observable<any> {
@@ -93,56 +106,17 @@ export class GlobalService {
   }
 
   getPermissionUserRoles(
-    role: any,
+   module: any,
     background: any,
     pageTitle: any,
     icon: any
   ) {
-    console.log('userrole', localStorage.getItem('userRoles')?.split(','))
-    for (let i = 0; i < this.userRoles!.length; i++) {
-      if (role == this.userRoles![i]) {
-        this.pageTitle = pageTitle;
-        // if (
-        //   role == '1' ||
-        //   role == '2' ||
-        //   role == '3' ||
-        //   role == '4' ||
-        //   role == '5' ||
-        //   role == '6' ||
-        //   role == '7' ||
-        //   role == '8' ||
-        //   role == '9' ||
-        //   role == '10' ||
-        //   role == '11' ||
-        //   role == '12' ||
-        //   role == '13' ||
-        //   role == '14' ||
-        //   role == '15' ||
-        //   role == '16' ||
-        //   role == '17'
-        // ) {
-        //   this.shared.stores = true;
-    
-          
-        //   // if (background == 'stores')
-        //   //   this.bgColor = document
-        //   //     .querySelector('section')
-        //   //     ?.setAttribute('class', 'role1');
-
-        //   // if (background == 'acounts')
-        //   //   this.bgColor = document
-        //   //     .querySelector('section')
-        //   //     ?.setAttribute('class', 'role2');
-        //   // else
-        //   // this.bgColor= document.querySelector('section')?.setAttribute("class","screenBackground ")
-
-        
-        // }
+    const MODULES_LOCAL_STORAGE = this.decodedToken1;
+    for (let i = 0; i <MODULES_LOCAL_STORAGE!.length; i++) {
+      if (module == MODULES_LOCAL_STORAGE![i]) {
+        this.pageTitle = pageTitle; 
       }
-    
-      // window.alert('You dont have the permission to visit this page');
-      // this.router.navigate(['/home']);
-      // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
+  
     }
   }
   // getPermissionRolesScreens(
