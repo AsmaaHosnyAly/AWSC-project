@@ -244,6 +244,15 @@
             *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
             <p class="font"> المنطقة</p>
           </a>
+          <a mat-list-item class="sideNavSubItems" routerLink="/Cc-SubRegion"
+          *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
+          <p class="font"> المنطقة الفرعية</p>
+        </a>
+
+        <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Source"
+        *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
+        <p class="font"> المصدر</p>
+      </a>
               <!-- <a
                 mat-list-item
                 class="sideNavSubItems"

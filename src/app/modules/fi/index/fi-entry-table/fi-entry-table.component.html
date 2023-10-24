@@ -22,7 +22,7 @@
         <mat-label>تاريخ البداية</mat-label>
 
             <mat-form-field appearance="outline" class="example-full-width">
-                <input #startDate matInput [matDatepicker]="picker">
+                <input #StartDate matInput [matDatepicker]="picker">
                 <mat-datepicker-toggle matIconSuffix [for]="picker">
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -34,7 +34,7 @@
             <mat-label>تاريخ النهاية</mat-label>
 
             <mat-form-field appearance="outline" class="example-full-width">
-                <input #endDate matInput [matDatepicker]="pickerEnd">
+                <input #EndDate matInput [matDatepicker]="pickerEnd">
                 <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -92,12 +92,36 @@
                 <mat-label>السنة المالية:</mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" >
-                    <mat-select  #FiscalYearId placeholder="السنة المالية">
+                    <mat-select  #fiscalYear placeholder="السنة المالية">
                         <mat-option [value]="fiscalYear.id"
                             *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
+            <div class="searchLabels">
+                <mat-label> التقارير</mat-label>
+      
+                <mat-form-field appearance="outline" class="searchForm" >
+                  <mat-select  #report plceholder="اختر  التقرير" formControlName="report">
+                    <mat-option value="STRWithdrawReport">تقرير</mat-option>
+                    <mat-option value="STRWithdrawDetailsReport"> تقرير تفصيلي </mat-option>
+      
+                  </mat-select>
+                </mat-form-field>
+              </div>
+      
+              <div class="searchLabels">
+                <mat-label> نوع التقرير</mat-label>
+      
+                <mat-form-field appearance="outline" class="searchForm" >
+                  <mat-select  #reportType plceholder="اختر  النوع" formControlName="report">
+                    <mat-option value="pdf"> PDF  </mat-option>
+                    <mat-option value="xls">Excel </mat-option>
+           
+      
+                  </mat-select>
+                </mat-form-field>
+              </div>
 
             <div class="searchLabels" >
                 <mat-label>الوصف</mat-label>
@@ -108,15 +132,14 @@
             </div>
 
             <div class="print-display">
-                <mat-icon (click)="getSearchFiEntry(no.value, journalId.value, startDate.value, endDate.value, sourceId.value, FiscalYearId.value, Description.value)"
+                <mat-icon (click)="getSearchFiEntry(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value)"
                      class="icons" title="بحث">search</mat-icon>
-        
-                <!-- <mat-icon class="icons" title="عرض"
-                  (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)" class="icons"
-                  title="تحميل">print</mat-icon>
-        
-                <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)"
-                  class="icons" title="تحميل">get_app</mat-icon> -->
+                     <mat-icon class="icons" title="عرض"
+                     (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
+                     title="تحميل">print</mat-icon>
+         
+                   <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+                     class="icons" title="تحميل">get_app</mat-icon>
         
                 <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
               </div>
