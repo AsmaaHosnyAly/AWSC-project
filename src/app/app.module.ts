@@ -265,6 +265,8 @@ import { TrExcutedDialogComponent } from './modules/training/index/tr-excuted-di
 import { TrExcutedInstructorDetailsDialogComponent } from './modules/training/index/tr-excuted-instructor-details-dialog/tr-excuted-instructor-details-dialog.component';
 import { TrExcutedPositionDetailsDialogComponent } from './modules/training/index/tr-excuted-position-details-dialog/tr-excuted-position-details-dialog.component';
 import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index/tr-excuted-trainee-details-dialog/tr-excuted-trainee-details-dialog.component';
+import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
+import { CcSourceDialogComponent } from './modules/cc/index/cc-source-dialog/cc-source-dialog.component';
 
 
 
@@ -513,6 +515,8 @@ import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index
     TrExcutedInstructorDetailsDialogComponent,
     TrExcutedPositionDetailsDialogComponent,
     TrExcutedTraineeDetailsDialogComponent,
+    CcSourceComponent,
+    CcSourceDialogComponent,
   ],
   imports: [
     BrowserModule,
