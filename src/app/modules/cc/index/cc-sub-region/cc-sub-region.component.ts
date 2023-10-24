@@ -45,7 +45,7 @@ export class CcSubRegionComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getAllSubRegions();
-    // console.log(productForm)
+
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteSubRegion() function in the current component
       this.openDialog();

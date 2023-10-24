@@ -208,6 +208,11 @@
             (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
             *ngIf="hasAccessRole(pageEnums.FI_ENTRY)">القيود
           </a>
+          
+          <a mat-list-item class="sideNavSubItems" routerLink="/fiReports"
+            (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
+            *ngIf="hasAccessRole(pageEnums.FI_ENTRY)">تقارير الحسابات
+          </a>
         </mat-nav-list>
       </mat-expansion-panel>
       <!-- end accounts -->
