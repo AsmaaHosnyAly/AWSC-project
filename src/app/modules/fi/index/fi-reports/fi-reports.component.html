@@ -20,7 +20,7 @@
       </mat-form-field>
     </div>
     <div class="searchLabels">
-        <mat-label> تقارير </mat-label>
+        <mat-label> تقارير الحسابات </mat-label>
   
         <mat-form-field appearance="outline" class="searchForm" >
           <mat-select  #report plceholder="اختر  التقرير" formControlName="report">
@@ -73,14 +73,6 @@
 
 
    
-
-  
-
-
-  
-    
-    
-
     <div class="searchLabels">
       <mat-label> نوع التقرير</mat-label>
 
@@ -100,9 +92,7 @@
 
     <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
     <div class="print-display">
-      <!-- <mat-icon (click)="
-        getSearchStrWithdraw(no.value, StartDate.value,EndDate.value)
-          " class="icons" title="بحث">search</mat-icon> -->
+ 
 
       <mat-icon class="icons" title="عرض"
         (click)="previewPrint( StartDate.value,EndDate.value,report.value,reportType.value)" class="icons"

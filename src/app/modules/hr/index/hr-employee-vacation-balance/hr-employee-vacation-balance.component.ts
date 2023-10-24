@@ -10,6 +10,7 @@ import { HrEmployeeVacationDialogComponent } from '../hr-employee-vacation-dialo
 import { HrEmployeeVacationBalanceDialogComponent } from '../hr-employee-vacation-balance-dialog/hr-employee-vacation-balance-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 @Component({
   selector: 'app-hr-employee-vacation-balance',
   templateUrl: './hr-employee-vacation-balance.component.html',
@@ -23,7 +24,9 @@ export class HrEmployeeVacationBalanceComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService,private global:GlobalService) { 
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+  }
 
   ngOnInit(): void {
     this.getHrEmployeeVacationBalance();
