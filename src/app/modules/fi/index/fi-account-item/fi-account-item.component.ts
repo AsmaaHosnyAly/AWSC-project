@@ -38,7 +38,7 @@ export class FiAccountItemComponent  implements OnInit {
   //   id: 0,
   // };
   constructor(private global:GlobalService,private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة الحسابات ', '')
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
   }
   ngOnInit(): void {
     // console.log(productForm)

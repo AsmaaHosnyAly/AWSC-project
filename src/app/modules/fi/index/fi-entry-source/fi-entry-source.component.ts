@@ -38,7 +38,7 @@ export class FIEntrySourceComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private global:GlobalService) {
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة الحسابات ', '')
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
    }
   ngOnInit(): void {
     // console.log(productForm)

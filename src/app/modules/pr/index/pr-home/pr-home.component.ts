@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import jwt_decode from 'jwt-decode';
+import { GlobalService } from 'src/app/pages/services/global.service';
 @Component({
   selector: 'app-pr-home',
   templateUrl: './pr-home.component.html',
@@ -12,7 +13,8 @@ export class PrHomeComponent {
   decodedToken1:any
   decodedToken2:any
   
-  constructor(){
+  constructor(private global:GlobalService){
+    global.getPermissionUserRoles('IT', '', 'الصلاحيات', '')
     const accessToken: any = localStorage.getItem('accessToken');
     this.decodedToken = jwt_decode(accessToken);
     this. decodedToken1 = this.decodedToken.modules;

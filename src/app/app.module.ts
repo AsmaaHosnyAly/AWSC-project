@@ -165,7 +165,7 @@ import { StrStockTakingContainerComponent } from './modules/str/index/str-stock-
 import { StrStockTakingDetailsDialogComponent } from './modules/str/index/str-stock-taking-details-dialog/str-stock-taking-details-dialog.component';
 import { StrStockTakingDialogComponent } from './modules/str/index/str-stock-taking-dialog/str-stock-taking-dialog.component';
 import { StrStockTakingTableComponent } from './modules/str/index/str-stock-taking-table/str-stock-taking-table.component';
-import { PageRolesComponent } from './pages/page-roles/page-roles.component';
+
 import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
 import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component';
@@ -411,7 +411,6 @@ import { CcSourceDialogComponent } from './modules/cc/index/cc-source-dialog/cc-
     StrStockTakingDetailsDialogComponent,
     StrStockTakingDialogComponent,
     StrStockTakingTableComponent,
-    PageRolesComponent,
     StrProudctSerialComponent,
     StrProudctSerialDialogComponent,
     StrUserstoreComponent,

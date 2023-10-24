@@ -52,7 +52,7 @@ export class FIAccountComponent implements OnInit {
       startWith(''),
       map((value) => this._filterHierarchies(value))
     );
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة الحسابات ', '')
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
   }
   ngOnInit(): void {
     // console.log(productForm)
