@@ -124,4 +124,24 @@ export class ApiService {
   getAllSubRegiones() {
     return this.http.get<any>(`${this.url}/CcSubRegion/get/all`);
   }
+
+  ////////////////////////CcSources//////////////////
+  getCcSource() {
+    return this.http.get<any>(`${this.url}/CcSource/get/all`);
+  }
+  putCcSource(data: any) {
+    return this.http.put<any>(
+      `${this.url}/CcSource/update`,
+      data
+    );
+  }
+  deleteCcSource(id: number) {
+    console.log("id in cc Source:",id)
+    return this.http.delete<any>(
+      `${this.url}/CcSource/delete/${id}`
+    );
+  }
+  postCcSource(data: any) {
+    return this.http.post<any>(`${this.url}/CcSource/Add`, data);
+  }
 }
