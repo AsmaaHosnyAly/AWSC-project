@@ -23,6 +23,7 @@ import { Hotkey, HotkeysService } from 'angular2-hotkeys';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TrPlanInstructorDetailsDialogComponent } from '../tr-plan-instructor-details-dialog/tr-plan-instructor-details-dialog.component';
 import { TrPlanPositionDetailsDialogComponent } from '../tr-plan-position-details-dialog/tr-plan-position-details-dialog.component';
+import { TrPlanFinancierDetailsDialogComponent } from '../tr-plan-financier-details-dialog/tr-plan-financier-details-dialog.component';
 
 // export class PyItem {
 //   constructor(public id: number, public name: string) { }
@@ -94,9 +95,9 @@ export class TrPlanDialogComponent implements OnInit {
   currentDate: any;
   defaultFiscalYearSelectValue: any;
 
-  displayedColumns: string[] = ['pyItemName', 'action'];
+  displayedColumns: string[] = ['financierName', 'action'];
   // displayedEmployeesColumns: string[] = ['instructorId', 'action'];
-  displayedInstructorsColumns: string[] = ['name', 'action'];
+  displayedInstructorsColumns: string[] = ['headerName', 'action'];
   displayedPositionsColumns: string[] = ['positionName', 'action'];
 
   sessionId = Math.random();
@@ -222,7 +223,7 @@ export class TrPlanDialogComponent implements OnInit {
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
     }
 
-    this.getAllDetailsForms();
+    this.getAllDetailsFinancierForms();
     this.getAllDetailsEmployeeForms();
     this.getAllDetailsPositionForms();
   }
@@ -362,33 +363,32 @@ export class TrPlanDialogComponent implements OnInit {
   }
 
 
-  getAllDetailsForms() {
+  getAllDetailsFinancierForms() {
 
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      // this.api.getPyItemGroupDetailsByHeaderId(this.getMasterRowId.id).subscribe({
-      //   next: (res) => {
+      if (this.getMasterRowId) {
+        this.api.getTrFinancierDetailsByHeaderId(this.getMasterRowId.id).subscribe({
+          next: (res) => {
+            console.log("TrFinancr: ", res);
 
-      //     this.matchedIds = res;
-      //     console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+            this.matchedIds = res;
+            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee TrFinancr: ", res);
 
-      //     if (this.matchedIds) {
+            if (this.matchedIds) {
 
-      //       this.dataSource = new MatTableDataSource(this.matchedIds);
-      //       this.dataSource.paginator = this.paginator;
-      //       this.dataSource.sort = this.sort;
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
 
-      //       // this.sumOfTotals = 0;
-      //       // for (let i = 0; i < this.matchedIds.length; i++) {
-      //       //   this.updateMaster();
-      //       // }
-      //     }
-      //   },
-      //   error: (err) => {
-      //     // console.log("fetch items data err: ", err);
-      //     // alert("خطا اثناء جلب العناصر !");
-      //   }
-      // })
+            }
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
+          }
+        })
+      }
     }
   }
 
@@ -463,7 +463,7 @@ export class TrPlanDialogComponent implements OnInit {
           this.MasterGroupInfoEntered = true;
 
           this.toastrSuccess();
-          this.getAllDetailsForms();
+          this.getAllDetailsFinancierForms();
           this.getAllDetailsEmployeeForms();
           this.addDetailsInfo();
         },
@@ -488,9 +488,9 @@ export class TrPlanDialogComponent implements OnInit {
     }
   }
 
-  editDetailsForm(row: any) {
+  editDetailsFinancierForm(row: any) {
     this.dialog
-      .open(TrPlanDialogComponent, {
+      .open(TrPlanFinancierDetailsDialogComponent, {
         width: '40%',
         height: '78%',
         data: row,
@@ -498,9 +498,9 @@ export class TrPlanDialogComponent implements OnInit {
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save' || val === 'update') {
-          this.getAllDetailsForms();
-          this.getAllDetailsEmployeeForms();
-          this.getAllDetailsPositionForms();
+          this.getAllDetailsFinancierForms();
+          // this.getAllDetailsEmployeeForms();
+          // this.getAllDetailsPositionForms();
         }
       });
   }
@@ -531,7 +531,7 @@ export class TrPlanDialogComponent implements OnInit {
       this.api.deleteTrPlanPosition(id).subscribe({
         next: (res) => {
           this.toastrDeleteSuccess();
-          this.getAllDetailsForms();
+          this.getAllDetailsFinancierForms();
           this.getAllDetailsPositionForms();
         },
         error: () => {
@@ -618,19 +618,19 @@ export class TrPlanDialogComponent implements OnInit {
     });
   }
 
-  OpenDetailsDialog() {
+  OpenDetailsFinancierDialog() {
     this.router.navigate(['/TrPlan', { masterId: this.getMasterRowId.id }]);
-    // this.dialog
-    //   .open(PyGroupDetailDialogComponent, {
-    //     width: '40%',
-    //     height: '78%',
-    //   })
-    //   .afterClosed()
-    //   .subscribe((val) => {
-    //     if (val === 'save' || val === 'update') {
-    //       this.getAllDetailsForms();
-    //     }
-    //   });
+    this.dialog
+      .open(TrPlanFinancierDetailsDialogComponent, {
+        width: '40%',
+        height: '78%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save' || val === 'update') {
+          this.getAllDetailsFinancierForms();
+        }
+      });
   }
 
   OpenDetailsInstructorDialog() {
