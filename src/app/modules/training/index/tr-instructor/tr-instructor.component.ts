@@ -17,7 +17,7 @@ import { Hotkey } from 'angular2-hotkeys';
 })
 export class TrInstructorComponent {
   title = 'angular13crud';
-  displayedColumns: string[] = ['employeeName', 'trainingCenterName', 'action'];
+  displayedColumns: string[] = ['headerCode', 'headerName','type', 'trainingCenterName','headerPhone','headerEmail','headerAddress','headerGender','headerCityName','action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
