@@ -13,6 +13,7 @@ export enum PagesEnums {
 
   /*************USER_ROLES***************/
   /****************** module:1 STORES المخازن ************************/
+  
   WITHDRAW = 'اذن صرف',
   STRAdd = 'اذن اضافة',
   STR_OPENING_STOCK = 'الافتتاحية',
