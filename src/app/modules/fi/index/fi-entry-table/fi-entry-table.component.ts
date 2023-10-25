@@ -1,3 +1,4 @@
+import { account } from './../fi-reports/fi-reports.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -438,14 +439,14 @@ export class FiEntryTableComponent implements OnInit {
         },
       });
   }
-    previewPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
-      let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-      let employee = this.groupMasterForm.getRawValue().employeeId;
-      let item = this.groupMasterForm.getRawValue().itemId;
-      let store = this.groupMasterForm.getRawValue().storeId;
+    previewPrint(no:any, journalId:any,StartDate:any,EndDate:any,sourceId:any, fiscalYear:any, Description:any,report:any,reportType:any) {
+      let account = this.groupMasterForm.getRawValue().accountId;
+      // let employee = this.groupMasterForm.getRawValue().employeeId;
+      // let item = this.groupMasterForm.getRawValue().itemId;
+      // let store = this.groupMasterForm.getRawValue().storeId;
   if(report!= null && reportType!=null){
       this.api
-        .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+        .getFiEntryReport(no, journalId,StartDate,EndDate,sourceId, fiscalYear,account, Description,report,reportType)
         .subscribe({
           next: (res) => {
             let blob: Blob = res.body as Blob;
@@ -472,14 +473,14 @@ export class FiEntryTableComponent implements OnInit {
     }
 
 
-    downloadPrint(no: any, StartDate: any,EndDate:any, fiscalYear: any,report:any,reportType:any) {
-      let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-      let employee = this.groupMasterForm.getRawValue().employeeId;
-      let item = this.groupDetailsForm.getRawValue().itemId;
-      let store = this.groupMasterForm.getRawValue().storeId;
+    downloadPrint(no:any, journalId:any,StartDate:any,EndDate:any,sourceId:any, fiscalYear:any, Description:any,report:any,reportType:any) {
+      let account = this.groupMasterForm.getRawValue().accountId;
+      // let employee = this.groupMasterForm.getRawValue().employeeId;
+      // let item = this.groupDetailsForm.getRawValue().itemId;
+      // let store = this.groupMasterForm.getRawValue().storeId;
 
       this.api
-      .getStr(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,reportType)
+      .getFiEntryReport(no, journalId,StartDate,EndDate,sourceId, fiscalYear,account, Description,report,reportType)
       .subscribe({
           next: (res) => {
             console.log('search:', res);

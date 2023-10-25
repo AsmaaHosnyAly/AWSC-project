@@ -559,35 +559,32 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
 
 
   //////////////////FiEntryreport////////////////
-  getStr(
-    no: any,
-    store: any,
-    StartDate: any, EndDate: any,
-    fiscalYear: any,
-    item: any,
-    employee: any,
-    costCenter: any, report: any, reportType: any
+  getFiEntryReport(
+    no:any, journalId:any,StartDate:any,EndDate:any,sourceId:any, fiscalYear:any,account:any, Description:any,report:any,reportType:any
   ) {
     console.log(
       'no. : ',
       no,
-      'store : ',
-      store,
-      'date: ',
-      StartDate,
+      'journalId : ',
+      journalId,
+      'startdate: ',
+      StartDate,  'sourceId : ',
+      sourceId,
+      'account: ',
+      account,
       'fiscalYear: ',
       fiscalYear,
       'reportName:', report, 'reportType:', reportType
 
     );
-    `${this.url}/STRWithdraw/get/Report?`;
-    this.mycondition = `${this.url}/STRWithdraw/get/Report?reportName=${report}&reportType==${reportType}`;
+    `${this.url}/FIEntry/get/Report?`;
+    this.mycondition = `${this.url}/FIEntry/get/Report?reportName=${report}&reportType=${reportType}`;
 
     if (!no == false) {
-      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
     }
-    if (!store == false) {
-      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    if (!journalId == false) {
+      this.mycondition = ` ${this.mycondition}&JournalId=${journalId}`;
     }
     if (!report == false) {
       this.mycondition = ` ${this.mycondition}&reportName=${report}`;
@@ -606,16 +603,16 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
     }
 
     if (!fiscalYear == false) {
-      this.mycondition = ` ${this.mycondition}&CommodityId=${fiscalYear}`;
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${fiscalYear}`;
     }
-    if (!item == false) {
-      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    if (!sourceId == false) {
+      this.mycondition = ` ${this.mycondition}&FiEntrySourceTypeId=${sourceId}`;
     }
-    if (!employee == false) {
-      this.mycondition = ` ${this.mycondition}&PlatoonId=${employee}`;
+    if (!Description == false) {
+      this.mycondition = ` ${this.mycondition}&Description=${Description}`;
     }
-    if (!costCenter == false) {
-      this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
+    if (!account == false) {
+      this.mycondition = ` ${this.mycondition}&AccountId=${account}`;
     }
 
     console.log('url', this.mycondition);
