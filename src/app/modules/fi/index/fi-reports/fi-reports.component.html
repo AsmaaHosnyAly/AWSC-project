@@ -14,7 +14,7 @@
         <mat-autocomplete #autoaccount="matAutocomplete" #accountId [displayWith]="displayaccountName"
           (optionSelected)="accountSelected($event)">
           <mat-option *ngFor="let account of filteredaccount | async" [value]="account">
-            {{ account.name }} | {{ account.id }}
+            {{ account.name }} | {{ account.code }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -24,8 +24,8 @@
   
         <mat-form-field appearance="outline" class="searchForm" >
           <mat-select  #report plceholder="اختر  التقرير" formControlName="report">
-            <mat-option value="STRItemsTransactionReport">كارت صنف</mat-option>
-            <mat-option value="STRItemsTakingReport"> جرد كميات المخزون  </mat-option>
+            <mat-option value="FIAccountACReport">كارت صنف</mat-option>
+            <mat-option value="FIAccountREReport"> جرد كميات المخزون  </mat-option>
   
           </mat-select>
         </mat-form-field>
