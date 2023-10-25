@@ -29,7 +29,7 @@
                     </div>
 
 
-                    <div class="searchLabels" style="width: 23%;">
+                    <!-- <div class="searchLabels" style="width: 23%;">
                         <mat-label> اسم الموظف*</mat-label>
                         <mat-form-field appearance="outline" style="width: 99%;">
                             <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee"
@@ -42,7 +42,16 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
+                    </div> -->
+
+                    <div class="searchLabels" style="width: 23%;">
+                        <mat-label> اسم الموظف* </mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 99%;">
+                            <input matInput placeholder="اسم الموظف" formControlName="name">
+                        </mat-form-field>
                     </div>
+
                     <div class="searchLabels" style="width: 23%;">
                         <mat-label> النوع </mat-label>
 
