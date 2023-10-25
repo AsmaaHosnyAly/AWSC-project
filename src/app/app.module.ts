@@ -165,7 +165,7 @@ import { StrStockTakingContainerComponent } from './modules/str/index/str-stock-
 import { StrStockTakingDetailsDialogComponent } from './modules/str/index/str-stock-taking-details-dialog/str-stock-taking-details-dialog.component';
 import { StrStockTakingDialogComponent } from './modules/str/index/str-stock-taking-dialog/str-stock-taking-dialog.component';
 import { StrStockTakingTableComponent } from './modules/str/index/str-stock-taking-table/str-stock-taking-table.component';
-import { PageRolesComponent } from './pages/page-roles/page-roles.component';
+
 import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
 import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component';
@@ -267,6 +267,8 @@ import { TrExcutedPositionDetailsDialogComponent } from './modules/training/inde
 import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index/tr-excuted-trainee-details-dialog/tr-excuted-trainee-details-dialog.component';
 import { CcPlantComponent } from './modules/cc/index/cc-plant/cc-plant.component';
 import { CcPlantDialogComponent } from './modules/cc/index/cc-plant-dialog/cc-plant-dialog.component';
+import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
+import { CcSourceDialogComponent } from './modules/cc/index/cc-source-dialog/cc-source-dialog.component';
 
 
 
@@ -411,7 +413,6 @@ import { CcPlantDialogComponent } from './modules/cc/index/cc-plant-dialog/cc-pl
     StrStockTakingDetailsDialogComponent,
     StrStockTakingDialogComponent,
     StrStockTakingTableComponent,
-    PageRolesComponent,
     StrProudctSerialComponent,
     StrProudctSerialDialogComponent,
     StrUserstoreComponent,
@@ -517,6 +518,8 @@ import { CcPlantDialogComponent } from './modules/cc/index/cc-plant-dialog/cc-pl
     TrExcutedTraineeDetailsDialogComponent,
     CcPlantComponent,
     CcPlantDialogComponent,
+    CcSourceComponent,
+    CcSourceDialogComponent,
   ],
   imports: [
     BrowserModule,

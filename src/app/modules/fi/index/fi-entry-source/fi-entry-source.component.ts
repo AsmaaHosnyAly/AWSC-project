@@ -19,6 +19,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
    
 @Component({
   selector: 'app-fi-entry-source',
@@ -36,7 +37,9 @@ export class FIEntrySourceComponent  implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private global:GlobalService) {
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
+   }
   ngOnInit(): void {
     // console.log(productForm)
     this.getAllEntrySource();

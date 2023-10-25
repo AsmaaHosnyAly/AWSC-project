@@ -19,7 +19,7 @@ export class StrEmployeeExchangeContainerComponent implements OnInit{
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
-    global.getPermissionUserRoles(4, 'stores', 'دارة المخازن وحسابات المخازن -نقل عهدة' , '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
   }
    
   ngOnInit(): void {

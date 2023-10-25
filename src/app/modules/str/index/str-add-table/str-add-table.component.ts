@@ -195,7 +195,7 @@ export class STRAddTableComponent implements OnInit {
       startWith(''),
       map((value) => this._filterstores(value))
     );
-    this.global.getPermissionUserRoles(2, 'stores', ' إذن إضافة ', '');
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
   }
 
   ngOnInit(): void {

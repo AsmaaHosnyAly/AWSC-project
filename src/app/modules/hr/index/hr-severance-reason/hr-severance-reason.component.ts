@@ -13,6 +13,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 @Component({
   selector: 'app-hr-severance-reason',
   templateUrl: './hr-severance-reason.component.html',
@@ -29,7 +30,9 @@ export class HrSeveranceReasonComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService, private toastr: ToastrService,private global:GlobalService) {
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+   }
   ngOnInit(): void {
     // console.log(productForm)
     this.getSeveranceReason();

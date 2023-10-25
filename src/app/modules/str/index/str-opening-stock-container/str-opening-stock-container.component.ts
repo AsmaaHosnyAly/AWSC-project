@@ -22,7 +22,7 @@ export class StrOpeningStockContainerComponent implements OnInit{
 
   constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
    
-    global.getPermissionUserRoles(3, 'stores', 'إدارة المخازن وحسابات المخازن -رصيد الإفتتاحي', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
   }
 
   ngOnInit(): void {

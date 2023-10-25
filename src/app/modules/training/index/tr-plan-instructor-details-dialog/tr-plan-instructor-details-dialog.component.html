@@ -22,7 +22,7 @@
                     <mat-autocomplete #autoInstructor="matAutocomplete" [displayWith]="displayInstructorName"
                         (optionSelected)="InstructorSelected($event)">
                         <mat-option *ngFor="let instructor of filteredInstructor | async" [value]="instructor">
-                            {{ instructor.name }}
+                            {{ instructor.instructorName }}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>

@@ -17,6 +17,7 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-fi-journal',
@@ -37,8 +38,10 @@ export class FIJournalComponent {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog,    
 private hotkeysService: HotkeysService,
-     private api : ApiService,private toastr: ToastrService, private formBuilder: FormBuilder,
-     @Inject(LOCALE_ID) private locale: string){}
+     private api : ApiService,private toastr: ToastrService, private formBuilder: FormBuilder,private global:GlobalService,
+     @Inject(LOCALE_ID) private locale: string){
+      global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
+     }
   ngOnInit(): void {
     this.getFIJournals();
     this.getFiscalYears();

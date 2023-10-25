@@ -172,6 +172,9 @@ export class TrPlanPositionDetailsDialogComponent implements OnInit {
 
     }
     else {
+      console.log("editData conflict: ", this.editData);
+      this.planpositionsForm.controls['planId'].setValue(this.editData.planId);
+
       console.log("Enteeeeerrr edit condition: ", this.planpositionsForm.value)
 
       this.api.putTrPlanPosition(this.planpositionsForm.value)

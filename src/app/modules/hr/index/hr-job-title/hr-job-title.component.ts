@@ -12,6 +12,7 @@ import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 // import { GlobalService } from '../services/global.service';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 @Component({
   selector: 'app-hr-job-title',
   templateUrl: './hr-job-title.component.html',
@@ -26,7 +27,8 @@ export class HrJobTitleComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService, private toastr: ToastrService) {
+  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService, private toastr: ToastrService,private global:GlobalService) {
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
    }
 
   ngOnInit(): void {

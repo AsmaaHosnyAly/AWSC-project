@@ -1,5 +1,12 @@
+
+
+
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {  MatDialog,  MAT_DIALOG_DATA,  MatDialogModule} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -12,62 +19,59 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { FiAccountItemdDialogComponent } from '../fi-account-itemd-dialog/fi-account-itemd-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service'; 
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
-import { GlobalService } from 'src/app/pages/services/global.service';
+import { CcSourceDialogComponent } from '../cc-source-dialog/cc-source-dialog.component';
 
 @Component({
-  selector: 'app-fi-account-item',
-  templateUrl: './fi-account-item.component.html',
-  styleUrls: ['./fi-account-item.component.css']
+  selector: 'app-cc-source',
+  templateUrl: './cc-source.component.html',
+  styleUrls: ['./cc-source.component.css']
 })
-export class FiAccountItemComponent  implements OnInit {
-  getAccountItemData: any;
-  formcontrol = new FormControl('');
-  accountItemForm!: FormGroup;
+
+export class CcSourceComponent implements OnInit {
+  
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name', 'accounName','accountItemCategoryName', 'action'];
+  displayedColumns: string[] = ['code', 'name', 'functionName', 'action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  // commidityDt: any = {
-  //   id: 0,
-  // };
-  constructor(private global:GlobalService,private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private hotkeysService: HotkeysService) {
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
+  
+  
+  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+    
+    global.getPermissionUserRoles(4, 'stores', ' النوعية', '')
   }
   ngOnInit(): void {
+    this.getAllSources();
     // console.log(productForm)
-
-    this.getAllAccountItem();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
+      // Call the deleteSource() function in the current component
       this.openDialog();
       return false; // Prevent the default browser behavior
     }));
- 
+  
   }
   openDialog() {
     this.dialog
-      .open(FiAccountItemdDialogComponent, {
-        width: '40%',
+      .open(CcSourceDialogComponent, {
+        width: '45%',
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getAllAccountItem();
+          this.getAllSources();
         }
       });
   }
 
- 
 
-  getAllAccountItem() {
-    this.api.getFiAccountItem().subscribe({
+  getAllSources() {
+    this.api.getCcSource().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -79,56 +83,50 @@ export class FiAccountItemComponent  implements OnInit {
     });
   }
 
-  editFiAccountItem(row: any) {
+  editSource(row: any) {
     this.dialog
-      .open(FiAccountItemdDialogComponent, {
-        width: '40%',
+      .open(CcSourceDialogComponent, {
+        width: '45%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getAllAccountItem();
+          this.getAllSources();
         }
       });
   }
 
-  deleteFiAccountItem(id: number) {
- var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
-  if (result) {
-    this.api.deleteFiAccountItem(id)
-    .subscribe({
-      next: (res) => {
-        if(res == 'Succeeded'){
-          console.log("res of deletestore:",res)
-          this.toastrDeleteSuccess();
-                  this.getAllAccountItem();
-
-
-      }else{
-        alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-      }
-      },
-      error: () => {
-        alert('خطأ فى حذف العنصر'); 
-      },
-    });
+  deleteSource(id: number) {
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.deleteCcSource(id).subscribe({
+        next: (res) => {
+          if(res == 'Succeeded'){
+            console.log("res of deletestore:",res)
+            this.toastrDeleteSuccess();
+          this.getAllSources();
+        }else{
+          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+        }
+        },
+        error: () => {
+          alert('خطأ فى حذف العنصر'); 
+        },
+      });
+    }
   }
-  }
-
- 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
 
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
+  
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-
-
-}
+  }

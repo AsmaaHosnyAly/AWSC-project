@@ -19,6 +19,7 @@ import {
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class store {
   constructor(public id: number, public name: string) {}
@@ -71,8 +72,10 @@ export class StrOpeningStockTableComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private global:GlobalService
   ) {
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),
