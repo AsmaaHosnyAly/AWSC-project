@@ -1,0 +1,34 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل موديل   ' : 'إضافة  موديل جديد'}}</h1>
+  <form [formGroup]="PLantForm" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="PLantForm">
+        
+          <mat-form-field appearance="outline">
+            <mat-label>الاسم</mat-label>
+            <input formControlName="name" matInput placeholder="ادخل الاسم">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>الكود</mat-label>
+            <input formControlName="code" matInput placeholder="ادخل الكود">
+          </mat-form-field>
+          <mat-label>اسم المصنع</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="subRegion" [matAutocomplete]="autoSubRegion" [formControl]="subRegionCtrl"
+              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoSubRegion()" required />
+            <mat-autocomplete #autoSubRegion="matAutocomplete" [displayWith]="displaySubRegionName"
+              (optionSelected)="subRegionSelected($event)">
+              <mat-option *ngFor="let subRegion of filteredSubRegiones | async" [value]="subRegion">
+                {{ subRegion.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn"  (click)="addPlant()" style="margin-left: 8px;">{{actionBtn}}</button>
+      </div>
+    </form>

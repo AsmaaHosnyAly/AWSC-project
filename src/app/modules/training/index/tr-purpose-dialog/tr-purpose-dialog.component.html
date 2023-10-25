@@ -2,14 +2,14 @@
     <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
   </div>
   
-  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل وحدة   ' : ' إضافة  وحدة جديدة'}}</h1>
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل الغرض من الدورة التدربية   ' : ' إضافة  الغرض من الدورة التدربية جديدة'}}</h1>
   <form [formGroup]="unitsForm" dir="rtl">
     <div mat-dialog-content>
       <form [formGroup]="unitsForm">
         
         <mat-form-field appearance="outline">
-          <mat-label>اسم الوحدة</mat-label>
-          <input formControlName="name" matInput placeholder="اسم الوحدة">
+          <mat-label>اسم </mat-label>
+          <input formControlName="name" matInput placeholder="اسم ">
         </mat-form-field>
         <div class="radio " style="display: flex;flex-direction: column;width: 52%;">
           <mat-label style="margin-top: 9px;"> متاح*</mat-label>
@@ -17,7 +17,7 @@
           <mat-radio-group style="display: flex;flex-direction: row;" aria-label="Select an option"
               formControlName="isActive" 
              >
-              <mat-radio-button [value]= true >متاح</mat-radio-button>
+              <mat-radio-button [value]= true checked>متاح</mat-radio-button>
               <mat-radio-button [value] = false >غير متاح</mat-radio-button>
               
           </mat-radio-group>

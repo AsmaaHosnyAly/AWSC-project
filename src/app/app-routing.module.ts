@@ -155,6 +155,7 @@ import { CcActivityComponent } from './modules/cc/index/cc-activity/cc-activity.
 import { CcFunctionComponent } from './modules/cc/index/cc-function/cc-function.component';
 import { CcRegionComponent } from './modules/cc/index/cc-region/cc-region.component';
 import { CcSubRegionComponent } from './modules/cc/index/cc-sub-region/cc-sub-region.component';
+import { CcPlantComponent } from './modules/cc/index/cc-plant/cc-plant.component';
 import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -640,6 +641,7 @@ const routes: Routes = [
   
   { path: 'Cc-Region', component: CcRegionComponent },
   { path: 'Cc-SubRegion', component: CcSubRegionComponent },
+  { path: 'Cc-plant', component: CcPlantComponent},
   
   { path: 'Cc-Source', component: CcSourceComponent },
 
