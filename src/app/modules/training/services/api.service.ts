@@ -373,9 +373,9 @@ export class ApiService {
   getTrFinancier() {
     return this.http.get<any>(`${this.url}/TrPlanFinancier/get/all`);
   }
-  // getPyItemGroupDetailsByHeaderId(id: any) {
-  //   return this.http.get<any>(`${this.url}/PyItemGroupDetails/get/by/header/${id}`);
-  // }
+  getTrFinancierDetailsByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/TrPlanFinancier/get/by/header/${id}`);
+  }
   putTrFinancier(data: any) {
     return this.http.put<any>(`${this.url}/TrPlanFinancier/update`, data);
   }

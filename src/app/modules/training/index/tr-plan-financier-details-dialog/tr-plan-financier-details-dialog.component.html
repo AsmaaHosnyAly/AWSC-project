@@ -3,7 +3,7 @@
             clear</mat-icon></button>
 </div>
 
-<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل خطة الممول ' : 'اكمل تفاصيل خطة الممول '}} </h1>
+<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل جهة التمويل ' : 'اكمل تفاصيل جهة التمويل '}} </h1>
 
 
 <form [formGroup]="planFinanciersForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
@@ -14,7 +14,7 @@
         <div class="detailsForm" dir="rtl">
 
             <div style="display: flex; flex-direction: column;">
-                <mat-label> الممول* </mat-label>
+                <mat-label> جهة التمويل* </mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                     <input matInput aria-label="commodity" [matAutocomplete]="autoFinancier"

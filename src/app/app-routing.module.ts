@@ -158,6 +158,7 @@ import { CcSubRegionComponent } from './modules/cc/index/cc-sub-region/cc-sub-re
 import { CcPlantComponent } from './modules/cc/index/cc-plant/cc-plant.component';
 import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
 import { CcPlantComponentComponent } from './modules/cc/index/cc-plant-component/cc-plant-component.component';
+import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -364,6 +365,9 @@ const routes: Routes = [
     canActivate: [prUserGuard],
     data: { PageLsit: [PagesEnums.PR_USER] },
   },
+ 
+  { path: 'pr-user-changPassword', component: PrUserChangePasswordDialogComponent },
+
   /*********************End Roles modules الصلاحيات***************************/
 
   /*********************Start Hr modules شئون العاميلن***************************/
