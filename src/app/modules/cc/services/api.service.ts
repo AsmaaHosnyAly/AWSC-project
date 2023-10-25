@@ -102,4 +102,26 @@ export class ApiService {
   postCcSubRegion(data: any) {
     return this.http.post<any>(`${this.url}/CcSubRegion/Add`, data);
   }
+   ////////////////////cc plant//////////////////
+   getPlant() {
+    return this.http.get<any>(`${this.url}/CcPlant/get/all`);
+  }
+  putPlant(data: any) {
+    return this.http.put<any>(
+      `${this.url}/CcPlant/update`,
+      data
+    );
+  }
+  deletePlant(id: number) {
+    console.log("id in cc SubRegion:",id)
+    return this.http.delete<any>(
+      `${this.url}/CcPlant/Delete/${id}`
+    );
+  }
+  postPlant(data: any) {
+    return this.http.post<any>(`${this.url}/CcPlant/add`, data);
+  }
+  getAllSubRegiones() {
+    return this.http.get<any>(`${this.url}/CcSubRegion/get/all`);
+  }
 }
