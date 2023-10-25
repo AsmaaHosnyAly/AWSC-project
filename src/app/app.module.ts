@@ -269,6 +269,7 @@ import { CcPlantComponent } from './modules/cc/index/cc-plant/cc-plant.component
 import { CcPlantDialogComponent } from './modules/cc/index/cc-plant-dialog/cc-plant-dialog.component';
 import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
 import { CcSourceDialogComponent } from './modules/cc/index/cc-source-dialog/cc-source-dialog.component';
+import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
 
 
 
@@ -520,6 +521,7 @@ import { CcSourceDialogComponent } from './modules/cc/index/cc-source-dialog/cc-
     CcPlantDialogComponent,
     CcSourceComponent,
     CcSourceDialogComponent,
+    PrUserChangePasswordDialogComponent,
   ],
   imports: [
     BrowserModule,
