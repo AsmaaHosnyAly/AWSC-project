@@ -20,6 +20,7 @@ export class TrPurposeDialogComponent {
   unitsForm !:FormGroup;
   actionBtn : string = "حفظ";
   userIdFromStorage: any;
+
   transactionUserId=localStorage.getItem('transactionUserId')
   // groupEditId: any;
   existingNames: string[] = [];
