@@ -4,7 +4,7 @@
       <mat-icon>menu</mat-icon>
     </button>
 
-    <img routerLink="/home" class="toolbar-img" src="../assets/images/logo.png" alt="user photo" routerLink="/home"/>
+    <img routerLink="/home" class="toolbar-img" src="../assets/images/waterLogo.png" alt="user photo" routerLink="/home"/>
     <!-- <div class="toolbarUserContent" routerLink="/home">
       <p>شركة مياةالشرب</p>
       <p>والصرف الصحى باسوان</p>
@@ -245,6 +245,10 @@
               *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
               <p class="font"> الوظيفي</p>
             </a>
+            <a mat-list-item class="sideNavSubItems" routerLink="/Cc-plant"
+            *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
+            <p class="font"> الخطة</p>
+          </a>
             <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Region"
             *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
             <p class="font"> المنطقة</p>

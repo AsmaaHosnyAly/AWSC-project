@@ -514,7 +514,7 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
   }
 
  /////////////////////reports/////////////////////////
- getTranscriptreports(
+ getAccountreports(
   
   StartDate: any, EndDate: any,account: any, report: any, reportType: any
 ) {
@@ -527,18 +527,18 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
     'reportName:', report, 'reportType:', reportType
 
   );
-  `${this.url}/STRItem/get/Report?`;
-  this.mycondition = `${this.url}/STRItem/get/Report?reportName=${report}&reportType=${reportType}`;
+  `${this.url}/FIAccount/get/Report?`;
+  this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
 
   
  
 
 
   if (!StartDate == false) {
-    this.mycondition = ` ${this.mycondition}&startdate=${StartDate}`;
+    this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
   }
   if (!EndDate == false) {
-    this.mycondition = ` ${this.mycondition}&enddate=${EndDate}`;
+    this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
   }
 
  
@@ -627,5 +627,66 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
     });
   }
 
-    
+   
+  getFiEntryReport(
+    no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report:any,reportType:any
+  ) {
+    // console.log(
+    //   'no. : ',
+    //   no,
+    //   'store : ',
+    //   store,
+    //   'date: ',
+    //   StartDate,
+    //   'fiscalYear: ',
+    //   fiscalYear,
+    //   'reportName:', report, 'reportType:', reportType
+
+    // );
+    `${this.url}/FIEntry/get/Report?`;
+    this.mycondition = `${this.url}/FIEntry/get/Report?reportName=${report}&reportType=${reportType}`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    if (!journalId == false) {
+      this.mycondition = ` ${this.mycondition}&JournalId=${journalId}`;
+    }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    }
+
+
+    if (!startDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${startDate}`;
+    }
+    if (!endDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${endDate}`;
+    }
+
+    if (!sourceId == false) {
+      this.mycondition = ` ${this.mycondition}&FiEntrySourceTypeId=${sourceId}`;
+    }
+    if (!FiscalYearId == false) {
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${FiscalYearId}`;
+    }
+    if (!Description == false) {
+      this.mycondition = ` ${this.mycondition}&Description=${Description}`;
+    }
+    // if (!costCenter == false) {
+    //   this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
+    // }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
 }

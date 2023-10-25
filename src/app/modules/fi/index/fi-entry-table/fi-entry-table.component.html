@@ -103,8 +103,8 @@
       
                 <mat-form-field appearance="outline" class="searchForm" >
                   <mat-select  #report plceholder="اختر  التقرير" formControlName="report">
-                    <mat-option value="STRWithdrawReport">تقرير</mat-option>
-                    <mat-option value="STRWithdrawDetailsReport"> تقرير تفصيلي </mat-option>
+                    <mat-option value="FIEntryReport">تقرير</mat-option>
+                    <mat-option value="FIEntryDetailsReport"> تقرير تفصيلي </mat-option>
       
                   </mat-select>
                 </mat-form-field>
@@ -135,10 +135,11 @@
                 <mat-icon (click)="getSearchFiEntry(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value)"
                      class="icons" title="بحث">search</mat-icon>
                      <mat-icon class="icons" title="عرض"
-                     (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
+                     
+                     (click)="previewPrint(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)" class="icons"
                      title="تحميل">print</mat-icon>
          
-                   <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+                   <mat-icon (click)="downloadPrint(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
                      class="icons" title="تحميل">get_app</mat-icon>
         
                 <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
