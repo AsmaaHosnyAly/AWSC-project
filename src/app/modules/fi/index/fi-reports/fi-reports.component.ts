@@ -28,7 +28,7 @@ import {
 } from '@angular/forms';
 
 export class account {
-  constructor(public id: number, public name: string) { }
+  constructor(public code: number,public id: number, public name: string) { }
 }
 
 
@@ -70,7 +70,7 @@ export class FiReportsComponent implements OnInit {
   storeName: any;
 
 
-
+  accountCode:any;
   accountList:account[] = [];
   accountCtrl: FormControl;
   filteredaccount: Observable<account[]>;
@@ -202,6 +202,7 @@ export class FiReportsComponent implements OnInit {
     this.selectedaccount = account;
     this.groupMasterForm.patchValue({ accountId: account.id });
     console.log('account in form: ', this.groupMasterForm.getRawValue().accountId);
+     this.accountCode=account.code;
   }
   private _filteraccounts(value: string): account[] {
     const filterValue = value;
@@ -241,7 +242,7 @@ export class FiReportsComponent implements OnInit {
     let account = this.groupMasterForm.getRawValue().accountId;
 
     this.api
-      .getTranscriptreports(
+      .getAccountreports(
 
     
         StartDate,
@@ -291,12 +292,12 @@ export class FiReportsComponent implements OnInit {
     reportType: any
   ) {
 
-    let account = this.groupMasterForm.getRawValue().accountId;
+    let account = this.accountCode;
     console.log("reportt nMAE", report);
     if (report != null && reportType != null) {
       console.log("in iff conditionnnn")
       this.api
-        .getTranscriptreports(
+        .getAccountreports(
          
           StartDate,
           EndDate,

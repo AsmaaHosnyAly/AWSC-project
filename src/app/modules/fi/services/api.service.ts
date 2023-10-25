@@ -514,7 +514,7 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
   }
 
  /////////////////////reports/////////////////////////
- getTranscriptreports(
+ getAccountreports(
   
   StartDate: any, EndDate: any,account: any, report: any, reportType: any
 ) {
@@ -527,18 +527,18 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
     'reportName:', report, 'reportType:', reportType
 
   );
-  `${this.url}/STRItem/get/Report?`;
-  this.mycondition = `${this.url}/STRItem/get/Report?reportName=${report}&reportType=${reportType}`;
+  `${this.url}/FIAccount/get/Report?`;
+  this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
 
   
  
 
 
   if (!StartDate == false) {
-    this.mycondition = ` ${this.mycondition}&startdate=${StartDate}`;
+    this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
   }
   if (!EndDate == false) {
-    this.mycondition = ` ${this.mycondition}&enddate=${EndDate}`;
+    this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
   }
 
  
