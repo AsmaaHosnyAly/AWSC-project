@@ -40,7 +40,7 @@ export class PrGroupTableComponent implements OnInit {
     private toastr: ToastrService,
     public global: GlobalService
   ) {
-    global.getPermissionUserRoles(1, 'stores', 'الصلاحيات-المجموعات', '')
+    global.getPermissionUserRoles('IT', '', 'الصلاحيات', '')
   }
 
   ngOnInit(): void {

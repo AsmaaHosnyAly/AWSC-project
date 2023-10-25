@@ -44,7 +44,7 @@ export class STRGroup1Component implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog, private api : ApiService, private toastr: ToastrService,private global:GlobalService,private hotkeysService: HotkeysService){
-    global.getPermissionUserRoles(8,'stores', 'المجموعة', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
   
   }
   ngOnInit(): void {

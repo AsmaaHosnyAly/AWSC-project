@@ -407,9 +407,9 @@ export class ApiService {
   getTrPlanPosition() {
     return this.http.get<any>(`${this.url}/TrPlanPosition/get/all`);
   }
-  // getPyItemGroupEmployeeByHeaderId(id: any) {
-  //   return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/by/header/${id}`);
-  // }
+  getTrPlanPositionByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/TrPlanPosition/get/by/header/${id}`);
+  }
   putTrPlanPosition(data: any) {
     return this.http.put<any>(`${this.url}/TrPlanPosition/update`, data);
   }

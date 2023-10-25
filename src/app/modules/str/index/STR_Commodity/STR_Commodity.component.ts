@@ -32,7 +32,7 @@ dataSource!: MatTableDataSource<any>;
 @ViewChild(MatSort) sort!: MatSort;
 
 constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
-  this.global.getPermissionUserRoles(5, 'stores', ' السلعة', '');
+  global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
 }
 
 ngOnInit(): void {

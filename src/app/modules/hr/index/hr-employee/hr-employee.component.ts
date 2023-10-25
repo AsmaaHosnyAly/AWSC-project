@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HrEmployeeDialogComponent } from '../hr-employee-dialog/hr-employee-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-hr-employee',
@@ -23,7 +24,9 @@ export class HrEmployeeComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private global:GlobalService,private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) {
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+   }
 
   ngOnInit(): void {
     this.getHrEmployee();

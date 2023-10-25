@@ -420,6 +420,7 @@ export class STRItem1DialogComponent implements OnInit {
 
           this.toastrEdit();
           this.itemForm.reset();
+          console.log("update data rest:", this.itemForm.value);
           this.dialogRef.close('update');
         },
         error: () => {

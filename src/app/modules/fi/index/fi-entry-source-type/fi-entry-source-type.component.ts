@@ -20,10 +20,13 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 
 export class EntrySource {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) {
+   
+  }
 }
 
 @Component({
@@ -46,12 +49,14 @@ export class FIEntrySourceTypeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
+  constructor(private dialog: MatDialog,private global:GlobalService,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
     this.entrySourceCtrl = new FormControl();
     this.filteredEntrySources = this.entrySourceCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterEntrySources(value))
     );
+
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
   }
   ngOnInit(): void {
     // console.log(productForm)

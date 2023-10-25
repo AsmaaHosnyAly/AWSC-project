@@ -36,7 +36,7 @@ export class StrCostcenterComponent  implements OnInit {
 
   constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService
     ,private hotkeysService: HotkeysService){
-    global.getPermissionUserRoles(14,'stores', 'مركز التكلفة', '')
+      global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
   }
   ngOnInit(): void {
     this.getAllCostCenter();

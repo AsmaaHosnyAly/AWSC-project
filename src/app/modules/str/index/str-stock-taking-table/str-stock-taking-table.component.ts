@@ -21,6 +21,7 @@ import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class store {
   constructor(public id: number, public name: string) {}
@@ -96,10 +97,11 @@ export class StrStockTakingTableComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private hotkeysService: HotkeysService,
-
+    private global:GlobalService,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),

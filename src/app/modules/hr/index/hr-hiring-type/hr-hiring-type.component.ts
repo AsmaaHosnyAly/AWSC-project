@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HrHiringTypeDialogComponent } from '../hr-hiring-type-dialog/hr-hiring-type-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 @Component({
   selector: 'app-hr-hiring-type',
   templateUrl: './hr-hiring-type.component.html',
@@ -21,7 +22,9 @@ export class HrHiringTypeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService,private global:GlobalService) { 
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+  }
 
   ngOnInit(): void {
     this.getHiringType();

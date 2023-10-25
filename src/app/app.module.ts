@@ -165,7 +165,7 @@ import { StrStockTakingContainerComponent } from './modules/str/index/str-stock-
 import { StrStockTakingDetailsDialogComponent } from './modules/str/index/str-stock-taking-details-dialog/str-stock-taking-details-dialog.component';
 import { StrStockTakingDialogComponent } from './modules/str/index/str-stock-taking-dialog/str-stock-taking-dialog.component';
 import { StrStockTakingTableComponent } from './modules/str/index/str-stock-taking-table/str-stock-taking-table.component';
-import { PageRolesComponent } from './pages/page-roles/page-roles.component';
+
 import { HotkeyModule, HotkeysService } from 'angular2-hotkeys';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
 import { StrProudctSerialDialogComponent } from './modules/str/index/str-proudct-serial-dialog/str-proudct-serial-dialog.component';
@@ -265,6 +265,8 @@ import { TrExcutedDialogComponent } from './modules/training/index/tr-excuted-di
 import { TrExcutedInstructorDetailsDialogComponent } from './modules/training/index/tr-excuted-instructor-details-dialog/tr-excuted-instructor-details-dialog.component';
 import { TrExcutedPositionDetailsDialogComponent } from './modules/training/index/tr-excuted-position-details-dialog/tr-excuted-position-details-dialog.component';
 import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index/tr-excuted-trainee-details-dialog/tr-excuted-trainee-details-dialog.component';
+import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
+import { CcSourceDialogComponent } from './modules/cc/index/cc-source-dialog/cc-source-dialog.component';
 
 
 
@@ -409,7 +411,6 @@ import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index
     StrStockTakingDetailsDialogComponent,
     StrStockTakingDialogComponent,
     StrStockTakingTableComponent,
-    PageRolesComponent,
     StrProudctSerialComponent,
     StrProudctSerialDialogComponent,
     StrUserstoreComponent,
@@ -513,6 +514,8 @@ import { TrExcutedTraineeDetailsDialogComponent } from './modules/training/index
     TrExcutedInstructorDetailsDialogComponent,
     TrExcutedPositionDetailsDialogComponent,
     TrExcutedTraineeDetailsDialogComponent,
+    CcSourceComponent,
+    CcSourceDialogComponent,
   ],
   imports: [
     BrowserModule,

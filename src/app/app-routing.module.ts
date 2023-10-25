@@ -78,7 +78,6 @@ import { strPlatoonGuard } from './core/guards/str/str-platoon.guard';
 import { vendorGuard } from './core/guards/str/vendor.guard';
 import { PrHomeComponent } from './modules/pr/index/pr-home/pr-home.component';
 import { StrStockTakingContainerComponent } from './modules/str/index/str-stock-taking-container/str-stock-taking-container.component';
-import { PageRolesComponent } from './pages/page-roles/page-roles.component';
 import { HotkeyModule } from 'angular2-hotkeys/public-api';
 import { PagesEnums } from './core/enums/pages.enum';
 import { StrProudctSerialComponent } from './modules/str/index/str-proudct-serial/str-proudct-serial.component';
@@ -156,6 +155,7 @@ import { CcActivityComponent } from './modules/cc/index/cc-activity/cc-activity.
 import { CcFunctionComponent } from './modules/cc/index/cc-function/cc-function.component';
 import { CcRegionComponent } from './modules/cc/index/cc-region/cc-region.component';
 import { CcSubRegionComponent } from './modules/cc/index/cc-sub-region/cc-sub-region.component';
+import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -640,6 +640,9 @@ const routes: Routes = [
   
   { path: 'Cc-Region', component: CcRegionComponent },
   { path: 'Cc-SubRegion', component: CcSubRegionComponent },
+  
+  { path: 'Cc-Source', component: CcSourceComponent },
+
 
 ],
   },

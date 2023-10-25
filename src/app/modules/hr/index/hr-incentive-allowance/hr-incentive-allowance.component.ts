@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HrIncentiveAllowanceDialogComponent } from '../hr-incentive-allowance-dialog/hr-incentive-allowance-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 @Component({
   selector: 'app-hr-incentive-allowance',
   templateUrl: './hr-incentive-allowance.component.html',
@@ -22,7 +23,9 @@ export class HrIncentiveAllowanceComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService,private global:GlobalService) { 
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+  }
 
   ngOnInit(): void {
     this.getAllIncentiveAllowance();
