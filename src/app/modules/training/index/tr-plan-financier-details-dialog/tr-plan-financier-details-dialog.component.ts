@@ -149,7 +149,7 @@ export class TrPlanFinancierDetailsDialogComponent implements OnInit {
 
         if (this.planFinanciersForm.valid) {
 
-          this.api.postTrFinancier(this.planFinanciersForm.value)
+          this.api.postTrPlanFinancier(this.planFinanciersForm.value)
             .subscribe({
               next: (res) => {
                 this.getDetailsRowId = {
@@ -175,7 +175,7 @@ export class TrPlanFinancierDetailsDialogComponent implements OnInit {
     else {
       console.log("Enteeeeerrr edit condition: ", this.planFinanciersForm.value)
 
-      this.api.putTrFinancier(this.planFinanciersForm.value)
+      this.api.putTrPlanFinancier(this.planFinanciersForm.value)
         .subscribe({
           next: (res) => {
             this.toastrSuccess();
