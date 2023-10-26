@@ -368,7 +368,7 @@ export class TrPlanDialogComponent implements OnInit {
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
       if (this.getMasterRowId) {
-        this.api.getTrFinancierDetailsByHeaderId(this.getMasterRowId.id).subscribe({
+        this.api.getTrPlanFinancierDetailsByHeaderId(this.getMasterRowId.id).subscribe({
           next: (res) => {
             console.log("TrFinancr: ", res);
 
@@ -505,23 +505,22 @@ export class TrPlanDialogComponent implements OnInit {
       });
   }
 
-  // deleteFormDetails(id: number) {
-  //   console.log('details id: ', id);
+  deleteFormDetailsFinancier(id: number) {
+    console.log('details id: ', id);
 
-  //   var result = confirm('هل ترغب بتاكيد الحذف ؟');
-  //   if (result) {
-  //     this.api.deletePyItemGroupDetails(id).subscribe({
-  //       next: (res) => {
-  //         // alert("تم الحذف بنجاح");
-  //         this.toastrDeleteSuccess();
-  //         this.getAllDetailsForms();
-  //       },
-  //       error: () => {
-  //         // alert("خطأ أثناء حذف التفاصيل !!");
-  //       },
-  //     });
-  //   }
-  // }
+    var result = confirm('هل ترغب بتاكيد الحذف ؟');
+    if (result) {
+      this.api.deleteTrPlanFinancier(id).subscribe({
+        next: (res) => {
+          this.toastrDeleteSuccess();
+          this.getAllDetailsFinancierForms();
+        },
+        error: () => {
+          // alert("خطأ أثناء حذف التفاصيل !!");
+        },
+      });
+    }
+  }
 
   deleteFormDetailsPosition(id: number) {
     console.log('details id: ', id);
@@ -577,7 +576,7 @@ export class TrPlanDialogComponent implements OnInit {
 
     var result = confirm('هل ترغب بتاكيد الحذف ؟');
     if (result) {
-      this.api.deleteTrPlanInstructor(id).subscribe({
+      this.api.deleteTrInstructor(id).subscribe({
         next: (res) => {
           this.toastrDeleteSuccess();
           this.getAllDetailsEmployeeForms();

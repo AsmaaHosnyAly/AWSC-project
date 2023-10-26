@@ -367,19 +367,19 @@ export class ApiService {
   }
 
 
-  postTrFinancier(data: any) {
+  postTrPlanFinancier(data: any) {
     return this.http.post<any>(`${this.url}/TrPlanFinancier/Add`, data);
   }
-  getTrFinancier() {
+  getTrPlanFinancier() {
     return this.http.get<any>(`${this.url}/TrPlanFinancier/get/all`);
   }
-  getTrFinancierDetailsByHeaderId(id: any) {
+  getTrPlanFinancierDetailsByHeaderId(id: any) {
     return this.http.get<any>(`${this.url}/TrPlanFinancier/get/by/header/${id}`);
   }
-  putTrFinancier(data: any) {
+  putTrPlanFinancier(data: any) {
     return this.http.put<any>(`${this.url}/TrPlanFinancier/update`, data);
   }
-  deleteTrFinancier(id: number) {
+  deleteTrPlanFinancier(id: number) {
     return this.http.delete<any>(`${this.url}/TrPlanFinancier/Delete/` + id);
   }
 
