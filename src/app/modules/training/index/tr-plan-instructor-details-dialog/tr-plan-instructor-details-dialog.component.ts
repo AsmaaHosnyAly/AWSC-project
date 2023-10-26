@@ -12,7 +12,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export class Instructor {
-  constructor(public id: number, public instructorName: string) { }
+  constructor(public id: number, public headerName: string) { }
 }
 
 @Component({
@@ -111,12 +111,12 @@ export class TrPlanInstructorDetailsDialogComponent implements OnInit {
 
     return this.instructorsList.filter(
       (instructor) =>
-        instructor.instructorName.toLowerCase().includes(filterValue)
+        instructor.headerName.toLowerCase().includes(filterValue)
     );
   }
 
   displayInstructorName(instructor: any): string {
-    return instructor && instructor.instructorName ? instructor.instructorName : '';
+    return instructor && instructor.headerName ? instructor.headerName : '';
   }
   InstructorSelected(event: MatAutocompleteSelectedEvent): void {
     const instructor = event.option.value as Instructor;

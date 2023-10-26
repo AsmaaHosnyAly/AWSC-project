@@ -193,7 +193,7 @@ export class TrPlanFinancierDetailsDialogComponent implements OnInit {
 
 
   getTrFinancier() {
-    this.api.getTrInstructor()
+    this.api.getTrFinancial()
       .subscribe({
         next: (res) => {
           this.financiersList = res;
