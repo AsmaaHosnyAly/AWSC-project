@@ -87,8 +87,9 @@ export class TrInstructorDialogComponent {
     this.TrInstructorForm = this.formBuilder.group({
       transactionUserId: ['', Validators.required],
       employeeId: [''],
-      trainingCenterId: [''],
+      trainingCenterId: ['', Validators.required],
       type: ['', Validators.required],
+      instructorDataId: ['', Validators.required],
 
       // id: ['', Validators.required],
     });
@@ -102,7 +103,6 @@ export class TrInstructorDialogComponent {
       position: ['', Validators.required],
       address: ['', Validators.required],
       gender: ['', Validators.required],
-      instructorId: ['', Validators.required],
       cityId: ['', Validators.required],
       // id: ['', Validators.required],
     });
@@ -138,6 +138,10 @@ export class TrInstructorDialogComponent {
       this.TrInstructorForm.controls['trainingCenterId'].setValue(
         this.editData.trainingCenterId
       );
+      this.TrInstructorForm.controls['headerAddress'].setValue(
+        this.editData.headerAddress
+      );
+
       // this.unitsForm.controls['id'].setValue(this.editData.id);
       this.TrInstructorForm.addControl(
         'id',
@@ -230,7 +234,7 @@ export class TrInstructorDialogComponent {
     if (type.value == 'موظف') {
       this.openAutoemployee();
       this.employeeCtrl.enable();
-      // this.TrInstructorForm.controls['employeeId'].enable();
+      this.TrInstructorForm.controls['instructorDataId'].setValue(null);
       console.log('test employee arr: ', this.employeeCtrl);
       // alert("disable"+ this.instructorType);
     }
@@ -245,6 +249,9 @@ export class TrInstructorDialogComponent {
   }
 
   async addTrInstructor() {
+    if ( this.TrInstructorForm.getRawValue().trainingCenterId == '') {
+      this.TrInstructorForm.controls['trainingCenterId'].setValue(null);
+    }
     this.TrInstructorForm.controls['transactionUserId'].setValue(
       this.transactionUserId
     );
@@ -258,12 +265,13 @@ export class TrInstructorDialogComponent {
     if (!this.editData) {
 
       this.TrInstructorForm.removeControl('id');
-      if (this.TrInstructorForm.valid && this.TrInstructorForm.getRawValue().type != 'خارجي') {
-        await this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
-          next: (res) => {
-            this.TrExternalInstructorForm.controls['instructorId'].setValue(res);
-            console.log("InstructorId: ", this.TrExternalInstructorForm.getRawValue().instructorId);
+      this.TrInstructorForm.controls['instructorDataId'].setValue(null);
+      console.log('this.TrInstructorForm.value :', this.TrInstructorForm.value);
+     
 
+      if ( this.TrInstructorForm.getRawValue().type != 'خارجي') {
+        this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
+          next: (res) => {
             this.toastrSuccess();
             this.TrInstructorForm.reset();
             this.dialogRef.close('save');
@@ -274,35 +282,14 @@ export class TrInstructorDialogComponent {
           },
         });
       }
-      else if (this.TrInstructorForm.valid && this.TrInstructorForm.getRawValue().type == 'خارجي') {
-        if (this.TrInstructorForm.valid) {
-          await this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
-            next: (res) => {
-              this.TrExternalInstructorForm.controls['instructorId'].setValue(res);
-              console.log("InstructorId: ", this.TrExternalInstructorForm.getRawValue().instructorId);
+      else if (this.TrInstructorForm.getRawValue().type == 'خارجي') {
+        // if (this.TrExternalInstructorForm.valid) {
+          this.addTrExternalInstructor();
+        // }
+        // else {
+        //   this.toastrWarning();
 
-              if (this.TrExternalInstructorForm.valid) {
-                this.addTrExternalInstructor();                
-                this.toastrSuccess();
-                this.TrInstructorForm.reset();
-                this.dialogRef.close('save');
-              }
-              else {
-                this.toastrWarning();
-
-              }
-
-            },
-            error: (err) => {
-              alert('1خطأ عند اضافة البيانات');
-              console.log(err);
-            },
-          });
-        }
-        else {
-          this.toastrWarning();
-
-        }
+        // }
       }
       else {
         this.toastrWarning();
@@ -314,27 +301,38 @@ export class TrInstructorDialogComponent {
   }
 
   addTrExternalInstructor() {
-    // alert(" resId external fun: " + this.TrExternalInstructorForm.getRawValue().instructorId);
-
-    this.TrExternalInstructorForm.controls['transactionUserId'].setValue(
-      this.transactionUserId
-    );
-    console.log("datttaaa", this.TrExternalInstructorForm.value);
-
-    if (this.TrExternalInstructorForm.valid) {
-      this.api.postExternalInstructor(this.TrExternalInstructorForm.value).subscribe({
-        next: (res) => {
-          this.toastrSuccess();
-          this.TrExternalInstructorForm.reset();
-          this.dialogRef.close('save');
-        },
-        error: (err) => {
-          alert('2خطأ عند اضافة البيانات');
-          console.log(err);
-        },
-      });
+    if ( this.TrInstructorForm.getRawValue().trainingCenterId == '') {
+      this.TrInstructorForm.controls['trainingCenterId'].setValue(null);
     }
+    this.api.postExternalInstructor(this.TrExternalInstructorForm.value).subscribe({
+      next: async (res) => {
+       await this.TrInstructorForm.controls['instructorDataId'].setValue(res);
+        this.addTrEmpInstructor();
+        this.toastrSuccess();
+        this.TrExternalInstructorForm.reset();
+        this.dialogRef.close('save');
+      },
+      error: (err) => {
+        alert('2خطأ عند اضافة البيانات');
+        console.log(err);
+      },
+    });
   }
+
+  addTrEmpInstructor() {
+    this.api.postTrInstructor(this.TrInstructorForm.value).subscribe({
+      next: (res) => {
+        this.toastrSuccess();
+        this.TrInstructorForm.reset();
+        this.dialogRef.close('save');
+      },
+      error: (err) => {
+        alert('خطأ عند اضافة البيانات');
+        console.log(err);
+      },
+    });
+  }
+
   updateTrInstructor() {
     this.api.putTrInstructor(this.TrInstructorForm.value).subscribe({
       next: (res) => {

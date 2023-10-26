@@ -40,12 +40,12 @@
       <span>Check voice mail</span>
     </button> -->
     <button mat-menu-item (click)="handleLogOut()" routerLink="login">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>تسجيل الخروج</span>
+      <mat-icon style="color:rgb(60, 202, 252)">exit_to_app</mat-icon>
+      <span class="changFont">تسجيل الخروج</span>
     </button>
     <button mat-menu-item  routerLink="pr-user-changPassword">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>تغير الرقم السري</span>
+      <mat-icon style="color:rgb(60, 202, 252)">edit</mat-icon>
+      <span class="changFont">تغير الرقم السري</span>
     </button>
   </mat-menu>
 </mat-toolbar>
@@ -140,14 +140,15 @@
             *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)">
             <p class="font">الإفتتاحي العهد</p>
           </a>
-          <a mat-list-item routerLink="/reports" class="sideNavSubItems"
-          *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)">
-          <p class="font">تقارير المخازن </p>
-        </a>
+        
           <a mat-list-item routerLink="/StrStockTaking" class="sideNavSubItems"
             *ngIf="hasAccessRole(pageEnums.StrStockTaking)">
             <p class="font">الجرد </p>
           </a>
+          <a mat-list-item routerLink="/reports" class="sideNavSubItems"
+          *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)">
+          <p class="font">تقارير المخازن </p>
+        </a>
         </mat-nav-list>
       </mat-expansion-panel>
 

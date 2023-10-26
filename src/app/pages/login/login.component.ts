@@ -16,7 +16,7 @@ export class LoginComponent {
   roles: any;
   transactionUserId: any;
   modules:any
-  
+  showLogin:any
 
 
   OnIinit(): void {
@@ -42,8 +42,7 @@ export class LoginComponent {
     private _compiler: Compiler
   ) {
     this.global.navFlag = false;
-    localStorage.setItem('userRoles', this.roles);
-    this._compiler.clearCache();
+    this.showLoginFun()
   }
 
   get username() {
@@ -56,7 +55,9 @@ export class LoginComponent {
   get userData() {
     return this.loginForm.controls;
   }
-
+showLoginFun(){
+  this.showLogin=true
+}
   toastrloginSuccess(): void {
     this.toastr.success('تم الدخول بنجاح');
   }
@@ -64,24 +65,24 @@ export class LoginComponent {
     this.toastr.error('خطا في تسجيل البيانات لا يمكنك الدخول');
   }
 
-  handleSubmit() {
-    this._compiler.clearCache();
-    console.log(this.loginForm);
-    if(this.loginForm.valid){
-      this.global.login(this.loginForm.value).subscribe({
-        next: (res) => {
-          localStorage.setItem('transactionUserId', res.id);
-          this.global.isLogIn = true;
-          localStorage.setItem('userRoles', res.roles);
-          localStorage.setItem('modules', res.modules);
-          this.toastrloginSuccess();
-          this.router.navigate(['/home']);
-        },
-        error: () => {
-         this.toastrloginfailed()
-        },
-      });
-    }
+  // handleSubmit() {
+  //   this._compiler.clearCache();
+  //   console.log(this.loginForm);
+  //   if(this.loginForm.valid){
+  //     this.global.login(this.loginForm.value).subscribe({
+  //       next: (res) => {
+  //         localStorage.setItem('transactionUserId', res.id);
+  //         this.global.isLogIn = true;
+  //         localStorage.setItem('userRoles', res.roles);
+  //         localStorage.setItem('modules', res.modules);
+  //         this.toastrloginSuccess();
+  //         this.router.navigate(['/home']);
+  //       },
+  //       error: () => {
+  //        this.toastrloginfailed()
+  //       },
+  //     });
+  //   }
 
     // if (this.loginForm.valid) {
     //   console.log('login1', this.loginForm.value);
@@ -101,7 +102,7 @@ export class LoginComponent {
         
     //   });
     // }
-  }
+  
 
   handleSubmitByJWT() {
     
