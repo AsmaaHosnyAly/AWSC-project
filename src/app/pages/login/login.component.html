@@ -36,7 +36,7 @@
         <div *ngIf="username?.invalid">
           <label
             class="alert alert-danger  "
-            *ngIf="username?.errors?.['required']"
+            *ngIf="isSubmit&&username?.errors?.['required']"
           >
             ادخل اسم المستخدم
         </label>
@@ -50,7 +50,7 @@
           formControlName="password"
           autocomplete="off"
         />
-        <div *ngIf="password?.invalid" error>
+        <div *ngIf="isSubmit&&password?.invalid" error>
           <div
             class="alert alert-danger "
             *ngIf="password?.errors?.['required']"
