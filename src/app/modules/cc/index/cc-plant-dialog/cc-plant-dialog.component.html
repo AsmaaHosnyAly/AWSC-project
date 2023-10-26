@@ -15,7 +15,10 @@
             <mat-label>الكود</mat-label>
             <input formControlName="code" matInput placeholder="ادخل الكود">
           </mat-form-field>
-          <mat-label>اسم المنطقة الفرعية</mat-label>
+          <mat-label>اسم المنطقة الفرعية
+
+            
+          </mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="subRegion" [matAutocomplete]="autoSubRegion" [formControl]="subRegionCtrl"
               placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoSubRegion()" required />
