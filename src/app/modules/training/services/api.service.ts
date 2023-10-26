@@ -47,6 +47,13 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/TrInstructorData/Add`, data);
   }
 
+  putExternalInstructor(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrInstructorData/update`,
+      data
+    );
+  }
+
   ////////////////////////////////trtrack//////////////////////////////////////////
   postTrTarck(data: any) {
     return this.http.post<any>(`${this.url}/TrTarck/Add`, data);

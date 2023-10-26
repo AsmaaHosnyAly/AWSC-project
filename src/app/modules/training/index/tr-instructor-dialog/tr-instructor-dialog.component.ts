@@ -90,7 +90,15 @@ export class TrInstructorDialogComponent {
       trainingCenterId: ['', Validators.required],
       type: ['', Validators.required],
       instructorDataId: ['', Validators.required],
-
+      // headerAddress: [''],
+      // headerCityName: [''],
+      // headerCode: [''],
+      // headerEmail: [''],
+      // headerGender: [''],
+      // headerName: [''],
+      // headerPhone: [''],
+      // headerPosition: [''],
+      trainingCenterName: [''],
       // id: ['', Validators.required],
     });
 
@@ -104,6 +112,17 @@ export class TrInstructorDialogComponent {
       address: ['', Validators.required],
       gender: ['', Validators.required],
       cityId: ['', Validators.required],
+      // cityName: [''],
+
+      // headerAddress: [''],
+      // // headerCityName: [''],
+      // headerCode: [''],
+      // headerEmail: [''],
+      // headerGender: [''],
+      // headerName: [''],
+      // headerPhone: [''],
+      // headerPosition: [''],
+      // trainingCenterName: [''],
       // id: ['', Validators.required],
     });
 
@@ -129,18 +148,37 @@ export class TrInstructorDialogComponent {
       console.log('edit data: ', this.editData);
       this.actionBtn = 'تعديل';
       this.getTrInstructorData = this.editData;
-      this.TrInstructorForm.controls['transactionUserId'].setValue(
-        this.transactionUserId
-      );
-      this.TrInstructorForm.controls['employeeId'].setValue(
-        this.editData.employeeId
-      );
-      this.TrInstructorForm.controls['trainingCenterId'].setValue(
-        this.editData.trainingCenterId
-      );
-      this.TrInstructorForm.controls['headerAddress'].setValue(
-        this.editData.headerAddress
-      );
+      this.TrInstructorForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.TrInstructorForm.controls['employeeId'].setValue(this.editData.employeeId);
+      this.TrInstructorForm.controls['trainingCenterId'].setValue(this.editData.trainingCenterId);
+      this.TrInstructorForm.controls['trainingCenterName'].setValue(this.editData.trainingCenterName);
+      this.TrInstructorForm.controls['type'].setValue(this.editData.type);
+
+      if (this.editData.type == 'موظف') {
+        this.openAutoemployee();
+        this.employeeCtrl.enable();
+        this.TrInstructorForm.controls['instructorDataId'].setValue(null);
+        console.log('test employee arr: ', this.employeeCtrl);
+        // alert("disable"+ this.instructorType);
+      }
+      if (this.editData.type == 'خارجي') {
+        // this.TrInstructorForm.controls['percentage'].setValue(100);
+        // this.TrInstructorForm.controls['employeeId'].disable();
+        this.employeeCtrl.disable();
+        this.TrInstructorForm.controls['employeeId'].enable();
+        this.TrInstructorForm.controls['employeeId'].setValue(null);
+        // alert("enable"+ this.instructorType);
+      }
+      
+      this.TrExternalInstructorForm.controls['address'].setValue(this.editData.headerAddress);
+      this.TrExternalInstructorForm.controls['cityId'].setValue(this.editData.headerCityID);
+      // this.TrExternalInstructorForm.controls['cityName'].setValue(this.editData.headerCityName);
+      this.TrExternalInstructorForm.controls['code'].setValue(this.editData.headerCode);
+      this.TrExternalInstructorForm.controls['email'].setValue(this.editData.headerEmail);
+      this.TrExternalInstructorForm.controls['gender'].setValue(this.editData.headerGender);
+      this.TrExternalInstructorForm.controls['name'].setValue(this.editData.headerName);
+      this.TrExternalInstructorForm.controls['phone'].setValue(this.editData.headerPhone);
+      this.TrExternalInstructorForm.controls['position'].setValue(this.editData.headerPosition);
 
       // this.unitsForm.controls['id'].setValue(this.editData.id);
       this.TrInstructorForm.addControl(
@@ -231,14 +269,14 @@ export class TrInstructorDialogComponent {
     console.log('type value changed: ', type.value);
     // this.TrInstructorForm.controls['type'].setValue(type.value);
 
-    if (type.value == 'موظف') {
+    if (this.TrInstructorForm.getRawValue().type == 'موظف') {
       this.openAutoemployee();
       this.employeeCtrl.enable();
       this.TrInstructorForm.controls['instructorDataId'].setValue(null);
       console.log('test employee arr: ', this.employeeCtrl);
       // alert("disable"+ this.instructorType);
     }
-    if (type.value == 'خارجي') {
+    if (this.TrInstructorForm.getRawValue().type == 'خارجي') {
       // this.TrInstructorForm.controls['percentage'].setValue(100);
       // this.TrInstructorForm.controls['employeeId'].disable();
       this.employeeCtrl.disable();
@@ -283,13 +321,7 @@ export class TrInstructorDialogComponent {
         });
       }
       else if (this.TrInstructorForm.getRawValue().type == 'خارجي') {
-        // if (this.TrExternalInstructorForm.valid) {
           this.addTrExternalInstructor();
-        // }
-        // else {
-        //   this.toastrWarning();
-
-        // }
       }
       else {
         this.toastrWarning();
@@ -334,6 +366,24 @@ export class TrInstructorDialogComponent {
   }
 
   updateTrInstructor() {
+    if ( this.TrInstructorForm.getRawValue().type != 'خارجي') {
+      this.updateTrEmpInstructor();
+    }
+    else if (this.TrInstructorForm.getRawValue().type == 'خارجي') {
+        this.updateTrEmpInstructor();
+        this.updateTrExternalInstructor();
+    }
+  }
+
+  updateTrEmpInstructor() {
+
+    this.TrExternalInstructorForm.addControl('id', new FormControl('', Validators.required));
+    this.TrExternalInstructorForm.controls['id'].setValue(this.editData.id);
+
+    this.TrInstructorForm.controls['instructorDataId'].setValue(this.editData.instructorDataId);
+
+    console.log("edit dattaa11:",this.TrInstructorForm.value);
+    
     this.api.putTrInstructor(this.TrInstructorForm.value).subscribe({
       next: (res) => {
         // alert("تم التحديث بنجاح");
@@ -343,6 +393,25 @@ export class TrInstructorDialogComponent {
       },
       error: () => {
         alert('3خطأ عند تحديث البيانات');
+      },
+    });
+  }
+
+
+  updateTrExternalInstructor() {
+    this.TrExternalInstructorForm.addControl('id', new FormControl('', Validators.required));
+    this.TrExternalInstructorForm.controls['id'].setValue(this.editData.instructorDataId);
+    console.log("edit dattaaa2:",this.TrExternalInstructorForm.value);
+    
+    this.api.putExternalInstructor(this.TrExternalInstructorForm.value).subscribe({
+      next: (res) => {
+        this.toastrSuccess();
+        this.TrExternalInstructorForm.reset();
+        this.dialogRef.close('update');
+      },
+      error: (err) => {
+        alert('2خطأ عند تحديث البيانات');
+        console.log(err);
       },
     });
   }
@@ -358,3 +427,5 @@ export class TrInstructorDialogComponent {
     this.toastr.success('تم التعديل بنجاح');
   }
 }
+
+
