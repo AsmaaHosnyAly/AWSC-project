@@ -21,9 +21,7 @@
             aria-label="specialization"
             [matAutocomplete]="autoPosition"
             [formControl]="trainingCenterCtrl"
-            placeholder="{{
-              getTrInstructorData ? getTrInstructorData.trainingCenterName : ''
-            }}"
+            placeholder="{{getTrInstructorData ? getTrInstructorData.trainingCenterName : 'اختر مركز التدريب'}}"
             (click)="openAutoTrainingCenter()"
             required
           />
@@ -62,9 +60,7 @@
             aria-label="employee"
             [matAutocomplete]="autoEmployee"
             [formControl]="employeeCtrl"
-            placeholder="{{
-              getTrInstructorData ? getTrInstructorData.employeeName : ''
-            }}"
+            placeholder="{{getTrInstructorData ? getTrInstructorData.employeeName : 'اختر موظف'}}"
             (click)="openAutoemployee()"
             required
           />
@@ -88,7 +84,7 @@
         <form
           class="frm-mtt"
           [formGroup]="TrExternalInstructorForm"
-          *ngIf="instructorType == 'خارجي'"
+          *ngIf="instructorType == 'خارجي' || (getTrInstructorData && getTrInstructorData.type == 'خارجي') "
         >
           <h1 mat-dialog-title style="display: block" class="add2-h1">
             {{ editData ? " تعديل  مدرب خارجى " : " إضافة  مدرب خارجى جديد" }}
@@ -149,6 +145,7 @@
                       ? getTrExternalInstructorForm.cityName
                       : ''
                   }}"
+                  placeholder="{{getTrInstructorData ? getTrInstructorData.headerCityName : 'اختر المدينة'}}"
                   (click)="openAutoCity()"
                   required
                 />
