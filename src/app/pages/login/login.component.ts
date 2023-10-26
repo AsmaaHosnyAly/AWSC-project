@@ -16,7 +16,7 @@ export class LoginComponent {
   roles: any;
   transactionUserId: any;
   modules:any
-  
+  showLogin:any
 
 
   OnIinit(): void {
@@ -42,8 +42,7 @@ export class LoginComponent {
     private _compiler: Compiler
   ) {
     this.global.navFlag = false;
-    localStorage.setItem('userRoles', this.roles);
-    this._compiler.clearCache();
+    this.showLoginFun()
   }
 
   get username() {
@@ -56,7 +55,9 @@ export class LoginComponent {
   get userData() {
     return this.loginForm.controls;
   }
-
+showLoginFun(){
+  this.showLogin=true
+}
   toastrloginSuccess(): void {
     this.toastr.success('تم الدخول بنجاح');
   }
