@@ -65,24 +65,24 @@ showLoginFun(){
     this.toastr.error('خطا في تسجيل البيانات لا يمكنك الدخول');
   }
 
-  handleSubmit() {
-    this._compiler.clearCache();
-    console.log(this.loginForm);
-    if(this.loginForm.valid){
-      this.global.login(this.loginForm.value).subscribe({
-        next: (res) => {
-          localStorage.setItem('transactionUserId', res.id);
-          this.global.isLogIn = true;
-          localStorage.setItem('userRoles', res.roles);
-          localStorage.setItem('modules', res.modules);
-          this.toastrloginSuccess();
-          this.router.navigate(['/home']);
-        },
-        error: () => {
-         this.toastrloginfailed()
-        },
-      });
-    }
+  // handleSubmit() {
+  //   this._compiler.clearCache();
+  //   console.log(this.loginForm);
+  //   if(this.loginForm.valid){
+  //     this.global.login(this.loginForm.value).subscribe({
+  //       next: (res) => {
+  //         localStorage.setItem('transactionUserId', res.id);
+  //         this.global.isLogIn = true;
+  //         localStorage.setItem('userRoles', res.roles);
+  //         localStorage.setItem('modules', res.modules);
+  //         this.toastrloginSuccess();
+  //         this.router.navigate(['/home']);
+  //       },
+  //       error: () => {
+  //        this.toastrloginfailed()
+  //       },
+  //     });
+  //   }
 
     // if (this.loginForm.valid) {
     //   console.log('login1', this.loginForm.value);
@@ -102,7 +102,7 @@ showLoginFun(){
         
     //   });
     // }
-  }
+  
 
   handleSubmitByJWT() {
     

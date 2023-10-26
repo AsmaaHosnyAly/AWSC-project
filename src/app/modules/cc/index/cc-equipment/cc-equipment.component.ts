@@ -115,7 +115,7 @@ export class CcEquipmentComponent {
 
   editPlant(row: any) {
     this.dialog
-      .open(CcPlantDialogComponent, {
+      .open(CcEquipmentDailogComponent, {
         width: '30%',
         data: row,
       })
@@ -130,7 +130,7 @@ export class CcEquipmentComponent {
   deletePlant(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePlant(id).subscribe({
+      this.api.deleteEquipment(id).subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)

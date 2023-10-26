@@ -26,7 +26,9 @@
           <mat-select  #report plceholder="اختر  التقرير" formControlName="report">
             <mat-option value="FIAccountACReport"> تقرير المركز المالي علي شكل حساب</mat-option>
             <mat-option value="FIAccountREReport"> تقرير المركز المالي علي شكل تقرير    </mat-option>
-  
+            <mat-option value="AccountMasterReport"> تقرير حساب  الاستاذ  </mat-option>
+            <mat-option value="AccountMasterDetailsReport"> تقرير حساب الاستاذ تفصيلي </mat-option>
+
           </mat-select>
         </mat-form-field>
       </div>
@@ -96,7 +98,7 @@
 
       <mat-icon class="icons" title="عرض"
         (click)="previewPrint( StartDate.value,EndDate.value,report.value,reportType.value)" class="icons"
-        title="تحميل">print</mat-icon>
+        title="عرض">print</mat-icon>
 
       <mat-icon (click)="downloadPrint( StartDate.value,EndDate.value,report.value,reportType.value)"
         class="icons" title="تحميل">get_app</mat-icon>
