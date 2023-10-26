@@ -159,6 +159,7 @@ import { CcPlantComponent } from './modules/cc/index/cc-plant/cc-plant.component
 import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
 import { CcPlantComponentComponent } from './modules/cc/index/cc-plant-component/cc-plant-component.component';
 import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
+import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excuted.component';
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -592,6 +593,7 @@ const routes: Routes = [
   { path: 'Tr-ClassRoom', component: TrClassRoomComponent },
   { path: 'TrTrainee', component: TrTraineeComponent },
   { path: 'TrPlan', component: TrPlanComponent },
+  { path: 'TrExcuted', component: TrExcutedComponent },
 
   /*********************start TR   التدريب***************************/
 

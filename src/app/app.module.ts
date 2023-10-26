@@ -274,6 +274,7 @@ import { CcPlantComponentDialogComponent } from './modules/cc/index/cc-plant-com
 import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
 import { CcEquipmentDailogComponent } from './modules/cc/index/cc-equipment-dailog/cc-equipment-dailog.component';
+import { TrExcutedFinancierDetailsDialogComponent } from './modules/training/index/tr-excuted-financier-details-dialog/tr-excuted-financier-details-dialog.component';
 
 
 
@@ -530,6 +531,7 @@ import { CcEquipmentDailogComponent } from './modules/cc/index/cc-equipment-dail
     PrUserChangePasswordDialogComponent,
     CcEquipmentComponent,
     CcEquipmentDailogComponent,
+    TrExcutedFinancierDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,
