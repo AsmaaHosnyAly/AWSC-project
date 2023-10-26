@@ -161,8 +161,9 @@ export class FiReportsComponent implements OnInit {
       StartDate: [this.dateNow, Validators.required],
       EndDate: [this.nextDate, Validators.required],
 
-      account: ['', Validators.required],
+      accountName: ['', Validators.required],
       accountId: ['', Validators.required],
+  
 
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],

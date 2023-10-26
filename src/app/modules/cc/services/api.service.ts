@@ -144,4 +144,28 @@ export class ApiService {
   postCcSource(data: any) {
     return this.http.post<any>(`${this.url}/CcSource/Add`, data);
   }
+
+
+
+  /////////////////Cc Plant Component//////////////////
+  getCcPlantComponent() {
+
+    return this.http.get<any>(`${this.url}/CcPlantComponent/get/all`);
+  }
+  putCcPlantComponent(data: any) {
+    console.log("data in post:",data)
+    return this.http.put<any>(
+      `${this.url}/CcPlantComponent/update`,
+      data
+    );
+  }
+  deleteCcPlantComponent(id: number) {
+    console.log("id in cc PlantComponent:",id)
+    return this.http.delete<any>(
+      `${this.url}/CcPlantComponent/delete/${id}`
+    );
+  }
+  postCcPlantComponent(data: any) {
+    return this.http.post<any>(`${this.url}/CcPlantComponent/Add`, data);
+  }
 }

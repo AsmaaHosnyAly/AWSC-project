@@ -157,6 +157,7 @@ import { CcRegionComponent } from './modules/cc/index/cc-region/cc-region.compon
 import { CcSubRegionComponent } from './modules/cc/index/cc-sub-region/cc-sub-region.component';
 import { CcPlantComponent } from './modules/cc/index/cc-plant/cc-plant.component';
 import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.component';
+import { CcPlantComponentComponent } from './modules/cc/index/cc-plant-component/cc-plant-component.component';
 import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -648,6 +649,9 @@ const routes: Routes = [
   { path: 'Cc-plant', component: CcPlantComponent},
   
   { path: 'Cc-Source', component: CcSourceComponent },
+  
+
+  { path: 'Cc-PlantComponent', component: CcPlantComponentComponent },
 
 
 ],
