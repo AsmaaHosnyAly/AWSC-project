@@ -168,4 +168,29 @@ export class ApiService {
   postCcPlantComponent(data: any) {
     return this.http.post<any>(`${this.url}/CcPlantComponent/Add`, data);
   }
+   /////////////////Cc Plant Component//////////////////
+   getEquipment() {
+
+    return this.http.get<any>(`${this.url}/CcEquipment/get/all`);
+  }
+  putEquipment(data: any) {
+    console.log("data in post:",data)
+    return this.http.put<any>(
+      `${this.url}/CcEquipment/update`,
+      data
+    );
+  }
+  deleteEquipment(id: number) {
+    console.log("id in cc PlantComponent:",id)
+    return this.http.delete<any>(
+      `${this.url}/CcEquipment/Delete/${id}`
+    );
+  }
+  postEquipment(data: any) {
+    return this.http.post<any>(`${this.url}/CcEquipment/Add`, data);
+  }
+  getAllCostCenteres() {
+
+    return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
+  }
 }

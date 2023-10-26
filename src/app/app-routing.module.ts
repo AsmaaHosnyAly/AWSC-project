@@ -166,7 +166,6 @@ const routes: Routes = [
   {
     path: '',
     component: MenubarComponent,
-    canActivate: [storeGuard],
     data: {},
 
     children: [
