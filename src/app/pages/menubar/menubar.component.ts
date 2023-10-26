@@ -81,20 +81,14 @@ export class MenubarComponent {
     localStorage.setItem('transactionUserId', '');
     localStorage.removeItem('userRoles');
     localStorage.removeItem('modules');
-    localStorage.removeItem('accessToken');
+    // localStorage.removeItem('accessToken');
     this.global.isLogIn = false;
   }
 
   refresh() {
     window.location.reload();
   }
-  pageTitleFun(pageTitle:string,icon:any):any{
-    const MODULES_LOCAL_STORAGE = this.decodedToken1;
-    const MODULES: Array<any> = MODULES_LOCAL_STORAGE;
-    for (let i = 0; i < MODULES.length; i++) {
-      if (pageTitle == MODULES![i]) {
-       return this.pageTitle = pageTitle;
-  }}}
+
 
   hasAccessModule(name: string): boolean {
     // console.log('name passed: ', name);
