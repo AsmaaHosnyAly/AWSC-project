@@ -253,7 +253,7 @@
             </a>
             <a mat-list-item class="sideNavSubItems" routerLink="/Cc-plant"
             *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
-            <p class="font"> الخطة</p>
+            <p class="font"> البنات</p>
           </a>
             <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Region"
             *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
@@ -272,6 +272,10 @@
       *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
       <p class="font"> مكون النبات</p>
     </a>
+    <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Equipment"
+    *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
+    <p class="font">  المعدات</p>
+  </a>
               <!-- <a
                 mat-list-item
                 class="sideNavSubItems"
