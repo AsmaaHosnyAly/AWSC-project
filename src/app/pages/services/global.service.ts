@@ -35,15 +35,8 @@ export class GlobalService {
     private router: Router,
     
   ) {
-      // Retrieve the access token
-      const accessToken: any = localStorage.getItem('accessToken');
-      // console.log('accessToken', accessToken);
-      // Decode the access token
-      this.decodedToken = jwt_decode(accessToken);
-      this.decodedToken1 = this.decodedToken.modules;
-      this.decodedToken2 = this.decodedToken.roles;
-  
-      console.log('decodedToken2 ', this.decodedToken2);
+    
+     
     this.userModules = localStorage.getItem('userRoles')?.split(',');
   }
 
@@ -111,6 +104,15 @@ export class GlobalService {
     pageTitle: any,
     icon: any
   ) {
+     // Retrieve the access token
+     const accessToken: any = localStorage.getItem('accessToken');
+     // console.log('accessToken', accessToken);
+     // Decode the access token
+     this.decodedToken = jwt_decode(accessToken);
+     this.decodedToken1 = this.decodedToken.modules;
+     this.decodedToken2 = this.decodedToken.roles;
+ 
+     console.log('decodedToken2 ', this.decodedToken2);
     const MODULES_LOCAL_STORAGE = this.decodedToken1;
     for (let i = 0; i <MODULES_LOCAL_STORAGE!.length; i++) {
       if (module == MODULES_LOCAL_STORAGE![i]) {
