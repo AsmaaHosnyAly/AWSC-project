@@ -60,7 +60,8 @@ export class TrTrackDetailsDialogComponent implements OnInit {
   getDetailsRowId: any;
   journalsList: any;
   sourcesList: any;
-
+  courseId:any;
+  trackId:any
   // employeesList: any;
   distEmployeesList: any;
   costCentersList: any;
@@ -450,7 +451,7 @@ export class TrTrackDetailsDialogComponent implements OnInit {
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
                 this.updateDetailsForm();
-                // this.getAllDetailsForms();
+                this.getAllDetailsForms();
 
               },
               error: (err) => {

@@ -464,7 +464,7 @@ export class TrTrackDialogComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save' || val === 'update') {
+        if (val === 'Save' || val === 'Update') {
           this.getAllDetailsForms();
         }
       });
@@ -499,7 +499,7 @@ export class TrTrackDialogComponent implements OnInit {
   getAllMasterForms() {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
-    this.dialogRef.close('save');
+    this.dialogRef.close('Save');
 
     this.api.getTrTarck().subscribe({
       next: (res) => {
@@ -543,7 +543,7 @@ export class TrTrackDialogComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save' || val === 'update') {
+        if (val === 'Save' || val === 'update') {
           this.getAllDetailsForms();
         }
       });
