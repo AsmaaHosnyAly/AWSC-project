@@ -35,6 +35,12 @@ export class ApiService {
       `${this.url}/TrInstructor/Delete/${id}`
     );
   }
+
+  deleteTrEtrInstructor(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrInstructorData/Delete/${id}`
+    );
+  }
   getHrEmployees() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
   }

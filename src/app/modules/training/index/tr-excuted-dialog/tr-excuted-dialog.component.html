@@ -356,10 +356,10 @@
 
                     <table mat-table [dataSource]="dataSourcePosition" matSort class="headerTable">
 
-                        <!-- positionName Column -->
-                        <ng-container matColumnDef="positionName">
+                        <!-- positionId Column -->
+                        <ng-container matColumnDef="positionId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> الفئة المستهدفة</th>
-                            <td mat-cell *matCellDef="let row"> {{row.positionName}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.positionId}} </td>
                         </ng-container>
 
                         <!-- action Column -->
@@ -396,10 +396,10 @@
 
                     <table mat-table [dataSource]="dataSourceTrainee" matSort class="headerTable">
 
-                        <!-- headerDelegateName Column -->
-                        <ng-container matColumnDef="headerDelegateName">
+                        <!-- employeeName Column -->
+                        <ng-container matColumnDef="employeeName">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> المتدرب</th>
-                            <td mat-cell *matCellDef="let row"> {{row.headerDelegateName}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
                         </ng-container>
 
                         <!-- action Column -->

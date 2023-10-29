@@ -24,7 +24,7 @@ import { TrExcutedDialogComponent } from '../tr-excuted-dialog/tr-excuted-dialog
   templateUrl: './tr-excuted.component.html',
   styleUrls: ['./tr-excuted.component.css']
 })
-export class TrExcutedComponent implements OnInit{
+export class TrExcutedComponent implements OnInit {
   isLoading = false;
   totalRows = 0;
   pageSize = 5;
@@ -132,44 +132,156 @@ export class TrExcutedComponent implements OnInit{
       });
   }
 
-  // deleteAllForms(id: number) {
-  //   this.masterRowIdDelete = id;
-  //   var result = confirm('تاكيد الحذف ؟ ');
+  deleteAllForms(id: number) {
+    this.masterRowIdDelete = id;
+    var result = confirm('تاكيد الحذف ؟ ');
 
-  //   if (result) {
-  //     this.api.deletePyItemGroup(id).subscribe({
-  //       next: (res) => {
-  //         this.api.getPyItemGroupDetailsByHeaderId(id)
-  //           .subscribe({
-  //             next: (res) => {
+    if (result) {
+      // this.api.deletePyItemGroup(id).subscribe({
+      //   next: (res) => {
+      this.api.getTrExcutedFinancier()
+        .subscribe({
+          next: async (res) => {
 
-  //               this.matchedIds = res;
+            this.matchedIds = res.filter((a: any) => {
+              return a.excutedId == id
+            });
 
-  //               for (let i = 0; i < this.matchedIds.length; i++) {
-  //                 this.deleteFormDetails(this.matchedIds[i].id);
-  //                 this.deleteFormDetailsEmployee(this.matchedIds[i].id);
-  //               }
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              await this.deleteDetailsFinancier(this.matchedIds[i].id);
+            }
 
-  //             },
-  //             error: (err) => {
-  //               this.toastrDeleteError();
+            this.api.getTrExcutedInstructor()
+              .subscribe({
+                next: async (res) => {
 
-  //             }
-  //           })
+                  this.matchedIds = res.filter((a: any) => {
+                    return a.excutedId == id
+                  });
 
-  //         this.getAllMasterForms();
-  //       },
-  //       error: () => {
-  //         // alert('خطأ أثناء حذف المجموعة !!');
-  //       },
-  //     });
-  //   }
-  // }
+                  for (let i = 0; i < this.matchedIds.length; i++) {
+                    await this.deleteDetailsInstructor(this.matchedIds[i].id);
+                  }
+
+                  this.api.getTrExcutedPositionByHeaderId(id)
+                    .subscribe({
+                      next: async (res) => {
+
+                        this.matchedIds = res;
+
+                        for (let i = 0; i < this.matchedIds.length; i++) {
+                          await this.deleteDetailsPosition(this.matchedIds[i].id);
+                        }
+
+                        this.api.getTrExcutedTraineeByHeaderId(id)
+                          .subscribe({
+                            next: async (res) => {
+
+                              this.matchedIds = res.filter((a: any) => {
+                                return a.excutedId == id
+                              });
+
+                              for (let i = 0; i < this.matchedIds.length; i++) {
+                                await this.deleteDetailsTrainee(this.matchedIds[i].id);
+                              }
+
+                              // if (this.matchedIds.length == 0) {
+                              //   alert(this.matchedIds.length);
+                              await this.deleteMaster();
+
+                              // }
+
+                            },
+                            // error: (err) => {
+                            //   this.toastrDeleteError();
+
+                            // }
+                          })
+
+                      },
+                      // error: (err) => {
+                      //   this.toastrDeleteError();
+
+                      // }
+                    })
+
+
+                },
+                // error: (err) => {
+                //   this.toastrDeleteError();
+
+                // }
+              })
+
+          },
+          // error: (err) => {
+          //   this.toastrDeleteError();
+
+          // }
+        })
+
+      // this.getAllMasterForms();
+      // },
+      // error: () => {
+      // alert('خطأ أثناء حذف المجموعة !!');
+      //   },
+      // });
+    }
+  }
 
   deleteMaster() {
-    this.api.deleteTrPlan(this.masterRowIdDelete).subscribe({
+    this.api.deleteTrExcuted(this.masterRowIdDelete).subscribe({
       next: (res) => {
         this.toastrDeleteSuccess();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+  }
+
+  deleteDetailsFinancier(id: any) {
+    this.api.deleteTrExcutedFinancier(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+
+  }
+
+  deleteDetailsInstructor(id: any) {
+    this.api.deleteTrExcutedInstructor(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+  }
+
+  deleteDetailsPosition(id: any) {
+    this.api.deleteTrExcutedPosition(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+  }
+
+  deleteDetailsTrainee(id: any) {
+    this.api.deleteTrExcutedTrainee(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
         this.getAllMasterForms();
       },
       error: (err) => {
