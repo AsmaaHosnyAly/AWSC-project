@@ -11,6 +11,7 @@ import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 // import { GlobalService } from '../services/global.service';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 @Component({
   selector: 'app-cc-activity',
   templateUrl: './cc-activity.component.html',
@@ -25,7 +26,8 @@ export class CcActivityComponent  implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService, private toastr: ToastrService) {
+  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService, private toastr: ToastrService,global:GlobalService) {
+    global.getPermissionUserRoles('IT', '', 'التكاليف', '')
    }
 
   ngOnInit(): void {
