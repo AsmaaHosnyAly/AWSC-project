@@ -13,14 +13,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  roles: any;
   transactionUserId: any;
   modules:any
   showLogin:any
 
 
   OnIinit(): void {
-    this._compiler.clearCache();
 
   }
 
@@ -42,7 +40,6 @@ export class LoginComponent {
     private _compiler: Compiler
   ) {
     this.global.navFlag = false;
-    this.showLoginFun()
   }
 
   get username() {
@@ -55,9 +52,7 @@ export class LoginComponent {
   get userData() {
     return this.loginForm.controls;
   }
-showLoginFun(){
-  this.showLogin=true
-}
+
   toastrloginSuccess(): void {
     this.toastr.success('تم الدخول بنجاح');
   }
