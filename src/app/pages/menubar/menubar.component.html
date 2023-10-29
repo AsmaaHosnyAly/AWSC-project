@@ -474,10 +474,7 @@
             ><p class="font">القيود</p>
           </a>
 
-          <a
-            mat-list-item
-            class="sideNavSubItems"
-            routerLink="/fiReports"
+          <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Reports"
             (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
             *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
             ><p class="font">تقارير التكاليف</p>
@@ -705,10 +702,22 @@
           <p class="font">مؤهل الموظف</p></a
         >
 
-        <a
-          mat-list-item
-          class="sideNavSubItems"
-          routerLink="/fiReports"
+        <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeِAppraisal"
+          *ngIf="hasAccessRole(pageEnums.HR_employeeAppraisal)">
+            <p class="font"> تقييم الموظفين</p></a>
+        <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeFinancialDegree"
+          *ngIf="hasAccessRole(pageEnums.HR_employeeFinancialDegree)">
+            <p class="font"> الدرجة المالية للموظف</p></a>
+        <a mat-list-item class="sideNavSubItems" routerLink="hr-employee-position"
+          *ngIf="hasAccessRole(pageEnums.HR_employee_position)">
+             <p class="font"> مناصب الموظفين </p></a>
+        <a mat-list-item class="sideNavSubItems" routerLink="hr-employee" *ngIf="hasAccessRole(pageEnums.HR_employee)">
+          <p class="font">الموظفين</p></a>
+        <a mat-list-item class="sideNavSubItems" routerLink="EmployeeQualification"
+          *ngIf="hasAccessRole(pageEnums.Employee_qualifications)">
+            <p class="font">مؤهل الموظف</p></a>
+             
+          <a mat-list-item class="sideNavSubItems" routerLink="/hr-Reports"
           (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
           *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
           ><p class="font">تقارير شئون العاملين</p>
@@ -761,10 +770,8 @@
             <p class="font">المجموعات</p>
           </a>
 
-          <a
-            mat-list-item
-            class="sideNavSubItems"
-            routerLink="/fiReports"
+         
+          <a mat-list-item class="sideNavSubItems" routerLink="/pr-reports"
             (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
             *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
             ><p class="font">تقارير الصلاحيات</p>
@@ -858,10 +865,7 @@
             <p class="font">الحضور والانصراف</p>
           </a>
 
-          <a
-            mat-list-item
-            class="sideNavSubItems"
-            routerLink="/fiReports"
+          <a mat-list-item class="sideNavSubItems" routerLink="/attendance-Reports"
             (click)="global.getPermissionUserRoles(1, 'stores', '', '')"
             *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
             ><p class="font">تقاريرالحضوروالإنصراف</p>
@@ -934,6 +938,10 @@
               >
                 <p class="font">مجموعات الاجور</p>
               </a>
+              <a mat-list-item class="sideNavSubItems" routerLink="/Py-reports"
+              > <p class="font"> تقارير المرتبات</p>
+            </a>
+            
             </mat-nav-list>
           </mat-expansion-panel>
         </mat-nav-list>
@@ -1082,6 +1090,20 @@
           >
             <p class="font">غرض التدريب</p>
           </a>
+          <a mat-list-item class="sideNavSubItems" routerLink="/TrPlanCourseData"
+          *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+          <p class="font">بيانات الخطة التدريبة</p>
+        </a>
+        <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Purpose"
+        *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+        <p class="font">غرض التدريب</p>
+      </a>
+      <a mat-list-item class="sideNavSubItems" routerLink="/TrReports"
+      *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+      <p class="font"> تقارير التدريب</p>
+    </a>
+      
+
         </mat-nav-list>
       </mat-expansion-panel>
       <!-- End Training   التدريب  -->

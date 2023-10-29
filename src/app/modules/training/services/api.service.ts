@@ -362,10 +362,10 @@ export class ApiService {
   getTrPlan() {
     return this.http.get<any>(`${this.url}/TrPlan/get/all`);
   }
-  // getPyItemGroupPaginate(currentPage: any, pageSize: any) {
-  //   let urlPassed = `${this.url}/PyItemGroup/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
-  //   return urlPassed;
-  // }
+  getTrPlanPaginate(currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/TrPlan/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putTrPlan(data: any) {
     return this.http.put<any>(`${this.url}/TrPlan/update`, data);
   }
@@ -426,7 +426,7 @@ export class ApiService {
   //////////////////////////////////////////////////////////////////////////////
 
 
-  //////////////////// Tr-Excuted & TrExcutedFinancier & TrExcutedInstructor & TrExcutedPosition ///////////////////
+  ////// Tr-Excuted & TrExcutedFinancier & TrExcutedInstructor & TrExcutedPosition & TrExcutedTrainee ////////
   postTrExcuted(data: any) {
     return this.http.post<any>(`${this.url}/TrExcuted/Add`, data);
   }
@@ -495,6 +495,23 @@ export class ApiService {
     return this.http.delete<any>(`${this.url}/TrExcutedPosition/Delete/` + id);
   }
 
+
+  postTrExcutedTrainee(data: any) {
+    return this.http.post<any>(`${this.url}/TrExcutedTrainee/Add`, data);
+  }
+  getTrExcutedTrainee() {
+    return this.http.get<any>(`${this.url}/TrExcutedTrainee/get/all`);
+  }
+  getTrExcutedTraineeByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/TrExcutedTrainee/get/By/Header/${id}`);
+  }
+  putTrExcutedTrainee(data: any) {
+    return this.http.put<any>(`${this.url}/TrExcutedTrainee/update`, data);
+  }
+  deleteTrExcutedTrainee(id: number) {
+    return this.http.delete<any>(`${this.url}/TrExcutedTrainee/Delete/` + id);
+  }
+
   //////////////////////////////////////////////////////////////////////////////
 
 
@@ -550,5 +567,50 @@ export class ApiService {
     return this.http.delete<any>(
       `${this.url}/TrPurpose/Delete/${id}`
     );
+  }
+
+
+  //////////////////trreports//////////////////////
+  getAccountreports(
+  
+    StartDate: any, EndDate: any,account: any, report: any, reportType: any
+  ) {
+    console.log(
+     
+     
+      'startdate: ',
+      StartDate,'account',account,
+     
+      'reportName:', report, 'reportType:', reportType
+  
+    );
+    `${this.url}/FIAccount/get/Report?`;
+    this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+  
+    
+   
+  
+  
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+    }
+  
+   
+    if (!account == false) {
+      this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+    }
+    
+    
+  
+    console.log('url', this.mycondition);
+  
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 }

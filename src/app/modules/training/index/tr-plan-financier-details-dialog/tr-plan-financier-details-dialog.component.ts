@@ -173,6 +173,7 @@ export class TrPlanFinancierDetailsDialogComponent implements OnInit {
 
     }
     else {
+      this.planFinanciersForm.controls['planId'].setValue(this.editData.planId);
       console.log("Enteeeeerrr edit condition: ", this.planFinanciersForm.value)
 
       this.api.putTrPlanFinancier(this.planFinanciersForm.value)

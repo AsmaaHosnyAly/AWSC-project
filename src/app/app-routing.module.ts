@@ -50,6 +50,7 @@ import { HrEmployeeVacationBalanceComponent } from './modules/hr/index/hr-employ
 import { HrDisciplinaryComponent } from './modules/hr/index/hr-disciplinary/hr-disciplinary.component';
 import { HrEmployeeDisciplinaryComponent } from './modules/hr/index/hr-employee-disciplinary/hr-employee-disciplinary.component';
 import { PrGroupTableComponent } from './modules/pr/index/pr-group-table/pr-group-table.component';
+import { PrReportsComponent } from './modules/pr/index/pr-reports/pr-reports.component';
 import {
   StrModelComponent,
   vendor,
@@ -99,6 +100,7 @@ import { HrEmployeeAttendanceScheduleComponent } from './modules/attendance/inde
 import { HrEmployeeAttendancePermissionComponent } from './modules/attendance/index/hr-employee-attendance-permission/hr-employee-attendance-permission.component';
 import { HrAttendanceScheduleComponent } from './modules/attendance/index/hr-attendance-schedule/hr-attendance-schedule.component';
 import { HrEmployeeAttendanceComponent } from './modules/attendance/index/hr-employee-attendance/hr-employee-attendance.component';
+import { HrReportsComponent } from './modules/hr/index/hr-reports/hr-reports.component';
 import { PyInstallmentComponent } from './modules/py/index/py-installment/py-installment.component';
 import { PyGroupComponent } from './modules/py/index/py-group/py-group.component';
 import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
@@ -106,6 +108,7 @@ import { PyItemComponent } from './modules/py/index/py-item/py-item.component';
 import { PyExchangeContainerComponent } from './modules/py/index/py-exchange-container/py-exchange-container.component';
 import { PyItemCategoryComponent } from './modules/py/index/py-item-category/py-item-category.component';
 import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-bracket.component';
+import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.component';
 // import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 
 
@@ -118,6 +121,7 @@ import { TrClassRoomComponent } from './modules/training/index/tr-class-room/tr-
 import { TrCourseComponent } from './modules/training/index/tr-course/tr-course.component';
 import { TrInstructorCourseComponent } from './modules/training/index/tr-instructor-course/tr-instructor-course.component';
 import { TrTrainingCenterComponent } from './modules/training/index/tr-training-center/tr-training-center.component';
+import { TrReportsComponent } from './modules/training/index/tr-reports/tr-reports.component';
 import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 import { accountGuard } from './core/guards/fi/account.guard';
 import { fiAccountItemGuard } from './core/guards/fi/fi-account-item.guard';
@@ -144,6 +148,7 @@ import { hrDisciplinaryGuard } from './core/guards/hr/hr-disciplinary.guard';
 import { hrFinancialDegreeGuard } from './core/guards/hr/hr-financial-degree.guard';
 import { hrEmployeeFinancialDegreeGuard } from './core/guards/hr/hr-employee-financial-degree.guard';
 import { hrEmployeeAppraisalGuard } from './core/guards/hr/hr-employee-appraisal.guard';
+import { AttendanceReportsComponent } from './modules/attendance/index/attendance-reports/attendance-reports.component';
 import { TrTraineeComponent } from './modules/training/index/tr-trainee/tr-trainee.component';
 import { TrTrainingCenterCourseComponent } from './modules/training/index/tr-training-center-course/tr-training-center-course.component';
 import { TrPlanComponent } from './modules/training/index/tr-plan/tr-plan.component';
@@ -162,6 +167,8 @@ import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-
 import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excuted.component';
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
 import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
+import { CcReportsComponent } from './modules/cc/index/cc-reports/cc-reports.component';
+// import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -369,6 +376,8 @@ const routes: Routes = [
   },
  
   { path: 'pr-user-changPassword', component: PrUserChangePasswordDialogComponent },
+  { path: 'pr-reports', component:PrReportsComponent  },
+
 
   /*********************End Roles modules الصلاحيات***************************/
 
@@ -532,6 +541,8 @@ const routes: Routes = [
     canActivate: [productSerialGuard],
     data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
   },
+  { path: 'hr-Reports',component:HrReportsComponent},
+
 
   /*********************End Hr modules شئون العاميلن***************************/
 
@@ -585,6 +596,8 @@ const routes: Routes = [
     canActivate: [productSerialGuard],
     data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
   },
+  { path: 'attendance-Reports',component:AttendanceReportsComponent},
+  
 
   /*********************End Hr-attendance module  الحضور والانصراف***************************/
   /*********************start TR   التدريب***************************/
@@ -595,7 +608,9 @@ const routes: Routes = [
   { path: 'TrTrainee', component: TrTraineeComponent },
   { path: 'TrPlan', component: TrPlanComponent },
   { path: 'TrExcuted', component: TrExcutedComponent },
+  { path: 'TrReports', component: TrReportsComponent },
 
+  
   /*********************start TR   التدريب***************************/
 
   /*********************start py module  المرتبات***************************/
@@ -603,6 +618,9 @@ const routes: Routes = [
   //  { path: 'pyHome', component:  },
   { path: 'PyInstallment', component: PyInstallmentComponent },
   { path: 'PyItem', component: PyItemComponent },
+  { path: 'Py-reports', component: PyReportsComponent },
+
+  
   /*********************End Hr-attendance module  الحضور والانصراف***************************/
 
   /*********************start TR   التدريب***************************/
@@ -653,6 +671,14 @@ const routes: Routes = [
   { path: 'Cc-PlantComponent', component: CcPlantComponentComponent },
   { path: 'Cc-Equipment',component:CcEquipmentComponent},
   { path: 'Cc-Entry',component:CcEntryContainerComponent},
+  { path: 'Cc-Reports',component:  CcReportsComponent
+},
+
+
+
+//   { path: 'Cc-Costcenter',component:  CcCostCenterComponent
+// },
+
 
 ],
   },

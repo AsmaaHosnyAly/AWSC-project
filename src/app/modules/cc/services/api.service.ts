@@ -12,9 +12,6 @@ export class ApiService {
   mycondition: any;
   constructor(private http: HttpClient) { }
 
-
-
-
   ///////////////////ccActivity//////////////////
   getCcActivity() {
     return this.http.get<any>(`${this.url}/CcActivity/get/all`);
@@ -353,4 +350,49 @@ export class ApiService {
       responseType: 'blob',
     });
   }
+
+    //////////////////////////Reports/////////////////////////////////////
+    getAccountreports(
+  
+      StartDate: any, EndDate: any,account: any, report: any, reportType: any
+    ) {
+      console.log(
+       
+       
+        'startdate: ',
+        StartDate,'account',account,
+       
+        'reportName:', report, 'reportType:', reportType
+    
+      );
+      `${this.url}/FIAccount/get/Report?`;
+      this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+    
+      
+     
+    
+    
+      if (!StartDate == false) {
+        this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+      }
+      if (!EndDate == false) {
+        this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+      }
+    
+     
+      if (!account == false) {
+        this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+      }
+      
+      
+    
+      console.log('url', this.mycondition);
+    
+      // return this.http.get<any>(`${this.mycondition}`);
+      return this.http.get(`${this.mycondition}`, {
+        observe: 'response',
+        responseType: 'blob',
+      });
+    }
+    
 }
