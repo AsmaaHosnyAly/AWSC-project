@@ -1,1 +1,44 @@
-<p>tr-excuted-instructor-details-dialog works!</p>
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
+            clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل خطة المدرب ' : 'اكمل تفاصيل خطة المدرب '}} </h1>
+
+
+<form [formGroup]="excutedInstructorsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
+
+
+
+    <div style="overflow: hidden !important;">
+        <div class="detailsForm" dir="rtl">
+
+            <div style="display: flex; flex-direction: column;">
+                <mat-label> المدرب* </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoInstructor"
+                        [formControl]="instructorCtrl" placeholder="{{editData ? editData.instructorId : ''}}"
+                        (click)="openAutoInstructor()" required />
+                    <mat-autocomplete #autoInstructor="matAutocomplete" [displayWith]="displayInstructorName"
+                        (optionSelected)="InstructorSelected($event)">
+                        <mat-option *ngFor="let instructor of filteredInstructor | async" [value]="instructor">
+                            {{ instructor.headerName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div mat-dialog-action [align]="'end'">
+                <div class="groupAction">
+                    <button mat-raised-button color="primary" style="margin-left: 8px;"
+                        (click)="addDetailsInfo()">{{editData ?
+                        'تعديل':'اضافة'}}</button>
+                    <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
