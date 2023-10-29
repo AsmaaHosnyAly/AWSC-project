@@ -41,7 +41,7 @@ export class CcPlantComponent {
   plantForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name', 'code', 'subRegionName','action'];
+  displayedColumns: string[] = [  'code','name', 'subRegionName','action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -9,6 +9,7 @@ import { TrInstructorDialogComponent } from '../tr-instructor-dialog/tr-instruct
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-tr-instructor',
@@ -22,7 +23,9 @@ export class TrInstructorComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService,global:GlobalService) {
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
+   }
 
   ngOnInit(): void {
     this.getTrInstructor();

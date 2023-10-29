@@ -18,6 +18,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TrPlanDialogComponent } from '../tr-plan-dialog/tr-plan-dialog.component';
 import { TrExcutedDialogComponent } from '../tr-excuted-dialog/tr-excuted-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-tr-excuted',
@@ -64,8 +65,11 @@ export class TrExcutedComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    global:GlobalService
+  ) { 
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();
