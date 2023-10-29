@@ -568,4 +568,49 @@ export class ApiService {
       `${this.url}/TrPurpose/Delete/${id}`
     );
   }
+
+
+  //////////////////trreports//////////////////////
+  getAccountreports(
+  
+    StartDate: any, EndDate: any,account: any, report: any, reportType: any
+  ) {
+    console.log(
+     
+     
+      'startdate: ',
+      StartDate,'account',account,
+     
+      'reportName:', report, 'reportType:', reportType
+  
+    );
+    `${this.url}/FIAccount/get/Report?`;
+    this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+  
+    
+   
+  
+  
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+    }
+  
+   
+    if (!account == false) {
+      this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+    }
+    
+    
+  
+    console.log('url', this.mycondition);
+  
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
 }

@@ -13,7 +13,7 @@ export class ApiService {
   url = this.pageEnums.URL
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
-
+mycondition:any;
 
 
   ///////////////////////////////// PR-Group & PR-GroupRole/////////////////////////////
@@ -100,5 +100,49 @@ export class ApiService {
     return this.http.delete<any>(`${this.url}/PRUserGroup/delete/` + HeaderId);
   }
 
+
+    ///////////////////////attendace reports//////////////////////////
+    getAccountreports(
+  
+      StartDate: any, EndDate: any,account: any, report: any, reportType: any
+    ) {
+      console.log(
+       
+       
+        'startdate: ',
+        StartDate,'account',account,
+       
+        'reportName:', report, 'reportType:', reportType
+    
+      );
+      `${this.url}/FIAccount/get/Report?`;
+      this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+    
+      
+     
+    
+    
+      if (!StartDate == false) {
+        this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+      }
+      if (!EndDate == false) {
+        this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+      }
+    
+     
+      if (!account == false) {
+        this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+      }
+      
+      
+    
+      console.log('url', this.mycondition);
+    
+      // return this.http.get<any>(`${this.mycondition}`);
+      return this.http.get(`${this.mycondition}`, {
+        observe: 'response',
+        responseType: 'blob',
+      });
+    }
 
 }
