@@ -426,7 +426,7 @@ export class ApiService {
   //////////////////////////////////////////////////////////////////////////////
 
 
-  //////////////////// Tr-Excuted & TrExcutedFinancier & TrExcutedInstructor & TrExcutedPosition ///////////////////
+  ////// Tr-Excuted & TrExcutedFinancier & TrExcutedInstructor & TrExcutedPosition & TrExcutedTrainee ////////
   postTrExcuted(data: any) {
     return this.http.post<any>(`${this.url}/TrExcuted/Add`, data);
   }
@@ -493,6 +493,23 @@ export class ApiService {
   }
   deleteTrExcutedPosition(id: number) {
     return this.http.delete<any>(`${this.url}/TrExcutedPosition/Delete/` + id);
+  }
+
+
+  postTrExcutedTrainee(data: any) {
+    return this.http.post<any>(`${this.url}/TrExcutedTrainee/Add`, data);
+  }
+  getTrExcutedTrainee() {
+    return this.http.get<any>(`${this.url}/TrExcutedTrainee/get/all`);
+  }
+  getTrExcutedTraineeByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/TrExcutedTrainee/get/By/Header/${id}`);
+  }
+  putTrExcutedTrainee(data: any) {
+    return this.http.put<any>(`${this.url}/TrExcutedTrainee/update`, data);
+  }
+  deleteTrExcutedTrainee(id: number) {
+    return this.http.delete<any>(`${this.url}/TrExcutedTrainee/Delete/` + id);
   }
 
   //////////////////////////////////////////////////////////////////////////////

@@ -27,6 +27,7 @@ import { TrPlanFinancierDetailsDialogComponent } from '../tr-plan-financier-deta
 import { TrExcutedInstructorDetailsDialogComponent } from '../tr-excuted-instructor-details-dialog/tr-excuted-instructor-details-dialog.component';
 import { TrExcutedPositionDetailsDialogComponent } from '../tr-excuted-position-details-dialog/tr-excuted-position-details-dialog.component';
 import { TrExcutedFinancierDetailsDialogComponent } from '../tr-excuted-financier-details-dialog/tr-excuted-financier-details-dialog.component';
+import { TrExcutedTraineeDetailsDialogComponent } from '../tr-excuted-trainee-details-dialog/tr-excuted-trainee-details-dialog.component';
 
 export class TrainingCenter {
   constructor(public id: number, public name: string) { }
@@ -69,6 +70,7 @@ export class TrExcutedDialogComponent implements OnInit {
 
   dataSourceInstructor!: MatTableDataSource<any>;
   dataSourcePosition!: MatTableDataSource<any>;
+  dataSourceTrainee!: MatTableDataSource<any>;
   matchedIds: any;
   getDetailedRowData: any;
   sumOfTotals = 0;
@@ -99,8 +101,9 @@ export class TrExcutedDialogComponent implements OnInit {
   defaultFiscalYearSelectValue: any;
 
   displayedColumns: string[] = ['financierName', 'action'];
-  displayedInstructorsColumns: string[] = ['headerName', 'action'];
+  displayedInstructorsColumns: string[] = ['instructorId', 'action'];
   displayedPositionsColumns: string[] = ['positionName', 'action'];
+  displayedTraineesColumns: string[] = ['headerDelegateName', 'action'];
 
   sessionId = Math.random();
 
@@ -254,6 +257,7 @@ export class TrExcutedDialogComponent implements OnInit {
     this.getAllDetailsFinancierForms();
     this.getAllDetailsInstructorForms();
     this.getAllDetailsPositionForms();
+    this.getAllDetailsTraineeForms();
   }
 
 
@@ -482,19 +486,45 @@ export class TrExcutedDialogComponent implements OnInit {
 
   getAllDetailsPositionForms() {
 
-    console.log("mastered row get plan position details data: ", this.getMasterRowId)
+    console.log("mastered row get Excuted position details data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
       this.api.getTrExcutedPositionByHeaderId(this.getMasterRowId.id).subscribe({
         next: (res) => {
 
           // this.matchedIds = res;
-          console.log("trPlanPosition DETAILS res: ", res);
+          console.log("trExcutedPosition DETAILS res: ", res);
 
           if (res) {
 
             this.dataSourcePosition = new MatTableDataSource(res);
             this.dataSourcePosition.paginator = this.paginator;
             this.dataSourcePosition.sort = this.sort;
+
+          }
+        },
+        error: (err) => {
+          // console.log("fetch items data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+    }
+  }
+
+  getAllDetailsTraineeForms() {
+
+    console.log("mastered row get excuted Trainee details data: ", this.getMasterRowId)
+    if (this.getMasterRowId) {
+      this.api.getTrExcutedTraineeByHeaderId(this.getMasterRowId.id).subscribe({
+        next: (res) => {
+
+          // this.matchedIds = res;
+          console.log("trexcutedTrainee DETAILS res: ", res);
+
+          if (res) {
+
+            this.dataSourceTrainee = new MatTableDataSource(res);
+            this.dataSourceTrainee.paginator = this.paginator;
+            this.dataSourceTrainee.sort = this.sort;
 
           }
         },
@@ -601,6 +631,24 @@ export class TrExcutedDialogComponent implements OnInit {
     }
   }
 
+  deleteFormDetailsTrainee(id: number) {
+    console.log('details id: ', id);
+
+    var result = confirm('هل ترغب بتاكيد الحذف ؟');
+    if (result) {
+      this.api.deleteTrExcutedTrainee(id).subscribe({
+        next: (res) => {
+          this.toastrDeleteSuccess();
+          // this.getAllDetailsFinancierForms();
+          this.getAllDetailsTraineeForms();
+        },
+        error: () => {
+          // alert("خطأ أثناء حذف التفاصيل !!");
+        },
+      });
+    }
+  }
+
   editDetailsInstrutcorForm(row: any) {
     this.dialog
       .open(TrExcutedInstructorDetailsDialogComponent, {
@@ -628,6 +676,22 @@ export class TrExcutedDialogComponent implements OnInit {
       .subscribe((val) => {
         if (val === 'save' || val === 'update') {
           this.getAllDetailsPositionForms();
+        }
+      });
+  }
+
+  editDetailsTraineeForm(row: any) {
+    console.log("trainee details row: ", row);
+    this.dialog
+      .open(TrExcutedTraineeDetailsDialogComponent, {
+        width: '40%',
+        height: '78%',
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save' || val === 'update') {
+          this.getAllDetailsTraineeForms();
         }
       });
   }
@@ -719,6 +783,21 @@ export class TrExcutedDialogComponent implements OnInit {
       .subscribe((val) => {
         if (val === 'save' || val === 'update') {
           this.getAllDetailsPositionForms();
+        }
+      });
+  }
+
+  OpenDetailsTraineeDialog() {
+    this.router.navigate(['/TrExcuted', { masterId: this.getMasterRowId.id }]);
+    this.dialog
+      .open(TrExcutedTraineeDetailsDialogComponent, {
+        width: '40%',
+        height: '78%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'save' || val === 'update') {
+          this.getAllDetailsTraineeForms();
         }
       });
   }
