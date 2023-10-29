@@ -275,6 +275,10 @@ import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
 import { CcEquipmentDailogComponent } from './modules/cc/index/cc-equipment-dailog/cc-equipment-dailog.component';
 import { TrExcutedFinancierDetailsDialogComponent } from './modules/training/index/tr-excuted-financier-details-dialog/tr-excuted-financier-details-dialog.component';
+import { CcEntryTableComponent } from './modules/cc/index/cc-entry-table/cc-entry-table.component';
+import { CcEntryDialogComponent } from './modules/cc/index/cc-entry-dialog/cc-entry-dialog.component';
+import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
+import { CcEntryDetailsDialogComponent } from './modules/cc/index/cc-entry-details-dialog/cc-entry-details-dialog.component';
 
 
 
@@ -532,6 +536,10 @@ import { TrExcutedFinancierDetailsDialogComponent } from './modules/training/ind
     CcEquipmentComponent,
     CcEquipmentDailogComponent,
     TrExcutedFinancierDetailsDialogComponent,
+    CcEntryTableComponent,
+    CcEntryDialogComponent,
+    CcEntryContainerComponent,
+    CcEntryDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,
