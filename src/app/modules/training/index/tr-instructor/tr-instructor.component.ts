@@ -9,6 +9,7 @@ import { TrInstructorDialogComponent } from '../tr-instructor-dialog/tr-instruct
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-tr-instructor',
@@ -22,7 +23,9 @@ export class TrInstructorComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService,global:GlobalService) {
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
+   }
 
   ngOnInit(): void {
     this.getTrInstructor();
@@ -70,10 +73,43 @@ export class TrInstructorComponent {
     })
   }
 
-  daleteTrInstructor(id: number) {
+  daleteTrInstructor(row: any) {
+    if ( row.type != 'خارجي') {
+      this.daleteTrEmpInstructor(row.id);
+    }
+    else if ( row.type == 'خارجي') {
+        this.daleteTrEmpInstructor(row.id);
+        this.daleteTrExtInstructor(row.instructorDataId);
+    }
+  }
+
+  daleteTrEmpInstructor(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteTrInstructor(id)
+        .subscribe({
+          next: (res) => {
+            if (res == 'Succeeded') {
+              // console.log("res of deletestore:", res)
+              // alert('تم الحذف بنجاح');
+              this.toastrDeleteSuccess();
+              this.getTrInstructor();
+
+            } else {
+              alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+            }
+          },
+          error: () => {
+            alert('خطأ فى حذف العنصر');
+          },
+        });
+    }
+  }
+
+  daleteTrExtInstructor(id: number) {
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.deleteTrEtrInstructor(id)
         .subscribe({
           next: (res) => {
             if (res == 'Succeeded') {

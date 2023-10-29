@@ -8,8 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
-
-import { FiEntryDialogComponent } from '../fi-entry-dialog/fi-entry-dialog.component';
+import { CcEntryDialogComponent } from '../cc-entry-dialog/cc-entry-dialog.component'; 
 import {
   FormControl,
   FormControlName,
@@ -20,7 +19,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/pages/services/global.service';
 
-interface ccEntry {
+interface ccEntry{
   no: string;
   balance: string;
   creditTotal: string;
@@ -37,12 +36,12 @@ export class Account {
 }
 
 @Component({
-  selector: 'app-fi-entry-table',
-  templateUrl: './fi-entry-table.component.html',
-  styleUrls: ['./fi-entry-table.component.css'],
+  selector: 'app-cc-entry-table',
+  templateUrl: './cc-entry-table.component.html',
+  styleUrls: ['./cc-entry-table.component.css']
 })
-export class FiEntryTableComponent implements OnInit {
-  ELEMENT_DATA: ccEntry[] = [];
+export class CcEntryTableComponent implements OnInit {
+  ELEMENT_DATA:ccEntry[] = [];
   isLoading = false;
   totalRows = 0;
   pageSize = 5;
@@ -54,9 +53,6 @@ export class FiEntryTableComponent implements OnInit {
     'balance',
     'creditTotal',
     'debitTotal',
-    'journalName',
-    'entrySourceTypeName',
-    'state',
     'date',
     'Action',
   ];
@@ -110,9 +106,7 @@ export class FiEntryTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllMasterForms();
-    this.getJournals();
     this.getFiAccounts();
-    this.getFiEntrySource();
     this.getFiscalYears();
 
     this.groupMasterForm = this.formBuilder.group({
@@ -125,30 +119,6 @@ export class FiEntryTableComponent implements OnInit {
       FiscalYearId: [''],
       Description: ['']
     });
-
-
-    // this.groupDetailsForm = this.formBuilder.group({
-    //   stR_WithdrawId: [''], //MasterId
-    //   employeeId: [''],
-    //   qty: [''],
-    //   percentage: [''],
-    //   price: [''],
-    //   total: [''],
-    //   transactionUserId: [1],
-    //   destStoreUserId: [1],
-    //   itemId: [''],
-    //   stateId: [''], item: [''],
-
-    //   // withDrawNoId: ['' ],
-
-    //   itemName: [''],
-    //   // avgPrice: [''],
-
-    //   stateName: [''],
-
-    //   // notesName: [''],
-    // });
-
   }
 
   private _filterAccounts(value: string): Account[] {
@@ -177,9 +147,9 @@ export class FiEntryTableComponent implements OnInit {
     this.accountCtrl.updateValueAndValidity();
   }
 
-  openFiEntryDialog() {
+  openCcEntryDialog() {
     this.dialog
-      .open(FiEntryDialogComponent, {
+      .open(CcEntryDialogComponent, {
         width: '95%',
         height: '79%'
       })
@@ -207,7 +177,7 @@ export class FiEntryTableComponent implements OnInit {
       // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
 
 
-      fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
+      fetch(this.api.getCcEntryPaginate(this.currentPage, this.pageSize))
         .then(response => response.json())
         .then(data => {
           this.totalRows = data.length;
@@ -231,7 +201,7 @@ export class FiEntryTableComponent implements OnInit {
       // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
 
 
-      fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
+      fetch(this.api.getCcEntryPaginate(this.currentPage, this.pageSize))
         .then(response => response.json())
         .then(data => {
           this.totalRows = data.length;
@@ -250,21 +220,6 @@ export class FiEntryTableComponent implements OnInit {
           this.isLoading = false;
         });
     }
-
-    // }
-
-    // this.api.getFiEntry().subscribe({
-    //   next: (res) => {
-    //     console.log('fiEntry from api: ', res);
-    //     this.dataSource2 = new MatTableDataSource(res);
-    //     this.dataSource2.paginator = this.paginator;
-    //     this.dataSource2.sort = this.sort;
-    //     this.groupMasterForm.reset()
-    //   },
-    //   error: () => {
-    //     // alert('خطأ أثناء جلب سجلات المدخلات !!');
-    //   },
-    // });
   }
 
   pageChanged(event: PageEvent) {
@@ -275,18 +230,7 @@ export class FiEntryTableComponent implements OnInit {
     this.getAllMasterForms();
   }
 
-  getJournals() {
-    this.api.getJournals().subscribe({
-      next: (res) => {
-        this.journalsList = res;
-        console.log('journals res: ', this.journalsList);
-      },
-      error: (err) => {
-        console.log('fetch journals data err: ', err);
-        // alert('خطا اثناء جلب الدفاتر !');
-      },
-    });
-  }
+ 
 
   getFiAccounts() {
     this.api.getFiAccounts().subscribe({
@@ -329,7 +273,7 @@ export class FiEntryTableComponent implements OnInit {
 
   editMasterForm(row: any) {
     this.dialog
-      .open(FiEntryDialogComponent, {
+      .open(CcEntryDialogComponent, {
         width: '95%',
         height: '79%',
         data: row,
@@ -343,7 +287,7 @@ export class FiEntryTableComponent implements OnInit {
   }
 
   deleteBothForms(id: number) {
-    this.api.getFiEntryDetails()
+    this.api.getCcEntryDetails()
       .subscribe({
         next: (res) => {
 
@@ -362,11 +306,11 @@ export class FiEntryTableComponent implements OnInit {
               );
 
               if (result) {
-                this.api.deleteFiEntryDetails(this.matchedIds[i].id).subscribe({
+                this.api.deleteCcEntryDetails(this.matchedIds[i].id).subscribe({
                   next: (res) => {
                     console.log('master id to be deleted: ', id);
 
-                    this.api.deleteFiEntry(id).subscribe({
+                    this.api.deleteCcEntry(id).subscribe({
                       next: (res) => {
                         // alert('تم حذف الرئيسي بنجاح');
                         this.getAllMasterForms();
@@ -386,7 +330,7 @@ export class FiEntryTableComponent implements OnInit {
             if (result) {
               console.log('master id to be deleted: ', id);
 
-              this.api.deleteFiEntry(id).subscribe({
+              this.api.deleteCcEntry(id).subscribe({
                 next: (res) => {
                   // alert('تم حذف الرئيسي بنجاح');
                   this.toastrDeleteSuccess();
@@ -409,22 +353,20 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
-  getSearchFiEntry(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any) {
+  getSearchCcEntry(no: any,  startDate: any, endDate: any, FiscalYearId: any, Description: any) {
     let accountId = this.groupMasterForm.getRawValue().AccountId;
 
     console.log(
       'no.: ', no,
-      'journalId: ', journalId,
       'accountId : ', accountId,
       'startDate: ', startDate,
       'endDate: ', endDate,
-      'sourceId: ', sourceId,
       'FiscalYearId', FiscalYearId,
       'Description', Description
     );
 
     this.api
-      .getFiEntrySearach(no, journalId, accountId, startDate, endDate, sourceId, FiscalYearId, Description)
+      .getFiEntrySearach(no,accountId, startDate, endDate, FiscalYearId, Description)
       .subscribe({
         next: (res) => {
           console.log('search fiEntry res: ', res);
@@ -438,11 +380,11 @@ export class FiEntryTableComponent implements OnInit {
         },
       });
   }
-    previewPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report:any,reportType:any) {
+    previewPrint(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any, report:any,reportType:any) {
       
   if(report!= null && reportType!=null){
       this.api
-        .getFiEntryReport(no, journalId, startDate,endDate, sourceId, FiscalYearId, Description,report,reportType)
+        .getFiEntryReport(no, startDate,endDate, FiscalYearId, Description,report,reportType)
         .subscribe({
           next: (res) => {
             let blob: Blob = res.body as Blob;
@@ -453,10 +395,6 @@ export class FiEntryTableComponent implements OnInit {
             this.dialog.open(PrintDialogComponent, {
               width: '50%',
             });
-
-            // this.dataSource = res;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
           },
           error: (err) => {
             console.log('eroorr', err);
@@ -469,25 +407,15 @@ export class FiEntryTableComponent implements OnInit {
     }
 
 
-    downloadPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report:any,reportType:any) {
-      // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-      // let employee = this.groupMasterForm.getRawValue().employeeId;
-      // let item = this.groupDetailsForm.getRawValue().itemId;
-      // let store = this.groupMasterForm.getRawValue().storeId;
-
+    downloadPrint(no: any,  startDate: any, endDate: any,  FiscalYearId: any, Description: any, report:any,reportType:any) {
+      
       this.api
-      .getFiEntryReport(no, journalId, startDate,endDate, sourceId, FiscalYearId, Description,report,reportType)
+      .getFiEntryReport(no, startDate,endDate,  FiscalYearId, Description,report,reportType)
       .subscribe({
           next: (res) => {
             console.log('search:', res);
             const url: any = res.url;
             window.open(url);
-            // let blob: Blob = res.body as Blob;
-            // let url = window.URL.createObjectURL(blob);
-
-            // this.dataSource = res;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
           },
           error: (err) => {
             console.log('eroorr', err);

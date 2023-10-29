@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { TrInstructorCourseDialogComponent } from '../tr-instructor-course-dialog/tr-instructor-course-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-tr-instructor-course',
@@ -25,8 +26,8 @@ export class TrInstructorCourseComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
-  
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,global:GlobalService) {
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
   }
   ngOnInit(): void {
 

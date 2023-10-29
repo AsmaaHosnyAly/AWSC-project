@@ -31,7 +31,7 @@
               *ngFor="let instructor of filteredInstructors | async"
               [value]="instructor"
             >
-              {{ instructor.employeeName }}
+              {{ instructor.headerName }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -90,24 +90,6 @@
         ></textarea>
       </div>
 
-
-
-      <div class="child1">
-        <label id="example-radio-group-label" class="lable-radio"
-          >النشاط</label
-        >
-        <mat-radio-group
-          formControlName="isActive"
-          class="example-radio-group"
-        >
-          <mat-radio-button class="example-radio-button" [value]="true">
-            نشط
-          </mat-radio-button>
-          <mat-radio-button class="example-radio-button" [value]="false">
-            غير نشط
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
     </form>
     <div mat-dialog-actions>
       <button

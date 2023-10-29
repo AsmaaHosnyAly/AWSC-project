@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { TrTrainingCenterDialogComponent } from '../tr-training-center-dialog/tr-training-center-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-tr-training-center',
@@ -25,8 +26,8 @@ export class TrTrainingCenterComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
-  
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,global:GlobalService) {
+    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', '')
   }
   ngOnInit(): void {
 

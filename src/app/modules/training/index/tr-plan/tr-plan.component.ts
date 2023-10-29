@@ -17,6 +17,7 @@ import {
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TrPlanDialogComponent } from '../tr-plan-dialog/tr-plan-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 
 interface TrPlan {
@@ -71,8 +72,11 @@ export class TrPlanComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    global:GlobalService
+  ) { 
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();
@@ -190,39 +194,79 @@ export class TrPlanComponent implements OnInit {
       });
   }
 
-  // deleteAllForms(id: number) {
-  //   this.masterRowIdDelete = id;
-  //   var result = confirm('تاكيد الحذف ؟ ');
+  deleteAllForms(id: number) {
+    this.masterRowIdDelete = id;
+    var result = confirm('تاكيد الحذف ؟ ');
 
-  //   if (result) {
-  //     this.api.deletePyItemGroup(id).subscribe({
-  //       next: (res) => {
-  //         this.api.getPyItemGroupDetailsByHeaderId(id)
-  //           .subscribe({
-  //             next: (res) => {
+    if (result) {
+      // this.api.deletePyItemGroup(id).subscribe({
+      //   next: (res) => {
+      this.api.getTrPlanFinancierDetailsByHeaderId(id)
+        .subscribe({
+          next: async (res) => {
 
-  //               this.matchedIds = res;
+            this.matchedIds = res;
 
-  //               for (let i = 0; i < this.matchedIds.length; i++) {
-  //                 this.deleteFormDetails(this.matchedIds[i].id);
-  //                 this.deleteFormDetailsEmployee(this.matchedIds[i].id);
-  //               }
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              await this.deleteDetailsFinancier(this.matchedIds[i].id);
+            }
 
-  //             },
-  //             error: (err) => {
-  //               this.toastrDeleteError();
+            this.api.getTrPlanInstructor()
+              .subscribe({
+                next: async (res) => {
 
-  //             }
-  //           })
+                  this.matchedIds = res.filter((a: any) => {
+                    return a.planId == id
+                  });
 
-  //         this.getAllMasterForms();
-  //       },
-  //       error: () => {
-  //         // alert('خطأ أثناء حذف المجموعة !!');
-  //       },
-  //     });
-  //   }
-  // }
+                  for (let i = 0; i < this.matchedIds.length; i++) {
+                    await this.deleteDetailsInstructor(this.matchedIds[i].id);
+                  }
+
+                  this.api.getTrPlanPositionByHeaderId(id)
+                    .subscribe({
+                      next: async (res) => {
+
+                        this.matchedIds = res;
+
+                        for (let i = 0; i < this.matchedIds.length; i++) {
+                          await this.deleteDetailsPosition(this.matchedIds[i].id);
+                        }
+
+                        await this.deleteMaster();
+
+
+
+                      },
+                      // error: (err) => {
+                      //   this.toastrDeleteError();
+
+                      // }
+                    })
+
+
+                },
+                // error: (err) => {
+                //   this.toastrDeleteError();
+
+                // }
+              })
+
+          },
+          // error: (err) => {
+          //   this.toastrDeleteError();
+
+          // }
+        })
+
+      // this.getAllMasterForms();
+      // },
+      // error: () => {
+      // alert('خطأ أثناء حذف المجموعة !!');
+      //   },
+      // });
+    }
+  }
 
   deleteMaster() {
     this.api.deleteTrPlan(this.masterRowIdDelete).subscribe({
@@ -236,31 +280,43 @@ export class TrPlanComponent implements OnInit {
     });
   }
 
-  // deleteFormDetails(id: number) {
-  //   this.api.deletePyItemGroupDetails(id).subscribe({
-  //     next: (res) => {
-  //       // this.toastrDeleteSuccess();
-  //       this.deleteMaster();
-  //       this.getAllMasterForms();
-  //     },
-  //     error: (err) => {
-  //       this.toastrDeleteError();
-  //     },
-  //   });
-  // }
+  deleteDetailsFinancier(id: any) {
+    // console.log("financier id: ", id);
+    this.api.deleteTrPlanFinancier(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
 
-  // deleteFormDetailsEmployee(id: number) {
-  //   this.api.deletePyItemGroupEmployee(id).subscribe({
-  //     next: (res) => {
-  //       // this.toastrDeleteSuccess();
-  //       this.deleteMaster();
-  //       this.getAllMasterForms();
-  //     },
-  //     error: (err) => {
-  //       this.toastrDeleteError();
-  //     },
-  //   });
-  // }
+  }
+
+  deleteDetailsInstructor(id: any) {
+    this.api.deleteTrPlanInstructor(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+  }
+
+  deleteDetailsPosition(id: any) {
+    this.api.deleteTrPlanPosition(id).subscribe({
+      next: (res) => {
+        // this.toastrDeleteSuccess();
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        this.toastrDeleteError();
+      },
+    });
+  }
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');

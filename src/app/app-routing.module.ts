@@ -166,6 +166,7 @@ import { CcPlantComponentComponent } from './modules/cc/index/cc-plant-component
 import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
 import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excuted.component';
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
+import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
 import { CcReportsComponent } from './modules/cc/index/cc-reports/cc-reports.component';
 // import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 const routes: Routes = [
@@ -648,6 +649,7 @@ const routes: Routes = [
   { path: 'PyItemCategory', component: PyItemCategoryComponent },
   { path: 'pytaxbracket', component: PyTaxBracketComponent },
   { path: 'PyItemGroup', component: PyGroupComponent },
+  
   /*********************End py module  المرتبات***************************/
 
   //  report section
@@ -661,18 +663,14 @@ const routes: Routes = [
   ////////////////////////////////CC///////////////////
   
   { path: 'Cc-activity', component: CcActivityComponent },
-  
   { path: 'Cc-Function', component: CcFunctionComponent },
-  
   { path: 'Cc-Region', component: CcRegionComponent },
   { path: 'Cc-SubRegion', component: CcSubRegionComponent },
   { path: 'Cc-plant', component: CcPlantComponent},
-  
   { path: 'Cc-Source', component: CcSourceComponent },
-  
-
   { path: 'Cc-PlantComponent', component: CcPlantComponentComponent },
   { path: 'Cc-Equipment',component:CcEquipmentComponent},
+  { path: 'Cc-Entry',component:CcEntryContainerComponent},
   { path: 'Cc-Reports',component:  CcReportsComponent
 },
 

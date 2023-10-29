@@ -9,6 +9,7 @@ export enum PagesEnums {
   HR='HR',
   ATTENDANDCE='Attendance',
   PY='PY',
+  TR='TR',
   
 
   /*************USER_ROLES***************/
