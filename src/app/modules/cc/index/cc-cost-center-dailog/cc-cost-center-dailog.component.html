@@ -1,0 +1,131 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل مركز التكاليف   ' : 'إضافة مركز التكاليف جديد'}}</h1>
+  <form [formGroup]="equipmentForm" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="equipmentForm">
+        
+          <mat-form-field appearance="outline">
+            <mat-label>الاسم</mat-label>
+            <input formControlName="name" matInput placeholder="ادخل الاسم">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>الكود</mat-label>
+            <input formControlName="code" matInput placeholder="ادخل الكود">
+          </mat-form-field>
+          <mat-label>اسم  الوظيفى
+
+            
+          </mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="functionn" [matAutocomplete]="autoFunctionn" [formControl]="functionnCtrl"
+              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoFunctionn()" required />
+            <mat-autocomplete #autoFunctionn="matAutocomplete" [displayWith]="displayFunctionnName"
+              (optionSelected)="functionnSelected($event)">
+              <mat-option *ngFor="let functionn of filteredFunctionnes | async" [value]="functionn">
+                {{ functionn.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-label>اسم  المصدر
+
+            
+          </mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="source" [matAutocomplete]="autoSource" [formControl]="sourceCtrl"
+              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoSource()" required />
+            <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySourceName"
+              (optionSelected)="sourceSelected($event)">
+              <mat-option *ngFor="let source of filteredSources | async" [value]="source">
+                {{ source.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-label>اسم  المنطقة
+
+            
+          </mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="region" [matAutocomplete]="autoRegion" [formControl]="regionCtrl"
+              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoRegion()" required />
+            <mat-autocomplete #autoRegion="matAutocomplete" [displayWith]="displayRegionName"
+              (optionSelected)="regionSelected($event)">
+              <mat-option *ngFor="let region of filteredRegiones | async" [value]="region">
+                {{ region.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-label>اسم  المنطقة الفرعية
+
+            
+          </mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="subRegion" [matAutocomplete]="autoSubRegion" [formControl]="subRegionCtrl"
+              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoSubRegion()" required />
+            <mat-autocomplete #autoSubRegion="matAutocomplete" [displayWith]="displaySubRegionName"
+              (optionSelected)="subRegionSelected($event)">
+              <mat-option *ngFor="let subRegion of filteredSubRegiones | async" [value]="subRegion">
+                {{ subRegion.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-label>اسم  النبات
+
+            
+          </mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="plant" [matAutocomplete]="autoPlant" [formControl]="plantCtrl"
+              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoPlant()" required />
+            <mat-autocomplete #autoPlant="matAutocomplete" [displayWith]="displayPlantName"
+              (optionSelected)="plantSelected($event)">
+              <mat-option *ngFor="let plant of filteredPlantes | async" [value]="plant">
+                {{ plant.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-label>اسم مكون النبات 
+
+            
+          </mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="plantComponent" [matAutocomplete]="autoPlantComponent" [formControl]="plantComponentCtrl"
+              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoPlantComponent()" required />
+            <mat-autocomplete #autoPlantComponent="matAutocomplete" [displayWith]="displayPlantComponentName"
+              (optionSelected)="plantComponentSelected($event)">
+              <mat-option *ngFor="let plantComponent of filteredPlantComponentes | async" [value]="plantComponent">
+                {{ plantComponent.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-label>اسم  النشاط
+
+            
+          </mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="activity" [matAutocomplete]="autoActivity" [formControl]="activityCtrl"
+              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoActivity()" required />
+            <mat-autocomplete #autoActivity="matAutocomplete" [displayWith]="displayActivityName"
+              (optionSelected)="activitySelected($event)">
+              <mat-option *ngFor="let activity of filteredActivityes | async" [value]="activity">
+                {{ activity.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+       
+        </form>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn"  (click)="addPlant()" style="margin-left: 8px;">{{actionBtn}}</button>
+      </div>
+    </form>
+
+

@@ -149,12 +149,12 @@ export class CcEquipmentComponent {
   }
   
 
-  openAutoSubRegion() {
-    this.costCenterCtrl.setValue(''); // Clear the input field value
+  // openAutoSubRegion() {
+  //   this.costCenterCtrl.setValue(''); // Clear the input field value
   
     // Open the autocomplete dropdown by triggering the value change event
-    this.costCenterCtrl.updateValueAndValidity();
-  }
+  //   this.costCenterCtrl.updateValueAndValidity();
+  // }
   
   // async getSearchModels(name: any) {
   //   this.api.getPlant().subscribe({

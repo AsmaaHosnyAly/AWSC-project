@@ -160,6 +160,7 @@ import { CcSourceComponent } from './modules/cc/index/cc-source/cc-source.compon
 import { CcPlantComponentComponent } from './modules/cc/index/cc-plant-component/cc-plant-component.component';
 import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
+import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -653,7 +654,7 @@ const routes: Routes = [
 
   { path: 'Cc-PlantComponent', component: CcPlantComponentComponent },
   { path: 'Cc-Equipment',component:CcEquipmentComponent},
-
+  { path: 'CC-Cost-center',component:CcCostCenterComponent},
 ],
   },
 ];
