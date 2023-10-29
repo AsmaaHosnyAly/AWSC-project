@@ -243,7 +243,7 @@ export class TrTrackTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save' || val === 'update') {
+        if (val === 'Save' || val === 'Update') {
           this.getAllMasterForms();
         }
       });
@@ -419,7 +419,7 @@ export class TrTrackTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update' || val === 'save') {
+        if (val === 'Update' || val === 'Save') {
           this.getAllMasterForms();
         }
       });
