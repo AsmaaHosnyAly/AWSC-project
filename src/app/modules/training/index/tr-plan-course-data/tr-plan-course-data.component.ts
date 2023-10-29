@@ -28,7 +28,9 @@ export class course {
   constructor(public id: number, public name: string,public global:GlobalService) {}
 }
 export class traingingCenter {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string,public global:GlobalService) {
+   
+  }
 }
 @Component({
   selector: 'app-tr-plan-course-data',
@@ -57,6 +59,7 @@ export class TrPlanCourseDataComponent{
   
   constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     this.courseCtrl = new FormControl();
+    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', '')
     this.filteredCourses = this.courseCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterCourses(value))
