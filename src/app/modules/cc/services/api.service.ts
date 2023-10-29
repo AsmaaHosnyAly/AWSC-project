@@ -12,7 +12,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
-
+  mycondition: any;
 
   ///////////////////ccActivity//////////////////
   getCcActivity() {
@@ -193,4 +193,73 @@ export class ApiService {
 
     return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
   }
+
+
+
+  ////////////////CcCostCenter///////////////////////////////////////
+  getCcCostCenter() {
+
+    return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
+  }
+  putCcCostCenter(data: any) {
+    console.log("data in post:",data)
+    return this.http.put<any>(
+      `${this.url}/CcCostCenter/update`,
+      data
+    );
+  }
+  deleteCcCostCenter(id: number) {
+    console.log("id in cc CostCenter:",id)
+    return this.http.delete<any>(
+      `${this.url}/CcCostCenter/delete/${id}`
+    );
+  }
+  postCcCostCenter(data: any) {
+    return this.http.post<any>(`${this.url}/CcCostCenter/Add`, data);
+  }
+
+  //////////////////////////Reports/////////////////////////////////////
+  getAccountreports(
+  
+    StartDate: any, EndDate: any,account: any, report: any, reportType: any
+  ) {
+    console.log(
+     
+     
+      'startdate: ',
+      StartDate,'account',account,
+     
+      'reportName:', report, 'reportType:', reportType
+  
+    );
+    `${this.url}/FIAccount/get/Report?`;
+    this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+  
+    
+   
+  
+  
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+    }
+  
+   
+    if (!account == false) {
+      this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+    }
+    
+    
+  
+    console.log('url', this.mycondition);
+  
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+  
 }
