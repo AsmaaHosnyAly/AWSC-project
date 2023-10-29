@@ -362,10 +362,10 @@ export class ApiService {
   getTrPlan() {
     return this.http.get<any>(`${this.url}/TrPlan/get/all`);
   }
-  // getPyItemGroupPaginate(currentPage: any, pageSize: any) {
-  //   let urlPassed = `${this.url}/PyItemGroup/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
-  //   return urlPassed;
-  // }
+  getTrPlanPaginate(currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/TrPlan/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putTrPlan(data: any) {
     return this.http.put<any>(`${this.url}/TrPlan/update`, data);
   }

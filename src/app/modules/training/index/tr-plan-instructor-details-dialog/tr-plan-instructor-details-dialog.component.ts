@@ -177,7 +177,7 @@ export class TrPlanInstructorDetailsDialogComponent implements OnInit {
 
       console.log("Enteeeeerrr edit condition: ", this.planInstructorsForm.value)
 
-      this.api.putTrInstructor(this.planInstructorsForm.value)
+      this.api.putTrPlanInstructor(this.planInstructorsForm.value)
         .subscribe({
           next: (res) => {
             this.toastrSuccess();

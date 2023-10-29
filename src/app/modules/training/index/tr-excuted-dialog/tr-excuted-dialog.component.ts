@@ -714,20 +714,9 @@ export class TrExcutedDialogComponent implements OnInit {
   }
 
 
-  // getAllMasterForms() {
-  //   this.dialogRef.close('save');
-
-  //   this.api.getTrPlan().subscribe({
-  //     next: (res) => {
-  //       this.dataSource = new MatTableDataSource(res);
-  //       this.dataSource.paginator = this.paginator;
-  //       this.dataSource.sort = this.sort;
-  //     },
-  //     error: () => {
-  //       // alert("خطأ أثناء جلب سجلات المجموعة !!");
-  //     },
-  //   });
-  // }
+  getAllMasterForms() {
+    this.dialogRef.close('save');
+  }
 
   async updateMaster() {
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
