@@ -1,5 +1,5 @@
 <div class="cdk-overlay-pane  ">
-    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+    <button class="close" mat-button mat-dialog-close (click)="getAllMasterForms()"> <mat-icon> clear</mat-icon></button>
 </div>
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل التنفيذ ' : 'إضافة تنفيذ '}}</h1>
 
@@ -202,11 +202,14 @@
 
                     <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoMaterialPurpose"
-                            [formControl]="materialPurposeCtrl" placeholder="{{editData ? editData.materialPurposeName : ''}}"
+                            [formControl]="materialPurposeCtrl"
+                            placeholder="{{editData ? editData.materialPurposeName : ''}}"
                             (click)="openAutoMaterialPurpose()" required />
-                        <mat-autocomplete #autoMaterialPurpose="matAutocomplete" [displayWith]="displayMaterialPurposeName"
+                        <mat-autocomplete #autoMaterialPurpose="matAutocomplete"
+                            [displayWith]="displayMaterialPurposeName"
                             (optionSelected)="MaterialPurposeSelected($event)">
-                            <mat-option *ngFor="let materialPurpose of filteredMaterialPurpose | async" [value]="materialPurpose">
+                            <mat-option *ngFor="let materialPurpose of filteredMaterialPurpose | async"
+                                [value]="materialPurpose">
                                 {{ materialPurpose.name }}
                             </mat-option>
                         </mat-autocomplete>
@@ -221,14 +224,11 @@
 
                     <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoDelegate"
-                            [formControl]="delegateCtrl"
-                            placeholder="{{editData ? editData.delegateName : ''}}"
+                            [formControl]="delegateCtrl" placeholder="{{editData ? editData.delegateId : ''}}"
                             (click)="openAutoDelegate()" required />
-                        <mat-autocomplete #autoDelegate="matAutocomplete"
-                            [displayWith]="displayDelegateName"
+                        <mat-autocomplete #autoDelegate="matAutocomplete" [displayWith]="displayDelegateName"
                             (optionSelected)="DelegateSelected($event)">
-                            <mat-option *ngFor="let delegate of filteredDelegate | async"
-                                [value]="delegate">
+                            <mat-option *ngFor="let delegate of filteredDelegate | async" [value]="delegate">
                                 {{ delegate.name }}
                             </mat-option>
                         </mat-autocomplete>
@@ -236,7 +236,7 @@
 
                 </div>
             </div>
-            
+
 
         </div>
 
@@ -316,10 +316,10 @@
 
                     <table mat-table [dataSource]="dataSourceInstructor" matSort class="headerTable">
 
-                        <!-- name Column -->
-                        <ng-container matColumnDef="headerName">
+                        <!-- instructorId Column -->
+                        <ng-container matColumnDef="instructorId">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> المدرب</th>
-                            <td mat-cell *matCellDef="let row"> {{row.headerName}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.instructorId}} </td>
                         </ng-container>
 
                         <!-- action Column -->
@@ -378,6 +378,46 @@
 
                         <tr mat-header-row *matHeaderRowDef="displayedPositionsColumns; sticky: true"></tr>
                         <tr mat-row *matRowDef="let emprow; columns: displayedPositionsColumns"></tr>
+
+                    </table>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+                </div>
+            </mat-tab>
+
+
+            <mat-tab label="تفاصيل المتدربين">
+                <div class="groupAction" style="margin-top: 5%; margin-right: -60%;">
+                    <button mat-raised-button class="savebtn" (click)="OpenDetailsTraineeDialog()">اضافة
+                        بند</button>
+
+                </div>
+
+                <div class="tableFixHead">
+
+                    <table mat-table [dataSource]="dataSourceTrainee" matSort class="headerTable">
+
+                        <!-- headerDelegateName Column -->
+                        <ng-container matColumnDef="headerDelegateName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> المتدرب</th>
+                            <td mat-cell *matCellDef="let row"> {{row.headerDelegateName}} </td>
+                        </ng-container>
+
+                        <!-- action Column -->
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> الاجراء
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-icon-button color="primary" (click)="editDetailsTraineeForm(row)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" (click)="deleteFormDetailsTrainee(row.id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedTraineesColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let emprow; columns: displayedTraineesColumns"></tr>
 
                     </table>
                     <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->

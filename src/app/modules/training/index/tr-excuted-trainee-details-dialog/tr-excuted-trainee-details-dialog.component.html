@@ -1,1 +1,59 @@
-<p>tr-excuted-trainee-details-dialog works!</p>
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
+            clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1"> {{editData ? 'تعديل تفاصيل جهة المتدربين ' : 'اكمل تفاصيل المتدربين '}} </h1>
+
+
+<form [formGroup]="excutedTraineesForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important;">
+
+
+
+    <div style="overflow: hidden !important;">
+        <div class="detailsForm" dir="rtl">
+
+            <div style="display: flex; flex-direction: column;">
+                <mat-label> الموظف* </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+                        placeholder="{{editData ? editData.employeeId: ''}}" (click)="openAutoEmployee()" required />
+                    <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                        (optionSelected)="EmployeeSelected($event)">
+                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                            {{ employee.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <mat-label> المتدرب* </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoTrainee" [formControl]="traineeCtrl"
+                        placeholder="{{editData ? editData.traineeId: ''}}" (click)="openAutoTrainee()" required />
+                    <mat-autocomplete #autoTrainee="matAutocomplete" [displayWith]="displayTraineeName"
+                        (optionSelected)="TraineeSelected($event)">
+                        <mat-option *ngFor="let trainee of filteredTrainee | async" [value]="trainee">
+                            {{ trainee.name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div mat-dialog-action [align]="'end'">
+                <div class="groupAction">
+                    <button mat-raised-button color="primary" style="margin-left: 8px;"
+                        (click)="addDetailsInfo()">{{editData ?
+                        'تعديل':'اضافة'}}</button>
+                    <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
