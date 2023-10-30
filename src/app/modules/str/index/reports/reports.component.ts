@@ -26,6 +26,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { GlobalPositionStrategy } from '@angular/cdk/overlay';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class item {
   constructor(public id: number, public name: string ,public fullCode:number) { }
@@ -99,6 +101,7 @@ export class ReportsComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    global:GlobalService,
     @Inject(LOCALE_ID) private locale: string
   ) {
 
@@ -131,6 +134,7 @@ export class ReportsComponent implements OnInit {
       startWith(''),
       map((value) => this._filterstores(value))
     );
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
   }
 
   ngOnInit(): void {

@@ -99,7 +99,7 @@ export class FiEntryTableComponent implements OnInit {
     private toastr: ToastrService,
     private global:GlobalService
   ) {
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
     this.accountCtrl = new FormControl();
     this.filteredAccount = this.accountCtrl.valueChanges.pipe(
       startWith(''),

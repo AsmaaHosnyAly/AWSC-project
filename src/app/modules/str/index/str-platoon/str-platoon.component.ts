@@ -84,7 +84,7 @@ export class STRPlatoonComponent implements OnInit {
       map((value) => this._filterGrades(value))
     );
 
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
   }
   ngOnInit(): void {
     this.getAllPlatoons();

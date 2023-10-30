@@ -104,7 +104,7 @@ export class TrReportsComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
     global:GlobalService
   ) {
-    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', 'supervised_user_circle')
 
     // this.reportNameList = [
     //   {

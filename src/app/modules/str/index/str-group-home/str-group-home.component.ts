@@ -17,7 +17,7 @@ export class StrGroupHomeComponent {
   constructor(public global:GlobalService,public shared:SharedService){
     if(localStorage.getItem('token')) this.global.isLogIn = true
     console.log(this.global.isLogIn)
-    global.getPermissionUserRoles('الصفحة الرئيسية', 'stores', ' الصفحة الرئيسية', '')
+    global.getPermissionUserRoles('الصفحة الرئيسية', 'stores', ' الصفحة الرئيسية', 'home')
     // Retrieve the access token
     const accessToken: any = localStorage.getItem('accessToken');
     console.log('accessToken', accessToken);
