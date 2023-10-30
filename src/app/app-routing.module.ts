@@ -166,9 +166,7 @@ import { CcPlantComponentComponent } from './modules/cc/index/cc-plant-component
 import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
 import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excuted.component';
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
-import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
-import { CcReportsComponent } from './modules/cc/index/cc-reports/cc-reports.component';
-// import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
+import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -670,16 +668,7 @@ const routes: Routes = [
   { path: 'Cc-Source', component: CcSourceComponent },
   { path: 'Cc-PlantComponent', component: CcPlantComponentComponent },
   { path: 'Cc-Equipment',component:CcEquipmentComponent},
-  { path: 'Cc-Entry',component:CcEntryContainerComponent},
-  { path: 'Cc-Reports',component:  CcReportsComponent
-},
-
-
-
-//   { path: 'Cc-Costcenter',component:  CcCostCenterComponent
-// },
-
-
+  { path: 'Cc-costcenter',component:CcCostCenterComponent},
 ],
   },
 ];

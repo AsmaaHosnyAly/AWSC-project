@@ -274,6 +274,8 @@ import { CcPlantComponentDialogComponent } from './modules/cc/index/cc-plant-com
 import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-change-password-dialog/pr-user-change-password-dialog.component';
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
 import { CcEquipmentDailogComponent } from './modules/cc/index/cc-equipment-dailog/cc-equipment-dailog.component';
+import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
+import { CcCostCenterDailogComponent } from './modules/cc/index/cc-cost-center-dailog/cc-cost-center-dailog.component';
 import { TrExcutedFinancierDetailsDialogComponent } from './modules/training/index/tr-excuted-financier-details-dialog/tr-excuted-financier-details-dialog.component';
 import { CcEntryTableComponent } from './modules/cc/index/cc-entry-table/cc-entry-table.component';
 import { CcEntryDialogComponent } from './modules/cc/index/cc-entry-dialog/cc-entry-dialog.component';
@@ -543,6 +545,8 @@ import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.com
     PrUserChangePasswordDialogComponent,
     CcEquipmentComponent,
     CcEquipmentDailogComponent,
+    CcCostCenterComponent,
+    CcCostCenterDailogComponent,
     TrExcutedFinancierDetailsDialogComponent,
     CcEntryTableComponent,
     CcEntryDialogComponent,
