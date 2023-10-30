@@ -122,7 +122,7 @@ export class StrStockTakingDetailsDialogComponent {
       price: ['', Validators.required],
       total: ['', Validators.required],
       // state: ['', Validators.required],
-      percentage: ['', Validators.required],
+      // percentage: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
@@ -153,7 +153,7 @@ export class StrStockTakingDetailsDialogComponent {
       this.groupDetailsForm.controls['systemQty'].setValue(this.editData.systemQty);
       this.groupDetailsForm.controls['balance'].setValue(this.editData.balance);
       // this.groupDetailsForm.controls['state'].setValue(this.editData.state);
-      this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
+      // this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
       // this.groupDetailsForm.controls['date'].setValue(this.editData.date);
       // this.groupDetailsForm.controls['total'].setValue(this.editData.total);
       // this.toggleEdit();
@@ -283,7 +283,7 @@ export class StrStockTakingDetailsDialogComponent {
                 this.groupDetailsForm.reset();
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.groupDetailsForm.controls['systemQty'].setValue(1);
-                this.dialogRef.close('Update');
+                this.dialogRef.close('update');
                 // this.getAllDetailsForms();
 
                 this.itemCtrl.setValue('');
@@ -444,8 +444,8 @@ export class StrStockTakingDetailsDialogComponent {
     //   this.groupMasterForm.controls['id'].setValue(this.editData.id);
     // }
 
-    this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
-    this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+    // this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+    // this.groupDetailsForm.controls['id'].setValue(this.editData.id);
     this.groupDetailsForm.controls['balance'].setValue((parseFloat(this.groupDetailsForm.getRawValue().systemQty) - parseFloat(this.groupDetailsForm.getRawValue().qty)));
 
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
@@ -457,7 +457,7 @@ export class StrStockTakingDetailsDialogComponent {
     //   next: (res) => {
     if (this.groupDetailsForm.valid) {
 
-      this.api.putStrStockTakingDetails(this.groupDetailsForm.value)
+      this.api.putStrStockTakingDetails(this.groupDetailsForm.value, this.editData.id)
         .subscribe({
           next: (res) => {
 
@@ -472,7 +472,7 @@ export class StrStockTakingDetailsDialogComponent {
             this.groupDetailsForm.controls['qty'].setValue(1);
             this.groupDetailsForm.controls['systemQty'].setValue(1);
 
-            this.dialogRef.close('Save');
+            this.dialogRef.close('save');
 
           },
           error: (err) => {
