@@ -47,7 +47,7 @@ export class HrCityStateComponent {
   
   constructor(private global:GlobalService,private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
    
-    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', 'people')
     this.cityCtrl = new FormControl();
     this.filteredCities = this.cityCtrl.valueChanges.pipe(
       startWith(''),

@@ -75,7 +75,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     private toastr: ToastrService,
     private global:GlobalService
   ) {
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),

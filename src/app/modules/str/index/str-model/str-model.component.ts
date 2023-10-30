@@ -52,7 +52,7 @@ export class StrModelComponent {
       map((value) => this._filterVendores(value))
     );
 
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
   }
   ngOnInit(): void {
     // console.log(productForm)

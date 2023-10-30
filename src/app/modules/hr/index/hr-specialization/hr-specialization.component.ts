@@ -46,7 +46,7 @@ export class HrSpecializationComponent {
   //   id: 0,
   // };
   constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,private global:GlobalService) {
-    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', 'people')
     this.QualificationCtrl = new FormControl();
     this.filteredQualification = this.QualificationCtrl.valueChanges.pipe(
       startWith(''),

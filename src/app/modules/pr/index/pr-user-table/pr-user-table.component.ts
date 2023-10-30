@@ -43,7 +43,7 @@ export class PrUserTableComponent implements OnInit {
     private toastr: ToastrService,
     global: GlobalService
   ) {
-    global.getPermissionUserRoles('IT', '', 'الصلاحيات', '')
+    global.getPermissionUserRoles('IT', '', 'الصلاحيات', 'verified_user')
   }
 
   ngOnInit(): void {

@@ -25,7 +25,7 @@ export class STREmployeeOpeningCustodyComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
 constructor(private dialog: MatDialog, private api: ApiService, private global:GlobalService){
-  global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
+  global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
 
 }
 

@@ -34,7 +34,7 @@ export class HrPositionComponent  implements OnInit {
     private api: ApiService,
     private global:GlobalService
   ) {
-    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', 'people')
   }
   ngOnInit(): void {
     this.getAllPositions();

@@ -14,7 +14,7 @@ export class PrHomeComponent {
   decodedToken2:any
   
   constructor(private global:GlobalService){
-    global.getPermissionUserRoles('IT', '', 'الصلاحيات', '')
+    global.getPermissionUserRoles('IT', '', 'الصلاحيات', 'verified_user')
     const accessToken: any = localStorage.getItem('accessToken');
     this.decodedToken = jwt_decode(accessToken);
     this. decodedToken1 = this.decodedToken.modules;

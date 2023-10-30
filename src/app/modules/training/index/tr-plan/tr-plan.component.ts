@@ -75,7 +75,7 @@ export class TrPlanComponent implements OnInit {
     private toastr: ToastrService,
     global:GlobalService
   ) { 
-    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', 'supervised_user_circle')
   }
 
   ngOnInit(): void {

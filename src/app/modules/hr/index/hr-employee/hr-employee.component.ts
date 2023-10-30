@@ -25,7 +25,7 @@ export class HrEmployeeComponent  implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private global:GlobalService,private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) {
-    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', 'people')
    }
 
   ngOnInit(): void {
