@@ -13,6 +13,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { parse } from '@fortawesome/fontawesome-svg-core';
 export class Item {
   constructor(public id: number, public name: string) { }
 }
@@ -68,7 +69,7 @@ export class StrStockTakingDetailsDialogComponent {
   selectedItem: Item | undefined;
   formcontrol = new FormControl('');
 
-  displayedColumns: string[] = ['itemName', 'percentage', 'price', 'qty', 'systemQty', 'balance', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'notes', 'price', 'qty', 'systemQty', 'balance', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -111,21 +112,22 @@ export class StrStockTakingDetailsDialogComponent {
       fiscalYearId: ['', Validators.required],
       systemQty: ['', Validators.required],
       balance: ['', Validators.required],
+
     });
 
 
     this.groupDetailsForm = this.formBuilder.group({
-      strStockTakingId: ['', Validators.required], //MasterId
+      strStockTakingId: [, Validators.required], //MasterId
       systemQty: ['', Validators.required],
       balance: ['', Validators.required],
-      qty: ['1', Validators.required],
+      qty: [1, Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
       // state: ['', Validators.required],
-      // percentage: ['', Validators.required],
-      transactionUserId: ['', Validators.required],
+      notes: ['', Validators.required],
+      transactionUserId: [1, Validators.required],
       itemId: ['', Validators.required],
-      itemName: ['', Validators.required],
+      // itemName: ['', Validators.required],
     });
 
 
@@ -133,16 +135,17 @@ export class StrStockTakingDetailsDialogComponent {
     this.getMasterRowStoreId = this.route.snapshot.queryParamMap.get('StoreId');
     console.log("get params: ", this.route.snapshot.queryParamMap.get('StoreId'));
 
-    this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
+    this.getMasterRowId = Number(this.route.snapshot.queryParamMap.get('masterId'));
+    console.log('masterrowId:',typeof(this.getMasterRowId))
     this.getMasterRowFiscalYearId = this.route.snapshot.queryParamMap.get('fiscalYear');
     this.getMasterRowDate = this.route.snapshot.queryParamMap.get('date');
     console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate);
 
-    console.log("nnnnnnnnnnnnnnnnnnn edit d before 1: ", this.editData);
+    console.log("nnnnnnnnnnnnnnnnnnn edit d before 1: ", this.groupDetailsForm.value);
 
     if (this.editData) {
       this.isEdit = true;
-      console.log("nnnnnnnnnnnnnnnnnnn edit d before: ", this.editData);
+      console.log("nnnnnnnnnnnnnnnnnnn edit d before: ", this.groupDetailsForm);
 
       this.actionBtnMaster = "Update";
       this.groupDetailsForm.controls['strStockTakingId'].setValue(this.editData.strStockTakingId);
@@ -153,7 +156,7 @@ export class StrStockTakingDetailsDialogComponent {
       this.groupDetailsForm.controls['systemQty'].setValue(this.editData.systemQty);
       this.groupDetailsForm.controls['balance'].setValue(this.editData.balance);
       // this.groupDetailsForm.controls['state'].setValue(this.editData.state);
-      // this.groupDetailsForm.controls['percentage'].setValue(this.editData.percentage);
+      this.groupDetailsForm.controls['notes'].setValue(this.editData.notes);
       // this.groupDetailsForm.controls['date'].setValue(this.editData.date);
       // this.groupDetailsForm.controls['total'].setValue(this.editData.total);
       // this.toggleEdit();
@@ -213,7 +216,7 @@ export class StrStockTakingDetailsDialogComponent {
         next: (res) => {
           // this.priceCalled = res;
           console.log("systemqty res:", res)
-          this.groupDetailsForm.controls['systemQty'].setValue(res);
+          this.groupDetailsForm.controls['systemQty'].setValue(1);
           console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().systemQty);
         },
         error: (err) => {
@@ -241,10 +244,10 @@ export class StrStockTakingDetailsDialogComponent {
     this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
     if (this.groupDetailsForm.getRawValue().itemId) {
 
-      this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-      this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+      // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
+      // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
 
-      this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+      // this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
     }
 
     console.log("nnnvvvvvvvvvv post d: ", this.groupDetailsForm.value);
@@ -261,10 +264,11 @@ export class StrStockTakingDetailsDialogComponent {
 
         if (this.groupDetailsForm.getRawValue().itemId) {
 
-          this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-          this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-
-          this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+          // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
+          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+          this.groupDetailsForm.controls['strStockTakingId'].setValue(this.getMasterRowId);
+// console.log(typeof(this.getMasterRowId))
+          // this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
         }
 
         this.groupDetailsForm.controls['strStockTakingId'].setValue(this.getMasterRowId);
@@ -274,7 +278,7 @@ export class StrStockTakingDetailsDialogComponent {
         console.log("post d: ", this.groupDetailsForm.value, "getDetailedRowData:", !this.getDetailedRowData);
 
         if (this.groupDetailsForm.valid ) {
-          console.log("form after post:",this.groupDetailsForm)
+          console.log("form before post:",this.groupDetailsForm.value)
 
           this.api.postStrStockTakingDetails(this.groupDetailsForm.value)
             .subscribe({
@@ -284,8 +288,8 @@ export class StrStockTakingDetailsDialogComponent {
                 this.groupDetailsForm.controls['qty'].setValue(1);
                 this.groupDetailsForm.controls['systemQty'].setValue(1);
                 this.dialogRef.close('update');
+                this.updateDetailsForm();
                 // this.getAllDetailsForms();
-
                 this.itemCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
