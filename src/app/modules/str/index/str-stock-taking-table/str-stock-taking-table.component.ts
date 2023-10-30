@@ -22,13 +22,14 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { GlobalService } from 'src/app/pages/services/global.service';
+import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 
 export class store {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 
 // export class Employee {
@@ -39,7 +40,7 @@ export class Employee {
 //   constructor(public id: number, public name: string) { }
 // }
 export class item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 @Component({
@@ -97,7 +98,7 @@ export class StrStockTakingTableComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private hotkeysService: HotkeysService,
-    private global:GlobalService,
+    private global: GlobalService,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
@@ -255,7 +256,7 @@ export class StrStockTakingTableComponent implements OnInit {
     this.dialog
       .open(StrStockTakingDialogComponent, {
         width: '72%',
-      height: '79%',
+        height: '79%',
         data: row,
       })
       .afterClosed()
@@ -273,18 +274,14 @@ export class StrStockTakingTableComponent implements OnInit {
     if (result) {
       this.api.deleteStrStockTking(id).subscribe({
         next: (res) => {
-          this.http
-            .get<any>('http://ims.aswan.gov.eg/api/StrStockTaking/get/all')
+          this.api.getStrStockTakingDetailsByMasterId(id)
             .subscribe(
               (res) => {
-                this.matchedIds = res.filter((a: any) => {
-                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.custodyId === id;
-                });
+                this.matchedIds = res;
 
-                // for (let i = 0; i < this.matchedIds.length; i++) {
-                //   this.deleteFormDetails(this.matchedIds[i].id);
-                // }
+                for (let i = 0; i < this.matchedIds.length; i++) {
+                  this.deleteFormDetails(this.matchedIds[i].id);
+                }
                 // alert("تم حذف الاذن بنجاح");
               },
               (err) => {
@@ -300,6 +297,21 @@ export class StrStockTakingTableComponent implements OnInit {
         },
       });
     }
+  }
+
+  deleteFormDetails(id: any) {
+    this.api.deleteStockTakingDetails(id)
+      .subscribe({
+        next: () => {
+          // alert("تم الحذف بنجاح");
+          // this.toastrDeleteSuccess();
+          // this.getAllDetailsForms()
+          console.log("details delete res: ");
+        },
+        error: () => {
+          // alert("خطأ أثناء حذف التفاصيل !!");
+        }
+      })
   }
 
   getAllEmployees() {
@@ -365,7 +377,7 @@ export class StrStockTakingTableComponent implements OnInit {
     this.itemCtrl.updateValueAndValidity();
   }
 
-  downloadPrint(
+  downloadPdf(
     no: any,
     StartDate: any,
     EndDate: any,
@@ -373,14 +385,15 @@ export class StrStockTakingTableComponent implements OnInit {
     report: any,
     reportType: any
   ) {
+    let store = this.groupMasterForm.getRawValue().storeId;
+    let item = this.groupMasterForm.getRawValue().itemId;
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
-    let item = this.groupDetailsForm.getRawValue().itemId;
-    let store = this.groupMasterForm.getRawValue().storeId;
 
     this.api
-      .getStrEmployeeCustodyReport(
+      .getStrOpeningStockReport(
         no,
+        store,
         StartDate,
         EndDate,
         fiscalYear,
@@ -395,12 +408,7 @@ export class StrStockTakingTableComponent implements OnInit {
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
-          // let blob: Blob = res.body as Blob;
-          // let url = window.URL.createObjectURL(blob);
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
         },
         error: (err) => {
           console.log('eroorr', err);
@@ -411,17 +419,30 @@ export class StrStockTakingTableComponent implements OnInit {
 
   previewPrint(
     no: any,
-    date: any,
+    StartDate: any,
+    EndDate: any,
     fiscalYear: any,
     report: any,
     reportType: any
   ) {
-    let itemId = this.groupDetailsForm.getRawValue().itemId;
-    let storeId = this.groupMasterForm.getRawValue().storeId;
-
+    let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    let employee = this.groupMasterForm.getRawValue().employeeId;
+    let item = this.groupMasterForm.getRawValue().itemId;
+    let store = this.groupMasterForm.getRawValue().storeId;
     if (report != null && reportType != null) {
       this.api
-        .getStrStockTakingItem(no, storeId, fiscalYear, itemId, report, 'pdf')
+        .getStrOpeningStockReport(
+          no,
+          store,
+          StartDate,
+          EndDate,
+          fiscalYear,
+          item,
+          employee,
+          costCenter,
+          report,
+          'pdf'
+        )
         .subscribe({
           next: (res) => {
             let blob: Blob = res.body as Blob;
@@ -429,7 +450,7 @@ export class StrStockTakingTableComponent implements OnInit {
             let url = window.URL.createObjectURL(blob);
             localStorage.setItem('url', JSON.stringify(url));
             this.pdfurl = url;
-            this.dialog.open(EmployeeExchangePrintDialogComponent, {
+            this.dialog.open(PrintDialogComponent, {
               width: '50%',
             });
 
@@ -468,7 +489,7 @@ export class StrStockTakingTableComponent implements OnInit {
             window.open(url);
             // let blob: Blob = res.body as Blob;
             // let url = window.URL.createObjectURL(blob);
-  
+
             // this.dataSource = res;
             // this.dataSource.paginator = this.paginator;
             // this.dataSource.sort = this.sort;
@@ -482,132 +503,19 @@ export class StrStockTakingTableComponent implements OnInit {
       alert('ادخل التقرير و نوع التقرير!');
     }
   }
-  getSearchStrStockTaking(no: any, date: any, fiscalYear: any) {
-    console.log('no. : ', no, 'FISCALYEAR : ', fiscalYear, 'date: ', date);
 
-    let itemId = this.groupDetailsForm.getRawValue().itemId;
-    let storeId = this.groupMasterForm.getRawValue().storeId;
+
+  getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
+    let store = this.groupMasterForm.getRawValue().storeId;
+    let item = this.groupDetailsForm.getRawValue().itemId;
 
     this.api
-      .getSearchStrStockTaking(no, storeId, fiscalYear, itemId)
+      .getStrStockTakingSearach(no, store, fiscalYear, item, StartDate, EndDate)
       .subscribe({
         next: (res) => {
-          console.log('search employeeExchange 4res: ', res);
-
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
-          // this.api.getStrOpenSearach(no, store, date, fiscalYear).subscribe({
-          //   next: (res) => {
-          //     console.log('search openingStock res: ', res);
-
-          //     //enter no.
-          //     if (no != '' && !store && !date && !fiscalYear) {
-          //       // console.log("enter no. ")
-          //       // console.log("no. : ", no, "store: ", store, "date: ", date)
-          //       this.dataSource2 = res.filter((res: any) => res.no == no!);
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-
-          //     //enter store
-          //     else if (!no && store && !date && !fiscalYear) {
-          //       // console.log("enter store. ")
-          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          //       this.dataSource2 = res.filter((res: any) => res.storeId == store);
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-
-          //     //enter date
-          //     else if (!no && !store && date && !fiscalYear) {
-          //       // console.log("enter date. ")
-          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          //       this.dataSource2 = res.filter(
-          //         (res: any) => formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          //       );
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-
-          //     //enter fiscalYear
-          //     else if (!no && !store && !date && fiscalYear) {
-          //       // console.log("enter date. ")
-          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          //       this.dataSource2 = res.filter(
-          //         (res: any) => res.fiscalyear == fiscalYear
-          //       );
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-
-          //     //enter no. & store
-          //     else if (no && store && !date && !fiscalYear) {
-          //       // console.log("enter no & store ")
-          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          //       this.dataSource2 = res.filter(
-          //         (res: any) => res.no == no! && res.storeId == store
-          //       );
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-
-          //     //enter no. & date
-          //     else if (no && !store && date && !fiscalYear) {
-          //       // console.log("enter no & date ")
-          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          //       this.dataSource2 = res.filter(
-          //         (res: any) =>
-          //           res.no == no! &&
-          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          //       );
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-
-          //     //enter store & date
-          //     else if (!no && store && date && !fiscalYear) {
-          //       // console.log("enter store & date ")
-          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          //       this.dataSource2 = res.filter(
-          //         (res: any) =>
-          //           res.storeId == store &&
-          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date
-          //       );
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-
-          //     //enter all data
-          //     else if (no != '' && store != '' && date != '' && fiscalYear != '') {
-          //       // console.log("enter all data. ")
-          //       // console.log("enter no. & store & date ", "res : ", res, "input no. : ", no, "input store: ", store, "input date: ", date)
-          //       this.dataSource2 = res.filter(
-          //         (res: any) =>
-          //           res.no == no! &&
-          //           res.storeId == store &&
-          //           formatDate(res.date, 'M/d/yyyy', this.locale) == date &&
-          //           res.fiscalyear == fiscalYear
-          //       );
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-
-          //     //didn't enter any data
-          //     else {
-          //       // console.log("enter no data ")
-          //       this.dataSource2 = res;
-          //       this.dataSource2.paginator = this.paginator;
-          //       this.dataSource2.sort = this.sort;
-          //     }
-          //   },
-          //   error: (err) => {
-          //     alert('Error');
-          //   },
-          // });
-        },
-        error: (err) => {
-          // alert("Error")
         },
       });
   }
@@ -624,5 +532,5 @@ export class StrStockTakingTableComponent implements OnInit {
     }
   }
 
-  
+
 }
