@@ -256,7 +256,7 @@ export class TrPlanDialogComponent implements OnInit {
   }
 
 
-  private _filterClassRooms(value: string): TrainingCenter[] {
+  private _filterClassRooms(value: string): ClassRoom[] {
     const filterValue = value;
     console.log("filterValue222:", filterValue);
 
@@ -283,7 +283,7 @@ export class TrPlanDialogComponent implements OnInit {
   }
 
 
-  private _filterCourses(value: string): TrainingCenter[] {
+  private _filterCourses(value: string): Course[] {
     const filterValue = value;
     console.log("filterValue222:", filterValue);
 
@@ -310,7 +310,7 @@ export class TrPlanDialogComponent implements OnInit {
   }
 
 
-  private _filterPurposes(value: string): TrainingCenter[] {
+  private _filterPurposes(value: string): Purpose[] {
     const filterValue = value;
     console.log("filterValue222:", filterValue);
 
@@ -337,7 +337,7 @@ export class TrPlanDialogComponent implements OnInit {
 
 
 
-  private _filterFinancialDegrees(value: string): TrainingCenter[] {
+  private _filterFinancialDegrees(value: string): FinancialDegree[] {
     const filterValue = value;
     console.log("filterValue222:", filterValue);
 

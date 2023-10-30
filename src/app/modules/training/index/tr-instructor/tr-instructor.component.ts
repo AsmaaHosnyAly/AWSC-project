@@ -73,10 +73,43 @@ export class TrInstructorComponent {
     })
   }
 
-  daleteTrInstructor(id: number) {
+  daleteTrInstructor(row: any) {
+    if ( row.type != 'خارجي') {
+      this.daleteTrEmpInstructor(row.id);
+    }
+    else if ( row.type == 'خارجي') {
+        this.daleteTrEmpInstructor(row.id);
+        this.daleteTrExtInstructor(row.instructorDataId);
+    }
+  }
+
+  daleteTrEmpInstructor(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
       this.api.deleteTrInstructor(id)
+        .subscribe({
+          next: (res) => {
+            if (res == 'Succeeded') {
+              // console.log("res of deletestore:", res)
+              // alert('تم الحذف بنجاح');
+              this.toastrDeleteSuccess();
+              this.getTrInstructor();
+
+            } else {
+              alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+            }
+          },
+          error: () => {
+            alert('خطأ فى حذف العنصر');
+          },
+        });
+    }
+  }
+
+  daleteTrExtInstructor(id: number) {
+    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    if (result) {
+      this.api.deleteTrEtrInstructor(id)
         .subscribe({
           next: (res) => {
             if (res == 'Succeeded') {

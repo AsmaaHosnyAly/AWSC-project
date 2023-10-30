@@ -1687,7 +1687,7 @@ export class ApiService {
   }
 
   putStrStockTakingDetails(data: any) {
-    return this.http.put<any>(`${this.url}/StrStockTakingDetails/update/`, data)
+    return this.http.put<any>(`${this.url}/StrStockTakingDetails/update`, data)
   }
 
   deleteStockTakingDetails(id: any) {

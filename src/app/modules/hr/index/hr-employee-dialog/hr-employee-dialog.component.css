@@ -177,6 +177,8 @@
   .matTabLabels{
     display: flex;
     flex-direction: row;
+    margin-top: -1%;
+
   }
   .container{
     height: 305px;

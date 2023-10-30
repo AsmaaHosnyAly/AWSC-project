@@ -11,7 +11,7 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 
 export class Instructor {
-  constructor(public id: number, public employeeName: string) {}
+  constructor(public id: number, public headerName: string) {}
 }
 
 export class Course {
@@ -74,6 +74,8 @@ export class TrInstructorCourseDialogComponent implements OnInit {
       
       this.api.getTrInstructor().subscribe((instructors) => {
         this.instructors = instructors;
+        console.log("instructors",instructors);
+
       });
 
       this.api.getCourse().subscribe((courses) => {
@@ -107,26 +109,30 @@ export class TrInstructorCourseDialogComponent implements OnInit {
     }
 
     displayInstructorName(instructor: any): string {
-      return instructor && instructor.employeeName ? instructor.employeeName : '';
+      return instructor && instructor.headerName ? instructor.headerName : '';
     }
   
     instructorSelected(event: MatAutocompleteSelectedEvent): void {
       const instructor = event.option.value as Instructor;
       this.selectedInstructor = instructor;
       this.InstructorCourseForm.patchValue({ instructorId: instructor.id });
-      this.InstructorCourseForm.patchValue({ instructorName: instructor.employeeName });
+      this.InstructorCourseForm.patchValue({ instructorName: instructor.headerName });
     }
   
     private _filterInstructors(value: string): Instructor[] {
-      const filterValue = value.toLowerCase();
+      const filterValue = value;
+      console.log("filterValue: ", filterValue);
       return this.instructors.filter(
-        (instructor) => instructor.employeeName.toLowerCase().includes(filterValue)
+        (instructor) => instructor.headerName.toLowerCase().includes(filterValue)
         );
     }
   
     openAutoInstructor() {
+      console.log("open instructorCtrl: ", this.instructorCtrl);
       this.instructorCtrl.setValue('');
       this.instructorCtrl.updateValueAndValidity();
+      console.log("open instructorCtrl after: ", this.instructorCtrl);
+
     }
 
     displayCourseName(course: any): string {

@@ -31,10 +31,6 @@ export class qualificationLevel {
 }
 
 
-
-
-
-
 @Component({
   selector: 'app-hr-employee-dialog',
   templateUrl: './hr-employee-dialog.component.html',
@@ -191,6 +187,8 @@ export class HrEmployeeDialogComponent implements OnInit {
       departmentId: ['', Validators.required],
       severanceReasonId: ['', Validators.required],
       maritalState: ['',Validators.required],
+      email:['',Validators.required],
+      phone:['',Validators.required],
       transactionUserId: ['', Validators.required],
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
@@ -209,10 +207,10 @@ export class HrEmployeeDialogComponent implements OnInit {
       this.groupForm.controls['gender'].setValue(this.editData.gender);
       this.groupForm.controls['address'].setValue(this.editData.address);
 
-      // this.groupForm.controls['jobTitleName'].setValue(this.editData.jobTitleName);
+      this.groupForm.controls['phone'].setValue(this.editData.phone);
       this.groupForm.controls['jobTitleId'].setValue(this.editData.jobTitleId);
 
-      // this.groupForm.controls['positionName'].setValue(this.editData.positionName);
+      this.groupForm.controls['email'].setValue(this.editData.email);
       this.groupForm.controls['positionId'].setValue(this.editData.positionId);
 
 
@@ -417,28 +415,7 @@ export class HrEmployeeDialogComponent implements OnInit {
     this.qualificationLevelCtrl.updateValueAndValidity();
   }
 
-  // displaydisciplinaryName(disciplinary: any): string {
-  //   return disciplinary && disciplinary.name ? disciplinary.name : '';
-  // }
-  // disciplinarySelected(event: MatAutocompleteSelectedEvent): void {
-  //   const disciplinary = event.option.value as disciplinary;
-  //   console.log("disciplinary selected: ", disciplinary);
-  //   this.selecteddisciplinary = disciplinary;
-  //   this.groupForm.patchValue({ disciplinaryId: disciplinary.id });
-  //   console.log("disciplinary in form: ", this.groupForm.getRawValue().disciplinaryId);
-  // }
-  // private _filterdisciplinarys(value: string): disciplinary[] {
-  //   const filterValue = value;
-  //   return this.disciplinarysList.filter(disciplinary =>
-  //     disciplinary.name.toLowerCase().includes(filterValue) || disciplinary.code.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutodisciplinary() {
-  //   this.disciplinaryCtrl.setValue(''); // Clear the input field value
 
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.disciplinaryCtrl.updateValueAndValidity();
-  // }
   async addEmployee() {
     if (!this.editData) {
       this.groupForm.removeControl('id')
@@ -463,6 +440,8 @@ export class HrEmployeeDialogComponent implements OnInit {
       this.groupForm.controls['financialDegreeDate'].setValue(this.groupForm.getRawValue().financialDegreeDate.toISOString());
       this.groupForm.controls['national_Code'].setValue(this.groupForm.getRawValue().national_Code.toString());
       this.groupForm.controls['code'].setValue(this.groupForm.getRawValue().code.toString());
+      // this.groupForm.controls['email'].setValue(this.groupForm.getRawValue().email.toISOString());
+      // this.groupForm.controls['phone'].setValue(this.groupForm.getRawValue().phone.toISOString());
 
       console.log('post form sent', this.groupForm.value);
     console.log("group form after post:",this.groupForm.valid)
@@ -491,10 +470,7 @@ export class HrEmployeeDialogComponent implements OnInit {
 
   async updateDisciplinary() {
     console.log("update Disciplinary last values, id: ", this.groupForm.value)
-    // this.jobTitleName = await this.getjobtitleByID(this.groupForm.getRawValue().jobTitleId);
-    // this.groupForm.controls['jobTitleName'].setValue(this.jobTitleName);
-    // this.positionName = await this.getpositionByID(this.groupForm.getRawValue().disciplinaryId);
-    // this.groupForm.controls['positionName'].setValue(this.positionName);
+  
     this.api.putHrEmployee(this.groupForm.value)
       .subscribe({
         next: (res) => {
