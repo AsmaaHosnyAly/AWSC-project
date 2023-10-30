@@ -166,7 +166,7 @@ export class ApiService {
   postCcPlantComponent(data: any) {
     return this.http.post<any>(`${this.url}/CcPlantComponent/Add`, data);
   }
-   /////////////////Cc Plant Component//////////////////
+   /////////////////Cc Equipment//////////////////
    getEquipment() {
 
     return this.http.get<any>(`${this.url}/CcEquipment/get/all`);
@@ -192,6 +192,55 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
   }
 
+   /////////////////Cc CostCenter//////////////////
+   getCostCenter() {
+
+    return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
+  }
+  putCostCenter(data: any) {
+    console.log("data in post:",data)
+    return this.http.put<any>(
+      `${this.url}/CcCostCenter/update`,
+      data
+    );
+  }
+  deleteCostCenter(id: number) {
+    console.log("id in cc PlantComponent:",id)
+    return this.http.delete<any>(
+      `${this.url}/CcCostCenter/Delete/${id}`
+    );
+  }
+  postCostCenter(data: any) {
+    return this.http.post<any>(`${this.url}/CcCostCenter/Add`, data);
+  }
+  getAllFunctionnes() {
+
+    return this.http.get<any>(`${this.url}/CcFunction/get/all`);
+  }
+  getAllSources() {
+
+    return this.http.get<any>(`${this.url}/CcSource/get/all`);
+  }
+  getAllRegiones() {
+
+    return this.http.get<any>(`${this.url}/CcRegion/get/all`);
+  }
+  getAllSubRegioness() {
+
+    return this.http.get<any>(`${this.url}/CcSubRegion/get/all`);
+  }
+  getAllPlantes() {
+
+    return this.http.get<any>(`${this.url}/CcPlant/get/all`);
+  }
+  getAllActivityes() {
+
+    return this.http.get<any>(`${this.url}/CcActivity/get/all`);
+  }
+  getAllplantComponentes() {
+
+    return this.http.get<any>(`${this.url}/CcPlantComponent/get/all`);
+  }
   ///////////////////////////////// cc-Entry & details/////////////////////////////
   getLastFiscalYear() {
     return this.http.get<any>(
