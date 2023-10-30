@@ -66,7 +66,7 @@ export class TrTrainingCenterCourseComponent {
       startWith(''),
       map((value) => this._filterTraingingCenteres(value))
     );
-    global.getPermissionUserRoles(4, 'stores', ' الموديل', '')
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
   }
   ngOnInit(): void {
     // console.log(productForm)

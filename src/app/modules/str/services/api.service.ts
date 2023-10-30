@@ -1686,8 +1686,8 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/StrStockTakingDetails/Add`, data)
   }
 
-  putStrStockTakingDetails(data: any) {
-    return this.http.put<any>(`${this.url}/StrStockTakingDetails/update/`, data)
+  putStrStockTakingDetails(data: any, id: any) {
+    return this.http.put<any>(`${this.url}/StrStockTakingDetails/update/${id}`, data)
   }
 
   deleteStockTakingDetails(id: any) {
@@ -1698,6 +1698,123 @@ export class ApiService {
     return this.http.delete<any>(`${this.url}/StrStockTaking/delete/` + id);
   }
 
+  getStrStockTakingSearach(
+    no: any,
+    storeId: any,
+
+    fiscalYear: any,
+    itemId: any, StartDate: any, EndDate: any
+  ) {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      storeId,
+      'StartDate: ',
+      StartDate,
+      'fiscalYear: ',
+      fiscalYear,
+      'item:',
+      itemId, 'EndDate: ',
+      EndDate
+
+    );
+
+    this.mycondition = `${this.url}/StrStockTaking/search?`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    if (!storeId == false) {
+      this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
+    }
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+    }
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    return this.http.get<any>(`${this.mycondition}`);
+
+  }
+
+
+  getStrOpeningStockReport(
+    no: any,
+    store: any,
+    StartDate: any, EndDate: any,
+    fiscalYear: any,
+    item: any,
+    employee: any,
+    costCenter: any, report: any, reportType: any
+  ) {
+    console.log(
+      'no. : ',
+      no,
+      'store : ',
+      store,
+      'date: ',
+      StartDate,
+      'fiscalYear: ',
+      fiscalYear,
+      'reportName:', report, 'reportType:', reportType
+
+    );
+    `${this.url}/StrStockTaking/get/Report?`;
+    this.mycondition = `${this.url}/StrStockTaking/get/Report?reportName=${report}&reportType=${reportType}`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&Name=${no}`;
+    }
+    if (!store == false) {
+      this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
+    }
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    }
+
+
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
+    }
+
+    if (!fiscalYear == false) {
+      this.mycondition = ` ${this.mycondition}&CommodityId=${fiscalYear}`;
+    }
+    if (!item == false) {
+      this.mycondition = ` ${this.mycondition}&GradeId=${item}`;
+    }
+    if (!employee == false) {
+      this.mycondition = ` ${this.mycondition}&PlatoonId=${employee}`;
+    }
+    if (!costCenter == false) {
+      this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
+    }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
 
 
 

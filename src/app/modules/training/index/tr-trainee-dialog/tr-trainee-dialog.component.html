@@ -83,7 +83,7 @@
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <input matInput aria-label="specialization" [matAutocomplete]="autocity"
                                 [formControl]="cityCtrl"
-                                placeholder="{{editData ? editData.corporationCLinetName : ''}}"
+                                placeholder="{{editData ? editData.cityName : ''}}"
                                 (click)="openAutocity()" required />
                             <mat-autocomplete #autocity="matAutocomplete"
                                 [displayWith]="displaycityName"

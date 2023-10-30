@@ -109,7 +109,7 @@ export class StrStockTakingDialogComponent implements OnInit {
   decodedToken2: any;
 
   defaultStoreSelectValue: any;
-  displayedColumns: string[] = ['itemName', 'percentage', 'state', 'price', 'systemQty', 'balance', 'qty', 'total', 'action'];
+  displayedColumns: string[] = ['itemName', 'price', 'systemQty', 'balance', 'qty', 'total', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -357,10 +357,10 @@ export class StrStockTakingDialogComponent implements OnInit {
         .subscribe({
           next: (res) => {
             // this.itemsList = res;
-            this.matchedIds = res[0].strStockTakingDetailsGetVM;
+            this.matchedIds = res;
 
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strStockTakingDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee detailss: ", res);
               this.dataSource = new MatTableDataSource(this.matchedIds);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
@@ -390,7 +390,7 @@ export class StrStockTakingDialogComponent implements OnInit {
       width: '98%',
       height: '79%',
     }).afterClosed().subscribe(val => {
-      if (val === 'Save' || val === 'Update') {
+      if (val === 'save' || val === 'update') {
         this.getAllDetailsForms();
       }
     })
@@ -681,10 +681,10 @@ export class StrStockTakingDialogComponent implements OnInit {
           // console.log("update res: ", res, "details form values: ", this.groupDetailsForm.value, "details id: ", this.getDetailedRowData);
           if (this.groupDetailsForm.value && this.getDetailedRowData) {
 
-            this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
-            this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
+            // this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+            // this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
 
-            this.api.putStrStockTakingDetails(this.groupDetailsForm.value)
+            this.api.putStrStockTakingDetails(this.groupDetailsForm.value, this.getDetailedRowData.id)
               .subscribe({
                 next: () => {
                   // alert("تم تحديث التفاصيل بنجاح");

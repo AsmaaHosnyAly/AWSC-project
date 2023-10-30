@@ -65,14 +65,6 @@
   <div style="display: flex;flex-direction: row;width: 15rem;">
   
     <div style="display: flex;flex-direction: column;width: 11rem;">
-        <mat-label> النسبة*</mat-label>
-  
-    <mat-form-field appearance="outline" class="groupInput" style="width:93% ;">
-        <input matInput type="number"  min="0" placeholder="النسبة" formControlName="percentage"
-            [value]="editData ? editData.percentage : ''" >
-    </mat-form-field>
-    </div>
-    <div style="display: flex;flex-direction: column;width: 11rem;">
         <mat-label>السعر</mat-label>
 
         <mat-form-field appearance="outline" class="groupInput" style="width: 93%;">
@@ -85,12 +77,20 @@
         <mat-label>فرق الكمية</mat-label>
 
         <mat-form-field appearance="outline" class="groupInput" style="width: 92%;">
-            <input type="number" matInput placeholder="فرق الكمية"  formControlName="balance"
+            <input type="number" min="0" matInput placeholder="فرق الكمية"  formControlName="balance"
                 [value]="editData ? editData.balance : ''">
         </mat-form-field>
        </div>
 
    </div>
+   <div style="display: flex;flex-direction: column;width: 11rem;">
+    <mat-label> الملاحظات*</mat-label>
+
+<mat-form-field appearance="outline" class="groupInput" style="width:93% ;">
+    <input matInput  placeholder="الملاحظات" formControlName="notes"
+        [value]="editData ? editData.notes : ''" >
+</mat-form-field>
+</div>
   
             <div mat-dialog-action [align]="'end'">
                 <div class="groupAction">

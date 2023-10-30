@@ -21,6 +21,7 @@ import {
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { GlobalService } from 'src/app/pages/services/global.service';
 export class Course {
   constructor(public id: number, public name: string) { }
 }
@@ -124,9 +125,10 @@ export class TrTrackTableComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    global:GlobalService
   ) {
-    
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', '')
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
@@ -243,7 +245,7 @@ export class TrTrackTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'save' || val === 'update') {
+        if (val === 'Save' || val === 'Update') {
           this.getAllMasterForms();
         }
       });
@@ -419,7 +421,7 @@ export class TrTrackTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
-        if (val === 'update' || val === 'save') {
+        if (val === 'Update' || val === 'Save') {
           this.getAllMasterForms();
         }
       });

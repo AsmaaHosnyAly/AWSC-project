@@ -117,6 +117,7 @@ export class GlobalService {
     for (let i = 0; i <MODULES_LOCAL_STORAGE!.length; i++) {
       if (module == MODULES_LOCAL_STORAGE![i]) {
         this.pageTitle = pageTitle; 
+        this.icon = icon; 
       }
   
     }

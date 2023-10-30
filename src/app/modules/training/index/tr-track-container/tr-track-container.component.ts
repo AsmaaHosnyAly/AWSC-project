@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-tr-track-container',
@@ -16,7 +17,9 @@ export class TrTrackContainerComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService) {}
+  constructor(private dialog: MatDialog, private api: ApiService,global:GlobalService) {
+    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', '')
+  }
 
   ngOnInit(): void {
   }

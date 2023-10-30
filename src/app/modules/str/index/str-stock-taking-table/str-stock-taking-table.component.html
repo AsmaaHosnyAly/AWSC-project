@@ -13,17 +13,18 @@
         <div class="searchLabels">
           <mat-label>الرقم</mat-label>
 
-          <mat-form-field appearance="outline" >
-            <input #no matInput placeholder="ادخل الرقم" (keydown)="getsearch($event)" formControlName="no" />
+          <mat-form-field appearance="outline">
+            <input #no matInput formControlName="no" (keydown)="getsearch($event)" type="number" min="0" />
 
           </mat-form-field>
         </div>
 
-        
+
+
         <div class="searchLabels">
           <mat-label>مخزن *</mat-label>
 
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline">
 
             <input matInput aria-label="commodity" [matAutocomplete]="autostore" (keydown)="getsearch($event)"
               [formControl]="storeCtrl" formControlName="store" (click)="openAutostore()" required />
@@ -36,23 +37,10 @@
           </mat-form-field>
         </div>
 
-
-        <div class="searchLabels">
-          <mat-label>التاريخ</mat-label>
-
-          <mat-form-field appearance="outline" class="example-full-width">
-            <input #date matInput [matDatepicker]="picker" formControlName="date">
-            <mat-datepicker-toggle matIconSuffix [for]="picker">
-              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-
-        </div>
         <div class="searchLabels">
           <mat-label>السنة المالية</mat-label>
 
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline">
             <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalYear">
               <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.id">{{
                 fiscalYear.fiscalyear }}</mat-option>
@@ -61,10 +49,12 @@
         </div>
 
 
+
+
+
         <div class="searchLabels">
 
           <mat-label>الصنف:</mat-label>
-
           <mat-form-field appearance="outline">
             <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
               formControlName="itemName" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
@@ -76,50 +66,65 @@
             </mat-autocomplete>
           </mat-form-field>
         </div>
+        <div class="searchLabels">
+          <mat-label> تاريخ البداية</mat-label>
+          <mat-form-field appearance="outline" class="searchForm">
 
-        <!-- <button (click)=" getSearchStrOpen(store.value,no.value)" >عرض</button>  -->
-      
+            <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="searchLabels">
+          <mat-label>تاريخ النهاية</mat-label>
+          <mat-form-field appearance="outline" class="searchForm">
+
+            <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate">
+            <mat-datepicker-toggle matIconSuffix [for]="picke">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+
+            </mat-datepicker-toggle>
+            <mat-datepicker #picke></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="searchLabels">
+          <mat-label> التقارير</mat-label>
+
+          <mat-form-field appearance="outline" class="searchForm">
+            <mat-select #report formControlName="report">
+              <mat-option value="OpeningStockReport">تقرير</mat-option>
+              <mat-option value="OpeningStockDetailsReport"> تقرير تفصيلي</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="searchLabels">
+          <mat-label> نوع التقرير</mat-label>
+
+          <mat-form-field appearance="outline" class="searchForm">
+            <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
+              <mat-option value="pdf"> PDF </mat-option>
+              <mat-option value="txt">TexT </mat-option>
+
+
+
+            </mat-select>
+          </mat-form-field>
+        </div>
 
       </div>
       <div class="print-display">
-        <mat-icon (click)="
-        getSearchStrStockTaking( no.value, date.value, fiscalYear.value 
-        )
-          " class="icons" title="بحث">search</mat-icon>
-
-
-
-          <div class="searchLabels">
-            <mat-label> التقارير</mat-label>
-  
-            <mat-form-field appearance="outline" class="searchForm">
-              <mat-select #report formControlName="report">
-                <mat-option value="StockTakingReport">تقرير </mat-option>
-                <mat-option value="EmployeeOpeningDetailsReport">تقرير تفصيلي</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-  
-          <div class="searchLabels">
-            <mat-label> نوع التقرير</mat-label>
-  
-            <mat-form-field appearance="outline" class="searchForm">
-              <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
-                <mat-option value="pdf"> PDF </mat-option>
-                <mat-option value="xls">Excel</mat-option>
-             
-  
-  
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <mat-icon class="icons" title="عرض" (click)="previewPrint(no.value, date.value,fiscalYear.value,report.value,reportType.value)"
-          class="icons" title="تحميل">print</mat-icon>
-
-        <mat-icon (click)="download(no.value, date.value,fiscalYear.value,report.value,reportType.value)" class="icons"
-          title="تحميل">get_app</mat-icon>
-
+        <mat-icon (click)="getSearchStrOpen(no.value, StartDate.value,EndDate.value, fiscalYear.value)" class="icons"
+          title="بحث">search</mat-icon>
+        <mat-icon
+          (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+          class="icons" title="عرض">print</mat-icon>
+        <mat-icon
+          (click)="downloadPdf(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+          class="icons" title="تحميل">get_app</mat-icon>
 
         <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
       </div>
