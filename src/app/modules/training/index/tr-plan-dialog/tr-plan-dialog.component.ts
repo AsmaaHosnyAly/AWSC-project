@@ -95,9 +95,9 @@ export class TrPlanDialogComponent implements OnInit {
   currentDate: any;
   defaultFiscalYearSelectValue: any;
 
-  displayedColumns: string[] = ['financierName', 'action'];
+  displayedColumns: string[] = ['financierId', 'action'];
   // displayedEmployeesColumns: string[] = ['instructorId', 'action'];
-  displayedInstructorsColumns: string[] = ['headerName', 'action'];
+  displayedInstructorsColumns: string[] = ['instructorId', 'action'];
   displayedPositionsColumns: string[] = ['positionName', 'action'];
 
   sessionId = Math.random();
@@ -224,7 +224,7 @@ export class TrPlanDialogComponent implements OnInit {
     }
 
     this.getAllDetailsFinancierForms();
-    this.getAllDetailsEmployeeForms();
+    this.getAllDetailsInstructorForms();
     this.getAllDetailsPositionForms();
   }
 
@@ -392,15 +392,45 @@ export class TrPlanDialogComponent implements OnInit {
     }
   }
 
-  getAllDetailsEmployeeForms() {
+  // getAllDetailsEmployeeForms() {
+
+  //   console.log("mastered row get all data: ", this.getMasterRowId)
+  //   if (this.getMasterRowId) {
+  //     this.api.getTrInstructorByHeaderId(this.getMasterRowId.id).subscribe({
+  //       next: (res) => {
+  //         console.log("TrInstructor: ", res);
+
+  //         this.matchedIds = res;
+  //         console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee TrInstructor: ", res);
+
+  //         if (this.matchedIds) {
+
+  //           this.dataSourceInstructor = new MatTableDataSource(this.matchedIds);
+  //           this.dataSourceInstructor.paginator = this.paginator;
+  //           this.dataSourceInstructor.sort = this.sort;
+
+  //         }
+  //       },
+  //       error: (err) => {
+  //         // console.log("fetch items data err: ", err);
+  //         // alert("خطا اثناء جلب العناصر !");
+  //       }
+  //     })
+  //   }
+  // }
+
+  getAllDetailsInstructorForms() {
 
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      this.api.getTrInstructorByHeaderId(this.getMasterRowId.id).subscribe({
+      this.api.getTrPlanInstructor().subscribe({
         next: (res) => {
           console.log("TrInstructor: ", res);
 
-          this.matchedIds = res;
+          this.matchedIds = res.filter((a: any) => {
+            return a.planId == this.getMasterRowId.id
+          });
+
           console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee TrInstructor: ", res);
 
           if (this.matchedIds) {
@@ -464,7 +494,7 @@ export class TrPlanDialogComponent implements OnInit {
 
           this.toastrSuccess();
           this.getAllDetailsFinancierForms();
-          this.getAllDetailsEmployeeForms();
+          this.getAllDetailsInstructorForms();
           this.addDetailsInfo();
         },
         error: (err) => {
@@ -550,7 +580,7 @@ export class TrPlanDialogComponent implements OnInit {
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save' || val === 'update') {
-          this.getAllDetailsEmployeeForms();
+          this.getAllDetailsInstructorForms();
         }
       });
   }
@@ -576,10 +606,10 @@ export class TrPlanDialogComponent implements OnInit {
 
     var result = confirm('هل ترغب بتاكيد الحذف ؟');
     if (result) {
-      this.api.deleteTrInstructor(id).subscribe({
+      this.api.deleteTrPlanInstructor(id).subscribe({
         next: (res) => {
           this.toastrDeleteSuccess();
-          this.getAllDetailsEmployeeForms();
+          this.getAllDetailsInstructorForms();
         },
         error: () => {
           // alert("خطأ أثناء حذف التفاصيل !!");
@@ -591,17 +621,6 @@ export class TrPlanDialogComponent implements OnInit {
 
   getAllMasterForms() {
     this.dialogRef.close('save');
-
-    this.api.getTrPlan().subscribe({
-      next: (res) => {
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: () => {
-        // alert("خطأ أثناء جلب سجلات المجموعة !!");
-      },
-    });
   }
 
   async updateMaster() {
@@ -642,7 +661,7 @@ export class TrPlanDialogComponent implements OnInit {
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save' || val === 'update') {
-          this.getAllDetailsEmployeeForms();
+          this.getAllDetailsInstructorForms();
         }
       });
   }

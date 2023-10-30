@@ -20,7 +20,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/pages/services/global.service';
 
-interface USER {
+interface ccEntry {
   no: string;
   balance: string;
   creditTotal: string;
@@ -42,7 +42,7 @@ export class Account {
   styleUrls: ['./fi-entry-table.component.css'],
 })
 export class FiEntryTableComponent implements OnInit {
-  ELEMENT_DATA: USER[] = [];
+  ELEMENT_DATA: ccEntry[] = [];
   isLoading = false;
   totalRows = 0;
   pageSize = 5;
@@ -74,7 +74,7 @@ export class FiEntryTableComponent implements OnInit {
   sourcesList: any;
 
   // dataSource2!: MatTableDataSource<any>;
-  dataSource2: MatTableDataSource<USER> = new MatTableDataSource();
+  dataSource2: MatTableDataSource<ccEntry> = new MatTableDataSource();
 
   accountsList: Account[] = [];
   accountCtrl: FormControl;

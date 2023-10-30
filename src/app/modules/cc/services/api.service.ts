@@ -9,10 +9,8 @@ import { PagesEnums } from 'src/app/core/enums/pages.enum';
 export class ApiService {
   pageEnums = PagesEnums
   url =this.pageEnums.URL
+  mycondition: any;
   constructor(private http: HttpClient) { }
-
-
-
 
   ///////////////////ccActivity//////////////////
   getCcActivity() {
@@ -243,4 +241,207 @@ export class ApiService {
 
     return this.http.get<any>(`${this.url}/CcPlantComponent/get/all`);
   }
+  ///////////////////////////////// cc-Entry & details/////////////////////////////
+  getLastFiscalYear() {
+    return this.http.get<any>(
+      `${this.url}/STRFiscalYear/get/Last/fisical/year`
+    );
+  } 
+  getFiscalYears() {
+    return this.http.get<any>(`${this.url}/STRFiscalYear/get/all`);
+  }
+
+  getJournals() {
+    return this.http.get<any>(`${this.url}/FIJournal/get/all`);
+  }
+  getFiAccounts() {
+    return this.http.get<any>(`${this.url}/FIAccount/get/all`);
+  }
+  getFiAccountItems() {
+    return this.http.get<any>(`${this.url}/FiAccountItem/get/all`);
+  }
+  getFiEntrySource() {
+    return this.http.get<any>(`${this.url}/FiEntrySourceType/get/all`);
+  }
+
+  postFiEntry(data: any) {
+    return this.http.post<any>(`${this.url}/FIEntry/Add`, data);
+  }
+  getFiEntry() {
+    return this.http.get<any>(`${this.url}/FIEntry/get/all`);
+  }
+  getCcEntryPaginate(currentPage: any, pageSize: any){
+    let urlPassed = `${this.url}/CcEntry/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
+  putFiEntry(data: any) {
+    console.log('put fiEntry data with id: ', data);
+    return this.http.put<any>(`${this.url}/FIEntry/update`, data);
+  }
+  deleteCcEntry(id: number) {
+    return this.http.delete<any>(`${this.url}/CcEntry/Delete/` + id);
+  }
+
+  postFiEntryDetails(data: any) {
+    return this.http.post<any>(`${this.url}/FIEntryDetails/Add`, data);
+  }
+  getCcEntryDetails() {
+    return this.http.get<any>(`${this.url}/CcEntryDetails/get/all`);
+  }
+  getFiEntryDetailsByMasterId(id :any) {
+    return this.http.get<any>(`${this.url}/FIEntryDetails/get/By/Header/${id}`);
+  }
+  putFiEntryDetails(data: any) {
+    console.log('put fiEntryDetails data with id: ', data);
+    return this.http.put<any>(`${this.url}/FIEntryDetails/update/`, data);
+  }
+  deleteCcEntryDetails(HeaderId: number) {
+    console.log('deleted row id: ', HeaderId);
+    return this.http.delete<any>(
+      `${this.url}/CcEntryDetails/Delete/` + HeaderId
+    );
+  }
+  getFiEntrySearach(no: any,  accountId: any, startDate: any, endDate: any, FiscalYearId: any, Description: any) {
+    console.log(
+      "values search passed: 'no: '", no,
+     
+      "' accountId: '", accountId,
+      "' startDate: '", startDate,
+      "' endDate: '", endDate,
+     
+      'FiscalYearId: ', FiscalYearId,
+      'Description: ', Description
+    );
+    this.mycondition = `${this.url}/FIEntry/search?`;
+
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+   
+    if (!startDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${startDate}`;
+    }
+    if (!endDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${endDate}`;
+    }
+    if (!accountId == false) {
+      this.mycondition = ` ${this.mycondition}&AccountId=${accountId}`;
+    }
+    
+    if (!FiscalYearId == false) {
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${FiscalYearId}`;
+    }
+    if (!Description == false) {
+      this.mycondition = ` ${this.mycondition}&Description=${Description}`;
+    }
+
+
+    console.log('url', this.mycondition);
+
+    return this.http.get<any>(`${this.mycondition}`);
+  }
+
+  getFiEntryReport(
+    no: any,  startDate: any, endDate: any,  FiscalYearId: any, Description: any, report:any,reportType:any
+  ) {
+    // console.log(
+    //   'no. : ',
+    //   no,
+    //   'store : ',
+    //   store,
+    //   'date: ',
+    //   StartDate,
+    //   'fiscalYear: ',
+    //   fiscalYear,
+    //   'reportName:', report, 'reportType:', reportType
+
+    // );
+    `${this.url}/FIEntry/get/Report?`;
+    this.mycondition = `${this.url}/FIEntry/get/Report?reportName=${report}&reportType=${reportType}`;
+
+    if (!no == false) {
+      this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+   
+    if (!report == false) {
+      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    }
+
+    if (!reportType == false) {
+      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    }
+
+
+    if (!startDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${startDate}`;
+    }
+    if (!endDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${endDate}`;
+    }
+
+   
+    if (!FiscalYearId == false) {
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${FiscalYearId}`;
+    }
+    if (!Description == false) {
+      this.mycondition = ` ${this.mycondition}&Description=${Description}`;
+    }
+    // if (!costCenter == false) {
+    //   this.mycondition = ` ${this.mycondition}&GroupId=${costCenter}`;
+    // }
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
+    //////////////////////////Reports/////////////////////////////////////
+    getAccountreports(
+  
+      StartDate: any, EndDate: any,account: any, report: any, reportType: any
+    ) {
+      console.log(
+       
+       
+        'startdate: ',
+        StartDate,'account',account,
+       
+        'reportName:', report, 'reportType:', reportType
+    
+      );
+      `${this.url}/FIAccount/get/Report?`;
+      this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+    
+      
+     
+    
+    
+      if (!StartDate == false) {
+        this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+      }
+      if (!EndDate == false) {
+        this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+      }
+    
+     
+      if (!account == false) {
+        this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+      }
+      
+      
+    
+      console.log('url', this.mycondition);
+    
+      // return this.http.get<any>(`${this.mycondition}`);
+      return this.http.get(`${this.mycondition}`, {
+        observe: 'response',
+        responseType: 'blob',
+      });
+    }
+    
 }

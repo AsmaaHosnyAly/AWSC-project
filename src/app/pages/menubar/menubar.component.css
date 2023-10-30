@@ -16,8 +16,12 @@
 }
 .font{
   font-family: 'Droid Arabic Kufi', serif;
-  font-size: 15px;
+  font-size: 14px;
+ 
 }
+
+
+
 .sideNavSubItems{
   margin-right: -5px;
   padding-right: 0px;

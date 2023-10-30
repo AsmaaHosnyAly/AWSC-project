@@ -108,64 +108,64 @@ export class TrPlanComponent implements OnInit {
 
       this.isLoading = true;
 
-      //   fetch(this.api.getPyItemGroupPaginate(this.currentPage, this.pageSize))
-      //     .then(response => response.json())
-      //     .then(data => {
-      //       this.totalRows = data.length;
-      //       console.log("master data paginate first Time: ", data);
-      //       this.dataSource2.data = data.items;
-      //       this.pageIndex = data.page;
-      //       this.pageSize = data.pageSize;
-      //       this.length = data.totalItems;
-      //       setTimeout(() => {
-      //         this.paginator.pageIndex = this.currentPage;
-      //         this.paginator.length = this.length;
-      //       });
-      //       this.isLoading = false;
-      //     }, error => {
-      //       console.log(error);
-      //       this.isLoading = false;
-      //     });
-      // }
-      // else {
-      //   this.isLoading = true;
+      fetch(this.api.getTrPlanPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+    else {
+      this.isLoading = true;
 
-      //   fetch(this.api.getPyItemGroupPaginate(this.currentPage, this.pageSize))
-      //     .then(response => response.json())
-      //     .then(data => {
-      //       this.totalRows = data.length;
-      //       console.log("master data paginate: ", data);
-      //       this.dataSource2.data = data.items;
-      //       this.pageIndex = data.page;
-      //       this.pageSize = data.pageSize;
-      //       this.length = data.totalItems;
-      //       setTimeout(() => {
-      //         this.paginator.pageIndex = this.currentPage;
-      //         this.paginator.length = this.length;
-      //       });
-      //       this.isLoading = false;
-      //     }, error => {
-      //       console.log(error);
-      //       this.isLoading = false;
-      //     });
-      // }
-
-      this.api.getTrPlan().subscribe({
-        next: (res) => {
-          console.log("get all trPlan res: ", res);
-          this.dataSource2 = res;
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-
-        },
-        error: (err) => {
-          // console.log("fetch items data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+      fetch(this.api.getTrPlanPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
     }
 
+    // this.api.getTrPlan().subscribe({
+    //   next: (res) => {
+    //     console.log("get all trPlan res: ", res);
+    //     this.dataSource2 = res;
+    //     this.dataSource2.paginator = this.paginator;
+    //     this.dataSource2.sort = this.sort;
+
+    //   },
+    //   error: (err) => {
+    //     // console.log("fetch items data err: ", err);
+    //     // alert("خطا اثناء جلب العناصر !");
+    //   }
+    // })
   }
+
+
 
   pageChanged(event: PageEvent) {
     console.log("page event: ", event);

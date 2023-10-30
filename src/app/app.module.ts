@@ -276,6 +276,19 @@ import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipme
 import { CcEquipmentDailogComponent } from './modules/cc/index/cc-equipment-dailog/cc-equipment-dailog.component';
 import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 import { CcCostCenterDailogComponent } from './modules/cc/index/cc-cost-center-dailog/cc-cost-center-dailog.component';
+import { TrExcutedFinancierDetailsDialogComponent } from './modules/training/index/tr-excuted-financier-details-dialog/tr-excuted-financier-details-dialog.component';
+import { CcEntryTableComponent } from './modules/cc/index/cc-entry-table/cc-entry-table.component';
+import { CcEntryDialogComponent } from './modules/cc/index/cc-entry-dialog/cc-entry-dialog.component';
+import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
+import { CcEntryDetailsDialogComponent } from './modules/cc/index/cc-entry-details-dialog/cc-entry-details-dialog.component';
+import { CcReportsComponent } from './modules/cc/index/cc-reports/cc-reports.component';
+import { HrReportsComponent } from './modules/hr/index/hr-reports/hr-reports.component';
+import { TrReportsComponent } from './modules/training/index/tr-reports/tr-reports.component';
+import { AttendanceReportsComponent } from './modules/attendance/index/attendance-reports/attendance-reports.component';
+import { PrReportsComponent } from './modules/pr/index/pr-reports/pr-reports.component';
+import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.component';
+// import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
+// import { CcCostCenterDialogComponent } from './modules/cc/index/cc-cost-center-dialog/cc-cost-center-dialog.component';
 
 
 
@@ -534,6 +547,19 @@ import { CcCostCenterDailogComponent } from './modules/cc/index/cc-cost-center-d
     CcEquipmentDailogComponent,
     CcCostCenterComponent,
     CcCostCenterDailogComponent,
+    TrExcutedFinancierDetailsDialogComponent,
+    CcEntryTableComponent,
+    CcEntryDialogComponent,
+    CcEntryContainerComponent,
+    CcEntryDetailsDialogComponent,
+    CcReportsComponent,
+    HrReportsComponent,
+    TrReportsComponent,
+    AttendanceReportsComponent,
+    PrReportsComponent,
+    PyReportsComponent,
+    // CcCostCenterComponent,
+    // CcCostCenterDialogComponent,
   ],
   imports: [
     BrowserModule,

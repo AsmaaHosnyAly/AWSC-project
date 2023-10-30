@@ -47,6 +47,13 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/TrInstructorData/Add`, data);
   }
 
+  putExternalInstructor(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrInstructorData/update`,
+      data
+    );
+  }
+
   ////////////////////////////////trtrack//////////////////////////////////////////
   postTrTarck(data: any) {
     return this.http.post<any>(`${this.url}/TrTarck/Add`, data);
@@ -355,10 +362,10 @@ export class ApiService {
   getTrPlan() {
     return this.http.get<any>(`${this.url}/TrPlan/get/all`);
   }
-  // getPyItemGroupPaginate(currentPage: any, pageSize: any) {
-  //   let urlPassed = `${this.url}/PyItemGroup/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
-  //   return urlPassed;
-  // }
+  getTrPlanPaginate(currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/TrPlan/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putTrPlan(data: any) {
     return this.http.put<any>(`${this.url}/TrPlan/update`, data);
   }
@@ -419,6 +426,94 @@ export class ApiService {
   //////////////////////////////////////////////////////////////////////////////
 
 
+  ////// Tr-Excuted & TrExcutedFinancier & TrExcutedInstructor & TrExcutedPosition & TrExcutedTrainee ////////
+  postTrExcuted(data: any) {
+    return this.http.post<any>(`${this.url}/TrExcuted/Add`, data);
+  }
+  getTrExcuted() {
+    return this.http.get<any>(`${this.url}/TrExcuted/get/all`);
+  }
+  // getPyItemGroupPaginate(currentPage: any, pageSize: any) {
+  //   let urlPassed = `${this.url}/PyItemGroup/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+  //   return urlPassed;
+  // }
+  putTrExcuted(data: any) {
+    return this.http.put<any>(`${this.url}/TrExcuted/update`, data);
+  }
+  deleteTrExcuted(id: number) {
+    return this.http.delete<any>(`${this.url}/TrExcuted/Delete/` + id);
+  }
+
+
+  postTrExcutedFinancier(data: any) {
+    return this.http.post<any>(`${this.url}/TrExcutedFinancier/Add`, data);
+  }
+  getTrExcutedFinancier() {
+    return this.http.get<any>(`${this.url}/TrExcutedFinancier/get/all`);
+  }
+  // getTrExcutedFinancierDetailsByHeaderId(id: any) {
+  //   return this.http.get<any>(`${this.url}/TrPlanFinancier/get/by/header/${id}`);
+  // }
+  putTrExcutedFinancier(data: any) {
+    return this.http.put<any>(`${this.url}/TrExcutedFinancier/update`, data);
+  }
+  deleteTrExcutedFinancier(id: number) {
+    return this.http.delete<any>(`${this.url}/TrExcutedFinancier/Delete/` + id);
+  }
+
+
+  postTrExcutedInstructor(data: any) {
+    return this.http.post<any>(`${this.url}/TrExcutedInstructor/Add`, data);
+  }
+  getTrExcutedInstructor() {
+    return this.http.get<any>(`${this.url}/TrExcutedInstructor/get/all`);
+  }
+  // getTrInstructorByHeaderId(id: any) {
+  //   return this.http.get<any>(`${this.url}/TrPlanInstructor/get/Instructors/By/Plan/${id}`);
+  // }
+  putTrExcutedInstructor(data: any) {
+    return this.http.put<any>(`${this.url}/TrExcutedInstructor/update`, data);
+  }
+  deleteTrExcutedInstructor(id: number) {
+    return this.http.delete<any>(`${this.url}/TrExcutedInstructor/Delete/` + id);
+  }
+
+
+  postTrExcutedPosition(data: any) {
+    return this.http.post<any>(`${this.url}/TrExcutedPosition/Add`, data);
+  }
+  getTrExcutedPosition() {
+    return this.http.get<any>(`${this.url}/TrExcutedPosition/get/all`);
+  }
+  getTrExcutedPositionByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/TrExcutedPosition/get/By/Header/${id}`);
+  }
+  putTrExcutedPosition(data: any) {
+    return this.http.put<any>(`${this.url}/TrExcutedPosition/update`, data);
+  }
+  deleteTrExcutedPosition(id: number) {
+    return this.http.delete<any>(`${this.url}/TrExcutedPosition/Delete/` + id);
+  }
+
+
+  postTrExcutedTrainee(data: any) {
+    return this.http.post<any>(`${this.url}/TrExcutedTrainee/Add`, data);
+  }
+  getTrExcutedTrainee() {
+    return this.http.get<any>(`${this.url}/TrExcutedTrainee/get/all`);
+  }
+  getTrExcutedTraineeByHeaderId(id: any) {
+    return this.http.get<any>(`${this.url}/TrExcutedTrainee/get/By/Header/${id}`);
+  }
+  putTrExcutedTrainee(data: any) {
+    return this.http.put<any>(`${this.url}/TrExcutedTrainee/update`, data);
+  }
+  deleteTrExcutedTrainee(id: number) {
+    return this.http.delete<any>(`${this.url}/TrExcutedTrainee/Delete/` + id);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
 
   /******************************** TrTrainingCenterCourse **********************************/
   postTrainingCenterCourse(data: any) {
@@ -472,5 +567,50 @@ export class ApiService {
     return this.http.delete<any>(
       `${this.url}/TrPurpose/Delete/${id}`
     );
+  }
+
+
+  //////////////////trreports//////////////////////
+  getAccountreports(
+  
+    StartDate: any, EndDate: any,account: any, report: any, reportType: any
+  ) {
+    console.log(
+     
+     
+      'startdate: ',
+      StartDate,'account',account,
+     
+      'reportName:', report, 'reportType:', reportType
+  
+    );
+    `${this.url}/FIAccount/get/Report?`;
+    this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+  
+    
+   
+  
+  
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+    }
+  
+   
+    if (!account == false) {
+      this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+    }
+    
+    
+  
+    console.log('url', this.mycondition);
+  
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
 }
