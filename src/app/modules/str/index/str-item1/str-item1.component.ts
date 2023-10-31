@@ -22,6 +22,7 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -71,8 +72,9 @@ export class Unit {
   providers: [DatePipe],
 })
 export class STRItem1Component implements OnInit {
-  transactionUserId = localStorage.getItem('transactionUserId');
   loading :boolean=false;
+  transactionUserId = localStorage.getItem('transactionUserId');
+ 
   unitCtrl: FormControl;
   filteredUnits: Observable<Unit[]>;
   units: Unit[] = [];
@@ -557,7 +559,6 @@ export class STRItem1Component implements OnInit {
     console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     console.log('unitRow:', unit);
-
     this.api
       .printReportItems(
         name,
@@ -571,7 +572,7 @@ export class STRItem1Component implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          
+          this.loading=false
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
@@ -583,7 +584,7 @@ export class STRItem1Component implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
-        
+          this.loading=false
           console.log('eroorr', err);
           window.open(err.url);
         },
@@ -602,7 +603,7 @@ export class STRItem1Component implements OnInit {
     // console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     // console.log('unitRow:', unit);
-
+    this.loading=true
     this.api
       .printReportItems(
         name,
@@ -616,12 +617,13 @@ export class STRItem1Component implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          this.loading=false
           let blob: Blob = res.body as Blob;
           console.log(blob);
           let url = window.URL.createObjectURL(blob);
           localStorage.setItem('url', JSON.stringify(url));
           this.pdfurl = url;
-          this.dialog.open(STRItem1DialogComponent, {
+          this.dialog.open(PrintDialogComponent, {
             width: '70%',
           });
 
@@ -630,6 +632,7 @@ export class STRItem1Component implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
+          this.loading=false
           console.log('eroorr', err);
           window.open(err.url);
         },

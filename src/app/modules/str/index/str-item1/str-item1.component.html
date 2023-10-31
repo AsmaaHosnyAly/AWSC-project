@@ -1,4 +1,9 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <mat-card dir="rtl">
+
+ 
   <mat-card-content>
     <div class="page-title">الأصناف</div>
     <form [formGroup]="itemForm">
@@ -383,6 +388,7 @@
       Save
     </button>
   </div>
+ 
 </ng-template>
 <div class="text-center w=100" *ngIf="loading">
   <app-spinner></app-spinner>
