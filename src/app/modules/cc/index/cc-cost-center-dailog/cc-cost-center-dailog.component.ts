@@ -14,7 +14,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-export class Functionn {
+export class functionn {
   constructor(public id: number, public name: string) {}
 }
 
@@ -51,9 +51,9 @@ export class CcCostCenterDailogComponent {
   transactionUserId=localStorage.getItem('transactionUserId')
 
   functionnCtrl: FormControl;
-  filteredFunctionnes: Observable<Functionn[]>;
-  functionnes: Functionn[] = [];
-  selectedFunctionn: Functionn | undefined;
+  filteredfunctionnes: Observable<functionn[]>;
+  functionnes: functionn[] = [];
+  selectedfunctionn: functionn | undefined;
 
   sourceCtrl: FormControl;
   filteredSources: Observable<Source[]>;
@@ -113,9 +113,9 @@ vendorName: any;
     private toastr: ToastrService) {
 
       this.functionnCtrl = new FormControl();
-      this.filteredFunctionnes = this.functionnCtrl.valueChanges.pipe(
+      this.filteredfunctionnes = this.functionnCtrl.valueChanges.pipe(
         startWith(''),
-        map(value => this._filterFunctionnes(value))
+        map(value => this._filterfunctionnes(value))
       );
 
       this.sourceCtrl = new FormControl();
@@ -182,9 +182,12 @@ vendorName: any;
   
       this.api.getAllFunctionnes().subscribe((functionnes)=>{
         this.functionnes = functionnes;
+        console.log("function:",this.functionnes)
       });
       this.api.getAllSources().subscribe((sources)=>{
         this.sources = sources;
+        console.log("function:",this.sources)
+
       });
       this.api.getAllRegiones().subscribe((regiones)=>{
         this.regiones = regiones;
@@ -244,25 +247,25 @@ vendorName: any;
       }
     }
 
-    displayFunctionnName(functionnes: any): string {
+    displayfunctionnName(functionnes: any): string {
       return functionnes && functionnes.name ? functionnes.name : '';
     }
 
     functionnSelected(event: MatAutocompleteSelectedEvent): void {
-      const functionn = event.option.value as Functionn;
-      this.selectedFunctionn = functionn;
+      const functionn = event.option.value as functionn;
+      this.selectedfunctionn = functionn;
       this.equipmentForm.patchValue({ functionId: functionn.id });
       this.equipmentForm.patchValue({ functionName: functionn.name });
     }
 
-    private _filterFunctionnes(value: string): Functionn[] {
+    private _filterfunctionnes(value: string): functionn[] {
       const filterValue = value.toLowerCase();
       return this.functionnes.filter(functionn =>
         functionn.name.toLowerCase().includes(filterValue) 
       );
     }
 
-    openAutoFunctionn() {
+    openAutofunctionn() {
       this.functionnCtrl.setValue(''); // Clear the input field value
     
       // Open the autocomplete dropdown by triggering the value change event
@@ -463,7 +466,7 @@ vendorName: any;
     }
   }
 
-  displayFunctionn (option:any):string {
+  displayfunctionn (option:any):string {
     return option && option.name ? option.name:'';
 
   }
