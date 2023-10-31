@@ -72,6 +72,7 @@ export class Unit {
   providers: [DatePipe],
 })
 export class STRItem1Component implements OnInit {
+  loading :boolean=false;
   transactionUserId = localStorage.getItem('transactionUserId');
   unitCtrl: FormControl;
   filteredUnits: Observable<Unit[]>;
@@ -557,7 +558,6 @@ export class STRItem1Component implements OnInit {
     console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     console.log('unitRow:', unit);
-
     this.api
       .printReportItems(
         name,
@@ -571,6 +571,7 @@ export class STRItem1Component implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          this.loading=false
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
@@ -582,6 +583,7 @@ export class STRItem1Component implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
+          this.loading=false
           console.log('eroorr', err);
           window.open(err.url);
         },
@@ -600,7 +602,7 @@ export class STRItem1Component implements OnInit {
     // console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     // console.log('unitRow:', unit);
-
+    this.loading=true
     this.api
       .printReportItems(
         name,
@@ -614,6 +616,7 @@ export class STRItem1Component implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          this.loading=false
           let blob: Blob = res.body as Blob;
           console.log(blob);
           let url = window.URL.createObjectURL(blob);
@@ -628,6 +631,7 @@ export class STRItem1Component implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
+          this.loading=false
           console.log('eroorr', err);
           window.open(err.url);
         },
