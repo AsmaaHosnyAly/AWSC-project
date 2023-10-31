@@ -289,7 +289,7 @@ import { PrReportsComponent } from './modules/pr/index/pr-reports/pr-reports.com
 import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.component';
 // import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 // import { CcCostCenterDialogComponent } from './modules/cc/index/cc-cost-center-dialog/cc-cost-center-dialog.component';
-import { SpinnerComponent } from './files/spinner/spinner.component';
+
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -556,7 +556,7 @@ import { SpinnerComponent } from './files/spinner/spinner.component';
     AttendanceReportsComponent,
     PrReportsComponent,
     PyReportsComponent,
-    SpinnerComponent,
+  
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],
