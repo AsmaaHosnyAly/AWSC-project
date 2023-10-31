@@ -59,7 +59,7 @@ export class TrPlanCourseDataComponent{
   
   constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     this.courseCtrl = new FormControl();
-    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', '')
+    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', 'supervised_user_circle')
     this.filteredCourses = this.courseCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterCourses(value))

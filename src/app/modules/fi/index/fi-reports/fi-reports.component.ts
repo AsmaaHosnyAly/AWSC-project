@@ -26,9 +26,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class account {
-  constructor(public code: number,public id: number, public name: string) { }
+  constructor(public code: number,public id: number, public name: string,global:GlobalService) { 
+   
+  }
 }
 
 
@@ -99,9 +102,10 @@ export class FiReportsComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    global:GlobalService
   ) {
-
+    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
 
     // this.reportNameList = [
     //   {

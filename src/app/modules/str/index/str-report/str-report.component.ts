@@ -46,12 +46,7 @@ export class StrReportComponent {
     private global: GlobalService
   ) {
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-    global.getPermissionUserRoles(
-      1,
-      'stores',
-      'إدارة المخازن وحسابات المخازن - تقارير المخازن',
-      ''
-    );
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
   }
 
   async ngOnInit() {

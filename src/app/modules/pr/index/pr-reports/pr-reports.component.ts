@@ -28,6 +28,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class account {
   constructor(public code: number,public id: number, public name: string) { }
@@ -100,10 +101,11 @@ export class PrReportsComponent  implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
+    global:GlobalService,
     @Inject(LOCALE_ID) private locale: string
   ) {
 
-
+    global.getPermissionUserRoles('IT', '', 'الصلاحيات', 'verified_user')
     // this.reportNameList = [
     //   {
     //     titleval: 'STRItemsTransactionReport',

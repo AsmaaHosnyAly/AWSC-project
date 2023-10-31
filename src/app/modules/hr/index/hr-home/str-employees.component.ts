@@ -18,7 +18,7 @@ export class StrEmployeesComponent {
  
 
   constructor(private global:GlobalService){
-    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', 'people')
     const accessToken: any = localStorage.getItem('accessToken');
     this.decodedToken = jwt_decode(accessToken);
     this. decodedToken1 = this.decodedToken.modules;

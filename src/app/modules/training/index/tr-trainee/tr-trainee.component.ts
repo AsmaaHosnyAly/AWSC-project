@@ -24,7 +24,7 @@ export class TrTraineeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog: MatDialog, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService,global:GlobalService) {
-    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', '')
+    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', 'supervised_user_circle')
   }
 
   ngOnInit(): void {

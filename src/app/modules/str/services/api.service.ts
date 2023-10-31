@@ -1929,7 +1929,11 @@ export class ApiService {
       `${this.url}/STRModel/delete/${id}`
     );
   }
-
+  getModelId(id: number){
+    return this.http.delete<any>(
+      `${this.url}/STRModel/get/${id}`
+    );
+  }
   getStrEmployeeOpenSearach(
     no: any,
     costCenterId: any,

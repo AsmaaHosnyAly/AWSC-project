@@ -36,7 +36,7 @@ export class HrMillitryStateComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog,private hotkeysService: HotkeysService, private api : ApiService, private toastr: ToastrService,private global:GlobalService){
-    global.getPermissionUserRoles('HR', '', 'شئون العاملين', '')
+    global.getPermissionUserRoles('HR', '', 'شئون العاملين', 'people')
   }
   ngOnInit(): void {
     this.getAllMillitryStates();

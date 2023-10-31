@@ -39,7 +39,7 @@ export class STRGradeComponent implements OnInit {
   
   constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
     
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
   }
   ngOnInit(): void {
     this.getAllGrades();

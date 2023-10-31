@@ -22,6 +22,7 @@ import { StrModelDailogComponent } from '../str-model-dailog/str-model-dailog.co
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
+import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 export class vendor {
   constructor(public id: number, public name: string,public global:GlobalService) {}
 }
@@ -37,6 +38,7 @@ export class StrModelComponent {
   selectedVendor!: vendor;
   formcontrol = new FormControl('');
   gradeForm!: FormGroup;
+  pdfurl = '';
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
   displayedColumns: string[] = [ 'name', 'vendorName', 'action'];
@@ -52,7 +54,7 @@ export class StrModelComponent {
       map((value) => this._filterVendores(value))
     );
 
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
   }
   ngOnInit(): void {
     // console.log(productForm)
@@ -141,8 +143,9 @@ export class StrModelComponent {
           alert('خطأ فى حذف العنصر');
         },
       });
-    }
-  }
+    }}
+ 
+  
   
 
   openAutoVendor() {

@@ -23,7 +23,7 @@ loading : boolean= false ;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   constructor(private dialog : MatDialog,private toastr: ToastrService, private api : ApiService,private global:GlobalService,private hotkeysService: HotkeysService){
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', '')
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
 
   }
   ngOnInit(): void {

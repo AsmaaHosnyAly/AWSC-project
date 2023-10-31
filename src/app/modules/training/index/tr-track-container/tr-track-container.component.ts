@@ -18,7 +18,7 @@ export class TrTrackContainerComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog, private api: ApiService,global:GlobalService) {
-    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', '')
+    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', 'supervised_user_circle')
   }
 
   ngOnInit(): void {

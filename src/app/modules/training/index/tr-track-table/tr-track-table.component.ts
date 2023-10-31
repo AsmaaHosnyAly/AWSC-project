@@ -128,8 +128,7 @@ export class TrTrackTableComponent implements OnInit {
     private toastr: ToastrService,
     global:GlobalService
   ) {
-    global.getPermissionUserRoles(4, 'stores', ' الإدارة العامة للتدريب', '')
-    
+    global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', 'supervised_user_circle')
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
