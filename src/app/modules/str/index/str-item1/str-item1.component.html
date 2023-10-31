@@ -172,7 +172,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-            <div class="print-display" >
+            <div class="print-display" *ngIf="!loading">
               <mat-icon
                 (click)="getSearchItems(item.value, code.value, type.value)"
                 class="icons"
@@ -384,3 +384,6 @@
     </button>
   </div>
 </ng-template>
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>

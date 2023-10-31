@@ -72,6 +72,7 @@ export class Unit {
 })
 export class STRItem1Component implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId');
+  loading :boolean=false;
   unitCtrl: FormControl;
   filteredUnits: Observable<Unit[]>;
   units: Unit[] = [];
@@ -570,6 +571,7 @@ export class STRItem1Component implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
@@ -581,6 +583,7 @@ export class STRItem1Component implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
+        
           console.log('eroorr', err);
           window.open(err.url);
         },
