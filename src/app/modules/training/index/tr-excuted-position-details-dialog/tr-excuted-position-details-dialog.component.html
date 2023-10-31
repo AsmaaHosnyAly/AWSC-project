@@ -18,7 +18,7 @@
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                     <input matInput aria-label="commodity" [matAutocomplete]="autoPosition" [formControl]="positionCtrl"
-                        placeholder="{{editData ? editData.positionId: ''}}" (click)="openAutoPosition()" required />
+                        placeholder="{{editData ? editData.positionName: ''}}" (click)="openAutoPosition()" required />
                     <mat-autocomplete #autoPosition="matAutocomplete" [displayWith]="displayPositionName"
                         (optionSelected)="PositionSelected($event)">
                         <mat-option *ngFor="let position of filteredPosition | async" [value]="position">

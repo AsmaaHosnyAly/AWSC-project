@@ -287,11 +287,10 @@ import { TrReportsComponent } from './modules/training/index/tr-reports/tr-repor
 import { AttendanceReportsComponent } from './modules/attendance/index/attendance-reports/attendance-reports.component';
 import { PrReportsComponent } from './modules/pr/index/pr-reports/pr-reports.component';
 import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.component';
+
 // import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 // import { CcCostCenterDialogComponent } from './modules/cc/index/cc-cost-center-dialog/cc-cost-center-dialog.component';
-
-
-
+import { SpinnerComponent } from './spinner/spinner.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -558,6 +557,7 @@ import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.com
     AttendanceReportsComponent,
     PrReportsComponent,
     PyReportsComponent,
+    SpinnerComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],
@@ -600,7 +600,7 @@ import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.com
     NgxExtendedPdfViewerModule,
     MatTabsModule,
     HotkeyModule.forRoot(),
-   
+    
     // FontAwesomeModul
     // FontAwesomeModule,
   ],

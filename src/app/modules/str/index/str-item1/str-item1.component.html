@@ -1,4 +1,9 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <mat-card dir="rtl">
+
+ 
   <mat-card-content>
     <div class="page-title">الأصناف</div>
     <form [formGroup]="itemForm">
@@ -172,7 +177,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-            <div class="print-display" >
+            <div class="print-display" *ngIf="!loading">
               <mat-icon
                 (click)="getSearchItems(item.value, code.value, type.value)"
                 class="icons"
@@ -383,4 +388,5 @@
       Save
     </button>
   </div>
+ 
 </ng-template>
