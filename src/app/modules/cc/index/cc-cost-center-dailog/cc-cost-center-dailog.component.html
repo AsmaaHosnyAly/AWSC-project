@@ -20,12 +20,12 @@
             
           </mat-label>
           <mat-form-field appearance="outline">
-            <input matInput aria-label="functionn" [matAutocomplete]="autoFunctionn" [formControl]="functionnCtrl"
-              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoFunctionn()" required />
-            <mat-autocomplete #autoFunctionn="matAutocomplete" [displayWith]="displayFunctionnName"
+            <input matInput aria-label="functionn" [matAutocomplete]="autofunctionn" [formControl]="functionnCtrl"
+              placeholder="{{getModelData  ? getModelData.functionname : ''}}" (click)="openAutofunctionn()" required />
+            <mat-autocomplete #autofunctionn="matAutocomplete" [displayWith]="displayfunctionnName"
               (optionSelected)="functionnSelected($event)">
-              <mat-option *ngFor="let functionn of filteredFunctionnes | async" [value]="functionn">
-                {{ functionn.name }} 
+              <mat-option *ngFor="let function of filteredfunctionnes | async" [value]="function">
+                {{ function.name }} 
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -36,7 +36,7 @@
           </mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="source" [matAutocomplete]="autoSource" [formControl]="sourceCtrl"
-              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoSource()" required />
+              placeholder="{{getModelData  ? getModelData.sourceName : ''}}" (click)="openAutoSource()" required />
             <mat-autocomplete #autoSource="matAutocomplete" [displayWith]="displaySourceName"
               (optionSelected)="sourceSelected($event)">
               <mat-option *ngFor="let source of filteredSources | async" [value]="source">

@@ -88,6 +88,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/all`);
   }
   getTrTrackDetailsByMasterId(id: any) {
+    console.log('id in get by header:',id)
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/by/header/${id}`);
   }
   putTrTrackDetails(data: any) {

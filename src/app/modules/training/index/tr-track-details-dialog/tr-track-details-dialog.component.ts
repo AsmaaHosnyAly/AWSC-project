@@ -60,8 +60,8 @@ export class TrTrackDetailsDialogComponent implements OnInit {
   getDetailsRowId: any;
   journalsList: any;
   sourcesList: any;
-  courseId:any;
-  trackId:any
+  CourseId:any;
+  TrackId:any
   // employeesList: any;
   distEmployeesList: any;
   costCentersList: any;
@@ -145,8 +145,8 @@ export class TrTrackDetailsDialogComponent implements OnInit {
     this.groupDetailsForm = this.formBuilder.group({
       // exchangeId: ['', Validators.required],
       courseId: ['', Validators.required],
-      courseName: [''],
-      trackName: [''],
+      // courseName: [''],
+      // trackName: [''],
 
       // value: ['', Validators.required],
       // employeeId: ['', Validators.required],
@@ -414,19 +414,19 @@ export class TrTrackDetailsDialogComponent implements OnInit {
       if (this.getMasterRowId) {
         // console.log("form  headerId: ", this.getMasterRowId.id)
 
-        if (this.groupDetailsForm.getRawValue().courseId || this.groupDetailsForm.getRawValue().trackId) {
-          this.courseName = await this.getcourseByID(
-            this.groupDetailsForm.getRawValue().courseId
-          );
-          this.groupDetailsForm.controls['courseName'].setValue(this.courseName);
-          this.trackName = await this.getTrackByID(
-            this.groupDetailsForm.getRawValue().trackId
-          );
-          this.groupDetailsForm.controls['trackName'].setValue(this.trackName);
+        // if (this.groupDetailsForm.getRawValue().courseId || this.groupDetailsForm.getRawValue().trackId) {
+        //   this.courseName = await this.getcourseByID(
+        //     this.groupDetailsForm.getRawValue().courseId
+        //   );
+        //   this.groupDetailsForm.controls['courseName'].setValue(this.courseName);
+        //   this.trackName = await this.getTrackByID(
+        //     this.groupDetailsForm.getRawValue().trackId
+        //   );
+        //   this.groupDetailsForm.controls['trackName'].setValue(this.trackName);
 
           this.groupDetailsForm.controls['transactionUserId'].setValue(1);
-          // alert("itemId")
-        }
+        //   // alert("itemId")
+        // }
         // this.groupDetailsForm.controls['Tr_TrackId'].setValue(
         //   parseInt(this.getMasterRowId)
         // );
@@ -440,7 +440,7 @@ export class TrTrackDetailsDialogComponent implements OnInit {
 
         if (this.groupDetailsForm.valid) {
           console.log(
-            'form details after item: ',
+            'form details after post: ',
             this.groupDetailsForm.value
           );
 

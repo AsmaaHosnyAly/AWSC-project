@@ -241,7 +241,7 @@ export class TrTrackTableComponent implements OnInit {
     this.dialog
       .open(TrTrackDialogComponent, {
         width: '55%',
-        height: '79%'
+        height: '75%'
       })
       .afterClosed()
       .subscribe((val) => {
@@ -416,7 +416,7 @@ export class TrTrackTableComponent implements OnInit {
     this.dialog
       .open(TrTrackDialogComponent, {
         width: '55%',
-        height: '79%',
+        height: '75%',
         data: row,
       })
       .afterClosed()
