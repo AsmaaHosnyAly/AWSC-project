@@ -167,6 +167,7 @@ import { PrUserChangePasswordDialogComponent } from './modules/pr/index/pr-user-
 import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excuted.component';
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
 import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
+import { CcReportsComponent } from './modules/cc/index/cc-reports/cc-reports.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -669,6 +670,9 @@ const routes: Routes = [
   { path: 'Cc-PlantComponent', component: CcPlantComponentComponent },
   { path: 'Cc-Equipment',component:CcEquipmentComponent},
   { path: 'Cc-costcenter',component:CcCostCenterComponent},
+  { path: 'Cc-Reports',component:CcReportsComponent},
+
+  
 ],
   },
 ];
