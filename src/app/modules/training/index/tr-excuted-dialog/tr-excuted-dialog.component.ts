@@ -102,7 +102,7 @@ export class TrExcutedDialogComponent implements OnInit {
 
   displayedColumns: string[] = ['financierName', 'action'];
   displayedInstructorsColumns: string[] = ['instructorId', 'action'];
-  displayedPositionsColumns: string[] = ['positionId', 'action'];
+  displayedPositionsColumns: string[] = ['positionName', 'action'];
   displayedTraineesColumns: string[] = ['employeeName', 'action'];
 
   sessionId = Math.random();

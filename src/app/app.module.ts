@@ -285,6 +285,7 @@ import { TrReportsComponent } from './modules/training/index/tr-reports/tr-repor
 import { AttendanceReportsComponent } from './modules/attendance/index/attendance-reports/attendance-reports.component';
 import { PrReportsComponent } from './modules/pr/index/pr-reports/pr-reports.component';
 import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.component';
+
 // import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 // import { CcCostCenterDialogComponent } from './modules/cc/index/cc-cost-center-dialog/cc-cost-center-dialog.component';
 
