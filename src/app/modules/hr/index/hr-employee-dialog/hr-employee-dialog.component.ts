@@ -190,6 +190,7 @@ export class HrEmployeeDialogComponent implements OnInit {
       email:['',Validators.required],
       phone:['',Validators.required],
       transactionUserId: ['', Validators.required],
+      updateUserName:['admin',Validators.required]
     });
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current compone();
