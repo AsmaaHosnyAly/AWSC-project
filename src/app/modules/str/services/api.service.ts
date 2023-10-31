@@ -9,7 +9,7 @@ import { PagesEnums } from 'src/app/core/enums/pages.enum';
 })
 export class ApiService {
   pageEnums = PagesEnums
-  url =this.pageEnums.URL
+  url = this.pageEnums.URL
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
 
@@ -613,9 +613,11 @@ export class ApiService {
 
   getStrStockTakingItem(
     no: any,
+    startDate: any,
+    endDate: any,
     storeId: any,
     fiscalYear: any,
-    itemId: any ,
+    itemId: any,
     report: any, reportType: any
 
   ) {
@@ -623,8 +625,14 @@ export class ApiService {
     `${this.url}/STRItem/get/Report?`;
     this.mycondition = `${this.url}/StrStockTaking/get/Report?reportName=${report}&reportType=${reportType}`;
 
-  if (!no == false) {
+    if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
+    }
+    if (!startDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${startDate}`;
+    }
+    if (!endDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${endDate}`;
     }
     if (!storeId == false) {
       this.mycondition = ` ${this.mycondition}&StoreId=${storeId}`;
@@ -644,7 +652,7 @@ export class ApiService {
       responseType: 'blob',
     });
   }
-  
+
 
   getStr(
     no: any,
@@ -968,6 +976,11 @@ export class ApiService {
   postStrOpenDetails(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStockDetails/Add`, data);
   }
+  getStrOpenDetailsPaginateByMasterId(masterId: any, currentPage: any, pageSize: any) {
+    console.log("masterId: ", masterId, "page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/STROpeningStockDetails/get/by/pagination?id=${masterId}&page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   getStrOpenAllDetails() {
     return this.http.get<any>(`${this.url}/STROpeningStockDetails/get/all`);
   }
@@ -1248,7 +1261,7 @@ export class ApiService {
     console.log('url', this.mycondition);
 
     return this.http.get<any>(`${this.mycondition}`);
-  
+
   }
 
   // open Empoyee
@@ -1450,13 +1463,13 @@ export class ApiService {
   }
   getEmployee() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
-   
+
   }
   getseller() {
     return this.http.get<any>(
       `${this.url}/PRSeller/get/all`
     );
-    
+
   }
 
   getSellerById(id: any) {
@@ -1464,7 +1477,7 @@ export class ApiService {
     return urlPassed;
   }
 
- 
+
   ////////file upload/////////
 
   ////////file upload/////////
@@ -1481,7 +1494,7 @@ export class ApiService {
     return this.http.post(`${this.url}/STRProduct/UploadFile`, formData);
     // alert(this.baseApiUrl)
   }
- 
+
   ///////////////////////////////// STR-Product/////////////////////////////
   postStrProduct(data: any) {
     console.log('form add product data to backend: ', data);
@@ -1518,14 +1531,14 @@ export class ApiService {
   public uploadFile(payload: FormData) {
     return this.http.post('${this.url}/STRProduct/UploadFile', payload);
   }
-  
+
   getVendors() {
     return this.http.get<any>(`${this.url}/STRVendor/get/all`);
   }
 
   getModels() {
     return this.http.get<any>(`${this.url}/STRModel/get/all`);
-  }  
+  }
   // ----Start Add----
 
   GetWithDrawByDestStore(storeId: any) {
@@ -1633,7 +1646,7 @@ export class ApiService {
   }
   getType() {
     return this.http.get<any>(`${this.url}/STRAddType/get/all`);
-   
+
   }
 
   getTypeById(id: any) {
@@ -1642,13 +1655,13 @@ export class ApiService {
   }
   getSeller() {
     return this.http.get<any>(`${this.url}/PRSeller/get/all`);
-   
+
   }
   getReciept() {
     return this.http.get<any>(
       `${this.url}/STRAddReceipt/get/all`
     );
-   
+
   }
 
   getRecieptById(id: any) {
@@ -1666,6 +1679,12 @@ export class ApiService {
     return this.http.get<any>(
       `${this.url}/StrStockTakingDetails/get/by/header/${id}`)
 
+  }
+
+  getStrStockTakingDetailsPaginateByMasterId(masterId: any, currentPage: any, pageSize: any) {
+    console.log("masterId: ", masterId, "page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/StrStockTakingDetails/get/by/pagination?StockTakingid=${masterId}&page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
 
   // getStrAddDetailsByMasterId(id:any){
@@ -1874,7 +1893,7 @@ export class ApiService {
     console.log('url', this.mycondition);
 
     return this.http.get<any>(`${this.mycondition}`);
-    
+
   }
 
   // vendor
@@ -1901,7 +1920,7 @@ export class ApiService {
     );
   }
 
- 
+
 
   getAllVendor() {
     return this.http.get<any>(`${this.url}/STRVendor/get/all`);
@@ -1929,7 +1948,7 @@ export class ApiService {
       `${this.url}/STRModel/delete/${id}`
     );
   }
-  getModelId(id: number){
+  getModelId(id: number) {
     return this.http.delete<any>(
       `${this.url}/STRModel/get/${id}`
     );
@@ -2078,23 +2097,23 @@ export class ApiService {
 
   ////////////////////reports//////////////
   // getreports(
-  
+
   //   store: any,StartDate: any, EndDate: any, report: any, reportType: any
   // ) {
   //   console.log(
-     
+
   //     'store : ',
   //     store,
   //     'startdate: ',
   //     StartDate,
-     
+
   //     'reportName:', report, 'reportType:', reportType
 
   //   );
   //   `${this.url}/STRItem/Get/Sum/Of/Qty/Between/Two/Date?`;
   //   this.mycondition = `${this.url}/STRItem/Get/Sum/Of/Qty/Between/Two/Date?reportName=${report}&reportType=${reportType}`;
 
-    
+
   //   if (!store == false) {
   //     this.mycondition = ` ${this.mycondition}&storeid=${store}`;
   //   }
@@ -2114,12 +2133,12 @@ export class ApiService {
   //     this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
   //   }
 
-   
+
   //   // if (!item == false) {
   //   //   this.mycondition = ` ${this.mycondition}&itemId=${item}`;
   //   // }
-    
-    
+
+
 
   //   console.log('url', this.mycondition);
 
@@ -2131,23 +2150,23 @@ export class ApiService {
   // }
 
   getTranscriptreports(
-  
-    store: any,StartDate: any, EndDate: any,item: any, report: any, reportType: any
+
+    store: any, StartDate: any, EndDate: any, item: any, report: any, reportType: any
   ) {
     console.log(
-     
+
       'store : ',
       store,
       'startdate: ',
-      StartDate,'item',item,
-     
+      StartDate, 'item', item,
+
       'reportName:', report, 'reportType:', reportType
 
     );
     `${this.url}/STRItem/get/Report?`;
     this.mycondition = `${this.url}/STRItem/get/Report?reportName=${report}&reportType=${reportType}`;
 
-    
+
     if (!store == false) {
       this.mycondition = ` ${this.mycondition}&soreId=${store}`;
     }
@@ -2167,12 +2186,12 @@ export class ApiService {
       this.mycondition = ` ${this.mycondition}&enddate=${EndDate}`;
     }
 
-   
+
     if (!item == false) {
       this.mycondition = ` ${this.mycondition}&itemId=${item}`;
     }
-    
-    
+
+
 
     console.log('url', this.mycondition);
 
@@ -2184,5 +2203,5 @@ export class ApiService {
   }
 
 
-  
+
 }
