@@ -289,7 +289,7 @@ import { PrReportsComponent } from './modules/pr/index/pr-reports/pr-reports.com
 import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.component';
 // import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 // import { CcCostCenterDialogComponent } from './modules/cc/index/cc-cost-center-dialog/cc-cost-center-dialog.component';
-
+import { SpinnerComponent } from './core/spinner/spinner.component';
 
 
 
@@ -560,6 +560,7 @@ import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.com
     PyReportsComponent,
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

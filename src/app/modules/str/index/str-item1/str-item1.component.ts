@@ -22,6 +22,7 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 export class Commodity {
   constructor(public id: number, public name: string, public code: string) {}
 }
@@ -618,7 +619,7 @@ export class STRItem1Component implements OnInit {
           let url = window.URL.createObjectURL(blob);
           localStorage.setItem('url', JSON.stringify(url));
           this.pdfurl = url;
-          this.dialog.open(STRItem1DialogComponent, {
+          this.dialog.open(PrintDialogComponent, {
             width: '70%',
           });
 
