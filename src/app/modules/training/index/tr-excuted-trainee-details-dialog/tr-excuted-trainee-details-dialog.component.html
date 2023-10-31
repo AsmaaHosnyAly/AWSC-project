@@ -18,7 +18,7 @@
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                     <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-                        placeholder="{{editData ? editData.employeeId: ''}}" (click)="openAutoEmployee()" required />
+                        placeholder="{{editData ? editData.employeeName: ''}}" (click)="openAutoEmployee()" required />
                     <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
                         (optionSelected)="EmployeeSelected($event)">
                         <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
@@ -34,7 +34,7 @@
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                     <input matInput aria-label="commodity" [matAutocomplete]="autoTrainee" [formControl]="traineeCtrl"
-                        placeholder="{{editData ? editData.traineeId: ''}}" (click)="openAutoTrainee()" required />
+                        placeholder="{{editData ? editData.traineeName: ''}}" (click)="openAutoTrainee()" required />
                     <mat-autocomplete #autoTrainee="matAutocomplete" [displayWith]="displayTraineeName"
                         (optionSelected)="TraineeSelected($event)">
                         <mat-option *ngFor="let trainee of filteredTrainee | async" [value]="trainee">
