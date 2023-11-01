@@ -168,6 +168,7 @@ import { TrExcutedComponent } from './modules/training/index/tr-excuted/tr-excut
 import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipment.component';
 import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 import { CcReportsComponent } from './modules/cc/index/cc-reports/cc-reports.component';
+import { FaHomeComponent } from './modules/fa/index/fa-home/fa-home.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -672,7 +673,11 @@ const routes: Routes = [
   { path: 'Cc-costcenter',component:CcCostCenterComponent},
   { path: 'Cc-Reports',component:CcReportsComponent},
 
+  /*********************start py module الاصول الثابتة***************************/
+  { path: 'faHome', component:FaHomeComponent },
   
+  
+  /*********************End py module  الاصول الثابتة***************************/
 ],
   },
 ];
