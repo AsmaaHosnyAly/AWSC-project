@@ -173,6 +173,7 @@ import { FaCategoryThirdComponent } from './modules/fa/index/fa-category-third/f
 import { FaCategorySecondComponent } from './modules/fa/index/fa-category-second/fa-category-second.component';
 import { FaCategoryFirstComponent } from './modules/fa/index/fa-category-first/fa-category-first.component';
 import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
+import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
