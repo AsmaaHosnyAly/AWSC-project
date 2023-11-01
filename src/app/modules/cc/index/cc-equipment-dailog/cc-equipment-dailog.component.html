@@ -6,22 +6,21 @@
   <form [formGroup]="equipmentForm" dir="rtl">
       <div mat-dialog-content>
         <form [formGroup]="equipmentForm">
-        
+          <mat-label>الكود</mat-label>
+
           <mat-form-field appearance="outline">
-            <mat-label>الاسم</mat-label>
-            <input formControlName="name" matInput placeholder="ادخل الاسم">
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>الكود</mat-label>
             <input formControlName="code" matInput placeholder="ادخل الكود">
           </mat-form-field>
-          <mat-label>اسم مركز التكاليف
+          <mat-label>الاسم</mat-label>
 
-            
-          </mat-label>
+          <mat-form-field appearance="outline">
+            <input formControlName="name" matInput placeholder="ادخل الاسم">
+          </mat-form-field>
+        
+          <mat-label> مركز التكاليف</mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="costCenter" [matAutocomplete]="autoCostCenter" [formControl]="costCenterCtrl"
-              placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoCostCenter()" required />
+              placeholder="{{getModelData  ? getModelData.CostCenterName : ''}}" (click)="openAutoCostCenter()" required />
             <mat-autocomplete #autoCostCenter="matAutocomplete" [displayWith]="displayCostCenterName"
               (optionSelected)="costCenterSelected($event)">
               <mat-option *ngFor="let costCenter of filteredCostCenteres | async" [value]="costCenter">
