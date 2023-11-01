@@ -416,6 +416,9 @@ export class StrStockTakingTableComponent implements OnInit {
         },
       });
   }
+  previewReportRow(row: any) {
+    console.log("row preview report: ", row);
+  }
 
   previewPrint(
     no: any,
@@ -427,10 +430,16 @@ export class StrStockTakingTableComponent implements OnInit {
   ) {
     let itemId = this.groupDetailsForm.getRawValue().itemId;
     let storeId = this.groupMasterForm.getRawValue().storeId;
+    let id;
     if (report != null && reportType != null) {
+
+      if (report == 'StockItemsSumReport') {
+        id = 6;
+      }
+
       this.api
         .getStrStockTakingItem(
-          no, StartDate, EndDate, storeId, fiscalYear, itemId, report, 'pdf'
+          id, no, StartDate, EndDate, storeId, fiscalYear, itemId, report, 'pdf'
         )
         .subscribe({
           next: (res) => {
@@ -461,17 +470,23 @@ export class StrStockTakingTableComponent implements OnInit {
   download(
     no: any,
     StartDate: any,
-    EndDate:any,
+    EndDate: any,
     fiscalYear: any,
     report: any,
     reportType: any
   ) {
     let itemId = this.groupDetailsForm.getRawValue().itemId;
     let storeId = this.groupMasterForm.getRawValue().storeId;
+    let id;
 
     if (report != null && reportType != null) {
+
+      if (report == 'StockItemsSumReport') {
+        id = 6;
+      }
+
       this.api
-        .getStrStockTakingItem(no, StartDate, EndDate, storeId, fiscalYear, itemId, report, 'pdf')
+        .getStrStockTakingItem(id, no, StartDate, EndDate, storeId, fiscalYear, itemId, report, 'pdf')
         .subscribe({
           next: (res) => {
             console.log('search:', res);

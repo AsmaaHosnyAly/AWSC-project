@@ -18,7 +18,7 @@
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                     <input matInput aria-label="commodity" [matAutocomplete]="autoFinancier"
-                        [formControl]="financierCtrl" placeholder="{{editData ? editData.financierId: ''}}"
+                        [formControl]="financierCtrl" placeholder="{{editData ? editData.financierName: ''}}"
                         (click)="openAutoFinancier()" required />
                     <mat-autocomplete #autoFinancier="matAutocomplete" [displayWith]="displayFinancierName"
                         (optionSelected)="FinancierSelected($event)">
