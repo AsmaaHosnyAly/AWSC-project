@@ -112,4 +112,14 @@ export class MenubarComponent {
       return false;
     }
   }
+  redirectToModuleHome(name: string): boolean {
+    const MODULES_LOCAL_STORAGE = this.decodedToken1;
+    const MODULES: Array<any> = MODULES_LOCAL_STORAGE;
+    // console.log('array : ', MODULES);
+    if (MODULES != undefined) {
+      return MODULES.some((i: any) => i == name);
+    } else {
+      return false;
+    }
+  }
 }
