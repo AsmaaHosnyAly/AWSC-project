@@ -19,6 +19,16 @@
                 <mat-card-title>نوع الدورة التدريبة </mat-card-title>
             </mat-card-content>
           </mat-card>  
+          <mat-card class="card-class" routerLink="/TrPlan"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title> الدورات التدريبية المخططة</mat-card-title>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="card-class" routerLink="/TrExcuted"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title> الدورات التدريبية المنفذة</mat-card-title>
+            </mat-card-content>
+          </mat-card>
           <mat-card class="card-class" routerLink="/TR-Instructor"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
             <mat-card-content>
                 <mat-card-title> المدربين</mat-card-title>
