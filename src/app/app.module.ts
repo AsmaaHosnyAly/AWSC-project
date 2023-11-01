@@ -292,6 +292,8 @@ import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.com
 // import { CcCostCenterDialogComponent } from './modules/cc/index/cc-cost-center-dialog/cc-cost-center-dialog.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FaHomeComponent } from './modules/fa/index/fa-home/fa-home.component';
+import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
+import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -559,7 +561,9 @@ import { FaHomeComponent } from './modules/fa/index/fa-home/fa-home.component';
     PrReportsComponent,
     PyReportsComponent,
     SpinnerComponent,
-    FaHomeComponent
+    FaHomeComponent,
+    CcHomeComponent,
+    TrHomeComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],

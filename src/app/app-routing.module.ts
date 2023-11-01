@@ -169,6 +169,7 @@ import { CcEquipmentComponent } from './modules/cc/index/cc-equipment/cc-equipme
 import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost-center.component';
 import { CcReportsComponent } from './modules/cc/index/cc-reports/cc-reports.component';
 import { FaHomeComponent } from './modules/fa/index/fa-home/fa-home.component';
+import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -624,7 +625,7 @@ const routes: Routes = [
   /*********************End Hr-attendance module  الحضور والانصراف***************************/
 
   /*********************start TR   التدريب***************************/
-
+  { path: 'TrHome', component: TrHomeComponent },
   { path: 'Tr-ClassRoom', component: TrClassRoomComponent },
   { path: 'TrTrainee', component: TrTraineeComponent },
   { path: 'TR-Instructor', component: TrInstructorComponent },
