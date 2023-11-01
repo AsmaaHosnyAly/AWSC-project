@@ -17,7 +17,7 @@ import { Hotkey } from 'angular2-hotkeys';
 export class FaCategoryFirstDialogComponent implements OnInit{
   transactionUserId = localStorage.getItem('transactionUserId')
   autoCode: any;
-  faCategorySecondForm !: FormGroup;
+  faCategoryFirstForm !: FormGroup;
   actionBtn: string = "حفظ";
 
   constructor(private formBuilder: FormBuilder,
@@ -28,7 +28,7 @@ export class FaCategoryFirstDialogComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.faCategorySecondForm = this.formBuilder.group({
+    this.faCategoryFirstForm = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
       transactionUserId: ['', Validators.required],
@@ -36,7 +36,7 @@ export class FaCategoryFirstDialogComponent implements OnInit{
 
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
-      this.addFaCategorySecond();
+      this.addFaCategoryFirst();
       return false; // Prevent the default browser behavior
     }));
 
@@ -45,37 +45,37 @@ export class FaCategoryFirstDialogComponent implements OnInit{
       console.log("edit data", this.editData);
 
       this.actionBtn = "تعديل";
-      this.faCategorySecondForm.controls['code'].setValue(this.editData.code);
-      this.faCategorySecondForm.controls['name'].setValue(this.editData.name);
-      this.faCategorySecondForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.faCategoryFirstForm.controls['code'].setValue(this.editData.code);
+      this.faCategoryFirstForm.controls['name'].setValue(this.editData.name);
+      this.faCategoryFirstForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      this.faCategorySecondForm.addControl('id', new FormControl('', Validators.required));
-      this.faCategorySecondForm.controls['id'].setValue(this.editData.id);
+      this.faCategoryFirstForm.addControl('id', new FormControl('', Validators.required));
+      this.faCategoryFirstForm.controls['id'].setValue(this.editData.id);
 
     }
     else {
-      this.getFaCategorySecondAutoCode();
+      this.getFaCategoryFirstAutoCode();
     }
 
   }
 
 
 
-  async addFaCategorySecond() {
+  async addFaCategoryFirst() {
     if (!this.editData) {
-      this.faCategorySecondForm.removeControl('id')
+      this.faCategoryFirstForm.removeControl('id')
 
-      this.faCategorySecondForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.faCategoryFirstForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      console.log("form post value: ", this.faCategorySecondForm.value)
+      console.log("form post value: ", this.faCategoryFirstForm.value)
 
-      if (this.faCategorySecondForm.valid) {
+      if (this.faCategoryFirstForm.valid) {
 
-        this.api.postFaCategorySecond(this.faCategorySecondForm.value)
+        this.api.postFaCategoryFirst(this.faCategoryFirstForm.value)
           .subscribe({
             next: (res) => {
               this.toastrPostSuccess();
-              this.faCategorySecondForm.reset();
+              this.faCategoryFirstForm.reset();
 
               this.dialogRef.close('حفظ');
             },
@@ -90,18 +90,18 @@ export class FaCategoryFirstDialogComponent implements OnInit{
 
     }
     else {
-      this.updateFaCategorySecond()
+      this.updateFaCategoryFirst()
     }
   }
 
-  updateFaCategorySecond() {
-    console.log("update form values: ", this.faCategorySecondForm.value)
-    this.api.putFaCategorySecond(this.faCategorySecondForm.value)
+  updateFaCategoryFirst() {
+    console.log("update form values: ", this.faCategoryFirstForm.value)
+    this.api.putFaCategoryFirst(this.faCategoryFirstForm.value)
       .subscribe({
         next: (res) => {
           this.toastrEditSuccess()
 
-          this.faCategorySecondForm.reset();
+          this.faCategoryFirstForm.reset();
           this.dialogRef.close('تعديل');
         },
         error: () => {
@@ -110,13 +110,13 @@ export class FaCategoryFirstDialogComponent implements OnInit{
       })
   }
 
-  getFaCategorySecondAutoCode() {
-    this.api.getFaCategorySecondAutoCode()
+  getFaCategoryFirstAutoCode() {
+    this.api.getFaCategoryFirstAutoCode()
       .subscribe({
         next: (res) => {
           console.log("autoCode res: ", res);
           this.autoCode = res;
-          this.faCategorySecondForm.controls['code'].setValue(this.autoCode);
+          this.faCategoryFirstForm.controls['code'].setValue(this.autoCode);
         },
         error: (err) => {
           console.log("fetch autoCode data err: ", err);
