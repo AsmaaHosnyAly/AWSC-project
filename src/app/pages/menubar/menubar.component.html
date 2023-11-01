@@ -539,11 +539,11 @@
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/hr-attendanceMachine"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">الة الحضور</p>
+                <p class="font">جهاز البصمة</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/hr-attendanceMachineWorkPlace"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">جهاز البصمة</p>
+                <p class="font">مكان جهاز البصمة</p>
               </a>
             </mat-nav-list>
           </mat-expansion-panel>
@@ -640,6 +640,14 @@
               <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Course"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font">الدورات التدريبية</p>
+              </a>
+              <a mat-list-item class="sideNavSubItems" routerLink="/TrPlan"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+                <p class="font">الدورات المخططة</p>
+              </a>
+              <a mat-list-item class="sideNavSubItems" routerLink="/TrExcuted"
+                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+                <p class="font">الدورات المنفذة</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/Tr-CourseCategory"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
