@@ -170,6 +170,7 @@ import { CcCostCenterComponent } from './modules/cc/index/cc-cost-center/cc-cost
 import { CcReportsComponent } from './modules/cc/index/cc-reports/cc-reports.component';
 import { FaHomeComponent } from './modules/fa/index/fa-home/fa-home.component';
 import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
+import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -662,7 +663,7 @@ const routes: Routes = [
 
 
   ////////////////////////////////CC///////////////////
-  
+  { path: 'ccHome', component: CcHomeComponent },
   { path: 'Cc-activity', component: CcActivityComponent },
   { path: 'Cc-Function', component: CcFunctionComponent },
   { path: 'Cc-Region', component: CcRegionComponent },
