@@ -10,9 +10,7 @@
 
                 <div class="headerForm">
 
-
-
-                    <div class="searchLabels" style="width: 8rem;">
+                    <div class="searchLabels" style="width: 20rem;">
                         <mat-label>الاسم*</mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
@@ -21,30 +19,22 @@
                     </div>
 
 
-                    <div class="searchLabels" style="width: 8rem;" min=0>
-                        <mat-label>السعر:</mat-label>
+                    <div class="searchLabels" style="width: 10rem;" min=0>
+                        <mat-label>السعر*</mat-label>
                         <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
 
-                            <input id="autoNoInput" matInput formControlName="price"
-                               type="number" min="0">
+                            <input id="autoNoInput" matInput formControlName="price" type="number" min="0">
                         </mat-form-field>
                     </div>
-
-                    <div class="searchLabels" style="width: 17rem;">
+                </div>
+                <div class="headerForm">
+                    <div class="searchLabels" style="width: 30rem;">
                         <mat-label>الوصف</mat-label>
 
-                        <mat-form-field appearance="outline" style="width:96% ;">
+                        <mat-form-field appearance="outline" style="width:100% ;">
                             <input formControlName="description" matInput placeholder="الوصف ...">
                         </mat-form-field>
                     </div>
-
-
-
-
-
-
-
-
 
                 </div>
                 <div dir="ltr">
@@ -82,19 +72,11 @@
                     <div class="tableFixHead">
                         <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
-                            <!-- credit Column -->
-                            <ng-container matColumnDef="courseId">
+                            <!-- courseName Column -->
+                            <ng-container matColumnDef="courseName">
                                 <th mat-header-cell *matHeaderCellDef> الكورس</th>
-                                <td mat-cell *matCellDef="let row"> {{row.courseId}} </td>
+                                <td mat-cell *matCellDef="let row"> {{row.courseName}} </td>
                             </ng-container>
-
-                            <!-- debit Column -->
-                            <ng-container matColumnDef="trackId">
-                                <th mat-header-cell *matHeaderCellDef> المسار</th>
-                                <td mat-cell *matCellDef="let row"> {{row.trackId}} </td>
-                            </ng-container>
-
-                           
 
                             <!-- action Column -->
                             <ng-container matColumnDef="action">
