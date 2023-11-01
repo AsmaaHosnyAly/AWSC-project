@@ -298,6 +298,8 @@ import { FaCategorySecondComponent } from './modules/fa/index/fa-category-second
 import { FaCategorySecondDialogComponent } from './modules/fa/index/fa-category-second-dialog/fa-category-second-dialog.component';
 import { FaCategoryFirstComponent } from './modules/fa/index/fa-category-first/fa-category-first.component';
 import { FaCategoryFirstDialogComponent } from './modules/fa/index/fa-category-first-dialog/fa-category-first-dialog.component';
+import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
+import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -571,7 +573,9 @@ import { FaCategoryFirstDialogComponent } from './modules/fa/index/fa-category-f
     FaCategorySecondComponent,
     FaCategorySecondDialogComponent,
     FaCategoryFirstComponent,
-    FaCategoryFirstDialogComponent
+    FaCategoryFirstDialogComponent,
+    CcHomeComponent,
+    TrHomeComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],

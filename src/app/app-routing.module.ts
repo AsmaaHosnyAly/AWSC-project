@@ -172,6 +172,7 @@ import { FaHomeComponent } from './modules/fa/index/fa-home/fa-home.component';
 import { FaCategoryThirdComponent } from './modules/fa/index/fa-category-third/fa-category-third.component';
 import { FaCategorySecondComponent } from './modules/fa/index/fa-category-second/fa-category-second.component';
 import { FaCategoryFirstComponent } from './modules/fa/index/fa-category-first/fa-category-first.component';
+import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -623,6 +624,21 @@ const routes: Routes = [
       { path: 'PyItem', component: PyItemComponent },
       { path: 'Py-reports', component: PyReportsComponent },
 
+      /*********************start TR   التدريب***************************/
+      { path: 'TrHome', component: TrHomeComponent },
+      { path: 'Tr-ClassRoom', component: TrClassRoomComponent },
+      { path: 'TrTrainee', component: TrTraineeComponent },
+      { path: 'TR-Instructor', component: TrInstructorComponent },
+      { path: 'Tr-CourseCategory', component: TrCourseCategoryComponent },
+      { path: 'Tr-CoporteClient', component: TrCoporteClientComponent },
+      { path: 'Tr-CourseType', component: TrCourseTypeComponent },
+      { path: 'Tr-Course', component: TrCourseComponent },
+      { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
+      { path: 'Tr-TrainingCenter', component: TrTrainingCenterComponent },
+      { path: 'Tr-trainingCenterCourse', component: TrTrainingCenterCourseComponent },
+      { path: 'TrTrack', component: TrTrackContainerComponent },
+      { path: 'TrPlanCourseData', component: TrPlanCourseDataComponent },
+      { path: 'Tr-Purpose', component: TrPurposeComponent },
 
       /*********************End Hr-attendance module  الحضور والانصراف***************************/
 
