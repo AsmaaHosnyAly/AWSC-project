@@ -214,10 +214,10 @@
                 <div class="tableFixHead">
                     <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
-                        <!-- financierId Column -->
-                        <ng-container matColumnDef="financierId">
+                        <!-- financierName Column -->
+                        <ng-container matColumnDef="financierName">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> جهة التمويل</th>
-                            <td mat-cell *matCellDef="let row"> {{row.financierId}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.financierName}} </td>
                         </ng-container>
 
                         <!-- action Column -->
@@ -254,10 +254,10 @@
 
                     <table mat-table [dataSource]="dataSourceInstructor" matSort class="headerTable">
 
-                        <!-- instructorId Column -->
-                        <ng-container matColumnDef="instructorId">
+                        <!-- instructorName Column -->
+                        <ng-container matColumnDef="instructorName">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> المدرب</th>
-                            <td mat-cell *matCellDef="let row"> {{row.instructorId}} </td>
+                            <td mat-cell *matCellDef="let row"> {{row.instructorName}} </td>
                         </ng-container>
 
                         <!-- action Column -->
