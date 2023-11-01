@@ -5,7 +5,7 @@
 
 /* @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap'); */
 @import '~ngx-toastr/toastr';
-/* @import 'material-icons/iconfont/material-icons.css'; */
+@import 'material-icons/iconfont/material-icons.css';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Cairo', sans-serif;}
