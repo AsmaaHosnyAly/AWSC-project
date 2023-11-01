@@ -292,6 +292,12 @@ import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.com
 // import { CcCostCenterDialogComponent } from './modules/cc/index/cc-cost-center-dialog/cc-cost-center-dialog.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FaHomeComponent } from './modules/fa/index/fa-home/fa-home.component';
+import { FaCategoryThirdComponent } from './modules/fa/index/fa-category-third/fa-category-third.component';
+import { FaCategoryThirdDialogComponent } from './modules/fa/index/fa-category-third-dialog/fa-category-third-dialog.component';
+import { FaCategorySecondComponent } from './modules/fa/index/fa-category-second/fa-category-second.component';
+import { FaCategorySecondDialogComponent } from './modules/fa/index/fa-category-second-dialog/fa-category-second-dialog.component';
+import { FaCategoryFirstComponent } from './modules/fa/index/fa-category-first/fa-category-first.component';
+import { FaCategoryFirstDialogComponent } from './modules/fa/index/fa-category-first-dialog/fa-category-first-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -559,7 +565,13 @@ import { FaHomeComponent } from './modules/fa/index/fa-home/fa-home.component';
     PrReportsComponent,
     PyReportsComponent,
     SpinnerComponent,
-    FaHomeComponent
+    FaHomeComponent,
+    FaCategoryThirdComponent,
+    FaCategoryThirdDialogComponent,
+    FaCategorySecondComponent,
+    FaCategorySecondDialogComponent,
+    FaCategoryFirstComponent,
+    FaCategoryFirstDialogComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],

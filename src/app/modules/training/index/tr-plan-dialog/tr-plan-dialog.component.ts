@@ -95,9 +95,9 @@ export class TrPlanDialogComponent implements OnInit {
   currentDate: any;
   defaultFiscalYearSelectValue: any;
 
-  displayedColumns: string[] = ['financierId', 'action'];
+  displayedColumns: string[] = ['financierName', 'action'];
   // displayedEmployeesColumns: string[] = ['instructorId', 'action'];
-  displayedInstructorsColumns: string[] = ['instructorId', 'action'];
+  displayedInstructorsColumns: string[] = ['instructorName', 'action'];
   displayedPositionsColumns: string[] = ['positionName', 'action'];
 
   sessionId = Math.random();
