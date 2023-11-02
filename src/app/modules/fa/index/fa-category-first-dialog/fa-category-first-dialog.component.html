@@ -1,1 +1,31 @@
-<p>fa-category-first-dialog works!</p>
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل التصنيف الاول ' : 'إضافة التصنيف الاول'}}</h1>
+
+<div mat-dialog-content dir="rtl">
+    <form [formGroup]="faCategoryFirstForm" style="overflow: hidden;">
+        <div class="serachLabels">
+
+            <mat-label>الكود:</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="الكود" formControlName="code" readonly>
+            </mat-form-field>
+
+            <mat-label>التصنيف الاول:</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="التصنيف الاول" formControlName="name">
+            </mat-form-field>
+
+        </div>
+
+    </form>
+    <button mat-raised-button class="savebtn" (click)="addFaCategoryFirst()"
+        style="margin-left: 8px;">{{actionBtn}}</button>
+
+</div>
+
+<div mat-dialog-action [align]="'end'">
+    <!-- <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button> -->
+</div>
