@@ -4,7 +4,7 @@
     <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
 </div>
 
-<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل مكان عمل الة الحضور ' : ' إضافة مكان عمل الة حضور جديدة'}}</h1>
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل مكان عمل جهاز البصمة ' : ' إضافة مكان عمل جهاز بصمة جديدة'}}</h1>
 
 <form [formGroup]="HrAttendanceMachineWorkPlaceForm" dir="rtl">
     <div mat-dialog-content>
@@ -16,9 +16,9 @@
             </mat-form-field>
 
             <div class="searchLabels4">
-                <mat-label> الة الحضور*</mat-label>
+                <mat-label> جهاز البصمة*</mat-label>
                 <mat-form-field appearance="outline" class="groupInput">
-                    <mat-select placeholder="  الة الحضور" formControlName="attendanceMachineId">
+                    <mat-select placeholder="  جهاز البصمة" formControlName="attendanceMachineId">
                         <mat-option [value]="attendMachine.id"
                             *ngFor="let attendMachine of attendMachinesList">{{attendMachine.name}}</mat-option>
                     </mat-select>
@@ -27,9 +27,9 @@
             </div>
 
             <div class="searchLabels4">
-                <mat-label> المكان*</mat-label>
+                <mat-label> مكان جهاز البصمة*</mat-label>
                 <mat-form-field appearance="outline" class="groupInput">
-                    <mat-select placeholder="  المكان" formControlName="workPlaceId">
+                    <mat-select placeholder="  مكان جهاز البصمة" formControlName="workPlaceId">
                         <mat-option [value]="workPlace.id"
                             *ngFor="let workPlace of workPlacesList">{{workPlace.name}}</mat-option>
                     </mat-select>
