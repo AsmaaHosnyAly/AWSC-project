@@ -69,7 +69,7 @@ export class StrStockTakingTableComponent implements OnInit {
   // employeesList: any;
   // itemList:any;
   fiscalYearsList: any;
-
+  loading :boolean=false;
   groupMasterForm!: FormGroup;
   groupDetailsForm!: FormGroup;
 
@@ -253,6 +253,7 @@ export class StrStockTakingTableComponent implements OnInit {
 
   }
   editMasterForm(row: any) {
+    // this.loading=true;
     this.dialog
       .open(StrStockTakingDialogComponent, {
         width: '72%',
@@ -261,11 +262,15 @@ export class StrStockTakingTableComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((val) => {
+        // this.loading=false;
         if (val === 'Update' || 'Save') {
           // alert("REFRESH")
+        
           this.getAllMasterForms();
+          
         }
       });
+      
   }
 
   deleteBothForms(id: number) {
@@ -430,6 +435,7 @@ export class StrStockTakingTableComponent implements OnInit {
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
     if (report != null && reportType != null) {
+      this.loading=true;
       this.api
         .getStrOpeningStockReport(
           no,
@@ -445,6 +451,7 @@ export class StrStockTakingTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
+            this.loading=false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -459,6 +466,7 @@ export class StrStockTakingTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading=false;
             console.log('eroorr', err);
             window.open(err.url);
           },
@@ -508,11 +516,12 @@ export class StrStockTakingTableComponent implements OnInit {
   getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-
+this.loading=true;
     this.api
       .getStrStockTakingSearach(no, store, fiscalYear, item, StartDate, EndDate)
       .subscribe({
         next: (res) => {
+          this.loading=false;
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;

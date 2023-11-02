@@ -48,6 +48,7 @@ export class Item {
 
 
 export class StrStockTakingDialogComponent implements OnInit {
+  loading :boolean =false;
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = 'Save';
@@ -268,12 +269,14 @@ export class StrStockTakingDialogComponent implements OnInit {
     this.api.getStrStockTaking()
       .subscribe({
         next: (res) => {
+          
           // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
           this.dataSource = new MatTableDataSource(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },
         error: () => {
+          
           // alert("خطأ أثناء جلب سجلات المجموعة !!");
         }
       })
@@ -281,9 +284,11 @@ export class StrStockTakingDialogComponent implements OnInit {
   }
 
   getItems() {
+    this.loading=true;
     this.api.getItems()
       .subscribe({
         next: (res) => {
+          this.loading=false;
           this.itemsList = res;
           // console.log("items res: ", this.itemsList);
         },
