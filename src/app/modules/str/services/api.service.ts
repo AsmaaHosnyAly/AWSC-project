@@ -612,6 +612,7 @@ export class ApiService {
 
 
   getStrStockTakingItem(
+    id: any,
     no: any,
     startDate: any,
     endDate: any,
@@ -625,6 +626,9 @@ export class ApiService {
     `${this.url}/STRItem/get/Report?`;
     this.mycondition = `${this.url}/StrStockTaking/get/Report?reportName=${report}&reportType=${reportType}`;
 
+    if (!id == false) {
+      this.mycondition = ` ${this.mycondition}&Id=${id}`;
+    }
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
     }

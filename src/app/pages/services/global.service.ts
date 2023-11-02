@@ -122,30 +122,6 @@ export class GlobalService {
   
     }
   }
-  // getPermissionRolesScreens(
-  //   role: any,
-  //   pageTitle: any,
-  //   icon: any
-  // ) {
-  //   console.log('userrole', this.userRoles)
-  //   for (let i = 0; i < this.userRoles!.length; i++) {
-  //     if (role == this.userRoles![i]) {
-  //       this.pageTitle = pageTitle;
-  //       if (
-          
-  //         role == '18' ||
-  //         role == '19'
-  //       ) {
-  //         this.shared.roles = true;
-  //         this.router.navigate(['/pr-home']);
-  //       }
-  //     }
-      
-  //     // window.alert('You dont have the permission to visit this page');
-  //     // this.router.navigate(['/home']);
-  //     // this.displayScreen = document.querySelector('mat-expansion-panel-header')?.setAttribute("class", "displayscreen")
-  //   }
-  // }
-
+ 
   
 }

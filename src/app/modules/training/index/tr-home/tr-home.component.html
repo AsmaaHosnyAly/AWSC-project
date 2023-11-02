@@ -1,0 +1,85 @@
+
+<div  >
+    <mat-card>
+      <div class="card-parent">
+     
+        <mat-card class="card-class" routerLink="/Tr-Course"  *ngIf="hasAccessRole(pageEnums.PR_USER)">    
+          <mat-card-content>
+              <mat-card-title>الدورات التدريبة </mat-card-title>
+          </mat-card-content>
+        </mat-card>
+      
+        <mat-card class="card-class" routerLink="/Tr-CourseCategory"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>تصنيف الدورة التدريبة </mat-card-title>
+          </mat-card-content>
+        </mat-card>  
+          <mat-card class="card-class" routerLink="/Tr-CourseType"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>نوع الدورة التدريبة </mat-card-title>
+            </mat-card-content>
+          </mat-card>  
+          <mat-card class="card-class" routerLink="/TrPlan"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title> الدورات التدريبية المخططة</mat-card-title>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="card-class" routerLink="/TrExcuted"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title> الدورات التدريبية المنفذة</mat-card-title>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="card-class" routerLink="/TR-Instructor"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title> المدربين</mat-card-title>
+            </mat-card-content>
+          </mat-card>  
+          <mat-card class="card-class" routerLink="/TrTrainee"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>المتدربين</mat-card-title>
+            </mat-card-content>
+          </mat-card>  
+          <mat-card class="card-class" routerLink="/Tr-InstructorCourse"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>دورات المدربين</mat-card-title>
+            </mat-card-content>
+          </mat-card>  
+          <mat-card class="card-class" routerLink="/Tr-CoporteClient"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>عملاء الشركات</mat-card-title>
+            </mat-card-content>
+          </mat-card>  
+          <mat-card class="card-class" routerLink="/Tr-TrainingCenter"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>مراكز التدريب</mat-card-title>
+            </mat-card-content>
+          </mat-card>  
+          <mat-card class="card-class" routerLink="/Tr-ClassRoom"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>قاعات التدريب</mat-card-title>
+            </mat-card-content>
+          </mat-card>  
+          <mat-card class="card-class" routerLink="/Tr-trainingCenterCourse"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>دورات مركزالتدريب</mat-card-title>
+            </mat-card-content>
+          </mat-card>  
+          <mat-card class="card-class" routerLink="/TrTrack"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>حزم تدريبة</mat-card-title>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="card-class" routerLink="/Tr-Purpose"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>غرض التدريب</mat-card-title>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="card-class" routerLink="/TrReports"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+            <mat-card-content>
+                <mat-card-title>تقارير التدريب</mat-card-title>
+            </mat-card-content>
+          </mat-card> 
+      </div>
+    
+    </mat-card>
+  </div>
