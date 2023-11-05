@@ -1,0 +1,72 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">{{editData? '  تعديل  موازنة   ' : 'إضافة موازنة جديدة'}}</h1>
+  <form [formGroup]="modelForm" dir="rtl">
+      <div mat-dialog-content>
+        <form [formGroup]="modelForm">
+        
+          <mat-form-field appearance="outline">
+            <mat-label>العدد المقترح من المتدربين</mat-label>
+            <input formControlName="noTrainee"  type="number"  min="0"   matInput placeholder="ادخل العدد">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>عدد ساعات الدورة</mat-label>
+            <input formControlName="noHour"     matInput placeholder="ادخل العدد"    type="number"  min="0">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+          <mat-label>مكافأة المدرب</mat-label>
+          <input formControlName="instructorHourFee" matInput placeholder="مافأة المدرب "   type="number"  min="0">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>متوسط مكافأة المدرب</mat-label>
+        <input formControlName="instructorTotalFee" matInput placeholder=" متوسط مكافاة المدرب"  type="number"  min="0">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>مكافأة الإشراف</mat-label>
+        <input formControlName="superVisingFee" matInput placeholder="مكافأة الإشراف"  type="number"  min="0">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>مكافأة اخري</mat-label>
+        <input formControlName="otherFee" matInput placeholder="مكافأة اخري"  type="number"  min="0">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label> الرتب الكلي</mat-label>
+        <input formControlName="salaryTotal" matInput placeholder="الراتب الكلي"  type="number"  min="0">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>مستلزمات تدريب</mat-label>
+        <input formControlName="suppliesCost"   type="number"  min="0"   matInput placeholder="مستلزمات تدريب "  type="number"  min="0">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label> بدل انتقال</mat-label>
+        <input formControlName="transportCost" matInput placeholder="بدل انتقال"  type="number"  min="0">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label> تكلفة الخدمة  ة</mat-label>
+        <input formControlName="serviceTotal" matInput placeholder=" تكلفة الخدمة "    type="number"  min="0">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>جملة تكلفة الدور ة</mat-label>
+        <input formControlName="courseTotal" matInput placeholder="جملة تكلفة الدورة"  type="number"  min="0">
+      </mat-form-field>
+     
+          <mat-label>اسم الدورة</mat-label>
+          <mat-form-field appearance="outline">
+            <input matInput aria-label="course" [matAutocomplete]="autoCourse" [formControl]="courseCtrl"
+              placeholder="{{getModelData  ? getModelData.courseName : ''}}" (click)="openAutoCourse()" required />
+            <mat-autocomplete #autoCourse="matAutocomplete" [displayWith]="displayCourseName"
+              (optionSelected)="courseSelected($event)">
+              <mat-option *ngFor="let course of filteredCourseStates | async" [value]="course">
+                {{ course.name }} 
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-raised-button class="savebtn"  (click)="addTrBudget()" style="margin-left: 8px;">{{actionBtn}}</button>
+      </div>
+    </form>
+
