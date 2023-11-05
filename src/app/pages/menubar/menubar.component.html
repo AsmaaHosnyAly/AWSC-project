@@ -699,7 +699,11 @@
           <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Purpose" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
             <p class="font">غرض التدريب</p>
           </a>
-
+          
+          <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Budget" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+            <p class="font">الموازنة</p>
+          </a>
+        
           <a mat-list-item class="sideNavSubItems" routerLink="/TrReports" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
             <p class="font">تقارير التدريب</p>
           </a>

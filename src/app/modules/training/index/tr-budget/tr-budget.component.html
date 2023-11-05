@@ -1,1 +1,119 @@
-<p>tr-budget works!</p>
+<div class="page-title">قاعات التدريب</div>
+<mat-card>
+  <mat-card-content>
+    <mat-card-header dir="ltr" class="parent-search">
+      <div class="child1">
+        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
+          <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+        </button>
+      </div>
+
+      <div>
+        <input
+          matInput
+          class="filter-search"
+          (keyup)="applyFilter($event)"
+          placeholder="بحث"
+          #input
+        />
+      </div>
+    </mat-card-header>
+    <div class="div-table">
+      <table matSort mat-table [dataSource]="dataSource">
+        <!-- productCode Column -->
+
+        <!-- productName Column -->
+        <ng-container matColumnDef="courseName">
+          <th mat-header-cell *matHeaderCellDef>اسم الدورة</th>
+          <td mat-cell *matCellDef="let row">{{ row.courseName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="noTrainee">
+          <th mat-header-cell *matHeaderCellDef>العدد المقترح من المتدربين</th>
+          <td mat-cell *matCellDef="let row">{{ row.noTrainee }}</td>
+        </ng-container>
+        <ng-container matColumnDef="noHour">
+          <th mat-header-cell *matHeaderCellDef>عدد ساعات الدورة</th>
+          <td mat-cell *matCellDef="let row">{{ row.noHour }}</td>
+        </ng-container>
+        <ng-container matColumnDef="instructorHourFee">
+          <th mat-header-cell *matHeaderCellDef>متوسط مكافأة الساعة للمتدرب</th>
+          <td mat-cell *matCellDef="let row">{{ row.instructorHourFee }}</td>
+        </ng-container>
+
+        <!-- category Column -->
+        <ng-container matColumnDef="instructorTotalFee">
+          <th mat-header-cell *matHeaderCellDef>مكافأة المدرب</th>
+          <td mat-cell *matCellDef="let row">{{ row.instructorTotalFee}}</td>
+        </ng-container>
+        <!-- category Column -->
+        <ng-container matColumnDef="superVisingFee">
+          <th mat-header-cell *matHeaderCellDef>مكافاة الإشراف</th>
+          <td mat-cell *matCellDef="let row">{{ row.superVisingFee}}</td>
+        </ng-container>
+        <!-- category Column -->
+        <ng-container matColumnDef="otherFee">
+          <th mat-header-cell *matHeaderCellDef>مكافات اخري</th>
+          <td mat-cell *matCellDef="let row">{{ row.otherFee}}</td>
+        </ng-container>
+        <!-- action Column -->
+      
+        <!-- category Column -->
+        <ng-container matColumnDef="suppliesCost">
+            <th mat-header-cell *matHeaderCellDef>مستلزمات تدريب</th>
+            <td mat-cell *matCellDef="let row">{{ row.suppliesCost}}</td>
+          </ng-container>
+          <!-- action Column -->
+            <!-- category Column -->
+        <ng-container matColumnDef="transportCost">
+            <th mat-header-cell *matHeaderCellDef>بدل الإنتقال</th>
+            <td mat-cell *matCellDef="let row">{{ row.transportCost}}</td>
+          </ng-container>
+          <!-- action Column -->
+         <!-- category Column -->
+        <ng-container matColumnDef="courseTotal">
+            <th mat-header-cell *matHeaderCellDef>جملة تكلفة الدورة</th>
+            <td mat-cell *matCellDef="let row">{{ row.courseTotal}}</td>
+          </ng-container>
+          <!-- action Column -->
+          
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef style="width: 15%">الإجراء</th>
+          <td mat-cell *matCellDef="let row">
+            <button
+              mat-icon-button
+              (click)="editClassRoom(row)"
+              class="editbtn"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              (click)="deleteClassRoom(row.id)"
+              mat-icon-button
+              color="warn"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">
+            No data matching the filter "{{ input.value }}"
+          </td>
+        </tr>
+      </table>
+    </div>
+  </mat-card-content>
+  <br />
+  <mat-card-footer>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+  </mat-card-footer>
+</mat-card>
