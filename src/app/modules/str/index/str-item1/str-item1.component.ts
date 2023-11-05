@@ -574,7 +574,7 @@ this.loading=true;
       )
       .subscribe({
         next: (res) => {
-          this.loading=false
+          
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
@@ -586,7 +586,7 @@ this.loading=true;
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
-          this.loading=false
+          
           console.log('eroorr', err);
           window.open(err.url);
         },

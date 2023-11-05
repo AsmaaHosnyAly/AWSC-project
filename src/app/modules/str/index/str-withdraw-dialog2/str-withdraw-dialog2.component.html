@@ -1,4 +1,7 @@
-<div class="containeer">
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<div class="containeer"*ngIf="!loading">
 
   <div class="cdk-overlay-pane  ">
     <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>

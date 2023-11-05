@@ -1,6 +1,9 @@
 <!-- <p>fi-entry-table works!</p> -->
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 <mat-accordion class="example-headers-align" multi dir="rtl">
-    <div class="page-title">القيود</div>
+    <div class="page-title"*ngIf="!loading">القيود</div>
 
     <mat-expansion-panel>
         <mat-expansion-panel-header>
