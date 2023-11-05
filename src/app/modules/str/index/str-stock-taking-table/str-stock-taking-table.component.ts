@@ -422,7 +422,48 @@ export class StrStockTakingTableComponent implements OnInit {
       });
   }
   previewReportRow(row: any) {
-    console.log("row preview report: ", row);
+    // console.log("row preview report: ", row);
+    let id = row.id;
+    let EndDate = formatDate(row.date, 'MM-dd-yyyy', this.locale);
+    let LastYearDate = new Date(EndDate);
+    LastYearDate.setFullYear(LastYearDate.getFullYear() - 1);
+    let StartDate = formatDate(LastYearDate, 'MM-dd-yyyy', this.locale);
+    let report = 'StockTakingDetailsReport';
+    let reportType = 'pdf';
+
+    console.log("row data to print report, id: ", id, " StartDate: ", StartDate, " EndDate: ", EndDate, " reportName: ", report, " reportType: ", reportType);
+
+
+    if (report != null && reportType != null) {
+
+      if (report == 'StockItemsSumReport') {
+        id = 6;
+      }
+
+      this.api
+        .getStrStockTakingDetailsReport(
+          id, StartDate, EndDate, report, reportType
+        )
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '50%',
+            });
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    } else {
+      alert('ادخل التقرير و نوع التقرير!');
+    }
+
   }
 
   previewPrint(

@@ -317,7 +317,7 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-activity"
+              <a mat-list-item class="sideNavSubItems" routerLink="/faCategoryFirst"
                 *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)">
                 <p class="font">تصنيف اول</p>
               </a>
@@ -641,14 +641,6 @@
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font">الدورات التدريبية</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/TrPlan"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">الدورات المخططة</p>
-              </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/TrExcuted"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">الدورات المنفذة</p>
-              </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/Tr-CourseCategory"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
                 <p class="font">تصنيف الدورة التدريبية</p>
@@ -692,6 +684,12 @@
           </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
+          <a mat-list-item class="sideNavSubItems" routerLink="/TrPlan" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+            <p class="font">الدورات المخططة</p>
+          </a>
+          <a mat-list-item class="sideNavSubItems" routerLink="/TrExcuted" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+            <p class="font">الدورات المنفذة</p>
+          </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/TrTrack" *ngIf="hasAccessRole(pageEnums.PR_USER)">
             <p class="font">حزم تدريبية</p>
           </a>
