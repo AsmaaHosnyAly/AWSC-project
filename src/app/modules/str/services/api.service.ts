@@ -657,6 +657,34 @@ export class ApiService {
     });
   }
 
+  getStrStockTakingDetailsReport(
+    id: any,
+    startDate: any,
+    endDate: any,
+    report: any,
+    reportType: any
+  ) {
+
+    `${this.url}/STRItem/get/Report?`;
+    this.mycondition = `${this.url}/StrStockTaking/get/Report?reportName=${report}&reportType=${reportType}`;
+
+    if (!id == false) {
+      this.mycondition = ` ${this.mycondition}&Id=${id}`;
+    }
+    if (!startDate == false) {
+      this.mycondition = ` ${this.mycondition}&StartDate=${startDate}`;
+    }
+    if (!endDate == false) {
+      this.mycondition = ` ${this.mycondition}&EndDate=${endDate}`;
+    }
+    console.log('url', this.mycondition);
+
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
+  }
+
 
   getStr(
     no: any,
