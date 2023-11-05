@@ -46,6 +46,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   // storeList: any;
   storeName: any;
   fiscalYearsList: any;
+  loading :boolean=false;
   // itemsList: any;
   groupMasterForm!: FormGroup;
   groupDetailsForm!: FormGroup;
@@ -448,11 +449,12 @@ export class StrOpeningStockTableComponent implements OnInit {
   getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-
+this.loading=true;
     this.api
       .getStrOpenSearach(no, store, fiscalYear, item, StartDate, EndDate)
       .subscribe({
         next: (res) => {
+          this.loading=false;
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
@@ -543,6 +545,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
     if (report != null && reportType != null) {
+      this.loading=true;
       this.api
         .openingStock(
           no,
@@ -558,6 +561,7 @@ export class StrOpeningStockTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
+            this.loading=false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -572,6 +576,7 @@ export class StrOpeningStockTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading=false;
             console.log('eroorr', err);
             window.open(err.url);
           },

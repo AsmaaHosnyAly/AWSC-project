@@ -59,6 +59,7 @@ export class costcenter {
   styleUrls: ['./str-withdraw-dialog2.component.css'],
 })
 export class StrWithdrawDialogComponent implements OnInit {
+  loading :boolean =false;
   groupDetailsForm!: FormGroup;
   groupMasterForm!: FormGroup;
   actionBtnMaster: string = 'Save';
@@ -304,7 +305,7 @@ export class StrWithdrawDialogComponent implements OnInit {
         this.getDestStores();
         this.groupMasterForm.controls['type'].setValue('المخزن');
         this.groupMasterForm.controls['sourceInput'].setValue(
-          this.groupMasterForm.getRawValue().desstoreName
+        this.groupMasterForm.getRawValue().desstoreName
         );
         // this.groupMasterForm.controls['sourceInputId'].setValue(
         //   this.groupMasterForm.getRawValue().desstorId
@@ -872,7 +873,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   //   }
   // }
   getAllDetailsForms() {
-
+this.loading=true;
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
 
@@ -880,6 +881,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
+            this.loading =false;
             // this.itemsList = res;
             this.matchedIds = res;
 

@@ -1,6 +1,9 @@
 <!-- <p>str-employee-exchange-table works!</p> -->
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <mat-accordion class="example-headers-align" multi dir="rtl">
-  <div class="page-title">نقل عهدة</div>
+  <div class="page-title"*ngIf="!loading">نقل عهدة</div>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-description>

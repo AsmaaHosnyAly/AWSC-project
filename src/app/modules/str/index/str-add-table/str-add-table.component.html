@@ -1,6 +1,9 @@
 <!-- <p>str-opening-stock-table works!</p> -->
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <mat-accordion class="example-headers-align" multi dir="rtl">
-  <div class="page-title">أذونات الاضافة</div>
+  <div class="page-title" *ngIf="!loading">أذونات الاضافة</div>
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>

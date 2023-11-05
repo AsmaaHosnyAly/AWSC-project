@@ -72,7 +72,7 @@ export class FiEntryTableComponent implements OnInit {
   journalsList: any;
   // accountsList: any;
   sourcesList: any;
-
+loading :boolean=false;
   // dataSource2!: MatTableDataSource<any>;
   dataSource2: MatTableDataSource<ccEntry> = new MatTableDataSource();
 
@@ -422,11 +422,12 @@ export class FiEntryTableComponent implements OnInit {
       'FiscalYearId', FiscalYearId,
       'Description', Description
     );
-
+this.loading=true;
     this.api
       .getFiEntrySearach(no, journalId, accountId, startDate, endDate, sourceId, FiscalYearId, Description)
       .subscribe({
         next: (res) => {
+         this.loading =false;
           console.log('search fiEntry res: ', res);
 
           this.dataSource2 = res;
@@ -434,6 +435,7 @@ export class FiEntryTableComponent implements OnInit {
           this.dataSource2.sort = this.sort;
         },
         error: (err) => {
+        this.loading=false;
           // alert('Error');
         },
       });
@@ -441,10 +443,12 @@ export class FiEntryTableComponent implements OnInit {
     previewPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report:any,reportType:any) {
       
   if(report!= null && reportType!=null){
+    this.loading=true;
       this.api
         .getFiEntryReport(no, journalId, startDate,endDate, sourceId, FiscalYearId, Description,report,reportType)
         .subscribe({
           next: (res) => {
+            this.loading=false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -459,6 +463,7 @@ export class FiEntryTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading=false;
             console.log('eroorr', err);
             window.open(err.url);
           },

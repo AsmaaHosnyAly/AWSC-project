@@ -108,7 +108,7 @@ export class STRAddTableComponent implements OnInit {
 
   groupMasterForm!: FormGroup;
 
-
+loading:boolean=false;
   // costcentersList: costcenter[] = [];
   // costcenterCtrl: FormControl<any>;
   // filteredcostcenter: Observable<costcenter[]>;
@@ -737,14 +737,16 @@ export class STRAddTableComponent implements OnInit {
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
-
+this.loading =true;
     this.api.getStrAddSearach(no, EntryNo, fiscalyear, employee, item, store, StartDate, EndDate).subscribe({
       next: (res) => {
+        this.loading=false;
         this.dataSource2 = res;
         this.dataSource2.paginator = this.paginatorLegal;
         this.dataSource2.sort = this.sort;
       },
       error: (err) => {
+        this.loading =false;
         console.log('eroorr', err);
       },
     });
@@ -927,15 +929,18 @@ export class STRAddTableComponent implements OnInit {
       });
   }
   previewPrint(no: any, StartDate: any, EndDate: any, fiscalYear: any, report: any, reportType: any) {
+   
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 if(report !=null && reportType!=null){
+  this.loading =true;
     this.api
       .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,'pdf')
       .subscribe({
         next: (res) => {
+          this.loading =false;
           let blob: Blob = res.body as Blob;
           console.log(blob);
           let url = window.URL.createObjectURL(blob);
@@ -950,6 +955,7 @@ if(report !=null && reportType!=null){
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading =false;
             console.log('eroorr', err);
             window.open(err.url);
           },

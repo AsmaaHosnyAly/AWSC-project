@@ -459,17 +459,19 @@ loading :boolean=false;
       let employeeId = this.groupMasterForm.getRawValue().employeeId
       let itemId = this.groupDetailsForm.getRawValue().itemId
 
-
+this.loading=true;
 
       this.api.getStrEmployeeOpenSearach(no,  costCenterId, employeeId, itemId,StartDate,EndDate,fiscalyear)
         .subscribe({
           next: (res) => {
+            this.loading=false;
             console.log("search employeeExchange 4res: ", res);
   this.dataSource2 = res;
               this.dataSource2.paginator = this.paginator;
               this.dataSource2.sort = this.sort;
             },
             error: (err) => {
+              this.loading=false;
               console.log('eroorr', err);
             },
         });
@@ -521,11 +523,12 @@ loading :boolean=false;
       let store = this.groupMasterForm.getRawValue().storeId;
   if(report!=null && reportType!=null){
 
-  
+  this.loading =true;
       this.api
         .getStrEmployeeCustodyReport(no,  StartDate,EndDate, fiscalYear, item, employee, costCenter,report,'pdf')
         .subscribe({
           next: (res) => {
+            this.loading=false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -540,6 +543,7 @@ loading :boolean=false;
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading=false;
             console.log('eroorr', err);
             window.open(err.url);
           },

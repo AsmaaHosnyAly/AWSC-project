@@ -64,6 +64,8 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   filteredcostcenter: Observable<costcenter[]>;
   selectedcostcenter: costcenter | undefined;
 
+loading :boolean=false;
+
   employeesList: Employee[] = [];
   employeeCtrl: FormControl<any>;
   filteredEmployee: Observable<Employee[]>;
@@ -545,7 +547,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-
+this.loading=true;
     this.api
       .getStrEmployeeExchangeSearach(
         no,
@@ -560,11 +562,13 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          this.loading=false;
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
         },
         error: (err) => {
+          this.loading=false;
           // alert("Error")
         },
       });
@@ -628,6 +632,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     if (report != null && reportType != null) {
+      this.loading =true;
       this.api
         .getStrEmployeeExchangeItem(
           no,
@@ -643,6 +648,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
+            this.loading=false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -657,6 +663,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading=false;
             console.log('eroorr', err);
             window.open(err.url);
           },
