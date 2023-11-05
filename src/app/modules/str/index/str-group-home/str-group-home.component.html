@@ -24,9 +24,15 @@
       </mat-card-title-group>
     </mat-card>
     <mat-card class="example-card"  *ngIf="this.shared.costs ==true">
-      <mat-card-title-group>
+      <mat-card-title-group routerLink="/ccHome">
         <mat-card-title class="tt"><mat-icon>credit_card</mat-icon></mat-card-title>
         <mat-card-subtitle>التكاليف</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
+    <mat-card class="example-card">
+      <mat-card-title-group  routerLink="/faHome">
+        <mat-card-title class="tt"><mat-icon>collections_bookmark</mat-icon></mat-card-title>
+        <mat-card-subtitle>الاصول الثابتة</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card>
     <!-- <mat-card class="example-card">
@@ -61,12 +67,7 @@
       </mat-card-title-group>
     </mat-card>
   
-    <mat-card class="example-card">
-      <mat-card-title-group>
-        <mat-card-title class="tt"><mat-icon>collections_bookmark</mat-icon></mat-card-title>
-        <mat-card-subtitle>الاصول الثابتة</mat-card-subtitle>
-      </mat-card-title-group>
-    </mat-card>
+   
 
     <mat-card class="example-card" *ngIf="this.shared.CentralWater">
       <mat-card-title-group>
@@ -105,7 +106,7 @@
 
     
     <mat-card class="example-card"  *ngIf="this.shared.training ==true">
-      <mat-card-title-group>
+      <mat-card-title-group routerLink="/TrHome">
         <mat-card-title class="tt"><mat-icon>supervised_user_circle</mat-icon></mat-card-title>
         <mat-card-subtitle>الادارة العامة للتدريب</mat-card-subtitle>
       </mat-card-title-group>

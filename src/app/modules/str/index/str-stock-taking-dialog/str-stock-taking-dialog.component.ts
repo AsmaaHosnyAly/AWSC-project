@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatOptionSelectionChange } from '@angular/material/core';
@@ -26,6 +26,7 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import jwt_decode from 'jwt-decode';
+import { StrStockTakingTableComponent } from '../str-stock-taking-table/str-stock-taking-table.component';
 
 export class Employee {
   constructor(public id: number, public name: string) { }
@@ -54,7 +55,7 @@ export class StrStockTakingDialogComponent implements OnInit {
   actionBtnMaster: string = 'Save';
   actionBtnDetails: string = 'Save';
   MasterGroupInfoEntered = false;
-  dataSource!: MatTableDataSource<any>;
+  // dataSource!: MatTableDataSource<any>;
   matchedIds: any;
   getDetailedRowData: any;
   sumOfTotals = 0;
@@ -112,7 +113,16 @@ export class StrStockTakingDialogComponent implements OnInit {
   defaultStoreSelectValue: any;
   displayedColumns: string[] = ['itemName', 'price', 'systemQty', 'balance', 'qty', 'total', 'action'];
 
+  pageIndex: any;
+  length: any;
+  pageSize: any;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource: MatTableDataSource<StrStockTakingTableComponent> = new MatTableDataSource();
+  isLoading = false;
+
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAccordion)
   accordion!: MatAccordion;
@@ -354,41 +364,73 @@ export class StrStockTakingDialogComponent implements OnInit {
   }
   getAllDetailsForms() {
 
-    console.log("mastered row get all data: ", this.getMasterRowId)
+    console.log("mastered row get all data: ", this.getMasterRowId);
     if (this.getMasterRowId) {
+      console.log("currentPage: ", this.currentPage, "pageSize: ", this.pageSize);
+
+      if (!this.currentPage && !this.pageSize) {
+        this.currentPage = 0;
+        this.pageSize = 5;
+
+        this.isLoading = true;
+        console.log("first time: ");
 
 
-      this.api.getStrStockTakingDetailsByMasterId(this.getMasterRowId.id)
-        .subscribe({
-          next: (res) => {
-            // this.itemsList = res;
-            this.matchedIds = res;
+        fetch(this.api.getStrStockTakingDetailsPaginateByMasterId(this.getMasterRowId.id, this.currentPage, this.pageSize))
+          .then(response => response.json())
+          .then(data => {
+            // this.totalRows = data.length;
+            console.log("master data paginate first Time: ", data);
+            this.dataSource.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
+          });
+      }
+      else {
+        this.isLoading = true;
+        console.log("second time: ");
 
-            if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee detailss: ", res);
-              this.dataSource = new MatTableDataSource(this.matchedIds);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
-
-              this.sumOfTotals = 0;
-              for (let i = 0; i < this.matchedIds.length; i++) {
-                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                // alert('totalll: '+ this.sumOfTotals)
-                // this.updateBothForms();
-                this.updateMaster();
-              }
-            }
-          },
-          error: (err) => {
-            // console.log("fetch items data err: ", err);
-            // alert("خطا اثناء جلب العناصر !");
-          }
-        })
+        fetch(this.api.getStrStockTakingDetailsPaginateByMasterId(this.getMasterRowId.id, this.currentPage, this.pageSize))
+          .then(response => response.json())
+          .then(data => {
+            // this.totalRows = data.length;
+            console.log("master data paginate: ", data);
+            this.dataSource.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
+          });
+      }
 
     }
   }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    // this.currentPage = event.previousPageIndex;
+    this.getAllDetailsForms();
+  }
+
+
   addNewDetails() {
     this.router.navigate(['/StrStockTaking'], { queryParams: { StoreId: this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrStockTakingDetailsDialogComponent, {

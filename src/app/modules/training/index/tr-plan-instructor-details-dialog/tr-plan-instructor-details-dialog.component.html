@@ -18,7 +18,7 @@
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
                     <input matInput aria-label="commodity" [matAutocomplete]="autoInstructor" [formControl]="instructorCtrl"
-                        placeholder="{{editData ? editData.instructorId : ''}}" (click)="openAutoInstructor()" required />
+                        placeholder="{{editData ? editData.instructorName : ''}}" (click)="openAutoInstructor()" required />
                     <mat-autocomplete #autoInstructor="matAutocomplete" [displayWith]="displayInstructorName"
                         (optionSelected)="InstructorSelected($event)">
                         <mat-option *ngFor="let instructor of filteredInstructor | async" [value]="instructor">

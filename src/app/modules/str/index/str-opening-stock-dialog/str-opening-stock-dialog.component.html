@@ -88,28 +88,27 @@
 
                 </div> -->
 
-                <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
+                <div mat-dialog-action [align]="'end'"
+                    style="display: flex; width: 100%; justify-content: space-between; ">
                     <div class="groupAction">
-                        <button mat-raised-button class="savebtn"
-                            (click)="updateMaster()">تعديل الاذن</button>
+                        <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل الاذن</button>
 
                     </div>
 
                     <!-- <div class="sum-label-parent"> -->
-                        <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
+                    <mat-label class="sum-label">الإجمالى : {{sumOfTotals}}</mat-label>
                     <!-- </div> -->
 
-                    
+
                     <div class="groupAction">
-                        <button mat-raised-button class="savebtn"
-                            (click)="addNewDetails()">اضافة بيان</button>
+                        <button mat-raised-button class="savebtn" (click)="addNewDetails()">اضافة بيان</button>
 
                     </div>
 
                 </div>
-                
 
-                <div  class="tableFixHead">
+
+                <div class="tableFixHead">
                     <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
                         <!-- itemName Column -->
@@ -170,6 +169,9 @@
                         aria-label="Select page of users"></mat-paginator> -->
                 </div>
             </div>
+            <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+                [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)" showFirstLastButtons>
+            </mat-paginator>
         </div>
     </form>
 </div>

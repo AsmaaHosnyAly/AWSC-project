@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, ViewChild, LOCALE_ID } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
@@ -10,12 +10,13 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { formatDate } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { StrOpeningStockDetailsDialogComponent } from '../str-opening-stock-details-dialog/str-opening-stock-details-dialog.component'; 
+import { StrOpeningStockDetailsDialogComponent } from '../str-opening-stock-details-dialog/str-opening-stock-details-dialog.component';
 import { Router } from '@angular/router';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import jwt_decode from 'jwt-decode';
+import { StrOpeningStockTableComponent } from '../str-opening-stock-table/str-opening-stock-table.component';
 
 // export class Item {
 //   constructor(public id: number, public name: string) { }
@@ -32,7 +33,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
   actionBtnMaster: string = "Save";
   actionBtnDetails: string = "Save";
   MasterGroupInfoEntered = false;
-  dataSource!: MatTableDataSource<any>;
+  // dataSource!: MatTableDataSource<any>;
   matchedIds: any;
   getDetailedRowData: any;
   sumOfTotals = 0;
@@ -64,7 +65,17 @@ export class StrOpeningStockDialogComponent implements OnInit {
   decodedToken: any;
   decodedToken2: any;
 
-  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
+
+  pageIndex: any;
+  length: any;
+  pageSize: any;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource: MatTableDataSource<StrOpeningStockTableComponent> = new MatTableDataSource();
+  isLoading = false;
+
 
   // itemsList: Item[] = [];
   // itemCtrl: FormControl;
@@ -74,7 +85,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private formBuilder: FormBuilder,
@@ -108,7 +119,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
     this.decodedToken2 = this.decodedToken.roles;
     console.log('accessToken2', this.decodedToken2);
 
-    
+
     this.getStores();
     // this.getItems();
     this.getFiscalYears();
@@ -260,69 +271,105 @@ export class StrOpeningStockDialogComponent implements OnInit {
     console.log("master Id: ", this.getMasterRowId.id)
 
     if (this.getMasterRowId.id) {
-      // this.http.get<any>("http://ims.aswan.gov.eg/api/STROpeningStockDetails/get/all")
-      //   .subscribe(res => {
 
-      //     this.matchedIds = res.filter((a: any) => {
-      //       return a.stR_Opening_StockId == this.getMasterRowId.id
-      //     })
+      // this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+      //   .subscribe({
+      //     next: (res) => {
+      //       // this.itemsList = res;
+      //       this.matchedIds = res;
 
-      //     if (this.matchedIds) {
+      //       if (this.matchedIds) {
+      //         console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+      //         this.dataSource = new MatTableDataSource(this.matchedIds);
+      //         this.dataSource.paginator = this.paginator;
+      //         this.dataSource.sort = this.sort;
 
-      //       this.dataSource = new MatTableDataSource(this.matchedIds);
-      //       this.dataSource.paginator = this.paginator;
-      //       this.dataSource.sort = this.sort;
-
-      //       this.sumOfTotals = 0;
-      //       for (let i = 0; i < this.matchedIds.length; i++) {
-      //         this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-      //         this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-      //         // alert('totalll: '+ this.sumOfTotals)
-      //         // this.updateBothForms();
-      //         this.updateMaster();
+      //         this.sumOfTotals = 0;
+      //         for (let i = 0; i < this.matchedIds.length; i++) {
+      //           this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+      //           this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+      //           this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+      //           // alert('totalll: '+ this.sumOfTotals)
+      //           // this.updateBothForms();
+      //           this.updateMaster();
+      //         }
       //       }
-
+      //     },
+      //     error: (err) => {
+      //       // console.log("fetch items data err: ", err);
+      //       // alert("خطا اثناء جلب العناصر !");
       //     }
-      //   }
-      //     , err => {
-      //       alert("حدث خطا ما !!")
-      //     }
-      //   )
+      //   })
+
+      console.log("mastered row get all data: ", this.getMasterRowId);
+      if (this.getMasterRowId) {
+        console.log("currentPage: ", this.currentPage, "pageSize: ", this.pageSize);
+
+        if (!this.currentPage && !this.pageSize) {
+          this.currentPage = 0;
+          this.pageSize = 5;
+
+          this.isLoading = true;
+          console.log("first time: ");
 
 
-      // getStrOpenDetailsByMasterId(id: any) {
-      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
-        .subscribe({
-          next: (res) => {
-            // this.itemsList = res;
-            this.matchedIds = res;
+          fetch(this.api.getStrOpenDetailsPaginateByMasterId(this.getMasterRowId.id, this.currentPage, this.pageSize))
+            .then(response => response.json())
+            .then(data => {
+              // this.totalRows = data.length;
+              console.log("master data paginate first Time: ", data);
+              this.dataSource.data = data.items;
+              this.pageIndex = data.page;
+              this.pageSize = data.pageSize;
+              this.length = data.totalItems;
+              setTimeout(() => {
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = this.length;
+              });
+              this.isLoading = false;
+            }, error => {
+              console.log(error);
+              this.isLoading = false;
+            });
+        }
+        else {
+          this.isLoading = true;
+          console.log("second time: ");
 
-            if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
-              this.dataSource = new MatTableDataSource(this.matchedIds);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
+          fetch(this.api.getStrOpenDetailsPaginateByMasterId(this.getMasterRowId.id, this.currentPage, this.pageSize))
+            .then(response => response.json())
+            .then(data => {
+              // this.totalRows = data.length;
+              console.log("master data paginate: ", data);
+              this.dataSource.data = data.items;
+              this.pageIndex = data.page;
+              this.pageSize = data.pageSize;
+              this.length = data.totalItems;
+              setTimeout(() => {
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = this.length;
+              });
+              this.isLoading = false;
+            }, error => {
+              console.log(error);
+              this.isLoading = false;
+            });
+        }
 
-              this.sumOfTotals = 0;
-              for (let i = 0; i < this.matchedIds.length; i++) {
-                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                // alert('totalll: '+ this.sumOfTotals)
-                // this.updateBothForms();
-                this.updateMaster();
-              }
-            }
-          },
-          error: (err) => {
-            // console.log("fetch items data err: ", err);
-            // alert("خطا اثناء جلب العناصر !");
-          }
-        })
-      // }
+      }
+
     }
 
 
+  }
+
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    // this.currentPage = event.previousPageIndex;
+    this.getAllDetailsForms();
   }
 
 

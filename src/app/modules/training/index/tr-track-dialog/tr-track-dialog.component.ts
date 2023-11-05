@@ -69,13 +69,9 @@ export class TrTrackDialogComponent implements OnInit {
 
 
 
-  
 
-  displayedColumns: string[] = [
-    
-    'courseId', 'trackId', 
-    'action',
-  ];
+
+  displayedColumns: string[] = ['courseName', 'action'];
   sessionId = Math.random();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -96,7 +92,7 @@ export class TrTrackDialogComponent implements OnInit {
   ) {
     this.currentDate = new Date();
 
-   
+
 
   }
 
@@ -111,7 +107,7 @@ export class TrTrackDialogComponent implements OnInit {
 
     this.getMasterRowId = this.editData;
 
-    console.log('masterrrowwwwww:',this.getMasterRowId)
+    console.log('masterrrowwwwww:', this.getMasterRowId)
 
     this.groupMasterForm = this.formBuilder.group({
       price: ['', Validators.required],
@@ -183,7 +179,7 @@ export class TrTrackDialogComponent implements OnInit {
 
 
 
- 
+
 
   // getTrTarck() {
   //   this.api.getTrTarck().subscribe({
@@ -454,12 +450,12 @@ export class TrTrackDialogComponent implements OnInit {
   }
 
   editDetailsForm(row: any) {
-    this.router.navigate(['/TrTrack', {queryParams: { masterId: this.getMasterRowId.id } }]);
+    this.router.navigate(['/TrTrack', { queryParams: { masterId: this.getMasterRowId.id } }]);
 
     this.dialog
       .open(TrTrackDetailsDialogComponent, {
         width: '55%',
-        height: '78%',
+        height: '75%',
         data: row,
       })
       .afterClosed()
@@ -535,11 +531,11 @@ export class TrTrackDialogComponent implements OnInit {
   OpenDetailsDialog() {
     console.log("master row id before passed: ", this.getMasterRowId.id)
 
-    this.router.navigate(['/TrTrack'], { queryParams: { masterId: this.getMasterRowId.id} })
+    this.router.navigate(['/TrTrack'], { queryParams: { masterId: this.getMasterRowId.id } })
     this.dialog
       .open(TrTrackDetailsDialogComponent, {
         width: '55%',
-        height: '78%',
+        height: '75%',
       })
       .afterClosed()
       .subscribe((val) => {
