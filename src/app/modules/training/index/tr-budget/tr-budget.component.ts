@@ -26,10 +26,8 @@ import { TrClassRoomDialogComponent } from '../tr-class-room-dialog/tr-class-roo
 import { TrBudgetDialogComponent } from '../tr-budget-dialog/tr-budget-dialog.component';
 
 
+
 export class courseName {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
-}
-export class cityState {
   constructor(public id: number, public name: string,public global:GlobalService) {}
 }
 export class trainingCenter {
@@ -42,10 +40,11 @@ export class trainingCenter {
   styleUrls: ['./tr-budget.component.css']
 })
 export class TrBudgetComponent {
-  cityStateCtrl: FormControl;
-  filteredCityStates: Observable<cityState[]>;
-  cityStates: cityState[] = [];
-  selectedCityState!: cityState;
+  
+  courseNameCtrl: FormControl;
+  filteredCourseName: Observable<courseName[]>;
+  courseName: courseName[] = [];
+  selectedCourseName!: courseName;
   trainingCenterCtrl: FormControl;
   filteredTrainingCenteres: Observable<trainingCenter[]>;
   trainingCenteres: trainingCenter[] = [];
@@ -61,10 +60,10 @@ export class TrBudgetComponent {
   @ViewChild(MatSort) sort!: MatSort;
   
   constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
-    this.cityStateCtrl = new FormControl();
-    this.filteredCityStates = this.cityStateCtrl.valueChanges.pipe(
+    this. courseNameCtrl = new FormControl();
+    this.filteredCourseName = this.courseNameCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterCityStates(value))
+      map((value) => this._filterCourseName(value))
     );
     this.trainingCenterCtrl = new FormControl();
     this.filteredTrainingCenteres = this.trainingCenterCtrl.valueChanges.pipe(
@@ -76,9 +75,9 @@ export class TrBudgetComponent {
   ngOnInit(): void {
     // console.log(productForm)
     
-    this.getAllClassRooms();
+    this.getAllTrBudget();
     this.api.getAllCityState().subscribe((cityStates) => {
-      this.cityStates = cityStates;
+      this.courseName = cityStates;
     });
     this.api.getAllTrainingCenter().subscribe((trainingCenteres) => {
       this.trainingCenteres = trainingCenteres;
@@ -97,24 +96,24 @@ export class TrBudgetComponent {
       .afterClosed()
       .subscribe((val) => {
         if (val === 'save') {
-          this.getAllClassRooms();
+          this.getAllTrBudget();
         }
       });
   }
 
-  displayCityStateName(cityState: any): string {
-    return cityState && cityState.name ? cityState.name : '';
+  displayCourseName(courseName: any): string {
+    return courseName && courseName.name ? courseName.name : '';
   }
-  cityStateSelected(event: MatAutocompleteSelectedEvent): void {
-    const cityState = event.option.value as cityState;
-    this.selectedCityState = cityState;
-    this.gradeForm.patchValue({ cityStateId: cityState.id });
-    this.gradeForm.patchValue({ cityStateName: cityState.name });
+  courseNameSelected(event: MatAutocompleteSelectedEvent): void {
+    const courseName = event.option.value as courseName;
+    this.selectedCourseName = courseName;
+    this.gradeForm.patchValue({ courseId: courseName.id });
+    this.gradeForm.patchValue({ courseName: courseName.name });
   }
-  private _filterCityStates(value: string): cityState[] {
+  private _filterCourseName(value: string): courseName[] {
     const filterValue = value.toLowerCase();
-    return this.cityStates.filter(cityState =>
-      cityState.name.toLowerCase().includes(filterValue) 
+    return this.courseName.filter(courseName =>
+      courseName.name.toLowerCase().includes(filterValue) 
     );
   }
   displayTrainingCenterName(trainingCenter: any): string {
@@ -132,8 +131,8 @@ export class TrBudgetComponent {
       trainingCenter.name.toLowerCase().includes(filterValue) 
     );
   }
-  getAllClassRooms() {
-    this.api.getClassRoom().subscribe({
+  getAllTrBudget() {
+    this.api.getTrBudget().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.paginator = this.paginator;
@@ -145,29 +144,29 @@ export class TrBudgetComponent {
     });
   }
 
-  editClassRoom(row: any) {
+  editTrBudget(row: any) {
     this.dialog
-      .open(TrClassRoomDialogComponent, {
+      .open(TrBudgetDialogComponent, {
         width: '30%',
         data: row,
       })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'update') {
-          this.getAllClassRooms();
+          this.getAllTrBudget();
         }
       });
   }
 
-  deleteClassRoom(id: number) {
+  deleteTrBudget(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteClassRoom(id).subscribe({
+      this.api.deleteTrBudget(id).subscribe({
         next: (res) => {
           if(res == 'Succeeded'){
             console.log("res of deletestore:",res)
             this.toastrDeleteSuccess();
-          this.getAllClassRooms();
+          this.getAllTrBudget();
 
         }else{
           alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
@@ -180,12 +179,11 @@ export class TrBudgetComponent {
     }
   }
   
-
   openAutoCityState() {
-    this.cityStateCtrl.setValue(''); // Clear the input field value
+    this.courseNameCtrl.setValue(''); // Clear the input field value
   
     // Open the autocomplete dropdown by triggering the value change event
-    this.cityStateCtrl.updateValueAndValidity();
+    this.courseNameCtrl.updateValueAndValidity();
   }
   openAutoTrainingCenter() {
     this.trainingCenterCtrl.setValue(''); // Clear the input field value

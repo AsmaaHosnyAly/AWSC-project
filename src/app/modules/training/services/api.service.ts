@@ -198,6 +198,27 @@ export class ApiService {
   getAllTrainingCenter() {
     return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
   }
+   /********************************  TR budget  **********************************/
+   postTrBudget(data: any) {
+    return this.http.post<any>(`${this.url}/TrBudget/Add`, data);
+  }
+  // here
+  getTrBudget() {
+    return this.http.get<any>(`${this.url}/TrBudget/get/all`);
+  }
+  putTrBudget(data: any) {
+    return this.http.put<any>(
+      `${this.url}/TrBudget/update`,
+      data
+    );
+  }
+  deleteTrBudget(id: number) {
+    return this.http.delete<any>(
+      `${this.url}/TrBudget/Delete/${id}`
+    );
+  }
+ 
+ 
   /********************************  TrCourseCategory crud  **********************************/
 
   postTrCourseCategory(data: any) {
