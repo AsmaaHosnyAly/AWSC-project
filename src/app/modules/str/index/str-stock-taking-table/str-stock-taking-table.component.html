@@ -1,4 +1,7 @@
 <!-- <p>str-opening-stock-table works!</p> -->
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <div class="page-title"> جرد يدوي</div>
 <mat-accordion class="example-headers-align" multi dir="rtl">
   <mat-expansion-panel>
@@ -117,7 +120,7 @@
         </div>
 
       </div>
-      <div class="print-display">
+      <div class="print-display" *ngIf="!loading">
         <mat-icon (click)="getSearchStrOpen(no.value, StartDate.value,EndDate.value, fiscalYear.value)" class="icons"
           title="بحث">search</mat-icon>
         <mat-icon
@@ -213,4 +216,7 @@
     </table>
   </section>
   <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
 </div>

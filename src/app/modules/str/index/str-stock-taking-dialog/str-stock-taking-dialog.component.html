@@ -1,3 +1,6 @@
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 <div class="cdk-overlay-pane  ">
     <button class="close" mat-button (click)="getAllMasterForms()"> <mat-icon> clear</mat-icon></button>
 </div>
@@ -7,7 +10,7 @@
 <div mat-dialog-content dir="rtl" style="overflow: hidden;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
-        <div class="headerForm">
+        <div class="headerForm"  *ngIf="!loading">
 
             <div style="display: flex; flex-direction: column;margin-left: 10px; ">
                 <mat-label>المخازن:</mat-label>

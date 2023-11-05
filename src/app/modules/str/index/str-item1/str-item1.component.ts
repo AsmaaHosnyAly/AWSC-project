@@ -74,6 +74,7 @@ export class Unit {
 export class STRItem1Component implements OnInit {
   loading :boolean=false;
   transactionUserId = localStorage.getItem('transactionUserId');
+ 
   unitCtrl: FormControl;
   filteredUnits: Observable<Unit[]>;
   units: Unit[] = [];
@@ -422,7 +423,7 @@ export class STRItem1Component implements OnInit {
     console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     console.log('unitRow:', unit);
-
+this.loading=true;
     this.api
       .getSearchItem(
         name,
@@ -436,6 +437,7 @@ export class STRItem1Component implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          this.loading=false;
           console.log('search:', res);
 
           this.dataSource = res;
@@ -443,6 +445,7 @@ export class STRItem1Component implements OnInit {
           this.dataSource.sort = this.sort;
         },
         error: (err) => {
+          this.loading=false;
           console.log('eroorr', err);
         },
       });
