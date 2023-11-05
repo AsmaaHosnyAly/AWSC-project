@@ -111,7 +111,6 @@ import { PyTaxBracketComponent } from './modules/py/index/py-tax-bracket/py-tax-
 import { PyReportsComponent } from './modules/py/index/py-reports/py-reports.component';
 // import { PyHomeComponent } from './modules/py/index/py-home/py-home.component';
 
-
 import { TrInstructorComponent } from './modules/training/index/tr-instructor/tr-instructor.component';
 import { TrCourseCategoryComponent } from './modules/training/index/tr-course-category/tr-course-category.component';
 import { TrCoporteClientComponent } from './modules/training/index/tr-coporte-client/tr-coporte-client.component';
@@ -174,6 +173,7 @@ import { FaCategorySecondComponent } from './modules/fa/index/fa-category-second
 import { FaCategoryFirstComponent } from './modules/fa/index/fa-category-first/fa-category-first.component';
 import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
 import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
+import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -294,7 +294,8 @@ const routes: Routes = [
       { path: 'struserstore', component: StrUserstoreComponent },
       { path: 'StrStockTaking', component: StrStockTakingContainerComponent },
       {
-        path: 'reports', component: ReportsComponent
+        path: 'reports',
+        component: ReportsComponent,
       },
 
       /***********************end store modules المخازن **********************/
@@ -355,12 +356,10 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.ADD_ACCOUNT] },
       },
 
-
       {
-        path: 'fiReports', component: FiReportsComponent
+        path: 'fiReports',
+        component: FiReportsComponent,
       },
-
-
 
       /**********************End account modules الحسابات **********************/
 
@@ -380,9 +379,11 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PR_USER] },
       },
 
-      { path: 'pr-user-changPassword', component: PrUserChangePasswordDialogComponent },
+      {
+        path: 'pr-user-changPassword',
+        component: PrUserChangePasswordDialogComponent,
+      },
       { path: 'pr-reports', component: PrReportsComponent },
-
 
       /*********************End Roles modules الصلاحيات***************************/
 
@@ -548,7 +549,6 @@ const routes: Routes = [
       },
       { path: 'hr-Reports', component: HrReportsComponent },
 
-
       /*********************End Hr modules شئون العاميلن***************************/
 
       /*********************start Hr-attendance module  الحضور والانصراف***************************/
@@ -603,10 +603,9 @@ const routes: Routes = [
       },
       { path: 'attendance-Reports', component: AttendanceReportsComponent },
 
-
       /*********************End Hr-attendance module  الحضور والانصراف***************************/
-      /*********************start TR   التدريب***************************/
 
+      /*********************start TR   التدريب***************************/
       { path: 'TR-Instructor', component: TrInstructorComponent },
       { path: 'Tr-CourseType', component: TrCourseTypeComponent },
       { path: 'Tr-ClassRoom', component: TrClassRoomComponent },
@@ -614,18 +613,6 @@ const routes: Routes = [
       { path: 'TrPlan', component: TrPlanComponent },
       { path: 'TrExcuted', component: TrExcutedComponent },
       { path: 'TrReports', component: TrReportsComponent },
-
-
-      /*********************start TR   التدريب***************************/
-
-      /*********************start py module  المرتبات***************************/
-
-      //  { path: 'pyHome', component:  },
-      { path: 'PyInstallment', component: PyInstallmentComponent },
-      { path: 'PyItem', component: PyItemComponent },
-      { path: 'Py-reports', component: PyReportsComponent },
-
-      /*********************start TR   التدريب***************************/
       { path: 'TrHome', component: TrHomeComponent },
       { path: 'Tr-ClassRoom', component: TrClassRoomComponent },
       { path: 'TrTrainee', component: TrTraineeComponent },
@@ -636,32 +623,20 @@ const routes: Routes = [
       { path: 'Tr-Course', component: TrCourseComponent },
       { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
       { path: 'Tr-TrainingCenter', component: TrTrainingCenterComponent },
-      { path: 'Tr-trainingCenterCourse', component: TrTrainingCenterCourseComponent },
+      {
+        path: 'Tr-trainingCenterCourse',
+        component: TrTrainingCenterCourseComponent,
+      },
       { path: 'TrTrack', component: TrTrackContainerComponent },
       { path: 'TrPlanCourseData', component: TrPlanCourseDataComponent },
       { path: 'Tr-Purpose', component: TrPurposeComponent },
+      { path: 'Tr-Budget', component: TrBudgetComponent},
 
-      /*********************End Hr-attendance module  الحضور والانصراف***************************/
-
-      /*********************start TR   التدريب***************************/
-
-      { path: 'Tr-ClassRoom', component: TrClassRoomComponent },
-      { path: 'TrTrainee', component: TrTraineeComponent },
-      { path: 'TR-Instructor', component: TrInstructorComponent },
-      { path: 'Tr-CourseCategory', component: TrCourseCategoryComponent },
-      { path: 'Tr-CoporteClient', component: TrCoporteClientComponent },
-      { path: 'Tr-CourseType', component: TrCourseTypeComponent },
-      { path: 'Tr-Course', component: TrCourseComponent },
-      { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
-      { path: 'Tr-TrainingCenter', component: TrTrainingCenterComponent },
-      { path: 'Tr-trainingCenterCourse', component: TrTrainingCenterCourseComponent },
-      { path: 'TrTrack', component: TrTrackContainerComponent },
-      { path: 'TrPlanCourseData', component: TrPlanCourseDataComponent },
-      { path: 'Tr-Purpose', component: TrPurposeComponent },
-
-      /*********************End  TR   التدريب***************************/
+      /*********************End  TR   التدريب****************************/
 
       /*********************start py module  المرتبات***************************/
+
+      { path: 'Py-reports', component: PyReportsComponent },
       { path: 'pyHome', component: PyHomeComponent },
       { path: 'PyInstallment', component: PyInstallmentComponent },
       { path: 'PyItem', component: PyItemComponent },
@@ -677,8 +652,6 @@ const routes: Routes = [
       { path: 'add-item-report', component: StrReportAddItemComponent },
       // error section
       // { path: '**', component: ErrorComponent },
-
-
 
       ////////////////////////////////CC///////////////////
 
@@ -699,7 +672,6 @@ const routes: Routes = [
       { path: 'faCategorySecond', component: FaCategorySecondComponent },
       { path: 'faCategoryThird', component: FaCategoryThirdComponent },
 
-
       /*********************End py module  الاصول الثابتة***************************/
     ],
   },
@@ -709,4 +681,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
