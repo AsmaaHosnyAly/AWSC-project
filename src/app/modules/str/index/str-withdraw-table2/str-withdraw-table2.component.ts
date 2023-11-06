@@ -719,6 +719,7 @@ this.loading=true;
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
     if (report != null && reportType != null) {
+      this.loading=true;
       this.api
         .getStr(
           no,
@@ -734,6 +735,7 @@ this.loading=true;
         )
         .subscribe({
           next: (res) => {
+            this.loading=false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -748,6 +750,7 @@ this.loading=true;
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading=false;
             console.log('eroorr', err);
             window.open(err.url);
           },

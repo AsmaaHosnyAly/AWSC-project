@@ -13,7 +13,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
   /******************************** crud Group **********************************/
-  url =this.pageEnums.URL
+  url = this.pageEnums.URL
   mycondition: any;
 
   // baseApiUrl = 'https://file.io';
@@ -32,7 +32,7 @@ export class ApiService {
   }
 
 
- 
+
   // FIAccountHierarchy
   getFIAccountHierarchy() {
     return this.http.get<any>(
@@ -87,12 +87,12 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/FIAccountItemCategory/get/all`);
   }
   // FIJournal
-  getFIJournal(){
-        return this.http.get<any>(`${this.url}/FIJournal/get/all`);
+  getFIJournal() {
+    return this.http.get<any>(`${this.url}/FIJournal/get/all`);
 
   }
-  getFIJournalSearch(no: any,Description:any, StartDate: any,EndDate:any, fiscalYear: any) {
-console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate,'fiscal',fiscalYear)
+  getFIJournalSearch(no: any, Description: any, StartDate: any, EndDate: any, fiscalYear: any) {
+    console.log("no", no, 'descri', Description, 'startdate', StartDate, 'enddate', EndDate, 'fiscal', fiscalYear)
     this.mycondition = `${this.url}/FIJournal/search?`;
 
     if (!no == false) {
@@ -108,7 +108,7 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
       this.mycondition = ` ${this.mycondition}&EndDate=${EndDate}`;
     }
     if (!fiscalYear == false) {
-      this.mycondition = ` ${this.mycondition}&fiscalyearId=${fiscalYear}`;
+      this.mycondition = ` ${this.mycondition}&FiscalYearId=${fiscalYear}`;
     }
     // if (!itemId == false) {
     //   this.mycondition = ` ${this.mycondition}&ItemId=${itemId}`;
@@ -144,8 +144,8 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
   }
 
 
-  
- 
+
+
   //Item
 
   postItems(data: any) {
@@ -170,7 +170,7 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
       data
     );
   }
- 
+
 
   printReportItems(
     name: any,
@@ -416,7 +416,7 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
   //   // with formData as req
   //   return this.http.get(this.baseApiUrl)
   // }
- 
+
   ///////////////////////////////// Fi-Entry & details/////////////////////////////
   getJournals() {
     return this.http.get<any>(`${this.url}/FIJournal/get/all`);
@@ -437,7 +437,7 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
   getFiEntry() {
     return this.http.get<any>(`${this.url}/FIEntry/get/all`);
   }
-  getFiEntryPaginate(currentPage: any, pageSize: any){
+  getFiEntryPaginate(currentPage: any, pageSize: any) {
     let urlPassed = `${this.url}/FIEntry/get/pagnation?page=${currentPage}&pageSize=${pageSize}`;
     return urlPassed;
   }
@@ -455,7 +455,7 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
   getFiEntryDetails() {
     return this.http.get<any>(`${this.url}/FIEntryDetails/get/all`);
   }
-  getFiEntryDetailsByMasterId(id :any) {
+  getFiEntryDetailsByMasterId(id: any) {
     return this.http.get<any>(`${this.url}/FIEntryDetails/get/By/Header/${id}`);
   }
   putFiEntryDetails(data: any) {
@@ -513,49 +513,49 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
     return this.http.get<any>(`${this.mycondition}`);
   }
 
- /////////////////////reports/////////////////////////
- getAccountreports(
-  
-  StartDate: any, EndDate: any,account: any, report: any, reportType: any
-) {
-  console.log(
-   
-   
-    'startdate: ',
-    StartDate,'account',account,
-   
-    'reportName:', report, 'reportType:', reportType
+  /////////////////////reports/////////////////////////
+  getAccountreports(
 
-  );
-  `${this.url}/FIAccount/get/Report?`;
-  this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
-
-  
- 
+    StartDate: any, EndDate: any, account: any, report: any, reportType: any
+  ) {
+    console.log(
 
 
-  if (!StartDate == false) {
-    this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+      'startdate: ',
+      StartDate, 'account', account,
+
+      'reportName:', report, 'reportType:', reportType
+
+    );
+    `${this.url}/FIAccount/get/Report?`;
+    this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+
+
+
+
+
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+    }
+
+
+    if (!account == false) {
+      this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+    }
+
+
+
+    console.log('url', this.mycondition);
+
+    // return this.http.get<any>(`${this.mycondition}`);
+    return this.http.get(`${this.mycondition}`, {
+      observe: 'response',
+      responseType: 'blob',
+    });
   }
-  if (!EndDate == false) {
-    this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
-  }
-
- 
-  if (!account == false) {
-    this.mycondition = ` ${this.mycondition}&accountId=${account}`;
-  }
-  
-  
-
-  console.log('url', this.mycondition);
-
-  // return this.http.get<any>(`${this.mycondition}`);
-  return this.http.get(`${this.mycondition}`, {
-    observe: 'response',
-    responseType: 'blob',
-  });
-}
 
 
   //////////////////FiEntryreport////////////////
@@ -627,9 +627,9 @@ console.log("no",no,'descri',Description,'startdate',StartDate,'enddate',EndDate
     });
   }
 
-   
+
   getFiEntryReport(
-    no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report:any,reportType:any
+    no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report: any, reportType: any
   ) {
     // console.log(
     //   'no. : ',

@@ -1,9 +1,12 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <mat-card>
 
   <mat-card-content>
 
     <mat-accordion class="example-headers-align" multi dir="rtl">
-      <div class="page-title">اليومية  </div>
+      <div class="page-title" *ngIf="!loading">اليومية  </div>
 
       <mat-expansion-panel>
         <mat-expansion-panel-header>

@@ -7,7 +7,7 @@
         <form [formGroup]="AppraisalForm">
           <mat-form-field appearance="outline">
             <mat-label>الرقم </mat-label>
-            <input formControlName="appraisal" matInput placeholder="ادخل الرقم" type="number">
+            <input formControlName="appraisal" matInput placeholder="ادخل الرقم" type="number" min="0">
           </mat-form-field>
           <mat-label>الموظف</mat-label>
           <mat-form-field appearance="outline">
