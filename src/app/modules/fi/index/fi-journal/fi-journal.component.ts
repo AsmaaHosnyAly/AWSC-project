@@ -30,7 +30,7 @@ export class FIJournalComponent {
   DescriptionsList:any;
   groupMasterForm!: FormGroup;
   dataSource2!: MatTableDataSource<any>;
-
+  loading :boolean=false;
   displayedColumns: string[] = [ 'no','description','startDate','endDate', 'action'];
   dataSource!: MatTableDataSource<any>;
 
@@ -137,17 +137,18 @@ private hotkeysService: HotkeysService,
   async getSearchFIJournal(no: any,Description:any, StartDate: any,EndDate:any, fiscalYear: any) {
     
   // console.log("description: "+description,"no: "+no);
-  
+        this.loading=true;
         this.api.getFIJournalSearch(no,Description,StartDate,EndDate,fiscalYear)
           .subscribe({
             next: (res) => {
-       
+       this.loading=false;
             this.dataSource = res;
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
               
             },
             error: (err) => {
+          this.loading=false;
               console.log('eroorr', err);
             }
           })

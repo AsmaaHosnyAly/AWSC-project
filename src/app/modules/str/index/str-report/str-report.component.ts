@@ -27,7 +27,7 @@ export class StrReportComponent {
   show: boolean = true;
 
   reportLocal: any;
-
+ 
   pagesNumber: number = 0;
   pageNumber: number = 1;
   pageSize: number = 2;

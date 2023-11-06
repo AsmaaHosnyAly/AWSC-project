@@ -1,6 +1,9 @@
 <!-- <p>fi-entry-table works!</p> -->
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 <mat-accordion class="example-headers-align" multi dir="rtl">
-    <div class="page-title">حزم تدريبية</div>
+    <div class="page-title" *ngIf="!loading">حزم تدريبية</div>
 
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -16,8 +19,8 @@
                 <mat-label>الكورس*</mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
-                    <input matInput aria-label="commodity" [matAutocomplete]="autoCourse" [formControl]="CourseCtrl"
-                        formControlName="courseId"
+                    <input matInput aria-label="course" [matAutocomplete]="autoCourse" [formControl]="CourseCtrl"
+                        formControlName="course"
                         (click)="openAutoCourse()" required />
                     <mat-autocomplete #autoCourse="matAutocomplete" [displayWith]="displayCourseName"
                         (optionSelected)="CourseSelected($event)">
@@ -32,8 +35,8 @@
                 <mat-label>المسار*</mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
-                    <input matInput aria-label="commodity" [matAutocomplete]="autoTrack" [formControl]="TrackCtrl"
-                        formControlName="trackId" 
+                    <input matInput aria-label="Track" [matAutocomplete]="autoTrack" [formControl]="TrackCtrl"
+                        formControlName="Track" 
                         (click)="openAutoTrack()" required />
                     <mat-autocomplete #autoTrack="matAutocomplete" [displayWith]="displayTrackName"
                         (optionSelected)="TrackSelected($event)">
