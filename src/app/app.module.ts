@@ -301,6 +301,8 @@ import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
 import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
 import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.component';
 import { TrBudgetDialogComponent } from './modules/training/index/tr-budget-dialog/tr-budget-dialog.component';
+import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
+import { FaFixedAssetDialogComponent } from './modules/fa/index/fa-fixed-asset-dialog/fa-fixed-asset-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -578,7 +580,9 @@ import { TrBudgetDialogComponent } from './modules/training/index/tr-budget-dial
     CcHomeComponent,
     TrHomeComponent,
     TrBudgetComponent,
-    TrBudgetDialogComponent
+    TrBudgetDialogComponent,
+    FaFixedAssetComponent,
+    FaFixedAssetDialogComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],
