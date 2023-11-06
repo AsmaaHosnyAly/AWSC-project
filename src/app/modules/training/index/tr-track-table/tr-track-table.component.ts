@@ -115,7 +115,7 @@ export class TrTrackTableComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   pageIndex: any;
   length: any;
-
+  loading :boolean=false;
   ngAfterViewInit() {
     this.dataSource2.paginator = this.paginator;
   }
@@ -527,11 +527,12 @@ export class TrTrackTableComponent implements OnInit {
       'startDate: ', startDate,
       'endDate: ', endDate,
     );
-
+this.loading=true;
     this.api
       .getTrTrackSearach( startDate, endDate,track,course)
       .subscribe({
         next: (res) => {
+          this.loading=false;
           console.log('search fiEntry res: ', res);
 
           this.dataSource2 = res;
@@ -539,6 +540,7 @@ export class TrTrackTableComponent implements OnInit {
           this.dataSource2.sort = this.sort;
         },
         error: (err) => {
+          this.loading=false;
           // alert('Error');
         },
       });
