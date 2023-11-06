@@ -174,6 +174,7 @@ import { FaCategoryFirstComponent } from './modules/fa/index/fa-category-first/f
 import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.component';
 import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
 import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.component';
+import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -671,6 +672,7 @@ const routes: Routes = [
       { path: 'faCategoryFirst', component: FaCategoryFirstComponent },
       { path: 'faCategorySecond', component: FaCategorySecondComponent },
       { path: 'faCategoryThird', component: FaCategoryThirdComponent },
+      { path: 'faFixedAsset', component: FaFixedAssetComponent },
 
       /*********************End py module  الاصول الثابتة***************************/
     ],

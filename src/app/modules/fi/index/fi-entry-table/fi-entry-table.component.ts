@@ -72,7 +72,7 @@ export class FiEntryTableComponent implements OnInit {
   journalsList: any;
   // accountsList: any;
   sourcesList: any;
-loading :boolean=false;
+  loading: boolean = false;
   // dataSource2!: MatTableDataSource<any>;
   dataSource2: MatTableDataSource<ccEntry> = new MatTableDataSource();
 
@@ -97,7 +97,7 @@ loading :boolean=false;
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    private global:GlobalService
+    private global: GlobalService
   ) {
     global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
     this.accountCtrl = new FormControl();
@@ -422,12 +422,12 @@ loading :boolean=false;
       'FiscalYearId', FiscalYearId,
       'Description', Description
     );
-this.loading=true;
+    this.loading = true;
     this.api
       .getFiEntrySearach(no, journalId, accountId, startDate, endDate, sourceId, FiscalYearId, Description)
       .subscribe({
         next: (res) => {
-         this.loading =false;
+          this.loading = false;
           console.log('search fiEntry res: ', res);
 
           this.dataSource2 = res;
@@ -435,20 +435,20 @@ this.loading=true;
           this.dataSource2.sort = this.sort;
         },
         error: (err) => {
-        this.loading=false;
+          this.loading = false;
           // alert('Error');
         },
       });
   }
-    previewPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report:any,reportType:any) {
-      
-  if(report!= null && reportType!=null){
-    this.loading=true;
+  previewPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
+
+    if (report != null && reportType != null) {
+      this.loading = true;
       this.api
-        .getFiEntryReport(no, journalId, startDate,endDate, sourceId, FiscalYearId, Description,report,reportType)
+        .getFiEntryReport(no, journalId, startDate, endDate, sourceId, FiscalYearId, Description, report, reportType)
         .subscribe({
           next: (res) => {
-            this.loading=false;
+            this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -463,43 +463,45 @@ this.loading=true;
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading=false;
+            this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },
 
-        });}
-        else{
-  alert("ادخل التقرير و نوع التقرير!")      }
-    }
-
-
-    downloadPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report:any,reportType:any) {
-      // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
-      // let employee = this.groupMasterForm.getRawValue().employeeId;
-      // let item = this.groupDetailsForm.getRawValue().itemId;
-      // let store = this.groupMasterForm.getRawValue().storeId;
-
-      this.api
-      .getFiEntryReport(no, journalId, startDate,endDate, sourceId, FiscalYearId, Description,report,reportType)
-      .subscribe({
-          next: (res) => {
-            console.log('search:', res);
-            const url: any = res.url;
-            window.open(url);
-            // let blob: Blob = res.body as Blob;
-            // let url = window.URL.createObjectURL(blob);
-
-            // this.dataSource = res;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
-          },
-          error: (err) => {
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
         });
     }
+    else {
+      alert("ادخل التقرير و نوع التقرير!")
+    }
+  }
+
+
+  downloadPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
+    // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
+    // let employee = this.groupMasterForm.getRawValue().employeeId;
+    // let item = this.groupDetailsForm.getRawValue().itemId;
+    // let store = this.groupMasterForm.getRawValue().storeId;
+
+    this.api
+      .getFiEntryReport(no, journalId, startDate, endDate, sourceId, FiscalYearId, Description, report, reportType)
+      .subscribe({
+        next: (res) => {
+          console.log('search:', res);
+          const url: any = res.url;
+          window.open(url);
+          // let blob: Blob = res.body as Blob;
+          // let url = window.URL.createObjectURL(blob);
+
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.log('eroorr', err);
+          window.open(err.url);
+        },
+      });
+  }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }

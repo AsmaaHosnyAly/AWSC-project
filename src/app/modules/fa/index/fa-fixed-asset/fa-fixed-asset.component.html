@@ -1,0 +1,352 @@
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+</div>
+
+<mat-accordion class="example-headers-align" multi dir="rtl">
+
+    <div class="page-title" *ngIf="!loading">المركبات</div>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-description>
+                بحث متقدم
+                <mat-icon>search</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <form class="search" [formGroup]="fixedAssetSearchForm" (keydown.enter)="$event.preventDefault()">
+
+            <div class="searchLabels">
+                <mat-label>الاسم</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="الاسم" formControlName="name">
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>المكان</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input #Place matInput placeholder="المكان"  formControlName="place">
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label> التصنيف الاول </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoCategoryFirstId"
+                        [formControl]="categoryFirstCtrl" (click)="openAutoCategoryFirst()" required />
+                    <mat-autocomplete #autoCategoryFirstId="matAutocomplete" [displayWith]="displayCategoryFirstName"
+                        (optionSelected)="CategoryFirstSelected($event)">
+                        <mat-option *ngFor="let categoryFirst of filteredCategoryFirst | async" [value]="categoryFirst">
+                            {{ categoryFirst.name ? categoryFirst.name : '-'}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels">
+                <mat-label> التصنيف الثانى </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoCategorySecondId"
+                        [formControl]="categorySecondCtrl" (click)="openAutoCategorySecond()" required />
+                    <mat-autocomplete #autoCategorySecondId="matAutocomplete" [displayWith]="displayCategorySecondName"
+                        (optionSelected)="CategorySecondSelected($event)">
+                        <mat-option *ngFor="let categorySecond of filteredCategorySecond | async"
+                            [value]="categorySecond">
+                            {{ categorySecond.name ? categorySecond.name : '-'}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels">
+                <mat-label> التصنيف الثالث </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoCategoryThirdId"
+                        [formControl]="categoryThirdCtrl" (click)="openAutoCategoryThird()" required />
+                    <mat-autocomplete #autoCategoryThirdId="matAutocomplete" [displayWith]="displayCategoryThirdName"
+                        (optionSelected)="CategoryThirdSelected($event)">
+                        <mat-option *ngFor="let categoryThird of filteredCategoryThird | async" [value]="categoryThird">
+                            {{ categoryThird.name ? categoryThird.name : '-'}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>الكود</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input #Code matInput placeholder="الكود" type="number" min="0" formControlName="code">
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label> مركز التكلفة </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num">
+                    <input matInput aria-label="commodity" [matAutocomplete]="costCenterId"
+                        [formControl]="costCenterCtrl" (click)="openAutoCostCenter()" required />
+                    <mat-autocomplete #costCenterId="matAutocomplete" [displayWith]="displayCostCenterName"
+                        (optionSelected)="CostCenterSelected($event)">
+                        <mat-option *ngFor="let costCenter of filteredCostCenter | async" [value]="costCenter">
+                            {{ costCenter.name ? costCenter.name : '-' }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div class="searchLabels">
+                <mat-label> القيد </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num">
+                    <input matInput aria-label="commodity" [matAutocomplete]="entryId" [formControl]="entryCtrl"
+                        (click)="openAutoEntry()" required />
+                    <mat-autocomplete #entryId="matAutocomplete" [displayWith]="displayEntryName"
+                        (optionSelected)="EntrySelected($event)">
+                        <mat-option *ngFor="let entry of filteredEntry | async" [value]="entry">
+                            {{ entry.description ? entry.description : '-'}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+
+            <div class="searchLabels">
+                <mat-label>تاريخ الشراء</mat-label>
+
+                <mat-form-field appearance="outline" class="example-full-width">
+                    <input #BuyDate matInput [matDatepicker]="BuyDatepicker" formControlName="buyDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="BuyDatepicker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #BuyDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>تاريخ العمل</mat-label>
+
+                <mat-form-field appearance="outline" class="example-full-width">
+                    <input #WorkDate matInput [matDatepicker]="WorkDatepicker" formControlName="workDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="WorkDatepicker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #WorkDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>تاريخ التكهين</mat-label>
+
+                <mat-form-field appearance="outline" class="example-full-width">
+                    <input #SpeculateDate matInput [matDatepicker]="SpeculateDatepicker" formControlName="speculateDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="SpeculateDatepicker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #SpeculateDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+        <!-- <div class="searchLabels">
+                <mat-label> التقارير</mat-label>
+
+                <mat-form-field appearance="outline" class="searchForm">
+                    <mat-select #report plceholder="اختر  التقرير" formControlName="report">
+                        <mat-option value="FIEntryReport">تقرير</mat-option>
+                        <mat-option value="FIEntryDetailsReport"> تقرير تفصيلي </mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label> نوع التقرير</mat-label>
+
+                <mat-form-field appearance="outline" class="searchForm">
+                    <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
+                        <mat-option value="pdf"> PDF </mat-option>
+                        <mat-option value="xls">Excel </mat-option>
+
+
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+
+
+        <div class="print-display">
+            <mat-icon (click)="getSearch()"
+                class="icons" title="بحث">search</mat-icon>
+
+            <!-- <mat-icon class="icons" title="عرض"
+                     
+                     (click)="previewPrint(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)" class="icons"
+                     title="تحميل">print</mat-icon>
+         
+                   <mat-icon (click)="downloadPrint(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
+                     class="icons" title="تحميل">get_app</mat-icon> -->
+
+            <mat-icon (click)="getFaFixedAsset()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+
+        </div>
+
+    </mat-expansion-panel>
+</mat-accordion>
+
+<mat-card>
+    <mat-card-content>
+        <mat-card-header dir="ltr" class="parent-search">
+            <div class="child1">
+                <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
+                    <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+                </button>
+            </div>
+
+            <div>
+                <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
+            </div>
+        </mat-card-header>
+
+        <div class="div-table">
+            <table matSort mat-table [dataSource]="dataSource">
+
+                <!-- code Column -->
+                <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef> الكود</th>
+                    <td mat-cell *matCellDef="let row"> {{row.code}} </td>
+                </ng-container>
+
+                <!-- name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> الاسم</th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                </ng-container>
+
+                <!-- categoryFirstName Column -->
+                <ng-container matColumnDef="categoryFirstName">
+                    <th mat-header-cell *matHeaderCellDef> التصنيف الاول</th>
+                    <td mat-cell *matCellDef="let row"> {{row.categoryFirstName}} </td>
+                </ng-container>
+
+                <!-- categorySecondName Column -->
+                <ng-container matColumnDef="categorySecondName">
+                    <th mat-header-cell *matHeaderCellDef> التصنيف الثانى</th>
+                    <td mat-cell *matCellDef="let row"> {{row.categorySecondName}} </td>
+                </ng-container>
+
+                <!-- categoryThirdName Column -->
+                <ng-container matColumnDef="categoryThirdName">
+                    <th mat-header-cell *matHeaderCellDef> التصنيف الثالث</th>
+                    <td mat-cell *matCellDef="let row"> {{row.categoryThirdName}} </td>
+                </ng-container>
+
+                <!-- costCenterName Column -->
+                <ng-container matColumnDef="costCenterName">
+                    <th mat-header-cell *matHeaderCellDef> مركز التكلفة</th>
+                    <td mat-cell *matCellDef="let row"> {{row.costCenterName}} </td>
+                </ng-container>
+
+                <!-- fiEntryDescription Column -->
+                <ng-container matColumnDef="fiEntryDescription">
+                    <th mat-header-cell *matHeaderCellDef> القيد</th>
+                    <td mat-cell *matCellDef="let row"> {{row.fiEntryDescription}} </td>
+                </ng-container>
+
+                <!-- initialValue Column -->
+                <ng-container matColumnDef="initialValue">
+                    <th mat-header-cell *matHeaderCellDef> القيمة الابتدائية</th>
+                    <td mat-cell *matCellDef="let row"> {{row.initialValue}} </td>
+                </ng-container>
+
+                <!-- bookValue Column -->
+                <ng-container matColumnDef="bookValue">
+                    <th mat-header-cell *matHeaderCellDef> القيمة المحجوزة</th>
+                    <td mat-cell *matCellDef="let row"> {{row.bookValue}} </td>
+                </ng-container>
+
+                <!-- speculateValue Column -->
+                <ng-container matColumnDef="speculateValue">
+                    <th mat-header-cell *matHeaderCellDef> القيمة الكهنة</th>
+                    <td mat-cell *matCellDef="let row"> {{row.speculateValue}} </td>
+                </ng-container>
+
+                <!-- depreciationRate Column -->
+                <ng-container matColumnDef="depreciationRate">
+                    <th mat-header-cell *matHeaderCellDef> معدل الاستهلاك</th>
+                    <td mat-cell *matCellDef="let row"> {{row.depreciationRate}} </td>
+                </ng-container>
+
+                <!-- place Column -->
+                <ng-container matColumnDef="place">
+                    <th mat-header-cell *matHeaderCellDef> المكان </th>
+                    <td mat-cell *matCellDef="let row"> {{row.place}} </td>
+                </ng-container>
+
+                <!-- state Column -->
+                <ng-container matColumnDef="state">
+                    <th mat-header-cell *matHeaderCellDef> الحالة </th>
+                    <td mat-cell *matCellDef="let row"> {{row.state}} </td>
+                </ng-container>
+
+                <!-- buyDate Column -->
+                <ng-container matColumnDef="buyDate">
+                    <th mat-header-cell *matHeaderCellDef> تاريخ الشراء </th>
+                    <td mat-cell *matCellDef="let row"> {{row.buyDate | date}} </td>
+                </ng-container>
+
+                <!-- workDate Column -->
+                <ng-container matColumnDef="workDate">
+                    <th mat-header-cell *matHeaderCellDef> تاريخ العمل </th>
+                    <td mat-cell *matCellDef="let row"> {{row.workDate | date}} </td>
+                </ng-container>
+
+                <!-- speculateDate Column -->
+                <ng-container matColumnDef="speculateDate">
+                    <th mat-header-cell *matHeaderCellDef> تاريخ التكهين </th>
+                    <td mat-cell *matCellDef="let row"> {{row.speculateDate | date}} </td>
+                </ng-container>
+
+                <!-- action Column -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef style="width: 15%;"> الإجراء</th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button (click)="editFaFixedAsset(row)" class="editbtn">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button (click)="deleteFaFixedAsset(row.id)" mat-icon-button color="warn">
+                            <mat-icon>delete_forever</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row;columns:displayedColumns"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                </tr>
+
+            </table>
+        </div>
+
+    </mat-card-content>
+    <br>
+    <mat-card-footer>
+
+        <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+    </mat-card-footer>
+</mat-card>
