@@ -24,6 +24,9 @@ export class ApiService {
   getFaCategoryFirst() {
     return this.http.get<any>(`${this.url}/FaCategoryFirst/get/all`);
   }
+  getFaCategoryFirstById(id: any) {
+    return this.http.get<any>(`${this.url}/FaCategoryFirst/get/${id}`);
+  }
   putFaCategoryFirst(data: any) {
     return this.http.put<any>(`${this.url}/FaCategoryFirst/update`, data);
   }
@@ -43,6 +46,9 @@ export class ApiService {
   getFaCategorySecond() {
     return this.http.get<any>(`${this.url}/FaCategorySecond/get/all`);
   }
+  getFaCategorySecondById(id: any) {
+    return this.http.get<any>(`${this.url}/FaCategorySecond/get/${id}`);
+  }
   putFaCategorySecond(data: any) {
     return this.http.put<any>(`${this.url}/FaCategorySecond/update`, data);
   }
@@ -61,6 +67,9 @@ export class ApiService {
   }
   getFaCategoryThird() {
     return this.http.get<any>(`${this.url}/FaCategoryThird/get/all`);
+  }
+  getFaCategoryThirdById(id: any) {
+    return this.http.get<any>(`${this.url}/FaCategoryThird/get/${id}`);
   }
   putFaCategoryThird(data: any) {
     return this.http.put<any>(`${this.url}/FaCategoryThird/update`, data);
