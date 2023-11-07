@@ -16,13 +16,13 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 
 export class CategoryFirst {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public code: any) { }
 }
 export class CategorySecond {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public code: any) { }
 }
 export class CategoryThird {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public code: any) { }
 }
 export class CostCenter {
   constructor(public id: number, public name: string) { }
@@ -65,10 +65,10 @@ export class FaFixedAssetDialogComponent implements OnInit {
   selectedEntry!: Entry;
 
   // formcontrol = new FormControl('');
-  fixedAssetSearchForm!: FormGroup;
+  fixedAssetForm!: FormGroup;
 
   // formcontrol = new FormControl('');
-  // fixedAssetSearchForm !: FormGroup;
+  // fixedAssetForm !: FormGroup;
   actionBtn: string = "حفظ"
   selectedOption: any;
   getModelData: any;
@@ -87,6 +87,11 @@ export class FaFixedAssetDialogComponent implements OnInit {
   storeList: any;
   vendorName: any;
   autoCode: any;
+  stateDefaultValue: any;
+  autoCodeCategoryFirst: any;
+  autoCodeCategorySecond: any;
+  autoCodeCategoryThird: any;
+
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
@@ -94,6 +99,8 @@ export class FaFixedAssetDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<FaFixedAssetDialogComponent>,
     private toastr: ToastrService) {
+
+    this.stateDefaultValue = "جديد";
 
     this.categoryFirstCtrl = new FormControl();
     this.filteredCategoryFirst = this.categoryFirstCtrl.valueChanges.pipe(
@@ -133,18 +140,26 @@ export class FaFixedAssetDialogComponent implements OnInit {
     this.getCcCostCenter();
     this.getFiEntry();
 
-    this.fixedAssetSearchForm = this.formBuilder.group({
+    this.fixedAssetForm = this.formBuilder.group({
       name: ['', Validators.required],
+      description: [''],
       place: ['', Validators.required],
       categoryFirstId: ['', Validators.required],
       categorySecondId: ['', Validators.required],
       categoryThirdId: ['', Validators.required],
+      no: ['', Validators.required],
       code: ['', Validators.required],
-      costCenterId: ['', Validators.required],
+      costCenterId: [''],
       entryId: ['', Validators.required],
+      state: [this.stateDefaultValue, Validators.required],
       buyDate: ['', Validators.required],
       workDate: ['', Validators.required],
-      speculateDate: ['', Validators.required]
+      speculateDate: ['', Validators.required],
+      initialValue: ['', Validators.required],
+      bookValue: ['', Validators.required],
+      speculateValue: ['', Validators.required],
+      depreciationRate: ['', Validators.required],
+      transactionUserId: ['', Validators.required],
     });
 
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
@@ -157,28 +172,40 @@ export class FaFixedAssetDialogComponent implements OnInit {
       console.log("editData: ", this.editData);
 
       this.actionBtn = "تعديل";
-      console.log("")
-      this.getModelData = this.editData;
-      this.fixedAssetSearchForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      this.fixedAssetSearchForm.controls['name'].setValue(this.editData.name);
-      this.fixedAssetSearchForm.controls['place'].setValue(this.editData.place);
-      this.fixedAssetSearchForm.controls['categoryFirstId'].setValue(this.editData.categoryFirstId);
-      this.fixedAssetSearchForm.controls['categorySecondId'].setValue(this.editData.categorySecondId);
-      this.fixedAssetSearchForm.controls['categoryThirdId'].setValue(this.editData.categoryThirdId);
-      this.fixedAssetSearchForm.controls['code'].setValue(this.editData.code);
-      this.fixedAssetSearchForm.controls['costCenterId'].setValue(this.editData.costCenterId);
-      this.fixedAssetSearchForm.controls['entryId'].setValue(this.editData.entryId);
-      this.fixedAssetSearchForm.controls['buyDate'].setValue(this.editData.buyDate);
-      this.fixedAssetSearchForm.controls['workDate'].setValue(this.editData.workDate);
-      this.fixedAssetSearchForm.controls['speculateDate'].setValue(this.editData.speculateDate);
+      this.fixedAssetForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.fixedAssetForm.controls['name'].setValue(this.editData.name);
+      this.fixedAssetForm.controls['description'].setValue(this.editData.description);
+      this.fixedAssetForm.controls['place'].setValue(this.editData.place);
 
-      this.fixedAssetSearchForm.addControl('id', new FormControl('', Validators.required));
-      this.fixedAssetSearchForm.controls['id'].setValue(this.editData.id);
+      this.fixedAssetForm.controls['categoryFirstId'].setValue(this.editData.categoryFirstId);
+      // this.getFaCategoryFirstById(this.editData.categoryFirstId);
+      this.fixedAssetForm.controls['categorySecondId'].setValue(this.editData.categorySecondId);
+      // this.getFaCategorySecondById(this.editData.categorySecondId);
+      this.fixedAssetForm.controls['categoryThirdId'].setValue(this.editData.categoryThirdId);
+      // this.getFaCategoryThirdById(this.editData.categoryThirdId);
+
+      this.fixedAssetForm.controls['no'].setValue(this.editData.no);
+      this.fixedAssetForm.controls['code'].setValue(this.editData.code);
+      this.fixedAssetForm.controls['costCenterId'].setValue(this.editData.costCenterId);
+      this.fixedAssetForm.controls['entryId'].setValue(this.editData.entryId);
+      this.fixedAssetForm.controls['state'].setValue(this.editData.state);
+      this.fixedAssetForm.controls['buyDate'].setValue(this.editData.buyDate);
+      this.fixedAssetForm.controls['workDate'].setValue(this.editData.workDate);
+      this.fixedAssetForm.controls['speculateDate'].setValue(this.editData.speculateDate);
+      this.fixedAssetForm.controls['initialValue'].setValue(this.editData.initialValue);
+      this.fixedAssetForm.controls['bookValue'].setValue(this.editData.bookValue);
+      this.fixedAssetForm.controls['speculateValue'].setValue(this.editData.speculateValue);
+      this.fixedAssetForm.controls['depreciationRate'].setValue(this.editData.depreciationRate);
+
+      this.fixedAssetForm.addControl('id', new FormControl('', Validators.required));
+      this.fixedAssetForm.controls['id'].setValue(this.editData.id);
+
+      this.getFaCategoryIdsEditDataCase(this.editData.categoryFirstCode, this.editData.categorySecondCode, this.editData.categoryThirdCode, this.editData.no);
     }
-    else {
-      this.getFaFixedAssetAutoCode();
-    }
+    // else{
+    //   this.getFaFixedAssetAutoCode();
+    // }
   }
 
 
@@ -198,7 +225,9 @@ export class FaFixedAssetDialogComponent implements OnInit {
     const categoryFirst = event.option.value as CategoryFirst;
     console.log("categoryFirst selected: ", categoryFirst);
     this.selectedCategoryFirst = categoryFirst;
-    this.fixedAssetSearchForm.patchValue({ categoryFirstId: categoryFirst.id });
+    this.fixedAssetForm.patchValue({ categoryFirstId: categoryFirst.id });
+    this.getFaCategoryFirstById(this.fixedAssetForm.getRawValue().categoryFirstId, categoryFirst.code);
+
   }
   openAutoCategoryFirst() {
     this.categoryFirstCtrl.setValue(''); // Clear the input field value
@@ -223,8 +252,9 @@ export class FaFixedAssetDialogComponent implements OnInit {
   CategorySecondSelected(event: MatAutocompleteSelectedEvent): void {
     const categorySecond = event.option.value as CategorySecond;
     console.log("categorySecond selected: ", categorySecond);
-    this.selectedCategoryFirst = categorySecond;
-    this.fixedAssetSearchForm.patchValue({ categorySecondId: categorySecond.id });
+    this.selectedCategorySecond = categorySecond;
+    this.fixedAssetForm.patchValue({ categorySecondId: categorySecond.id });
+    this.getFaCategorySecondById(this.fixedAssetForm.getRawValue().categorySecondId, categorySecond.code);
   }
   openAutoCategorySecond() {
     this.categorySecondCtrl.setValue(''); // Clear the input field value
@@ -250,7 +280,8 @@ export class FaFixedAssetDialogComponent implements OnInit {
     const categoryThird = event.option.value as CategoryThird;
     console.log("categoryThird selected: ", categoryThird);
     this.selectedCategoryThird = categoryThird;
-    this.fixedAssetSearchForm.patchValue({ categoryThirdId: categoryThird.id });
+    this.fixedAssetForm.patchValue({ categoryThirdId: categoryThird.id });
+    this.getFaCategoryThirdById(this.fixedAssetForm.getRawValue().categoryThirdId, categoryThird.code);
   }
   openAutoCategoryThird() {
     this.categoryThirdCtrl.setValue(''); // Clear the input field value
@@ -276,7 +307,7 @@ export class FaFixedAssetDialogComponent implements OnInit {
     const costCenter = event.option.value as CostCenter;
     console.log("costCenter selected: ", costCenter);
     this.selectedCostCenter = costCenter;
-    this.fixedAssetSearchForm.patchValue({ costCenterId: costCenter.id });
+    this.fixedAssetForm.patchValue({ costCenterId: costCenter.id });
   }
   openAutoCostCenter() {
     this.costCenterCtrl.setValue(''); // Clear the input field value
@@ -302,7 +333,7 @@ export class FaFixedAssetDialogComponent implements OnInit {
     const entry = event.option.value as Entry;
     console.log("entry selected: ", entry);
     this.selectedEntry = entry;
-    this.fixedAssetSearchForm.patchValue({ entryId: entry.id });
+    this.fixedAssetForm.patchValue({ entryId: entry.id });
   }
   openAutoEntry() {
     this.entryCtrl.setValue(''); // Clear the input field value
@@ -314,16 +345,17 @@ export class FaFixedAssetDialogComponent implements OnInit {
 
   addFaFixedAset() {
     if (!this.editData) {
-      this.fixedAssetSearchForm.removeControl('id')
-      this.fixedAssetSearchForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      console.log("post form values: ", this.fixedAssetSearchForm.value);
+      this.fixedAssetForm.removeControl('id');
+      this.fixedAssetForm.controls['no'].setValue(this.fixedAssetForm.getRawValue().no.toString());
+      this.fixedAssetForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      console.log("post form values: ", this.fixedAssetForm.value);
 
-      if (this.fixedAssetSearchForm.valid) {
-        this.api.postFaFixedAsset(this.fixedAssetSearchForm.value)
+      if (this.fixedAssetForm.valid) {
+        this.api.postFaFixedAsset(this.fixedAssetForm.value)
           .subscribe({
             next: (res) => {
               this.toastrSuccess();
-              this.fixedAssetSearchForm.reset();
+              this.fixedAssetForm.reset();
               this.dialogRef.close('save');
             },
             error: (err) => {
@@ -338,13 +370,14 @@ export class FaFixedAssetDialogComponent implements OnInit {
 
 
   updateFaFixedAsset() {
-    console.log("update form values fetch err: ", this.fixedAssetSearchForm.value);
+    this.fixedAssetForm.controls['no'].setValue(this.fixedAssetForm.getRawValue().no.toString());
+    console.log("update form values: ", this.fixedAssetForm.value);
 
-    this.api.putFaFixedAsset(this.fixedAssetSearchForm.value)
+    this.api.putFaFixedAsset(this.fixedAssetForm.value)
       .subscribe({
         next: (res) => {
           this.toastrEdit();
-          this.fixedAssetSearchForm.reset();
+          this.fixedAssetForm.reset();
           this.dialogRef.close('update');
         },
         error: () => {
@@ -416,18 +449,148 @@ export class FaFixedAssetDialogComponent implements OnInit {
   }
 
   getFaFixedAssetAutoCode() {
-    this.api.getFaFixedAssetAutoCode(this.fixedAssetSearchForm.getRawValue().categoryFirstId, this.fixedAssetSearchForm.getRawValue().categorySecondId, this.fixedAssetSearchForm.getRawValue().categoryThirdId).subscribe({
-      next: (res) => {
-        console.log("autoCode res: ", res);
-        this.autoCode = res;
-        this.fixedAssetSearchForm.controls['code'].setValue(this.autoCode);
+    if (this.autoCodeCategoryFirst && this.autoCodeCategorySecond && this.autoCodeCategoryThird) {
 
-      },
-      error: (err) => {
-        alert('Error');
-        console.log("autoCode fetch err: ", err);
-      },
-    });
+      this.api.getFaFixedAssetAutoCode(this.fixedAssetForm.getRawValue().categoryFirstId, this.fixedAssetForm.getRawValue().categorySecondId, this.fixedAssetForm.getRawValue().categoryThirdId).subscribe({
+        next: (res) => {
+          console.log("autoCode res: ", res);
+          this.autoCode = res;
+          this.fixedAssetForm.controls['no'].setValue(this.autoCode);
+          this.concatFullCode(this.autoCode);
+
+        },
+        error: (err) => {
+          // alert('Error');
+          console.log("autoCode fetch err: ", err);
+        },
+      });
+
+    }
+    else if (this.editData) {
+      this.concatFullCode(this.editData.no);
+
+    }
+
+  }
+
+  getFaCategoryFirstById(id: any, code: any) {
+    console.log("autoCode category1 selected: ", code);
+    this.autoCodeCategoryFirst = code;
+    // this.getFaFixedAssetAutoCode();
+    if (this.editData) {
+      alert("EditData found: ");
+
+      if (this.editData.categoryFirstCode != this.autoCodeCategoryFirst) {
+        alert("EditData found NOT as same as selected option: ");
+
+        this.getFaFixedAssetAutoCode();
+      }
+      else {
+        this.fixedAssetForm.controls['no'].setValue(this.editData.no);
+        this.fixedAssetForm.controls['code'].setValue(this.editData.code);
+      }
+    }
+    else {
+      alert("Post for first time: ");
+
+      this.getFaFixedAssetAutoCode();
+    }
+  }
+
+  getFaCategoryIdsEditDataCase(categoryFirstCode: any, categorySecondCode: any, categoryThirdCode: any, no: any) {
+
+    alert("fullCode generated in EditDataCase: " + categoryFirstCode + categorySecondCode + categoryThirdCode + no);
+    this.fixedAssetForm.controls['code'].setValue(categoryFirstCode + categorySecondCode + categoryThirdCode + no);
+
+  }
+
+  getFaCategorySecondById(id: any, code: any) {
+    console.log("autoCode category2 selected: ", code);
+    this.autoCodeCategorySecond = code;
+    if (this.editData) {
+      alert("EditData found: ");
+
+      if (this.editData.categorySecondCode != this.autoCodeCategorySecond) {
+        alert("EditData found NOT as same as selected option: ");
+
+        this.getFaFixedAssetAutoCode();
+      }
+      else {
+        this.fixedAssetForm.controls['no'].setValue(this.editData.no);
+        this.fixedAssetForm.controls['code'].setValue(this.editData.code);
+      }
+    }
+    else {
+      alert("Post for first time: ");
+
+      this.getFaFixedAssetAutoCode();
+    }
+  }
+
+  getFaCategoryThirdById(id: any, code: any) {
+    console.log("autoCode category3 selected: ", code);
+    this.autoCodeCategoryThird = code;
+    // this.getFaFixedAssetAutoCode();
+    if (this.editData) {
+      alert("EditData found: ");
+
+      if (this.editData.categoryThirdCode != this.autoCodeCategoryThird) {
+        alert("EditData found NOT as same as selected option: ");
+
+        this.getFaFixedAssetAutoCode();
+      }
+      else {
+        this.fixedAssetForm.controls['no'].setValue(this.editData.no);
+        this.fixedAssetForm.controls['code'].setValue(this.editData.code);
+      }
+    }
+    else {
+      alert("Post for first time: ");
+
+      this.getFaFixedAssetAutoCode();
+    }
+  }
+
+  concatFullCode(autoCodeGeneraed: any) {
+
+    alert("autoCode generated in NO: " + autoCodeGeneraed);
+
+    if (!this.autoCodeCategoryFirst) {
+      this.autoCodeCategoryFirst = this.editData.categoryFirstCode;
+    }
+    if (!this.autoCodeCategorySecond) {
+      this.autoCodeCategorySecond = this.editData.categorySecondCode;
+    }
+    if (!this.autoCodeCategoryThird) {
+      this.autoCodeCategoryThird = this.editData.categoryThirdCode;
+    }
+    // else {
+    alert("FullCode edit Changeddd: " + this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
+    this.fixedAssetForm.controls['code'].setValue(this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
+    // }
+
+
+
+
+    // alert("autoCodeCategorySecond: " + this.autoCodeCategorySecond);
+    // alert("autoCodeCategoryThird: " + this.autoCodeCategoryThird);
+
+    // if (autoCodeGeneraed != this.editData?.code) {
+    //   alert("auto full Code concat: " + this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
+
+    //   this.fixedAssetForm.controls['code'].setValue(this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
+    //   console.log("full code control value: ", this.fixedAssetForm.getRawValue().code);
+    // }
+    // else if (autoCodeGeneraed == this.editData?.code) {
+    //   autoCodeGeneraed = this.editData.no;
+    //   // let startCodeIndex = this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird;
+    //   // console.log("split fixed asset autoCodeGenerated: ", autoCodeGeneraed.slice(startCodeIndex.length));
+    //   // autoCodeGeneraed = autoCodeGeneraed.slice(startCodeIndex.length);
+    //   alert("auto full Code concat EDITDATA: " + autoCodeGeneraed);
+
+    //   this.fixedAssetForm.controls['code'].setValue(this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
+    //   console.log("full code control value EDITDATA: ", this.fixedAssetForm.getRawValue().code);
+    // }
   }
 
   toastrSuccess(): void {

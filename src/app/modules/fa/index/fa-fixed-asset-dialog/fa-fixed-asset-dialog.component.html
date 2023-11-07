@@ -3,24 +3,30 @@
 </div>
 
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل المركبات ' : 'إضافة مركبات جديد'}}</h1>
-<form [formGroup]="fixedAssetSearchForm" dir="rtl">
+<form [formGroup]="fixedAssetForm" dir="rtl">
     <div mat-dialog-content>
-        <form [formGroup]="fixedAssetSearchForm">
+        <form [formGroup]="fixedAssetForm">
 
             <mat-label>الاسم*</mat-label>
             <mat-form-field appearance="outline">
                 <input matInput placeholder="الاسم" formControlName="name">
             </mat-form-field>
 
+            <mat-label>الوصف</mat-label>
+            <mat-form-field appearance="outline" class="fill-container">
+                <textarea matInput placeholder="الوصف" formControlName="description"></textarea>
+            </mat-form-field>
+
             <mat-label>المكان*</mat-label>
             <mat-form-field appearance="outline">
-                <input #Place matInput placeholder="المكان" formControlName="place">
+                <input matInput placeholder="المكان" formControlName="place">
             </mat-form-field>
 
             <mat-label> التصنيف الاول* </mat-label>
             <mat-form-field appearance="outline" class="child-num">
-                <input matInput aria-label="commodity" [matAutocomplete]="autoCategoryFirstId"
-                    [formControl]="categoryFirstCtrl" (click)="openAutoCategoryFirst()" required />
+                <input placeholder="{{editData  ? editData.categoryFirstName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoCategoryFirstId" [formControl]="categoryFirstCtrl"
+                    (click)="openAutoCategoryFirst()" required />
                 <mat-autocomplete #autoCategoryFirstId="matAutocomplete" [displayWith]="displayCategoryFirstName"
                     (optionSelected)="CategoryFirstSelected($event)">
                     <mat-option *ngFor="let categoryFirst of filteredCategoryFirst | async" [value]="categoryFirst">
@@ -31,8 +37,9 @@
 
             <mat-label> التصنيف الثانى* </mat-label>
             <mat-form-field appearance="outline" class="child-num">
-                <input matInput aria-label="commodity" [matAutocomplete]="autoCategorySecondId"
-                    [formControl]="categorySecondCtrl" (click)="openAutoCategorySecond()" required />
+                <input placeholder="{{editData  ? editData.categorySecondName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoCategorySecondId" [formControl]="categorySecondCtrl"
+                    (click)="openAutoCategorySecond()" required />
                 <mat-autocomplete #autoCategorySecondId="matAutocomplete" [displayWith]="displayCategorySecondName"
                     (optionSelected)="CategorySecondSelected($event)">
                     <mat-option *ngFor="let categorySecond of filteredCategorySecond | async" [value]="categorySecond">
@@ -43,8 +50,9 @@
 
             <mat-label> التصنيف الثالث* </mat-label>
             <mat-form-field appearance="outline" class="child-num">
-                <input matInput aria-label="commodity" [matAutocomplete]="autoCategoryThirdId"
-                    [formControl]="categoryThirdCtrl" (click)="openAutoCategoryThird()" required />
+                <input placeholder="{{editData  ? editData.categoryThirdName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoCategoryThirdId" [formControl]="categoryThirdCtrl"
+                    (click)="openAutoCategoryThird()" required />
                 <mat-autocomplete #autoCategoryThirdId="matAutocomplete" [displayWith]="displayCategoryThirdName"
                     (optionSelected)="CategoryThirdSelected($event)">
                     <mat-option *ngFor="let categoryThird of filteredCategoryThird | async" [value]="categoryThird">
@@ -55,13 +63,20 @@
 
             <mat-label>الكود*</mat-label>
             <mat-form-field appearance="outline">
-                <input #Code matInput placeholder="الكود" type="number" min="0" formControlName="code" readonly>
+                <input matInput placeholder="الكود" type="number" min="0" formControlName="code" readonly>
             </mat-form-field>
 
-            <mat-label> مركز التكلفة* </mat-label>
+            <mat-label>الرقم*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="الرقم" type="number" min="0" formControlName="no" readonly>
+            </mat-form-field>
+
+
+            <mat-label> مركز التكلفة </mat-label>
             <mat-form-field appearance="outline" class="child-num">
-                <input matInput aria-label="commodity" [matAutocomplete]="costCenterId" [formControl]="costCenterCtrl"
-                    (click)="openAutoCostCenter()" required />
+                <input placeholder="{{editData  ? editData.costCenterName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="costCenterId" [formControl]="costCenterCtrl" (click)="openAutoCostCenter()"
+                    required />
                 <mat-autocomplete #costCenterId="matAutocomplete" [displayWith]="displayCostCenterName"
                     (optionSelected)="CostCenterSelected($event)">
                     <mat-option *ngFor="let costCenter of filteredCostCenter | async" [value]="costCenter">
@@ -72,8 +87,8 @@
 
             <mat-label> القيد* </mat-label>
             <mat-form-field appearance="outline" class="child-num">
-                <input matInput aria-label="commodity" [matAutocomplete]="entryId" [formControl]="entryCtrl"
-                    (click)="openAutoEntry()" required />
+                <input placeholder="{{editData  ? editData.fiEntryDescription : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="entryId" [formControl]="entryCtrl" (click)="openAutoEntry()" required />
                 <mat-autocomplete #entryId="matAutocomplete" [displayWith]="displayEntryName"
                     (optionSelected)="EntrySelected($event)">
                     <mat-option *ngFor="let entry of filteredEntry | async" [value]="entry">
@@ -82,9 +97,20 @@
                 </mat-autocomplete>
             </mat-form-field>
 
+            <div>
+                <mat-label>الحالة</mat-label>
+                <mat-radio-group aria-label="Select an option" formControlName="state"
+                    [value]="editData ? editData.state : stateDefaultValue">
+                    <div class="statusRadioBtns">
+                        <mat-radio-button value="جديد">جديد</mat-radio-button>
+                        <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
+                    </div>
+                </mat-radio-group>
+            </div>
+
             <mat-label>تاريخ الشراء* </mat-label>
             <mat-form-field appearance="outline" class="example-full-width">
-                <input #BuyDate matInput [matDatepicker]="BuyDatepicker" formControlName="buyDate">
+                <input matInput [matDatepicker]="BuyDatepicker" formControlName="buyDate">
                 <mat-datepicker-toggle matIconSuffix [for]="BuyDatepicker">
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -93,7 +119,7 @@
 
             <mat-label>تاريخ العمل*</mat-label>
             <mat-form-field appearance="outline" class="example-full-width">
-                <input #WorkDate matInput [matDatepicker]="WorkDatepicker" formControlName="workDate">
+                <input matInput [matDatepicker]="WorkDatepicker" formControlName="workDate">
                 <mat-datepicker-toggle matIconSuffix [for]="WorkDatepicker">
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -103,11 +129,31 @@
 
             <mat-label>تاريخ التكهين*</mat-label>
             <mat-form-field appearance="outline" class="example-full-width">
-                <input #SpeculateDate matInput [matDatepicker]="SpeculateDatepicker" formControlName="speculateDate">
+                <input matInput [matDatepicker]="SpeculateDatepicker" formControlName="speculateDate">
                 <mat-datepicker-toggle matIconSuffix [for]="SpeculateDatepicker">
                     <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
                 <mat-datepicker #SpeculateDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>القيمة الابتدائية*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="القيمة الابتدائية" type="number" min="0" formControlName="initialValue">
+            </mat-form-field>
+
+            <mat-label>القيمة المحجوزة*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="القيمة المحجوزة" type="number" min="0" formControlName="bookValue">
+            </mat-form-field>
+
+            <mat-label>معدل الاستهلاك*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="معدل الاستهلاك" type="number" min="0" formControlName="depreciationRate">
+            </mat-form-field>
+
+            <mat-label>القيمة الكهنة*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="القيمة الكهنة" type="number" min="0" formControlName="speculateValue">
             </mat-form-field>
 
         </form>
