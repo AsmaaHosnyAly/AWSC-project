@@ -436,7 +436,7 @@ export class StrStockTakingTableComponent implements OnInit {
 
     if (report != null && reportType != null) {
 
-      if (report == 'StockTakingInvestTotalReport') {
+      if (report == 'StockTakingCommodityIdTotalReport') {
         id = 6;
       }
 
@@ -480,7 +480,7 @@ export class StrStockTakingTableComponent implements OnInit {
     if (report != null && reportType != null) {
       this.loading=true;
 
-      if (report == 'StockTakingInvestTotalReport') {
+      if (report == 'StockTakingCommodityIdTotalReport') {
         id = 6;
       }
 
@@ -530,7 +530,7 @@ export class StrStockTakingTableComponent implements OnInit {
 
     if (report != null && reportType != null) {
 
-      if (report == 'StockTakingInvestTotalReport') {
+      if (report == 'StockTakingCommodityIdTotalReport') {
         id = 6;
       }
 
