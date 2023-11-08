@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
-import { CcEntryDialogComponent } from '../cc-entry-dialog/cc-entry-dialog.component'; 
+import { CcEntryDialogComponent } from '../cc-entry-dialog/cc-entry-dialog.component';
 import {
   FormControl,
   FormControlName,
@@ -19,7 +19,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/pages/services/global.service';
 
-interface ccEntry{
+interface ccEntry {
   no: string;
   balance: string;
   creditTotal: string;
@@ -31,9 +31,9 @@ interface ccEntry{
   Action: string;
 }
 
-export class Account {
-  constructor(public id: number, public name: string) { }
-}
+// export class Account {
+//   constructor(public id: number, public name: string) { }
+// }
 
 @Component({
   selector: 'app-cc-entry-table',
@@ -41,7 +41,7 @@ export class Account {
   styleUrls: ['./cc-entry-table.component.css']
 })
 export class CcEntryTableComponent implements OnInit {
-  ELEMENT_DATA:ccEntry[] = [];
+  ELEMENT_DATA: ccEntry[] = [];
   isLoading = false;
   totalRows = 0;
   pageSize = 5;
@@ -72,10 +72,10 @@ export class CcEntryTableComponent implements OnInit {
   // dataSource2!: MatTableDataSource<any>;
   dataSource2: MatTableDataSource<ccEntry> = new MatTableDataSource();
 
-  accountsList: Account[] = [];
-  accountCtrl: FormControl;
-  filteredAccount: Observable<Account[]>;
-  selectedAccount: Account | undefined;
+  // accountsList: Account[] = [];
+  // accountCtrl: FormControl;
+  // filteredAccount: Observable<Account[]>;
+  // selectedAccount: Account | undefined;
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -93,21 +93,19 @@ export class CcEntryTableComponent implements OnInit {
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    private global:GlobalService
+    private global: GlobalService
   ) {
     global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
-    this.accountCtrl = new FormControl();
-    this.filteredAccount = this.accountCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filterAccounts(value))
-    );
+    // this.accountCtrl = new FormControl();
+    // this.filteredAccount = this.accountCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map((value) => this._filterAccounts(value))
+    // );
 
   }
 
   ngOnInit(): void {
     this.getAllMasterForms();
-    this.getFiAccounts();
-    this.getFiscalYears();
 
     this.groupMasterForm = this.formBuilder.group({
       StartDate: [''],
@@ -121,31 +119,31 @@ export class CcEntryTableComponent implements OnInit {
     });
   }
 
-  private _filterAccounts(value: string): Account[] {
-    const filterValue = value;
-    console.log("filterValue222:", filterValue);
+  // private _filterAccounts(value: string): Account[] {
+  //   const filterValue = value;
+  //   console.log("filterValue222:", filterValue);
 
-    return this.accountsList.filter(
-      (account) =>
-        account.name.toLowerCase().includes(filterValue)
-    );
-  }
+  //   return this.accountsList.filter(
+  //     (account) =>
+  //       account.name.toLowerCase().includes(filterValue)
+  //   );
+  // }
 
-  displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
-  }
-  AccountSelected(event: MatAutocompleteSelectedEvent): void {
-    const account = event.option.value as Account;
-    console.log("account selected: ", account);
-    this.selectedAccount = account;
-    this.groupMasterForm.patchValue({ AccountId: account.id });
-  }
-  openAutoAccount() {
-    this.accountCtrl.setValue(''); // Clear the input field value
+  // displayAccountName(account: any): string {
+  //   return account && account.name ? account.name : '';
+  // }
+  // AccountSelected(event: MatAutocompleteSelectedEvent): void {
+  //   const account = event.option.value as Account;
+  //   console.log("account selected: ", account);
+  //   this.selectedAccount = account;
+  //   this.groupMasterForm.patchValue({ AccountId: account.id });
+  // }
+  // openAutoAccount() {
+  //   this.accountCtrl.setValue(''); // Clear the input field value
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.accountCtrl.updateValueAndValidity();
-  }
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.accountCtrl.updateValueAndValidity();
+  // }
 
   openCcEntryDialog() {
     this.dialog
@@ -230,46 +228,46 @@ export class CcEntryTableComponent implements OnInit {
     this.getAllMasterForms();
   }
 
- 
 
-  getFiAccounts() {
-    this.api.getFiAccounts().subscribe({
-      next: (res) => {
-        this.accountsList = res;
-        console.log('accounts res: ', this.accountsList);
-      },
-      error: (err) => {
-        console.log('fetch accounts data err: ', err);
-        // alert('خطا اثناء جلب الدفاتر !');
-      },
-    });
-  }
 
-  getFiEntrySource() {
-    this.api.getFiEntrySource().subscribe({
-      next: (res) => {
-        this.sourcesList = res;
-        console.log('sources res: ', this.sourcesList);
-      },
-      error: (err) => {
-        console.log('fetch sources data err: ', err);
-        // alert('خطا اثناء جلب الدفاتر !');
-      },
-    });
-  }
+  // getFiAccounts() {
+  //   this.api.getFiAccounts().subscribe({
+  //     next: (res) => {
+  //       this.accountsList = res;
+  //       console.log('accounts res: ', this.accountsList);
+  //     },
+  //     error: (err) => {
+  //       console.log('fetch accounts data err: ', err);
+  //       // alert('خطا اثناء جلب الدفاتر !');
+  //     },
+  //   });
+  // }
 
-  async getFiscalYears() {
-    this.api.getFiscalYears()
-      .subscribe({
-        next: async (res) => {
-          this.fiscalYearsList = res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
-  }
+  // getFiEntrySource() {
+  //   this.api.getFiEntrySource().subscribe({
+  //     next: (res) => {
+  //       this.sourcesList = res;
+  //       console.log('sources res: ', this.sourcesList);
+  //     },
+  //     error: (err) => {
+  //       console.log('fetch sources data err: ', err);
+  //       // alert('خطا اثناء جلب الدفاتر !');
+  //     },
+  //   });
+  // }
+
+  // async getFiscalYears() {
+  //   this.api.getFiscalYears()
+  //     .subscribe({
+  //       next: async (res) => {
+  //         this.fiscalYearsList = res;
+  //       },
+  //       error: (err) => {
+  //         // console.log("fetch fiscalYears data err: ", err);
+  //         // alert("خطا اثناء جلب العناصر !");
+  //       }
+  //     })
+  // }
 
   editMasterForm(row: any) {
     this.dialog
@@ -353,76 +351,78 @@ export class CcEntryTableComponent implements OnInit {
 
   }
 
-  getSearchCcEntry(no: any,  startDate: any, endDate: any, FiscalYearId: any, Description: any) {
-    let accountId = this.groupMasterForm.getRawValue().AccountId;
+  // getSearchCcEntry(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any) {
+  //   let accountId = this.groupMasterForm.getRawValue().AccountId;
 
-    console.log(
-      'no.: ', no,
-      'accountId : ', accountId,
-      'startDate: ', startDate,
-      'endDate: ', endDate,
-      'FiscalYearId', FiscalYearId,
-      'Description', Description
-    );
+  //   console.log(
+  //     'no.: ', no,
+  //     'accountId : ', accountId,
+  //     'startDate: ', startDate,
+  //     'endDate: ', endDate,
+  //     'FiscalYearId', FiscalYearId,
+  //     'Description', Description
+  //   );
 
-    this.api
-      .getFiEntrySearach(no,accountId, startDate, endDate, FiscalYearId, Description)
-      .subscribe({
-        next: (res) => {
-          console.log('search fiEntry res: ', res);
+  //   this.api
+  //     .getFiEntrySearach(no, accountId, startDate, endDate, FiscalYearId, Description)
+  //     .subscribe({
+  //       next: (res) => {
+  //         console.log('search fiEntry res: ', res);
 
-          this.dataSource2 = res;
-          this.dataSource2.paginator = this.paginator;
-          this.dataSource2.sort = this.sort;
-        },
-        error: (err) => {
-          // alert('Error');
-        },
-      });
-  }
-    previewPrint(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any, report:any,reportType:any) {
-      
-  if(report!= null && reportType!=null){
-      this.api
-        .getFiEntryReport(no, startDate,endDate, FiscalYearId, Description,report,reportType)
-        .subscribe({
-          next: (res) => {
-            let blob: Blob = res.body as Blob;
-            console.log(blob);
-            let url = window.URL.createObjectURL(blob);
-            localStorage.setItem('url', JSON.stringify(url));
-            this.pdfurl = url;
-            this.dialog.open(PrintDialogComponent, {
-              width: '50%',
-            });
-          },
-          error: (err) => {
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
+  //         this.dataSource2 = res;
+  //         this.dataSource2.paginator = this.paginator;
+  //         this.dataSource2.sort = this.sort;
+  //       },
+  //       error: (err) => {
+  //         // alert('Error');
+  //       },
+  //     });
+  // }
+  // previewPrint(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
 
-        });}
-        else{
-  alert("ادخل التقرير و نوع التقرير!")      }
-    }
+  //   if (report != null && reportType != null) {
+  //     this.api
+  //       .getFiEntryReport(no, startDate, endDate, FiscalYearId, Description, report, reportType)
+  //       .subscribe({
+  //         next: (res) => {
+  //           let blob: Blob = res.body as Blob;
+  //           console.log(blob);
+  //           let url = window.URL.createObjectURL(blob);
+  //           localStorage.setItem('url', JSON.stringify(url));
+  //           this.pdfurl = url;
+  //           this.dialog.open(PrintDialogComponent, {
+  //             width: '50%',
+  //           });
+  //         },
+  //         error: (err) => {
+  //           console.log('eroorr', err);
+  //           window.open(err.url);
+  //         },
+
+  //       });
+  //   }
+  //   else {
+  //     alert("ادخل التقرير و نوع التقرير!")
+  //   }
+  // }
 
 
-    downloadPrint(no: any,  startDate: any, endDate: any,  FiscalYearId: any, Description: any, report:any,reportType:any) {
-      
-      this.api
-      .getFiEntryReport(no, startDate,endDate,  FiscalYearId, Description,report,reportType)
-      .subscribe({
-          next: (res) => {
-            console.log('search:', res);
-            const url: any = res.url;
-            window.open(url);
-          },
-          error: (err) => {
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
-        });
-    }
+  // downloadPrint(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
+
+  //   this.api
+  //     .getFiEntryReport(no, startDate, endDate, FiscalYearId, Description, report, reportType)
+  //     .subscribe({
+  //       next: (res) => {
+  //         console.log('search:', res);
+  //         const url: any = res.url;
+  //         window.open(url);
+  //       },
+  //       error: (err) => {
+  //         console.log('eroorr', err);
+  //         window.open(err.url);
+  //       },
+  //     });
+  // }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }

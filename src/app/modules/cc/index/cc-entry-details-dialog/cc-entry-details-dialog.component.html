@@ -22,48 +22,58 @@
                     <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
                         (optionSelected)="AccountSelected($event)">
                         <mat-option *ngFor="let account of filteredAccount | async" [value]="account">
-                            {{ account.name }}
+                            {{ account.name ? account.name : '-'}}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
 
             </div>
 
-            <!-- <div class="searchLabels">
-                <mat-label> الحساب </mat-label>
-
-                <mat-form-field appearance="outline" class="groupInput">
-                    <mat-select placeholder="الحساب " formControlName="accountId"
-                        [value]="getDetailedRowData ? getDetailedRowData.accountId : ''">
-                        <mat-option [value]="account.id"
-                            *ngFor="let account of accountsList">{{account.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div> -->
-
-            <!-- <div class="searchLabels">
-                <mat-label> صنف الحساب </mat-label>
-
-                <mat-form-field appearance="outline" class="groupInput">
-                    <mat-select placeholder="صنف الحساب " formControlName="fiAccountItemId"
-                        [value]="getDetailedRowData ? getDetailedRowData.fiAccountItemId : ''">
-                        <mat-option [value]="accountItem.id"
-                            *ngFor="let accountItem of accountItemsList">{{accountItem.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div> -->
 
             <div style="display: flex; flex-direction: column;">
-                <mat-label>  البند الاحصائي* </mat-label>
+                <mat-label> النشاط* </mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
-                    <input matInput aria-label="commodity" [matAutocomplete]="autoAccountItem"
-                        [formControl]="accountItemCtrl" placeholder="{{editData ? editData.accountItemName : ''}}"
-                        (click)="openAutoAccountItem()" required />
-                    <mat-autocomplete #autoAccountItem="matAutocomplete" [displayWith]="displayAccountItemName"
-                        (optionSelected)="AccountItemSelected($event)">
-                        <mat-option *ngFor="let accountItem of filteredAccountItem | async" [value]="accountItem">
-                            {{ accountItem.name }}
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoActivity" [formControl]="activityCtrl"
+                        placeholder="{{editData ? editData.activityName : ''}}" (click)="openAutoActivity()" required />
+                    <mat-autocomplete #autoActivity="matAutocomplete" [displayWith]="displayActivityName"
+                        (optionSelected)="ActivitySelected($event)">
+                        <mat-option *ngFor="let activity of filteredActivity | async" [value]="activity">
+                            {{ activity.name ? activity.name : '-'}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <mat-label> مركز التكلفة* </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoCostCenter"
+                        [formControl]="costCenterCtrl" placeholder="{{editData ? editData.costCenterName : ''}}"
+                        (click)="openAutoCostCenter()" required />
+                    <mat-autocomplete #autoCostCenter="matAutocomplete" [displayWith]="displayCostCenterName"
+                        (optionSelected)="CostCenterSelected($event)">
+                        <mat-option *ngFor="let costCenter of filteredCostCenter | async" [value]="costCenter">
+                            {{ costCenter.name ? costCenter.name : '-'}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <mat-label> المعدات* </mat-label>
+
+                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoEquipment"
+                        [formControl]="equipmentCtrl" placeholder="{{editData ? editData.equipmentName : ''}}"
+                        (click)="openAutoEquipment()" required />
+                    <mat-autocomplete #autoEquipment="matAutocomplete" [displayWith]="displayEquipmentName"
+                        (optionSelected)="EquipmentSelected($event)">
+                        <mat-option *ngFor="let equipment of filteredEquipment | async" [value]="equipment">
+                            {{ equipment.name ? equipment.name : '-'}}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
@@ -89,6 +99,20 @@
                         [value]="editData ? editData.debit : ''">
                 </mat-form-field>
             </div>
+
+            <div class="searchLabels">
+                <mat-label>الكمية*</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput">
+                    <input type="number" matInput placeholder="الكمية" formControlName="qty"
+                        [value]="editData ? editData.qty : ''">
+                </mat-form-field>
+            </div>
+
+            <mat-label>الوصف</mat-label>
+            <mat-form-field appearance="outline" class="fill-container">
+                <textarea matInput placeholder="الوصف" formControlName="description"></textarea>
+            </mat-form-field>
 
             <div mat-dialog-action [align]="'end'">
                 <div class="groupAction">
