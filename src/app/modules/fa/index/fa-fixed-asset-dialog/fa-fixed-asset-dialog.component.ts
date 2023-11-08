@@ -454,9 +454,9 @@ export class FaFixedAssetDialogComponent implements OnInit {
   getFaFixedAssetAutoCode() {
     if (this.autoCodeCategoryFirst && this.autoCodeCategorySecond && this.autoCodeCategoryThird) {
 
-      if (this.autoCodeCategoryFirst && this.editData && this.autoCodeCategoryFirst == this.editData.categoryFirstCode
-        && this.autoCodeCategorySecond && this.editData.categorySecondCode
-        && this.autoCodeCategoryThird && this.editData.categoryThirdCode) {
+      if ( this.autoCodeCategoryFirst == this.editData.categoryFirstCode
+        && this.autoCodeCategorySecond == this.editData.categorySecondCode
+        && this.autoCodeCategoryThird == this.editData.categoryThirdCode) {
         this.toastrWarningInput();
         this.fixedAssetForm.controls['categoryFirstId'].reset();
         this.categoryFirstCtrl.reset();
