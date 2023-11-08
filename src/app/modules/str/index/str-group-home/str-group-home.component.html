@@ -1,5 +1,17 @@
 <!-- Cards with media area -->
 <div class="routeContainer">
+  <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)" >
+    <mat-card-title-group routerLink="/str-home">
+      <mat-card-title class="tt"><mat-icon> store_mall_directory</mat-icon></mat-card-title>
+      <mat-card-subtitle >المخازن و حسابات المخازن</mat-card-subtitle>
+    </mat-card-title-group>
+  </mat-card>
+  <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.ACCOUNTS)" >
+    <mat-card-title-group routerLink="/fi-home">
+      <mat-card-title class="tt"><mat-icon> iso</mat-icon></mat-card-title>
+      <mat-card-subtitle>الحسابات العامة</mat-card-subtitle>
+    </mat-card-title-group>
+  </mat-card>
 
     <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)">
       <mat-card-title-group routerLink="/hr-AttendanceHome">
@@ -44,12 +56,7 @@
 
     
 
-    <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.ACCOUNTS)" >
-      <mat-card-title-group routerLink="/fi-home">
-        <mat-card-title class="tt"><mat-icon> attach_money</mat-icon></mat-card-title>
-        <mat-card-subtitle>الحسابات العامة</mat-card-subtitle>
-      </mat-card-title-group>
-    </mat-card>
+   
   
    
 
@@ -91,12 +98,7 @@
         <mat-card-subtitle>الادارة العامة للشئون القانونية</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card> -->
-    <mat-card class="example-card" *ngIf="hasAccessModule(pageEnums.STORES)" >
-      <mat-card-title-group routerLink="/str-home">
-        <mat-card-title class="tt"><mat-icon> store_mall_directory</mat-icon></mat-card-title>
-        <mat-card-subtitle >المخازن و حسابات المخازن</mat-card-subtitle>
-      </mat-card-title-group>
-    </mat-card>
+  
     <mat-card class="example-card"*ngIf="hasAccessModule(pageEnums.ROLES)">
       <mat-card-title-group routerLink="/pr-home">
         <mat-card-title class="tt"><mat-icon>verified_user</mat-icon></mat-card-title>
@@ -111,5 +113,10 @@
         <mat-card-subtitle>الادارة العامة للتدريب</mat-card-subtitle>
       </mat-card-title-group>
     </mat-card>
-
+    <mat-card class="example-card"  *ngIf="this.shared.training ==true">
+      <mat-card-title-group routerLink="/TrHome">
+        <mat-card-title class="tt"><mat-icon>business_center</mat-icon></mat-card-title>
+        <mat-card-subtitle>العقود والمشتريات</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card>
   </div>

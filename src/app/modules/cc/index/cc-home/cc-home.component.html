@@ -3,17 +3,67 @@
     <mat-card>
       <div class="card-parent">
      
-        <mat-card class="card-class" routerLink="/pr-user"  *ngIf="hasAccessRole(pageEnums.PR_USER)">    
+        <mat-card class="card-class" routerLink="/Cc-activity"  *ngIf="hasAccessRole(pageEnums.PR_USER)">    
           <mat-card-content>
-              <mat-card-title>إضافة مستخدم</mat-card-title>
+              <mat-card-title>النشاط</mat-card-title>
           </mat-card-content>
         </mat-card>
       
-        <mat-card class="card-class" routerLink="/pr-group"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+        <mat-card class="card-class" routerLink="/Cc-Function"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
           <mat-card-content>
-              <mat-card-title>إضافة مجموعة </mat-card-title>
+              <mat-card-title>الوظيفي</mat-card-title>
           </mat-card-content>
-        </mat-card>  
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-plant"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>المحطة</mat-card-title>
+          </mat-card-content>
+        </mat-card> 
+        <mat-card class="card-class" routerLink="/Cc-Region "  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>المنطقة</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-Region "  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>المنطقة</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-Region "  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>المنطقة</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-SubRegion"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>المنطقة الفرعية</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-Source"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>المصدر</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-PlantComponent"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>تحليل المحطة</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-Equipment"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>المعدات</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-costcenter"  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>مركز التكاليف</mat-card-title>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="card-class" routerLink="/Cc-Region "  *ngIf="hasAccessRole(pageEnums.PR_GROUP)">    
+          <mat-card-content>
+              <mat-card-title>المنطقة</mat-card-title>
+          </mat-card-content>
+        </mat-card> 
       </div>
     
     </mat-card>
