@@ -175,6 +175,7 @@ import { TrHomeComponent } from './modules/training/index/tr-home/tr-home.compon
 import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
 import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.component';
 import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
+import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -666,7 +667,8 @@ const routes: Routes = [
       { path: 'Cc-Equipment', component: CcEquipmentComponent },
       { path: 'Cc-costcenter', component: CcCostCenterComponent },
       { path: 'Cc-Reports', component: CcReportsComponent },
-
+      { path: 'Cc-entry', component: CcEntryContainerComponent },
+      
       /*********************start py module الاصول الثابتة***************************/
       { path: 'faHome', component: FaHomeComponent },
       { path: 'faCategoryFirst', component: FaCategoryFirstComponent },
