@@ -15,7 +15,15 @@ export class Account {
   constructor(public id: number, public name: string) { }
 }
 
-export class AccountItem {
+export class Activity {
+  constructor(public id: number, public name: string) { }
+}
+
+export class CostCenter {
+  constructor(public id: number, public name: string) { }
+}
+
+export class Equipment {
   constructor(public id: number, public name: string) { }
 }
 
@@ -25,6 +33,7 @@ export class AccountItem {
   styleUrls: ['./cc-entry-details-dialog.component.css']
 })
 export class CcEntryDetailsDialogComponent implements OnInit {
+  transactionUserId = localStorage.getItem('transactionUserId');
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -42,10 +51,10 @@ export class CcEntryDetailsDialogComponent implements OnInit {
   getDetailsRowId: any;
   journalsList: any;
   sourcesList: any;
- 
+
   employeesList: any;
   distEmployeesList: any;
-  costCentersList: any;
+  // costCentersList: any;
   itemsList: any;
   fiscalYearsList: any;
   storeName: any;
@@ -59,15 +68,27 @@ export class CcEntryDetailsDialogComponent implements OnInit {
   filteredAccount: Observable<Account[]>;
   selectedAccount: Account | undefined;
 
-  accountItemsList: AccountItem[] = [];
-  accountItemCtrl: FormControl;
-  filteredAccountItem: Observable<AccountItem[]>;
-  selectedAccountItem: AccountItem | undefined;
+  activitiesList: Activity[] = [];
+  activityCtrl: FormControl;
+  filteredActivity: Observable<Activity[]>;
+  selectedActivity: Activity | undefined;
+
+  costCentersList: CostCenter[] = [];
+  costCenterCtrl: FormControl;
+  filteredCostCenter: Observable<CostCenter[]>;
+  selectedCostCenter: CostCenter | undefined;
+
+  equipmentsList: Equipment[] = [];
+  equipmentCtrl: FormControl;
+  filteredEquipment: Observable<Equipment[]>;
+  selectedEquipment: Equipment | undefined;
 
   // displayedColumns: string[] = ['credit', 'debit', 'accountName', 'fiAccountItemId', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  // activitiesList: any;
+  // equipmentsList: any;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -86,44 +107,62 @@ export class CcEntryDetailsDialogComponent implements OnInit {
       map((value) => this._filterAccounts(value))
     );
 
-    this.accountItemCtrl = new FormControl();
-    this.filteredAccountItem = this.accountItemCtrl.valueChanges.pipe(
+    this.activityCtrl = new FormControl();
+    this.filteredActivity = this.activityCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterAccountItems(value))
+      map((value) => this._filterActivities(value))
+    );
+
+    this.costCenterCtrl = new FormControl();
+    this.filteredCostCenter = this.costCenterCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterCostCenters(value))
+    );
+
+    this.equipmentCtrl = new FormControl();
+    this.filteredEquipment = this.equipmentCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterEquipments(value))
     );
 
   }
 
   ngOnInit(): void {
     this.getFiAccounts();
-    this.getFiAccountItems();
+    this.getCcActivity();
+    this.getCostCenter();
+    this.getEquipment();
 
     this.groupDetailsForm = this.formBuilder.group({
       entryId: ['', Validators.required],
+      accountId: ['', Validators.required],
+      activityId: ['', Validators.required],
+      costCenterId: ['', Validators.required],
+
       credit: ['', Validators.required],
       debit: ['', Validators.required],
-      accountId: ['', Validators.required],
-      fiAccountItemId: ['', Validators.required],
+      qty: ['', Validators.required],
+      description: [''],
       transactionUserId: ['', Validators.required],
     });
     console.log("details edit form before: ", this.editData);
 
     if (this.editData) {
       console.log("details edit form: ", this.editData);
-      // this.actionBtnMaster = "Update";
 
       this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
       this.groupDetailsForm.controls['entryId'].setValue(this.editData.entryId);
       this.groupDetailsForm.controls['accountId'].setValue(this.editData.accountId);
-      this.groupDetailsForm.controls['fiAccountItemId'].setValue(this.editData.fiAccountItemId);
+      this.groupDetailsForm.controls['activityId'].setValue(this.editData.activityId);
+      this.groupDetailsForm.controls['costCenterId'].setValue(this.editData.costCenterId);
 
       this.groupDetailsForm.controls['credit'].setValue(this.editData.credit);
-      this.groupDetailsForm.controls['debit'].setValue(this.editData.debit)
+      this.groupDetailsForm.controls['debit'].setValue(this.editData.debit);
+      this.groupDetailsForm.controls['qty'].setValue(this.editData.qty);
+      this.groupDetailsForm.controls['description'].setValue(this.editData.description);
 
       this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
       this.groupDetailsForm.controls['id'].setValue(this.editData.id);
-
-      console.log("details edit form after: ", this.editData);
 
     }
 
@@ -135,12 +174,11 @@ export class CcEntryDetailsDialogComponent implements OnInit {
 
     return this.accountsList.filter(
       (account) =>
-        account.name.toLowerCase().includes(filterValue)
+        account.name ? account.name.toLowerCase().includes(filterValue) : '-'
     );
   }
-
   displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
+    return account ? account.name && account.name && account.name != null ? account.name : '-' : '';
   }
   AccountSelected(event: MatAutocompleteSelectedEvent): void {
     const account = event.option.value as Account;
@@ -156,34 +194,82 @@ export class CcEntryDetailsDialogComponent implements OnInit {
   }
 
 
-
-  private _filterAccountItems(value: string): AccountItem[] {
+  private _filterActivities(value: string): Activity[] {
     const filterValue = value;
     console.log("filterValue222:", filterValue);
 
-    return this.accountItemsList.filter(
-      (accountItem) =>
-        accountItem.name.toLowerCase().includes(filterValue)
-      // ||
-      // accountItem.code.toString().toLowerCase().includes(filterValue)
+    return this.activitiesList.filter(
+      (activity) =>
+        activity.name ? activity.name.toLowerCase().includes(filterValue) : '-'
     );
   }
+  displayActivityName(activity: any): string {
+    return activity ? activity.name && activity.name && activity.name != null ? activity.name : '-' : '';
+  }
+  ActivitySelected(event: MatAutocompleteSelectedEvent): void {
+    const activity = event.option.value as Activity;
+    console.log("activity selected: ", activity);
+    this.selectedActivity = activity;
+    this.groupDetailsForm.patchValue({ activityId: activity.id });
 
-  displayAccountItemName(accountItem: any): string {
-    return accountItem && accountItem.name ? accountItem.name : '';
   }
-  AccountItemSelected(event: MatAutocompleteSelectedEvent): void {
-    const accountItem = event.option.value as AccountItem;
-    console.log("accountItem selected: ", accountItem);
-    this.selectedAccountItem = accountItem;
-    this.groupDetailsForm.patchValue({ fiAccountItemId: accountItem.id });
- 
-  }
-  openAutoAccountItem() {
-    this.accountItemCtrl.setValue(''); // Clear the input field value
+  openAutoActivity() {
+    this.activityCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
-    this.accountItemCtrl.updateValueAndValidity();
+    this.activityCtrl.updateValueAndValidity();
+  }
+
+  private _filterCostCenters(value: string): CostCenter[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
+
+    return this.costCentersList.filter(
+      (costCenter) =>
+        costCenter.name ? costCenter.name.toLowerCase().includes(filterValue) : '-'
+    );
+  }
+  displayCostCenterName(costCenter: any): string {
+    return costCenter ? costCenter.name && costCenter.name && costCenter.name != null ? costCenter.name : '-' : '';
+  }
+  CostCenterSelected(event: MatAutocompleteSelectedEvent): void {
+    const costCenter = event.option.value as CostCenter;
+    console.log("costCenter selected: ", costCenter);
+    this.selectedCostCenter = costCenter;
+    this.groupDetailsForm.patchValue({ costCenterId: costCenter.id });
+
+  }
+  openAutoCostCenter() {
+    this.costCenterCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.costCenterCtrl.updateValueAndValidity();
+  }
+
+  private _filterEquipments(value: string): Equipment[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
+
+    return this.equipmentsList.filter(
+      (equipment) =>
+        equipment.name ? equipment.name.toLowerCase().includes(filterValue) : '-'
+    );
+  }
+  displayEquipmentName(equipment: any): string {
+    return equipment ? equipment.name && equipment.name && equipment.name != null ? equipment.name : '-' : '';
+  }
+  EquipmentSelected(event: MatAutocompleteSelectedEvent): void {
+    const equipment = event.option.value as Equipment;
+    console.log("equipment selected: ", equipment);
+    this.selectedEquipment = equipment;
+    this.groupDetailsForm.patchValue({ equipmentId: equipment.id });
+
+  }
+  openAutoEquipment() {
+    this.equipmentCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.equipmentCtrl.updateValueAndValidity();
   }
 
   async addDetailsInfo() {
@@ -207,7 +293,7 @@ export class CcEntryDetailsDialogComponent implements OnInit {
 
             this.sumOfCreditTotals = this.sumOfCreditTotals + this.groupDetailsForm.getRawValue().credit;
             this.sumOfDebitTotals = this.sumOfDebitTotals + this.groupDetailsForm.getRawValue().debit;
-           
+
 
             if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
               this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
@@ -221,7 +307,7 @@ export class CcEntryDetailsDialogComponent implements OnInit {
             console.log("found details withoutEdit: ", this.groupDetailsForm.value)
             this.sumOfCreditTotals = this.sumOfCreditTotals + this.groupDetailsForm.getRawValue().credit;
             this.sumOfDebitTotals = this.sumOfDebitTotals + this.groupDetailsForm.getRawValue().debit;
-           
+
           }
 
         }
@@ -233,14 +319,14 @@ export class CcEntryDetailsDialogComponent implements OnInit {
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
-          this.api.postFiEntryDetails(this.groupDetailsForm.value)
+          this.api.postCcEntryDetails(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
                 this.getDetailsRowId = {
                   "id": res
                 };
                 console.log("Details res: ", this.getDetailsRowId.id)
-                
+
                 // alert("تمت إضافة التفاصيل بنجاح");
                 this.toastrSuccess();
                 this.groupDetailsForm.reset();
@@ -263,7 +349,7 @@ export class CcEntryDetailsDialogComponent implements OnInit {
     else {
       console.log("Enteeeeerrr edit condition: ", this.groupDetailsForm.value)
 
-      this.api.putFiEntryDetails(this.groupDetailsForm.value)
+      this.api.putCcEntryDetails(this.groupDetailsForm.value)
         .subscribe({
           next: (res) => {
             this.toastrSuccess();
@@ -294,21 +380,49 @@ export class CcEntryDetailsDialogComponent implements OnInit {
       })
   }
 
-  getFiAccountItems() {
-    this.api.getFiAccountItems()
+  getCcActivity() {
+    this.api.getCcActivity()
       .subscribe({
         next: (res) => {
-          this.accountItemsList = res;
-          console.log("accountItems res: ", this.accountItemsList);
+          this.activitiesList = res;
+          console.log("activitiesList res: ", this.activitiesList);
         },
         error: (err) => {
-          console.log("fetch accountItems data err: ", err);
+          console.log("fetch activitiesList data err: ", err);
           // alert("خطا اثناء جلب الدفاتر !");
         }
       })
   }
 
- 
+  getCostCenter() {
+    this.api.getCostCenter()
+      .subscribe({
+        next: (res) => {
+          this.costCentersList = res;
+          console.log("costCentersList res: ", this.costCentersList);
+        },
+        error: (err) => {
+          console.log("fetch costCentersList data err: ", err);
+          // alert("خطا اثناء جلب الدفاتر !");
+        }
+      })
+  }
+
+  getEquipment() {
+    this.api.getEquipment()
+      .subscribe({
+        next: (res) => {
+          this.equipmentsList = res;
+          console.log("equipmentsList res: ", this.equipmentsList);
+        },
+        error: (err) => {
+          console.log("fetch equipmentsList data err: ", err);
+          // alert("خطا اثناء جلب الدفاتر !");
+        }
+      })
+  }
+
+
   closeDialog() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {

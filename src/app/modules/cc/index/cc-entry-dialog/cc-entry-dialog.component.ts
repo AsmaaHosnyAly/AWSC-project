@@ -16,7 +16,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
-import { CcEntryDetailsDialogComponent } from '../cc-entry-details-dialog/cc-entry-details-dialog.component'; 
+import { CcEntryDetailsDialogComponent } from '../cc-entry-details-dialog/cc-entry-details-dialog.component';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { Router, Params } from '@angular/router';
 
@@ -90,24 +90,26 @@ export class CcEntryDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userIdFromStorage = localStorage.getItem('transactionUserId');
+
     // console.log("getDetailedRowData : ", this.getDetailedRowData);
-    this.getFiscalYears();
-    this.getFiAccounts();
-    this.getFiAccountItems();
-    this.getFiEntrySource();
+    // this.getFiscalYears();
+    // this.getFiAccounts();
+    // this.getFiAccountItems();
+    // this.getFiEntrySource();
     this.global.test = this.test;
 
     this.getMasterRowId = this.editData;
 
     this.groupMasterForm = this.formBuilder.group({
       no: ['', Validators.required],
-      fiscalYearId: ['', Validators.required],
-      journalId: ['', Validators.required],
-      fiEntrySourceTypeId: ['', Validators.required],
+      // fiscalYearId: ['', Validators.required],
+      // journalId: ['', Validators.required],
+      // fiEntrySourceTypeId: ['', Validators.required],
       creditTotal: ['', Validators.required],
       debitTotal: ['', Validators.required],
       balance: ['', Validators.required],
-      state: ['', Validators.required], //will rename to state
+      // state: ['', Validators.required], //will rename to state
       transactionUserId: ['', Validators.required],
       date: [this.currentDate, Validators.required],
       description: [''],
@@ -128,12 +130,12 @@ export class CcEntryDialogComponent implements OnInit {
       this.groupMasterForm.controls['no'].setValue(this.editData.no);
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
 
-      this.groupMasterForm.controls['journalId'].setValue(
-        this.editData.journalId
-      );
-      this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue(
-        this.editData.fiEntrySourceTypeId
-      );
+      // this.groupMasterForm.controls['journalId'].setValue(
+      //   this.editData.journalId
+      // );
+      // this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue(
+      //   this.editData.fiEntrySourceTypeId
+      // );
 
       this.groupMasterForm.controls['balance'].setValue(this.editData.balance);
       this.groupMasterForm.controls['creditTotal'].setValue(
@@ -142,7 +144,7 @@ export class CcEntryDialogComponent implements OnInit {
       this.groupMasterForm.controls['debitTotal'].setValue(
         this.editData.debitTotal
       );
-      this.groupMasterForm.controls['state'].setValue(this.editData.state);
+      // this.groupMasterForm.controls['state'].setValue(this.editData.state);
       this.groupMasterForm.controls['description'].setValue(
         this.editData.description
       );
@@ -156,7 +158,6 @@ export class CcEntryDialogComponent implements OnInit {
 
     this.getAllDetailsForms();
 
-    this.userIdFromStorage = localStorage.getItem('transactionUserId');
     this.groupMasterForm.controls['transactionUserId'].setValue(
       this.userIdFromStorage
     );
@@ -287,11 +288,11 @@ export class CcEntryDialogComponent implements OnInit {
     // console.log("edddit get all data: ", this.editData)
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
-      this.api.getFiEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
+      this.api.getCcEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
           // this.itemsList = res;
           this.matchedIds = res;
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", this.matchedIds);
 
           if (this.matchedIds) {
             // console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
@@ -299,19 +300,19 @@ export class CcEntryDialogComponent implements OnInit {
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
 
-            this.sumOfTotals = 0;
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-              this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-              // alert('totalll: '+ this.sumOfTotals)
-              // this.updateBothForms();
-              this.updateMaster();
-            }
+            // this.sumOfTotals = 0;
+            // for (let i = 0; i < this.matchedIds.length; i++) {
+            //   // this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+            //   // this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+            //   // this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+            //   // alert('totalll: '+ this.sumOfTotals)
+            //   // this.updateBothForms();
+            //   this.updateMaster();
+            // }
           }
         },
         error: (err) => {
-          // console.log("fetch items data err: ", err);
+          console.log("fetch details by header id err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
       })
@@ -324,13 +325,13 @@ export class CcEntryDialogComponent implements OnInit {
     this.groupMasterForm.controls['creditTotal'].setValue(0);
     this.groupMasterForm.controls['debitTotal'].setValue(0);
     this.groupMasterForm.controls['balance'].setValue(0);
-    this.groupMasterForm.controls['state'].setValue('مغلق');
+    // this.groupMasterForm.controls['state'].setValue('مغلق');
 
     console.log('fiEntry master form: ', this.groupMasterForm.value);
 
     if (this.groupMasterForm.valid) {
       console.log('Master add form : ', this.groupMasterForm.value);
-      this.api.postFiEntry(this.groupMasterForm.value).subscribe({
+      this.api.postCcEntry(this.groupMasterForm.value).subscribe({
         next: (res) => {
           console.log('ID fiEntry after post: ', res);
           this.getMasterRowId = {
@@ -474,7 +475,7 @@ export class CcEntryDialogComponent implements OnInit {
         );
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
-          this.api.postFiEntryDetails(this.groupDetailsForm.value).subscribe({
+          this.api.postCcEntryDetails(this.groupDetailsForm.value).subscribe({
             next: (res) => {
               this.getDetailsRowId = {
                 id: res,
@@ -525,7 +526,7 @@ export class CcEntryDialogComponent implements OnInit {
       'update details form: ',
       this.groupDetailsForm.value
     );
-    this.api.putFiEntry(this.groupMasterForm.value).subscribe({
+    this.api.putCcEntry(this.groupMasterForm.value).subscribe({
       next: (res) => {
         // alert("تم التعديل بنجاح");
         console.log(
@@ -562,7 +563,7 @@ export class CcEntryDialogComponent implements OnInit {
             this.groupDetailsForm.value
           );
 
-          this.api.putFiEntryDetails(this.groupDetailsForm.value).subscribe({
+          this.api.putCcEntryDetails(this.groupDetailsForm.value).subscribe({
             next: (res) => {
               // alert("تم تحديث التفاصيل بنجاح");
               this.toastrSuccess();
@@ -656,19 +657,19 @@ export class CcEntryDialogComponent implements OnInit {
   getAllMasterForms() {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
-      this.dialogRef.close('save');
+    this.dialogRef.close('save');
 
-      this.api.getFiEntry().subscribe({
-        next: (res) => {
-          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        },
-      });
+    this.api.getCcEntry().subscribe({
+      next: (res) => {
+        // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: () => {
+        // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      },
+    });
     // }
   }
 
@@ -682,7 +683,7 @@ export class CcEntryDialogComponent implements OnInit {
       !this.getDetailedRowData
     );
     // console.log("edit : ", this.groupDetailsForm.value)
-    this.api.putFiEntry(this.groupMasterForm.value).subscribe({
+    this.api.putCcEntry(this.groupMasterForm.value).subscribe({
       next: (res) => {
         this.groupDetailsForm.reset();
         this.getDetailedRowData = '';
@@ -690,7 +691,7 @@ export class CcEntryDialogComponent implements OnInit {
     });
   }
   OpenDetailsDialog() {
-    this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }]);
+    this.router.navigate(['/Cc-entry', { masterId: this.getMasterRowId.id }]);
     this.dialog
       .open(CcEntryDetailsDialogComponent, {
         width: '95%',
