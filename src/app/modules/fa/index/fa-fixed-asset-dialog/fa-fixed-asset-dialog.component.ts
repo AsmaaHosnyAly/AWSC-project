@@ -91,6 +91,9 @@ export class FaFixedAssetDialogComponent implements OnInit {
   autoCodeCategoryFirst: any;
   autoCodeCategorySecond: any;
   autoCodeCategoryThird: any;
+  selectedCategorySecondCode: any;
+  selectedCategoryThirdCode: any;
+  selectedCategoryFirstCode: any;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -179,11 +182,8 @@ export class FaFixedAssetDialogComponent implements OnInit {
       this.fixedAssetForm.controls['place'].setValue(this.editData.place);
 
       this.fixedAssetForm.controls['categoryFirstId'].setValue(this.editData.categoryFirstId);
-      // this.getFaCategoryFirstById(this.editData.categoryFirstId);
       this.fixedAssetForm.controls['categorySecondId'].setValue(this.editData.categorySecondId);
-      // this.getFaCategorySecondById(this.editData.categorySecondId);
       this.fixedAssetForm.controls['categoryThirdId'].setValue(this.editData.categoryThirdId);
-      // this.getFaCategoryThirdById(this.editData.categoryThirdId);
 
       this.fixedAssetForm.controls['no'].setValue(this.editData.no);
       this.fixedAssetForm.controls['code'].setValue(this.editData.code);
@@ -225,6 +225,7 @@ export class FaFixedAssetDialogComponent implements OnInit {
     const categoryFirst = event.option.value as CategoryFirst;
     console.log("categoryFirst selected: ", categoryFirst);
     this.selectedCategoryFirst = categoryFirst;
+    this.selectedCategoryFirstCode = categoryFirst.code;
     this.fixedAssetForm.patchValue({ categoryFirstId: categoryFirst.id });
     this.getFaCategoryFirstById(this.fixedAssetForm.getRawValue().categoryFirstId, categoryFirst.code);
 
@@ -254,6 +255,7 @@ export class FaFixedAssetDialogComponent implements OnInit {
     console.log("categorySecond selected: ", categorySecond);
     this.selectedCategorySecond = categorySecond;
     this.fixedAssetForm.patchValue({ categorySecondId: categorySecond.id });
+    this.selectedCategorySecondCode = categorySecond.code;
     this.getFaCategorySecondById(this.fixedAssetForm.getRawValue().categorySecondId, categorySecond.code);
   }
   openAutoCategorySecond() {
@@ -280,6 +282,7 @@ export class FaFixedAssetDialogComponent implements OnInit {
     const categoryThird = event.option.value as CategoryThird;
     console.log("categoryThird selected: ", categoryThird);
     this.selectedCategoryThird = categoryThird;
+    this.selectedCategoryThirdCode = categoryThird.code;
     this.fixedAssetForm.patchValue({ categoryThirdId: categoryThird.id });
     this.getFaCategoryThirdById(this.fixedAssetForm.getRawValue().categoryThirdId, categoryThird.code);
   }
@@ -451,19 +454,35 @@ export class FaFixedAssetDialogComponent implements OnInit {
   getFaFixedAssetAutoCode() {
     if (this.autoCodeCategoryFirst && this.autoCodeCategorySecond && this.autoCodeCategoryThird) {
 
-      this.api.getFaFixedAssetAutoCode(this.fixedAssetForm.getRawValue().categoryFirstId, this.fixedAssetForm.getRawValue().categorySecondId, this.fixedAssetForm.getRawValue().categoryThirdId).subscribe({
-        next: (res) => {
-          console.log("autoCode res: ", res);
-          this.autoCode = res;
-          this.fixedAssetForm.controls['no'].setValue(this.autoCode);
-          this.concatFullCode(this.autoCode);
+      if (this.autoCodeCategoryFirst && this.editData && this.autoCodeCategoryFirst == this.editData.categoryFirstCode
+        && this.autoCodeCategorySecond && this.editData.categorySecondCode
+        && this.autoCodeCategoryThird && this.editData.categoryThirdCode) {
+        this.toastrWarningInput();
+        this.fixedAssetForm.controls['categoryFirstId'].reset();
+        this.categoryFirstCtrl.reset();
+        this.fixedAssetForm.controls['categorySecondId'].reset();
+        this.categorySecondCtrl.reset();
+        this.fixedAssetForm.controls['categoryThirdId'].reset();
+        this.categoryThirdCtrl.reset();
+        this.fixedAssetForm.controls['no'].setValue('');
+        this.fixedAssetForm.controls['code'].setValue('');
+      }
+      else {
+        this.api.getFaFixedAssetAutoCode(this.fixedAssetForm.getRawValue().categoryFirstId, this.fixedAssetForm.getRawValue().categorySecondId, this.fixedAssetForm.getRawValue().categoryThirdId).subscribe({
+          next: (res) => {
+            console.log("autoCode res: ", res);
+            this.autoCode = res;
+            this.fixedAssetForm.controls['no'].setValue(this.autoCode);
+            this.concatFullCode(this.autoCode);
 
-        },
-        error: (err) => {
-          // alert('Error');
-          console.log("autoCode fetch err: ", err);
-        },
-      });
+          },
+          error: (err) => {
+            // alert('Error');
+            console.log("autoCode fetch err: ", err);
+          },
+        });
+      }
+
 
     }
     else if (this.editData) {
@@ -476,30 +495,20 @@ export class FaFixedAssetDialogComponent implements OnInit {
   getFaCategoryFirstById(id: any, code: any) {
     console.log("autoCode category1 selected: ", code);
     this.autoCodeCategoryFirst = code;
-    // this.getFaFixedAssetAutoCode();
-    if (this.editData) {
-      alert("EditData found: ");
 
-      if (this.editData.categoryFirstCode != this.autoCodeCategoryFirst) {
-        alert("EditData found NOT as same as selected option: ");
+    // if (this.editData) {
+    this.getFaFixedAssetAutoCode();
+    // }
+    // else {
+    //   alert("Post for first time: ");
 
-        this.getFaFixedAssetAutoCode();
-      }
-      else {
-        this.fixedAssetForm.controls['no'].setValue(this.editData.no);
-        this.fixedAssetForm.controls['code'].setValue(this.editData.code);
-      }
-    }
-    else {
-      alert("Post for first time: ");
-
-      this.getFaFixedAssetAutoCode();
-    }
+    //   this.getFaFixedAssetAutoCode();
+    // }
   }
 
   getFaCategoryIdsEditDataCase(categoryFirstCode: any, categorySecondCode: any, categoryThirdCode: any, no: any) {
 
-    alert("fullCode generated in EditDataCase: " + categoryFirstCode + categorySecondCode + categoryThirdCode + no);
+    // alert("fullCode generated in EditDataCase: " + categoryFirstCode + categorySecondCode + categoryThirdCode + no);
     this.fixedAssetForm.controls['code'].setValue(categoryFirstCode + categorySecondCode + categoryThirdCode + no);
 
   }
@@ -507,53 +516,36 @@ export class FaFixedAssetDialogComponent implements OnInit {
   getFaCategorySecondById(id: any, code: any) {
     console.log("autoCode category2 selected: ", code);
     this.autoCodeCategorySecond = code;
-    if (this.editData) {
-      alert("EditData found: ");
+    // if (this.editData) {
 
-      if (this.editData.categorySecondCode != this.autoCodeCategorySecond) {
-        alert("EditData found NOT as same as selected option: ");
+    this.getFaFixedAssetAutoCode();
+    // }
+    // else {
+    //   alert("Post for first time: ");
 
-        this.getFaFixedAssetAutoCode();
-      }
-      else {
-        this.fixedAssetForm.controls['no'].setValue(this.editData.no);
-        this.fixedAssetForm.controls['code'].setValue(this.editData.code);
-      }
-    }
-    else {
-      alert("Post for first time: ");
-
-      this.getFaFixedAssetAutoCode();
-    }
+    //   this.getFaFixedAssetAutoCode();
+    // }
   }
 
   getFaCategoryThirdById(id: any, code: any) {
     console.log("autoCode category3 selected: ", code);
     this.autoCodeCategoryThird = code;
-    // this.getFaFixedAssetAutoCode();
-    if (this.editData) {
-      alert("EditData found: ");
 
-      if (this.editData.categoryThirdCode != this.autoCodeCategoryThird) {
-        alert("EditData found NOT as same as selected option: ");
+    // if (this.editData) {
 
-        this.getFaFixedAssetAutoCode();
-      }
-      else {
-        this.fixedAssetForm.controls['no'].setValue(this.editData.no);
-        this.fixedAssetForm.controls['code'].setValue(this.editData.code);
-      }
-    }
-    else {
-      alert("Post for first time: ");
+    this.getFaFixedAssetAutoCode();
 
-      this.getFaFixedAssetAutoCode();
-    }
+    // }
+    // else {
+    //   alert("Post for first time: ");
+
+    //   this.getFaFixedAssetAutoCode();
+    // }
   }
 
   concatFullCode(autoCodeGeneraed: any) {
 
-    alert("autoCode generated in NO: " + autoCodeGeneraed);
+    // alert("autoCode generated in NO: " + autoCodeGeneraed);
 
     if (!this.autoCodeCategoryFirst) {
       this.autoCodeCategoryFirst = this.editData.categoryFirstCode;
@@ -564,33 +556,10 @@ export class FaFixedAssetDialogComponent implements OnInit {
     if (!this.autoCodeCategoryThird) {
       this.autoCodeCategoryThird = this.editData.categoryThirdCode;
     }
-    // else {
-    alert("FullCode edit Changeddd: " + this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
+
+    // alert("FullCode edit Changeddd: " + this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
     this.fixedAssetForm.controls['code'].setValue(this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
-    // }
 
-
-
-
-    // alert("autoCodeCategorySecond: " + this.autoCodeCategorySecond);
-    // alert("autoCodeCategoryThird: " + this.autoCodeCategoryThird);
-
-    // if (autoCodeGeneraed != this.editData?.code) {
-    //   alert("auto full Code concat: " + this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
-
-    //   this.fixedAssetForm.controls['code'].setValue(this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
-    //   console.log("full code control value: ", this.fixedAssetForm.getRawValue().code);
-    // }
-    // else if (autoCodeGeneraed == this.editData?.code) {
-    //   autoCodeGeneraed = this.editData.no;
-    //   // let startCodeIndex = this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird;
-    //   // console.log("split fixed asset autoCodeGenerated: ", autoCodeGeneraed.slice(startCodeIndex.length));
-    //   // autoCodeGeneraed = autoCodeGeneraed.slice(startCodeIndex.length);
-    //   alert("auto full Code concat EDITDATA: " + autoCodeGeneraed);
-
-    //   this.fixedAssetForm.controls['code'].setValue(this.autoCodeCategoryFirst + this.autoCodeCategorySecond + this.autoCodeCategoryThird + autoCodeGeneraed);
-    //   console.log("full code control value EDITDATA: ", this.fixedAssetForm.getRawValue().code);
-    // }
   }
 
   toastrSuccess(): void {
@@ -599,6 +568,10 @@ export class FaFixedAssetDialogComponent implements OnInit {
 
   toastrEdit(): void {
     this.toastr.success('تم التحديث بنجاح');
+  }
+
+  toastrWarningInput(): void {
+    this.toastr.warning('!ادخل بيانات تصنيف مختلفة ');
   }
 
   toastrErrorSave(): void {
