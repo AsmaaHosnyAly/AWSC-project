@@ -286,9 +286,9 @@
 
             </mat-nav-list>
           </mat-expansion-panel>
-          <a mat-list-item class="sideNavSubItems" routerLink="/FIJournal"
+          <a mat-list-item class="sideNavSubItems" routerLink="/Cc-entry"
             (click)="global.getPermissionUserRoles(1, 'acounts', '', '')" *ngIf="hasAccessRole(pageEnums.FIJournal)">
-            <p class="font">اليوميات</p>
+            <p class="font">القيود</p>
           </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Reports"
             (click)="global.getPermissionUserRoles(1, 'stores', '', '')" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)">
@@ -728,72 +728,37 @@
             <mat-nav-list>
               <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Course"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">الدورات التدريبية</p>
+                <p class="font">مجالات الموردين</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/Tr-CourseCategory"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">تصنيف الدورة التدريبية</p>
+                <p class="font">مجالات المقاولات</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-CourseType"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">نوع الدورة التدريبية</p>
-              </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/TR-Instructor"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">المدربين</p>
-              </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/TrTrainee"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">المتدربين</p>
-              </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="Tr-InstructorCourse"
-                *ngIf="hasAccessRole(pageEnums.PR_USER)">
-                <p class="font">دورات المدربين</p>
-              </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-CoporteClient"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">عملاءالشركات</p>
-              </a>
-
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-TrainingCenter"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">مراكز التدريب</p>
-              </a>
-
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-ClassRoom"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">قاعات التدريب</p>
-              </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-trainingCenterCourse"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-                <p class="font">دورات مركز التدريب</p>
-              </a>
+            
             </mat-nav-list>
           </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
+          <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Purpose" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
+            <p class="font"> المناقصات</p>
+          </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/TrPlan" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-            <p class="font">الدورات المخططة</p>
+            <p class="font"> نوع العملية</p>
           </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/TrExcuted" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-            <p class="font">الدورات المنفذة</p>
+            <p class="font">نوع الخطة</p>
           </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/TrTrack" *ngIf="hasAccessRole(pageEnums.PR_USER)">
-            <p class="font">حزم تدريبية</p>
+            <p class="font">طريقة الطرح</p>
+          </a>
+          <a mat-list-item class="sideNavSubItems" routerLink="/TrTrack" *ngIf="hasAccessRole(pageEnums.PR_USER)">
+            <p class="font">تقارير العقود والمشتريات</p>
           </a>
 
-          <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Purpose" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-            <p class="font">غرض التدريب</p>
-          </a>
           
-          <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Budget" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-            <p class="font">الموازنة</p>
-          </a>
+          
         
-          <a mat-list-item class="sideNavSubItems" routerLink="/TrReports" *ngIf="hasAccessRole(pageEnums.PR_GROUP)">
-            <p class="font">تقارير التدريب</p>
-          </a>
         </mat-nav-list>
       </mat-expansion-panel>
       <!-- End  العقود والمشتريات  -->
