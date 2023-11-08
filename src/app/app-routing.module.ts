@@ -655,7 +655,7 @@ const routes: Routes = [
       // { path: '**', component: ErrorComponent },
 
       ////////////////////////////////CC///////////////////
-
+      { path: 'ccHome', component:CcHomeComponent},
       { path: 'Cc-activity', component: CcActivityComponent },
       { path: 'Cc-Function', component: CcFunctionComponent },
       { path: 'Cc-Region', component: CcRegionComponent },
