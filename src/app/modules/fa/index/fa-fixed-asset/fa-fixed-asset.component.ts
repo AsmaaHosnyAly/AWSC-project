@@ -4,7 +4,7 @@ import {
 } from '@angular/material/dialog';
 
 import { ApiService } from '../../services/api.service';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { map, startWith } from 'rxjs/operators';
@@ -16,6 +16,26 @@ import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
 import { FaFixedAssetDialogComponent } from '../fa-fixed-asset-dialog/fa-fixed-asset-dialog.component';
 import { formatDate } from '@angular/common';
+
+interface FaFixedAsset {
+  code: string;
+  name: string;
+  categoryFirstName: string;
+  categorySecondName: string;
+  categoryThirdName: string;
+  costCenterName: string;
+  fiEntryDescription: string;
+  initialValue: string;
+  bookValue: string;
+  speculateValue: string;
+  depreciationRate: string;
+  place: string;
+  state: string;
+  buyDate: string;
+  workDate: string;
+  speculateDate: string;
+  Action: string;
+}
 
 export class CategoryFirst {
   constructor(public id: number, public name: string) { }
@@ -39,6 +59,14 @@ export class Entry {
   styleUrls: ['./fa-fixed-asset.component.css']
 })
 export class FaFixedAssetComponent implements OnInit {
+  ELEMENT_DATA: FaFixedAsset[] = [];
+  isLoading = false;
+  totalRows = 0;
+  pageSize = 5;
+  currentPage: any;
+  pageIndex: any;
+  length: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
 
   categoryFirstCtrl: FormControl;
   filteredCategoryFirst: Observable<CategoryFirst[]>;
@@ -74,18 +102,19 @@ export class FaFixedAssetComponent implements OnInit {
     'costCenterName', 'fiEntryDescription', 'initialValue', 'bookValue', 'speculateValue',
     'depreciationRate', 'place', 'state', 'buyDate', 'workDate', 'speculateDate', 'action'];
 
-  dataSource!: MatTableDataSource<any>;
+  // dataSource!: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<FaFixedAsset> = new MatTableDataSource();
+
 
   loading: boolean = false;
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  // categoryFirstList: any;
-  // categorySecondList: any;
-  // categoryThirdList: any;
-  // costCenterList: any;
-  // entryList: any;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 
   constructor(private dialog: MatDialog,
     private toastr: ToastrService,
@@ -302,26 +331,83 @@ export class FaFixedAssetComponent implements OnInit {
 
 
   getFaFixedAsset() {
-    this.api.getFaFixedAsset().subscribe({
-      next: (res) => {
+    // this.api.getFaFixedAsset().subscribe({
+    //   next: (res) => {
 
-        this.fixedAssetSearchForm.reset();
+    // this.fixedAssetSearchForm.reset();
 
-        this.categoryFirstCtrl.reset();
-        this.categorySecondCtrl.reset();
-        this.categoryThirdCtrl.reset();
-        this.costCenterCtrl.reset();
-        this.entryCtrl.reset();
+    // this.categoryFirstCtrl.reset();
+    // this.categorySecondCtrl.reset();
+    // this.categoryThirdCtrl.reset();
+    // this.costCenterCtrl.reset();
+    // this.entryCtrl.reset();
 
-        console.log("get faFixedAsset res: ", res);
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
+    // console.log("get faFixedAsset res: ", res);
+    // this.dataSource = new MatTableDataSource(res);
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+
+    if (!this.currentPage) {
+      this.currentPage = 0;
+
+      this.isLoading = true;
+
+      fetch(this.api.getFaFixedAssetPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+    else {
+      this.isLoading = true;
+
+      fetch(this.api.getFaFixedAssetPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          this.isLoading = false;
+        }, error => {
+          console.log(error);
+          this.isLoading = false;
+        });
+    }
+
+    // }
+    // ,
+    //   error: (err) => {
+    //     alert('Error');
+    //   },
+    // });
+  }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    this.getFaFixedAsset();
   }
 
   applyFilter(event: Event) {
@@ -464,12 +550,37 @@ export class FaFixedAssetComponent implements OnInit {
           this.dataSource = res;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
         },
         error: (err) => {
           this.loading = false;
           // alert('Error');
         },
       });
+  }
+
+  resetMaster() {
+    this.fixedAssetSearchForm.reset();
+
+    this.categoryFirstCtrl.reset();
+    this.categorySecondCtrl.reset();
+    this.categoryThirdCtrl.reset();
+    this.costCenterCtrl.reset();
+    this.entryCtrl.reset();
+
+    this.api.getFaFixedAsset().subscribe({
+      next: (res) => {
+        this.dataSource = res;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      // error: (err) => {
+      //   alert('Error');
+      //   console.log("entryList fetch err: ", err);
+      // },
+    });
+
+
   }
 
   toastrDeleteSuccess(): void {

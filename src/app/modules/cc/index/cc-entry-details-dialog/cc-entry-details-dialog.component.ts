@@ -138,7 +138,7 @@ export class CcEntryDetailsDialogComponent implements OnInit {
       accountId: ['', Validators.required],
       activityId: ['', Validators.required],
       costCenterId: ['', Validators.required],
-
+      equipmentId: ['', Validators.required],
       credit: ['', Validators.required],
       debit: ['', Validators.required],
       qty: ['', Validators.required],
@@ -155,6 +155,7 @@ export class CcEntryDetailsDialogComponent implements OnInit {
       this.groupDetailsForm.controls['accountId'].setValue(this.editData.accountId);
       this.groupDetailsForm.controls['activityId'].setValue(this.editData.activityId);
       this.groupDetailsForm.controls['costCenterId'].setValue(this.editData.costCenterId);
+      this.groupDetailsForm.controls['equipmentId'].setValue(this.editData.equipmentId);
 
       this.groupDetailsForm.controls['credit'].setValue(this.editData.credit);
       this.groupDetailsForm.controls['debit'].setValue(this.editData.debit);

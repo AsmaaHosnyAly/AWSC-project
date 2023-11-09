@@ -2,10 +2,10 @@
     <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
 </div>
 
-<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل مجال المقاولات ' : 'إضافة مجال المقاولات'}}</h1>
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل نوع العملية ' : 'إضافة نوع العملية'}}</h1>
 
 <div mat-dialog-content dir="rtl">
-    <form [formGroup]="proContractTypeForm" style="overflow: hidden;">
+    <form [formGroup]="proOperationTypeForm" style="overflow: hidden;">
         <div class="serachLabels">
 
             <mat-label>الكود:</mat-label>
@@ -13,15 +13,15 @@
                 <input matInput placeholder="الكود" formControlName="code" readonly>
             </mat-form-field>
 
-            <mat-label>مجال المقاولات:</mat-label>
+            <mat-label>نوع العملية:</mat-label>
             <mat-form-field appearance="outline" class="groupInput">
-                <input matInput placeholder="مجال المقاولات" formControlName="name">
+                <input matInput placeholder="نوع العملية" formControlName="name">
             </mat-form-field>
 
         </div>
 
     </form>
-    <button mat-raised-button class="savebtn" (click)="addProContractType()"
+    <button mat-raised-button class="savebtn" (click)="addProOperationType()"
         style="margin-left: 8px;">{{actionBtn}}</button>
 
 </div>
@@ -29,3 +29,4 @@
 <div mat-dialog-action [align]="'end'">
     <!-- <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button> -->
 </div>
+

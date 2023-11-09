@@ -94,6 +94,9 @@ export class FaFixedAssetDialogComponent implements OnInit {
   selectedCategorySecondCode: any;
   selectedCategoryThirdCode: any;
   selectedCategoryFirstCode: any;
+  buyDateCurrent: any;
+  workDateCurrent: any;
+  speculateDateCurrent: any;
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
@@ -104,6 +107,10 @@ export class FaFixedAssetDialogComponent implements OnInit {
     private toastr: ToastrService) {
 
     this.stateDefaultValue = "جديد";
+    this.buyDateCurrent = new Date();
+    this.workDateCurrent = new Date();
+    this.speculateDateCurrent = new Date();
+
 
     this.categoryFirstCtrl = new FormControl();
     this.filteredCategoryFirst = this.categoryFirstCtrl.valueChanges.pipe(
@@ -155,9 +162,9 @@ export class FaFixedAssetDialogComponent implements OnInit {
       costCenterId: [''],
       entryId: ['', Validators.required],
       state: [this.stateDefaultValue, Validators.required],
-      buyDate: ['', Validators.required],
-      workDate: ['', Validators.required],
-      speculateDate: ['', Validators.required],
+      buyDate: [this.buyDateCurrent, Validators.required],
+      workDate: [this.workDateCurrent, Validators.required],
+      speculateDate: [this.speculateDateCurrent, Validators.required],
       initialValue: ['', Validators.required],
       bookValue: ['', Validators.required],
       speculateValue: ['', Validators.required],
@@ -351,6 +358,10 @@ export class FaFixedAssetDialogComponent implements OnInit {
       this.fixedAssetForm.removeControl('id');
       this.fixedAssetForm.controls['no'].setValue(this.fixedAssetForm.getRawValue().no.toString());
       this.fixedAssetForm.controls['transactionUserId'].setValue(this.transactionUserId);
+
+      if (!this.fixedAssetForm.getRawValue().costCenterId) {
+        this.fixedAssetForm.controls['costCenterId'].setValue(null);
+      }
       console.log("post form values: ", this.fixedAssetForm.value);
 
       if (this.fixedAssetForm.valid) {
@@ -365,6 +376,9 @@ export class FaFixedAssetDialogComponent implements OnInit {
               this.toastrErrorSave();
             }
           })
+      }
+      else {
+        this.toastrWarningInputValid();
       }
     } else {
       this.updateFaFixedAsset()
@@ -454,18 +468,35 @@ export class FaFixedAssetDialogComponent implements OnInit {
   getFaFixedAssetAutoCode() {
     if (this.autoCodeCategoryFirst && this.autoCodeCategorySecond && this.autoCodeCategoryThird) {
 
-      if ( this.autoCodeCategoryFirst == this.editData.categoryFirstCode
-        && this.autoCodeCategorySecond == this.editData.categorySecondCode
-        && this.autoCodeCategoryThird == this.editData.categoryThirdCode) {
-        this.toastrWarningInput();
-        this.fixedAssetForm.controls['categoryFirstId'].reset();
-        this.categoryFirstCtrl.reset();
-        this.fixedAssetForm.controls['categorySecondId'].reset();
-        this.categorySecondCtrl.reset();
-        this.fixedAssetForm.controls['categoryThirdId'].reset();
-        this.categoryThirdCtrl.reset();
-        this.fixedAssetForm.controls['no'].setValue('');
-        this.fixedAssetForm.controls['code'].setValue('');
+      if (this.editData) {
+        if (this.autoCodeCategoryFirst == this.editData.categoryFirstCode
+          && this.autoCodeCategorySecond == this.editData.categorySecondCode
+          && this.autoCodeCategoryThird == this.editData.categoryThirdCode) {
+          this.toastrWarningInput();
+          this.fixedAssetForm.controls['categoryFirstId'].reset();
+          this.categoryFirstCtrl.reset();
+          this.fixedAssetForm.controls['categorySecondId'].reset();
+          this.categorySecondCtrl.reset();
+          this.fixedAssetForm.controls['categoryThirdId'].reset();
+          this.categoryThirdCtrl.reset();
+          this.fixedAssetForm.controls['no'].setValue('');
+          this.fixedAssetForm.controls['code'].setValue('');
+        }
+        else {
+          this.api.getFaFixedAssetAutoCode(this.fixedAssetForm.getRawValue().categoryFirstId, this.fixedAssetForm.getRawValue().categorySecondId, this.fixedAssetForm.getRawValue().categoryThirdId).subscribe({
+            next: (res) => {
+              console.log("autoCode res: ", res);
+              this.autoCode = res;
+              this.fixedAssetForm.controls['no'].setValue(this.autoCode);
+              this.concatFullCode(this.autoCode);
+
+            },
+            error: (err) => {
+              // alert('Error');
+              console.log("autoCode fetch err: ", err);
+            },
+          });
+        }
       }
       else {
         this.api.getFaFixedAssetAutoCode(this.fixedAssetForm.getRawValue().categoryFirstId, this.fixedAssetForm.getRawValue().categorySecondId, this.fixedAssetForm.getRawValue().categoryThirdId).subscribe({
@@ -572,6 +603,10 @@ export class FaFixedAssetDialogComponent implements OnInit {
 
   toastrWarningInput(): void {
     this.toastr.warning('!ادخل بيانات تصنيف مختلفة ');
+  }
+
+  toastrWarningInputValid(): void {
+    this.toastr.warning('!اكمل ادخال البيانات  ');
   }
 
   toastrErrorSave(): void {

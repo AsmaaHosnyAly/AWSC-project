@@ -177,6 +177,7 @@ import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.
 import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
 import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
 import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-type/pro-contractor-type.component';
+import { ProOperationTypeComponent } from './modules/pro/index/pro-operation-type/pro-operation-type.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -682,6 +683,7 @@ const routes: Routes = [
 
       /*********************start pro module العقود و المشتريات***************************/
       { path: 'proContractorType', component: ProContractorTypeComponent },
+      { path: 'proOperationType', component: ProOperationTypeComponent },
 
       /*********************End pro module  العقود و المشتريات***************************/
     ],

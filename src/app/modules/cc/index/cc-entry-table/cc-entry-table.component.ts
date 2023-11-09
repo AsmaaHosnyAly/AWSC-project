@@ -284,71 +284,112 @@ export class CcEntryTableComponent implements OnInit {
       });
   }
 
-  deleteBothForms(id: number) {
-    this.api.getCcEntryDetails()
-      .subscribe({
-        next: (res) => {
+  // deleteBothForms(id: number) {
+  //   this.api.getCcEntryDetails()
+  //     .subscribe({
+  //       next: (res) => {
 
-          this.matchedIds = res.filter((a: any) => {
-            // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-            return a.entryId === id;
+  //         this.matchedIds = res.filter((a: any) => {
+  //           // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+  //           return a.entryId === id;
+  //         });
+
+  //         var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
+
+  //         if (this.matchedIds.length) {
+  //           for (let i = 0; i < this.matchedIds.length; i++) {
+  //             console.log(
+  //               'matchedIds details in loop: ',
+  //               this.matchedIds[i].id
+  //             );
+
+  //             if (result) {
+  //               this.api.deleteCcEntryDetails(this.matchedIds[i].id).subscribe({
+  //                 next: (res) => {
+  //                   console.log('master id to be deleted: ', id);
+
+  //                   this.api.deleteCcEntry(id).subscribe({
+  //                     next: (res) => {
+  //                       // alert('تم حذف الرئيسي بنجاح');
+  //                       this.getAllMasterForms();
+  //                     },
+  //                     error: () => {
+  //                       // alert('خطأ أثناء حذف الرئيسي !!');
+  //                     },
+  //                   });
+  //                 },
+  //                 error: () => {
+  //                   // alert('خطأ أثناء حذف التفاصيل !!');
+  //                 },
+  //               });
+  //             }
+  //           }
+  //         } else {
+  //           if (result) {
+  //             console.log('master id to be deleted: ', id);
+
+  //             this.api.deleteCcEntry(id).subscribe({
+  //               next: (res) => {
+  //                 // alert('تم حذف الرئيسي بنجاح');
+  //                 this.toastrDeleteSuccess();
+  //                 this.getAllMasterForms();
+  //               },
+  //               error: () => {
+  //                 // alert('خطأ أثناء حذف الرئيسي !!');
+  //               },
+  //             });
+  //           }
+  //         }
+
+  //       },
+  //       error: (err) => {
+  //         // alert('خطا اثناء حذف القيد !!');
+
+  //       }
+  //     })
+
+
+  // }
+
+
+  deleteBothForms(id: number) {
+    var result = confirm('تاكيد الحذف ؟ ');
+    console.log(' id in delete:', id);
+    if (result) {
+      this.api.deleteCcEntry(id).subscribe({
+        next: (res) => {
+          this.api.getCcEntryDetailsByMasterId(id).subscribe({
+            next: (res) => {
+              this.matchedIds = res;
+
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.deleteFormDetails(this.matchedIds[i].id);
+              }
+            },
+            error: (err) => {
+              // alert('خطا اثناء تحديد المجموعة !!');
+            },
           });
 
-          var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
-
-          if (this.matchedIds.length) {
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              console.log(
-                'matchedIds details in loop: ',
-                this.matchedIds[i].id
-              );
-
-              if (result) {
-                this.api.deleteCcEntryDetails(this.matchedIds[i].id).subscribe({
-                  next: (res) => {
-                    console.log('master id to be deleted: ', id);
-
-                    this.api.deleteCcEntry(id).subscribe({
-                      next: (res) => {
-                        // alert('تم حذف الرئيسي بنجاح');
-                        this.getAllMasterForms();
-                      },
-                      error: () => {
-                        // alert('خطأ أثناء حذف الرئيسي !!');
-                      },
-                    });
-                  },
-                  error: () => {
-                    // alert('خطأ أثناء حذف التفاصيل !!');
-                  },
-                });
-              }
-            }
-          } else {
-            if (result) {
-              console.log('master id to be deleted: ', id);
-
-              this.api.deleteCcEntry(id).subscribe({
-                next: (res) => {
-                  // alert('تم حذف الرئيسي بنجاح');
-                  this.toastrDeleteSuccess();
-                  this.getAllMasterForms();
-                },
-                error: () => {
-                  // alert('خطأ أثناء حذف الرئيسي !!');
-                },
-              });
-            }
-          }
-
+          this.toastrDeleteSuccess();
+          this.getAllMasterForms();
         },
-        error: (err) => {
-          // alert('خطا اثناء حذف القيد !!');
+        error: () => {
+          // alert('خطأ أثناء حذف المجموعة !!');
+        },
+      });
+    }
+  }
 
-        }
-      })
-
-
+  deleteFormDetails(id: number) {
+    this.api.deleteCcEntryDetails(id).subscribe({
+      next: (res) => {
+        this.getAllMasterForms();
+      },
+      error: (err) => {
+        console.log('delete details err: ', err);
+      },
+    });
   }
 
   // getSearchCcEntry(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any) {
