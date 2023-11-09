@@ -9,13 +9,15 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { ProContractorTypeDialogComponent } from '../pro-contractor-type-dialog/pro-contractor-type-dialog.component';
+import { ProOperationTypeDialogComponent } from '../pro-operation-type-dialog/pro-operation-type-dialog.component';
+
 
 @Component({
-  selector: 'app-pro-contractor-type',
-  templateUrl: './pro-contractor-type.component.html',
-  styleUrls: ['./pro-contractor-type.component.css']
+  selector: 'app-pro-operation-type',
+  templateUrl: './pro-operation-type.component.html',
+  styleUrls: ['./pro-operation-type.component.css']
 })
-export class ProContractorTypeComponent implements OnInit {
+export class ProOperationTypeComponent implements OnInit {
   displayedColumns: string[] = ['code', 'name', 'action'];
 
   dataSource!: MatTableDataSource<any>;
@@ -27,7 +29,7 @@ export class ProContractorTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProContractType();
+    this.getProOperationType();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openDialog();
@@ -45,11 +47,11 @@ export class ProContractorTypeComponent implements OnInit {
   }
 
 
-  getProContractType() {
-    this.api.getProContractType()
+  getProOperationType() {
+    this.api.getProOperationType()
       .subscribe({
         next: (res) => {
-          console.log("res of get all getProContractType: ", res);
+          console.log("res of get all getProOperationType: ", res);
           this.dataSource = new MatTableDataSource(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -61,39 +63,39 @@ export class ProContractorTypeComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(ProContractorTypeDialogComponent, {
+    this.dialog.open(ProOperationTypeDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
       if (val === 'حفظ') {
-        this.getProContractType();
+        this.getProOperationType();
       }
     })
   }
 
 
-  editProContractType(row: any) {
-    this.dialog.open(ProContractorTypeDialogComponent, {
+  editProOperationType(row: any) {
+    this.dialog.open(ProOperationTypeDialogComponent, {
       width: '30%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'تعديل') {
-        this.getProContractType();
+        this.getProOperationType();
       }
     })
   }
 
 
 
-  deleteProContractType(id: number) {
+  deleteProOperationType(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteProContractType(id)
+      this.api.deleteProOperationType(id)
         .subscribe({
           next: (res) => {
             console.log("delete row res: ", res);
             if (res == 'Succeeded') {
               this.toastrSuccessDeleteRow();
-              this.getProContractType();
+              this.getProOperationType();
 
             } else {
               this.toastrWarningDeleteRow();

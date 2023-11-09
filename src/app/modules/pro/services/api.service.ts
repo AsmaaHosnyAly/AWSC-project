@@ -31,6 +31,24 @@ export class ApiService {
   }
   //////////////////////////////////////////End////////////////////////////////////////////////
 
+  ////////////////////////////////////////Pro-OperationType///////////////////////////////////////
+  getProOperationTypeAutoCode() {
+    return this.http.get<any>(`${this.url}/ProOperationType/AutoCode`);
+  }
+  postProOperationType(data: any) {
+    return this.http.post<any>(`${this.url}/ProOperationType/Add`, data);
+  }
+  getProOperationType() {
+    return this.http.get<any>(`${this.url}/ProOperationType/get/all`);
+  }
+  putProOperationType(data: any) {
+    return this.http.put<any>(`${this.url}/ProOperationType/update`, data);
+  }
+  deleteProOperationType(id: number) {
+    return this.http.delete<any>(`${this.url}/ProOperationType/Delete/${id}`);
+  }
+  //////////////////////////////////////////End////////////////////////////////////////////////
+
 }
 
 

@@ -94,6 +94,10 @@ export class ApiService {
   postFaFixedAsset(data: any) {
     return this.http.post<any>(`${this.url}/FaFixedAsset/Add`, data);
   }
+  getFaFixedAssetPaginate(currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/FaFixedAsset/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   getFaFixedAsset() {
     return this.http.get<any>(`${this.url}/FaFixedAsset/get/all`);
   }

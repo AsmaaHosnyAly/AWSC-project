@@ -10,25 +10,25 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 
 @Component({
-  selector: 'app-pro-contractor-type-dialog',
-  templateUrl: './pro-contractor-type-dialog.component.html',
-  styleUrls: ['./pro-contractor-type-dialog.component.css']
+  selector: 'app-pro-operation-type-dialog',
+  templateUrl: './pro-operation-type-dialog.component.html',
+  styleUrls: ['./pro-operation-type-dialog.component.css']
 })
-export class ProContractorTypeDialogComponent implements OnInit {
+export class ProOperationTypeDialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId')
   autoCode: any;
-  proContractTypeForm !: FormGroup;
+  proOperationTypeForm !: FormGroup;
   actionBtn: string = "حفظ";
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService, private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any, private http: HttpClient,
-    private dialogRef: MatDialogRef<ProContractorTypeDialogComponent>,
+    private dialogRef: MatDialogRef<ProOperationTypeDialogComponent>,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
-    this.proContractTypeForm = this.formBuilder.group({
+    this.proOperationTypeForm = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
       transactionUserId: ['', Validators.required],
@@ -36,7 +36,7 @@ export class ProContractorTypeDialogComponent implements OnInit {
 
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
-      this.addProContractType();
+      this.addProOperationType();
       return false; // Prevent the default browser behavior
     }));
 
@@ -45,37 +45,37 @@ export class ProContractorTypeDialogComponent implements OnInit {
       console.log("edit data", this.editData);
 
       this.actionBtn = "تعديل";
-      this.proContractTypeForm.controls['code'].setValue(this.editData.code);
-      this.proContractTypeForm.controls['name'].setValue(this.editData.name);
-      this.proContractTypeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.proOperationTypeForm.controls['code'].setValue(this.editData.code);
+      this.proOperationTypeForm.controls['name'].setValue(this.editData.name);
+      this.proOperationTypeForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      this.proContractTypeForm.addControl('id', new FormControl('', Validators.required));
-      this.proContractTypeForm.controls['id'].setValue(this.editData.id);
+      this.proOperationTypeForm.addControl('id', new FormControl('', Validators.required));
+      this.proOperationTypeForm.controls['id'].setValue(this.editData.id);
 
     }
     else {
-      this.getProContractTypeAutoCode();
+      this.getProOperationTypeAutoCode();
     }
 
   }
 
 
 
-  async addProContractType() {
+  async addProOperationType() {
     if (!this.editData) {
-      this.proContractTypeForm.removeControl('id')
+      this.proOperationTypeForm.removeControl('id')
 
-      this.proContractTypeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.proOperationTypeForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      console.log("form post value: ", this.proContractTypeForm.value)
+      console.log("form post value: ", this.proOperationTypeForm.value)
 
-      if (this.proContractTypeForm.valid) {
+      if (this.proOperationTypeForm.valid) {
 
-        this.api.postProContractType(this.proContractTypeForm.value)
+        this.api.postProOperationType(this.proOperationTypeForm.value)
           .subscribe({
             next: (res) => {
               this.toastrPostSuccess();
-              this.proContractTypeForm.reset();
+              this.proOperationTypeForm.reset();
 
               this.dialogRef.close('حفظ');
             },
@@ -90,18 +90,18 @@ export class ProContractorTypeDialogComponent implements OnInit {
 
     }
     else {
-      this.updateProContractType()
+      this.updateProOperationType()
     }
   }
 
-  updateProContractType() {
-    console.log("update form values: ", this.proContractTypeForm.value)
-    this.api.putProContractType(this.proContractTypeForm.value)
+  updateProOperationType() {
+    console.log("update form values: ", this.proOperationTypeForm.value)
+    this.api.putProOperationType(this.proOperationTypeForm.value)
       .subscribe({
         next: (res) => {
           this.toastrEditSuccess()
 
-          this.proContractTypeForm.reset();
+          this.proOperationTypeForm.reset();
           this.dialogRef.close('تعديل');
         },
         error: () => {
@@ -110,13 +110,13 @@ export class ProContractorTypeDialogComponent implements OnInit {
       })
   }
 
-  getProContractTypeAutoCode() {
-    this.api.getProContractTypeAutoCode()
+  getProOperationTypeAutoCode() {
+    this.api.getProOperationTypeAutoCode()
       .subscribe({
         next: (res) => {
           console.log("autoCode res: ", res);
           this.autoCode = res;
-          this.proContractTypeForm.controls['code'].setValue(this.autoCode);
+          this.proOperationTypeForm.controls['code'].setValue(this.autoCode);
         },
         error: (err) => {
           console.log("fetch autoCode data err: ", err);

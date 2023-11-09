@@ -236,52 +236,63 @@ export class FiReportsComponent implements OnInit {
     });
   }
   downloadPrint(
-
     StartDate: any,
     EndDate: any,
-
     report: any,
     reportType: any
   ) {
 
     let account = this.groupMasterForm.getRawValue().accountId;
 
-    // this.api
-    //   .getAccountreports(
+    // let account = this.accountCode;
+    console.log("reportt name", report);
+    if (report != null && reportType != null) {
+
+      StartDate = formatDate(StartDate, 'MM-dd-yyyy', this.locale);
+      // alert("startDate: " + StartDate);
+
+      let LastYearStartDate = new Date(StartDate);
+      LastYearStartDate.setFullYear(LastYearStartDate.getFullYear() - 1);
+      let prevStartDate = formatDate(LastYearStartDate, 'MM-dd-yyyy', this.locale);
+      // alert("prevStartDate: " + prevStartDate);
 
 
-    //     StartDate,
-    //     EndDate,
+      EndDate = formatDate(EndDate, 'MM-dd-yyyy', this.locale);
+      // alert("EndDate: " + EndDate);
 
-    //     account,
+      let LastYearEndDate = new Date(EndDate);
+      LastYearEndDate.setFullYear(LastYearEndDate.getFullYear() - 1);
+      let prevEndDate = formatDate(LastYearEndDate, 'MM-dd-yyyy', this.locale);
+      // alert("prevEndDate: " + prevEndDate);
 
-    //     report,
-    //     'pdf'
-    //   )
-    //   .subscribe({
-    //     next: (res) => {
-    //       console.log('search:', res);
-    //       const url: any = res.url;
-    //       window.open(url);
-    //       // let blob: Blob = res.body as Blob;
-    //       // let url = window.URL.createObjectURL(blob);
 
-    //       // this.dataSource = res;
-    //       // this.dataSource.paginator = this.paginator;
-    //       // this.dataSource.sort = this.sort;
-    //     },
-    //     error: (err) => {
-    //       console.log('eroorr', err);
-    //       window.open(err.url);
-    //     },
-    //   });
+      this.api
+        .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+        .subscribe({
+          next: (res) => {
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '50%',
+            });
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+
+    }
+
+    else {
+      alert('ادخل التقرير و نوع التقرير!');
+    }
 
 
   }
-
-
-
-
 
 
   refreshData() {
@@ -289,10 +300,8 @@ export class FiReportsComponent implements OnInit {
   }
 
   previewPrint(
-
     StartDate: any,
     EndDate: any,
-
     report: any,
     reportType: any
   ) {
@@ -303,21 +312,21 @@ export class FiReportsComponent implements OnInit {
 
       // if (report == 'AccountProfitLoseActivityReport') {
       StartDate = formatDate(StartDate, 'MM-dd-yyyy', this.locale);
-      alert("startDate: " + StartDate);
+      // alert("startDate: " + StartDate);
 
       let LastYearStartDate = new Date(StartDate);
       LastYearStartDate.setFullYear(LastYearStartDate.getFullYear() - 1);
       let prevStartDate = formatDate(LastYearStartDate, 'MM-dd-yyyy', this.locale);
-      alert("prevStartDate: " + prevStartDate);
+      // alert("prevStartDate: " + prevStartDate);
 
 
       EndDate = formatDate(EndDate, 'MM-dd-yyyy', this.locale);
-      alert("EndDate: " + EndDate);
+      // alert("EndDate: " + EndDate);
 
       let LastYearEndDate = new Date(EndDate);
       LastYearEndDate.setFullYear(LastYearEndDate.getFullYear() - 1);
       let prevEndDate = formatDate(LastYearEndDate, 'MM-dd-yyyy', this.locale);
-      alert("prevEndDate: " + prevEndDate);
+      // alert("prevEndDate: " + prevEndDate);
 
 
       this.api

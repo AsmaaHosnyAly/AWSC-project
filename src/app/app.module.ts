@@ -305,6 +305,8 @@ import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixe
 import { FaFixedAssetDialogComponent } from './modules/fa/index/fa-fixed-asset-dialog/fa-fixed-asset-dialog.component';
 import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-type/pro-contractor-type.component';
 import { ProContractorTypeDialogComponent } from './modules/pro/index/pro-contractor-type-dialog/pro-contractor-type-dialog.component';
+import { ProOperationTypeComponent } from './modules/pro/index/pro-operation-type/pro-operation-type.component';
+import { ProOperationTypeDialogComponent } from './modules/pro/index/pro-operation-type-dialog/pro-operation-type-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -586,7 +588,9 @@ import { ProContractorTypeDialogComponent } from './modules/pro/index/pro-contra
     FaFixedAssetComponent,
     FaFixedAssetDialogComponent,
     ProContractorTypeComponent,
-    ProContractorTypeDialogComponent
+    ProContractorTypeDialogComponent,
+    ProOperationTypeComponent,
+    ProOperationTypeDialogComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],

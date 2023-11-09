@@ -64,8 +64,11 @@ export class CcEntryDialogComponent implements OnInit {
   displayedColumns: string[] = [
     'credit',
     'debit',
+    'qty',
     'accountName',
-    'fiAccountItemId',
+    'activityName',
+    'costCenterName',
+    'equipmentName',
     'action',
   ];
   sessionId = Math.random();
@@ -300,15 +303,34 @@ export class CcEntryDialogComponent implements OnInit {
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
 
-            // this.sumOfTotals = 0;
-            // for (let i = 0; i < this.matchedIds.length; i++) {
-            //   // this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-            //   // this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-            //   // this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-            //   // alert('totalll: '+ this.sumOfTotals)
-            //   // this.updateBothForms();
-            //   this.updateMaster();
-            // }
+            this.sumOfCreditTotals = 0;
+            this.sumOfDebitTotals = 0;
+            this.resultOfBalance = 0;
+
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              this.sumOfCreditTotals = this.sumOfCreditTotals + parseFloat(this.matchedIds[i].credit);
+              this.sumOfCreditTotals = Number(this.sumOfCreditTotals.toFixed(2));
+              this.groupMasterForm.controls['creditTotal'].setValue(this.sumOfCreditTotals);
+              // alert('creditTotal: ' + this.sumOfCreditTotals);
+
+              this.sumOfDebitTotals = this.sumOfDebitTotals + parseFloat(this.matchedIds[i].debit);
+              this.sumOfDebitTotals = Number(this.sumOfDebitTotals.toFixed(2));
+              this.groupMasterForm.controls['debitTotal'].setValue(this.sumOfDebitTotals);
+
+              if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
+                this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
+                this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
+              }
+              else {
+                this.resultOfBalance = this.sumOfDebitTotals - this.sumOfCreditTotals;
+                this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
+
+              }
+              // alert('debitTotal: ' + this.sumOfDebitTotals);
+
+              this.updateBothForms();
+              this.updateMaster();
+            }
           }
         },
         error: (err) => {
