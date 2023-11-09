@@ -13,7 +13,24 @@ export class ApiService {
   url = this.pageEnums.URL
   constructor(private http: HttpClient) { }
 
+  ////////////////////////////////////////Pro-ContractType///////////////////////////////////////
+  getProContractTypeAutoCode() {
+    return this.http.get<any>(`${this.url}/ProContractorType/AutoCode`);
+  }
+  postProContractType(data: any) {
+    return this.http.post<any>(`${this.url}/ProContractorType/Add`, data);
+  }
+  getProContractType() {
+    return this.http.get<any>(`${this.url}/ProContractorType/get/all`);
+  }
+  putProContractType(data: any) {
+    return this.http.put<any>(`${this.url}/ProContractorType/update`, data);
+  }
+  deleteProContractType(id: number) {
+    return this.http.delete<any>(`${this.url}/ProContractorType/Delete/${id}`);
+  }
+  //////////////////////////////////////////End////////////////////////////////////////////////
+
 }
 
 
- 

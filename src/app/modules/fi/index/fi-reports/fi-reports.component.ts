@@ -29,8 +29,8 @@ import {
 import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class account {
-  constructor(public code: number,public id: number, public name: string,global:GlobalService) { 
-   
+  constructor(public code: number, public id: number, public name: string, global: GlobalService) {
+
   }
 }
 
@@ -73,8 +73,8 @@ export class FiReportsComponent implements OnInit {
   storeName: any;
 
 
-  accountCode:any;
-  accountList:account[] = [];
+  accountCode: any;
+  accountList: account[] = [];
   accountCtrl: FormControl;
   filteredaccount: Observable<account[]>;
   selectedaccount: account | undefined;
@@ -103,7 +103,7 @@ export class FiReportsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     @Inject(LOCALE_ID) private locale: string,
-    global:GlobalService
+    global: GlobalService
   ) {
     global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
 
@@ -124,7 +124,7 @@ export class FiReportsComponent implements OnInit {
     // ];
 
 
- 
+
 
     this.accountCtrl = new FormControl();
     this.filteredaccount = this.accountCtrl.valueChanges.pipe(
@@ -161,13 +161,13 @@ export class FiReportsComponent implements OnInit {
 
     this.groupMasterForm = this.formBuilder.group({
 
-    
+
       StartDate: [this.dateNow, Validators.required],
       EndDate: [this.nextDate, Validators.required],
 
       accountName: ['', Validators.required],
       accountId: ['', Validators.required],
-  
+
 
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
@@ -207,7 +207,7 @@ export class FiReportsComponent implements OnInit {
     this.selectedaccount = account;
     this.groupMasterForm.patchValue({ accountId: account.id });
     console.log('account in form: ', this.groupMasterForm.getRawValue().accountId);
-     this.accountCode=account.code;
+    this.accountCode = account.code;
   }
   private _filteraccounts(value: string): account[] {
     const filterValue = value;
@@ -223,7 +223,7 @@ export class FiReportsComponent implements OnInit {
     this.accountCtrl.updateValueAndValidity();
   }
 
-  getfiAccounts(){
+  getfiAccounts() {
     this.api.getAccount().subscribe({
       next: (res) => {
         this.accountList = res;
@@ -246,35 +246,35 @@ export class FiReportsComponent implements OnInit {
 
     let account = this.groupMasterForm.getRawValue().accountId;
 
-    this.api
-      .getAccountreports(
+    // this.api
+    //   .getAccountreports(
 
-    
-        StartDate,
-        EndDate,
 
-        account,
+    //     StartDate,
+    //     EndDate,
 
-        report,
-        'pdf'
-      )
-      .subscribe({
-        next: (res) => {
-          console.log('search:', res);
-          const url: any = res.url;
-          window.open(url);
-          // let blob: Blob = res.body as Blob;
-          // let url = window.URL.createObjectURL(blob);
+    //     account,
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-      });
+    //     report,
+    //     'pdf'
+    //   )
+    //   .subscribe({
+    //     next: (res) => {
+    //       console.log('search:', res);
+    //       const url: any = res.url;
+    //       window.open(url);
+    //       // let blob: Blob = res.body as Blob;
+    //       // let url = window.URL.createObjectURL(blob);
+
+    //       // this.dataSource = res;
+    //       // this.dataSource.paginator = this.paginator;
+    //       // this.dataSource.sort = this.sort;
+    //     },
+    //     error: (err) => {
+    //       console.log('eroorr', err);
+    //       window.open(err.url);
+    //     },
+    //   });
 
 
   }
@@ -283,7 +283,7 @@ export class FiReportsComponent implements OnInit {
 
 
 
- 
+
   refreshData() {
     this.groupMasterForm.reset();
   }
@@ -298,17 +298,30 @@ export class FiReportsComponent implements OnInit {
   ) {
 
     let account = this.accountCode;
-    console.log("reportt nMAE", report);
+    console.log("reportt name", report);
     if (report != null && reportType != null) {
-      console.log("in iff conditionnnn")
+
+      // if (report == 'AccountProfitLoseActivityReport') {
+      StartDate = formatDate(StartDate, 'MM-dd-yyyy', this.locale);
+      alert("startDate: " + StartDate);
+
+      let LastYearStartDate = new Date(StartDate);
+      LastYearStartDate.setFullYear(LastYearStartDate.getFullYear() - 1);
+      let prevStartDate = formatDate(LastYearStartDate, 'MM-dd-yyyy', this.locale);
+      alert("prevStartDate: " + prevStartDate);
+
+
+      EndDate = formatDate(EndDate, 'MM-dd-yyyy', this.locale);
+      alert("EndDate: " + EndDate);
+
+      let LastYearEndDate = new Date(EndDate);
+      LastYearEndDate.setFullYear(LastYearEndDate.getFullYear() - 1);
+      let prevEndDate = formatDate(LastYearEndDate, 'MM-dd-yyyy', this.locale);
+      alert("prevEndDate: " + prevEndDate);
+
+
       this.api
-        .getAccountreports(
-         
-          StartDate,
-          EndDate,
-          account,
-          report, 'pdf'
-        )
+        .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
         .subscribe({
           next: (res) => {
             let blob: Blob = res.body as Blob;
@@ -329,6 +342,35 @@ export class FiReportsComponent implements OnInit {
             window.open(err.url);
           },
         });
+
+      // this.api
+      //   .getAccountreports(
+
+      //     StartDate,
+      //     EndDate,
+      //     account,
+      //     report, reportType
+      //   )
+      //   .subscribe({
+      //     next: (res) => {
+      //       let blob: Blob = res.body as Blob;
+      //       console.log(blob);
+      //       let url = window.URL.createObjectURL(blob);
+      //       localStorage.setItem('url', JSON.stringify(url));
+      //       this.pdfurl = url;
+      //       this.dialog.open(PrintDialogComponent, {
+      //         width: '50%',
+      //       });
+
+      //       // this.dataSource = res;
+      //       // this.dataSource.paginator = this.paginator;
+      //       // this.dataSource.sort = this.sort;
+      //     },
+      //     error: (err) => {
+      //       console.log('eroorr', err);
+      //       window.open(err.url);
+      //     },
+      //   });
 
     }
 
