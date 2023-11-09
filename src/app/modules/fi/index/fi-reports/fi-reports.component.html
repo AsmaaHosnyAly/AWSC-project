@@ -1,4 +1,7 @@
-<div class="page-title"> تقارير الحسابات</div>
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<div class="page-title" *ngIf="!loading"> تقارير الحسابات</div>
 
 <form [formGroup]="groupMasterForm">
     <div class="search">

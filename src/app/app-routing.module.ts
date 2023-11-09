@@ -176,6 +176,8 @@ import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
 import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.component';
 import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
 import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
+import { ProTenderTypeComponent } from './modules/pro/index/pro-tender-type/pro-tender-type.component';
+import { ProPlanTypeComponent } from './modules/pro/index/pro-plan-type/pro-plan-type.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -676,7 +678,14 @@ const routes: Routes = [
       { path: 'faCategoryThird', component: FaCategoryThirdComponent },
       { path: 'faFixedAsset', component: FaFixedAssetComponent },
 
-      /*********************End py module  الاصول الثابتة***************************/
+      /*********************End py module   العقود والمشتريات***************************/
+
+      { path: 'ProTenderType', component: ProTenderTypeComponent },
+      { path: 'ProPlanType', component: ProPlanTypeComponent },
+
+
+      /*********************start py module العقود والمشتريات ***************************/
+      
     ],
   },
 ];

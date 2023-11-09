@@ -57,7 +57,7 @@ export class ReportsComponent implements OnInit {
   //   'Action',
   // ];
   matchedIds: any;
-
+  loading :boolean=false;
 
 
   groupMasterForm!: FormGroup;
@@ -352,7 +352,7 @@ export class ReportsComponent implements OnInit {
 
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
-
+this.loading=true;
     this.api
       .getTranscriptreports(
 
@@ -367,6 +367,7 @@ export class ReportsComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          this.loading=false;
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
@@ -378,6 +379,7 @@ export class ReportsComponent implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
+          this.loading=false;
           console.log('eroorr', err);
           window.open(err.url);
         },
@@ -443,6 +445,7 @@ export class ReportsComponent implements OnInit {
     let store = this.groupMasterForm.getRawValue().storeId;
     console.log("reportt nMAE", report);
     if (report != null && reportType != null) {
+      this.loading=true;
       console.log("in iff conditionnnn")
       this.api
         .getTranscriptreports(
@@ -454,6 +457,7 @@ export class ReportsComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
+            this.loading=false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -468,6 +472,7 @@ export class ReportsComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading=false;
             console.log('eroorr', err);
             window.open(err.url);
           },

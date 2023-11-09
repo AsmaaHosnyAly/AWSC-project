@@ -303,6 +303,11 @@ import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.
 import { TrBudgetDialogComponent } from './modules/training/index/tr-budget-dialog/tr-budget-dialog.component';
 import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
 import { FaFixedAssetDialogComponent } from './modules/fa/index/fa-fixed-asset-dialog/fa-fixed-asset-dialog.component';
+import { ProTenderTypeComponent } from './modules/pro/index/pro-tender-type/pro-tender-type.component';
+import { ProTenderTypeDailogComponent } from './modules/pro/index/pro-tender-type-dailog/pro-tender-type-dailog.component';
+import { ProPlanTypeComponent } from './modules/pro/index/pro-plan-type/pro-plan-type.component';
+import { ProPlanTypeDailogComponent } from './modules/pro/index/pro-plan-type-dailog/pro-plan-type-dailog.component';
+
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -582,7 +587,12 @@ import { FaFixedAssetDialogComponent } from './modules/fa/index/fa-fixed-asset-d
     TrBudgetComponent,
     TrBudgetDialogComponent,
     FaFixedAssetComponent,
-    FaFixedAssetDialogComponent
+    FaFixedAssetDialogComponent,
+    ProTenderTypeComponent,
+    ProTenderTypeDailogComponent,
+    ProPlanTypeComponent,
+    ProPlanTypeDailogComponent,
+   
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],

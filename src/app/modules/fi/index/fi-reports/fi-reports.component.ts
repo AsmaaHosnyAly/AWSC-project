@@ -59,7 +59,7 @@ export class FiReportsComponent implements OnInit {
   // ];
   matchedIds: any;
 
-
+loading:boolean=false;
 
   groupMasterForm!: FormGroup;
 
@@ -245,7 +245,7 @@ export class FiReportsComponent implements OnInit {
   ) {
 
     let account = this.groupMasterForm.getRawValue().accountId;
-
+this.loading=true;
     this.api
       .getAccountreports(
 
@@ -260,6 +260,7 @@ export class FiReportsComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          this.loading=false;
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
@@ -271,6 +272,7 @@ export class FiReportsComponent implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
+          this.loading=false;
           console.log('eroorr', err);
           window.open(err.url);
         },
@@ -301,6 +303,7 @@ export class FiReportsComponent implements OnInit {
     console.log("reportt nMAE", report);
     if (report != null && reportType != null) {
       console.log("in iff conditionnnn")
+      this.loading=true;
       this.api
         .getAccountreports(
          
@@ -311,6 +314,7 @@ export class FiReportsComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
+            this.loading=false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -325,6 +329,7 @@ export class FiReportsComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
+            this.loading=false;
             console.log('eroorr', err);
             window.open(err.url);
           },
