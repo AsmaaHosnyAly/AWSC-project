@@ -303,6 +303,8 @@ import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.
 import { TrBudgetDialogComponent } from './modules/training/index/tr-budget-dialog/tr-budget-dialog.component';
 import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
 import { FaFixedAssetDialogComponent } from './modules/fa/index/fa-fixed-asset-dialog/fa-fixed-asset-dialog.component';
+import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-type/pro-contractor-type.component';
+import { ProContractorTypeDialogComponent } from './modules/pro/index/pro-contractor-type-dialog/pro-contractor-type-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -582,7 +584,9 @@ import { FaFixedAssetDialogComponent } from './modules/fa/index/fa-fixed-asset-d
     TrBudgetComponent,
     TrBudgetDialogComponent,
     FaFixedAssetComponent,
-    FaFixedAssetDialogComponent
+    FaFixedAssetDialogComponent,
+    ProContractorTypeComponent,
+    ProContractorTypeDialogComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],

@@ -176,6 +176,7 @@ import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
 import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.component';
 import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
 import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
+import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-type/pro-contractor-type.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -632,7 +633,7 @@ const routes: Routes = [
       { path: 'TrTrack', component: TrTrackContainerComponent },
       { path: 'TrPlanCourseData', component: TrPlanCourseDataComponent },
       { path: 'Tr-Purpose', component: TrPurposeComponent },
-      { path: 'Tr-Budget', component: TrBudgetComponent},
+      { path: 'Tr-Budget', component: TrBudgetComponent },
 
       /*********************End  TR   التدريب****************************/
 
@@ -656,7 +657,7 @@ const routes: Routes = [
       // { path: '**', component: ErrorComponent },
 
       ////////////////////////////////CC///////////////////
-      { path: 'ccHome', component:CcHomeComponent},
+      { path: 'ccHome', component: CcHomeComponent },
       { path: 'Cc-activity', component: CcActivityComponent },
       { path: 'Cc-Function', component: CcFunctionComponent },
       { path: 'Cc-Region', component: CcRegionComponent },
@@ -668,7 +669,7 @@ const routes: Routes = [
       { path: 'Cc-costcenter', component: CcCostCenterComponent },
       { path: 'Cc-Reports', component: CcReportsComponent },
       { path: 'Cc-entry', component: CcEntryContainerComponent },
-      
+
       /*********************start py module الاصول الثابتة***************************/
       { path: 'faHome', component: FaHomeComponent },
       { path: 'faCategoryFirst', component: FaCategoryFirstComponent },
@@ -677,6 +678,12 @@ const routes: Routes = [
       { path: 'faFixedAsset', component: FaFixedAssetComponent },
 
       /*********************End py module  الاصول الثابتة***************************/
+
+
+      /*********************start pro module العقود و المشتريات***************************/
+      { path: 'proContractorType', component: ProContractorTypeComponent },
+
+      /*********************End pro module  العقود و المشتريات***************************/
     ],
   },
 ];
@@ -685,4 +692,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

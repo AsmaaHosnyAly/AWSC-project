@@ -514,25 +514,64 @@ export class ApiService {
   }
 
   /////////////////////reports/////////////////////////
-  getAccountreports(
+  // getAccountreports(
 
-    StartDate: any, EndDate: any, account: any, report: any, reportType: any
+  //   StartDate: any, EndDate: any, account: any, report: any, reportType: any
+  // ) {
+  //   console.log(
+
+
+  //     'startdate: ',
+  //     StartDate, 'account', account,
+
+  //     'reportName:', report, 'reportType:', reportType
+
+  //   );
+  //   `${this.url}/FIAccount/get/Report?`;
+  //   this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
+
+
+
+
+
+  //   if (!StartDate == false) {
+  //     this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
+  //   }
+  //   if (!EndDate == false) {
+  //     this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
+  //   }
+
+
+  //   if (!account == false) {
+  //     this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+  //   }
+
+
+
+  //   console.log('url', this.mycondition);
+
+  //   // return this.http.get<any>(`${this.mycondition}`);
+  //   return this.http.get(`${this.mycondition}`, {
+  //     observe: 'response',
+  //     responseType: 'blob',
+  //   });
+  // }
+
+  getAccountreports(
+    StartDate: any, EndDate: any, PrevstartDate: any, PrevendDate: any, account: any, report: any, reportType: any
   ) {
     console.log(
-
-
-      'startdate: ',
-      StartDate, 'account', account,
-
-      'reportName:', report, 'reportType:', reportType
-
+      'startdate: ', StartDate,
+      'PrevstartDate: ', PrevstartDate,
+      'EndDate: ', EndDate,
+      'PrevendDate: ', PrevendDate,
+      'account', account,
+      'reportName:', report,
+      'reportType:', reportType
     );
+
     `${this.url}/FIAccount/get/Report?`;
     this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
-
-
-
-
 
     if (!StartDate == false) {
       this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
@@ -540,13 +579,15 @@ export class ApiService {
     if (!EndDate == false) {
       this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
     }
-
-
+    if (!PrevstartDate == false) {
+      this.mycondition = ` ${this.mycondition}&PrevstartDate=${PrevstartDate}`;
+    }
+    if (!PrevendDate == false) {
+      this.mycondition = ` ${this.mycondition}&PrevendDate=${PrevendDate}`;
+    }
     if (!account == false) {
       this.mycondition = ` ${this.mycondition}&accountId=${account}`;
     }
-
-
 
     console.log('url', this.mycondition);
 
