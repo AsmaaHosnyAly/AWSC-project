@@ -30,7 +30,7 @@ import { GlobalPositionStrategy } from '@angular/cdk/overlay';
 import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class item {
-  constructor(public id: number, public name: string ,public fullCode:number) { }
+  constructor(public id: number, public name: string, public fullCode: number) { }
 }
 
 
@@ -44,6 +44,8 @@ export class store {
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
+  loading: boolean = false;
+
   // selectedValue = 'STRWithdrawReport';
   selectedValueType = 'pdf';
   // displayedColumns: string[] = [
@@ -101,7 +103,7 @@ export class ReportsComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    global:GlobalService,
+    global: GlobalService,
     @Inject(LOCALE_ID) private locale: string
   ) {
 
@@ -191,12 +193,15 @@ export class ReportsComponent implements OnInit {
 
 
   getItems() {
+    this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
+        this.loading = false;
         this.itemsList = res;
         console.log('items res: ', this.itemsList);
       },
       error: (err) => {
+        this.loading = false;
         console.log('fetch items data err: ', err);
         // alert("خطا اثناء جلب العناصر !");
       },
@@ -353,35 +358,78 @@ export class ReportsComponent implements OnInit {
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
-    this.api
-      .getTranscriptreports(
+    if (report && reportType) {
+      if (report == 'STRItemsTransactionReport') {
+        if (!item) {
+          this.toastrWarningInputValid();
+        }
+        else {
+          this.api
+            .getTranscriptreports(
 
-        store,
-        StartDate,
-        EndDate,
+              store,
+              StartDate,
+              EndDate,
 
-        item,
+              item,
 
-        report,
-        'pdf'
-      )
-      .subscribe({
-        next: (res) => {
-          console.log('search:', res);
-          const url: any = res.url;
-          window.open(url);
-          // let blob: Blob = res.body as Blob;
-          // let url = window.URL.createObjectURL(blob);
+              report,
+              reportType
+            )
+            .subscribe({
+              next: (res) => {
+                console.log('search:', res);
+                const url: any = res.url;
+                window.open(url);
+                // let blob: Blob = res.body as Blob;
+                // let url = window.URL.createObjectURL(blob);
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-      });
+                // this.dataSource = res;
+                // this.dataSource.paginator = this.paginator;
+                // this.dataSource.sort = this.sort;
+              },
+              error: (err) => {
+                console.log('eroorr', err);
+                window.open(err.url);
+              },
+            });
+        }
+      }
+      else {
+        this.api
+          .getTranscriptreports(
+
+            store,
+            StartDate,
+            EndDate,
+
+            item,
+
+            report,
+            reportType
+          )
+          .subscribe({
+            next: (res) => {
+              console.log('search:', res);
+              const url: any = res.url;
+              window.open(url);
+              // let blob: Blob = res.body as Blob;
+              // let url = window.URL.createObjectURL(blob);
+
+              // this.dataSource = res;
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+      }
+    }
+    else {
+      alert('ادخل التقرير و نوع التقرير!');
+    }
 
 
   }
@@ -442,39 +490,76 @@ export class ReportsComponent implements OnInit {
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
     console.log("reportt nMAE", report);
-    if (report != null && reportType != null) {
-      console.log("in iff conditionnnn")
-      this.api
-        .getTranscriptreports(
-          store,
-          StartDate,
-          EndDate,
-          item,
-          report, 'pdf'
-        )
-        .subscribe({
-          next: (res) => {
-            let blob: Blob = res.body as Blob;
-            console.log(blob);
-            let url = window.URL.createObjectURL(blob);
-            localStorage.setItem('url', JSON.stringify(url));
-            this.pdfurl = url;
-            this.dialog.open(PrintDialogComponent, {
-              width: '50%',
+    if (report && reportType) {
+      console.log("in iff conditionnnn");
+
+      if (report == 'STRItemsTransactionReport') {
+        if (!item) {
+          this.toastrWarningInputValid();
+        }
+        else {
+          this.api
+            .getTranscriptreports(
+              store,
+              StartDate,
+              EndDate,
+              item,
+              report, 'pdf'
+            )
+            .subscribe({
+              next: (res) => {
+                let blob: Blob = res.body as Blob;
+                console.log(blob);
+                let url = window.URL.createObjectURL(blob);
+                localStorage.setItem('url', JSON.stringify(url));
+                this.pdfurl = url;
+                this.dialog.open(PrintDialogComponent, {
+                  width: '50%',
+                });
+
+                // this.dataSource = res;
+                // this.dataSource.paginator = this.paginator;
+                // this.dataSource.sort = this.sort;
+              },
+              error: (err) => {
+                console.log('eroorr', err);
+                window.open(err.url);
+              },
             });
+        }
 
-            // this.dataSource = res;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
-          },
-          error: (err) => {
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
-        });
+      }
+      else {
+        this.api
+          .getTranscriptreports(
+            store,
+            StartDate,
+            EndDate,
+            item,
+            report, 'pdf'
+          )
+          .subscribe({
+            next: (res) => {
+              let blob: Blob = res.body as Blob;
+              console.log(blob);
+              let url = window.URL.createObjectURL(blob);
+              localStorage.setItem('url', JSON.stringify(url));
+              this.pdfurl = url;
+              this.dialog.open(PrintDialogComponent, {
+                width: '50%',
+              });
 
+              // this.dataSource = res;
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+      }
     }
-
     else {
       alert('ادخل التقرير و نوع التقرير!');
     }
@@ -482,5 +567,8 @@ export class ReportsComponent implements OnInit {
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrWarningInputValid(): void {
+    this.toastr.warning('اختر الصنف من فضلك ! ');
   }
 }

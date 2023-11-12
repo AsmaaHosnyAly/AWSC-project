@@ -1,5 +1,9 @@
 <div class="page-title"> تقارير الحسابات</div>
 
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+
 <form [formGroup]="groupMasterForm">
     <div class="search">
 
@@ -8,7 +12,7 @@
 
       <mat-label>الحسابات:</mat-label>
 
-      <mat-form-field appearance="outline" class="searchForm" >
+      <mat-form-field appearance="outline" class="searchForm" *ngIf="!loading">
         <input matInput aria-label="commodity" [matAutocomplete]="autoaccount" [formControl]="accountCtrl"
           formControlName="accountName"  (click)="openAutoaccount()" required />
         <mat-autocomplete #autoaccount="matAutocomplete" #accountId [displayWith]="displayaccountName"
@@ -24,8 +28,8 @@
   
         <mat-form-field appearance="outline" class="searchForm" >
           <mat-select  #report plceholder="اختر  التقرير" formControlName="report">
-            <mat-option value="FIAccountACReport"> تقرير المركز المالي علي شكل حساب</mat-option>
-            <mat-option value="FIAccountREReport"> تقرير المركز المالي علي شكل تقرير    </mat-option>
+            <mat-option value="AccountACReport"> تقرير المركز المالي علي شكل حساب</mat-option>
+            <mat-option value="AccountREReport"> تقرير المركز المالي علي شكل تقرير    </mat-option>
             <mat-option value="AccountMasterReport"> تقرير حساب  الاستاذ  </mat-option>
             <mat-option value="AccountMasterDetailsReport"> تقرير حساب الاستاذ تفصيلي </mat-option>
 

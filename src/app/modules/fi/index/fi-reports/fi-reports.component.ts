@@ -45,6 +45,8 @@ export class store {
   styleUrls: ['./fi-reports.component.css']
 })
 export class FiReportsComponent implements OnInit {
+  loading: boolean = false;
+
   // selectedValue = 'STRWithdrawReport';
   selectedValueType = 'pdf';
   // displayedColumns: string[] = [
@@ -182,21 +184,6 @@ export class FiReportsComponent implements OnInit {
 
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   ////storeeee
   displayaccountName(account: any): string {
     return account && account.name ? account.name : '';
@@ -224,12 +211,17 @@ export class FiReportsComponent implements OnInit {
   }
 
   getfiAccounts() {
+    this.loading = true;
+
     this.api.getAccount().subscribe({
       next: (res) => {
+        this.loading = false;
+
         this.accountList = res;
         console.log('items res: ', this.accountList);
       },
       error: (err) => {
+        this.loading = false;
         console.log('fetch items data err: ', err);
         // alert("خطا اثناء جلب العناصر !");
       },
@@ -246,7 +238,7 @@ export class FiReportsComponent implements OnInit {
 
     // let account = this.accountCode;
     console.log("reportt name", report);
-    if (report != null && reportType != null) {
+    if (report && reportType) {
 
       StartDate = formatDate(StartDate, 'MM-dd-yyyy', this.locale);
       // alert("startDate: " + StartDate);
@@ -265,28 +257,55 @@ export class FiReportsComponent implements OnInit {
       let prevEndDate = formatDate(LastYearEndDate, 'MM-dd-yyyy', this.locale);
       // alert("prevEndDate: " + prevEndDate);
 
-
-      this.api
-        .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
-        .subscribe({
-          next: (res) => {
-            let blob: Blob = res.body as Blob;
-            console.log(blob);
-            let url = window.URL.createObjectURL(blob);
-            localStorage.setItem('url', JSON.stringify(url));
-            this.pdfurl = url;
-            this.dialog.open(PrintDialogComponent, {
-              width: '50%',
+      if (report == 'AccountMasterReport' || report == 'AccountMasterDetailsReport') {
+        if (!account) {
+          this.toastrWarningInputValid();
+        }
+        else {
+          this.api
+            .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+            .subscribe({
+              next: (res) => {
+                let blob: Blob = res.body as Blob;
+                console.log(blob);
+                let url = window.URL.createObjectURL(blob);
+                localStorage.setItem('url', JSON.stringify(url));
+                this.pdfurl = url;
+                this.dialog.open(PrintDialogComponent, {
+                  width: '50%',
+                });
+              },
+              error: (err) => {
+                console.log('eroorr', err);
+                window.open(err.url);
+              },
             });
-          },
-          error: (err) => {
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
-        });
+
+        }
+      }
+      else {
+        this.api
+          .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+          .subscribe({
+            next: (res) => {
+              let blob: Blob = res.body as Blob;
+              console.log(blob);
+              let url = window.URL.createObjectURL(blob);
+              localStorage.setItem('url', JSON.stringify(url));
+              this.pdfurl = url;
+              this.dialog.open(PrintDialogComponent, {
+                width: '50%',
+              });
+            },
+            error: (err) => {
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+
+      }
 
     }
-
     else {
       alert('ادخل التقرير و نوع التقرير!');
     }
@@ -308,9 +327,8 @@ export class FiReportsComponent implements OnInit {
 
     let account = this.accountCode;
     console.log("reportt name", report);
-    if (report != null && reportType != null) {
+    if (report && reportType ) {
 
-      // if (report == 'AccountProfitLoseActivityReport') {
       StartDate = formatDate(StartDate, 'MM-dd-yyyy', this.locale);
       // alert("startDate: " + StartDate);
 
@@ -328,61 +346,60 @@ export class FiReportsComponent implements OnInit {
       let prevEndDate = formatDate(LastYearEndDate, 'MM-dd-yyyy', this.locale);
       // alert("prevEndDate: " + prevEndDate);
 
+      if (report == 'AccountMasterReport' || report == 'AccountMasterDetailsReport') {
+        if (!account) {
+          this.toastrWarningInputValid();
+        }
+        else {
+          this.api
+            .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+            .subscribe({
+              next: (res) => {
+                let blob: Blob = res.body as Blob;
+                console.log(blob);
+                let url = window.URL.createObjectURL(blob);
+                localStorage.setItem('url', JSON.stringify(url));
+                this.pdfurl = url;
+                this.dialog.open(PrintDialogComponent, {
+                  width: '50%',
+                });
 
-      this.api
-        .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
-        .subscribe({
-          next: (res) => {
-            let blob: Blob = res.body as Blob;
-            console.log(blob);
-            let url = window.URL.createObjectURL(blob);
-            localStorage.setItem('url', JSON.stringify(url));
-            this.pdfurl = url;
-            this.dialog.open(PrintDialogComponent, {
-              width: '50%',
+                // this.dataSource = res;
+                // this.dataSource.paginator = this.paginator;
+                // this.dataSource.sort = this.sort;
+              },
+              error: (err) => {
+                console.log('eroorr', err);
+                window.open(err.url);
+              },
             });
+        }
+      }
+      else {
+        this.api
+          .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+          .subscribe({
+            next: (res) => {
+              let blob: Blob = res.body as Blob;
+              console.log(blob);
+              let url = window.URL.createObjectURL(blob);
+              localStorage.setItem('url', JSON.stringify(url));
+              this.pdfurl = url;
+              this.dialog.open(PrintDialogComponent, {
+                width: '50%',
+              });
 
-            // this.dataSource = res;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
-          },
-          error: (err) => {
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
-        });
-
-      // this.api
-      //   .getAccountreports(
-
-      //     StartDate,
-      //     EndDate,
-      //     account,
-      //     report, reportType
-      //   )
-      //   .subscribe({
-      //     next: (res) => {
-      //       let blob: Blob = res.body as Blob;
-      //       console.log(blob);
-      //       let url = window.URL.createObjectURL(blob);
-      //       localStorage.setItem('url', JSON.stringify(url));
-      //       this.pdfurl = url;
-      //       this.dialog.open(PrintDialogComponent, {
-      //         width: '50%',
-      //       });
-
-      //       // this.dataSource = res;
-      //       // this.dataSource.paginator = this.paginator;
-      //       // this.dataSource.sort = this.sort;
-      //     },
-      //     error: (err) => {
-      //       console.log('eroorr', err);
-      //       window.open(err.url);
-      //     },
-      //   });
-
+              // this.dataSource = res;
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+      }
     }
-
     else {
       alert('ادخل التقرير و نوع التقرير!');
     }
@@ -390,5 +407,9 @@ export class FiReportsComponent implements OnInit {
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
+  }
+
+  toastrWarningInputValid(): void {
+    this.toastr.warning('اختر حساب من فضلك ! ');
   }
 }
