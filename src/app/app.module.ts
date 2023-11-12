@@ -308,6 +308,10 @@ import { ProTenderTypeDailogComponent } from './modules/pro/index/pro-tender-typ
 import { ProPlanTypeComponent } from './modules/pro/index/pro-plan-type/pro-plan-type.component';
 import { ProPlanTypeDailogComponent } from './modules/pro/index/pro-plan-type-dailog/pro-plan-type-dailog.component';
 
+import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-type/pro-contractor-type.component';
+import { ProContractorTypeDialogComponent } from './modules/pro/index/pro-contractor-type-dialog/pro-contractor-type-dialog.component';
+import { ProOperationTypeComponent } from './modules/pro/index/pro-operation-type/pro-operation-type.component';
+import { ProOperationTypeDialogComponent } from './modules/pro/index/pro-operation-type-dialog/pro-operation-type-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -593,6 +597,10 @@ import { ProPlanTypeDailogComponent } from './modules/pro/index/pro-plan-type-da
     ProPlanTypeComponent,
     ProPlanTypeDailogComponent,
    
+    ProContractorTypeComponent,
+    ProContractorTypeDialogComponent,
+    ProOperationTypeComponent,
+    ProOperationTypeDialogComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],

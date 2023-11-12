@@ -1,24 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { ProTenderTypeDailogComponent } from '../pro-tender-type-dailog/pro-tender-type-dailog.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { GlobalService } from 'src/app/pages/services/global.service';
 import { ToastrService } from 'ngx-toastr';
-import { HttpClient } from '@angular/common/http';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-import { ProPlanTypeDailogComponent } from '../pro-plan-type-dailog/pro-plan-type-dailog.component';
-@Component({
-  selector: 'app-pro-plan-type',
-  templateUrl: './pro-plan-type.component.html',
-  styleUrls: ['./pro-plan-type.component.css']
-})
-export class ProPlanTypeComponent {
+import { GlobalService } from 'src/app/pages/services/global.service';
+import { ProContractorTypeDialogComponent } from '../pro-contractor-type-dialog/pro-contractor-type-dialog.component';
+import { ProOperationTypeDialogComponent } from '../pro-operation-type-dialog/pro-operation-type-dialog.component';
 
+
+@Component({
+  selector: 'app-pro-operation-type',
+  templateUrl: './pro-operation-type.component.html',
+  styleUrls: ['./pro-operation-type.component.css']
+})
+export class ProOperationTypeComponent implements OnInit {
   displayedColumns: string[] = ['code', 'name', 'action'];
 
   dataSource!: MatTableDataSource<any>;
@@ -30,7 +29,7 @@ export class ProPlanTypeComponent {
   }
 
   ngOnInit(): void {
-    this.getAllTenderType();
+    this.getProOperationType();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openDialog();
@@ -48,11 +47,11 @@ export class ProPlanTypeComponent {
   }
 
 
-  getAllTenderType() {
-    this.api.getPlanType()
+  getProOperationType() {
+    this.api.getProOperationType()
       .subscribe({
         next: (res) => {
-          console.log("res of get all FaCategoryFirst: ", res);
+          console.log("res of get all getProOperationType: ", res);
           this.dataSource = new MatTableDataSource(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -64,39 +63,39 @@ export class ProPlanTypeComponent {
   }
 
   openDialog() {
-    this.dialog.open(ProPlanTypeDailogComponent, {
+    this.dialog.open(ProOperationTypeDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
       if (val === 'حفظ') {
-        this.getAllTenderType();
+        this.getProOperationType();
       }
     })
   }
 
 
-  editFaCategoryFirst(row: any) {
-    this.dialog.open(ProPlanTypeDailogComponent, {
+  editProOperationType(row: any) {
+    this.dialog.open(ProOperationTypeDialogComponent, {
       width: '30%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'تعديل') {
-        this.getAllTenderType();
+        this.getProOperationType();
       }
     })
   }
 
 
 
-  deleteFaCategoryFirst(id: number) {
+  deleteProOperationType(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePlanType(id)
+      this.api.deleteProOperationType(id)
         .subscribe({
           next: (res) => {
             console.log("delete row res: ", res);
             if (res == 'Succeeded') {
               this.toastrSuccessDeleteRow();
-              this.getAllTenderType();
+              this.getProOperationType();
 
             } else {
               this.toastrWarningDeleteRow();
@@ -124,4 +123,3 @@ export class ProPlanTypeComponent {
     this.toastr.error(" خطا فى حذف العنصر ! ");
   }
 }
-

@@ -1,24 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { ProTenderTypeDailogComponent } from '../pro-tender-type-dailog/pro-tender-type-dailog.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { GlobalService } from 'src/app/pages/services/global.service';
 import { ToastrService } from 'ngx-toastr';
-import { HttpClient } from '@angular/common/http';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-import { ProPlanTypeDailogComponent } from '../pro-plan-type-dailog/pro-plan-type-dailog.component';
-@Component({
-  selector: 'app-pro-plan-type',
-  templateUrl: './pro-plan-type.component.html',
-  styleUrls: ['./pro-plan-type.component.css']
-})
-export class ProPlanTypeComponent {
+import { GlobalService } from 'src/app/pages/services/global.service';
+import { ProContractorTypeDialogComponent } from '../pro-contractor-type-dialog/pro-contractor-type-dialog.component';
 
+@Component({
+  selector: 'app-pro-contractor-type',
+  templateUrl: './pro-contractor-type.component.html',
+  styleUrls: ['./pro-contractor-type.component.css']
+})
+export class ProContractorTypeComponent implements OnInit {
   displayedColumns: string[] = ['code', 'name', 'action'];
 
   dataSource!: MatTableDataSource<any>;
@@ -30,7 +27,7 @@ export class ProPlanTypeComponent {
   }
 
   ngOnInit(): void {
-    this.getAllTenderType();
+    this.getProContractType();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openDialog();
@@ -48,11 +45,11 @@ export class ProPlanTypeComponent {
   }
 
 
-  getAllTenderType() {
-    this.api.getPlanType()
+  getProContractType() {
+    this.api.getProContractType()
       .subscribe({
         next: (res) => {
-          console.log("res of get all FaCategoryFirst: ", res);
+          console.log("res of get all getProContractType: ", res);
           this.dataSource = new MatTableDataSource(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -64,39 +61,39 @@ export class ProPlanTypeComponent {
   }
 
   openDialog() {
-    this.dialog.open(ProPlanTypeDailogComponent, {
+    this.dialog.open(ProContractorTypeDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
       if (val === 'حفظ') {
-        this.getAllTenderType();
+        this.getProContractType();
       }
     })
   }
 
 
-  editFaCategoryFirst(row: any) {
-    this.dialog.open(ProPlanTypeDailogComponent, {
+  editProContractType(row: any) {
+    this.dialog.open(ProContractorTypeDialogComponent, {
       width: '30%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'تعديل') {
-        this.getAllTenderType();
+        this.getProContractType();
       }
     })
   }
 
 
 
-  deleteFaCategoryFirst(id: number) {
+  deleteProContractType(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePlanType(id)
+      this.api.deleteProContractType(id)
         .subscribe({
           next: (res) => {
             console.log("delete row res: ", res);
             if (res == 'Succeeded') {
               this.toastrSuccessDeleteRow();
-              this.getAllTenderType();
+              this.getProContractType();
 
             } else {
               this.toastrWarningDeleteRow();
@@ -124,4 +121,3 @@ export class ProPlanTypeComponent {
     this.toastr.error(" خطا فى حذف العنصر ! ");
   }
 }
-

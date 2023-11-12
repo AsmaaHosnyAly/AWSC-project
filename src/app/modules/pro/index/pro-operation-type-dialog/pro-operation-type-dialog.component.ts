@@ -9,28 +9,26 @@ import { __param } from 'tslib';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 
-
 @Component({
-  selector: 'app-pro-tender-type-dailog',
-  templateUrl: './pro-tender-type-dailog.component.html',
-  styleUrls: ['./pro-tender-type-dailog.component.css']
+  selector: 'app-pro-operation-type-dialog',
+  templateUrl: './pro-operation-type-dialog.component.html',
+  styleUrls: ['./pro-operation-type-dialog.component.css']
 })
-export class ProTenderTypeDailogComponent {
-
+export class ProOperationTypeDialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId')
   autoCode: any;
-  PlanTypeForm !: FormGroup;
+  proOperationTypeForm !: FormGroup;
   actionBtn: string = "حفظ";
 
   constructor(private formBuilder: FormBuilder,
     private api: ApiService, private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any, private http: HttpClient,
-    private dialogRef: MatDialogRef<ProTenderTypeDailogComponent>,
+    private dialogRef: MatDialogRef<ProOperationTypeDialogComponent>,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
-    this.PlanTypeForm = this.formBuilder.group({
+    this.proOperationTypeForm = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
       transactionUserId: ['', Validators.required],
@@ -38,7 +36,7 @@ export class ProTenderTypeDailogComponent {
 
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
-      this.addPlanType();
+      this.addProOperationType();
       return false; // Prevent the default browser behavior
     }));
 
@@ -47,37 +45,37 @@ export class ProTenderTypeDailogComponent {
       console.log("edit data", this.editData);
 
       this.actionBtn = "تعديل";
-      this.PlanTypeForm.controls['code'].setValue(this.editData.code);
-      this.PlanTypeForm.controls['name'].setValue(this.editData.name);
-      this.PlanTypeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.proOperationTypeForm.controls['code'].setValue(this.editData.code);
+      this.proOperationTypeForm.controls['name'].setValue(this.editData.name);
+      this.proOperationTypeForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      this.PlanTypeForm.addControl('id', new FormControl('', Validators.required));
-      this.PlanTypeForm.controls['id'].setValue(this.editData.id);
+      this.proOperationTypeForm.addControl('id', new FormControl('', Validators.required));
+      this.proOperationTypeForm.controls['id'].setValue(this.editData.id);
 
     }
     else {
-      this.getPlanTypesCode();
+      this.getProOperationTypeAutoCode();
     }
 
   }
 
 
 
-  async addPlanType() {
+  async addProOperationType() {
     if (!this.editData) {
-      this.PlanTypeForm.removeControl('id')
+      this.proOperationTypeForm.removeControl('id')
 
-      this.PlanTypeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.proOperationTypeForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      console.log("form post value: ", this.PlanTypeForm.value)
+      console.log("form post value: ", this.proOperationTypeForm.value)
 
-      if (this.PlanTypeForm.valid) {
+      if (this.proOperationTypeForm.valid) {
 
-        this.api.postTenderType(this.PlanTypeForm.value)
+        this.api.postProOperationType(this.proOperationTypeForm.value)
           .subscribe({
             next: (res) => {
               this.toastrPostSuccess();
-              this.PlanTypeForm.reset();
+              this.proOperationTypeForm.reset();
 
               this.dialogRef.close('حفظ');
             },
@@ -92,18 +90,18 @@ export class ProTenderTypeDailogComponent {
 
     }
     else {
-      this.updatePlanType()
+      this.updateProOperationType()
     }
   }
 
-  updatePlanType() {
-    console.log("update form values: ", this.PlanTypeForm.value)
-    this.api.putTenderType(this.PlanTypeForm.value)
+  updateProOperationType() {
+    console.log("update form values: ", this.proOperationTypeForm.value)
+    this.api.putProOperationType(this.proOperationTypeForm.value)
       .subscribe({
         next: (res) => {
           this.toastrEditSuccess()
 
-          this.PlanTypeForm.reset();
+          this.proOperationTypeForm.reset();
           this.dialogRef.close('تعديل');
         },
         error: () => {
@@ -112,13 +110,13 @@ export class ProTenderTypeDailogComponent {
       })
   }
 
-  getPlanTypesCode() {
-    this.api.getTenderTypeCode()
+  getProOperationTypeAutoCode() {
+    this.api.getProOperationTypeAutoCode()
       .subscribe({
         next: (res) => {
           console.log("autoCode res: ", res);
           this.autoCode = res;
-          this.PlanTypeForm.controls['code'].setValue(this.autoCode);
+          this.proOperationTypeForm.controls['code'].setValue(this.autoCode);
         },
         error: (err) => {
           console.log("fetch autoCode data err: ", err);
@@ -147,4 +145,3 @@ export class ProTenderTypeDailogComponent {
     this.toastr.error('  حدث خطا اثناء توليد الكود ! ');
   }
 }
-

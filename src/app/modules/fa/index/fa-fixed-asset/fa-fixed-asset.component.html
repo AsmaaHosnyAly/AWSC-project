@@ -28,7 +28,7 @@
                 <mat-label>المكان</mat-label>
 
                 <mat-form-field appearance="outline">
-                    <input #Place matInput placeholder="المكان"  formControlName="place">
+                    <input #Place matInput placeholder="المكان" formControlName="place">
                 </mat-form-field>
             </div>
 
@@ -150,7 +150,8 @@
                 <mat-label>تاريخ التكهين</mat-label>
 
                 <mat-form-field appearance="outline" class="example-full-width">
-                    <input #SpeculateDate matInput [matDatepicker]="SpeculateDatepicker" formControlName="speculateDate">
+                    <input #SpeculateDate matInput [matDatepicker]="SpeculateDatepicker"
+                        formControlName="speculateDate">
                     <mat-datepicker-toggle matIconSuffix [for]="SpeculateDatepicker">
                         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                     </mat-datepicker-toggle>
@@ -187,8 +188,7 @@
 
 
         <div class="print-display">
-            <mat-icon (click)="getSearch()"
-                class="icons" title="بحث">search</mat-icon>
+            <mat-icon (click)="getSearch()" class="icons" title="بحث">search</mat-icon>
 
             <!-- <mat-icon class="icons" title="عرض"
                      
@@ -347,6 +347,8 @@
     <br>
     <mat-card-footer>
 
-        <mat-paginator [pageSizeOptions]="[5,10,20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)" showFirstLastButtons>
+        </mat-paginator>
     </mat-card-footer>
 </mat-card>

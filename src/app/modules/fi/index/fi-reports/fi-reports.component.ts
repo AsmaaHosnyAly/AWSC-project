@@ -29,8 +29,8 @@ import {
 import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class account {
-  constructor(public code: number,public id: number, public name: string,global:GlobalService) { 
-   
+  constructor(public code: number, public id: number, public name: string, global: GlobalService) {
+
   }
 }
 
@@ -45,6 +45,8 @@ export class store {
   styleUrls: ['./fi-reports.component.css']
 })
 export class FiReportsComponent implements OnInit {
+  loading: boolean = false;
+
   // selectedValue = 'STRWithdrawReport';
   selectedValueType = 'pdf';
   // displayedColumns: string[] = [
@@ -59,8 +61,6 @@ export class FiReportsComponent implements OnInit {
   // ];
   matchedIds: any;
 
-loading:boolean=false;
-
   groupMasterForm!: FormGroup;
 
 
@@ -73,8 +73,8 @@ loading:boolean=false;
   storeName: any;
 
 
-  accountCode:any;
-  accountList:account[] = [];
+  accountCode: any;
+  accountList: account[] = [];
   accountCtrl: FormControl;
   filteredaccount: Observable<account[]>;
   selectedaccount: account | undefined;
@@ -103,7 +103,7 @@ loading:boolean=false;
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     @Inject(LOCALE_ID) private locale: string,
-    global:GlobalService
+    global: GlobalService
   ) {
     global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
 
@@ -124,7 +124,7 @@ loading:boolean=false;
     // ];
 
 
- 
+
 
     this.accountCtrl = new FormControl();
     this.filteredaccount = this.accountCtrl.valueChanges.pipe(
@@ -161,13 +161,13 @@ loading:boolean=false;
 
     this.groupMasterForm = this.formBuilder.group({
 
-    
+
       StartDate: [this.dateNow, Validators.required],
       EndDate: [this.nextDate, Validators.required],
 
       accountName: ['', Validators.required],
       accountId: ['', Validators.required],
-  
+
 
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
@@ -182,21 +182,6 @@ loading:boolean=false;
 
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   ////storeeee
   displayaccountName(account: any): string {
     return account && account.name ? account.name : '';
@@ -207,7 +192,7 @@ loading:boolean=false;
     this.selectedaccount = account;
     this.groupMasterForm.patchValue({ accountId: account.id });
     console.log('account in form: ', this.groupMasterForm.getRawValue().accountId);
-     this.accountCode=account.code;
+    this.accountCode = account.code;
   }
   private _filteraccounts(value: string): account[] {
     const filterValue = value;
@@ -223,120 +208,196 @@ loading:boolean=false;
     this.accountCtrl.updateValueAndValidity();
   }
 
-  getfiAccounts(){
+  getfiAccounts() {
+    this.loading = true;
+
     this.api.getAccount().subscribe({
       next: (res) => {
+        this.loading = false;
+
         this.accountList = res;
         console.log('items res: ', this.accountList);
       },
       error: (err) => {
+        this.loading = false;
         console.log('fetch items data err: ', err);
         // alert("خطا اثناء جلب العناصر !");
       },
     });
   }
   downloadPrint(
-
     StartDate: any,
     EndDate: any,
-
     report: any,
     reportType: any
   ) {
 
     let account = this.groupMasterForm.getRawValue().accountId;
-this.loading=true;
-    this.api
-      .getAccountreports(
 
-    
-        StartDate,
-        EndDate,
+    // let account = this.accountCode;
+    console.log("reportt name", report);
+    if (report && reportType) {
 
-        account,
+      StartDate = formatDate(StartDate, 'MM-dd-yyyy', this.locale);
+      // alert("startDate: " + StartDate);
 
-        report,
-        'pdf'
-      )
-      .subscribe({
-        next: (res) => {
-          this.loading=false;
-          console.log('search:', res);
-          const url: any = res.url;
-          window.open(url);
-          // let blob: Blob = res.body as Blob;
-          // let url = window.URL.createObjectURL(blob);
+      let LastYearStartDate = new Date(StartDate);
+      LastYearStartDate.setFullYear(LastYearStartDate.getFullYear() - 1);
+      let prevStartDate = formatDate(LastYearStartDate, 'MM-dd-yyyy', this.locale);
+      // alert("prevStartDate: " + prevStartDate);
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          this.loading=false;
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-      });
+
+      EndDate = formatDate(EndDate, 'MM-dd-yyyy', this.locale);
+      // alert("EndDate: " + EndDate);
+
+      let LastYearEndDate = new Date(EndDate);
+      LastYearEndDate.setFullYear(LastYearEndDate.getFullYear() - 1);
+      let prevEndDate = formatDate(LastYearEndDate, 'MM-dd-yyyy', this.locale);
+      // alert("prevEndDate: " + prevEndDate);
+
+      if (report == 'AccountMasterReport' || report == 'AccountMasterDetailsReport') {
+        if (!account) {
+          this.toastrWarningInputValid();
+        }
+        else {
+          this.api
+            .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+            .subscribe({
+              next: (res) => {
+                let blob: Blob = res.body as Blob;
+                console.log(blob);
+                let url = window.URL.createObjectURL(blob);
+                localStorage.setItem('url', JSON.stringify(url));
+                this.pdfurl = url;
+                this.dialog.open(PrintDialogComponent, {
+                  width: '50%',
+                });
+              },
+              error: (err) => {
+                console.log('eroorr', err);
+                window.open(err.url);
+              },
+            });
+
+        }
+      }
+      else {
+        this.api
+          .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+          .subscribe({
+            next: (res) => {
+              let blob: Blob = res.body as Blob;
+              console.log(blob);
+              let url = window.URL.createObjectURL(blob);
+              localStorage.setItem('url', JSON.stringify(url));
+              this.pdfurl = url;
+              this.dialog.open(PrintDialogComponent, {
+                width: '50%',
+              });
+            },
+            error: (err) => {
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+
+      }
+
+    }
+    else {
+      alert('ادخل التقرير و نوع التقرير!');
+    }
 
 
   }
 
 
-
-
-
- 
   refreshData() {
     this.groupMasterForm.reset();
   }
 
   previewPrint(
-
     StartDate: any,
     EndDate: any,
-
     report: any,
     reportType: any
   ) {
 
     let account = this.accountCode;
-    console.log("reportt nMAE", report);
-    if (report != null && reportType != null) {
-      console.log("in iff conditionnnn")
-      this.loading=true;
-      this.api
-        .getAccountreports(
-         
-          StartDate,
-          EndDate,
-          account,
-          report, 'pdf'
-        )
-        .subscribe({
-          next: (res) => {
-            this.loading=false;
-            let blob: Blob = res.body as Blob;
-            console.log(blob);
-            let url = window.URL.createObjectURL(blob);
-            localStorage.setItem('url', JSON.stringify(url));
-            this.pdfurl = url;
-            this.dialog.open(PrintDialogComponent, {
-              width: '50%',
+    console.log("reportt name", report);
+    if (report && reportType ) {
+
+      StartDate = formatDate(StartDate, 'MM-dd-yyyy', this.locale);
+      // alert("startDate: " + StartDate);
+
+      let LastYearStartDate = new Date(StartDate);
+      LastYearStartDate.setFullYear(LastYearStartDate.getFullYear() - 1);
+      let prevStartDate = formatDate(LastYearStartDate, 'MM-dd-yyyy', this.locale);
+      // alert("prevStartDate: " + prevStartDate);
+
+
+      EndDate = formatDate(EndDate, 'MM-dd-yyyy', this.locale);
+      // alert("EndDate: " + EndDate);
+
+      let LastYearEndDate = new Date(EndDate);
+      LastYearEndDate.setFullYear(LastYearEndDate.getFullYear() - 1);
+      let prevEndDate = formatDate(LastYearEndDate, 'MM-dd-yyyy', this.locale);
+      // alert("prevEndDate: " + prevEndDate);
+
+      if (report == 'AccountMasterReport' || report == 'AccountMasterDetailsReport') {
+        if (!account) {
+          this.toastrWarningInputValid();
+        }
+        else {
+          this.api
+            .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+            .subscribe({
+              next: (res) => {
+                let blob: Blob = res.body as Blob;
+                console.log(blob);
+                let url = window.URL.createObjectURL(blob);
+                localStorage.setItem('url', JSON.stringify(url));
+                this.pdfurl = url;
+                this.dialog.open(PrintDialogComponent, {
+                  width: '50%',
+                });
+
+                // this.dataSource = res;
+                // this.dataSource.paginator = this.paginator;
+                // this.dataSource.sort = this.sort;
+              },
+              error: (err) => {
+                console.log('eroorr', err);
+                window.open(err.url);
+              },
             });
+        }
+      }
+      else {
+        this.api
+          .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
+          .subscribe({
+            next: (res) => {
+              let blob: Blob = res.body as Blob;
+              console.log(blob);
+              let url = window.URL.createObjectURL(blob);
+              localStorage.setItem('url', JSON.stringify(url));
+              this.pdfurl = url;
+              this.dialog.open(PrintDialogComponent, {
+                width: '50%',
+              });
 
-            // this.dataSource = res;
-            // this.dataSource.paginator = this.paginator;
-            // this.dataSource.sort = this.sort;
-          },
-          error: (err) => {
-            this.loading=false;
-            console.log('eroorr', err);
-            window.open(err.url);
-          },
-        });
-
+              // this.dataSource = res;
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+      }
     }
-
     else {
       alert('ادخل التقرير و نوع التقرير!');
     }
@@ -344,5 +405,9 @@ this.loading=true;
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
+  }
+
+  toastrWarningInputValid(): void {
+    this.toastr.warning('اختر حساب من فضلك ! ');
   }
 }

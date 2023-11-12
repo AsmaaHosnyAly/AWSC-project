@@ -49,7 +49,7 @@ export class ProTenderTypeComponent {
 
 
   getAllPlanType() {
-    this.api.getPlanType()
+    this.api.getTenderType()
       .subscribe({
         next: (res) => {
           console.log("res of get all FaCategoryFirst: ", res);
@@ -64,7 +64,7 @@ export class ProTenderTypeComponent {
   }
 
   openDialog() {
-    this.dialog.open(ProPlanTypeDailogComponent, {
+    this.dialog.open(ProTenderTypeDailogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
       if (val === 'حفظ') {
@@ -90,7 +90,7 @@ export class ProTenderTypeComponent {
   deletePlanType(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deletePlanType(id)
+      this.api.deleteTenderType(id)
         .subscribe({
           next: (res) => {
             console.log("delete row res: ", res);
