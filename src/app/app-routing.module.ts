@@ -178,6 +178,8 @@ import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixe
 import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
 import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-type/pro-contractor-type.component';
 import { ProOperationTypeComponent } from './modules/pro/index/pro-operation-type/pro-operation-type.component';
+import { ProSellerTypeComponent } from './modules/pro/index/pro-seller-type/pro-seller-type.component';
+import { ProTenderComponent } from './modules/pro/index/pro-tender/pro-tender.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -684,6 +686,8 @@ const routes: Routes = [
       /*********************start pro module العقود و المشتريات***************************/
       { path: 'proContractorType', component: ProContractorTypeComponent },
       { path: 'proOperationType', component: ProOperationTypeComponent },
+      { path: 'proSellerType', component: ProSellerTypeComponent },
+      { path: 'proTender', component: ProTenderComponent },
 
       /*********************End pro module  العقود و المشتريات***************************/
     ],
