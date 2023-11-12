@@ -2,7 +2,7 @@
     <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
 </div>
 
-<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل التصنيف الاول ' : 'إضافة التصنيف الاول'}}</h1>
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل  طريقة الطرح ' : 'إضافة طريقة الطرح'}}</h1>
 
 <div mat-dialog-content dir="rtl">
     <form [formGroup]="PlanTypeForm" style="overflow: hidden;">
@@ -13,9 +13,9 @@
                 <input matInput placeholder="الكود" formControlName="code" readonly>
             </mat-form-field>
 
-            <mat-label>التصنيف الاول:</mat-label>
+            <mat-label> الاسم:</mat-label>
             <mat-form-field appearance="outline" class="groupInput">
-                <input matInput placeholder="التصنيف الاول" formControlName="name">
+                <input matInput placeholder=" الاسم" formControlName="name">
             </mat-form-field>
 
         </div>
