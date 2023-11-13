@@ -295,6 +295,7 @@ export class ProTenderDialogComponent implements OnInit {
       this.proTenderForm.removeControl('id')
 
       this.proTenderForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      this.proTenderForm.controls['period'].setValue((this.proTenderForm.getRawValue().period).toString());
 
       console.log("form post value: ", this.proTenderForm.value)
 
@@ -324,7 +325,9 @@ export class ProTenderDialogComponent implements OnInit {
   }
 
   updateProTender() {
-    console.log("update form values: ", this.proTenderForm.value)
+    console.log("update form values: ", this.proTenderForm.value);
+    this.proTenderForm.controls['period'].setValue((this.proTenderForm.getRawValue().period).toString());
+
     this.api.putProTender(this.proTenderForm.value)
       .subscribe({
         next: (res) => {
