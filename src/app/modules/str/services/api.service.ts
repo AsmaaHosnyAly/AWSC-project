@@ -1681,6 +1681,10 @@ export class ApiService {
 
   }
 
+  getStrApprovalStatus() {
+    return this.http.get<any>(`${this.url}/StrApprovalStatus/get/all`);
+  }
+
   getTypeById(id: any) {
     let urlPassed = `${this.url}/STRAddType/get/${id}`;
     return urlPassed;
