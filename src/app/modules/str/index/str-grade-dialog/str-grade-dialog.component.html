@@ -20,7 +20,7 @@
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
           (optionSelected)="commoditySelected($event)">
           <mat-option *ngFor="let commodity of filteredCommodities | async" [value]="commodity">
-            {{ commodity.name }} | {{ commodity.code }}
+            {{ commodity.name ? commodity.name : '-' }} | {{ commodity.code }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -49,7 +49,7 @@
         <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
           (optionSelected)="accountSelected($event)">
           <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
-            {{ account.name }} | {{ account.code }}
+            {{ account.name ? account.name : '-' }} | {{ account.code }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

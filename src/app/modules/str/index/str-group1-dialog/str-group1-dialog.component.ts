@@ -134,15 +134,15 @@ export class STRGroup1DialogComponent implements OnInit {
 
 
   displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
+    return commodity ? commodity.name && commodity.name != null ? commodity.name : '-' : '';
   }
 
   displayGradeName(grade: any): string {
-    return grade && grade.name ? grade.name : '';
+    return grade ? grade.name && grade.name != null ? grade.name : '-' : '';
   }
 
   displayPlatoonName(platoon: any): string {
-    return platoon && platoon.name ? platoon.name : '';
+    return platoon ? platoon.name && platoon.name != null ? platoon.name : '-' : '';
   }
   getAllCommodities() {
     this.loading = true;
@@ -215,8 +215,10 @@ export class STRGroup1DialogComponent implements OnInit {
 
   private _filterCommodities(value: string): Commodity[] {
     const filterValue = value
-    return this.commodities.filter(commodity =>
-      commodity.name.toLowerCase().includes(filterValue) ||commodity.code.toString().toLowerCase().includes(filterValue)
+    return this.commodities.filter(
+      commodity =>
+      commodity.name || commodity.code ? commodity.name.toLowerCase().includes(filterValue) ||
+      commodity.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
 
@@ -224,7 +226,8 @@ export class STRGroup1DialogComponent implements OnInit {
     const filterValue = value
     return this.grades.filter(
       grade =>
-        (grade.name.toLowerCase().includes(filterValue) || grade.code.toString().toLowerCase().includes(filterValue)) &&
+        (grade.name || grade.code ? grade.name.toLowerCase().includes(filterValue) ||
+        grade.code.toString().toLowerCase().includes(filterValue) : '-') &&
         grade.commodityId === this.selectedCommodity?.id
     );
   }
@@ -233,7 +236,8 @@ export class STRGroup1DialogComponent implements OnInit {
     const filterValue = value
     return this.platoons.filter(
       platoon =>
-        (platoon.name.toLowerCase().includes(filterValue) || platoon.code.toLowerCase().includes(filterValue)) &&
+        (platoon.name || platoon.code ? platoon.name.toLowerCase().includes(filterValue) ||
+        platoon.code.toString().toLowerCase().includes(filterValue) : '-') &&
         platoon.gradeId === this.selectedGrade?.id
     );
   }

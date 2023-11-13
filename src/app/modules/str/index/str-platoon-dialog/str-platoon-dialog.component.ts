@@ -132,11 +132,11 @@ export class STRPlatoonDialogComponent implements OnInit {
   }
 
   displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
+    return commodity ? commodity.name && commodity.name != null ? commodity.name : '-' : '';
   }
 
   displayGradeName(grade: any): string {
-    return grade && grade.name ? grade.name : '';
+    return grade ? grade.name && grade.name != null ? grade.name : '-' : '';
   }
 
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
@@ -159,8 +159,8 @@ export class STRPlatoonDialogComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.commodities.filter(
       (commodity) =>
-        commodity.name.toLowerCase().includes(filterValue) ||
-        commodity.code.toString().toLowerCase().includes(filterValue)
+      commodity.name || commodity.code ? commodity.name.toLowerCase().includes(filterValue) ||
+      commodity.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
 
@@ -168,8 +168,8 @@ export class STRPlatoonDialogComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.grades.filter(
       (grade) =>
-        (grade.name.toLowerCase().includes(filterValue) ||
-          grade.code.toString().toLowerCase().includes(filterValue)) &&
+        (grade.name || grade.code ? grade.name.toLowerCase().includes(filterValue) ||
+          grade.code.toString().toLowerCase().includes(filterValue) : '-') &&
         grade.commodityId === this.selectedCommodity?.id
     );
   }
