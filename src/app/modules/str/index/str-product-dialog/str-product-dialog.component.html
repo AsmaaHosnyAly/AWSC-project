@@ -26,7 +26,7 @@
         <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
           (optionSelected)="itemSelected($event)">
           <mat-option *ngFor="let item of filteredItems | async" [value]="item">
-            {{ item.name }}
+            {{ item.name ? item.name : '-' }} 
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -40,7 +40,7 @@
           <mat-autocomplete #autoVendor="matAutocomplete" [displayWith]="displayVendorName"
             (optionSelected)="vendorSelected($event)">
             <mat-option *ngFor="let vendor of filteredVendors | async" [value]="vendor">
-              {{ vendor.name }}
+            {{ vendor.name ? vendor.name : '-' }} 
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -54,7 +54,7 @@
             <mat-autocomplete #autoModel="matAutocomplete" [displayWith]="displayModelName"
               (optionSelected)="modelSelected($event)">
               <mat-option *ngFor="let model of filteredModels | async" [value]="model">
-                {{ model.name }}
+                {{ model.name ? model.name : '-' }} 
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

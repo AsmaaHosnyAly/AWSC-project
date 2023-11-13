@@ -316,7 +316,7 @@ export class STRItem1DialogComponent implements OnInit {
   private _filterUnits(value: string): Unit[] {
     const filterValue = value
     return this.units.filter(unit =>
-      unit.name.toLowerCase().includes(filterValue) 
+      unit.name ? unit.name.toLowerCase().includes(filterValue) : '-'
     );
   }
 

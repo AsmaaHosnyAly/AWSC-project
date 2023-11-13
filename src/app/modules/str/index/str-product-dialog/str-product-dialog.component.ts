@@ -145,8 +145,8 @@ export class StrProductDialogComponent implements OnInit {
 
   private _filterItems(value: string): Item[] {
     const filterValue = value.toLowerCase();
-    return this.items.filter(
-      (item) => item.name.toLowerCase().includes(filterValue)
+    return this.items.filter(item => 
+      item.name ? item.name.toLowerCase().includes(filterValue) : '-'
       );
   }
 
@@ -168,8 +168,8 @@ export class StrProductDialogComponent implements OnInit {
 
   private _filterVendors(value: string): Vendor[] {
     const filterValue = value.toLowerCase();
-    return this.vendors.filter(
-      (vendor) => vendor.name.toLowerCase().includes(filterValue)
+    return this.vendors.filter( vendor =>
+       vendor.name ? vendor.name.toLowerCase().includes(filterValue) : '-'
       );
   }
 
@@ -191,9 +191,9 @@ export class StrProductDialogComponent implements OnInit {
 
   private _filterModels(value: string): Model[] {
     const filterValue = value.toLowerCase();
-    return this.models.filter(
-      (model) => model.name.toLowerCase().includes(filterValue)
-      );
+    return this.models.filter(model =>
+      model.name ? model.name.toLowerCase().includes(filterValue) : '-'
+    );
   }
 
   openAutoModel() {
