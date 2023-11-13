@@ -1,3 +1,6 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <div class="cdk-overlay-pane  ">
   <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
 </div>
@@ -7,24 +10,11 @@
  
   <div mat-dialog-content>
     <form [formGroup]="gradeForm">
-      <div class="child1">
-      <mat-label>كود النوعية</mat-label>
-      <mat-form-field appearance="outline">
-        <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود النوعية">
-        <mat-error *ngIf="gradeForm.get('code')?.invalid && gradeForm.get('code')?.touched" readonly>
-           كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="child1">
-      <mat-label>النوعية </mat-label>
-      <mat-form-field appearance="outline">
-        <input formControlName="name" matInput placeholder="ادخل النوعية">
-      </mat-form-field>
-    </div>
+  
+   
     <div class="child1">
       <mat-label>السلعة</mat-label>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" *ngIf="!loading">
         <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
           placeholder="{{getGradeData ? getGradeData.commodityName : 'اختر سلعة'}}" (click)="openAutoCommodity()" required />
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
@@ -36,6 +26,22 @@
       </mat-form-field>
     </div>
     <div class="child1">
+      <mat-label>كود النوعية</mat-label>
+      <mat-form-field appearance="outline">
+        <input formControlName="code"  pattern="^[0-9]{1}$" matInput placeholder="ادخل كود النوعية" readonly>
+        <mat-error *ngIf="gradeForm.get('code')?.invalid && gradeForm.get('code')?.touched" readonly>
+           كود النوعية مطلوب ويجب أن يحتوي على رقم واحد.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    
+    <div class="child1">
+      <mat-label>النوعية </mat-label>
+      <mat-form-field appearance="outline">
+        <input formControlName="name" matInput placeholder="ادخل النوعية">
+      </mat-form-field>
+    </div>
+    <div class="child1"*ngIf="!loading">
       <mat-label>الحساب</mat-label>
       <mat-form-field appearance="outline">
         <input matInput aria-label="account" [matAutocomplete]="autoAccount" [formControl]="accountCtrl"

@@ -524,8 +524,8 @@ export class TrTrackTableComponent implements OnInit {
 
     console.log(
  
-      'startDate: ', startDate,
-      'endDate: ', endDate,
+      'startDate: ', course,
+      'endDate: ', track,
     );
 this.loading=true;
     this.api

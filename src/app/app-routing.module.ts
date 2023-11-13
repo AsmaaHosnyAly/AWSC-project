@@ -176,6 +176,8 @@ import { CcHomeComponent } from './modules/cc/index/cc-home/cc-home.component';
 import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.component';
 import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
 import { CcEntryContainerComponent } from './modules/cc/index/cc-entry-container/cc-entry-container.component';
+import { ProTenderTypeComponent } from './modules/pro/index/pro-tender-type/pro-tender-type.component';
+import { ProPlanTypeComponent } from './modules/pro/index/pro-plan-type/pro-plan-type.component';
 import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-type/pro-contractor-type.component';
 import { ProOperationTypeComponent } from './modules/pro/index/pro-operation-type/pro-operation-type.component';
 import { ProSellerTypeComponent } from './modules/pro/index/pro-seller-type/pro-seller-type.component';
@@ -679,11 +681,12 @@ const routes: Routes = [
       { path: 'faCategorySecond', component: FaCategorySecondComponent },
       { path: 'faCategoryThird', component: FaCategoryThirdComponent },
       { path: 'faFixedAsset', component: FaFixedAssetComponent },
+        /*********************End py module  الاصول الثابتة***************************/
 
-      /*********************End py module  الاصول الثابتة***************************/
+      /*********************End py module   العقود والمشتريات***************************/
 
-
-      /*********************start pro module العقود و المشتريات***************************/
+      { path: 'ProTenderType', component: ProTenderTypeComponent },
+      { path: 'ProPlanType', component: ProPlanTypeComponent },
       { path: 'proContractorType', component: ProContractorTypeComponent },
       { path: 'proOperationType', component: ProOperationTypeComponent },
       { path: 'proSellerType', component: ProSellerTypeComponent },

@@ -34,6 +34,7 @@ export class Account {
 })
 export class STRGradeDialogComponent {
   transactionUserId = localStorage.getItem('transactionUserId');
+ loading :boolean=false;
   commodityCtrl: FormControl;
   filteredCommodities: Observable<Commodity[]>;
   commodities: Commodity[] = [];
@@ -95,13 +96,11 @@ export class STRGradeDialogComponent {
       // matautocompleteFieldName : [''],
     });
 
-    this.api.getAllCommodities().subscribe((commodities) => {
-      this.commodities = commodities;
-    });
+    this.getAllCommodities()
+    
 
-    this.api.getAllAccount().subscribe((accounts) => {
-      this.accounts = accounts;
-    });
+    this.getAccounts()
+     
 
     if (this.editData) {
       this.actionBtn = 'تعديل';
@@ -128,7 +127,37 @@ export class STRGradeDialogComponent {
   displayCommodityName(commodity: any): string {
     return commodity && commodity.name ? commodity.name : '';
   }
+  getAccounts() {
+    this.loading = true;
+    this.api.getAllAccount().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.accounts = res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
 
+  getAllCommodities() {
+    this.loading = true;
+    this.api.getAllCommodities().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.commodities= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
     const commodity = event.option.value as Commodity;
     this.selectedCommodity = commodity;
@@ -234,16 +263,24 @@ export class STRGradeDialogComponent {
         this.transactionUserId
       );
       if (this.gradeForm.valid) {
+        this.loading = true;
         this.api.postGrade(this.gradeForm.value).subscribe({
           next: (res) => {
+            this.loading =false;
             this.toastrSuccess();
             this.gradeForm.reset();
             this.dialogRef.close('save');
           },
           error: (err) => {
+            this.loading=false;
             this.toastrErrorSave();
           },
+          
         });
+        
+      }
+      else{
+        this.toastrWarningPost();
       }
     } else {
       this.updateGrade();
@@ -278,5 +315,8 @@ export class STRGradeDialogComponent {
   toastrErrorEdit(): void {
     this.toastr.error('!خطأ عند تحديث البيانات');
 
+  }
+  toastrWarningPost(): void {
+    this.toastr.warning('كود النوعيةيجب أن يحتوي على رقم واحد ');
   }
 }

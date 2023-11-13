@@ -303,6 +303,11 @@ import { TrBudgetComponent } from './modules/training/index/tr-budget/tr-budget.
 import { TrBudgetDialogComponent } from './modules/training/index/tr-budget-dialog/tr-budget-dialog.component';
 import { FaFixedAssetComponent } from './modules/fa/index/fa-fixed-asset/fa-fixed-asset.component';
 import { FaFixedAssetDialogComponent } from './modules/fa/index/fa-fixed-asset-dialog/fa-fixed-asset-dialog.component';
+import { ProTenderTypeComponent } from './modules/pro/index/pro-tender-type/pro-tender-type.component';
+import { ProTenderTypeDailogComponent } from './modules/pro/index/pro-tender-type-dailog/pro-tender-type-dailog.component';
+import { ProPlanTypeComponent } from './modules/pro/index/pro-plan-type/pro-plan-type.component';
+import { ProPlanTypeDailogComponent } from './modules/pro/index/pro-plan-type-dailog/pro-plan-type-dailog.component';
+
 import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-type/pro-contractor-type.component';
 import { ProContractorTypeDialogComponent } from './modules/pro/index/pro-contractor-type-dialog/pro-contractor-type-dialog.component';
 import { ProOperationTypeComponent } from './modules/pro/index/pro-operation-type/pro-operation-type.component';
@@ -591,6 +596,11 @@ import { ProTenderDialogComponent } from './modules/pro/index/pro-tender-dialog/
     TrBudgetDialogComponent,
     FaFixedAssetComponent,
     FaFixedAssetDialogComponent,
+    ProTenderTypeComponent,
+    ProTenderTypeDailogComponent,
+    ProPlanTypeComponent,
+    ProPlanTypeDailogComponent,
+   
     ProContractorTypeComponent,
     ProContractorTypeDialogComponent,
     ProOperationTypeComponent,
