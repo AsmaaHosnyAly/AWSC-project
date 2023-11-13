@@ -27,7 +27,7 @@
         <div class="searchLabels">
           <mat-label>مخزن *</mat-label>
 
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline" *ngIf="!loading">
 
             <input matInput aria-label="commodity" [matAutocomplete]="autostore" (keydown)="getsearch($event)"
               [formControl]="storeCtrl" formControlName="store" (click)="openAutostore()" required />
@@ -58,7 +58,7 @@
         <div class="searchLabels">
 
           <mat-label>الصنف:</mat-label>
-          <mat-form-field appearance="outline" >
+          <mat-form-field appearance="outline"*ngIf="!loading" >
             <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl" formControlName="itemName"
               (keydown)="getsearch($event)" (click)="openAutoitem()" required />
             <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
