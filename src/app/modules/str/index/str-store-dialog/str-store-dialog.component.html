@@ -23,7 +23,7 @@
         <mat-autocomplete #autoStoreKeeper="matAutocomplete" [displayWith]="displayStoreKeeper"
           (optionSelected)="keeperSelected($event)">
           <mat-option *ngFor="let keeper of filteredStoreKeepers| async" [value]="keeper">
-            {{ keeper.name }} | {{ keeper.code }}
+            {{ keeper.name ? keeper.name : '-' }} | {{ keeper.code }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

@@ -19,7 +19,7 @@
           <mat-autocomplete #autoVendor="matAutocomplete" [displayWith]="displayVendorName"
             (optionSelected)="vendorSelected($event)">
             <mat-option *ngFor="let vendor of filteredVendores | async" [value]="vendor">
-              {{ vendor.name }} 
+              {{ vendor.name ? vendor.name : '-' }} 
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
