@@ -38,7 +38,7 @@
 
             <mat-label> نوع العملية* </mat-label>
             <mat-form-field appearance="outline" class="child-num">
-                <input placeholder="{{editData  ? editData.operationTypName : ''}}" matInput aria-label="commodity"
+                <input placeholder="{{editData  ? editData.operationTypeName : ''}}" matInput aria-label="commodity"
                     [matAutocomplete]="autoOperationType" [formControl]="operationTypeCtrl"
                     (click)="openAutoOperationType()" required />
                 <mat-autocomplete #autoOperationType="matAutocomplete" [displayWith]="displayOperationTypeName"
@@ -165,6 +165,16 @@
             <mat-label>قيمة سند المناقصة*</mat-label>
             <mat-form-field appearance="outline">
                 <input matInput placeholder="القيمة الى" type="number" min="0" formControlName="tenderBondValue">
+            </mat-form-field>
+
+            <mat-label>القيمة المقدرة*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="القيمة الى" type="number" min="0" formControlName="estimatingValue">
+            </mat-form-field>
+
+            <mat-label>قيمة الجائزة*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="القيمة الى" type="number" min="0" formControlName="awardValue">
             </mat-form-field>
 
         </div>

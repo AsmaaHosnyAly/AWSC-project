@@ -17,7 +17,11 @@ import { ProTenderDialogComponent } from '../pro-tender-dialog/pro-tender-dialog
   styleUrls: ['./pro-tender.component.css']
 })
 export class ProTenderComponent implements OnInit {
-  displayedColumns: string[] = ['code', 'name', 'action'];
+  displayedColumns: string[] = [
+    'code', 'name', 'cityStateName', 'operationTypeName', 'planTypeName', 'tenderTypeName',
+    'value', 'torValue', 'tenderBondValue', 'estimatingValue', 'awardValue', 'period', 'date',
+    'awardLetterDate', 'deliveryDate', 'financialOpeningDate', 'financialSelectionDate',
+    'technicalOpeningDate', 'technicalSelectionDate', 'workOrderDate', 'action'];
 
   dataSource!: MatTableDataSource<any>;
 
