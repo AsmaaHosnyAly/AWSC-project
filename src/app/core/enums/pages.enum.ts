@@ -87,5 +87,27 @@ Qualification_level='الدرجة العلمية',
   PyItem='بنود الأجور',
   PyItemGroup='مجموعات الأجور',
   PyItemCategory='تصنيفات بنود الاجور',
-  pytaxbracket='الوعاء الضريبي'
+  pytaxbracket='الوعاء الضريبي',
+
+
+  /****************** module:7 Cc التكاليف************************/
+  CcActivity='النشاط',
+  CcFunction='الوظيفي',
+  CcPlant='المحطة',
+  CcRegion='المنطقة',
+  CcSubRegion='المنطقة الفرعية',
+  CcSource='المصدر',
+  CcPlantComponent='تحليل المنطقة',
+  CcEquipment='المعدات',
+  Cccostcenter='مركزالتكاليف',
+  CcEntry='القيود',
+  CcReports='تقارير التكاليف',
+
+   /****************** module:8 FA الاصول الثابتة  ************************/
+   FaCategoryFirst='تصنيف اول',
+   FaCategorySecond='تصنيف ثاني',
+   FaCategoryThird='تصنيف ثالث',
+   FaFixedAsset='الإصول الثابتة ',
+   FaSGGubRegion='حركة الإصول',
+   FaReports='تقارير الإصول',
 }
