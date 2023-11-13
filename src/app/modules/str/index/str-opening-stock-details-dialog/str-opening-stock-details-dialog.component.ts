@@ -26,6 +26,7 @@ export class Product {
   styleUrls: ['./str-opening-stock-details-dialog.component.css']
 })
 export class StrOpeningStockDetailsDialogComponent implements OnInit {
+  loading :boolean=false;
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -351,12 +352,15 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   // }
 
   getItems() {
+    this.loading=true;
     this.api.getItems()
       .subscribe({
         next: (res) => {
+          this.loading=false;
           this.itemsList = res;
         },
         error: (err) => {
+          this.loading=false;
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }

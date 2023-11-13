@@ -42,6 +42,7 @@ export class Product {
   styleUrls: ['./str-withdraw-details-dialog.component.css'],
 })
 export class StrWithdrawDetailsDialogComponent {
+  loading :boolean =true;
   groupDetailsForm!: FormGroup;
   getMasterRowEmployeeId: any
   groupMasterForm!: FormGroup;
@@ -454,11 +455,12 @@ export class StrWithdrawDetailsDialogComponent {
       console.log("master Id: ", this.getMasterRowId.id)
 
       if (this.getMasterRowId.id) {
-
+       
         this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
           .subscribe({
             
             next: (res) => {
+              
               // this.itemsList = res;
               this.matchedIds = res[0].strWithDrawDetailsGetVM;
 
@@ -478,7 +480,7 @@ export class StrWithdrawDetailsDialogComponent {
               }
             },
             error: (err) => {
-
+            
             }
           })
       }
@@ -646,6 +648,7 @@ export class StrWithdrawDetailsDialogComponent {
     // this.api.putStrWithdraw(this.groupMasterForm.value).subscribe({
     //   next: (res) => {
     if (this.groupDetailsForm.valid) {
+
       this.api
         .putStrWithdrawDetails(this.groupDetailsForm.value)
         .subscribe({
@@ -899,12 +902,15 @@ export class StrWithdrawDetailsDialogComponent {
   }
 
   getItems() {
+    this.loading=true;
     this.api.getItems().subscribe({
       next: (res) => {
+        this.loading=false;
         this.itemsList = res;
         // console.log("items res: ", this.itemsList);
       },
       error: (err) => {
+        this.loading=false;
         // console.log("fetch items data err: ", err);
         // alert("خطا اثناء جلب العناصر !");
       },

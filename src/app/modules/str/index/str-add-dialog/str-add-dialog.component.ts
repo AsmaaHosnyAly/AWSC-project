@@ -178,12 +178,12 @@ export class STRAddDialogComponent implements OnInit {
       // addTypeId: ['', Validators.required],
       // typeName: ['', Validators.required],
       sellerId: [''],
-      sellerName: [''],
+      // sellerName: [''],
       employeeId: [''],
-      employeeName: [''],
+      // employeeName: [''],
       sourceStoreId: [''],
-      sourceStoreName: [''],
-      type: [''],
+      // sourceStoreName: [''],
+      addTypeId: [''],
       entryNo: ['0'],
 
     });
@@ -277,7 +277,7 @@ export class STRAddDialogComponent implements OnInit {
   }
 
   addNewDetails() {
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().type } })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date} })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
       height: '85%',
@@ -297,15 +297,15 @@ export class STRAddDialogComponent implements OnInit {
 
     this.sourceStoreName = await this.getSourceStoreByID(this.groupMasterForm.getRawValue().sourceStoreId);
     // alert("store name in add: " + this.storeName)
-    this.groupMasterForm.controls['sourceStoreName'].setValue(this.sourceStoreName);
+    // this.groupMasterForm.controls['sourceStoreName'].setValue(this.sourceStoreName);
 
     this.sellerName = await this.getSellerByID(this.groupMasterForm.getRawValue().sellerId);
     // alert("store name in add: " + this.storeName)
-    this.groupMasterForm.controls['sellerName'].setValue(this.sellerName);
+    // this.groupMasterForm.controls['sellerName'].setValue(this.sellerName);
 
     this.employeeName = await this.getEmployeeByID(this.groupMasterForm.getRawValue().employeeId);
     // alert("store name in add: " + this.storeName)
-    this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
+    // this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
 
 
     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
@@ -583,15 +583,15 @@ export class STRAddDialogComponent implements OnInit {
 
     this.sourceStoreName = await this.getSourceStoreByID(this.groupMasterForm.getRawValue().sourceStoreId);
     // alert("update sourceStoreName name: " + this.sourceStoreName)
-    this.groupMasterForm.controls['sourceStoreName'].setValue(this.sourceStoreName);
+    // this.groupMasterForm.controls['sourceStoreName'].setValue(this.sourceStoreName);
 
     this.employeeName = await this.getEmployeeByID(this.groupMasterForm.getRawValue().employeeId);
     // alert("update employeeName name: " + this.employeeName)
-    this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
+    // this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
 
     this.sellerName = await this.getSellerByID(this.groupMasterForm.getRawValue().sellerId);
     // alert("update sellerName name: " + this.sellerName)
-    this.groupMasterForm.controls['sellerName'].setValue(this.sellerName);
+    // this.groupMasterForm.controls['sellerName'].setValue(this.sellerName);
     // console.log("data storeName in edit: ", this.groupMasterForm.value)
 
     this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
@@ -679,7 +679,7 @@ export class STRAddDialogComponent implements OnInit {
   editDetailsForm(row: any) {
 
 
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().type, } })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date,} })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
       height: '85%',
@@ -1201,17 +1201,17 @@ export class STRAddDialogComponent implements OnInit {
     this.selectedList = list;
     if (this.sourceSelected === "المورد") {
       this.groupMasterForm.patchValue({ sellerId: list.id });
-      this.groupMasterForm.patchValue({ sellerName: list.name });
+      // this.groupMasterForm.patchValue({ sellerName: list.name });
 
 
     }
     else if (this.sourceSelected === "الموظف") {
       this.groupMasterForm.patchValue({ employeeId: list.id });
-      this.groupMasterForm.patchValue({ employeeName: list.name });
+      // this.groupMasterForm.patchValue({ employeeName: list.name });
 
     } else {
       this.groupMasterForm.patchValue({ sourceStoreId: list.id });
-      this.groupMasterForm.patchValue({ sourceStoreName: list.name });
+      // this.groupMasterForm.patchValue({ sourceStoreName: list.name });
 
     }
 
@@ -1253,7 +1253,9 @@ export class STRAddDialogComponent implements OnInit {
         this.lists = lists;
         console.log("rrr: ", lists)
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+        // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
+        // this.groupMasterForm.controls['employeeName'].setValue(null);
         // this.isReadOnlyEmployee = false;
         this.actionName = "choose";
 
@@ -1266,7 +1268,9 @@ export class STRAddDialogComponent implements OnInit {
       this.api.getAllEmployee().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+        // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
         this.groupMasterForm.controls['sellerId'].setValue(null);
+        // this.groupMasterForm.controls['sellerName'].setValue(null);
         // this.isReadOnlyEmployee = true;
         this.actionName = "emp";
         this.groupMasterForm.controls['entryNo'].disable();
@@ -1280,7 +1284,9 @@ export class STRAddDialogComponent implements OnInit {
       this.api.getAllStore().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['sellerId'].setValue(null);
+        // this.groupMasterForm.controls['sellerName'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
+        // this.groupMasterForm.controls['employeeName'].setValue(null);
         // this.isReadOnlyEmployee = true;
         this.actionName = "str";
         this.groupMasterForm.controls['entryNo'].disable();
