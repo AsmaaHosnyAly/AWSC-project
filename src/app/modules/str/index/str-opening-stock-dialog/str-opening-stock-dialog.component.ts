@@ -28,6 +28,7 @@ import { StrOpeningStockTableComponent } from '../str-opening-stock-table/str-op
   styleUrls: ['./str-opening-stock-dialog.component.css']
 })
 export class StrOpeningStockDialogComponent implements OnInit {
+  loading: Boolean = false
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -322,6 +323,14 @@ export class StrOpeningStockDialogComponent implements OnInit {
               this.pageIndex = data.page;
               this.pageSize = data.pageSize;
               this.length = data.totalItems;
+
+              for (let i = 0; i < data.items.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(data.items[i].total);
+                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                this.updateMaster();
+              }
+
               setTimeout(() => {
                 this.paginator.pageIndex = this.currentPage;
                 this.paginator.length = this.length;
@@ -345,6 +354,14 @@ export class StrOpeningStockDialogComponent implements OnInit {
               this.pageIndex = data.page;
               this.pageSize = data.pageSize;
               this.length = data.totalItems;
+
+              for (let i = 0; i < data.items.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(data.items[i].total);
+                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                this.updateMaster();
+              }
+              
               setTimeout(() => {
                 this.paginator.pageIndex = this.currentPage;
                 this.paginator.length = this.length;
@@ -633,10 +650,11 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {
       // console.log('user is manager -all stores available- , role: ', userRoles);
-
+      this.loading = true
       this.api.getStore()
         .subscribe({
           next: async (res) => {
+            this.loading = false
             this.storeList = res;
             this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
             console.log("selected storebbbbbbbbbbbbbbbbbbbbbbbb: ", this.defaultStoreSelectValue);
@@ -649,6 +667,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
           },
           error: (err) => {
+            this.loading = false
             // console.log("fetch store data err: ", err);
             // alert("خطا اثناء جلب المخازن !");
           }
@@ -766,10 +785,11 @@ export class StrOpeningStockDialogComponent implements OnInit {
   // }
 
   async getFiscalYears() {
-
+    this.loading = true
     this.api.getFiscalYears()
       .subscribe({
         next: async (res) => {
+          this.loading = false
           this.fiscalYearsList = res;
 
           this.api.getLastFiscalYear()
@@ -787,6 +807,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
                 }
               },
               error: (err) => {
+                this.loading = false
                 // console.log("fetch store data err: ", err);
                 // alert("خطا اثناء جلب المخازن !");
               }

@@ -505,4 +505,3 @@ export class STRItem1DialogComponent implements OnInit {
     this.toastr.error('!خطأ عند تحديث البيانات');
   }
 }
-                         
