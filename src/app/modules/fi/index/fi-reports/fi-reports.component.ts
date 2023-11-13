@@ -313,6 +313,7 @@ export class FiReportsComponent implements OnInit {
 
 
   refreshData() {
+    this.accountCtrl.reset();
     this.groupMasterForm.reset();
   }
 
