@@ -1,3 +1,6 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <div class="cdk-overlay-pane  ">
   <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
 </div>
@@ -12,7 +15,7 @@
       </mat-form-field>
 
       <mat-label>السلعة</mat-label>     
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" *ngIf="!loading">
         <input matInput aria-label="commodity" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
           placeholder="{{getPlatoonData ? getPlatoonData.commodityName : ''}}" (click)="openAutoCommodity()" required />
         <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
@@ -24,7 +27,7 @@
       </mat-form-field>
 
       <mat-label>النوعية</mat-label>     
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" *ngIf="!loading">
         <input matInput aria-label="grade" [matAutocomplete]="autoGrade" [formControl]="gradeCtrl" required
           placeholder="{{getPlatoonData ? getPlatoonData.gradeName : ''}}" (click)="openAutoGrade()" required />
         <mat-autocomplete #autoGrade="matAutocomplete" [displayWith]="displayGradeName"

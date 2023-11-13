@@ -8,15 +8,15 @@ import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { GlobalService } from 'src/app/pages/services/global.service';
-import { ProOperationTypeDialogComponent } from '../pro-operation-type-dialog/pro-operation-type-dialog.component';
-import { ProSellerTypeDialogComponent } from '../pro-seller-type-dialog/pro-seller-type-dialog.component';
+import { ProTenderDialogComponent } from '../pro-tender-dialog/pro-tender-dialog.component';
+
 
 @Component({
-  selector: 'app-pro-seller-type',
-  templateUrl: './pro-seller-type.component.html',
-  styleUrls: ['./pro-seller-type.component.css']
+  selector: 'app-pro-tender',
+  templateUrl: './pro-tender.component.html',
+  styleUrls: ['./pro-tender.component.css']
 })
-export class ProSellerTypeComponent implements OnInit {
+export class ProTenderComponent implements OnInit {
   displayedColumns: string[] = ['code', 'name', 'action'];
 
   dataSource!: MatTableDataSource<any>;
@@ -28,7 +28,7 @@ export class ProSellerTypeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProSellerType();
+    this.getProTender();
     this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.openDialog();
@@ -46,11 +46,11 @@ export class ProSellerTypeComponent implements OnInit {
   }
 
 
-  getProSellerType() {
-    this.api.getProSellerType()
+  getProTender() {
+    this.api.getProTender()
       .subscribe({
         next: (res) => {
-          console.log("res of get all getProSellerType: ", res);
+          console.log("res of get all getProTender: ", res);
           this.dataSource = new MatTableDataSource(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -62,39 +62,39 @@ export class ProSellerTypeComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(ProSellerTypeDialogComponent, {
+    this.dialog.open(ProTenderDialogComponent, {
       width: '30%'
     }).afterClosed().subscribe(val => {
       if (val === 'حفظ') {
-        this.getProSellerType();
+        this.getProTender();
       }
     })
   }
 
 
-  editProSellerType(row: any) {
-    this.dialog.open(ProSellerTypeDialogComponent, {
+  editProTender(row: any) {
+    this.dialog.open(ProTenderDialogComponent, {
       width: '30%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'تعديل') {
-        this.getProSellerType();
+        this.getProTender();
       }
     })
   }
 
 
 
-  deleteProSellerType(id: number) {
+  deleteProTender(id: number) {
     var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
     if (result) {
-      this.api.deleteProSellerType(id)
+      this.api.deleteProTender(id)
         .subscribe({
           next: (res) => {
             console.log("delete row res: ", res);
             if (res == 'Succeeded') {
               this.toastrSuccessDeleteRow();
-              this.getProSellerType();
+              this.getProTender();
 
             } else {
               this.toastrWarningDeleteRow();

@@ -96,6 +96,51 @@ deletePlanType(id: number) {
   }
   //////////////////////////////////////////End////////////////////////////////////////////////
 
+  ////////////////////////////////////////Pro-SellerType///////////////////////////////////////
+  getProSellerTypeAutoCode() {
+    return this.http.get<any>(`${this.url}/ProSellerType/AutoCode`);
+  }
+  postProSellerType(data: any) {
+    return this.http.post<any>(`${this.url}/ProSellerType/Add`, data);
+  }
+  getProSellerType() {
+    return this.http.get<any>(`${this.url}/ProSellerType/get/all`);
+  }
+  putProSellerType(data: any) {
+    return this.http.put<any>(`${this.url}/ProSellerType/update`, data);
+  }
+  deleteProSellerType(id: number) {
+    return this.http.delete<any>(`${this.url}/ProSellerType/Delete/${id}`);
+  }
+  //////////////////////////////////////////End////////////////////////////////////////////////
+
+  ////////////////////////////////////////Pro-Tender///////////////////////////////////////
+  getHrCityState() {
+    return this.http.get<any>(`${this.url}/HrCityState/get/all`);
+  }
+  getProTenderType() {
+    return this.http.get<any>(`${this.url}/ProTenderType/get/all`);
+  }
+  getProPlanType() {
+    return this.http.get<any>(`${this.url}/ProPlanType/get/all`);
+  }
+
+  getProTenderAutoCode() {
+    return this.http.get<any>(`${this.url}/ProTender/AutoCode`);
+  }
+  postProTender(data: any) {
+    return this.http.post<any>(`${this.url}/ProTender/Add`, data);
+  }
+  getProTender() {
+    return this.http.get<any>(`${this.url}/ProTender/get/all`);
+  }
+  putProTender(data: any) {
+    return this.http.put<any>(`${this.url}/ProTender/update`, data);
+  }
+  deleteProTender(id: number) {
+    return this.http.delete<any>(`${this.url}/ProTender/Delete/${id}`);
+  }
+  //////////////////////////////////////////End////////////////////////////////////////////////
 }
 
 

@@ -1,0 +1,177 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل المناقصات ' : 'إضافة المناقصات'}}</h1>
+
+<div mat-dialog-content dir="rtl">
+    <form [formGroup]="proTenderForm" style="overflow: hidden;">
+        <div class="serachLabels">
+
+            <mat-label>الكود*</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="الكود" formControlName="code" readonly>
+            </mat-form-field>
+
+            <mat-label>اسم المناقصة*</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="اسم المناقصة" formControlName="name">
+            </mat-form-field>
+
+            <mat-label>الوصف</mat-label>
+            <mat-form-field appearance="outline" class="fill-container">
+                <textarea matInput placeholder="الوصف" formControlName="description"></textarea>
+            </mat-form-field>
+
+            <mat-label> المركز* </mat-label>
+            <mat-form-field appearance="outline" class="child-num">
+                <input placeholder="{{editData  ? editData.cityStateName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoCityState" [formControl]="cityStateCtrl" (click)="openAutoCityState()"
+                    required />
+                <mat-autocomplete #autoCityState="matAutocomplete" [displayWith]="displayCityStateName"
+                    (optionSelected)="CityStateSelected($event)">
+                    <mat-option *ngFor="let cityState of filteredCityState | async" [value]="cityState">
+                        {{ cityState.name ? cityState.name : '-'}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-label> نوع العملية* </mat-label>
+            <mat-form-field appearance="outline" class="child-num">
+                <input placeholder="{{editData  ? editData.operationTypName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoOperationType" [formControl]="operationTypeCtrl"
+                    (click)="openAutoOperationType()" required />
+                <mat-autocomplete #autoOperationType="matAutocomplete" [displayWith]="displayOperationTypeName"
+                    (optionSelected)="OperationTypeSelected($event)">
+                    <mat-option *ngFor="let operationType of filteredOperationType | async" [value]="operationType">
+                        {{ operationType.name ? operationType.name : '-'}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-label> طريقة الطرح* </mat-label>
+            <mat-form-field appearance="outline" class="child-num">
+                <input placeholder="{{editData  ? editData.tenderTypeName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoTenderType" [formControl]="tenderTypeCtrl" (click)="openAutoTenderType()"
+                    required />
+                <mat-autocomplete #autoTenderType="matAutocomplete" [displayWith]="displayTenderTypeName"
+                    (optionSelected)="TenderTypeSelected($event)">
+                    <mat-option *ngFor="let tenderType of filteredTenderType | async" [value]="tenderType">
+                        {{ tenderType.name ? tenderType.name : '-'}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-label> نوع الخطة* </mat-label>
+            <mat-form-field appearance="outline" class="child-num">
+                <input placeholder="{{editData  ? editData.planTypeName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoPlanType" [formControl]="planTypeCtrl" (click)="openAutoPlanType()"
+                    required />
+                <mat-autocomplete #autoPlanType="matAutocomplete" [displayWith]="displayPlanTypeName"
+                    (optionSelected)="PlanTypeSelected($event)">
+                    <mat-option *ngFor="let planType of filteredPlanType | async" [value]="planType">
+                        {{ planType.name ? planType.name : '-'}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-label>التاريخ * </mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <input matInput [matDatepicker]="Datepicker" formControlName="date">
+                <mat-datepicker-toggle matIconSuffix [for]="Datepicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #Datepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>تاريخ الافتتاح التقنى * </mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <input matInput [matDatepicker]="technicalOpeningDatepicker" formControlName="technicalOpeningDate">
+                <mat-datepicker-toggle matIconSuffix [for]="technicalOpeningDatepicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #technicalOpeningDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>تاريخ الاختيار التقنى * </mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <input matInput [matDatepicker]="technicalSelectionDatepicker" formControlName="technicalSelectionDate">
+                <mat-datepicker-toggle matIconSuffix [for]="technicalSelectionDatepicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #technicalSelectionDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>تاريخ الافتتاح المالى * </mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <input matInput [matDatepicker]="financialOpeningDatepicker" formControlName="financialOpeningDate">
+                <mat-datepicker-toggle matIconSuffix [for]="financialOpeningDatepicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #financialOpeningDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>تاريخ الاختيار المالى * </mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <input matInput [matDatepicker]="financialSelectionDatepicker" formControlName="financialSelectionDate">
+                <mat-datepicker-toggle matIconSuffix [for]="financialSelectionDatepicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #financialSelectionDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>تاريخ ارسال الجائزة * </mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <input matInput [matDatepicker]="awardLetterDatepicker" formControlName="awardLetterDate">
+                <mat-datepicker-toggle matIconSuffix [for]="awardLetterDatepicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #awardLetterDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>تاريخ امر الشغل * </mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <input matInput [matDatepicker]="workOrderDatepicker" formControlName="workOrderDate">
+                <mat-datepicker-toggle matIconSuffix [for]="workOrderDatepicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #workOrderDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>تاريخ التوصيل * </mat-label>
+            <mat-form-field appearance="outline" class="example-full-width">
+                <input matInput [matDatepicker]="deliveryDatepicker" formControlName="deliveryDate">
+                <mat-datepicker-toggle matIconSuffix [for]="deliveryDatepicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #deliveryDatepicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-label>القيمة*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="القيمة" type="number" min="0" formControlName="value">
+            </mat-form-field>
+
+            <mat-label>المدة*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="المدة" type="number" min="0" formControlName="period">
+            </mat-form-field>
+
+            <mat-label>القيمة الى*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="القيمة الى" type="number" min="0" formControlName="torValue">
+            </mat-form-field>
+
+            <mat-label>قيمة سند المناقصة*</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput placeholder="القيمة الى" type="number" min="0" formControlName="tenderBondValue">
+            </mat-form-field>
+
+        </div>
+
+    </form>
+    <button mat-raised-button class="savebtn" (click)="addProTender()" style="margin-left: 8px;">{{actionBtn}}</button>
+
+</div>
+
+<div mat-dialog-action [align]="'end'"></div>
