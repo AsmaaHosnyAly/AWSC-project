@@ -39,6 +39,7 @@ export class Group {
 })
 export class STRItem1DialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId')
+  loading :boolean=false;
   unitCtrl: FormControl;
   filteredUnits: Observable<Unit[]>;
   units: Unit[] = [];
@@ -146,18 +147,11 @@ export class STRItem1DialogComponent implements OnInit {
       this.units = units;
     });
 
-    this.api.getAllCommoditiesi().subscribe((commodities) => {
-      this.commodities = commodities;
-    });
+    this.getAllCommoditiesi();
 
-    this.api.getAllGradesi().subscribe((grades) => {
-      this.grades = grades;
-    });
+    this.getAllGradesi();
 
-    this.api.getAllPlatoonsi().subscribe((platoons) => {
-      this.platoons = platoons;
-    });
-
+    this.getAllPlatoonsi();
     this.api.getAllGroupsi().subscribe((groups) => {
       this.groups = groups;
     });
@@ -222,7 +216,66 @@ export class STRItem1DialogComponent implements OnInit {
     this.itemForm.patchValue({ unitId: unit.id });
     this.itemForm.patchValue({ unitName: unit.name });
   }
-
+  getAllPlatoonsi() {
+    this.loading = true;
+    this.api.getAllPlatoonsi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.platoons= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllCommoditiesi() {
+    this.loading = true;
+    this.api.getAllCommoditiesi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.commodities= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllGradesi() {
+    this.loading = true;
+    this.api.getAllGradesi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.grades= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllGroupsi() {
+    this.loading = true;
+    this.api.getAllGroupsi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.grades= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
     const commodity = event.option.value as Commodity;
     this.selectedCommodity = commodity;

@@ -39,6 +39,7 @@ export class Grade {
 })
 export class STRPlatoonDialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId');
+  loading :boolean=false;
   commodityCtrl: FormControl;
   filteredCommodities: Observable<Commodity[]>;
   commodities: Commodity[] = [];
@@ -95,13 +96,9 @@ export class STRPlatoonDialogComponent implements OnInit {
       id: [''],
     });
 
-    this.api.getAllCommodities().subscribe((commodities) => {
-      this.commodities = commodities;
-    });
+    this.getAllCommodities();
 
-    this.api.getAllGrades().subscribe((grades) => {
-      this.grades = grades;
-    });
+    this.getAllGrades();
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
       // Call the deleteGrade() function in the current component
       this.addPlatoon();
@@ -176,7 +173,36 @@ export class STRPlatoonDialogComponent implements OnInit {
         grade.commodityId === this.selectedCommodity?.id
     );
   }
-
+  getAllCommodities() {
+    this.loading = true;
+    this.api.getAllCommodities().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.commodities= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllGrades() {
+    this.loading = true;
+    this.api.getAllGrades().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.grades= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   openAutoCommodity() {
     this.commodityCtrl.setValue(''); // Clear the input field value
 

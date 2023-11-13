@@ -74,7 +74,6 @@ export class Unit {
 export class STRItem1Component implements OnInit {
   loading :boolean=false;
   transactionUserId = localStorage.getItem('transactionUserId');
- 
   unitCtrl: FormControl;
   filteredUnits: Observable<Unit[]>;
   units: Unit[] = [];
@@ -323,6 +322,12 @@ export class STRItem1Component implements OnInit {
     );
   }
   openAutoUnit() {
+    this.unitCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.unitCtrl.updateValueAndValidity();
+  }
+  openAutoItem() {
     this.unitCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event

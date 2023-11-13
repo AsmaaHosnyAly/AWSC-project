@@ -32,6 +32,7 @@ export class Platoon {
 })
 export class STRGroup1DialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId')
+  loading :boolean=false;
   commodityCtrl: FormControl;
   filteredCommodities: Observable<Commodity[]>;
   commodities: Commodity[] = [];
@@ -101,13 +102,9 @@ export class STRGroup1DialogComponent implements OnInit {
     });
 
 
-    this.api.getAllCommodities().subscribe((commodities) => {
-      this.commodities = commodities;
-    });
+    this.getAllCommodities();
 
-    this.api.getAllGrades().subscribe((grades) => {
-      this.grades = grades;
-    });
+    this.getAllGrades();
 
     this.api.getAllPlatoonsg().subscribe((platoons) => {
       this.platoons = platoons;
@@ -147,7 +144,51 @@ export class STRGroup1DialogComponent implements OnInit {
   displayPlatoonName(platoon: any): string {
     return platoon && platoon.name ? platoon.name : '';
   }
-
+  getAllCommodities() {
+    this.loading = true;
+    this.api.getAllCommodities().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.commodities= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllGrades() {
+    this.loading = true;
+    this.api.getAllGrades().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.grades= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllPlatoonsg() {
+    this.loading = true;
+    this.api.getAllPlatoonsg().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.platoons= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
     const commodity = event.option.value as Commodity;
     this.selectedCommodity = commodity;
