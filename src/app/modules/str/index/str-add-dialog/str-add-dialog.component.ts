@@ -1219,8 +1219,8 @@ export class STRAddDialogComponent implements OnInit {
       this.api.getAllSellers().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+        // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
-
         this.actionName = "choose";
 
         this.groupMasterForm.controls['entryNo'].enable();
@@ -1232,8 +1232,8 @@ export class STRAddDialogComponent implements OnInit {
       this.api.getAllEmployee().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+        // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
         this.groupMasterForm.controls['sellerId'].setValue(null);
-
         this.actionName = "emp";
         this.groupMasterForm.controls['entryNo'].disable();
 
@@ -1246,10 +1246,10 @@ export class STRAddDialogComponent implements OnInit {
       this.api.getAllStore().subscribe((lists) => {
         this.lists = lists;
         this.groupMasterForm.controls['sellerId'].setValue(null);
+        // this.groupMasterForm.controls['sellerName'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
-
         this.actionName = "str";
-        this.groupMasterForm.controls['entryNo'].enable();
+        this.groupMasterForm.controls['entryNo'].disable();
       });
     }
 

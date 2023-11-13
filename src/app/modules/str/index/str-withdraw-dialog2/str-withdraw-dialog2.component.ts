@@ -873,11 +873,10 @@ export class StrWithdrawDialogComponent implements OnInit {
   //   }
   // }
   getAllDetailsForms() {
-this.loading=true;
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
 
-
+      this.loading=true;
       this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {

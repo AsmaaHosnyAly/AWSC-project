@@ -1,5 +1,7 @@
 <!-- <p>str-opening-stock-details-dialog works!</p> -->
-
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 
 <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
 
@@ -84,7 +86,7 @@
 
                 <!-- <div style="display: flex; flex-direction: column; width: 30%;"> -->
                     <mat-label>الصنف*</mat-label>
-                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;">
+                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;" *ngIf="!loading">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoItemId"
                             [formControl]="itemCtrl"
                             placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"

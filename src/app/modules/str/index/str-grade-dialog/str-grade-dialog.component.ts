@@ -125,7 +125,7 @@ export class STRGradeDialogComponent {
   }
 
   displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
+    return commodity ? commodity.name && commodity.name != null ? commodity.name : '-' : '';
   }
   getAccounts() {
     this.loading = true;
@@ -170,8 +170,8 @@ export class STRGradeDialogComponent {
     const filterValue = value.toLowerCase();
     return this.commodities.filter(
       (commodity) =>
-        commodity.name.toLowerCase().includes(filterValue) ||
-        commodity.code.toString().toLowerCase().includes(filterValue)
+      commodity.name || commodity.code ? commodity.name.toLowerCase().includes(filterValue) ||
+        commodity.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
 
@@ -183,7 +183,7 @@ export class STRGradeDialogComponent {
   }
 
   displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
+    return account ? account.name && account.name != null ? account.name : '-' : '';
   }
 
   accountSelected(event: MatAutocompleteSelectedEvent): void {
@@ -197,8 +197,7 @@ export class STRGradeDialogComponent {
     const filterValue = value.toLowerCase();
     return this.accounts.filter(
       (account) =>
-        account.name.toLowerCase().includes(filterValue) ||
-        account.code.toString().toLowerCase().includes(filterValue)
+        account.name || account.code ? account.name.toLowerCase().includes(filterValue) || account.code.toString().toLowerCase().includes(filterValue) : '-'
     );
   }
 
