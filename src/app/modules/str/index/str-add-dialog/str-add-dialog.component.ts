@@ -36,7 +36,15 @@ export class Item {
 }
 
 export class AddType {
-  constructor(public id: number, public name: string, source: any) { }
+  constructor(public id: number, public name: string, public source: any) { }
+}
+
+export class ApprovalStatus {
+  constructor(public id: number, public name: string) { }
+}
+
+export class Commodity {
+  constructor(public id: number, public name: string) { }
 }
 
 @Component({
@@ -98,6 +106,16 @@ export class STRAddDialogComponent implements OnInit {
   addTypeList: AddType[] = [];
   selectedAddType: AddType | undefined;
 
+  approvalStatusCtrl: FormControl;
+  filteredApprovalStatus: Observable<ApprovalStatus[]>;
+  approvalStatusList: ApprovalStatus[] = [];
+  selectedApprovalStatus: ApprovalStatus | undefined;
+
+  commodityCtrl: FormControl;
+  filteredCommodity: Observable<Commodity[]>;
+  commoditiesList: Commodity[] = [];
+  selectedCommodity: Commodity | undefined;
+
   getAddData: any;
   sourceSelected: any;
   isEdit: boolean = false;
@@ -120,8 +138,11 @@ export class STRAddDialogComponent implements OnInit {
   sourceStoreName: any;
 
   currentDate: any;
+  addTypeSource: any;
 
   userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
+  // approvalStatusList: any;
+  // commoditiesList: any;
 
   constructor(private formBuilder: FormBuilder,
 
@@ -155,6 +176,18 @@ export class STRAddDialogComponent implements OnInit {
       startWith(''),
       map(value => this._filterAddType(value))
     );
+
+    this.approvalStatusCtrl = new FormControl();
+    this.filteredApprovalStatus = this.approvalStatusCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterApprovalStatus(value))
+    );
+
+    this.commodityCtrl = new FormControl();
+    this.filteredCommodity = this.commodityCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterCommodity(value))
+    );
   }
 
   ngOnInit(): void {
@@ -166,6 +199,8 @@ export class STRAddDialogComponent implements OnInit {
     this.decodedToken2 = this.decodedToken.roles;
     console.log('accessToken2', this.decodedToken2);
 
+    this.getStrApprovalStatus();
+    this.getStrCommodity();
     this.getStrAddType();
     this.getStores();
     this.getItems();
@@ -195,8 +230,11 @@ export class STRAddDialogComponent implements OnInit {
       // employeeName: [''],
       sourceStoreId: [''],
       // sourceStoreName: [''],
+
       addTypeId: [''],
       entryNo: ['0'],
+      approvalStatusId: ['0'],
+      commodityId: ['0']
 
     });
 
@@ -234,29 +272,7 @@ export class STRAddDialogComponent implements OnInit {
       this.isEdit = true;
       this.getAddData = this.editData;
 
-      if (this.editData.addTypeName == 'اذن صرف') {
-        this.actionName = "str";
-        console.log("action btnnnnnnnnnnnnn", this.actionName)
-        // this.groupMasterForm.controls['addTypeId'].setValue('المخزن');
-        this.groupMasterForm.controls['entryNo'].disable();
-
-
-      }
-      else if (this.editData.addTypeName == 'اذن ارتجاع') {
-        this.actionName = "emp";
-        // this.groupMasterForm.controls['addTypeId'].setValue('الموظف')
-        this.groupMasterForm.controls['entryNo'].disable();
-
-
-      } else {
-        this.actionName = "choose";
-        // this.groupMasterForm.controls['addTypeId'].setValue('المورد');
-        this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
-
-      }
-      console.log("this.groupMasterForm.getRawValue().addTypeId: ", this.groupMasterForm.getRawValue().addTypeId);
-
-      this.getListCtrl(this.groupMasterForm.getRawValue().addTypeId);
+      // this.getListCtrl(this.groupMasterForm.getRawValue().addTypeId);
 
       console.log("master edit form: ", this.editData);
       this.actionBtnMaster = "Update";
@@ -267,12 +283,43 @@ export class STRAddDialogComponent implements OnInit {
 
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
       this.groupMasterForm.controls['total'].setValue(this.editData.total);
-      // this.groupMasterForm.controls['addTypeId'].setValue(this.editData.addTypeId);
+      this.groupMasterForm.controls['addTypeId'].setValue(this.editData.addTypeId);
+
+      console.log("edit dataaaaaaaaaaaaaaa: ", this.editData);
+      if (this.editData.addTypeName == 'اذن صرف') {
+        this.actionName = "str";
+        console.log("action btnnnnnnnnnnnnn", this.actionName)
+        // this.groupMasterForm.controls['addTypeId'].setValue('المخزن');
+        this.groupMasterForm.controls['entryNo'].disable();
+
+
+      }
+      else if (this.editData.addTypeName == 'اذن ارتجاع') {
+        this.actionName = "emp";
+        console.log("action btnnnnnnnnnnnnn 2", this.actionName);
+        // this.groupMasterForm.controls['addTypeId'].setValue('الموظف')
+        this.groupMasterForm.controls['entryNo'].disable();
+
+
+      } else {
+        this.actionName = "choose";
+        console.log("action btnnnnnnnnnnnnn 3", this.actionName);
+
+        // this.groupMasterForm.controls['addTypeId'].setValue('المورد');
+        this.groupMasterForm.controls['entryNo'].enable();
+        this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
+
+      }
+
       // this.groupMasterForm.controls['addReceiptId'].setValue(this.editData.addReceiptId);
 
       this.groupMasterForm.controls['sellerId'].setValue(this.editData.sellerId);
       this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
       this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
+
+      this.groupMasterForm.controls['commodityId'].setValue(this.editData.commodityId);
+      this.groupMasterForm.controls['approvalStatusId'].setValue(this.editData.approvalStatusId);
+
       this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
       this.groupMasterForm.controls['id'].setValue(this.editData.id);
     }
@@ -290,7 +337,7 @@ export class STRAddDialogComponent implements OnInit {
   }
 
   addNewDetails() {
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().addTypeId } })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.addTypeSource } })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
       height: '85%',
@@ -664,7 +711,7 @@ export class STRAddDialogComponent implements OnInit {
   editDetailsForm(row: any) {
 
 
-    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.groupMasterForm.getRawValue().addTypeId, } })
+    this.router.navigate(['/STRAdd'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date, sourceStoreName: this.addTypeSource } })
     this.dialog.open(StrAddDetailsDialogComponent, {
       width: '98%',
       height: '85%',
@@ -1178,15 +1225,14 @@ export class STRAddDialogComponent implements OnInit {
   displayAddTypeName(addType: any): string {
     return addType && addType.name ? addType.name : '';
   }
-
   AddTypeSelected(event: MatAutocompleteSelectedEvent): void {
     const addType = event.option.value as AddType;
     this.groupMasterForm.patchValue({ addTypeId: addType.id });
+    this.addTypeSource = addType.source;
     console.log("addType selected: ", addType);
     this.getListCtrl(addType);
 
   }
-
   private _filterAddType(value: string): AddType[] {
     const filterValue = value;
     return this.addTypeList.filter(addType =>
@@ -1198,6 +1244,50 @@ export class STRAddDialogComponent implements OnInit {
 
     // Open the autocomplete dropdown by triggering the value change event
     this.addTypeCtrl.updateValueAndValidity();
+  }
+
+
+  displayApprovalStatusName(approvalStatus: any): string {
+    return approvalStatus && approvalStatus.name ? approvalStatus.name : '';
+  }
+  ApprovalStatusSelected(event: MatAutocompleteSelectedEvent): void {
+    const approvalStatus = event.option.value as ApprovalStatus;
+    this.groupMasterForm.patchValue({ approvalStatusId: approvalStatus.id });
+
+  }
+  private _filterApprovalStatus(value: string): ApprovalStatus[] {
+    const filterValue = value;
+    return this.approvalStatusList.filter(approvalStatus =>
+      approvalStatus.name.toLowerCase().includes(filterValue)
+    );
+  }
+  openAutoApprovalStatus() {
+    this.approvalStatusCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.approvalStatusCtrl.updateValueAndValidity();
+  }
+
+
+  displayCommodityName(commodity: any): string {
+    return commodity && commodity.name ? commodity.name : '';
+  }
+  CommoditySelected(event: MatAutocompleteSelectedEvent): void {
+    const commodity = event.option.value as Commodity;
+    this.groupMasterForm.patchValue({ commodityId: commodity.id });
+
+  }
+  private _filterCommodity(value: string): Commodity[] {
+    const filterValue = value;
+    return this.commoditiesList.filter(commodity =>
+      commodity.name.toLowerCase().includes(filterValue)
+    );
+  }
+  openAutoCommodity() {
+    this.commodityCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.commodityCtrl.updateValueAndValidity();
   }
 
   toastrSuccess(): void {
@@ -1262,6 +1352,32 @@ export class STRAddDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.addTypeList = res;
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
+
+  getStrApprovalStatus() {
+    this.api.getStrApprovalStatus()
+      .subscribe({
+        next: (res) => {
+          this.approvalStatusList = res;
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
+
+  getStrCommodity() {
+    this.api.getcommodity()
+      .subscribe({
+        next: (res) => {
+          this.commoditiesList = res;
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
