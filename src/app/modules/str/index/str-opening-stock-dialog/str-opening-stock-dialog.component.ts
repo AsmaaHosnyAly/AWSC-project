@@ -273,34 +273,38 @@ export class StrOpeningStockDialogComponent implements OnInit {
 
     if (this.getMasterRowId.id) {
 
-      // this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
-      //   .subscribe({
-      //     next: (res) => {
-      //       // this.itemsList = res;
-      //       this.matchedIds = res;
+      this.api.getStrOpenDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            // // this.itemsList = res;
+            // this.matchedIds = res;
 
-      //       if (this.matchedIds) {
-      //         console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
-      //         this.dataSource = new MatTableDataSource(this.matchedIds);
-      //         this.dataSource.paginator = this.paginator;
-      //         this.dataSource.sort = this.sort;
+            if (res) {
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee all data: ", res);
+              // this.dataSource = new MatTableDataSource(this.matchedIds);
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
 
-      //         this.sumOfTotals = 0;
-      //         for (let i = 0; i < this.matchedIds.length; i++) {
-      //           this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-      //           this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-      //           this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-      //           // alert('totalll: '+ this.sumOfTotals)
-      //           // this.updateBothForms();
-      //           this.updateMaster();
-      //         }
-      //       }
-      //     },
-      //     error: (err) => {
-      //       // console.log("fetch items data err: ", err);
-      //       // alert("خطا اثناء جلب العناصر !");
-      //     }
-      //   })
+              this.sumOfTotals = 0;
+              for (let i = 0; i < res.length; i++) {
+                let total = res.filter((detail: { total: any; }) => detail.total)
+                  .reduce((sum: any, current: { total: any; }) => sum + parseFloat(current.total), 0);
+
+                console.log("reduce sum function, Master TOTAL: ", total);
+                // this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.sumOfTotals = Number(total.toFixed(2));
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+                this.updateMaster();
+              }
+            }
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
+          }
+        })
 
       console.log("mastered row get all data: ", this.getMasterRowId);
       if (this.getMasterRowId) {
@@ -323,13 +327,15 @@ export class StrOpeningStockDialogComponent implements OnInit {
               this.pageIndex = data.page;
               this.pageSize = data.pageSize;
               this.length = data.totalItems;
+              // this.sumOfTotals = 0;
+              // console.log("LENGTH of all data details: ", this.length);
 
-              for (let i = 0; i < data.items.length; i++) {
-                this.sumOfTotals = this.sumOfTotals + parseFloat(data.items[i].total);
-                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                this.updateMaster();
-              }
+              // for (let i = 0; i < data.items.length; i++) {
+              //   this.sumOfTotals = this.sumOfTotals + parseFloat(data.items[i].total);
+              //   this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+              //   this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+              //   this.updateMaster();
+              // }
 
               setTimeout(() => {
                 this.paginator.pageIndex = this.currentPage;
@@ -343,7 +349,7 @@ export class StrOpeningStockDialogComponent implements OnInit {
         }
         else {
           this.isLoading = true;
-          console.log("second time: ");
+          console.log("second time total calculated: ", this.sumOfTotals);
 
           fetch(this.api.getStrOpenDetailsPaginateByMasterId(this.getMasterRowId.id, this.currentPage, this.pageSize))
             .then(response => response.json())
@@ -354,14 +360,15 @@ export class StrOpeningStockDialogComponent implements OnInit {
               this.pageIndex = data.page;
               this.pageSize = data.pageSize;
               this.length = data.totalItems;
+              // console.log("LENGTH of all data details22: ", this.length);
 
-              for (let i = 0; i < data.items.length; i++) {
-                this.sumOfTotals = this.sumOfTotals + parseFloat(data.items[i].total);
-                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                this.updateMaster();
-              }
-              
+              // for (let i = 0; i < data.items.length; i++) {
+              //   this.sumOfTotals = this.sumOfTotals + parseFloat(data.items[i].total);
+              //   this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+              //   this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+              //   this.updateMaster();
+              // }
+
               setTimeout(() => {
                 this.paginator.pageIndex = this.currentPage;
                 this.paginator.length = this.length;
