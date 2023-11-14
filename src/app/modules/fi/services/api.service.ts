@@ -590,7 +590,7 @@ export class ApiService {
       this.mycondition = ` ${this.mycondition}&PrevendDate=${PrevendDate}`;
     }
     if (!account == false) {
-      this.mycondition = ` ${this.mycondition}&accountId=${account}`;
+      this.mycondition = ` ${this.mycondition}&code=${account}`;
     }
 
     console.log('url', this.mycondition);

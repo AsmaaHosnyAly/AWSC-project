@@ -30,7 +30,7 @@
                 <mat-autocomplete #autoCategoryFirstId="matAutocomplete" [displayWith]="displayCategoryFirstName"
                     (optionSelected)="CategoryFirstSelected($event)">
                     <mat-option *ngFor="let categoryFirst of filteredCategoryFirst | async" [value]="categoryFirst">
-                        {{ categoryFirst.name ? categoryFirst.name : '-'}} || {{categoryFirst.id}}
+                        {{ categoryFirst.name ? categoryFirst.name : '-'}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
@@ -43,7 +43,7 @@
                 <mat-autocomplete #autoCategorySecondId="matAutocomplete" [displayWith]="displayCategorySecondName"
                     (optionSelected)="CategorySecondSelected($event)">
                     <mat-option *ngFor="let categorySecond of filteredCategorySecond | async" [value]="categorySecond">
-                        {{ categorySecond.name ? categorySecond.name : '-'}} || {{categorySecond.id}}
+                        {{ categorySecond.name ? categorySecond.name : '-'}} 
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
@@ -56,7 +56,7 @@
                 <mat-autocomplete #autoCategoryThirdId="matAutocomplete" [displayWith]="displayCategoryThirdName"
                     (optionSelected)="CategoryThirdSelected($event)">
                     <mat-option *ngFor="let categoryThird of filteredCategoryThird | async" [value]="categoryThird">
-                        {{ categoryThird.name ? categoryThird.name : '-'}}|| {{categoryThird.id}}
+                        {{ categoryThird.name ? categoryThird.name : '-'}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>

@@ -14,7 +14,7 @@
 </mat-card-header>
 
 
-<div id="content" class="content">
+<div class="div-table">
 
     <table matSort mat-table [dataSource]="dataSource" dir="rtl">
         <!-- code Column -->
@@ -27,6 +27,114 @@
         <ng-container matColumnDef="name" class="text-center">
             <th *matHeaderCellDef class="TableCenter">الاسم </th>
             <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.name }}</td>
+        </ng-container>
+
+        <!-- cityStateName Column -->
+        <ng-container matColumnDef="cityStateName" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">المركز </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.cityStateName }}</td>
+        </ng-container>
+
+        <!-- operationTypeName Column -->
+        <ng-container matColumnDef="operationTypeName" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">نوع العملية </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.operationTypeName }}</td>
+        </ng-container>
+
+        <!-- planTypeName Column -->
+        <ng-container matColumnDef="planTypeName" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">نوع الخطة </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.planTypeName }}</td>
+        </ng-container>
+
+        <!-- tenderTypeName Column -->
+        <ng-container matColumnDef="tenderTypeName" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">طريقة الطرح </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.tenderTypeName }}</td>
+        </ng-container>
+
+        <!-- value Column -->
+        <ng-container matColumnDef="value" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">القيمة </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.value }}</td>
+        </ng-container>
+
+        <!-- torValue Column -->
+        <ng-container matColumnDef="torValue" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">القمة الى </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.torValue }}</td>
+        </ng-container>
+
+        <!-- tenderBondValue Column -->
+        <ng-container matColumnDef="tenderBondValue" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">قيمة سند المناقصة </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.tenderBondValue }}</td>
+        </ng-container>
+
+        <!-- estimatingValue Column -->
+        <ng-container matColumnDef="estimatingValue" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">القيمة المقدرة </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.estimatingValue }}</td>
+        </ng-container>
+
+        <!-- awardValue Column -->
+        <ng-container matColumnDef="awardValue" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">قيمة الجائزة </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.awardValue }}</td>
+        </ng-container>
+
+        <!-- period Column -->
+        <ng-container matColumnDef="period" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">المدة </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.period }}</td>
+        </ng-container>
+
+        <!-- date Column -->
+        <ng-container matColumnDef="date" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">التاريخ </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.date | date }}</td>
+        </ng-container>
+
+        <!-- awardLetterDate Column -->
+        <ng-container matColumnDef="awardLetterDate" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">تاريخ ارسال الجائزة </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.awardLetterDate | date }}</td>
+        </ng-container>
+
+        <!-- deliveryDate Column -->
+        <ng-container matColumnDef="deliveryDate" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">تاريخ التوصيل </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.deliveryDate | date }}</td>
+        </ng-container>
+
+        <!-- financialOpeningDate Column -->
+        <ng-container matColumnDef="financialOpeningDate" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">تاريخ الافتتاح المالى </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.financialOpeningDate | date }}</td>
+        </ng-container>
+
+        <!-- financialSelectionDate Column -->
+        <ng-container matColumnDef="financialSelectionDate" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">تاريخ الاختيار المالى </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.financialSelectionDate | date }}</td>
+        </ng-container>
+
+        <!-- technicalOpeningDate Column -->
+        <ng-container matColumnDef="technicalOpeningDate" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">تاريخ الافتتاح التقنى </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.technicalOpeningDate | date }}</td>
+        </ng-container>
+
+        <!-- technicalSelectionDate Column -->
+        <ng-container matColumnDef="technicalSelectionDate" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">تاريخ الاختيار التقنى </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.technicalSelectionDate | date }}</td>
+        </ng-container>
+
+        <!-- workOrderDate Column -->
+        <ng-container matColumnDef="workOrderDate" class="text-center">
+            <th *matHeaderCellDef class="TableCenter">تاريخ امر الشغل </th>
+            <td mat-cell *matCellDef="let row" class="TableCenter">{{ row.workOrderDate | date }}</td>
         </ng-container>
 
         <!-- action Column -->
@@ -69,4 +177,3 @@
 <mat-card-footer>
     <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </mat-card-footer>
-

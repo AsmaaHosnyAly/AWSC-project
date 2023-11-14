@@ -821,7 +821,7 @@ export class ApiService {
 
   getCostCenterAutoCode() {
     return this.http.get<any>(
-      `${this.url}/FICostCenter/GetLastCode`
+      `${this.url}/FICostCenter/Get/Last/Code`
     );
   }
 
@@ -1679,6 +1679,10 @@ export class ApiService {
   getType() {
     return this.http.get<any>(`${this.url}/STRAddType/get/all`);
 
+  }
+
+  getStrApprovalStatus() {
+    return this.http.get<any>(`${this.url}/StrApprovalStatus/get/all`);
   }
 
   getTypeById(id: any) {

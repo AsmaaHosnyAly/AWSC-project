@@ -12,7 +12,54 @@ export class ApiService {
   pageEnums = PagesEnums
   url = this.pageEnums.URL
   constructor(private http: HttpClient) { }
+ /******************************** crud Group **********************************/
 
+ 
+ mycondition: any;
+/********************************  TenderType **********************************/
+getTenderTypeCode() {
+  return this.http.get<any>(`${this.url}/ProTenderType/AutoCode`);
+}
+postTenderType(data: any) {
+  return this.http.post<any>(`${this.url}/ProTenderType/Add`, data);
+}
+// here
+getTenderType() {
+  return this.http.get<any>(`${this.url}/ProTenderType/get/all`);
+}
+putTenderType(data: any) {
+  return this.http.put<any>(
+    `${this.url}/ProTenderType/update`,
+    data
+  );
+}
+deleteTenderType(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/ProTenderType/Delete/${id}`
+  );
+}
+/******************************** PlanType **********************************/
+getPlanTypeCode() {
+  return this.http.get<any>(`${this.url}/ProPlanType/AutoCode`);
+}
+postPlanType(data: any) {
+  return this.http.post<any>(`${this.url}/ProPlanType/Add`, data);
+}
+// here
+getPlanType() {
+  return this.http.get<any>(`${this.url}/ProPlanType/get/all`);
+}
+putPlanType(data: any) {
+  return this.http.put<any>(
+    `${this.url}/ProPlanType/update`,
+    data
+  );
+}
+deletePlanType(id: number) {
+  return this.http.delete<any>(
+    `${this.url}/ProPlanType/Delete/${id}`
+  );
+}
   ////////////////////////////////////////Pro-ContractType///////////////////////////////////////
   getProContractTypeAutoCode() {
     return this.http.get<any>(`${this.url}/ProContractorType/AutoCode`);

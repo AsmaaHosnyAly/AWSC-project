@@ -50,7 +50,7 @@
       <div class="searchLabels">
         <mat-label>المصدر</mat-label>
 
-        <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+        <!-- <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
           <mat-select id="sourceInput" formControlName="type" (valueChange)="getListCtrl($event)">
             <mat-option value="المورد">فاتورة</mat-option>
             <mat-option value="الموظف">اذن ارتجاع</mat-option>
@@ -58,6 +58,17 @@
             <mat-option value="كشف زيادة">كشف زيادة</mat-option>
             <mat-option value="شهادة ادارية">شهادة ادارية</mat-option>
           </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+          <input matInput aria-label="list" [matAutocomplete]="autoAddType" [formControl]="addTypeCtrl"
+            placeholder="{{getAddData ? getAddData.addTypeName : ''}}" (click)="openAutoAddType()" required />
+          <mat-autocomplete #autoAddType="matAutocomplete" [displayWith]="displayAddTypeName"
+            (optionSelected)="AddTypeSelected($event)">
+            <mat-option *ngFor="let addType of filteredAddType | async" [value]="addType">
+              {{ addType.name }}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
       </div>
 
@@ -102,14 +113,42 @@
       </div>
 
 
-     
+      <div class="searchLabels">
+        <mat-label>السلعة</mat-label>
+
+        <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+          <input matInput aria-label="list" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
+            placeholder="{{getAddData ? getAddData.commodityName : ''}}" (click)="openAutoCommodity()" required />
+          <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
+            (optionSelected)="CommoditySelected($event)">
+            <mat-option *ngFor="let commodity of filteredCommodity | async" [value]="commodity">
+              {{ commodity.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="searchLabels">
+        <mat-label>حالة الموافقة</mat-label>
+
+        <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+          <input matInput aria-label="list" [matAutocomplete]="autoApprovalStatus" [formControl]="approvalStatusCtrl"
+            placeholder="{{getAddData ? getAddData.approvalStatusName : ''}}" (click)="openAutoApprovalStatus()"
+            required />
+          <mat-autocomplete #autoApprovalStatus="matAutocomplete" [displayWith]="displayApprovalStatusName"
+            (optionSelected)="ApprovalStatusSelected($event)">
+            <mat-option *ngFor="let approvalStatus of filteredApprovalStatus | async" [value]="approvalStatus">
+              {{ approvalStatus.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
 
 
     </div>
-    <button style="top: -18% !important;"
-    class="savebutton"
-    mat-raised-button color="primary" (click)="nextToAddFormDetails()"
-    [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
+    <button style="top: -18% !important;" class="savebutton" mat-raised-button color="primary"
+      (click)="nextToAddFormDetails()"
+      [ngClass]="(editDataDetails || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">حفظ</button>
 
 
 

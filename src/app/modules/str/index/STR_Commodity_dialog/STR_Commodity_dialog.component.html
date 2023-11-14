@@ -1,3 +1,6 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <div class="cdk-overlay-pane  ">
   <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
 </div> 
@@ -21,13 +24,13 @@
       </mat-form-field>  
       
       <mat-label>الحساب</mat-label>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline"*ngIf="!loading">
         <input matInput aria-label="account" [matAutocomplete]="autoAccount" [formControl]="accountCtrl"
           placeholder="{{getCommodityData ? getCommodityData.accountName : 'اختر حساب'}}" (click)="openAutoAccount()" required />
         <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
           (optionSelected)="accountSelected($event)">
           <mat-option *ngFor="let account of filteredAccounts | async" [value]="account">
-            {{ account.name }} | {{ account.code }}
+            {{ account.name ? account.name : '-' }} | {{ account.code }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

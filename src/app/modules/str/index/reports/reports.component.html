@@ -1,4 +1,7 @@
-<div class="page-title"> تقارير المخازن</div>
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<div class="page-title" *ngIf="!loading"> تقارير المخازن</div>
 
 <div class="text-center w=100" *ngIf="loading">
   <app-spinner></app-spinner>

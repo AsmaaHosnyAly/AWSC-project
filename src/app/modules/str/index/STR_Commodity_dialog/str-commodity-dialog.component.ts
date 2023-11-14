@@ -31,6 +31,7 @@ export class StrCommodityDialogComponent implements OnInit {
   existingNames: string[] = [];
   actionBtn: string = "حفظ"
   autoCode:any;
+  loading :boolean=false;
   constructor(private formBuilder: FormBuilder,
     private api: ApiService,
     private hotkeysService: HotkeysService,
@@ -60,9 +61,9 @@ export class StrCommodityDialogComponent implements OnInit {
   
     });
 
-    this.api.getAllAccount().subscribe((accounts) => {
-      this.accounts = accounts;
-    });
+    this.getAccounts()
+     
+    
 
     if (this.editData) {
       this.actionBtn = "تحديث";
@@ -80,7 +81,7 @@ export class StrCommodityDialogComponent implements OnInit {
   }
 
   displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
+    return account ? account.name && account.name != null ? account.name : '-' : '';
   }
 
   accountSelected(event: MatAutocompleteSelectedEvent): void {
@@ -91,11 +92,10 @@ export class StrCommodityDialogComponent implements OnInit {
   }
 
   private _filterAccounts(value: string): Account[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value;
     return this.accounts.filter(
       (account) =>
-        account.name.toLowerCase().includes(filterValue) ||
-        account.code.toString().toLowerCase().includes(filterValue)
+        account.name || account.code ? account.name.toLowerCase().includes(filterValue) || account.code.toString().toLowerCase().includes(filterValue) : '-'
     );
   }
 
@@ -128,8 +128,8 @@ export class StrCommodityDialogComponent implements OnInit {
       alert('هذا الاسم موجود من قبل، قم بتغييره');
       return;
     }
-      this.commodityForm.removeControl('id')
-      console.log("add form before go to post: ", this.commodityForm.value)
+      this.commodityForm.removeControl('id');
+
       if (this.commodityForm.getRawValue().code) {
         console.log("no changed: ", this.commodityForm.getRawValue().code)
         this.commodityForm.controls['code'].setValue(this.autoCode);
@@ -141,6 +141,9 @@ export class StrCommodityDialogComponent implements OnInit {
       this.commodityForm.controls['transactionUserId'].setValue(
         this.transactionUserId
       );
+
+      console.log("add form before go to post: ", this.commodityForm.value);
+
       if (this.commodityForm.valid) {
         console.log('commodityForm:',this.commodityForm.value)
         this.api.postCommodity(this.commodityForm.value)
@@ -156,12 +159,29 @@ export class StrCommodityDialogComponent implements OnInit {
             }
           })
       }
+      else{
+        this.toastrWarningPost();
+      }
       
     }else{
       this.updateCommodity()
     }
   }
-
+  getAccounts() {
+    this.loading = true;
+    this.api.getAllAccount().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.accounts = res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   updateCommodity(){
     console.log("edit form : ", this.commodityForm.value)
     this.api.putCommodity(this.commodityForm.value)
@@ -179,14 +199,17 @@ export class StrCommodityDialogComponent implements OnInit {
   }
 
   getCommodityAutoCode() {
+
     this.api.getCommodityAutoCode()
       .subscribe({
         next: (res) => {
+         
           this.autoCode = res;
           console.log("autocode:",this.autoCode)
           return res;
         },
         error: (err) => {
+          
           // console.log("fetch fiscalYears data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
@@ -206,6 +229,10 @@ export class StrCommodityDialogComponent implements OnInit {
 
   toastrErrorEdit(): void {
     this.toastr.error('!خطأ عند تحديث البيانات');
+  }
+
+  toastrWarningPost(): void {
+    this.toastr.warning('!لا يمكنك الاضافة بعد السلعة التاسعة  ');
   }
 }
 

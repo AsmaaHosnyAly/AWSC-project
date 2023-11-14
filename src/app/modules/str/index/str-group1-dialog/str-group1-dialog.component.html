@@ -1,3 +1,6 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <div class="cdk-overlay-pane">
   <button class="close" mat-button mat-dialog-close>
     <mat-icon> clear</mat-icon>
@@ -25,7 +28,7 @@
       </div>
       <div class="child1">
       <mat-label>السلعة</mat-label>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline"*ngIf="!loading">
         <input
           matInput
           aria-label="commodity"
@@ -44,12 +47,12 @@
             *ngFor="let commodity of filteredCommodities | async"
             [value]="commodity"
           >
-            {{ commodity.name }} | {{ commodity.code }}
+          {{ commodity.name ? commodity.name : '-' }} | {{ commodity.code }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
       </div>
-      <div class="child1">
+      <div class="child1"*ngIf="!loading">
       <mat-label>النوعية</mat-label>
       <mat-form-field appearance="outline">
         <input
@@ -71,12 +74,12 @@
             *ngFor="let grade of filteredGrades | async"
             [value]="grade"
           >
-            {{ grade.name }} | {{ grade.code }}
+          {{ grade.name ? grade.name : '-' }} | {{ grade.code }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
       </div>
-      <div class="child1">
+      <div class="child1"*ngIf="!loading">
         <mat-label>الفصيلة</mat-label>
       <mat-form-field appearance="outline">
         <input
@@ -98,7 +101,7 @@
             *ngFor="let platoon of filteredPlatoons | async"
             [value]="platoon"
           >
-            {{ platoon.name }} | {{ platoon.code }}
+            {{ platoon.name ? platoon.name : '-' }} | {{ platoon.code }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

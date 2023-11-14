@@ -39,6 +39,7 @@ export class Group {
 })
 export class STRItem1DialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId')
+  loading :boolean=false;
   unitCtrl: FormControl;
   filteredUnits: Observable<Unit[]>;
   units: Unit[] = [];
@@ -146,18 +147,11 @@ export class STRItem1DialogComponent implements OnInit {
       this.units = units;
     });
 
-    this.api.getAllCommoditiesi().subscribe((commodities) => {
-      this.commodities = commodities;
-    });
+    this.getAllCommoditiesi();
 
-    this.api.getAllGradesi().subscribe((grades) => {
-      this.grades = grades;
-    });
+    this.getAllGradesi();
 
-    this.api.getAllPlatoonsi().subscribe((platoons) => {
-      this.platoons = platoons;
-    });
-
+    this.getAllPlatoonsi();
     this.api.getAllGroupsi().subscribe((groups) => {
       this.groups = groups;
     });
@@ -197,23 +191,25 @@ export class STRItem1DialogComponent implements OnInit {
 
 
   displayUnitName(unit: any): string {
-    return unit && unit.name ? unit.name : '';
+    return unit ? unit.name && unit.name != null ? unit.name : '-' : '';
+
   }
 
   displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
+    return commodity ? commodity.name && commodity.name != null ? commodity.name : '-' : '';
+
   }
 
   displayGradeName(grade: any): string {
-    return grade && grade.name ? grade.name : '';
+    return grade ? grade.name && grade.name != null ? grade.name : '-' : '';
   }
 
   displayPlatoonName(platoon: any): string {
-    return platoon && platoon.name ? platoon.name : '';
+    return platoon ? platoon.name && platoon.name != null ? platoon.name : '-' : '';
   }
 
   displayGroupName(group: any): string {
-    return group && group.name ? group.name : '';
+    return group ? group.name && group.name != null ? group.name : '-' : '';
   }
 
   unitSelected(event: MatAutocompleteSelectedEvent): void {
@@ -222,7 +218,66 @@ export class STRItem1DialogComponent implements OnInit {
     this.itemForm.patchValue({ unitId: unit.id });
     this.itemForm.patchValue({ unitName: unit.name });
   }
-
+  getAllPlatoonsi() {
+    this.loading = true;
+    this.api.getAllPlatoonsi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.platoons= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllCommoditiesi() {
+    this.loading = true;
+    this.api.getAllCommoditiesi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.commodities= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllGradesi() {
+    this.loading = true;
+    this.api.getAllGradesi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.grades= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getAllGroupsi() {
+    this.loading = true;
+    this.api.getAllGroupsi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.grades= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
     const commodity = event.option.value as Commodity;
     this.selectedCommodity = commodity;
@@ -261,14 +316,15 @@ export class STRItem1DialogComponent implements OnInit {
   private _filterUnits(value: string): Unit[] {
     const filterValue = value
     return this.units.filter(unit =>
-      unit.name.toLowerCase().includes(filterValue) 
+      unit.name ? unit.name.toLowerCase().includes(filterValue) : '-'
     );
   }
 
   private _filterCommodities(value: string): Commodity[] {
     const filterValue = value
     return this.commodities.filter(commodity =>
-      commodity.name.toLowerCase().includes(filterValue) || commodity.code.toString().toLowerCase().includes(filterValue)
+      commodity.name || commodity.code ? commodity.name.toLowerCase().includes(filterValue) ||
+      commodity.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
 
@@ -276,7 +332,8 @@ export class STRItem1DialogComponent implements OnInit {
     const filterValue = value
     return this.grades.filter(
       grade =>
-        (grade.name.toLowerCase().includes(filterValue) || grade.code.toString().toLowerCase().includes(filterValue)) &&
+      (grade.name || grade.code ? grade.name.toLowerCase().includes(filterValue) ||
+      grade.code.toString().toLowerCase().includes(filterValue) : '-') &&
         grade.commodityId === this.selectedCommodity?.id
     );
   }
@@ -285,7 +342,8 @@ export class STRItem1DialogComponent implements OnInit {
     const filterValue = value
     return this.platoons.filter(
       platoon =>
-        (platoon.name.toLowerCase().includes(filterValue) || platoon.code.toLowerCase().includes(filterValue)) &&
+      (platoon.name || platoon.code ? platoon.name.toLowerCase().includes(filterValue) ||
+      platoon.code.toString().toLowerCase().includes(filterValue) : '-') &&
         platoon.gradeId === this.selectedGrade?.id
     );
   }
@@ -294,7 +352,9 @@ export class STRItem1DialogComponent implements OnInit {
     const filterValue = value
     return this.groups.filter(
       group =>
-        (group.name.toLowerCase().includes(filterValue) || group.code.toLowerCase().includes(filterValue)) &&
+      
+      (group.name || group.code ? group.name.toLowerCase().includes(filterValue) ||
+      group.code.toString().toLowerCase().includes(filterValue) : '-') &&
         group.platoonId === this.selectedPlatoon?.id
     );
   }

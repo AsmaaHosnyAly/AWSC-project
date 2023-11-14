@@ -85,7 +85,7 @@ export class StrStoreDialogComponent implements OnInit {
   }
 
   displayStoreKeeper(keeper: any): string {
-    return keeper && keeper.name ? keeper.name : '';
+    return keeper ? keeper.name && keeper.name != null ? keeper.name : '-' : '';
   }
 
   keeperSelected(event: MatAutocompleteSelectedEvent): void {
@@ -99,8 +99,8 @@ export class StrStoreDialogComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.keepers.filter(
       (keeper) =>
-        keeper.name.toLowerCase().includes(filterValue) ||
-        keeper.code.toLowerCase().includes(filterValue)
+        keeper.name || keeper.code ? keeper.name.toLowerCase().includes(filterValue) ||
+        keeper.code.toString().toLowerCase().includes(filterValue) : '-'
     );
   }
 

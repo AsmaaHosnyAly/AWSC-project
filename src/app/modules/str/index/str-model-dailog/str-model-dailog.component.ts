@@ -103,7 +103,7 @@ vendorName: any;
     }
 
     displayVendorName(vendor: any): string {
-      return vendor && vendor.name ? vendor.name : '';
+      return vendor ? vendor.name && vendor.name != null ? vendor.name : '-' : '';
     }
 
     vendorSelected(event: MatAutocompleteSelectedEvent): void {
@@ -116,7 +116,7 @@ vendorName: any;
     private _filterVendores(value: string): Vendor[] {
       const filterValue = value.toLowerCase();
       return this.vendores.filter(vendor =>
-        vendor.name.toLowerCase().includes(filterValue) 
+        vendor.name ? vendor.name.toLowerCase().includes(filterValue) : '-'
       );
     }
 
@@ -168,10 +168,6 @@ vendorName: any;
     }
   }
 
-  displayVendor (option:any):string {
-    return option && option.name ? option.name:'';
-
-  }
       updateModel(){
         this.api.putModel(this.modelForm.value)
         .subscribe({

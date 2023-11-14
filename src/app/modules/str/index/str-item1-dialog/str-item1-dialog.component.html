@@ -1,3 +1,6 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <div class="cdk-overlay-pane">
   <button class="close" mat-button mat-dialog-close>
     <mat-icon> clear</mat-icon>
@@ -18,7 +21,7 @@
       </div>
       <div class="child1">
         <mat-label>الوحدة</mat-label>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"*ngIf="!loading">
           <input
             matInput
             aria-label="unit"
@@ -37,14 +40,14 @@
               *ngFor="let unit of filteredUnits | async"
               [value]="unit"
             >
-              {{ unit.name }}
+              {{ unit.name ? unit.name : '-' }} 
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
       </div>
       <div class="child1">
         <mat-label>السلعة</mat-label>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"*ngIf="!loading">
           <input
             matInput
             aria-label="commodity"
@@ -63,14 +66,14 @@
               *ngFor="let commodity of filteredCommodities | async"
               [value]="commodity"
             >
-              {{ commodity.name }} | {{ commodity.code }}
+            {{ commodity.name ? commodity.name : '-' }} | {{ commodity.code }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
       </div>
       <div class="child1">
         <mat-label>النوعية</mat-label>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"*ngIf="!loading">
           <input
             matInput
             aria-label="grade"
@@ -90,14 +93,14 @@
               *ngFor="let grade of filteredGrades | async"
               [value]="grade"
             >
-              {{ grade.name }} | {{ grade.code }}
+            {{ grade.name ? grade.name : '-' }} | {{ grade.code }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
       </div>
       <div class="child1">
         <mat-label>الفصيلة</mat-label>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"*ngIf="!loading">
           <input
             matInput
             aria-label="platoon"
@@ -117,14 +120,14 @@
               *ngFor="let platoon of filteredPlatoons | async"
               [value]="platoon"
             >
-              {{ platoon.name }} | {{ platoon.code }}
+            {{ platoon.name ? platoon.name : '-' }} | {{ platoon.code }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
       </div>
       <div class="child1">
         <mat-label>المجموعة</mat-label>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"*ngIf="!loading">
           <input
             matInput
             aria-label="group"
@@ -144,7 +147,7 @@
               *ngFor="let group of filteredGroups | async"
               [value]="group"
             >
-              {{ group.name }} | {{ group.code }}
+              {{ group.name ? group.name : '-' }} | {{ group.code }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

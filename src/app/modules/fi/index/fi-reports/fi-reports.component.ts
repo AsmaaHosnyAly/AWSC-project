@@ -61,8 +61,6 @@ export class FiReportsComponent implements OnInit {
   // ];
   matchedIds: any;
 
-
-
   groupMasterForm!: FormGroup;
 
 
@@ -315,6 +313,7 @@ export class FiReportsComponent implements OnInit {
 
 
   refreshData() {
+    this.accountCtrl.reset();
     this.groupMasterForm.reset();
   }
 

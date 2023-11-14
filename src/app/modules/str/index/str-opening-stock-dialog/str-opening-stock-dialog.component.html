@@ -1,5 +1,8 @@
 <!-- <p>str-opening-stock-dialog works!</p> -->
-<div class="cdk-overlay-pane  ">
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
+<div class="cdk-overlay-pane  "  *ngIf="!loading">
     <button class="close" mat-button (click)="getAllMasterForms()" mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
 </div>
@@ -18,7 +21,7 @@
                 <div style="display: flex; flex-direction: column; width: 25%;">
 
                     <mat-label>المخازن*</mat-label>
-                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;" *ngIf="!loading">
                         <mat-select placeholder="المخازن" formControlName="storeId"
                             (valueChange)="storeValueChanges($event)">
                             <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
@@ -31,7 +34,7 @@
                 <div style="display: flex; flex-direction: column; width: 30%;">
                     <mat-label>السنة المالية*</mat-label>
 
-                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;" *ngIf="!loading">
                         <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
                             (valueChange)="fiscalYearValueChanges($event)">
                             <mat-option [value]="fiscalYear.id"

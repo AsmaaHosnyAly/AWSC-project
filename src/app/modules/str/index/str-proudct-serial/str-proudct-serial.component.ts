@@ -69,8 +69,7 @@ export class StrProudctSerialComponent  implements OnInit{
   openDialog() {
     this.dialog
       .open(StrProudctSerialDialogComponent, {
-        width: '35%',
-      height: '70%',
+        width: '47%'
       })
       .afterClosed()
       .subscribe((val) => {

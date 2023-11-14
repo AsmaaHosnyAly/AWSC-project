@@ -34,6 +34,7 @@ export class Account {
 })
 export class STRGradeDialogComponent {
   transactionUserId = localStorage.getItem('transactionUserId');
+ loading :boolean=false;
   commodityCtrl: FormControl;
   filteredCommodities: Observable<Commodity[]>;
   commodities: Commodity[] = [];
@@ -95,13 +96,11 @@ export class STRGradeDialogComponent {
       // matautocompleteFieldName : [''],
     });
 
-    this.api.getAllCommodities().subscribe((commodities) => {
-      this.commodities = commodities;
-    });
+    this.getAllCommodities()
+    
 
-    this.api.getAllAccount().subscribe((accounts) => {
-      this.accounts = accounts;
-    });
+    this.getAccounts()
+     
 
     if (this.editData) {
       this.actionBtn = 'تعديل';
@@ -126,9 +125,39 @@ export class STRGradeDialogComponent {
   }
 
   displayCommodityName(commodity: any): string {
-    return commodity && commodity.name ? commodity.name : '';
+    return commodity ? commodity.name && commodity.name != null ? commodity.name : '-' : '';
+  }
+  getAccounts() {
+    this.loading = true;
+    this.api.getAllAccount().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.accounts = res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
 
+  getAllCommodities() {
+    this.loading = true;
+    this.api.getAllCommodities().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.commodities= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
   commoditySelected(event: MatAutocompleteSelectedEvent): void {
     const commodity = event.option.value as Commodity;
     this.selectedCommodity = commodity;
@@ -141,8 +170,8 @@ export class STRGradeDialogComponent {
     const filterValue = value.toLowerCase();
     return this.commodities.filter(
       (commodity) =>
-        commodity.name.toLowerCase().includes(filterValue) ||
-        commodity.code.toString().toLowerCase().includes(filterValue)
+      commodity.name || commodity.code ? commodity.name.toLowerCase().includes(filterValue) ||
+        commodity.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
 
@@ -154,7 +183,7 @@ export class STRGradeDialogComponent {
   }
 
   displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
+    return account ? account.name && account.name != null ? account.name : '-' : '';
   }
 
   accountSelected(event: MatAutocompleteSelectedEvent): void {
@@ -168,8 +197,7 @@ export class STRGradeDialogComponent {
     const filterValue = value.toLowerCase();
     return this.accounts.filter(
       (account) =>
-        account.name.toLowerCase().includes(filterValue) ||
-        account.code.toString().toLowerCase().includes(filterValue)
+        account.name || account.code ? account.name.toLowerCase().includes(filterValue) || account.code.toString().toLowerCase().includes(filterValue) : '-'
     );
   }
 
@@ -234,16 +262,24 @@ export class STRGradeDialogComponent {
         this.transactionUserId
       );
       if (this.gradeForm.valid) {
+        this.loading = true;
         this.api.postGrade(this.gradeForm.value).subscribe({
           next: (res) => {
+            this.loading =false;
             this.toastrSuccess();
             this.gradeForm.reset();
             this.dialogRef.close('save');
           },
           error: (err) => {
+            this.loading=false;
             this.toastrErrorSave();
           },
+          
         });
+        
+      }
+      else{
+        this.toastrWarningPost();
       }
     } else {
       this.updateGrade();
@@ -278,5 +314,8 @@ export class STRGradeDialogComponent {
   toastrErrorEdit(): void {
     this.toastr.error('!خطأ عند تحديث البيانات');
 
+  }
+  toastrWarningPost(): void {
+    this.toastr.warning('كود النوعيةيجب أن يحتوي على رقم واحد ');
   }
 }

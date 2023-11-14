@@ -39,7 +39,7 @@ export class StrProudctSerialDialogComponent {
   getGradeData: any;
   selectedProduct: Product | undefined;
   formcontrol = new FormControl('');
-  gradeForm!: FormGroup;
+  proudctserialForm!: FormGroup;
   actionBtn: string = 'حفظ';
   selectedOption: any;
   Id:string  | undefined | null;
@@ -70,7 +70,7 @@ commname:any;
     );
   }
   ngOnInit(): void {
-    this.gradeForm = this.formBuilder.group({
+    this.proudctserialForm = this.formBuilder.group({
       //define the components of the form
       transactionUserId: ['', Validators.required],
       // name : ['',Validators.required],
@@ -89,20 +89,20 @@ commname:any;
     if (this.editData) {
       this.actionBtn = 'تعديل';
       this.getGradeData = this.editData;
-      this.gradeForm.controls['transactionUserId'].setValue(
+      this.proudctserialForm.controls['transactionUserId'].setValue(
         this.editData.transactionUserId
       );
      console.log("in edit data:",this.editData)
-      // this.gradeForm.controls['name'].setValue(this.editData.name);
-      this.gradeForm.controls['serial'].setValue(this.editData.serial)
-      this.gradeForm.controls['productionDate'].setValue(this.editData.productionDate)
-      this.gradeForm.controls['expireDate'].setValue(this.editData.expireDate)
-      this.gradeForm.controls['productId'].setValue(
+      // this.proudctserialForm.controls['name'].setValue(this.editData.name);
+      this.proudctserialForm.controls['serial'].setValue(this.editData.serial)
+      this.proudctserialForm.controls['productionDate'].setValue(this.editData.productionDate)
+      this.proudctserialForm.controls['expireDate'].setValue(this.editData.expireDate)
+      this.proudctserialForm.controls['productId'].setValue(
         this.editData.productId
       );
-      // console.log("commodityId: ", this.gradeForm.controls['commodityId'].value)
-      this.gradeForm.addControl('id', new FormControl('', Validators.required));
-      this.gradeForm.controls['id'].setValue(this.editData.id);
+      // console.log("commodityId: ", this.proudctserialForm.controls['commodityId'].value)
+      this.proudctserialForm.addControl('id', new FormControl('', Validators.required));
+      this.proudctserialForm.controls['id'].setValue(this.editData.id);
     }
   }
 
@@ -113,8 +113,8 @@ commname:any;
   productSelected(event: MatAutocompleteSelectedEvent): void {
     const product = event.option.value as Product;
     this.selectedProduct = product;
-    this.gradeForm.patchValue({ productId: product.id });
-    this.gradeForm.patchValue({ productName: product.name });
+    this.proudctserialForm.patchValue({ productId: product.id });
+    this.proudctserialForm.patchValue({ productName: product.name });
    
   }
 
@@ -139,18 +139,18 @@ commname:any;
   addProductserail(){
     if(!this.editData){
       
-      this.gradeForm.removeControl('id')
+      this.proudctserialForm.removeControl('id')
       
-      // this.gradeForm.controls['commodityId'].setValue(this.selectedOption.id);
-      console.log("add: ", this.gradeForm.value);
-      this.gradeForm.controls['transactionUserId'].setValue(this.transactionUserId);
+      // this.proudctserialForm.controls['commodityId'].setValue(this.selectedOption.id);
+      console.log("add: ", this.proudctserialForm.value);
+      this.proudctserialForm.controls['transactionUserId'].setValue(this.transactionUserId);
       
-      if(this.gradeForm.valid){
-        this.api.postProductserail(this.gradeForm.value)
+      if(this.proudctserialForm.valid){
+        this.api.postProductserail(this.proudctserialForm.value)
         .subscribe({
           next:(res)=>{
             this.toastrSuccess();
-            this.gradeForm.reset();
+            this.proudctserialForm.reset();
             this.dialogRef.close('save');
           },
           error:(err)=>{ 
@@ -168,13 +168,13 @@ commname:any;
   }
  
       updateProductserail(){
-        this.api.putProductserail(this.gradeForm.value)
+        this.api.putProductserail(this.proudctserialForm.value)
         .subscribe({
           next:(res)=>{
            console.log(res)
             // alert("تم التحديث بنجاح");
             this.toastrEdit();
-            this.gradeForm.reset();
+            this.proudctserialForm.reset();
             this.dialogRef.close('update');
           },
           error:(err)=>{
