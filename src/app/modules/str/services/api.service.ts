@@ -785,9 +785,7 @@ export class ApiService {
       `${this.url}/STRStore/delete/` + id
     );
   }
-  getAllTodos(): Observable<any> {
-    return this.http.get<any>('http://localhost:3000/commidity/');
-  }
+  
 
   getAllstores(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
@@ -805,6 +803,15 @@ export class ApiService {
 
   getCostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
+  }
+
+  getAllCostCenter() {
+    return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
+  }
+
+  getAllCostCenterById(id: any) {
+    let urlPassed = `${this.url}/CcCostCenter/get/${id}`;
+    return urlPassed;
   }
 
   getCostCenterById(id: any) {

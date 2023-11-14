@@ -9,30 +9,7 @@
 
         <div class="headerForm">
 
-            <!-- <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>المخازن</mat-label>
-                <mat-select placeholder="المخازن" formControlName="storeId">
-                    <mat-option [value]="store.id" *ngFor="let store of storeList">{{store.name}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
-            <!-- <mat-form-field appearance="outline" class="groupInput">
-                <mat-label>السنة المالية</mat-label>
-                <mat-select placeholder="السنة المالية" formControlName="fiscalYearId">
-                    <mat-option [value]="fiscalYear.id"
-                        *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
-            <!-- <mat-form-field appearance="outline" class="child-num" style="width: 120px;">
-                <mat-label>السنة المالية</mat-label>
-                <mat-select  formControlName="fiscalYearId"
-                    (valueChange)="fiscalYearValueChanges($event)">
-                    <mat-option [value]="fiscalYear.id"
-                        *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-
+          
             <div style="display: flex; flex-direction: column;margin-left: 10px; ">
                 <mat-label>السنة المالية:</mat-label>
               
@@ -66,30 +43,13 @@
                 <mat-autocomplete #autoemployee="matAutocomplete" [displayWith]="displayEmployeeName"
                     (optionSelected)="employeeSelected($event)">
                     <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
-                        {{ employee.name }}
+                        {{ employee.name ? employee.name : '-' }} 
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
           </div>
 
-           
-          <!-- <div style="display: flex; flex-direction: column;margin-left: 10px; ">
-            <mat-label >مركز التكلفة :</mat-label>
-
-            <mat-form-field appearance="outline" style="width: 120px;">
-                <input matInput aria-label="costCenter" [matAutocomplete]="autoCostCenter" [formControl]="costCenterCtrl"
-                    (click)="openAutoCostCenter()"
-                    placeholder="{{editData ? editData.costCenterName : ''}}" required />
-                <mat-autocomplete #autoCostCenter="matAutocomplete" [displayWith]="displayCostCenterName"
-                    (optionSelected)="costCenterSelected($event)">
-                    <mat-option *ngFor="let costCenter of filteredCostCenters | async" [value]="costCenter">
-                        {{ costCenter.name }}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </div> -->
-
-
+        
         <div style="display: flex; flex-direction: column;margin-left: 10px;">
             <mat-label >مركز التكلفة :</mat-label>
         
@@ -100,7 +60,7 @@
               <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId 
                 [displayWith]="displayCostCenterName" (optionSelected)="costCenterSelected($event)">
                 <mat-option *ngFor="let costcenter of filteredCostCenters | async" [value]="costcenter">
-                  {{ costcenter.name }} | {{ costcenter.id }}
+                  {{ costcenter.name ? costcenter.name : '-' }} 
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
