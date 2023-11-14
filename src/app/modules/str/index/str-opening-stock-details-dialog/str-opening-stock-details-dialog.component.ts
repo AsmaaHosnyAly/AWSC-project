@@ -26,7 +26,7 @@ export class Product {
   styleUrls: ['./str-opening-stock-details-dialog.component.css']
 })
 export class StrOpeningStockDetailsDialogComponent implements OnInit {
-  loading :boolean=false;
+  loading: boolean = false;
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -78,6 +78,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   productIdValue: any;
 
   displayedColumns: string[] = ['itemName', 'price', 'qty', 'total', 'action'];
+  transactionUserId = localStorage.getItem('transactionUserId');
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -127,7 +128,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
       total: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
-      itemName: ['', Validators.required],
+      // itemName: ['', Validators.required],
     });
 
     if (this.editData) {
@@ -136,7 +137,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
       this.actionBtnDetails = 'Update';
       this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.editData.stR_Opening_StockId);
-      this.groupDetailsForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
+      this.groupDetailsForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
       this.groupDetailsForm.controls['qty'].setValue(this.editData.qty);
       this.groupDetailsForm.controls['price'].setValue(this.editData.price);
@@ -198,12 +199,12 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
   private _filterProducts(value: string): Product[] {
     const filterValue = value;
-    console.log("filterValue222:",filterValue);
-    
+    console.log("filterValue222:", filterValue);
+
     return this.productsList.filter(
       (product) =>
-      product.name.toLowerCase().includes(filterValue) ||
-      product.code.toString().toLowerCase().includes(filterValue)
+        product.name.toLowerCase().includes(filterValue) ||
+        product.code.toString().toLowerCase().includes(filterValue)
     );
   }
   displayProductName(product: any): string {
@@ -293,9 +294,9 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
         if (this.groupDetailsForm.getRawValue().itemId) {
 
           this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-          this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
 
-          this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+          this.groupDetailsForm.controls['transactionUserId'].setValue(this.transactionUserId);
         }
 
         this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.getMasterRowId);
@@ -352,15 +353,15 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
   // }
 
   getItems() {
-    this.loading=true;
+    this.loading = true;
     this.api.getItems()
       .subscribe({
         next: (res) => {
-          this.loading=false;
+          this.loading = false;
           this.itemsList = res;
         },
         error: (err) => {
-          this.loading=false;
+          this.loading = false;
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
@@ -478,13 +479,13 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
           console.log("enter product code case condition: ", a.code === code.target.value);
 
           this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
-        
+
           this.productIdValue = a.name;
           this.productCtrl.setValue(a.name);
 
-          console.log("itemslist: ", this.itemsList.find((item: { id: any; }) => item.id == (this.groupDetailsForm.getRawValue().itemId))?.fullCode );
+          console.log("itemslist: ", this.itemsList.find((item: { id: any; }) => item.id == (this.groupDetailsForm.getRawValue().itemId))?.fullCode);
           this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == (this.groupDetailsForm.getRawValue().itemId))?.fullCode;
-       
+
           // alert(this.fullCodeValue);
           this.itemCtrl.setValue(a.itemName);
           if (a.itemName) {
@@ -499,7 +500,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
 
         }
-        else{
+        else {
           this.productIdValue = '';
         }
       })
