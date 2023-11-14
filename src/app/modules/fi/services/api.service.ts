@@ -62,6 +62,11 @@ export class ApiService {
       `${this.url}/FiAccountItem/get/all`
     );
   }
+  getFiAccountItemPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/FiAccountItem/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putFiAccountItem(data: any) {
     return this.http.put<any>(
       `${this.url}/FiAccountItem/update`,
@@ -281,6 +286,11 @@ export class ApiService {
   getAccount() {
     return this.http.get<any>(`${this.url}/FIAccount/get/all`);
   }
+  getFiAccountPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/FIAccount/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putAccount(data: any) {
     return this.http.put<any>(
       `${this.url}/FIAccount/update`,
@@ -311,6 +321,11 @@ export class ApiService {
       `${this.url}/FiEntrySourceType/get/all`
     );
   }
+  getFiEntrySourceTypePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/FiEntrySourceType/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putEntrySourceType(data: any) {
     console.log("data", data)
     return this.http.put<any>(
@@ -340,6 +355,11 @@ export class ApiService {
     return this.http.get<any>(
       `${this.url}/FiEntrySource/get/all`
     );
+  }
+  getFiEntrySourcePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/FiEntrySource/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putEntrySource(data: any) {
     return this.http.put<any>(

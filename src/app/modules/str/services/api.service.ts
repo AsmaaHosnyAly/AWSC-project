@@ -195,6 +195,11 @@ export class ApiService {
   getItem() {
     return this.http.get<any>(`${this.url}/STRItem/get/all`);
   }
+  getItemPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/STRItem/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putItem(data: any) {
     return this.http.put<any>(
       `${this.url}/STRItem/update`,
@@ -785,7 +790,7 @@ export class ApiService {
       `${this.url}/STRStore/delete/` + id
     );
   }
-  
+
 
   getAllstores(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
@@ -803,6 +808,11 @@ export class ApiService {
 
   getCostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
+  }
+  getFiCostCenterPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/FICostCenter/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
 
   getAllCostCenter() {
@@ -1004,6 +1014,11 @@ export class ApiService {
   }
   getStrOpen() {
     return this.http.get<any>(`${this.url}/STROpeningStock/get/all`);
+  }
+  getStrOpeningStockPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/STROpeningStock/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putStrOpen(data: any) {
     return this.http.put<any>(`${this.url}/STROpeningStock/update`, data);

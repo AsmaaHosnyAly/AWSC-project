@@ -2,60 +2,49 @@
 
 
 <mat-card>
-  
+
   <mat-card-content>
 
     <mat-card-header dir="ltr" class="parent-search">
       <div class="child1">
-        <button
-          mat-raised-button
-          class="add"
-          (click)="openDialog()"
-          dir="ltr"
-        >
+        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
           <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
         </button>
       </div>
-    
+
       <div>
-        <input 
-          matInput
-          class="filter-search"
-          (keyup)="applyFilter($event)"
-          placeholder="بحث"
-          #input
-        />
+        <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
       </div>
     </mat-card-header>
-    <table matSort mat-table [dataSource]="dataSource" >
+    <table matSort mat-table [dataSource]="dataSource">
 
       <!-- accountCode Column -->
       <ng-container matColumnDef="code">
-        <th mat-header-cell *matHeaderCellDef > كود الحساب </th>
+        <th mat-header-cell *matHeaderCellDef> كود الحساب </th>
         <td mat-cell *matCellDef="let row"> {{row.code}} </td>
       </ng-container>
-        <!-- accountName Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef > الحساب </th>
-          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-        </ng-container>
+      <!-- accountName Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> الحساب </th>
+        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      </ng-container>
 
       <!-- HierarchyName Column -->
       <ng-container matColumnDef="fiAccountHierarchyName">
-        <th mat-header-cell *matHeaderCellDef > شجرة الحساب </th>
+        <th mat-header-cell *matHeaderCellDef> شجرة الحساب </th>
         <td mat-cell *matCellDef="let row"> {{row.fiAccountHierarchyName}}</td>
       </ng-container>
 
       <!-- Hierarchylevel Column -->
       <ng-container matColumnDef="fiAccountlevel">
-        <th mat-header-cell *matHeaderCellDef > مستوى الحساب </th>
+        <th mat-header-cell *matHeaderCellDef> مستوى الحساب </th>
         <td mat-cell *matCellDef="let row"> {{row.fiAccountlevel}}</td>
       </ng-container>
 
       <!-- action Column -->
       <ng-container matColumnDef="action" style="width: 15%;">
-        <th mat-header-cell *matHeaderCellDef > الإجراء </th>
-        <td mat-cell *matCellDef="let row"> 
+        <th mat-header-cell *matHeaderCellDef> الإجراء </th>
+        <td mat-cell *matCellDef="let row">
           <button mat-icon-button (click)="editAccount(row)" class="editbtn">
             <mat-icon>edit</mat-icon>
           </button>
@@ -64,7 +53,7 @@
           </button>
         </td>
       </ng-container>
- 
+
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row;columns:displayedColumns"></tr>
@@ -80,8 +69,8 @@
   <br>
   <mat-card-footer>
 
-    <mat-paginator [pageSizeOptions]="[5,10,20,50,100]" showFirstLastButtons></mat-paginator>
-    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+    <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)" showFirstLastButtons>
+    </mat-paginator>
   </mat-card-footer>
 </mat-card>
-

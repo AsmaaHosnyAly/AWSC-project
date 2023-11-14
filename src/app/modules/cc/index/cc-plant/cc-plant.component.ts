@@ -6,7 +6,7 @@ import {
 } from '@angular/material/dialog';
 
 import { ApiService } from '../../services/api.service';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
@@ -17,13 +17,20 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { GlobalService } from 'src/app/pages/services/global.service'; 
+import { GlobalService } from 'src/app/pages/services/global.service';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
 import { CcPlantDialogComponent } from '../cc-plant-dialog/cc-plant-dialog.component';
 export class subRegion {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public global: GlobalService) { }
+}
+
+interface CcPlant {
+  code: any;
+  name: any;
+  subRegionName: any;
+  action: any;
 }
 
 @Component({
@@ -32,6 +39,14 @@ export class subRegion {
   styleUrls: ['./cc-plant.component.css']
 })
 export class CcPlantComponent {
+  ELEMENT_DATA: CcPlant[] = [];
+  totalRows = 0;
+  pageSize = 5;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageIndex: any;
+  length: any;
+  dataSource: MatTableDataSource<CcPlant> = new MatTableDataSource();
 
   subRegionCtrl: FormControl;
   filteredSubRegiones: Observable<subRegion[]>;
@@ -41,13 +56,16 @@ export class CcPlantComponent {
   plantForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [  'code','name', 'subRegionName','action'];
-  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['code', 'name', 'subRegionName', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
-  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  constructor(private dialog: MatDialog, private toastr: ToastrService, private api: ApiService, private global: GlobalService, private hotkeysService: HotkeysService) {
     this.subRegionCtrl = new FormControl();
     this.filteredSubRegiones = this.subRegionCtrl.valueChanges.pipe(
       startWith(''),
@@ -58,7 +76,7 @@ export class CcPlantComponent {
   }
   ngOnInit(): void {
     // console.log(productForm)
-    
+
     this.getAllPlants();
     this.api.getAllSubRegiones().subscribe((subRegiones) => {
       this.subRegiones = subRegiones;
@@ -94,21 +112,77 @@ export class CcPlantComponent {
   private _filterSubRegiones(value: string): subRegion[] {
     const filterValue = value.toLowerCase();
     return this.subRegiones.filter(subRegion =>
-      subRegion.name.toLowerCase().includes(filterValue) 
+      subRegion.name.toLowerCase().includes(filterValue)
     );
   }
 
   getAllPlants() {
-    this.api.getPlant().subscribe({
-      next: (res) => {
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
+    // this.api.getPlant().subscribe({
+    //   next: (res) => {
+    //     this.dataSource = new MatTableDataSource(res);
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
+    //   },
+    //   error: (err) => {
+    //     alert('Error');
+    //   },
+    // });
+
+    if (!this.currentPage) {
+      this.currentPage = 0;
+
+      // this.isLoading = true;
+      fetch(this.api.getCcPlantPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+    else {
+      // this.isLoading = true;
+      fetch(this.api.getCcPlantPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+    
+  }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    this.getAllPlants();
   }
 
   editPlant(row: any) {
@@ -130,14 +204,14 @@ export class CcPlantComponent {
     if (result) {
       this.api.deletePlant(id).subscribe({
         next: (res) => {
-          if(res == 'Succeeded'){
-            console.log("res of deletestore:",res)
+          if (res == 'Succeeded') {
+            console.log("res of deletestore:", res)
             this.toastrDeleteSuccess();
-          this.getAllPlants();
+            this.getAllPlants();
 
-        }else{
-          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-        }
+          } else {
+            alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+          }
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -145,15 +219,15 @@ export class CcPlantComponent {
       });
     }
   }
-  
+
 
   openAutoSubRegion() {
     this.subRegionCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.subRegionCtrl.updateValueAndValidity();
   }
-  
+
   async getSearchModels(name: any) {
     this.api.getPlant().subscribe({
       next: (res) => {
@@ -197,7 +271,7 @@ export class CcPlantComponent {
     });
     // this.getAllProducts()
   }
-  
+
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');

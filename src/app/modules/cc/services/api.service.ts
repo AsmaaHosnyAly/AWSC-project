@@ -16,6 +16,11 @@ export class ApiService {
   getCcActivity() {
     return this.http.get<any>(`${this.url}/CcActivity/get/all`);
   }
+  getCcActivityPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcActivity/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putCcActivity(data: any) {
     return this.http.put<any>(
       `${this.url}/CcActivity/update`,
@@ -36,6 +41,11 @@ export class ApiService {
   ////////////////CcFunction//////////////////
   getCcFunction() {
     return this.http.get<any>(`${this.url}/CcFunction/get/all`);
+  }
+  getCcFunctionPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcFunction/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putCcFunction(data: any) {
     return this.http.put<any>(
@@ -59,6 +69,11 @@ export class ApiService {
   ////////////////CcRegion//////////////////////////
   getCcRegion() {
     return this.http.get<any>(`${this.url}/CcRegion/get/all`);
+  }
+  getCcRegionPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcRegion/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putCcRegion(data: any) {
     return this.http.put<any>(
@@ -85,6 +100,11 @@ export class ApiService {
   getCcSubRegion() {
     return this.http.get<any>(`${this.url}/CcSubRegion/get/all`);
   }
+  getCcSubReginPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcSubRegion/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putCcSubRegion(data: any) {
     return this.http.put<any>(
       `${this.url}/CcSubRegion/update`,
@@ -103,6 +123,11 @@ export class ApiService {
   ////////////////////cc plant//////////////////
   getPlant() {
     return this.http.get<any>(`${this.url}/CcPlant/get/all`);
+  }
+  getCcPlantPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcPlant/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putPlant(data: any) {
     return this.http.put<any>(
@@ -126,6 +151,11 @@ export class ApiService {
   ////////////////////////CcSources//////////////////
   getCcSource() {
     return this.http.get<any>(`${this.url}/CcSource/get/all`);
+  }
+  getCcSourcePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcSource/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putCcSource(data: any) {
     return this.http.put<any>(

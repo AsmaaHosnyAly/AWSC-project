@@ -8,8 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { STRAddDialogComponent } from '../str-add-dialog/str-add-dialog.component';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service'; 
-import { GlobalService } from 'src/app/pages/services/global.service'; 
+import { ApiService } from '../../services/api.service';
+import { GlobalService } from 'src/app/pages/services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -108,7 +108,7 @@ export class STRAddTableComponent implements OnInit {
 
   groupMasterForm!: FormGroup;
 
-loading:boolean=false;
+  loading: boolean = false;
   // costcentersList: costcenter[] = [];
   // costcenterCtrl: FormControl<any>;
   // filteredcostcenter: Observable<costcenter[]>;
@@ -156,8 +156,8 @@ loading:boolean=false;
   dataSource2: MatTableDataSource<STRAddTableComponent> = new MatTableDataSource();
   isLoading = false;
 
-  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS ;
-  
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
+
   constructor(
     private api: ApiService,
     private global: GlobalService,
@@ -236,10 +236,10 @@ loading:boolean=false;
       storeId: [''],
       employeeId: [''],
       employeeName: [''],
-      itemId:[''],
-      itemName:[''],
-      report:['STRWithdrawReport'],
-      reportType:['']
+      itemId: [''],
+      itemName: [''],
+      report: ['STRWithdrawReport'],
+      reportType: ['']
     });
 
 
@@ -737,16 +737,16 @@ loading:boolean=false;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
 
-this.loading =true;
+    this.loading = true;
     this.api.getStrAddSearach(no, EntryNo, fiscalyear, employee, item, store, StartDate, EndDate).subscribe({
       next: (res) => {
-        this.loading=false;
+        this.loading = false;
         this.dataSource2 = res;
         this.dataSource2.paginator = this.paginatorLegal;
         this.dataSource2.sort = this.sort;
       },
       error: (err) => {
-        this.loading =false;
+        this.loading = false;
         console.log('eroorr', err);
       },
     });
@@ -929,33 +929,33 @@ this.loading =true;
       });
   }
   previewPrint(no: any, StartDate: any, EndDate: any, fiscalYear: any, report: any, reportType: any) {
-   
+
     let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     let employee = this.groupMasterForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
-if(report !=null && reportType!=null){
-  this.loading =true;
-    this.api
-      .strAdd(no, store, StartDate,EndDate, fiscalYear, item, employee, costCenter,report,'pdf')
-      .subscribe({
-        next: (res) => {
-          this.loading =false;
-          let blob: Blob = res.body as Blob;
-          console.log(blob);
-          let url = window.URL.createObjectURL(blob);
-          localStorage.setItem('url', JSON.stringify(url));
-          this.pdfurl = url;
-          this.dialog.open(PrintDialogComponent, {
-            width: '50%',
-          });
+    if (report != null && reportType != null) {
+      this.loading = true;
+      this.api
+        .strAdd(no, store, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, 'pdf')
+        .subscribe({
+          next: (res) => {
+            this.loading = false;
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '50%',
+            });
 
             // this.dataSource = res;
             // this.dataSource.paginator = this.paginator;
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading =false;
+            this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },
