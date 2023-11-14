@@ -1,3 +1,6 @@
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 <div class="cdk-overlay-pane  ">
     <button class="close" (click)="getAllMasterForms()" mat-button mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
@@ -56,7 +59,7 @@
 
                     <!-- <div style="display: flex; flex-direction: column"> -->
                     <mat-label> الموظف*</mat-label>
-                    <mat-form-field appearance="outline" class="groupInput" style=" width: 100%;">
+                    <mat-form-field appearance="outline" class="groupInput" style=" width: 100%;" *ngIf="!loading">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee"
                             [formControl]="emploeeCtrl" placeholder="{{editData ? editData.employeeName : ''}}"
                             (click)="openAutoEmployee()" required />
@@ -72,7 +75,7 @@
                 <div style="display: flex; flex-direction: column; width: 20%;margin-left: 10px;">
 
                     <mat-label>الموظف المحول اليه*</mat-label>
-                    <mat-form-field appearance="outline" class="groupInput" style=" width: 100%;">
+                    <mat-form-field appearance="outline" class="groupInput" style=" width: 100%;" *ngIf="!loading">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoDistEmployee"
                             [formControl]="distEmploeeCtrl" placeholder="{{editData ? editData.destEmployeeName : ''}}"
                             (click)="openAutoDistEmployee()" required />
@@ -89,7 +92,7 @@
                     <div style="display: flex; flex-direction: column; width: 20%;margin-left: 10px;">
 
                     <mat-label> مركز التكلفة</mat-label>
-                    <mat-form-field appearance="outline" style=" width: 100%;">
+                    <mat-form-field appearance="outline" style=" width: 100%;" *ngIf="!loading">
                         <input matInput aria-label="commodity" [matAutocomplete]="autoCostCenter"
                             [formControl]="costCenterCtrl" placeholder="{{editData ? editData.costCenterName : ''}}"
                             (click)="openAutoCostCenter()" required />
