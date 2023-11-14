@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from '../../services/api.service';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-cc-entry-container',
@@ -17,7 +18,9 @@ export class CcEntryContainerComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog, private api: ApiService) { }
+  constructor(private dialog: MatDialog, private api: ApiService,global:GlobalService) { 
+  
+  }
 
   ngOnInit(): void {
   }
