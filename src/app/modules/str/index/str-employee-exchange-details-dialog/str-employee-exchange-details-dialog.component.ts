@@ -28,6 +28,7 @@ export class Product {
   styleUrls: ['./str-employee-exchange-details-dialog.component.css']
 })
 export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
+  loading: boolean = false;
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -112,7 +113,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
     // console.log("get params after: ", "masterId: ", this.getMasterRowId);
 
-    this.getItems();
+    // this.getItems();
     this.getProducts();
     // this.getMasterRowId = this.editData;
 
@@ -165,13 +166,17 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
 
   getItems() {
+    this.loading = true;
     let itemArr: any[] = [];
+
     this.api.getItems()
       .subscribe({
         next: (res) => {
           res.forEach((element: any) => {
             if (element.type.includes('عهد')) {
               itemArr.push(element);
+              this.loading = false;
+
               console.log("item list in loop check type: ", itemArr);
 
             }
@@ -182,6 +187,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
 
         },
         error: (err) => {
+          this.loading = false;
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
@@ -189,12 +195,15 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
   }
 
   getProducts() {
+    this.loading = true;
     this.api.getStrProduct().subscribe({
       next: (res) => {
+        this.loading = false;
         this.productsList = res;
         console.log("productsList res: ", this.productsList);
       },
       error: (err) => {
+        this.loading = false;
         // console.log("fetch products data err: ", err);
         // alert("خطا اثناء جلب المنتجات !");
       },
@@ -343,7 +352,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
 
-      this.dialogRef.close('Save');
+    this.dialogRef.close('Save');
     // }
   }
   getCodeByItem(item: any) {
@@ -377,10 +386,11 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
     console.log("master Id: ", this.getMasterRowId.id)
 
     if (this.getMasterRowId.id) {
-
+      this.loading = true;
       this.api.getStrEmployeeExchangeDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
+            this.loading = false;
             // this.itemsList = res;
             this.matchedIds = res[0].strEmployeeExchangeDetailsGetVM;
 
@@ -400,6 +410,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
             }
           },
           error: (err) => {
+            this.loading = false;
             // console.log("fetch items data err: ", err);
             // alert("خطا اثناء جلب العناصر !");
           }
@@ -422,17 +433,17 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
         if (this.groupDetailsForm.getRawValue().itemId) {
           this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
           this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-
           this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
         }
         this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.getMasterRowId);
 
         console.log("groupDetails: ", this.groupDetailsForm.value);
         if (this.groupDetailsForm.valid) {
-
+          this.loading = true
           this.api.postStrEmployeeExchangeDetails(this.groupDetailsForm.value)
             .subscribe({
               next: (res) => {
+                this.loading = false;
                 // alert("detailsId: "+res);
                 this.getDetailsRowId = {
                   "id": res
@@ -447,6 +458,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
                 this.fullCodeValue = '';
               },
               error: () => {
+                this.loading = false;
                 // alert("حدث خطأ أثناء إضافة مجموعة")
               }
             })

@@ -64,6 +64,8 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   defaultFiscalYearSelectValue: any;
   currentDate: any;
   stateDefaultValue: any;
+  loading:boolean=false;
+  
 
   fiscalYearsList: FiscalYear[] = [];
   fiscalYearCtrl: FormControl;
@@ -243,12 +245,15 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   }
 
   getItems() {
+    this.loading=true
     this.api.getItems()
       .subscribe({
         next: (res) => {
+          this.loading=false
           this.itemsList = res;
         },
         error: (err) => {
+          this.loading=false
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
@@ -256,12 +261,15 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   }
 
   getEmployees() {
+    this.loading=true
     this.api.getHrEmployees()
       .subscribe({
         next: (res) => {
+          this.loading=false
           this.employeesList = res;
         },
         error: (err) => {
+          this.loading=false
           // console.log("fetch employees data err: ", err);
           // alert("خطا اثناء جلب الموظفين !");
         }

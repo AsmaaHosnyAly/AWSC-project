@@ -369,8 +369,8 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     // }
   }
   getAllDetailsForms() {
-    console.log('editDataaaa: ', this.editData);
-    this.getMasterRowId = this.editData;
+    // console.log('editDataaaa: ', this.editData);
+    // this.getMasterRowId = this.editData;
     console.log('mastered row get all data: ', this.getMasterRowId);
     if (this.getMasterRowId) {
     
@@ -413,6 +413,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     }
   }
   addNewDetails() {
+    console.log("Id master: ",  this.getMasterRowId);
     this.router.navigate(['/EmployeeOpeningCustody'], {
       queryParams: {
         masterId: this.getMasterRowId.id,

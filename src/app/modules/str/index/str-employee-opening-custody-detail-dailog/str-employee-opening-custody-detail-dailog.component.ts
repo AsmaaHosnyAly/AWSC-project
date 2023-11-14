@@ -26,6 +26,7 @@ export class Product {
   styleUrls: ['./str-employee-opening-custody-detail-dailog.component.css']
 })
 export class StrEmployeeOpeningCustodyDetailDailogComponent {
+  loading :boolean=false;
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -311,9 +312,11 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
   getItems() {
     let itemArr: any[] = [];
+    this.loading=true;
     this.api.getItems()
       .subscribe({
         next: (res) => {
+          this.loading =false;
           res.forEach((element: any) => {
             if (element.type.includes('عهد')) {
               itemArr.push(element);
@@ -325,6 +328,7 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
         },
         error: (err) => {
+          this.loading=false;
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
