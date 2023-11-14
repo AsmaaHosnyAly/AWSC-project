@@ -1,4 +1,7 @@
 <!-- <p>str-add-details-dialog works!</p> -->
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 <div class="cdk-overlay-pane  ">
     <button class="close" mat-button  mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
@@ -42,8 +45,7 @@
                                 <mat-autocomplete #autoProductId="matAutocomplete" [displayWith]="displayProductName"
                                     (optionSelected)="ProductSelected($event)">
                                     <mat-option *ngFor="let product of filteredProduct | async" [value]="product">
-                                        {{ product.name }} | {{ product.code }}
-                                        <!-- {{ product.name }} -->
+                                        {{ product.name ? product.name : '-' }} | {{ product.code }}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
@@ -70,14 +72,14 @@
                 <div class="searchLabels" style="width: 17rem;">
                     <mat-label> الصنف*</mat-label>
 
-                    <mat-form-field appearance="outline" class="groupInput" style="width: 96%;">
+                    <mat-form-field appearance="outline" class="groupInput" style="width: 96%;" *ngIf="!loading">
                         <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
                             placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
                             (click)="openAutoItem()" required />
                         <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
                             (optionSelected)="ItemSelected($event)">
                             <mat-option *ngFor="let item of filteredItem | async" [value]="item">
-                                {{ item.name }}
+                                {{ item.name ? item.name : '-' }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -107,15 +109,6 @@
             </div>
             <div style="display: flex;flex-direction: row;">
 
-
-                <!-- <div style="display: flex;flex-direction: column;width: 9rem;">
-                    <mat-label> النسبة*</mat-label>
-
-                    <mat-form-field appearance="outline" class="groupInput" style="width:100% ;">
-                        <input matInput type="number" min="0" placeholder="النسبة" formControlName="percentage"
-                            [value]="editData ? editData.percentage : ''" [readonly]="isReadOnlyPercentage">
-                    </mat-form-field>
-                </div> -->
 
             </div>
 

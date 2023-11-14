@@ -785,9 +785,7 @@ export class ApiService {
       `${this.url}/STRStore/delete/` + id
     );
   }
-  getAllTodos(): Observable<any> {
-    return this.http.get<any>('http://localhost:3000/commidity/');
-  }
+  
 
   getAllstores(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
@@ -805,6 +803,15 @@ export class ApiService {
 
   getCostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
+  }
+
+  getAllCostCenter() {
+    return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
+  }
+
+  getAllCostCenterById(id: any) {
+    let urlPassed = `${this.url}/CcCostCenter/get/${id}`;
+    return urlPassed;
   }
 
   getCostCenterById(id: any) {
@@ -1180,7 +1187,7 @@ export class ApiService {
 
   ///////////////////////////////// STR-EmployeeExchange & details/////////////////////////////
   getStrEmployeeExchangeAutoNo() {
-    return this.http.get<any>(`${this.url}/STREmployeExchange/get/AutoNo`);
+    return this.http.get<any>(`${this.url}/STREmployeeExchange/get/AutoNo`);
   }
 
   getHrEmployees() {
@@ -1197,16 +1204,16 @@ export class ApiService {
   }
 
   postStrEmployeeExchange(data: any) {
-    return this.http.post<any>(`${this.url}/STREmployeExchange/Add`, data);
+    return this.http.post<any>(`${this.url}/STREmployeeExchange/Add`, data);
   }
   getStrEmployeeExchange() {
     return this.http.get<any>(`${this.url}/STREmployeeExchange/get/all`);
   }
   putStrEmployeeExchange(data: any) {
-    return this.http.put<any>(`${this.url}/STREmployeExchange/update`, data);
+    return this.http.put<any>(`${this.url}/STREmployeeExchange/update`, data);
   }
   deleteStrEmployeeExchange(id: number) {
-    return this.http.delete<any>(`${this.url}/STREmployeExchange/delete/` + id);
+    return this.http.delete<any>(`${this.url}/STREmployeeExchange/delete/` + id);
   }
 
   postStrEmployeeExchangeDetails(data: any) {
@@ -1233,7 +1240,7 @@ export class ApiService {
   deleteStrEmployeeExchangeDetails(HeaderId: number) {
     console.log('deleted row id: ', HeaderId);
     return this.http.delete<any>(
-      `${this.url}/STREmployeeExchangeDetails/delete/by/EmployeeExchange/` +
+      `${this.url}/STREmployeeExchangeDetails/delete/` +
       HeaderId
     );
   }
@@ -1260,7 +1267,7 @@ export class ApiService {
       EndDate, 'fiscalyear:', Fiscalyaer
     );
     this.mycondition;
-    this.mycondition = `${this.url}/STREmployeExchange/search?`;
+    this.mycondition = `${this.url}/STREmployeeExchange/search?`;
 
     if (!no == false) {
       this.mycondition = ` ${this.mycondition}&No=${no}`;
