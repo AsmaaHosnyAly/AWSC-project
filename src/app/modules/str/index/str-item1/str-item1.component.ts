@@ -24,7 +24,7 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 
 export class Grade {
@@ -33,7 +33,7 @@ export class Grade {
     public name: string,
     public code: string,
     public commodityId: number
-  ) {}
+  ) { }
 }
 
 export class Platoon {
@@ -43,7 +43,7 @@ export class Platoon {
     public code: string,
     public commodityId: number,
     public gradeId: number
-  ) {}
+  ) { }
 }
 
 export class Group {
@@ -54,7 +54,7 @@ export class Group {
     public commodityId: number,
     public gradeId: number,
     public platoonId: number
-  ) {}
+  ) { }
 }
 
 export class Unit {
@@ -62,7 +62,7 @@ export class Unit {
     public id: number,
     public name: string,
     private global: GlobalService
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -72,7 +72,7 @@ export class Unit {
   providers: [DatePipe],
 })
 export class STRItem1Component implements OnInit {
-  loading :boolean=false;
+  loading: boolean = false;
   transactionUserId = localStorage.getItem('transactionUserId');
   unitCtrl: FormControl;
   filteredUnits: Observable<Unit[]>;
@@ -122,7 +122,7 @@ export class STRItem1Component implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private formBuilder: FormBuilder,
-    private dialog: MatDialog,private toastr: ToastrService,
+    private dialog: MatDialog, private toastr: ToastrService,
     private api: ApiService,
     private datePipe: DatePipe,
     private router: Router,
@@ -418,6 +418,8 @@ export class STRItem1Component implements OnInit {
   }
 
   async getSearchItems(name: any, fullCode: any, type: any) {
+
+
     let commodity = this.itemForm.getRawValue().commodityId;
     console.log('commodityRow:', commodity);
     let grade = this.itemForm.getRawValue().gradeId;
@@ -428,34 +430,42 @@ export class STRItem1Component implements OnInit {
     console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     console.log('unitRow:', unit);
-this.loading=true;
-    this.api
-      .getSearchItem(
-        name,
-        fullCode,
-        type,
-        commodity,
-        grade,
-        platoon,
-        group,
-        unit
-      )
-      .subscribe({
-        next: (res) => {
-          this.loading=false;
-          console.log('search:', res);
+    if (name || fullCode || type || commodity || grade || platoon || group || unit) {
+      this.loading = true;
+      this.api
+        .getSearchItem(
+          name,
+          fullCode,
+          type,
+          commodity,
+          grade,
+          platoon,
+          group,
+          unit
+        )
+        .subscribe({
+          next: (res) => {
+            this.loading = false;
+            console.log('search:', res);
 
-          this.dataSource = res;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          this.loading=false;
-          console.log('eroorr', err);
-        },
-      });
+            this.dataSource = res;
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            this.loading = false;
+            console.log('eroorr', err);
+          },
+        });
+    }else{
+      this.toastrNullInputs()
+    }
   }
+   
 
+  toastrNullInputs(): void {
+    this.toastr.error('من فضلك ادخل البيانات');
+  }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
@@ -579,7 +589,7 @@ this.loading=true;
       )
       .subscribe({
         next: (res) => {
-          
+
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
@@ -591,7 +601,7 @@ this.loading=true;
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
-          
+
           console.log('eroorr', err);
           window.open(err.url);
         },
@@ -610,7 +620,7 @@ this.loading=true;
     // console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     // console.log('unitRow:', unit);
-    this.loading=true
+    this.loading = true
     this.api
       .printReportItems(
         name,
@@ -624,7 +634,7 @@ this.loading=true;
       )
       .subscribe({
         next: (res) => {
-          this.loading=false
+          this.loading = false
           let blob: Blob = res.body as Blob;
           console.log(blob);
           let url = window.URL.createObjectURL(blob);
@@ -639,7 +649,7 @@ this.loading=true;
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
-          this.loading=false
+          this.loading = false
           console.log('eroorr', err);
           window.open(err.url);
         },

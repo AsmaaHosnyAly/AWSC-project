@@ -28,6 +28,7 @@ export class Product {
   styleUrls: ['./str-add-details-dialog.component.css']
 })
 export class StrAddDetailsDialogComponent implements OnInit {
+  loading : boolean=false;
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -162,10 +163,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
     });
 
-    this.api.getAllItems().subscribe((items) => {
-      this.items = items;
-    });
-
+    this.getAllItems();
 
     console.log("get params: ", this.route.snapshot.queryParamMap.get('masterId'));
     this.getMasterRowId = this.route.snapshot.queryParamMap.get('masterId');
@@ -367,19 +365,37 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
 
   getItems() {
+    this.loading=true;
     this.api.getItems()
       .subscribe({
         next: (res) => {
+          this.loading=false;
           this.itemsList = res;
           // console.log("items res: ", this.itemsList);
         },
         error: (err) => {
+          this.loading=false;
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
       })
   }
-
+  getAllItems() {
+    this.loading=true;
+    this.api.getAllItems()
+      .subscribe({
+        next: (res) => {
+          this.loading=false;
+          this.items = res;
+          // console.log("items res: ", this.itemsList);
+        },
+        error: (err) => {
+          this.loading=false;
+          // console.log("fetch items data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        }
+      })
+  }
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
 
@@ -580,10 +596,11 @@ export class StrAddDetailsDialogComponent implements OnInit {
     console.log("master Id: ", this.getMasterRowId.id)
 
     if (this.getMasterRowId.id) {
-
+this.loading=true
       this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
+            this.loading=false;
             // this.itemsList = res;
             this.matchedIds = res[0].strAddDetailsGetVM;
 
@@ -605,6 +622,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
             }
           },
           error: (err) => {
+            this.loading=false
             // console.log("fetch items data err: ", err);
             // alert("خطا اثناء جلب العناصر !");
           }

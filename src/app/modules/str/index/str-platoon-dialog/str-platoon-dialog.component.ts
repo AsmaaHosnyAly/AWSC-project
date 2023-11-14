@@ -167,7 +167,7 @@ export class STRPlatoonDialogComponent implements OnInit {
   private _filterGrades(value: string): Grade[] {
     const filterValue = value.toLowerCase();
     return this.grades.filter(
-      (grade) =>
+      grade =>
         (grade.name || grade.code ? grade.name.toLowerCase().includes(filterValue) ||
           grade.code.toString().toLowerCase().includes(filterValue) : '-') &&
         grade.commodityId === this.selectedCommodity?.id

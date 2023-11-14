@@ -1,4 +1,7 @@
 <!-- <p>str-add-details-dialog works!</p> -->
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 <div class="cdk-overlay-pane  ">
     <button class="close" mat-button (click)="getAllDetailsForms()" mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
@@ -22,7 +25,7 @@
   
             <mat-label> الصنف*</mat-label>
   
-            <mat-form-field appearance="outline" class="groupInput" style="width: 70%;">
+            <mat-form-field appearance="outline" class="groupInput" style="width: 70%;" *ngIf="!loading">
                 <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
                 placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}" (click)="openAutoItem()" required />
                 <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"

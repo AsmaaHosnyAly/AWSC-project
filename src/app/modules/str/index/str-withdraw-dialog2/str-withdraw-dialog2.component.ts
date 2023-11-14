@@ -475,7 +475,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   // }
 
   displaycostcenterName(costcenter: any): string {
-    return costcenter && costcenter.name ? costcenter.name : '';
+    return costcenter ? costcenter.name && costcenter.name != null ? costcenter.name : '-' : '';
   }
   costcenterSelected(event: MatAutocompleteSelectedEvent): void {
     const costcenter = event.option.value as costcenter;
@@ -491,8 +491,9 @@ export class StrWithdrawDialogComponent implements OnInit {
   private _filtercostcenters(value: string): costcenter[] {
     const filterValue = value;
     return this.costcentersList.filter((costcenter) =>
-      costcenter.name.toLowerCase().includes(filterValue)
+      costcenter.name ? costcenter.name.toLowerCase().includes(filterValue) : '-'
     );
+    
   }
   openAutocostcenter() {
     this.costcenterCtrl.setValue(''); // Clear the input field value
@@ -525,7 +526,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   // }
 
   displayitemName(item: any): string {
-    return item && item.name ? item.name : '';
+    return item ? item.name && item.name != null ? item.name : '-' : '';
   }
   itemSelected(event: MatAutocompleteSelectedEvent): void {
     const item = event.option.value as item;
@@ -557,7 +558,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   private _filteritems(value: string): item[] {
     const filterValue = value;
     return this.itemsList.filter((item) =>
-      item.name.toLowerCase().includes(filterValue)
+      item.name ? item.name.toLowerCase().includes(filterValue) : '-'
     );
   }
 
@@ -1294,7 +1295,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   getCostCenters() {
-    this.api.getCostCenter().subscribe({
+    this.api.getAllCostCenter().subscribe({
       next: (res) => {
         this.costcentersList = res;
         console.log('costcenterrr res: ', this.costcentersList);
@@ -1359,7 +1360,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
   getcostcenterByID(id: any) {
     console.log('costcenter idddd: ', id);
-    return fetch(this.api.getCostCenterById(id))
+    return fetch(this.api.getAllCostCenterById(id))
       .then((response) => response.json())
       .then((json) => {
         console.log('fetch name by id res: ', json.name);
@@ -1506,7 +1507,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   }
 
   displayListName(list: any): string {
-    return list && list.name ? list.name : '';
+    return list ? list.name && list.name != null ? list.name : '-' : '';
   }
 
   listSelected(event: MatAutocompleteSelectedEvent): void {
@@ -1528,7 +1529,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   private _filterLists(value: string): List[] {
     const filterValue = value.toLowerCase();
     return this.lists.filter((list) =>
-      list.name.toLowerCase().includes(filterValue)
+      list.name ? list.name.toLowerCase().includes(filterValue) : '-'
     );
   }
 

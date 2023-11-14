@@ -1,4 +1,7 @@
 <!-- <p>str-employee-exchange-details-dialog works!</p> -->
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 <div class="cdk-overlay-pane  ">
     <button class="close" mat-button (click)="closeDialog()" mat-dialog-close> <mat-icon>
             clear</mat-icon></button>
@@ -36,7 +39,7 @@
 
                         <div style="display: flex; flex-direction: column;">
                             <mat-label>بحث باسم المنتج </mat-label>
-                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;"  *ngIf="!loading">
                                 <input matInput aria-label="commodity" [matAutocomplete]="autoProductId"
                                     [formControl]="productCtrl" placeholder="{{productIdValue ? productIdValue : ''}}"
                                     (click)="openAutoProduct()" required />
@@ -78,7 +81,7 @@
 
             <!-- <div style="display: flex; flex-direction: column; width: 30%;"> -->
             <mat-label>الصنف*</mat-label>
-            <mat-form-field appearance="outline" style="width: 80%;">
+            <mat-form-field appearance="outline" style="width: 80%;" *ngIf="!loading">
                 <input matInput aria-label="commodity" [matAutocomplete]="itemId" [formControl]="itemsCtrl"
                     placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
                     (click)="openAutoItem()" required />
