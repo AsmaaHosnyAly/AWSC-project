@@ -1574,7 +1574,7 @@ export class ApiService {
   // ----Start Add----
 
   GetWithDrawByDestStore(storeId: any) {
-    return this.http.get<any>(`${this.url}/STRWithdraw/GetWithDrawByDestStore/${storeId}`);
+    return this.http.get<any>(`${this.url}/STRWithdraw/get/By/Dest/Store/${storeId}`);
   }
   postAcceptOrRejectWithDrawByDestStore(data: any) {
     console.log("dataaa: ", data);
