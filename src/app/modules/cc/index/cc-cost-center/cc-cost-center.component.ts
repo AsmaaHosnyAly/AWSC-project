@@ -98,7 +98,7 @@ export class CcCostCenterComponent {
   @ViewChild(MatSort) sort!: MatSort;
   
   constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
-
+    global.getPermissionUserRoles('IT', '', 'التكاليف', 'credit_card')
     this.functionnCtrl = new FormControl();
     this.filteredFunctionnes = this.functionnCtrl.valueChanges.pipe(
       startWith(''),

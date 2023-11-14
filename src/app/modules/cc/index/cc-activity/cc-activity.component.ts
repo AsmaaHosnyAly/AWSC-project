@@ -27,7 +27,7 @@ export class CcActivityComponent  implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog, private hotkeysService: HotkeysService,private api: ApiService, private toastr: ToastrService,global:GlobalService) {
-    global.getPermissionUserRoles('IT', '', 'التكاليف', '')
+    global.getPermissionUserRoles('IT', '', 'التكاليف', 'credit_card')
    }
 
   ngOnInit(): void {
