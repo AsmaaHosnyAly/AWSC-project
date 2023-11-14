@@ -6,7 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { FIEntrySourceTypeDialogComponent } from '../fi-entry-source-type-dialog/fi-entry-source-type-dialog.component';
 import { ApiService } from '../../services/api.service';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
@@ -25,8 +25,14 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class EntrySource {
   constructor(public id: number, public name: string) {
-   
+
   }
+}
+
+interface FiEntrySource {
+  name: any;
+  fiEntrySourceName: any;
+  action: any;
 }
 
 @Component({
@@ -35,6 +41,15 @@ export class EntrySource {
   styleUrls: ['./fi-entry-source-type.component.css']
 })
 export class FIEntrySourceTypeComponent implements OnInit {
+  ELEMENT_DATA: FiEntrySource[] = [];
+  totalRows = 0;
+  pageSize = 5;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageIndex: any;
+  length: any;
+  dataSource: MatTableDataSource<FiEntrySource> = new MatTableDataSource();
+
   entrySourceCtrl: FormControl;
   filteredEntrySources: Observable<EntrySource[]>;
   entrySources: EntrySource[] = [];
@@ -44,12 +59,15 @@ export class FIEntrySourceTypeComponent implements OnInit {
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
   displayedColumns: string[] = ['name', 'fiEntrySourceName', 'action'];
-  dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialog: MatDialog,private global:GlobalService,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  constructor(private dialog: MatDialog, private global: GlobalService, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) {
     this.entrySourceCtrl = new FormControl();
     this.filteredEntrySources = this.entrySourceCtrl.valueChanges.pipe(
       startWith(''),
@@ -92,33 +110,89 @@ export class FIEntrySourceTypeComponent implements OnInit {
     const entrySource = event.option.value as EntrySource;
     this.selectedEntrySource = entrySource;
     this.entrySourceTypeForm.patchValue({ entrySourceId: entrySource.id });
-      this.entrySourceTypeForm.patchValue({ fiEntrySourceName: entrySource.name });
+    this.entrySourceTypeForm.patchValue({ fiEntrySourceName: entrySource.name });
   }
   private _filterEntrySources(value: string): EntrySource[] {
     const filterValue = value.toLowerCase();
     return this.entrySources.filter(entrySource =>
-      entrySource.name.toLowerCase().includes(filterValue) 
+      entrySource.name.toLowerCase().includes(filterValue)
     );
   }
 
   openAutoEntrySource() {
     this.entrySourceCtrl.setValue(''); // Clear the input field value
-  
+
     // Open the autocomplete dropdown by triggering the value change event
     this.entrySourceCtrl.updateValueAndValidity();
   }
 
   getAllEntrySourceTypes() {
-    this.api.getEntrySourceType().subscribe({
-      next: (res) => {
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
+    // this.api.getEntrySourceType().subscribe({
+    //   next: (res) => {
+    //     this.dataSource = new MatTableDataSource(res);
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
+    //   },
+    //   error: (err) => {
+    //     alert('Error');
+    //   },
+    // });
+
+    if (!this.currentPage) {
+      this.currentPage = 0;
+
+      // this.isLoading = true;
+      fetch(this.api.getFiEntrySourceTypePaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+    else {
+      // this.isLoading = true;
+      fetch(this.api.getFiEntrySourceTypePaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+
+  }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    this.getAllEntrySourceTypes();
   }
 
   editEntrySourceType(row: any) {
@@ -212,6 +286,6 @@ export class FIEntrySourceTypeComponent implements OnInit {
   toastrEditSuccess(): void {
     this.toastr.success('تم التعديل بنجاح');
   }
-  
+
 }
 

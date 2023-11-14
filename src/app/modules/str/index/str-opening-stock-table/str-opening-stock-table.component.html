@@ -3,7 +3,7 @@
   <app-spinner></app-spinner>
 </div>
 <mat-accordion class="example-headers-align" multi dir="rtl">
-  <div class="page-title"*ngIf="!loading">الرصيد الافتتاحى</div>
+  <div class="page-title" *ngIf="!loading">الرصيد الافتتاحى</div>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-description>
@@ -42,14 +42,14 @@
 
         <div class="searchLabels">
           <mat-label>السنة المالية</mat-label>
-      
-            <mat-form-field appearance="outline"    >
-              <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalYear">
-                <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.id">{{
-                  fiscalYear.fiscalyear }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-           </div>
+
+          <mat-form-field appearance="outline">
+            <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalYear">
+              <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.id">{{
+                fiscalYear.fiscalyear }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
 
 
@@ -58,9 +58,9 @@
         <div class="searchLabels">
 
           <mat-label>الصنف:</mat-label>
-          <mat-form-field appearance="outline"*ngIf="!loading" >
-            <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl" formControlName="itemName"
-              (keydown)="getsearch($event)" (click)="openAutoitem()" required />
+          <mat-form-field appearance="outline" *ngIf="!loading">
+            <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
+              formControlName="itemName" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
             <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
               (optionSelected)="itemSelected($event)">
               <mat-option *ngFor="let item of filtereditem | async" [value]="item">
@@ -83,7 +83,7 @@
         </div>
         <div class="searchLabels">
           <mat-label>تاريخ النهاية</mat-label>
-          <mat-form-field appearance="outline" class="searchForm" >
+          <mat-form-field appearance="outline" class="searchForm">
 
             <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate">
             <mat-datepicker-toggle matIconSuffix [for]="picke">
@@ -96,8 +96,8 @@
         <div class="searchLabels">
           <mat-label> التقارير</mat-label>
 
-          <mat-form-field appearance="outline" class="searchForm" >
-            <mat-select   #report  formControlName="report">
+          <mat-form-field appearance="outline" class="searchForm">
+            <mat-select #report formControlName="report">
               <mat-option value="OpeningStockReport">تقرير</mat-option>
               <mat-option value="OpeningStockDetailsReport"> تقرير تفصيلي</mat-option>
             </mat-select>
@@ -107,11 +107,11 @@
         <div class="searchLabels">
           <mat-label> نوع التقرير</mat-label>
 
-          <mat-form-field appearance="outline" class="searchForm" >
+          <mat-form-field appearance="outline" class="searchForm">
             <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
-              <mat-option value="pdf"> PDF  </mat-option>
+              <mat-option value="pdf"> PDF </mat-option>
               <mat-option value="txt">TexT </mat-option>
-            
+
 
 
             </mat-select>
@@ -125,15 +125,17 @@
 
 
 
-     
+
       </div>
       <div class="print-display">
         <mat-icon (click)="getSearchStrOpen(no.value, StartDate.value,EndDate.value, fiscalYear.value)" class="icons"
           title="بحث">search</mat-icon>
-        <mat-icon (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
-          title="عرض">print</mat-icon>
-        <mat-icon (click)="downloadPdf(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)" class="icons"
-          title="تحميل">get_app</mat-icon>
+        <mat-icon
+          (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+          class="icons" title="عرض">print</mat-icon>
+        <mat-icon
+          (click)="downloadPdf(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
+          class="icons" title="تحميل">get_app</mat-icon>
 
         <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
       </div>
@@ -218,4 +220,6 @@
   </div>
 </section>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons aria-label="Select page of users"></mat-paginator>
+<mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)" showFirstLastButtons>
+</mat-paginator>

@@ -1,5 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,11 +22,19 @@ import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 import { GlobalService } from 'src/app/pages/services/global.service';
 
 export class store {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 export class item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
+}
+
+interface StrOpeningStock {
+  no: any;
+  storeName: any;
+  fiscalyear: any;
+  date: any;
+  Action: any;
 }
 
 @Component({
@@ -35,6 +43,16 @@ export class item {
   styleUrls: ['./str-opening-stock-table.component.css'],
 })
 export class StrOpeningStockTableComponent implements OnInit {
+  ELEMENT_DATA: StrOpeningStock[] = [];
+  totalRows = 0;
+  pageSize = 5;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageIndex: any;
+  length: any;
+  dataSource2: MatTableDataSource<StrOpeningStock> = new MatTableDataSource();
+
+
   displayedColumns: string[] = [
     'no',
     'storeName',
@@ -46,7 +64,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   // storeList: any;
   storeName: any;
   fiscalYearsList: any;
-  loading :boolean=false;
+  loading: boolean = false;
   // itemsList: any;
   groupMasterForm!: FormGroup;
   groupDetailsForm!: FormGroup;
@@ -60,11 +78,14 @@ export class StrOpeningStockTableComponent implements OnInit {
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
 
-  dataSource2!: MatTableDataSource<any>;
   pdfurl = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSource2.paginator = this.paginator;
+  }
 
   constructor(
     private api: ApiService,
@@ -74,7 +95,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    private global:GlobalService
+    private global: GlobalService
   ) {
     global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
@@ -145,20 +166,77 @@ export class StrOpeningStockTableComponent implements OnInit {
     }
   }
   getAllMasterForms() {
-    this.api.getStrOpen().subscribe({
-      next: (res) => {
-        console.log('response of get all getGroup from api: ', res);
-        this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-        this.groupMasterForm.reset();
-        // this.groupDetailsForm.reset();
-      },
-      error: () => {
-        // alert('خطأ أثناء جلب سجلات المجموعة !!');
-      },
-    });
+    // this.api.getStrOpen().subscribe({
+    //   next: (res) => {
+    //     console.log('response of get all getGroup from api: ', res);
+    //     this.dataSource2 = new MatTableDataSource(res);
+    //     this.dataSource2.paginator = this.paginator;
+    //     this.dataSource2.sort = this.sort;
+    //     this.groupMasterForm.reset();
+    //     // this.groupDetailsForm.reset();
+    //   },
+    //   error: () => {
+    //     // alert('خطأ أثناء جلب سجلات المجموعة !!');
+    //   },
+    // });
+
+    if (!this.currentPage) {
+      this.currentPage = 0;
+
+      // this.isLoading = true;
+      fetch(this.api.getStrOpeningStockPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+    else {
+      // this.isLoading = true;
+      fetch(this.api.getStrOpeningStockPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+
   }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    this.getAllMasterForms();
+  }
+
   openOpeningStockDialog() {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
@@ -366,15 +444,15 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
 
   getStores() {
-    this.loading=true;
+    this.loading = true;
     this.api.getStore().subscribe({
       next: (res) => {
-        this.loading=false;
+        this.loading = false;
         this.storeList = res;
         // console.log("store res: ", this.storeList);
       },
       error: (err) => {
-        this.loading=false;
+        this.loading = false;
         // console.log("fetch store data err: ", err);
         alert('خطا اثناء جلب المخازن !');
       },
@@ -438,14 +516,14 @@ export class StrOpeningStockTableComponent implements OnInit {
   }
 
   getItems() {
-    this.loading=true;
+    this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
-        this.loading=false;
+        this.loading = false;
         this.itemsList = res;
       },
       error: (err) => {
-        this.loading=false;
+        this.loading = false;
         // console.log("fetch items data err: ", err);
         // alert("خطا اثناء جلب العناصر !");
       },
@@ -455,12 +533,12 @@ export class StrOpeningStockTableComponent implements OnInit {
   getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-this.loading=true;
+    this.loading = true;
     this.api
       .getStrOpenSearach(no, store, fiscalYear, item, StartDate, EndDate)
       .subscribe({
         next: (res) => {
-          this.loading=false;
+          this.loading = false;
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
@@ -551,7 +629,7 @@ this.loading=true;
     let item = this.groupMasterForm.getRawValue().itemId;
     let store = this.groupMasterForm.getRawValue().storeId;
     if (report != null && reportType != null) {
-      this.loading=true;
+      this.loading = true;
       this.api
         .openingStock(
           no,
@@ -567,7 +645,7 @@ this.loading=true;
         )
         .subscribe({
           next: (res) => {
-            this.loading=false;
+            this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -582,7 +660,7 @@ this.loading=true;
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading=false;
+            this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },
