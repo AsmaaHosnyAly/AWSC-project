@@ -189,11 +189,11 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
   private _filterItems(value: string): Item[] {
     const filterValue = value;
     return this.itemsList.filter(item =>
-      item.name.toLowerCase().includes(filterValue)
+      item.name ? item.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   displayItemName(item: any): string {
-    return item && item.name ? item.name : '';
+    return item ? item.name && item.name != null ? item.name : '-' : '';
   }
   ItemSelected(event: MatAutocompleteSelectedEvent): void {
     const item = event.option.value as Item;
@@ -217,12 +217,12 @@ export class StrEmployeeOpeningCustodyDetailDailogComponent {
 
     return this.productsList.filter(
       (product) =>
-        product.name.toLowerCase().includes(filterValue) ||
-        product.code.toString().toLowerCase().includes(filterValue)
+        product.name || product.code ? product.name.toLowerCase().includes(filterValue) ||
+        product.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
   displayProductName(product: any): string {
-    return product && product.name ? product.name : '';
+    return product ? product.name && product.name != null ? product.name : '-' : '';
   }
   ProductSelected(event: MatAutocompleteSelectedEvent): void {
     const product = event.option.value as Product;

@@ -35,26 +35,6 @@
                     </mat-form-field>
                 </div>
 
-                <!-- <mat-label>السنة المالية*</mat-label>
-                <mat-form-field appearance="outline"  class="child-num">
-                    <input matInput aria-label="commodity" [matAutocomplete]="autofiscalYear" [formControl]="fiscalYearCtrl"
-                        placeholder="{{editData ? editData.fiscalyear : ''}}" (click)="openAutoFiscalYear()" required />
-                    <mat-autocomplete #autofiscalYear="matAutocomplete" [displayWith]="displayFiscalYearName"
-                        (optionSelected)="fiscalYearSelected($event)">
-                        <mat-option *ngFor="let vacation of filteredFiscalYear | async" [value]="vacation">
-                            {{ vacation.fiscalyear }} | {{ vacation.id }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field> -->
-
-                <!-- <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label> الموظف </mat-label>
-                    <mat-select placeholder=" الموظف" formControlName="employeeId">
-                        <mat-option [value]="employee.id"
-                            *ngFor="let employee of employeesList">{{employee.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
                 <div style="display: flex; flex-direction: column; width: 20%;margin-left: 10px;">
 
                     <!-- <div style="display: flex; flex-direction: column"> -->
@@ -66,7 +46,7 @@
                         <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
                             (optionSelected)="employeeSelected($event)">
                             <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                                {{ employee.name }} | {{ employee.code }}
+                              {{ employee.name ? employee.name : '-' }} | {{ employee.code }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -83,7 +63,7 @@
                             (optionSelected)="distEmployeeSelected($event)">
                             <mat-option *ngFor="let distEmployee of filtereddistEmployee | async"
                                 [value]="distEmployee">
-                                {{ distEmployee.name }} | {{ distEmployee.code }}
+                              {{ distEmployee.name ? distEmployee.name : '-' }} | {{ distEmployee.code }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -99,7 +79,7 @@
                         <mat-autocomplete #autoCostCenter="matAutocomplete" [displayWith]="displayCostCenterName"
                             (optionSelected)="CostCenterSelected($event)">
                             <mat-option *ngFor="let costCenter of filteredcostCenter | async" [value]="costCenter">
-                                {{ costCenter.name }} | {{ costCenter.code }}
+                              {{ costCenter.name ? costCenter.name : '-' }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
