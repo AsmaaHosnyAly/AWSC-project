@@ -5,6 +5,7 @@
   height: 80px;
   top: 25%;
 }
+.grayscale { filter: grayscale(50%);}
 .load{
   position: absolute;
   top: 25%;
