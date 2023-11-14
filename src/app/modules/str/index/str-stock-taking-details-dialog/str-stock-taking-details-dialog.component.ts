@@ -24,6 +24,7 @@ export class Item {
   styleUrls: ['./str-stock-taking-details-dialog.component.css']
 })
 export class StrStockTakingDetailsDialogComponent {
+  loading :boolean =false
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -321,13 +322,16 @@ export class StrStockTakingDetailsDialogComponent {
 
 
   getItems() {
+    this.loading=true;
     this.api.getItems()
       .subscribe({
         next: (res) => {
+          this.loading=false;
           this.itemsList = res;
           console.log("itemlist", this.itemsList)
         },
         error: (err) => {
+          this.loading=false;
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
