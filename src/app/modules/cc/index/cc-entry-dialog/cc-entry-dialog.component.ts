@@ -90,6 +90,7 @@ export class CcEntryDialogComponent implements OnInit {
     private router: Router
   ) {
     this.currentDate = new Date();
+   
   }
 
   ngOnInit(): void {
