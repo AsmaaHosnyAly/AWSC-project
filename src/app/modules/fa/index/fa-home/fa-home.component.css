@@ -3,7 +3,7 @@
 @import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
 
 mat-card {
-  margin: 2% 6%;
+  /* margin: 2% 6%; */
   /* background-color: blue; */
   box-shadow: none;
   
@@ -11,14 +11,16 @@ mat-card {
 .card-parent{
  display: flex;
  flex-wrap: wrap;
+ width: 100%;
  justify-content: center;
  justify-content: space-between;
+ 
 }
 .card-class{
   display: flex;
-  justify-content: center;
+margin-bottom: 10px;
   align-items: center;
-  width: 38%;
+  width: 22%;
   border-radius: 3px;
   cursor: pointer;
   color: rgb(60, 202, 252);
