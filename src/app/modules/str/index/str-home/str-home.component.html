@@ -1,4 +1,8 @@
 <div  >
+  <div class="parent-report" routerLink="/reports">
+    <img   class=" bg-report " src="../../../../../assets/images/image(1).png" width="50" height="50"/> <span class="me-2 report">تقارير المخازن</span>
+  </div>
+ 
   <mat-card>
     <div class="card-parent">
       <mat-card class="card-class" routerLink="/STRAdd"  *ngIf="hasAccessRole(pageEnums.STRAdd)">    
@@ -93,8 +97,6 @@
             <mat-card-title>المنتجات</mat-card-title>
         </mat-card-content>
       </mat-card>
-    
-      
     </div>
   
   </mat-card>

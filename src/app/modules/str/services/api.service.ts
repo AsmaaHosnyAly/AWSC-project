@@ -195,6 +195,11 @@ export class ApiService {
   getItem() {
     return this.http.get<any>(`${this.url}/STRItem/get/all`);
   }
+  getItemPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/STRItem/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putItem(data: any) {
     return this.http.put<any>(
       `${this.url}/STRItem/update`,
@@ -785,9 +790,7 @@ export class ApiService {
       `${this.url}/STRStore/delete/` + id
     );
   }
-  getAllTodos(): Observable<any> {
-    return this.http.get<any>('http://localhost:3000/commidity/');
-  }
+
 
   getAllstores(): Observable<any> {
     return this.http.get<any>(`${this.url}/STRStore/get/all`);
@@ -805,6 +808,20 @@ export class ApiService {
 
   getCostCenter() {
     return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
+  }
+  getFiCostCenterPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/FICostCenter/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
+
+  getAllCostCenter() {
+    return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
+  }
+
+  getAllCostCenterById(id: any) {
+    let urlPassed = `${this.url}/CcCostCenter/get/${id}`;
+    return urlPassed;
   }
 
   getCostCenterById(id: any) {
@@ -997,6 +1014,11 @@ export class ApiService {
   }
   getStrOpen() {
     return this.http.get<any>(`${this.url}/STROpeningStock/get/all`);
+  }
+  getStrOpeningStockPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/STROpeningStock/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putStrOpen(data: any) {
     return this.http.put<any>(`${this.url}/STROpeningStock/update`, data);
@@ -1574,7 +1596,7 @@ export class ApiService {
   // ----Start Add----
 
   GetWithDrawByDestStore(storeId: any) {
-    return this.http.get<any>(`${this.url}/STRWithdraw/GetWithDrawByDestStore/${storeId}`);
+    return this.http.get<any>(`${this.url}/STRWithdraw/get/By/Dest/Store/${storeId}`);
   }
   postAcceptOrRejectWithDrawByDestStore(data: any) {
     console.log("dataaa: ", data);

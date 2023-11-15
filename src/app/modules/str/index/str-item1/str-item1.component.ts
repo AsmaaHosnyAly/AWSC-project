@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -65,6 +65,18 @@ export class Unit {
   ) { }
 }
 
+interface StrItem {
+  fullCode: any;
+  name: any;
+  type: any;
+  commodityName: any;
+  gradeName: any;
+  platoonName: any;
+  groupName: any;
+  unitName: any;
+  action: any;
+}
+
 @Component({
   selector: 'app-str-item1',
   templateUrl: './str-item1.component.html',
@@ -72,6 +84,16 @@ export class Unit {
   providers: [DatePipe],
 })
 export class STRItem1Component implements OnInit {
+  ELEMENT_DATA: StrItem[] = [];
+  totalRows = 0;
+  pageSize = 5;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageIndex: any;
+  length: any;
+  dataSource: MatTableDataSource<StrItem> = new MatTableDataSource();
+
+
   loading: boolean = false;
   transactionUserId = localStorage.getItem('transactionUserId');
   unitCtrl: FormControl;
@@ -114,12 +136,17 @@ export class STRItem1Component implements OnInit {
   reportName: string = 'str-item1';
   reportData: any;
   dataSource2!: MatTableDataSource<any>;
-  dataSource!: MatTableDataSource<any>;
+
   Invoiceheader: any;
   pdfurl = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSource2.paginator = this.paginator;
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private dialog: MatDialog, private toastr: ToastrService,
@@ -360,29 +387,110 @@ export class STRItem1Component implements OnInit {
   }
 
   getAllItems() {
-    this.api.getItem().subscribe({
-      next: (res) => {
-        console.log('res table: ', res);
-        this.reportData = res;
-        // let data: any = this.api.reportData;
-        window.localStorage.setItem(
-          'reportData',
-          JSON.stringify(this.reportData)
-        );
-        window.localStorage.setItem(
-          'reportName',
-          JSON.stringify(this.reportName)
-        );
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.itemForm.reset();
-      },
-      error: (err) => {
-        alert('error while fetching the records!!');
-      },
-    });
+    // this.api.getItem().subscribe({
+    //   next: (res) => {
+    //     console.log('res table: ', res);
+    //     this.reportData = res;
+    //     // let data: any = this.api.reportData;
+    //     window.localStorage.setItem(
+    //       'reportData',
+    //       JSON.stringify(this.reportData)
+    //     );
+    //     window.localStorage.setItem(
+    //       'reportName',
+    //       JSON.stringify(this.reportName)
+    //     );
+    //     this.dataSource = new MatTableDataSource(res);
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
+    //     this.itemForm.reset();
+    //   },
+    //   error: (err) => {
+    //     alert('error while fetching the records!!');
+    //   },
+    // });
+
+    if (!this.currentPage) {
+      this.currentPage = 0;
+
+      // this.isLoading = true;
+      fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          this.reportData = data.items;
+          // let data: any = this.api.reportData;
+          window.localStorage.setItem(
+            'reportData',
+            JSON.stringify(this.reportData)
+          );
+          window.localStorage.setItem(
+            'reportName',
+            JSON.stringify(this.reportName)
+          );
+          this.itemForm.reset();
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+    else {
+      // this.isLoading = true;
+      fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          this.reportData = data.items;
+          // let data: any = this.api.reportData;
+          window.localStorage.setItem(
+            'reportData',
+            JSON.stringify(this.reportData)
+          );
+          window.localStorage.setItem(
+            'reportName',
+            JSON.stringify(this.reportName)
+          );
+          this.itemForm.reset();
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+
   }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    this.getAllItems();
+  }
+
   editItem(row: any) {
     console.log('data : ', row);
     this.dialog
@@ -457,11 +565,11 @@ export class STRItem1Component implements OnInit {
             console.log('eroorr', err);
           },
         });
-    }else{
+    } else {
       this.toastrNullInputs()
     }
   }
-   
+
 
   toastrNullInputs(): void {
     this.toastr.error('من فضلك ادخل البيانات');

@@ -303,7 +303,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   // }
 
   getCostCenters() {
-    this.api.getFiCostCenter()
+    this.api.getAllCostCenter()
       .subscribe({
         next: (res) => {
           this.costCentersList = res;
@@ -458,11 +458,11 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   private _filterFiscalYears(value: string): FiscalYear[] {
     const filterValue = value;
     return this.fiscalYearsList.filter(fiscalyearObj =>
-      fiscalyearObj.fiscalyear.toLowerCase().includes(filterValue)
+      fiscalyearObj.fiscalyear ? fiscalyearObj.fiscalyear.toLowerCase().includes(filterValue) : '-'
     );
   }
   displayFiscalYearName(fiscalyear: any): string {
-    return fiscalyear && fiscalyear.fiscalyear ? fiscalyear.fiscalyear : '';
+    return fiscalyear ? fiscalyear.name && fiscalyear.name != null ? fiscalyear.name : '-' : '';
   }
   fiscalYearSelected(event: MatAutocompleteSelectedEvent): void {
     const fiscalyear = event.option.value as FiscalYear;
@@ -480,7 +480,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
 
   displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
@@ -492,7 +492,8 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   private _filterEmployees(value: string): Employee[] {
     const filterValue = value;
     return this.employeesList.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
+       employee.name || employee.code ? employee.name.toLowerCase().includes(filterValue) ||
+       employee.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
   openAutoEmployee() {
@@ -504,7 +505,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
 
   displayDistEmployeeName(DistEmployee: any): string {
-    return DistEmployee && DistEmployee.name ? DistEmployee.name : '';
+    return DistEmployee ? DistEmployee.name && DistEmployee.name != null ? DistEmployee.name : '-' : '';
   }
   distEmployeeSelected(event: MatAutocompleteSelectedEvent): void {
     const distEmployee = event.option.value as Employee;
@@ -519,7 +520,8 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   private _filterDistEmployees(value: string): Employee[] {
     const filterValue = value;
     return this.employeesList.filter(distEmployee =>
-      distEmployee.name.toLowerCase().includes(filterValue) || distEmployee.code.toLowerCase().includes(filterValue)
+      distEmployee.name || distEmployee.code ? distEmployee.name.toLowerCase().includes(filterValue) ||
+      distEmployee.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
   openAutoDistEmployee() {
@@ -537,12 +539,14 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     // this.getCostCenters()
     // console.log("value: ", this.costCentersList)
     const filterValue = value;
-    return this.costCentersList.filter(fiscalyearObj =>
-      fiscalyearObj.name.toLowerCase().includes(filterValue)
+    return this.costCentersList.filter(costCenter =>
+      costCenter.name ? costCenter.name.toLowerCase().includes(filterValue) : '-'
+      // costCenter.name || costCenter.code ? costCenter.name.toLowerCase().includes(filterValue) ||
+      // costCenter.code.toString().toLowerCase().includes(filterValue): '-'
     );
   }
-  displayCostCenterName(fiscalyear: any): string {
-    return fiscalyear && fiscalyear.name ? fiscalyear.name : '';
+  displayCostCenterName(CostCenter: any): string {
+    return CostCenter ? CostCenter.name && CostCenter.name != null ? CostCenter.name : '-' : '';
   }
   CostCenterSelected(event: MatAutocompleteSelectedEvent): void {
     const fiscalyear = event.option.value as CostCenter;
@@ -562,7 +566,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
 
 
   displayItemName(item: any): string {
-    return item && item.name ? item.name : '';
+    return item ? item.name && item.name != null ? item.name : '-' : '';
   }
   ItemSelected(event: MatAutocompleteSelectedEvent): void {
     const item = event.option.value as Item;
@@ -575,7 +579,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     console.log("filter: ", value)
     const filterValue = value;
     return this.itemsList.filter(item =>
-      item.name.toLowerCase().includes(filterValue)
+      item.name ? item.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutoItem() {

@@ -50,7 +50,7 @@
 
 
         <div class="searchLabels">
-          <mat-label>المصدر:</mat-label>
+          <mat-label>الجهة:</mat-label>
 
           <mat-form-field appearance="outline" class="groupInput" style="width: 120px;">
             <mat-select  formControlName="type" (valueChange)="getListCtrl($event)"
@@ -73,7 +73,7 @@
             <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
               (optionSelected)="listSelected($event)">
               <mat-option *ngFor="let list of filteredList | async" [value]="list">
-                {{ list.name }}
+                {{ list.name ? list.name : '-' }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -92,7 +92,7 @@
             <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId [displayWith]="displaycostcenterName"
               (optionSelected)="costcenterSelected($event)">
               <mat-option *ngFor="let costcenter of filteredcostcenter | async" [value]="costcenter">
-                {{ costcenter.name }} | {{ costcenter.id }}
+                {{ costcenter.name ? costcenter.name : '-' }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

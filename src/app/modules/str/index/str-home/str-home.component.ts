@@ -34,6 +34,7 @@ export class STRHomeComponent {
     this.decodedToken = jwt_decode(accessToken);
     this. decodedToken1 = this.decodedToken.modules;
     this.decodedToken2 = this.decodedToken.roles;
+    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
     
   }
   OnInit():void{

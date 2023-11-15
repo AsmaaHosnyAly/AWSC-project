@@ -45,8 +45,7 @@
                                 <mat-autocomplete #autoProductId="matAutocomplete" [displayWith]="displayProductName"
                                     (optionSelected)="ProductSelected($event)">
                                     <mat-option *ngFor="let product of filteredProduct | async" [value]="product">
-                                        {{ product.name }} | {{ product.code }}
-                                        <!-- {{ product.name }} -->
+                                        {{ product.name ? product.name : '-' }} | {{ product.code }}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
@@ -80,7 +79,7 @@
                         <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
                             (optionSelected)="ItemSelected($event)">
                             <mat-option *ngFor="let item of filteredItem | async" [value]="item">
-                                {{ item.name }}
+                                {{ item.name ? item.name : '-' }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -110,15 +109,6 @@
             </div>
             <div style="display: flex;flex-direction: row;">
 
-
-                <!-- <div style="display: flex;flex-direction: column;width: 9rem;">
-                    <mat-label> النسبة*</mat-label>
-
-                    <mat-form-field appearance="outline" class="groupInput" style="width:100% ;">
-                        <input matInput type="number" min="0" placeholder="النسبة" formControlName="percentage"
-                            [value]="editData ? editData.percentage : ''" [readonly]="isReadOnlyPercentage">
-                    </mat-form-field>
-                </div> -->
 
             </div>
 
