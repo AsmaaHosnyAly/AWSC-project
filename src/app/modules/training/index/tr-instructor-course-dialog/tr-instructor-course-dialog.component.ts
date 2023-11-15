@@ -173,9 +173,10 @@ export class TrInstructorCourseDialogComponent implements OnInit {
     addCourse(){
     if(!this.editData){
       
-      this.InstructorCourseForm.removeControl('id')
-      console.log("add: ", this.InstructorCourseForm.value);
+      this.InstructorCourseForm.removeControl('id');
       this.InstructorCourseForm.controls['transactionUserId'].setValue(this.transactionUserId);
+
+      console.log("add: ", this.InstructorCourseForm.value);
       if(this.InstructorCourseForm.valid){
         this.api.postInstructorCourse(this.InstructorCourseForm.value)
         .subscribe({
