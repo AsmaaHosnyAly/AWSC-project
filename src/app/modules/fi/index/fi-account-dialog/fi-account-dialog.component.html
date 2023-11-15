@@ -1,3 +1,6 @@
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <div class="cdk-overlay-pane  ">
   <button class="close" mat-button  mat-dialog-close > <mat-icon> clear</mat-icon></button>
 </div>
@@ -18,7 +21,7 @@
       </mat-form-field>
 
       <mat-label>شجرة الحساب</mat-label>  
-      <mat-form-field appearance="outline">            
+      <mat-form-field appearance="outline"*ngIf="!loading">            
         <input matInput aria-label="hierarchy" [matAutocomplete]="autoHierarchy" [formControl]="hierarchyCtrl" (click)="openAutoHierarchy()" placeholder="{{getAccountData ? getAccountData.fiAccountHierarchyName : ''}}" required/>
         <mat-autocomplete #autoHierarchy="matAutocomplete" [displayWith]="displayHierarchyName" (optionSelected)="hierarchySelected($event)">
           <mat-option *ngFor="let hierarchy of filteredHierarchies | async" [value]="hierarchy">
