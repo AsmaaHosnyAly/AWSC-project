@@ -523,11 +523,14 @@ loading :boolean=false;
       'distEmployee in form: ',
       this.groupMasterForm.getRawValue().distEmployeeId
     );
-
+    if(this.groupMasterForm.getRawValue().destEmployeeId==this.groupMasterForm.getRawValue().employeeId){
+      this.toastrSelectSameEmpolyee()
+    }
+  }
     // this.getSearchStrWithdraw()
     // this.set_store_Null(this.groupMasterForm.getRawValue().distEmployeeId);
     // return     this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
-  }
+ 
   private _filterdistEmployees(value: string): distEmployee[] {
     const filterValue = value;
     return this.distEmployeesList.filter((distEmployee) =>
@@ -749,7 +752,9 @@ this.loading=true;
     document.body.innerHTML = originalContent;
     location.reload();
   }
-
+  toastrSelectSameEmpolyee(): void {
+    this.toastr.error("عفوا غير مسموح باختيار نفس الموظف");
+  }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }

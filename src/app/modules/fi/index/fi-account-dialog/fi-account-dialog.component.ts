@@ -24,7 +24,8 @@ export class Hierarchy {
 })
 export class FIAccountDialogComponent {
 
-  transactionUserId=localStorage.getItem('transactionUserId')
+  transactionUserId=localStorage.getItem('transactionUserId');
+  loading :boolean=false;
   hierarchyCtrl: FormControl;
   filteredHierarchies: Observable<Hierarchy[]>;
   hierarchies: Hierarchy[] = [];
@@ -66,9 +67,7 @@ private toastr: ToastrService,
       // matautocompleteFieldName : [''],
       });
   
-      this.api.getAllAccountHierarchy().subscribe((hierarchies) => {
-        this.hierarchies = hierarchies;
-      });
+      this.getAllAccountHierarchy()
       this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
         // Call the deleteGrade() function in the current component
         this.addAccount();
@@ -92,6 +91,22 @@ private toastr: ToastrService,
     displayHierarchyName(hierarchy: any): string {
       return hierarchy && hierarchy.name ? hierarchy.name : '';
     }
+    getAllAccountHierarchy() {
+      this.loading = true;
+      this.api.getAllAccountHierarchy().subscribe({
+        next: (res) => {
+          this.loading = false;
+          this.hierarchies = res;
+         
+        },
+        error: (err) => {
+          this.loading = false;
+          console.log('fetch items data err: ', err);
+          // alert("خطا اثناء جلب العناصر !");
+        },
+      });
+    }
+  
     hierarchySelected(event: MatAutocompleteSelectedEvent): void {
       const hierarchy = event.option.value as Hierarchy;
       this.selectedHierarchy = hierarchy;

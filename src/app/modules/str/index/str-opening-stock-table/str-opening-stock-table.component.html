@@ -3,7 +3,7 @@
   <app-spinner></app-spinner>
 </div>
 <mat-accordion class="example-headers-align" multi dir="rtl">
-  <div class="page-title" *ngIf="!loading">الرصيد الافتتاحى</div>
+  <div class="page-title" >الرصيد الافتتاحى</div>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-description>
@@ -221,5 +221,5 @@
 </section>
 
 <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
-  [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)" showFirstLastButtons>
+[pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)" showFirstLastButtons>
 </mat-paginator>

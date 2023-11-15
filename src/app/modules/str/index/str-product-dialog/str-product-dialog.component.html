@@ -1,11 +1,14 @@
-
-<div class="cdk-overlay-pane  ">
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
+<div class="cdk-overlay-pane" >
     <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
 </div>
 
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل منتج ' : ' إضافة منتج جديد'}}</h1>
-<form [formGroup]="productForm" dir="rtl">
-  <div mat-dialog-content>
+<form [formGroup]="productForm" dir="rtl" >
+  
+  <div mat-dialog-content >
     <form [formGroup]="productForm">
       <mat-form-field appearance="outline" >
         <mat-label>الكود </mat-label>
@@ -19,7 +22,7 @@
       </div>
       <div class="child1">
       <mat-label>الصنف</mat-label>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline"*ngIf="!loading">
         <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
           placeholder="{{ getProductData ? getProductData.itemName : '' }}" 
           (click)="openAutoItem()" required />
@@ -33,7 +36,7 @@
       </div>
       <div class="child1">
         <mat-label>المصنع</mat-label>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline"  >
           <input matInput aria-label="vendor" [matAutocomplete]="autoVendor" [formControl]="vendorCtrl"
             placeholder="{{ getProductData ? getProductData.vendorName : '' }}" 
             (click)="openAutoVendor()" required />
@@ -47,7 +50,7 @@
         </div>
         <div class="child1">
           <mat-label>الموديل</mat-label>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" >
             <input matInput aria-label="model" [matAutocomplete]="autoModel" [formControl]="modelCtrl"
               placeholder="{{ getProductData ? getProductData.modelName : '' }}" 
               (click)="openAutoModel()" required />

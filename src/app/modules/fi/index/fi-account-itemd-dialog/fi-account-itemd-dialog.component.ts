@@ -36,7 +36,8 @@ export class FiAccountItemdDialogComponent {
   accounts: Account[] = [];
   selectedAccount: Account | undefined;
   getAccountItemData: any;
-  
+  loading :boolean=false;
+
   accountItemCategoryCtrl: FormControl;
   filteredAccountItemCategory: Observable<AccountItemCategory[]>;
   accountItemCategory: AccountItemCategory[] = [];
@@ -84,12 +85,8 @@ commodityName: any;
       // matautocompleteFieldName : [''],
       });
   
-      this.api.getAllAccounts().subscribe((fiAccount) => {
-        this.accounts = fiAccount;
-      });
-      this.api.getAllAccountItemCategory().subscribe((itemCategory) => {
-        this.accountItemCategory = itemCategory;
-      });
+      this.getAllAccounts()
+      this.getAllAccountItemCategory()
       
       this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
         // Call the deleteGrade() function in the current component
@@ -118,6 +115,38 @@ commodityName: any;
       // Open the autocomplete dropdown by triggering the value change event
       this.accountCtrl.updateValueAndValidity();
     }
+    getAllAccounts() {
+      this.loading = true;
+      this.api.getAllAccounts().subscribe({
+        next: (res) => {
+          this.loading = false;
+          this.accounts = res;
+         
+        },
+        error: (err) => {
+          this.loading = false;
+          console.log('fetch items data err: ', err);
+          // alert("خطا اثناء جلب العناصر !");
+        },
+      });
+    }
+  
+    getAllAccountItemCategory() {
+      this.loading = true;
+      this.api.getAllAccountItemCategory().subscribe({
+        next: (res) => {
+          this.loading = false;
+          this.accountItemCategory = res;
+         
+        },
+        error: (err) => {
+          this.loading = false;
+          console.log('fetch items data err: ', err);
+          // alert("خطا اثناء جلب العناصر !");
+        },
+      });
+    }
+  
     displayAccountName(account: any): string {
       return account && account.name ? account.name : '';
     }
