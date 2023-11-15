@@ -1,8 +1,10 @@
 <div  >
+  <div class="parent-report" routerLink="/hr-Reports">
+    <img   class=" bg-report " src="../../../../../assets/images/image(1).png" width="50" height="50"/> <span class="me-2 report">تقارير شئون العاملين</span>
+  </div>
+  <div  >
     <mat-card>
       <div class="card-parent">
-        
-        
         <mat-card class="card-class" routerLink="/hr-jobTitle" *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)">    
           <mat-card-content>
               <mat-card-title> المسمي الوظيفي</mat-card-title>
