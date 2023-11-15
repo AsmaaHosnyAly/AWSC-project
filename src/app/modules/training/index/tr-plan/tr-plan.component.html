@@ -98,5 +98,5 @@
 </div>
 
 <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 25, 100, 1000]" (page)="pageChanged($event)" showFirstLastButtons>
+[pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)" showFirstLastButtons>
 </mat-paginator>
