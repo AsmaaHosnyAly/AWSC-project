@@ -20,6 +20,7 @@
             [matAutocomplete]="autoInstructor"
             [formControl]="instructorCtrl"
             (click)="openAutoInstructor()"
+            placeholder="{{ getInstructorCourseForm ? getInstructorCourseForm.headerName : '' }}"
             required
           />
           <mat-autocomplete

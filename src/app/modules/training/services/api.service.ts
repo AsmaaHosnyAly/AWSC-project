@@ -24,6 +24,11 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/TrInstructor/get/all`);
     // return this.http.get<any>(`${this.url}/TrInstructorData/get/all`);
   }
+  getTrInstructorPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrInstructor/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putTrInstructor(data: any) {
     return this.http.put<any>(
       `${this.url}/TrInstructor/update`,
@@ -88,7 +93,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/all`);
   }
   getTrTrackDetailsByMasterId(id: any) {
-    console.log('id in get by header:',id)
+    console.log('id in get by header:', id)
     return this.http.get<any>(`${this.url}/TrTrackDetails/get/by/header/${id}`);
   }
   putTrTrackDetails(data: any) {
@@ -181,6 +186,11 @@ export class ApiService {
   getClassRoom() {
     return this.http.get<any>(`${this.url}/TrClassRoom/get/all`);
   }
+  getTrClassRoomPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrClassRoom/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putClassRoom(data: any) {
     return this.http.put<any>(
       `${this.url}/TrClassRoom/update`,
@@ -198,8 +208,8 @@ export class ApiService {
   getAllTrainingCenter() {
     return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
   }
-   /********************************  TR budget  **********************************/
-   postTrBudget(data: any) {
+  /********************************  TR budget  **********************************/
+  postTrBudget(data: any) {
     return this.http.post<any>(`${this.url}/TrBudget/Add`, data);
   }
   // here
@@ -217,8 +227,8 @@ export class ApiService {
       `${this.url}/TrBudget/Delete/${id}`
     );
   }
- 
- 
+
+
   /********************************  TrCourseCategory crud  **********************************/
 
   postTrCourseCategory(data: any) {
@@ -248,6 +258,11 @@ export class ApiService {
   getTrCoporteClient() {
     return this.http.get<any>(`${this.url}/TrCoporteClient/get/all`);
   }
+  getTrCoporteClientPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrCoporteClient/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putTrCoporteClient(data: any) {
     return this.http.put<any>(
       `${this.url}/TrCoporteClient/update`,
@@ -271,6 +286,11 @@ export class ApiService {
   getCourseType() {
     return this.http.get<any>(`${this.url}/TrCourseType/get/all`);
   }
+  getTrCourseTypePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrCourseType/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putCourseType(data: any) {
     return this.http.put<any>(
       `${this.url}/TrCourseType/update`,
@@ -290,6 +310,11 @@ export class ApiService {
   }
   getCourse() {
     return this.http.get<any>(`${this.url}/TrCourse/get/all`);
+  }
+  getTrCoursePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrCourse/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putCourse(data: any) {
     return this.http.put<any>(
@@ -317,7 +342,11 @@ export class ApiService {
   getTrainingCenter() {
     return this.http.get<any>(`${this.url}/TrTrainingCenter/get/all`);
   }
-
+  getTrTrainingCenterPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrTrainingCenter/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putTrainingCenter(data: any) {
     return this.http.put<any>(
       `${this.url}/TrTrainingCenter/update`,
@@ -343,6 +372,11 @@ export class ApiService {
   getInstructorCourse() {
     return this.http.get<any>(`${this.url}/TrInstructorCourse/get/all`);
   }
+  getTrInstructorCoursePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrInstructorCourse/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putInstructorCourse(data: any) {
     return this.http.put<any>(
       `${this.url}/TrInstructorCourse/update`,
@@ -364,6 +398,11 @@ export class ApiService {
   }
   getTrTrainee() {
     return this.http.get<any>(`${this.url}/TrTrainee/get/all`);
+  }
+  getTrTraineePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrTrainee/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putTrTrainee(data: any) {
     return this.http.put<any>(`${this.url}/TrTrainee/update`, data);
@@ -551,6 +590,11 @@ export class ApiService {
   getTrainingCenterCourse() {
     return this.http.get<any>(`${this.url}/TrTrainingCenterCourse/get/all`);
   }
+  getTrTrainingCenterCoursePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/TrTrainingCenterCourse/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putTrainingCenterCourse(data: any) {
     return this.http.put<any>(
       `${this.url}/TrTrainingCenterCourse/update`,
@@ -600,41 +644,41 @@ export class ApiService {
 
   //////////////////trreports//////////////////////
   getAccountreports(
-  
-    StartDate: any, EndDate: any,account: any, report: any, reportType: any
+
+    StartDate: any, EndDate: any, account: any, report: any, reportType: any
   ) {
     console.log(
-     
-     
+
+
       'startdate: ',
-      StartDate,'account',account,
-     
+      StartDate, 'account', account,
+
       'reportName:', report, 'reportType:', reportType
-  
+
     );
     `${this.url}/FIAccount/get/Report?`;
     this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
-  
-    
-   
-  
-  
+
+
+
+
+
     if (!StartDate == false) {
       this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
     }
     if (!EndDate == false) {
       this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
     }
-  
-   
+
+
     if (!account == false) {
       this.mycondition = ` ${this.mycondition}&accountId=${account}`;
     }
-    
-    
-  
+
+
+
     console.log('url', this.mycondition);
-  
+
     // return this.http.get<any>(`${this.mycondition}`);
     return this.http.get(`${this.mycondition}`, {
       observe: 'response',
