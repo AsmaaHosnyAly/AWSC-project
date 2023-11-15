@@ -512,6 +512,9 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.selecteddistEmployee = distEmployee;
     this.groupMasterForm.patchValue({ destEmployeeId: distEmployee.id });
     console.log("distemployee in form: ", this.groupMasterForm.getRawValue().destEmployeeId);
+    if(this.groupMasterForm.getRawValue().destEmployeeId==this.groupMasterForm.getRawValue().employeeId){
+      this.toastrSelectSameEmpolyee()
+    }
   }
   private _filterDistEmployees(value: string): Employee[] {
     const filterValue = value;
@@ -521,7 +524,6 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   }
   openAutoDistEmployee() {
     console.log("filtereddistEmployee: ", this.filtereddistEmployee)
-
     this.distEmploeeCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
@@ -812,6 +814,10 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
       })
   }
 
+
+  toastrSelectSameEmpolyee(): void {
+    this.toastr.error("عفوا غير مسموح باختيار نفس الموظف");
+  }
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
   }

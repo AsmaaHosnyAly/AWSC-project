@@ -86,7 +86,7 @@
 
                 <!-- <div style="display: flex; flex-direction: column; width: 30%;"> -->
                     <mat-label>الصنف*</mat-label>
-                    <mat-form-field appearance="outline" class="child-num" style="width: 80%;" *ngIf="!loading">
+                    <mat-form-field appearance="outline" class="child-num"  style="width: 80%;" >
                         <input matInput aria-label="commodity" [matAutocomplete]="autoItemId"
                             [formControl]="itemCtrl"
                             placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"

@@ -34,6 +34,7 @@ export class Model {
 })
 export class StrProductDialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId');
+  
   itemCtrl: FormControl;
   filteredItems: Observable<Item[]>;
   items: Item[] = [];
@@ -52,6 +53,7 @@ export class StrProductDialogComponent implements OnInit {
   autoCode: any;
   productIdToEdit: any;
   existingNames: string[] = [];
+  loading :boolean=false;
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
@@ -91,18 +93,11 @@ export class StrProductDialogComponent implements OnInit {
       transactionUserId: ['', Validators.required],
     });
 
-    this.api.getItems().subscribe((items) => {
-      this.items = items;
-    });
+    this.getItems();
 
-    this.api.getVendors().subscribe((vendors) => {
-      this.vendors = vendors;
-    });
+    this.getVendors();
 
-    this.api.getModels().subscribe((models) => {
-      this.models = models;
-    });
-
+    this.getModels();
     this.hotkeysService.add(
       new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
         // Call the deleteGrade() function in the current component
@@ -131,11 +126,56 @@ export class StrProductDialogComponent implements OnInit {
       this.productForm.controls['id'].setValue(this.editData.id);
     }
   }
-
   displayItemName(item: any): string {
     return item && item.name ? item.name : '';
   }
 
+  getItems() {
+    this.loading = true;
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.items= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getVendors() {
+    this.loading = true;
+    this.api.getVendors().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.vendors= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+  getModels() {
+    this.loading = true;
+    this.api.getModels().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.models= res;
+       
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log('fetch items data err: ', err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+ 
   itemSelected(event: MatAutocompleteSelectedEvent): void {
     const item = event.option.value as Item;
     this.selectedItem = item;
@@ -155,6 +195,7 @@ export class StrProductDialogComponent implements OnInit {
     this.itemCtrl.updateValueAndValidity();
   }
 
+  
   displayVendorName(vendor: any): string {
     return vendor && vendor.name ? vendor.name : '';
   }
@@ -231,9 +272,10 @@ export class StrProductDialogComponent implements OnInit {
         this.transactionUserId
       );
       if (this.productForm.valid) {
-        
+        this.loading = true;
         this.api.postStrProduct(this.productForm.value).subscribe({
           next: (res) => {
+            this.loading = false;
             console.log('add product res: ', res);
             this.productIdToEdit = res.id;
 
@@ -243,6 +285,7 @@ export class StrProductDialogComponent implements OnInit {
             this.dialogRef.close('save');
           },
           error: (err) => {
+            this.loading = false;
             console.log('error:',err)
               this.toastrErrorSave(); 
           },
