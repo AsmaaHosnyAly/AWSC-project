@@ -20,6 +20,11 @@ export class ApiService {
   getPyInstallment() {
     return this.http.get<any>(`${this.url}/PyInstallment/get/all`);
   }
+  getPyInstallmentPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/PyInstallment/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putPyInstallment(data: any) {
     return this.http.put<any>(`${this.url}/PyInstallment/update`, data);
   }
@@ -41,6 +46,11 @@ export class ApiService {
   getTaxBracket() {
     return this.http.get<any>(`${this.url}/PyTaxBracket/get/all`);
   }
+  getPyTaxBracketPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/PyTaxBracket/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putTaxBracket(data: any) {
     return this.http.put<any>(`${this.url}/PyTaxBracket/update`, data);
   }
@@ -56,6 +66,11 @@ export class ApiService {
   getPyItemCategory() {
     return this.http.get<any>(`${this.url}/PyItemCategory/get/all`);
   }
+  getPyItemCategoryPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/PyItemCategory/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putPyItemCategory(data: any) {
     return this.http.put<any>(`${this.url}/PyItemCategory/update`, data);
   }
@@ -67,14 +82,14 @@ export class ApiService {
   ////////py exchange///////
 
   postPyExchange(data: any) {
-    console.log('data:',data)
+    console.log('data:', data)
     return this.http.post<any>(`${this.url}/PyExchange/Add`, data);
   }
   getPyExchange() {
     return this.http.get<any>(`${this.url}/PyExchange/get/all`);
   }
   putPyExchange(data: any) {
-    console.log("data in put",data);
+    console.log("data in put", data);
     return this.http.put<any>(`${this.url}/PyExchange/update`, data);
   }
   deletePyExchange(id: number) {
@@ -128,14 +143,14 @@ export class ApiService {
   }
 
   postPyExchangeDetails(data: any) {
-    console.log("exchange post:",data)
+    console.log("exchange post:", data)
     return this.http.post<any>(`${this.url}/PyExchangeDetails/Add`, data);
   }
   getPyExchangeDetails() {
     return this.http.get<any>(`${this.url}/PyExchangeDetails/get/all`);
   }
   getPyExchangeDetailsByMasterId(id: any) {
-    console.log("id in get datails:",id);
+    console.log("id in get datails:", id);
     return this.http.get<any>(`${this.url}/PyExchangeDetails/get/By/header/${id}`);
   }
   putPyExchangeDetails(data: any) {
@@ -183,6 +198,11 @@ export class ApiService {
   }
   getPyItem() {
     return this.http.get<any>(`${this.url}/PyItem/get/all`);
+  }
+  getPyItemPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/PyItem/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putPyItem(data: any) {
     return this.http.put<any>(`${this.url}/PyItem/update`, data);
@@ -256,41 +276,41 @@ export class ApiService {
 
   ///////////////////////attendace reports//////////////////////////
   getAccountreports(
-  
-    StartDate: any, EndDate: any,account: any, report: any, reportType: any
+
+    StartDate: any, EndDate: any, account: any, report: any, reportType: any
   ) {
     console.log(
-     
-     
+
+
       'startdate: ',
-      StartDate,'account',account,
-     
+      StartDate, 'account', account,
+
       'reportName:', report, 'reportType:', reportType
-  
+
     );
     `${this.url}/FIAccount/get/Report?`;
     this.mycondition = `${this.url}/FIAccount/get/Report?reportName=${report}&reportType=${reportType}`;
-  
-    
-   
-  
-  
+
+
+
+
+
     if (!StartDate == false) {
       this.mycondition = ` ${this.mycondition}&startDate=${StartDate}`;
     }
     if (!EndDate == false) {
       this.mycondition = ` ${this.mycondition}&endDate=${EndDate}`;
     }
-  
-   
+
+
     if (!account == false) {
       this.mycondition = ` ${this.mycondition}&accountId=${account}`;
     }
-    
-    
-  
+
+
+
     console.log('url', this.mycondition);
-  
+
     // return this.http.get<any>(`${this.mycondition}`);
     return this.http.get(`${this.mycondition}`, {
       observe: 'response',
