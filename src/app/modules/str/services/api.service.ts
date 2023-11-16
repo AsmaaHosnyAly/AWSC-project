@@ -284,10 +284,16 @@ export class ApiService {
     grade: any,
     platoon: any,
     group: any,
-    unit: any
+    unit: any,
+    StartDate: any,
+    EndDate: any,
+    reportName: any,
+    reportType: any
   ) {
-    `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=pdf`;
-    this.mycondition = `${this.url}/STRItem/get/Report?reportName=STRItemsReport&reportType=pdf`;
+    `${this.url}/STRItem/get/Report?`;
+    this.mycondition = `${this.url}/STRItem/get/Report?reportName=${reportName}&reportType=${reportType}`;
+    // `${this.url}/STRItem/getReport?reportName=STRItemsReport&reportType=${reportType}`;
+    // this.mycondition = `${this.url}/STRItem/get/Report?reportName=STRItemsReport&reportType=pdf`;
 
     if (!name == false) {
       this.mycondition = ` ${this.mycondition}&Name=${name}`;
@@ -297,7 +303,7 @@ export class ApiService {
     }
 
     if (!type == false) {
-      this.mycondition = ` ${this.mycondition}&Type=${fullcode}`;
+      this.mycondition = ` ${this.mycondition}&Type=${type}`;
     }
 
     if (!commodity == false) {
@@ -314,6 +320,12 @@ export class ApiService {
     }
     if (!unit == false) {
       this.mycondition = ` ${this.mycondition}&UnitId=${unit}`;
+    }
+    if (!StartDate == false) {
+      this.mycondition = ` ${this.mycondition}&startdate=${StartDate}`;
+    }
+    if (!EndDate == false) {
+      this.mycondition = ` ${this.mycondition}&enddate=${EndDate}`;
     }
 
     console.log('url', this.mycondition);
@@ -402,13 +414,13 @@ export class ApiService {
     if (!store == false) {
       this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
     }
-    if (!report == false) {
-      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
-    }
+    // if (!report == false) {
+    //   this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    // }
 
-    if (!reportType == false) {
-      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
-    }
+    // if (!reportType == false) {
+    //   this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    // }
 
 
     if (!StartDate == false) {
@@ -721,13 +733,13 @@ export class ApiService {
     if (!store == false) {
       this.mycondition = ` ${this.mycondition}&FullCode=${store}`;
     }
-    if (!report == false) {
-      this.mycondition = ` ${this.mycondition}&reportName=${report}`;
-    }
+    // if (!report == false) {
+    //   this.mycondition = ` ${this.mycondition}&reportName=${report}`;
+    // }
 
-    if (!reportType == false) {
-      this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
-    }
+    // if (!reportType == false) {
+    //   this.mycondition = ` ${this.mycondition}&reportType=${reportType}`;
+    // }
 
 
     if (!StartDate == false) {

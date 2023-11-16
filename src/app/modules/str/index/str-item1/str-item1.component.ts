@@ -672,7 +672,7 @@ export class STRItem1Component implements OnInit {
   //   });
   // }
 
-  async getSearchItemsWithprint(name: any, fullCode: any, type: any) {
+  async getSearchItemsWithprint(name: any,  fullCode: any, StartDate: any, EndDate: any, type: any, reportName: any, reportType: any) {
     console.log('print');
     let commodity = this.itemForm.getRawValue().commodityId;
     console.log('commodityRow:', commodity);
@@ -693,7 +693,11 @@ export class STRItem1Component implements OnInit {
         grade,
         platoon,
         group,
-        unit
+        unit,
+        StartDate, 
+        EndDate, 
+        reportName,
+        reportType
       )
       .subscribe({
         next: (res) => {
@@ -716,8 +720,8 @@ export class STRItem1Component implements OnInit {
       });
   }
 
-  async preview(name: any, fullCode: any, type: any) {
-    // console.log('print');
+  async preview(name: any, fullCode: any, StartDate: any, EndDate: any, type: any, reportName: any, reportType: any) {
+    console.log('preview report values: name:', name, "fullcode: ", fullCode, "type: ", type, "reportType: ", reportType);
     let commodity = this.itemForm.getRawValue().commodityId;
     // console.log('commodityRow:', commodity);
     let grade = this.itemForm.getRawValue().gradeId;
@@ -727,7 +731,8 @@ export class STRItem1Component implements OnInit {
     let group = this.itemForm.getRawValue().groupId;
     // console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
-    // console.log('unitRow:', unit);
+
+    console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType);
     this.loading = true
     this.api
       .printReportItems(
@@ -738,7 +743,11 @@ export class STRItem1Component implements OnInit {
         grade,
         platoon,
         group,
-        unit
+        unit,
+        StartDate, 
+        EndDate, 
+        reportName,
+        reportType
       )
       .subscribe({
         next: (res) => {
