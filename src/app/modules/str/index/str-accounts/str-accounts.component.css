@@ -53,9 +53,10 @@ margin-bottom: 10px;
 
 }
 .parent-report{
-  display: flex;
+display: flex;
 align-items: center;
 margin-bottom: 40px;
+cursor: pointer;
 }
 @media (max-width: 1200px) {  
   .card-class {
