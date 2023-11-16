@@ -59,7 +59,7 @@ export class costcenter {
   styleUrls: ['./str-withdraw-dialog2.component.css'],
 })
 export class StrWithdrawDialogComponent implements OnInit {
-  loading :boolean =false;
+  loading: boolean = false;
   groupDetailsForm!: FormGroup;
   groupMasterForm!: FormGroup;
   actionBtnMaster: string = 'Save';
@@ -87,7 +87,7 @@ export class StrWithdrawDialogComponent implements OnInit {
   withDrawNoName: any;
   isReadOnly: any = false;
   isReadOnlyEmployee: any = false;
-  userIdFromStorage: any;
+  userIdFromStorage = localStorage.getItem('transactionUserId');
   deleteConfirmBtn: any;
   dialogRefDelete: any;
   // employeeList: any;
@@ -244,10 +244,10 @@ export class StrWithdrawDialogComponent implements OnInit {
       // itemName:['',Validators.required],
       storeId: [''],
       storeName: ['', Validators.required],
-      transactionUserId: [1, Validators.required],
-      destStoreUserId: [1, Validators.required],
+      transactionUserId: [this.userIdFromStorage, Validators.required],
+      destStoreUserId: [this.userIdFromStorage, Validators.required],
       type: ['', Validators.required],
-      sourceInput: ['', Validators.required],
+      sourceInput: [''],
 
       date: [dateNow, Validators.required],
       fiscalYearId: ['', Validators.required],
@@ -257,9 +257,10 @@ export class StrWithdrawDialogComponent implements OnInit {
       costcenterName: [''],
       deststoreId: [''],
       desstoreName: [''],
-      ListId: ['', Validators.required],
-      productionDate: ['', Validators.required],
-      expireDate: ['', Validators.required],
+      ListId: ['0'],
+      productionDate: [''],
+      expireDate: [''],
+      destStoreConfirm: [false]
     });
 
     this.groupDetailsForm = this.formBuilder.group({
@@ -269,8 +270,8 @@ export class StrWithdrawDialogComponent implements OnInit {
       percentage: [''],
       price: ['', Validators.required],
       total: ['', Validators.required],
-      transactionUserId: [1, Validators.required],
-      destStoreUserId: [1, Validators.required],
+      transactionUserId: [this.userIdFromStorage, Validators.required],
+      destStoreUserId: [this.userIdFromStorage, Validators.required],
       itemId: [''],
       stateId: [''],
       // sourceInputId:[''],
@@ -305,7 +306,7 @@ export class StrWithdrawDialogComponent implements OnInit {
         this.getDestStores();
         this.groupMasterForm.controls['type'].setValue('المخزن');
         this.groupMasterForm.controls['sourceInput'].setValue(
-        this.groupMasterForm.getRawValue().desstoreName
+          this.groupMasterForm.getRawValue().desstoreName
         );
         // this.groupMasterForm.controls['sourceInputId'].setValue(
         //   this.groupMasterForm.getRawValue().desstorId
@@ -359,6 +360,7 @@ export class StrWithdrawDialogComponent implements OnInit {
       );
 
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
+      this.groupMasterForm.controls['destStoreConfirm'].setValue(this.editData.destStoreConfirm);
       this.groupMasterForm.controls['transactionUserId'].setValue(
         this.editData.transactionUserId
       );
@@ -493,7 +495,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     return this.costcentersList.filter((costcenter) =>
       costcenter.name ? costcenter.name.toLowerCase().includes(filterValue) : '-'
     );
-    
+
   }
   openAutocostcenter() {
     this.costcenterCtrl.setValue(''); // Clear the input field value
@@ -675,7 +677,7 @@ export class StrWithdrawDialogComponent implements OnInit {
         },
         error: (err) => {
           console.log('header post err: ', err);
-          alert('من فضلك اكمل البيانات');
+          alert('حدث خطا عند الاضافة');
         },
       });
     }
@@ -877,11 +879,11 @@ export class StrWithdrawDialogComponent implements OnInit {
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
 
-      this.loading=true;
+      this.loading = true;
       this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
-            this.loading =false;
+            this.loading = false;
             // this.itemsList = res;
             this.matchedIds = res;
 
@@ -923,7 +925,7 @@ export class StrWithdrawDialogComponent implements OnInit {
             this.groupDetailsForm.getRawValue().itemId
           );
           this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.groupDetailsForm.controls['transactionUserId'].setValue(1);
+          this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
           // alert("itemId")
         }
 

@@ -294,7 +294,7 @@ export class STRAddDialogComponent implements OnInit {
 
 
       }
-      else if (this.editData.addTypeName == 'اذن ارتجاع') {
+      else if (this.editData.addTypeName == 'اذن ارتجاع' || 'الموظف') {
         this.actionName = "emp";
         console.log("action btnnnnnnnnnnnnn 2", this.actionName);
         // this.groupMasterForm.controls['addTypeId'].setValue('الموظف')
