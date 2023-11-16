@@ -285,6 +285,8 @@ export class ApiService {
     platoon: any,
     group: any,
     unit: any,
+    storeId: any,
+    itemId: any,
     StartDate: any,
     EndDate: any,
     reportName: any,
@@ -320,6 +322,12 @@ export class ApiService {
     }
     if (!unit == false) {
       this.mycondition = ` ${this.mycondition}&UnitId=${unit}`;
+    }
+    if (!storeId == false) {
+      this.mycondition = ` ${this.mycondition}&soreId=${storeId}`;
+    }
+    if (!itemId == false) {
+      this.mycondition = ` ${this.mycondition}&itemId=${itemId}`;
     }
     if (!StartDate == false) {
       this.mycondition = ` ${this.mycondition}&startdate=${StartDate}`;
