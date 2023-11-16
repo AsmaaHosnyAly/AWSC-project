@@ -28,7 +28,7 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 export class Commodity {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 
 export class Grade {
@@ -37,7 +37,7 @@ export class Grade {
     public name: string,
     public code: string,
     public commodityId: number
-  ) {}
+  ) { }
 }
 
 export class Platoon {
@@ -47,7 +47,7 @@ export class Platoon {
     public code: string,
     public commodityId: number,
     public gradeId: number
-  ) {}
+  ) { }
 }
 
 export class Group {
@@ -58,7 +58,7 @@ export class Group {
     public commodityId: number,
     public gradeId: number,
     public platoonId: number
-  ) {}
+  ) { }
 }
 
 export class Unit {
@@ -66,7 +66,7 @@ export class Unit {
     public id: number,
     public name: string,
     private global: GlobalService
-  ) {}
+  ) { }
 }
 
 interface StrItem {
@@ -95,6 +95,7 @@ export class STRItem1Component implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageIndex: any;
   length: any;
+  serachFlag: boolean = false;
   dataSource: MatTableDataSource<StrItem> = new MatTableDataSource();
 
   loading: boolean = false;
@@ -397,12 +398,15 @@ export class STRItem1Component implements OnInit {
 
   resetForm() {
     this.itemForm.reset();
+    this.serachFlag = false;
+
     this.getAllItems();
   }
 
   getAllItems() {
     if (!this.currentPage) {
       this.currentPage = 0;
+      this.serachFlag = false;
 
       // this.isLoading = true;
       fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
@@ -441,42 +445,50 @@ export class STRItem1Component implements OnInit {
             // this.isLoading = false;
           }
         );
-    } else {
-      // this.isLoading = true;
-      fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
-        .then((response) => response.json())
-        .then(
-          (data) => {
-            this.totalRows = data.length;
-            console.log('master data paginate: ', data);
-            this.dataSource.data = data.items;
-            this.pageIndex = data.page;
-            this.pageSize = data.pageSize;
-            this.length = data.totalItems;
+    }
+    else {
+      if (this.serachFlag == false) {
+        // this.isLoading = true;
+        fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              this.totalRows = data.length;
+              console.log('master data paginate: ', data);
+              this.dataSource.data = data.items;
+              this.pageIndex = data.page;
+              this.pageSize = data.pageSize;
+              this.length = data.totalItems;
 
-            this.reportData = data.items;
-            // let data: any = this.api.reportData;
-            window.localStorage.setItem(
-              'reportData',
-              JSON.stringify(this.reportData)
-            );
-            window.localStorage.setItem(
-              'reportName',
-              JSON.stringify(this.reportName)
-            );
-            this.itemForm.reset();
+              this.reportData = data.items;
+              // let data: any = this.api.reportData;
+              window.localStorage.setItem(
+                'reportData',
+                JSON.stringify(this.reportData)
+              );
+              window.localStorage.setItem(
+                'reportName',
+                JSON.stringify(this.reportName)
+              );
+              this.itemForm.reset();
 
-            setTimeout(() => {
-              this.paginator.pageIndex = this.currentPage;
-              this.paginator.length = this.length;
-            });
-            // this.isLoading = false;
-          },
-          (error) => {
-            console.log(error);
-            // this.isLoading = false;
-          }
-        );
+              setTimeout(() => {
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = this.length;
+              });
+              // this.isLoading = false;
+            },
+            (error) => {
+              console.log(error);
+              // this.isLoading = false;
+            }
+          );
+      }
+      else {
+        console.log("search next paginate");
+        this.getSearchItems(this.itemForm.getRawValue().itemName, this.itemForm.getRawValue().fullCode, this.itemForm.getRawValue().type)
+      }
+
     }
   }
 
@@ -546,6 +558,20 @@ export class STRItem1Component implements OnInit {
             // this.dataSource.sort = this.sort;
 
             this.totalRows = res.length;
+            if (this.serachFlag == false) {
+              // this.dataSource.data = data.items;
+              this.pageIndex = 0;
+              this.pageSize = 5;
+              this.length = this.totalRows;
+              this.serachFlag = true;
+            }
+            // else{
+            //   // this.dataSource.data = data.items;
+            //   this.pageIndex = res.page;
+            //   this.pageSize = res.pageSize;
+            //   this.length = res.totalItems;
+            // }
+
             console.log('master data paginate first Time: ', res);
             this.dataSource = new MatTableDataSource(res);
             this.dataSource.paginator = this.paginator;
@@ -554,10 +580,7 @@ export class STRItem1Component implements OnInit {
             // let paginateSearch = document.getElementById('paginateSearch');
             // console.log('paginateSearch: ', paginateSearch);
 
-            // this.dataSource.data = data.items;
-            this.pageIndex = 0;
-            this.pageSize = 5;
-            this.length = this.totalRows;
+
           },
           error: (err) => {
             this.loading = false;
@@ -622,7 +645,7 @@ export class STRItem1Component implements OnInit {
   }
 
 
-  async getSearchItemsWithprint(name: any, fullCode: any, type: any) {
+  async getSearchItemsWithprint(name: any, fullCode: any, StartDate: any, EndDate: any, type: any, reportName: any, reportType: any) {
     console.log('print');
     let commodity = this.itemForm.getRawValue().commodityId;
     console.log('commodityRow:', commodity);
@@ -643,7 +666,11 @@ export class STRItem1Component implements OnInit {
         grade,
         platoon,
         group,
-        unit
+        unit,
+        StartDate,
+        EndDate,
+        reportName,
+        reportType
       )
       .subscribe({
         next: (res) => {
@@ -664,8 +691,8 @@ export class STRItem1Component implements OnInit {
       });
   }
 
-  async preview(name: any, fullCode: any, type: any) {
-    // console.log('print');
+  async preview(name: any, fullCode: any, StartDate: any, EndDate: any, type: any, reportName: any, reportType: any) {
+    console.log('preview report values: name:', name, "fullcode: ", fullCode, "type: ", type, "reportType: ", reportType);
     let commodity = this.itemForm.getRawValue().commodityId;
     // console.log('commodityRow:', commodity);
     let grade = this.itemForm.getRawValue().gradeId;
@@ -675,8 +702,9 @@ export class STRItem1Component implements OnInit {
     let group = this.itemForm.getRawValue().groupId;
     // console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
-    // console.log('unitRow:', unit);
-    this.loading = true;
+
+    console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType);
+    this.loading = true
     this.api
       .printReportItems(
         name,
@@ -686,7 +714,11 @@ export class STRItem1Component implements OnInit {
         grade,
         platoon,
         group,
-        unit
+        unit,
+        StartDate,
+        EndDate,
+        reportName,
+        reportType
       )
       .subscribe({
         next: (res) => {

@@ -731,7 +731,7 @@ this.loading=true;
           employee,
           costCenter,
           report,
-          'pdf'
+          reportType
         )
         .subscribe({
           next: (res) => {
