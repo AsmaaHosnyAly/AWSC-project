@@ -877,11 +877,11 @@ export class StrWithdrawDialogComponent implements OnInit {
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
 
-      this.loading=true;
+     
       this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
-            this.loading =false;
+           
             // this.itemsList = res;
             this.matchedIds = res;
 
