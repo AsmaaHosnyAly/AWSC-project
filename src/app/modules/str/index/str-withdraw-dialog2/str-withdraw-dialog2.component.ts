@@ -1636,7 +1636,8 @@ export class StrWithdrawDialogComponent implements OnInit {
       } else {
         console.log(
           'change both values in updateHeader, ',
-          this.groupMasterForm.getRawValue().storeId
+          this.groupMasterForm.getRawValue().storeId,
+          "fiscalYear: ", this.groupMasterForm.getRawValue().fiscalYearId
         );
         this.api
           .getStrWithdrawAutoNo(

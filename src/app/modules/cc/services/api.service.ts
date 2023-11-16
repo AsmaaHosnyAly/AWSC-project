@@ -177,8 +177,12 @@ export class ApiService {
 
   /////////////////Cc Plant Component//////////////////
   getCcPlantComponent() {
-
     return this.http.get<any>(`${this.url}/CcPlantComponent/get/all`);
+  }
+  getCcPlantComponentPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcPlantComponent/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putCcPlantComponent(data: any) {
     console.log("data in post:", data)
@@ -198,8 +202,12 @@ export class ApiService {
   }
   /////////////////Cc Equipment//////////////////
   getEquipment() {
-
     return this.http.get<any>(`${this.url}/CcEquipment/get/all`);
+  }
+  getCcEquipmentPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcEquipment/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putEquipment(data: any) {
     console.log("data in post:", data)
@@ -224,8 +232,12 @@ export class ApiService {
 
   /////////////////Cc CostCenter//////////////////
   getCostCenter() {
-
     return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
+  }
+  getCcCostCenterPaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/CcCostCenter/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putCostCenter(data: any) {
     console.log("data in post:", data)
