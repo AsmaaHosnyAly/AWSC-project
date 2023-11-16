@@ -2,7 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -91,8 +95,8 @@ export class STRItem1Component implements OnInit {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageIndex: any;
   length: any;
+  serachFlag: boolean = false;
   dataSource: MatTableDataSource<StrItem> = new MatTableDataSource();
-
 
   loading: boolean = false;
   transactionUserId = localStorage.getItem('transactionUserId');
@@ -149,14 +153,20 @@ export class STRItem1Component implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dialog: MatDialog, private toastr: ToastrService,
+    private dialog: MatDialog,
+    private toastr: ToastrService,
     private api: ApiService,
     private datePipe: DatePipe,
     private router: Router,
     private global: GlobalService,
     private hotkeysService: HotkeysService
   ) {
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
+    global.getPermissionUserRoles(
+      'Store',
+      'stores',
+      'إدارة المخازن وحسابات المخازن ',
+      'store'
+    );
     this.unitCtrl = new FormControl();
     this.filteredUnits = this.unitCtrl.valueChanges.pipe(
       startWith(''),
@@ -386,105 +396,104 @@ export class STRItem1Component implements OnInit {
     this.groupCtrl.updateValueAndValidity();
   }
 
-  getAllItems() {
-    // this.api.getItem().subscribe({
-    //   next: (res) => {
-    //     console.log('res table: ', res);
-    //     this.reportData = res;
-    //     // let data: any = this.api.reportData;
-    //     window.localStorage.setItem(
-    //       'reportData',
-    //       JSON.stringify(this.reportData)
-    //     );
-    //     window.localStorage.setItem(
-    //       'reportName',
-    //       JSON.stringify(this.reportName)
-    //     );
-    //     this.dataSource = new MatTableDataSource(res);
-    //     this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
-    //     this.itemForm.reset();
-    //   },
-    //   error: (err) => {
-    //     alert('error while fetching the records!!');
-    //   },
-    // });
+  resetForm() {
+    this.itemForm.reset();
+    this.serachFlag = false;
 
+    this.getAllItems();
+  }
+
+  getAllItems() {
     if (!this.currentPage) {
       this.currentPage = 0;
+      this.serachFlag = false;
 
       // this.isLoading = true;
       fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          this.totalRows = data.length;
-          console.log("master data paginate first Time: ", data);
-          this.dataSource.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
+        .then((response) => response.json())
+        .then(
+          (data) => {
+            this.totalRows = data.length;
+            console.log('master data paginate first Time: ', data);
+            this.dataSource = new MatTableDataSource(data.items);
 
-          this.reportData = data.items;
-          // let data: any = this.api.reportData;
-          window.localStorage.setItem(
-            'reportData',
-            JSON.stringify(this.reportData)
-          );
-          window.localStorage.setItem(
-            'reportName',
-            JSON.stringify(this.reportName)
-          );
-          this.itemForm.reset();
+            // this.dataSource.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
 
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
-          });
-          // this.isLoading = false;
-        }, error => {
-          console.log(error);
-          // this.isLoading = false;
-        });
+            this.reportData = data.items;
+            // let data: any = this.api.reportData;
+            window.localStorage.setItem(
+              'reportData',
+              JSON.stringify(this.reportData)
+            );
+            window.localStorage.setItem(
+              'reportName',
+              JSON.stringify(this.reportName)
+            );
+            this.itemForm.reset();
+
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            // this.isLoading = false;
+          },
+          (error) => {
+            console.log(error);
+            // this.isLoading = false;
+          }
+        );
     }
     else {
-      // this.isLoading = true;
-      fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          this.totalRows = data.length;
-          console.log("master data paginate: ", data);
-          this.dataSource.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
+      if (this.serachFlag == false) {
+        // this.isLoading = true;
+        fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              this.totalRows = data.length;
+              console.log('master data paginate: ', data);
+              this.dataSource.data = data.items;
+              this.pageIndex = data.page;
+              this.pageSize = data.pageSize;
+              this.length = data.totalItems;
 
-          this.reportData = data.items;
-          // let data: any = this.api.reportData;
-          window.localStorage.setItem(
-            'reportData',
-            JSON.stringify(this.reportData)
-          );
-          window.localStorage.setItem(
-            'reportName',
-            JSON.stringify(this.reportName)
-          );
-          this.itemForm.reset();
+              this.reportData = data.items;
+              // let data: any = this.api.reportData;
+              window.localStorage.setItem(
+                'reportData',
+                JSON.stringify(this.reportData)
+              );
+              window.localStorage.setItem(
+                'reportName',
+                JSON.stringify(this.reportName)
+              );
+              this.itemForm.reset();
 
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
-          });
-          // this.isLoading = false;
-        }, error => {
-          console.log(error);
-          // this.isLoading = false;
-        });
+              setTimeout(() => {
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = this.length;
+              });
+              // this.isLoading = false;
+            },
+            (error) => {
+              console.log(error);
+              // this.isLoading = false;
+            }
+          );
+      }
+      else {
+        console.log("search next paginate");
+        this.getSearchItems(this.itemForm.getRawValue().itemName, this.itemForm.getRawValue().fullCode, this.itemForm.getRawValue().type)
+      }
+
     }
-
   }
 
   pageChanged(event: PageEvent) {
-    console.log("page event: ", event);
+    console.log('page event: ', event);
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
 
@@ -526,8 +535,6 @@ export class STRItem1Component implements OnInit {
   }
 
   async getSearchItems(name: any, fullCode: any, type: any) {
-
-
     let commodity = this.itemForm.getRawValue().commodityId;
     console.log('commodityRow:', commodity);
     let grade = this.itemForm.getRawValue().gradeId;
@@ -538,7 +545,16 @@ export class STRItem1Component implements OnInit {
     console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     console.log('unitRow:', unit);
-    if (name || fullCode || type || commodity || grade || platoon || group || unit) {
+    if (
+      name ||
+      fullCode ||
+      type ||
+      commodity ||
+      grade ||
+      platoon ||
+      group ||
+      unit
+    ) {
       this.loading = true;
       this.api
         .getSearchItem(
@@ -556,9 +572,34 @@ export class STRItem1Component implements OnInit {
             this.loading = false;
             console.log('search:', res);
 
-            this.dataSource = res;
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+
+            this.totalRows = res.length;
+            if (this.serachFlag == false) {
+              // this.dataSource.data = data.items;
+              this.pageIndex = 0;
+              this.pageSize = 5;
+              this.length = this.totalRows;
+              this.serachFlag = true;
+            }
+            // else{
+            //   // this.dataSource.data = data.items;
+            //   this.pageIndex = res.page;
+            //   this.pageSize = res.pageSize;
+            //   this.length = res.totalItems;
+            // }
+
+            console.log('master data paginate first Time: ', res);
+            this.dataSource = new MatTableDataSource(res);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+
+            // let paginateSearch = document.getElementById('paginateSearch');
+            // console.log('paginateSearch: ', paginateSearch);
+
+
           },
           error: (err) => {
             this.loading = false;
@@ -566,10 +607,9 @@ export class STRItem1Component implements OnInit {
           },
         });
     } else {
-      this.toastrNullInputs()
+      this.toastrNullInputs();
     }
   }
-
 
   toastrNullInputs(): void {
     this.toastr.error('من فضلك ادخل البيانات');
@@ -672,7 +712,7 @@ export class STRItem1Component implements OnInit {
   //   });
   // }
 
-  async getSearchItemsWithprint(name: any,  fullCode: any, StartDate: any, EndDate: any, type: any, reportName: any, reportType: any) {
+  async getSearchItemsWithprint(name: any, fullCode: any, StartDate: any, EndDate: any, type: any, reportName: any, reportType: any) {
     console.log('print');
     let commodity = this.itemForm.getRawValue().commodityId;
     console.log('commodityRow:', commodity);
@@ -694,14 +734,13 @@ export class STRItem1Component implements OnInit {
         platoon,
         group,
         unit,
-        StartDate, 
-        EndDate, 
+        StartDate,
+        EndDate,
         reportName,
         reportType
       )
       .subscribe({
         next: (res) => {
-
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
@@ -713,7 +752,6 @@ export class STRItem1Component implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
-
           console.log('eroorr', err);
           window.open(err.url);
         },
@@ -744,14 +782,14 @@ export class STRItem1Component implements OnInit {
         platoon,
         group,
         unit,
-        StartDate, 
-        EndDate, 
+        StartDate,
+        EndDate,
         reportName,
         reportType
       )
       .subscribe({
         next: (res) => {
-          this.loading = false
+          this.loading = false;
           let blob: Blob = res.body as Blob;
           console.log(blob);
           let url = window.URL.createObjectURL(blob);
@@ -766,7 +804,7 @@ export class STRItem1Component implements OnInit {
           // this.dataSource.sort = this.sort;
         },
         error: (err) => {
-          this.loading = false
+          this.loading = false;
           console.log('eroorr', err);
           window.open(err.url);
         },
