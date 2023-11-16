@@ -69,6 +69,20 @@ export class Unit {
   ) { }
 }
 
+export class Stores {
+  constructor(
+    public id: number,
+    public name: string
+  ) { }
+}
+
+export class Items {
+  constructor(
+    public id: number,
+    public name: string
+  ) { }
+}
+
 interface StrItem {
   fullCode: any;
   name: any;
@@ -116,10 +130,22 @@ export class STRItem1Component implements OnInit {
   filteredPlatoons: Observable<Platoon[]>;
   platoons: Platoon[] = [];
   selectedPlatoon!: Platoon;
+
   groupCtrl: FormControl;
   filteredGroups: Observable<Group[]>;
   groups: Group[] = [];
   selectedGroup!: Group;
+
+  storeCtrl: FormControl;
+  filteredStores: Observable<Stores[]>;
+  storeList: Stores[] = [];
+  selectedStore!: Stores;
+
+  itemCtrl: FormControl;
+  filteredItems: Observable<Items[]>;
+  itemsList: Items[] = [];
+  selectedItem!: Items;
+
   formcontrol = new FormControl('');
   itemForm!: FormGroup;
   title = 'angular13crud';
@@ -146,6 +172,8 @@ export class STRItem1Component implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  // storeList: any;
+  // itemsList: any;
 
   ngAfterViewInit() {
     this.dataSource2.paginator = this.paginator;
@@ -197,29 +225,50 @@ export class STRItem1Component implements OnInit {
       map((value) => this._filterGroups(value))
     );
 
+    this.storeCtrl = new FormControl();
+    this.filteredStores = this.storeCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterStores(value))
+    );
+
+    this.itemCtrl = new FormControl();
+    this.filteredItems = this.itemCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterItems(value))
+    );
+
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
   }
   ngOnInit(): void {
     this.getAllItems();
-    this.api.getAllUnitsi().subscribe((units) => {
-      this.units = units;
-    });
+    this.getStores();
+    this.getItems();
+    this.getAllUnitsi();
+    this.getAllCommoditiesi();
+    this.getAllGradesi();
+    this.getAllPlatoonsi();
+    this.getAllGroupsi();
 
-    this.api.getAllCommoditiesi().subscribe((commodities) => {
-      this.commodities = commodities;
-    });
+    // this.api.getAllUnitsi().subscribe((units) => {
+    //   this.units = units;
+    // });
 
-    this.api.getAllGradesi().subscribe((grades) => {
-      this.grades = grades;
-    });
+    // this.api.getAllCommoditiesi().subscribe((commodities) => {
+    //   this.commodities = commodities;
+    // });
 
-    this.api.getAllPlatoonsi().subscribe((platoons) => {
-      this.platoons = platoons;
-    });
+    // this.api.getAllGradesi().subscribe((grades) => {
+    //   this.grades = grades;
+    // });
 
-    this.api.getAllGroupsi().subscribe((groups) => {
-      this.groups = groups;
-    });
+    // this.api.getAllPlatoonsi().subscribe((platoons) => {
+    //   this.platoons = platoons;
+    // });
+
+    // this.api.getAllGroupsi().subscribe((groups) => {
+    //   this.groups = groups;
+    // });
+
     this.hotkeysService.add(
       new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
         // Call the deleteGrade() function in the current component
@@ -242,6 +291,8 @@ export class STRItem1Component implements OnInit {
       gradeId: [''],
       platoonId: [''],
       groupId: [''],
+      storeId: [''],
+      itemId: ['']
     });
   }
   openDialog() {
@@ -275,6 +326,14 @@ export class STRItem1Component implements OnInit {
 
   displayGroupName(group: any): string {
     return group && group.name ? group.name : '';
+  }
+
+  displayStoreName(store: any): string {
+    return store && store.name ? store.name : '';
+  }
+
+  displayItemName(item: any): string {
+    return item && item.name ? item.name : '';
   }
 
   unitSelected(event: MatAutocompleteSelectedEvent): void {
@@ -314,6 +373,18 @@ export class STRItem1Component implements OnInit {
     this.itemForm.patchValue({ groupId: group.id });
     this.itemForm.patchValue({ groupName: group.name });
     this.itemForm.patchValue({ groupcode: group.code });
+  }
+
+  storeSelected(event: MatAutocompleteSelectedEvent): void {
+    const store = event.option.value as Stores;
+    this.selectedStore = store;
+    this.itemForm.patchValue({ storeId: store.id });
+  }
+
+  itemSelected(event: MatAutocompleteSelectedEvent): void {
+    const item = event.option.value as Items;
+    this.selectedItem = item;
+    this.itemForm.patchValue({ itemId: item.id });
   }
 
   private _filterUnits(value: string): Unit[] {
@@ -358,6 +429,24 @@ export class STRItem1Component implements OnInit {
         group.code.toLowerCase().includes(filterValue)
     );
   }
+
+  private _filterStores(value: string): Stores[] {
+    const filterValue = value;
+    return this.storeList.filter(
+      (store) =>
+        store.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  private _filterItems(value: string): Items[] {
+    console.log("filterItems: ", value);
+    const filterValue = value;
+    return this.itemsList.filter(
+      (item) =>
+        item.name.toLowerCase().includes(filterValue)
+    );
+  }
+
   openAutoUnit() {
     this.unitCtrl.setValue(''); // Clear the input field value
 
@@ -396,6 +485,21 @@ export class STRItem1Component implements OnInit {
     this.groupCtrl.updateValueAndValidity();
   }
 
+  openAutoStore() {
+    this.storeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.storeCtrl.updateValueAndValidity();
+  }
+
+  openAutoItems() {
+    console.log("enter openAutoo");
+    this.itemCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.itemCtrl.updateValueAndValidity();
+  }
+
   resetForm() {
     this.itemForm.reset();
     this.serachFlag = false;
@@ -404,9 +508,9 @@ export class STRItem1Component implements OnInit {
   }
 
   getAllItems() {
-    if (!this.currentPage) {
+    if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
-      this.serachFlag = false;
+      // this.serachFlag = false;
 
       // this.isLoading = true;
       fetch(this.api.getItemPaginate(this.currentPage, this.pageSize))
@@ -592,12 +696,7 @@ export class STRItem1Component implements OnInit {
     }
   }
 
-  toastrNullInputs(): void {
-    this.toastr.error('من فضلك ادخل البيانات');
-  }
-  toastrDeleteSuccess(): void {
-    this.toastr.success('تم الحذف بنجاح');
-  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -657,38 +756,130 @@ export class STRItem1Component implements OnInit {
     console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     console.log('unitRow:', unit);
-    this.api
-      .printReportItems(
-        name,
-        fullCode,
-        type,
-        commodity,
-        grade,
-        platoon,
-        group,
-        unit,
-        StartDate,
-        EndDate,
-        reportName,
-        reportType
-      )
-      .subscribe({
-        next: (res) => {
-          console.log('search:', res);
-          const url: any = res.url;
-          window.open(url);
-          // let blob: Blob = res.body as Blob;
-          // let url = window.URL.createObjectURL(blob);
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-      });
+    let storeId = this.itemForm.getRawValue().storeId;
+    let itemId = this.itemForm.getRawValue().itemId;
+
+    if (reportName == 'ItemsTakingReport') {
+      if (this.itemForm.getRawValue().storeId) {
+
+        this.api
+          .printReportItems(
+            name,
+            fullCode,
+            type,
+            commodity,
+            grade,
+            platoon,
+            group,
+            unit,
+            storeId,
+            itemId,
+            StartDate,
+            EndDate,
+            reportName,
+            reportType
+          )
+          .subscribe({
+            next: (res) => {
+              console.log('search:', res);
+              const url: any = res.url;
+              window.open(url);
+              // let blob: Blob = res.body as Blob;
+              // let url = window.URL.createObjectURL(blob);
+
+              // this.dataSource = res;
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+      }
+      else {
+        this.toastrWarningReportStoreValid();
+      }
+    }
+    else if (reportName == 'ItemsTransactionReport') {
+      if (this.itemForm.getRawValue().storeId && this.itemForm.getRawValue().itemId) {
+        this.api
+          .printReportItems(
+            name,
+            fullCode,
+            type,
+            commodity,
+            grade,
+            platoon,
+            group,
+            unit,
+            storeId,
+            itemId,
+            StartDate,
+            EndDate,
+            reportName,
+            reportType
+          )
+          .subscribe({
+            next: (res) => {
+              console.log('search:', res);
+              const url: any = res.url;
+              window.open(url);
+              // let blob: Blob = res.body as Blob;
+              // let url = window.URL.createObjectURL(blob);
+
+              // this.dataSource = res;
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+      }
+      else {
+        this.toastrWarningReportItemStoreValid();
+      }
+    }
+    else {
+      this.api
+        .printReportItems(
+          name,
+          fullCode,
+          type,
+          commodity,
+          grade,
+          platoon,
+          group,
+          unit,
+          storeId,
+          itemId,
+          StartDate,
+          EndDate,
+          reportName,
+          reportType
+        )
+        .subscribe({
+          next: (res) => {
+            console.log('search:', res);
+            const url: any = res.url;
+            window.open(url);
+            // let blob: Blob = res.body as Blob;
+            // let url = window.URL.createObjectURL(blob);
+
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    }
+
   }
 
   async preview(name: any, fullCode: any, StartDate: any, EndDate: any, type: any, reportName: any, reportType: any) {
@@ -703,44 +894,272 @@ export class STRItem1Component implements OnInit {
     // console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
 
-    console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType);
-    this.loading = true
-    this.api
-      .printReportItems(
-        name,
-        fullCode,
-        type,
-        commodity,
-        grade,
-        platoon,
-        group,
-        unit,
-        StartDate,
-        EndDate,
-        reportName,
-        reportType
-      )
-      .subscribe({
-        next: (res) => {
-          this.loading = false;
-          let blob: Blob = res.body as Blob;
-          console.log(blob);
-          let url = window.URL.createObjectURL(blob);
-          localStorage.setItem('url', JSON.stringify(url));
-          this.pdfurl = url;
-          this.dialog.open(PrintDialogComponent, {
-            width: '70%',
+    let storeId = this.itemForm.getRawValue().storeId;
+    let itemId = this.itemForm.getRawValue().itemId;
+
+
+    if (reportName == 'ItemsTakingReport') {
+
+      if (this.itemForm.getRawValue().storeId) {
+        console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType, "storeId: ", storeId);
+        this.loading = true
+        this.api
+          .printReportItems(
+            name,
+            fullCode,
+            type,
+            commodity,
+            grade,
+            platoon,
+            group,
+            unit,
+            storeId,
+            itemId,
+            StartDate,
+            EndDate,
+            reportName,
+            reportType
+          )
+          .subscribe({
+            next: (res) => {
+              this.loading = false;
+              let blob: Blob = res.body as Blob;
+              console.log(blob);
+              let url = window.URL.createObjectURL(blob);
+              localStorage.setItem('url', JSON.stringify(url));
+              this.pdfurl = url;
+              this.dialog.open(PrintDialogComponent, {
+                width: '70%',
+              });
+
+              // this.dataSource = res;
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+              this.loading = false;
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
           });
 
-          // this.dataSource = res;
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-        },
-        error: (err) => {
-          this.loading = false;
-          console.log('eroorr', err);
-          window.open(err.url);
-        },
-      });
+      }
+      else {
+        this.toastrWarningReportStoreValid();
+      }
+    }
+    else if (reportName == 'ItemsTransactionReport') {
+      if (this.itemForm.getRawValue().storeId && this.itemForm.getRawValue().itemId) {
+        console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType, "storeId: ", storeId, "itemId: ", itemId);
+        this.loading = true
+        this.api
+          .printReportItems(
+            name,
+            fullCode,
+            type,
+            commodity,
+            grade,
+            platoon,
+            group,
+            unit,
+            storeId,
+            itemId,
+            StartDate,
+            EndDate,
+            reportName,
+            reportType
+          )
+          .subscribe({
+            next: (res) => {
+              this.loading = false;
+              let blob: Blob = res.body as Blob;
+              console.log(blob);
+              let url = window.URL.createObjectURL(blob);
+              localStorage.setItem('url', JSON.stringify(url));
+              this.pdfurl = url;
+              this.dialog.open(PrintDialogComponent, {
+                width: '70%',
+              });
+
+              // this.dataSource = res;
+              // this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+              this.loading = false;
+              console.log('eroorr', err);
+              window.open(err.url);
+            },
+          });
+
+      }
+      else {
+        this.toastrWarningReportItemStoreValid();
+      }
+    }
+    else {
+      console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType);
+      this.loading = true
+      this.api
+        .printReportItems(
+          name,
+          fullCode,
+          type,
+          commodity,
+          grade,
+          platoon,
+          group,
+          unit,
+          storeId,
+          itemId,
+          StartDate,
+          EndDate,
+          reportName,
+          reportType
+        )
+        .subscribe({
+          next: (res) => {
+            this.loading = false;
+            let blob: Blob = res.body as Blob;
+            console.log(blob);
+            let url = window.URL.createObjectURL(blob);
+            localStorage.setItem('url', JSON.stringify(url));
+            this.pdfurl = url;
+            this.dialog.open(PrintDialogComponent, {
+              width: '70%',
+            });
+
+            // this.dataSource = res;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
+          },
+          error: (err) => {
+            this.loading = false;
+            console.log('eroorr', err);
+            window.open(err.url);
+          },
+        });
+    }
+
   }
+
+  getStores() {
+    this.loading = true;
+    this.api.getStore().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.storeList = res;
+      },
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب المخازن !');
+      },
+    });
+  }
+
+  getItems() {
+    this.loading = true;
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.itemsList = res;
+      },
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
+      },
+    });
+  }
+
+  getAllUnitsi() {
+    this.loading = true;
+    this.api.getAllUnitsi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.units = res;
+      },
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب الوحدات !');
+      },
+    });
+  }
+
+  getAllCommoditiesi() {
+    this.loading = true;
+    this.api.getAllCommoditiesi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.commodities = res;
+      },
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب الوحدات !');
+      },
+    });
+  }
+
+  getAllGradesi() {
+    this.loading = true;
+    this.api.getAllGradesi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.grades = res;
+      },
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب الوحدات !');
+      },
+    });
+  }
+
+  getAllPlatoonsi() {
+    this.loading = true;
+    this.api.getAllPlatoonsi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.platoons = res;
+      },
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب الوحدات !');
+      },
+    });
+  }
+
+  getAllGroupsi() {
+    this.loading = true;
+    this.api.getAllGroupsi().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.groups = res;
+      },
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب الوحدات !');
+      },
+    });
+  }
+
+
+  toastrNullInputs(): void {
+    this.toastr.error('من فضلك ادخل البيانات');
+  }
+  toastrDeleteSuccess(): void {
+    this.toastr.success('تم الحذف بنجاح');
+  }
+  toastrWarningReportStoreValid(): void {
+    this.toastr.warning('اختر المخزن !');
+  }
+  toastrWarningReportItemStoreValid(): void {
+    this.toastr.warning('اختر السلعة و المخزن !');
+  }
+
 }
