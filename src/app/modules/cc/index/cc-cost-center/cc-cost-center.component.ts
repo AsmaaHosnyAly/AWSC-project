@@ -6,7 +6,7 @@ import {
 } from '@angular/material/dialog';
 
 import { ApiService } from '../../services/api.service';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
@@ -17,31 +17,44 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { GlobalService } from 'src/app/pages/services/global.service'; 
+import { GlobalService } from 'src/app/pages/services/global.service';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
 import { CcCostCenterDailogComponent } from '../cc-cost-center-dailog/cc-cost-center-dailog.component';
 export class functionn {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public global: GlobalService) { }
 }
 export class source {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public global: GlobalService) { }
 }
 export class region {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public global: GlobalService) { }
 }
 export class subRegion {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public global: GlobalService) { }
 }
 export class plant {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public global: GlobalService) { }
 }
 export class activity {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public global: GlobalService) { }
 }
 export class plantComponent {
-  constructor(public id: number, public name: string,public global:GlobalService) {}
+  constructor(public id: number, public name: string, public global: GlobalService) { }
+}
+
+interface CcCostCenter {
+  code: any;
+  name: any;
+  functionName: any;
+  sourceName: any;
+  regionName: any;
+  subRegionName: any;
+  plantName: any;
+  plantComponentName: any;
+  activityName: any;
+  action: any;
 }
 
 @Component({
@@ -50,6 +63,14 @@ export class plantComponent {
   styleUrls: ['./cc-cost-center.component.css']
 })
 export class CcCostCenterComponent {
+  ELEMENT_DATA: CcCostCenter[] = [];
+  totalRows = 0;
+  pageSize = 5;
+  currentPage: any;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageIndex: any;
+  length: any;
+  dataSource: MatTableDataSource<CcCostCenter> = new MatTableDataSource();
 
   functionnCtrl: FormControl;
   filteredFunctionnes: Observable<functionn[]>;
@@ -91,13 +112,16 @@ export class CcCostCenterComponent {
   equipmentForm!: FormGroup;
   title = 'Angular13Crud';
   //define table fields which has to be same to api fields
-  displayedColumns: string[] = [ 'name', 'code', 'functionName', 'sourceName', 'regionName', 'subRegionName', 'plantName', 'plantComponentName', 'activityName','action'];
-  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'code', 'functionName', 'sourceName', 'regionName', 'subRegionName', 'plantName', 'plantComponentName', 'activityName', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
-  constructor(private dialog: MatDialog,private toastr: ToastrService, private api: ApiService,private global:GlobalService,private hotkeysService: HotkeysService) {
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  constructor(private dialog: MatDialog, private toastr: ToastrService, private api: ApiService, private global: GlobalService, private hotkeysService: HotkeysService) {
     global.getPermissionUserRoles('IT', '', 'التكاليف', 'credit_card')
     this.functionnCtrl = new FormControl();
     this.filteredFunctionnes = this.functionnCtrl.valueChanges.pipe(
@@ -126,7 +150,7 @@ export class CcCostCenterComponent {
     this.plantCtrl = new FormControl();
     this.filteredPlantes = this.plantCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterPlantes (value))
+      map((value) => this._filterPlantes(value))
     );
 
     this.activityCtrl = new FormControl();
@@ -144,7 +168,7 @@ export class CcCostCenterComponent {
   }
   ngOnInit(): void {
     // console.log(productForm)
-    
+
     this.getAllCostCenters();
     this.api.getAllFunctionnes().subscribe((functionnes) => {
       this.functionnes = functionnes;
@@ -204,7 +228,7 @@ export class CcCostCenterComponent {
   private _filterFunctionnes(value: string): functionn[] {
     const filterValue = value.toLowerCase();
     return this.functionnes.filter(functionn =>
-      functionn.name.toLowerCase().includes(filterValue) 
+      functionn.name.toLowerCase().includes(filterValue)
     );
   }
 
@@ -220,7 +244,7 @@ export class CcCostCenterComponent {
   private _filterSources(value: string): source[] {
     const filterValue = value.toLowerCase();
     return this.sources.filter(source =>
-      source.name.toLowerCase().includes(filterValue) 
+      source.name.toLowerCase().includes(filterValue)
     );
   }
 
@@ -237,7 +261,7 @@ export class CcCostCenterComponent {
   private _filterRegiones(value: string): region[] {
     const filterValue = value.toLowerCase();
     return this.regiones.filter(region =>
-      region.name.toLowerCase().includes(filterValue) 
+      region.name.toLowerCase().includes(filterValue)
     );
   }
 
@@ -254,7 +278,7 @@ export class CcCostCenterComponent {
   private _filterSubRegiones(value: string): subRegion[] {
     const filterValue = value.toLowerCase();
     return this.subRegiones.filter(subRegion =>
-      subRegion.name.toLowerCase().includes(filterValue) 
+      subRegion.name.toLowerCase().includes(filterValue)
     );
   }
 
@@ -271,7 +295,7 @@ export class CcCostCenterComponent {
   private _filterPlantes(value: string): plant[] {
     const filterValue = value.toLowerCase();
     return this.plantes.filter(plant =>
-      plant.name.toLowerCase().includes(filterValue) 
+      plant.name.toLowerCase().includes(filterValue)
     );
   }
 
@@ -287,7 +311,7 @@ export class CcCostCenterComponent {
   private _filterActivityes(value: string): activity[] {
     const filterValue = value.toLowerCase();
     return this.activityes.filter(activity =>
-      activity.name.toLowerCase().includes(filterValue) 
+      activity.name.toLowerCase().includes(filterValue)
     );
   }
 
@@ -304,20 +328,76 @@ export class CcCostCenterComponent {
   private _filterPlantComponentes(value: string): plant[] {
     const filterValue = value.toLowerCase();
     return this.plantComponentes.filter(plantComponent =>
-      plantComponent.name.toLowerCase().includes(filterValue) 
+      plantComponent.name.toLowerCase().includes(filterValue)
     );
   }
   getAllCostCenters() {
-    this.api.getCostCenter().subscribe({
-      next: (res) => {
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: (err) => {
-        alert('Error');
-      },
-    });
+    // this.api.getCostCenter().subscribe({
+    //   next: (res) => {
+    //     this.dataSource = new MatTableDataSource(res);
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
+    //   },
+    //   error: (err) => {
+    //     alert('Error');
+    //   },
+    // });
+
+    if (!this.currentPage) {
+      this.currentPage = 0;
+
+      // this.isLoading = true;
+      fetch(this.api.getCcCostCenterPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate first Time: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+    else {
+      // this.isLoading = true;
+      fetch(this.api.getCcCostCenterPaginate(this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+          this.totalRows = data.length;
+          console.log("master data paginate: ", data);
+          this.dataSource.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+
+  }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    this.getAllCostCenters();
   }
 
   editPlant(row: any) {
@@ -339,14 +419,14 @@ export class CcCostCenterComponent {
     if (result) {
       this.api.deleteCostCenter(id).subscribe({
         next: (res) => {
-          if(res == 'Succeeded'){
-            console.log("res of deletestore:",res)
+          if (res == 'Succeeded') {
+            console.log("res of deletestore:", res)
             this.toastrDeleteSuccess();
-          this.getAllCostCenters();
+            this.getAllCostCenters();
 
-        }else{
-          alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
-        }
+          } else {
+            alert(" لا يمكن الحذف لارتباطها بجداول اخري!")
+          }
         },
         error: () => {
           alert('خطأ فى حذف العنصر');
@@ -354,17 +434,17 @@ export class CcCostCenterComponent {
       });
     }
   }
-  
+
 
   // openAutoSubRegion() {
   //   this.costCenterCtrl.setValue(''); // Clear the input field value
-  
-    // Open the autocomplete dropdown by triggering the value change event
+
+  // Open the autocomplete dropdown by triggering the value change event
   //   this.costCenterCtrl.updateValueAndValidity();
   // }
-  
-  
- 
+
+
+
 
   // async getSearchModels(name: any) {
   //   this.api.getPlant().subscribe({
@@ -409,7 +489,7 @@ export class CcCostCenterComponent {
   //   });
   //   // this.getAllProducts()
   // }
-  
+
 
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');

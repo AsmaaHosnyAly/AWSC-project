@@ -1004,6 +1004,7 @@ export class ApiService {
   }
 
   getStrWithdrawAutoNo(storeId: any, fiscalyearId: any) {
+    console.log("REQUEST to get AUTONO storeId: ", storeId, "fiscalYearId: ", fiscalyearId);
     return this.http.get<any>(
       `${this.url}/STRWithdraw/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalyearId}`
     );
