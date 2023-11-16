@@ -619,7 +619,7 @@ export class STRItem1Component implements OnInit {
       });
   }
   deleteItem(id: number) {
-    var result = confirm('هل ترغب بتاكيد الحذف ؟ ');
+    var result = confirm('هل ترغب بتأكيد الحذف ؟ ');
     if (result) {
       this.api.deleteItems(id).subscribe({
         next: (res) => {
@@ -649,28 +649,9 @@ export class STRItem1Component implements OnInit {
     console.log('groupRow:', group);
     let unit = this.itemForm.getRawValue().unitId;
     console.log('unitRow:', unit);
-    if (
-      name ||
-      fullCode ||
-      type ||
-      commodity ||
-      grade ||
-      platoon ||
-      group ||
-      unit
-    ) {
+    if (name || fullCode || type || commodity || grade || platoon || group || unit) {
       this.loading = true;
-      this.api
-        .getSearchItem(
-          name,
-          fullCode,
-          type,
-          commodity,
-          grade,
-          platoon,
-          group,
-          unit
-        )
+      this.api.getSearchItem( name, fullCode, type, commodity, grade, platoon, group, unit)
         .subscribe({
           next: (res) => {
             this.loading = false;
@@ -762,54 +743,6 @@ export class STRItem1Component implements OnInit {
     location.reload();
   }
 
-  // printReport() {
-  //   // case print in report component
-
-  //   this.router.navigate(['/report']);
-
-  //   // case print in current component
-
-  //   let header: any = document.getElementById('header');
-  //   let paginator: any = document.getElementById('paginator');
-  //   let action1: any = document.getElementById('action1');
-  //   let action2: any = document.querySelectorAll('action2');
-  //   console.log(action2);
-  //   let button1: any = document.querySelectorAll('#button1');
-  //   console.log(button1);
-  //   let button2: any = document.getElementById('button2');
-  //   let button: any = document.getElementsByClassName('mdc-icon-button');
-  //   console.log(button);
-  //   let reportFooter: any = document.getElementById('reportFooter');
-  //   let date: any = document.getElementById('date');
-  //   header.style.display = 'grid';
-  //   // // paginator.style.display = 'none';
-  //   action1.style.display = 'none';
-  //   // // button1.style.display = 'none';
-  //   // // button2.style.display = 'none';
-  //   for (let index = 0; index < button.length; index++) {
-  //     let element = button[index];
-
-  //     element.hidden = true;
-  //   }
-  //   // // reportFooter.style.display = 'block';
-  //   // // date.style.display = 'block';
-  //   let printContent: any = document.getElementById('content')?.innerHTML;
-  //   let originalContent: any = document.body.innerHTML;
-  //   document.body.innerHTML = printContent;
-  //   // // console.log(document.body.children);
-  //   document.body.style.cssText =
-  //     'direction:rtl;-webkit-print-color-adjust:exact;';
-  //   window.print();
-  //   document.body.innerHTML = originalContent;
-  //   location.reload();
-  // }
-  // PreviewInvoice(invoice: any) {
-  //   this.service.GenerateInvoicePDF(invoice).subscribe((res) => {
-  //     let blob: Blob = res.body as Blob;
-  //     let url = window.URL.createObjectURL(blob);
-  //     this.pdfurl = url;
-  //   });
-  // }
 
   async getSearchItemsWithprint(name: any, fullCode: any, StartDate: any, EndDate: any, type: any, reportName: any, reportType: any) {
     console.log('print');
