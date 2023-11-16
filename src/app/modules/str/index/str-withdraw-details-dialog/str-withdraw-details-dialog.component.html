@@ -57,19 +57,8 @@
                     </div>
                 </mat-expansion-panel>
             </mat-accordion>
-
-
-
-            <!-- <mat-form-field appearance="outline" class="groupInput">
-                  <mat-label> الصنف</mat-label>
-                  <mat-select placeholder="بحث يالكود" formControlName="itemId"
-                      [value]="getDetailedRowData ? getDetailedRowData.itemId : ''"
-                      (valueChange)="itemOnChange($event)">
-                      <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
-                  </mat-select>
-              </mat-form-field> -->
-
-            <div >
+<div class="detail">
+            <div class="detailInput" >
                 <mat-label>بحث بالكود </mat-label>
 
                 <mat-form-field appearance="outline" class="groupInput" >
@@ -79,9 +68,8 @@
                 </mat-form-field>
 
             </div>
-
+            <div class="detailInput">
             <mat-label> الصنف*</mat-label>
-
             <mat-form-field appearance="outline" class="groupInput"  *ngIf="!loading">
                 <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
                     placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
@@ -93,20 +81,16 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-
-            <div style="display: flex;flex-direction: row;">
-                <div style="display: flex;flex-direction: column; width: 35%;">
+          </div>
+          <div class="detailInput">
                     <mat-label>الكمية*</mat-label>
 
-                    <mat-form-field appearance="outline" class=" child-num" >
+                    <mat-form-field appearance="outline" class="groupInput">
                         <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
                             [value]="editData ? editData.qty : '1'">
                     </mat-form-field>
-                </div>
-                <!-- </div> -->
-
-                <!-- <div style="display: flex; flex-direction: column; width: 20%;"> -->
-                <div >
+                  </div>
+                  <div class="detailInput">
                     <mat-label>السعر</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput" >
@@ -114,7 +98,10 @@
                             [value]="editData ? editData.price : ''" readonly="true">
                     </mat-form-field>
                 </div>
-            </div>
+
+                
+        </div>
+                
             <div style="display: flex;flex-direction: row;">
                 <div class="radio " style="display: flex;flex-direction: column;width: 52%;">
                     <mat-label style="margin-top: 9px;"> حالةالصنف*</mat-label>
@@ -141,26 +128,6 @@
 
             </div>
 
-            <!-- </div> -->
-            <!-- <div class="row"> -->
-
-
-
-
-
-
-
-
-
-            <!-- <mat-label>الرصيد الحالى*</mat-label>
-
-          <mat-form-field appearance="outline" class="groupInput">
-              <input matInput type="number"  min="0" placeholder="الرصيد" formControlName="balanceQty"
-                  [value]="editData ? editData.balanceQty : ''" readonly>
-          </mat-form-field> -->
-            <!-- </div> -->
-
-
             <div mat-dialog-action [align]="'end'">
                 <div class="groupAction">
                     <button mat-raised-button color="primary" style="margin-left: 8px;"
@@ -170,8 +137,7 @@
                 </div>
             </div>
 
-        </div>
-
+      </div>
     </div>
 
 </form>

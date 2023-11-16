@@ -13,7 +13,7 @@
       <div class="searchLabels">
         <mat-label>المخازن:</mat-label>
 
-        <mat-form-field appearance="outline" class="groupInput" style="width: 90% !important;">
+        <mat-form-field appearance="outline" class="groupInput">
           <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
             <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
               *ngFor="let store of storeList">{{userRoles.includes(userRoleStoresAcc) ? store.name :
@@ -26,7 +26,7 @@
       <div class="searchLabels">
         <mat-label>السنة المالية:</mat-label>
 
-        <mat-form-field appearance="outline" style="width:100%">
+        <mat-form-field appearance="outline">
           <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
             (valueChange)="fiscalYearValueChanges($event)">
             <mat-option [value]="fiscalYear.id"
@@ -37,7 +37,7 @@
 
       <div class="searchLabels">
         <mat-label>الرقم:</mat-label>
-        <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
+        <mat-form-field appearance="outline" class="groupInput">
 
           <input id="autoNoInput" matInput formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
             type="number" min="0" readonly>
@@ -50,17 +50,7 @@
       <div class="searchLabels">
         <mat-label>المصدر</mat-label>
 
-        <!-- <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
-          <mat-select id="sourceInput" formControlName="type" (valueChange)="getListCtrl($event)">
-            <mat-option value="المورد">فاتورة</mat-option>
-            <mat-option value="الموظف">اذن ارتجاع</mat-option>
-            <mat-option value="المخزن">اذن صرف</mat-option>
-            <mat-option value="كشف زيادة">كشف زيادة</mat-option>
-            <mat-option value="شهادة ادارية">شهادة ادارية</mat-option>
-          </mat-select>
-        </mat-form-field> -->
-
-        <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+        <mat-form-field appearance="outline" class="groupInput">
           <input matInput aria-label="list" [matAutocomplete]="autoAddType" [formControl]="addTypeCtrl"
             placeholder="{{getAddData ? getAddData.addTypeName : ''}}" (click)="openAutoAddType()" required />
           <mat-autocomplete #autoAddType="matAutocomplete" [displayWith]="displayAddTypeName"
@@ -76,7 +66,7 @@
         <mat-label>{{ actionName.toLowerCase() == "choose" ?" المورد : " :
           actionName.toLowerCase() == "str" ?" مخزن :": actionName.toLowerCase() == "emp" ?" موظف :":''
           }}</mat-label>
-        <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+        <mat-form-field appearance="outline" class="groupInput">
           <input matInput aria-label="list" [matAutocomplete]="autoList" [formControl]="listCtrl"
             placeholder="{{getAddData && getAddData.sellerName ? getAddData.sellerName : getAddData && getAddData.employeeName ?  getAddData.employeeName :  getAddData && getAddData.sourceStoreName ? getAddData.sourceStoreName :''}}"
             (click)="openAutoList()" required />
@@ -91,7 +81,7 @@
 
       <div class="searchLabels">
         <mat-label>رقم الجرد:</mat-label>
-        <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
+        <mat-form-field appearance="outline" class="groupInput">
 
           <input id="autoNoInput" matInput formControlName="entryNo" type="number" min="0">
         </mat-form-field>
@@ -101,7 +91,7 @@
       <div class="searchLabels">
 
         <mat-label>التاريخ:</mat-label>
-        <mat-form-field appearance="outline" style="width:160px">
+        <mat-form-field appearance="outline">
 
           <input matInput [matDatepicker]="picker" formControlName="date">
           <mat-datepicker-toggle matIconSuffix [for]="picker">
@@ -116,7 +106,7 @@
       <div class="searchLabels">
         <mat-label>السلعة</mat-label>
 
-        <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+        <mat-form-field appearance="outline" class="groupInput">
           <input matInput aria-label="list" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
             placeholder="{{getAddData ? getAddData.commodityName : ''}}" (click)="openAutoCommodity()" required />
           <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
@@ -131,7 +121,7 @@
       <div class="searchLabels">
         <mat-label>حالة الموافقة</mat-label>
 
-        <mat-form-field appearance="outline" class="groupInput" style="width: 180px;">
+        <mat-form-field appearance="outline" class="groupInput">
           <input matInput aria-label="list" [matAutocomplete]="autoApprovalStatus" [formControl]="approvalStatusCtrl"
             placeholder="{{getAddData ? getAddData.approvalStatusName : ''}}" (click)="openAutoApprovalStatus()"
             required />
