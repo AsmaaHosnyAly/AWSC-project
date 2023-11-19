@@ -24,7 +24,7 @@ import { Hotkey } from 'angular2-hotkeys';
 export class StrProductComponent implements OnInit {
   // myUrl='javascript:alert("attachment")';
   // mytrustedUrl;
-  loading: boolean = false; // Flag variable
+  // loading: boolean = false; // Flag variable
   file:any
   File = null;
   displayedColumns: string[] = ['code','name', 'itemName', 'vendorName', 'modelName','attachment', 'action'];
