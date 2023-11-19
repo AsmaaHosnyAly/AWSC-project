@@ -71,6 +71,9 @@ export class FIJournalDialogComponent {
     console.log("post form: ", this.FIJournal.value);
     if (!this.editData) {
       this.FIJournal.removeControl('id')
+      if(this.FIJournal.getRawValue().startDate> this.FIJournal.getRawValue().endDate  ){
+        this .toastrErrorDate()}
+        else{
       if (this.FIJournal.valid) {
         console.log("FIJournal :", this.FIJournal.value);
 
@@ -87,7 +90,7 @@ export class FIJournalDialogComponent {
               console.log(err)
             }
           })
-      }
+      }}
     } else {
       this.updateFIJournal()
     }
@@ -156,5 +159,7 @@ export class FIJournalDialogComponent {
     this.toastr.success('تم التعديل بنجاح');
   }
 
-
+  toastrErrorDate(): void {
+    this.toastr.error('!خطأ فى تاريخ الانتهاء');
+}
 }

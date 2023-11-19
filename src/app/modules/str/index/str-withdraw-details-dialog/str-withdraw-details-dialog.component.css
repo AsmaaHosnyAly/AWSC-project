@@ -103,10 +103,6 @@
 
 }
 
-.child-num {
-  width: 20%;
-  text-align: right;
-}
 .parent{
   display: flex;
   flex-wrap: wrap;
@@ -114,6 +110,12 @@
   align-items: center;
  
 }
+
+.child-num {
+  width: 20%;
+  text-align: right;
+}
+
 
 .headerForm .groupInput {
   width: 19%;
