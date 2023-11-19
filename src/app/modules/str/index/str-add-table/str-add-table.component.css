@@ -76,7 +76,7 @@ th {
 
 .search {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: center;
   flex-wrap: wrap;
 }
 .search button,
@@ -301,9 +301,9 @@ footer h3 {
   color: var(--bg-primary-color) !important;
 }
 
-.pageTabContent{
+/* .pageTabContent{
   margin: 5%;
-}
+} */
 
 .successbtn {
   --mat-icon-color: rgb(5, 238, 187);

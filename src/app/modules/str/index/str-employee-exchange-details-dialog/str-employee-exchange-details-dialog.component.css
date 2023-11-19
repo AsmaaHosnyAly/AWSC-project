@@ -28,6 +28,7 @@
   width: 100%;
 }
 
+
 .add-h1 {
   text-align: center;
   font-family: 'Cairo', sans-serif !important;
@@ -59,15 +60,13 @@
 
 }
 
-.example-radio-button {
-  margin: 5px;
-}
+
 
 .groupAction {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 5%;
+  padding: 2%;
 }
 
 .groupAction button {
@@ -105,8 +104,15 @@
 }
 
 .child-num {
-  width: 10%;
+  width: 20%;
   text-align: right;
+}
+.parent{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+ 
 }
 
 .headerForm .groupInput {
@@ -117,10 +123,11 @@
 .detailsForm {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  margin-right: 18%;
   overflow: hidden;
-  /* padding: 5%; */
+
+  /* margin-top:-4%; */
+  /* justify-content: space-between; */
+  padding: 1% 5%;
 
 }
 
@@ -202,7 +209,7 @@ td {
 }
 
 th {
-  background-color:var(--bg-primary-color) !important;
+  background-color: var(--bg-primary-color) !important;
   color: white;
   font-family: 'Cairo', sans-serif;
   font-size: 16px;
@@ -229,11 +236,50 @@ th {
   --mat-icon-color: rgb(129, 135, 138);
 }
 
+.radiostyle{
+  display: flex;
+  flex-direction: column;
+}
 .searchbyproduct{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.serPro{
+  display: flex;
+  width: 45%;
+  flex-direction: column;
 }
 mat-panel-description{
   color: rgb(68, 68, 68);
   font-size: 17px;
+}
+
+mat-expansion-panel {
+  width: 100%;
+  margin: 30px auto;
+  box-shadow: none !important;
+  border: 1px rgb(29, 26, 26) solid;
+  border-radius: 10px !important;
+  padding: 4px 0px !important;
+  margin-top: 0px;
+}
+
+.detail mat-form-field {
+  width: 180px;
+
+  padding: 0 !important;
+}
+.detailInput{
+  display: flex;
+  flex-direction: column;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
