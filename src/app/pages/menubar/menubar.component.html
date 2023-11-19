@@ -58,13 +58,6 @@
 <mat-drawer-container dir="rtl" autosize>
   <mat-drawer #drawer opened="true" mode="side" position="start">
     <mat-nav-list>
-      <!-- <mat-list-item>
-        <button class="list-btn" routerLink="home" mat-button>
-          <mat-icon> store_mall_directory</mat-icon>المخازن
-        </button>
-      </mat-list-item> -->
-
-      <!-- start stores -->
       <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
         <mat-expansion-panel-header>
           <mat-panel-title>
