@@ -58,11 +58,11 @@
               <mat-label>تاريخ الباية</mat-label>
 
               <mat-form-field appearance="outline" class="example-full-width">
-                <input #startDate matInput [matDatepicker]="picker" formControlName="startDate">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <input #startDate matInput [matDatepicker]="startDatepicker" formControlName="startDate">
+                <mat-datepicker-toggle matIconSuffix [for]="startDatepicker">
                   <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker #startDatepicker></mat-datepicker>
               </mat-form-field>
             </div>
 
@@ -70,11 +70,11 @@
 
               <mat-label>تاريخ النهاية</mat-label>
               <mat-form-field appearance="outline" class="example-full-width">
-                <input #endDate matInput [matDatepicker]="picker" formControlName="endDate">
-                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <input #endDate matInput [matDatepicker]="endDatepicker" formControlName="endDate">
+                <mat-datepicker-toggle matIconSuffix [for]="endDatepicker">
                   <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker #endDatepicker></mat-datepicker>
               </mat-form-field>
             </div>
 
@@ -167,7 +167,7 @@
   <mat-card-footer>
 
     <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)" showFirstLastButtons>
+      [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)" showFirstLastButtons>
     </mat-paginator>
 
   </mat-card-footer>

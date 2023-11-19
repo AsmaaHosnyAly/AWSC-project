@@ -1,214 +1,285 @@
-.groupInput {
-    width: 100%;
-  }
-  
-  .cdk-overlay-pane {
-    position: relative !important;
-  }
-  
-  .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-  
-  
-  }
-  
-  .close:hover {
-    background-color: red;
-    color: #ffff;
-  }
-  
-  .example-radio-group {
-    display: flex;
-    /* flex-direction: column; */
-    margin: 15px 0;
-    align-items: center;
-  }
-  
-  .radio {
-    display: inline-block;
-    width: 25%;
-  
-  }
-  
-  .example-radio-button {
-    margin: 5px;
-  }
-  
-  .groupAction {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 2%;
-  }
-  
-  .groupAction button {
-    background-color: var(--bg-primary-color) ;
-    color: aliceblue;
-    font-family: 'Cairo', sans-serif !important;
-    display: block;
-    margin: auto;
-    font-weight: bold;
-    font-size: 15px;
-    padding: 5px 30px;
-  }
-  
-  .follow-btn {
-    background-color: var(--bg-primary-color) ;
-    color: antiquewhite;
-    text-align: left;
-    padding: 5px 20px;
-    font-size: 20px;
-  }
-  
-  
-  .restGroupInfo {
-    display: block;
-  }
-  
-  .restGroupInfoDisable {
-    display: none;
-  }
-  
-  .nextButtonAddNewHeader {
-    display: block;
-  }
-  
-  .nextButtonEditHeaderDetails {
-    display: none;
-  }
-  
-  /* .headerForm {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  } */
-  
-  .headerForm .groupInput {
-    width: 20%;
-  }
-  
-  .detailsForm {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    margin-right: 18%;
-  
-    margin-top:-5%;
-    /* justify-content: space-between; */
-    padding: 5%;
-  }
-  
-  .detailsForm .groupInput {
-    flex-basis: 25%;
-  }
-  
-  .headerTable {
-    align-items: center;
-  }
-  
-  .mat-mdc-radio-button~.mat-mdc-radio-button {
-    margin-left: 10px;
-  
-  }
-  
-  .row {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .mat-mdc-dialog-container .mdc-dialog__title {
-    text-align: center;
-  }
-  
-  .add-h1 {
-    text-align: center;
-    font-family: 'Cairo', sans-serif !important;
-    font-weight: bold;
-    color: var(--bg-primary-color) ;
-    margin-top: 10px;
-    box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
-  
-  }
-  
-  .div-table {
-    display: block;
-    overflow-x: scroll !important;
-    width: 100%;
-  }
-  
-  table {
-    margin: 28px 0;
-    width: 100%;
-    text-align: center;
-  
-  
-  }
-  
-  .mat-mdc-table {
-    --mat-table-row-item-outline-width: 1px;
-    table-layout: auto;
-    white-space: normal;
-    background-color: var(--mat-table-background-color);
-    font-family: 'Cairo', sans-serif !important;
-    width: 100%;
-  
-  }
-  
-  table,
-  th,
-  td {
-    border: 1px rgb(161, 160, 160) solid;
-    text-align: center !important;
-    font-family: 'Cairo', sans-serif;
-    font-weight: bold;
-  
-  
-  
-  
-  }
-  
-  th {
-    background-color: var(--bg-primary-color)  !important;
-    color: white;
-    font-family: 'Cairo', sans-serif;
-    font-size: 16px;
-    text-align: center !important;
-  
-  
-  }
-  
-  .editbtn {
-    --mat-icon-color: rgb(129, 135, 138);
-  }
-  
-  .sum-label-parent {
-    display: block !important;
-    margin: auto;
-    width: 100%;
-    background-color: transparent;
-  
-  }
-  
-  .sum-label {
-    color: red;
-    font-weight: bold;
-  
-  }
-  .searchLabels{
-    /* width: 83%; */
-    margin-left: 3%;
-    width: 17rem;
-    display: flex;
-    flex-direction: column;
-  }
+@import url("http://fonts.googleapis.com/earlyaccess/droidarabicnaskh.css");
 
-  .searchbyproduct{
-    display: flex;
-    justify-content: space-between;
-  }
-  mat-panel-description{
-    color: rgb(68, 68, 68);
-    font-size: 17px;
-  }
+.cdk-overlay-pane {
+  position: relative !important;
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+
+}
+
+.close:hover {
+  background-color: red;
+  color: #ffff;
+}
+
+.mat-dialog-content {
+  padding: 20px 40px;
+
+
+
+}
+
+.groupInput {
+  width: 100%;
+}
+
+
+.add-h1 {
+  text-align: center;
+  font-family: 'Cairo', sans-serif !important;
+  font-weight: bold;
+  color: var(--bg-primary-color) !important;
+  margin-top: 10px;
+  box-shadow: 0px 1px 1px 0px rgb(124, 123, 123);
+
+}
+
+.follow-btn {
+  background-color: var(--bg-primary-color) !important;
+  color: antiquewhite;
+  text-align: left;
+  padding: 5px 20px;
+  font-size: 20px;
+}
+
+.example-radio-group {
+  display: flex;
+  /* flex-direction: column; */
+  margin: 15px 0;
+  align-items: center;
+}
+
+.radio {
+  display: inline-block;
+  width: 25%;
+
+}
+
+
+
+.groupAction {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2%;
+}
+
+.groupAction button {
+  background-color: var(--bg-primary-color) !important;
+  color: aliceblue;
+  font-family: 'Cairo', sans-serif !important;
+  display: block;
+  margin: auto;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 5px 30px;
+}
+
+.restGroupInfo {
+  display: block;
+}
+
+.restGroupInfoDisable {
+  display: none;
+}
+
+.nextButtonAddNewHeader {
+  display: block;
+}
+
+.nextButtonEditHeaderDetails {
+  display: none;
+}
+
+.headerForm {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+}
+
+.child-num {
+  width: 22%;
+  text-align: right;
+}
+.parent{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+ 
+}
+
+.headerForm .groupInput {
+  width: 19%;
+
+}
+
+.detailsForm {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  /* margin-top:-4%; */
+  /* justify-content: space-between; */
+  padding: 1% 5%;
+
+}
+
+.detailsForm .groupInput {
+  flex-basis: 19%;
+}
+
+.detailsForm .third-parent {
+
+  flex-basis: 15%;
+
+
+}
+
+.notes {
+  flex-basis: 72%;
+}
+
+.qnty {
+  width: 20%;
+
+}
+
+.headerTable {
+  align-items: center;
+}
+
+/* .savebtn {} */
+
+.mat-mdc-radio-button~.mat-mdc-radio-button {
+  margin-left: 10px;
+
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__title {
+  text-align: center;
+}
+
+.div-table {
+  display: block;
+  /* overflow-x: scroll !important; */
+  width: 100%;
+}
+
+table {
+  margin: 28px 0;
+  width: 100%;
+  text-align: center;
+
+
+}
+
+.mat-mdc-table {
+  --mat-table-row-item-outline-width: 1px;
+  table-layout: auto;
+  white-space: normal;
+  background-color: var(--mat-table-background-color);
+  font-family: 'Cairo', sans-serif !important;
+  width: 100%;
+
+}
+
+table,
+th,
+td {
+  border: 1px rgb(161, 160, 160) solid;
+  text-align: center !important;
+  font-family: 'Cairo', sans-serif;
+  font-weight: bold;
+
+
+
+
+}
+
+th {
+  background-color: var(--bg-primary-color) !important;
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  text-align: center !important;
+
+
+}
+
+.sum-label-parent {
+  display: block !important;
+  margin: auto;
+  width: 100%;
+  background-color: transparent;
+
+}
+
+.sum-label {
+  color: red;
+  font-weight: bold;
+
+}
+
+.editbtn .mat-icon {
+  --mat-icon-color: rgb(129, 135, 138);
+}
+
+.radiostyle{
+  display: flex;
+  flex-direction: column;
+}
+.searchbyproduct{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.serPro{
+  display: flex;
+  width: 45%;
+  flex-direction: column;
+}
+mat-panel-description{
+  color: rgb(68, 68, 68);
+  font-size: 17px;
+}
+
+mat-expansion-panel {
+  width: 100%;
+  margin: 30px auto;
+  box-shadow: none !important;
+  border: 1px rgb(29, 26, 26) solid;
+  border-radius: 10px !important;
+  padding: 4px 0px !important;
+  margin-top: 0px;
+}
+
+.detail mat-form-field {
+  width: 180px;
+
+  padding: 0 !important;
+}
+.detailInput{
+  display: flex;
+  flex-direction: column;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
