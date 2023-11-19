@@ -62,6 +62,7 @@ export class StrProductDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<StrProductDialogComponent>,
     private toastr: ToastrService
   ) {
+    this.getItem();
     this.itemCtrl = new FormControl();
     this.filteredItems = this.itemCtrl.valueChanges.pipe(
       startWith(''),
@@ -93,7 +94,7 @@ export class StrProductDialogComponent implements OnInit {
       transactionUserId: ['', Validators.required],
     });
 
-    this.getItems();
+   
 
     this.getVendors();
 
@@ -130,13 +131,12 @@ export class StrProductDialogComponent implements OnInit {
     return item && item.name ? item.name : '';
   }
 
-  getItems() {
-    this.loading = true;
+  getItem() {
+    this.loading= true;
     this.api.getItems().subscribe({
       next: (res) => {
-        this.loading = false;
-        this.items= res;
-       
+        this.items = res;
+        this.loading= false;
       },
       error: (err) => {
         this.loading = false;
@@ -191,8 +191,10 @@ export class StrProductDialogComponent implements OnInit {
   }
 
   openAutoItem() {
+   
     this.itemCtrl.setValue('');
     this.itemCtrl.updateValueAndValidity();
+   
   }
 
   

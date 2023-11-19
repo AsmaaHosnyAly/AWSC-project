@@ -1,11 +1,14 @@
 <div class="text-center w=100" *ngIf="loading">
   <app-spinner></app-spinner>
 </div>
-<div class="cdk-overlay-pane" >
+<div class="cdk-overlay-pane" *ngIf="! loading">
     <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
 </div>
-
+<div class="text-center w=100" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل منتج ' : ' إضافة منتج جديد'}}</h1>
+
 <form [formGroup]="productForm" dir="rtl" >
   
   <div mat-dialog-content >
@@ -21,8 +24,10 @@
       </mat-form-field>
       </div>
       <div class="child1">
+        
       <mat-label>الصنف</mat-label>
       <mat-form-field appearance="outline"*ngIf="!loading">
+        
         <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
           placeholder="{{ getProductData ? getProductData.itemName : '' }}" 
           (click)="openAutoItem()" required />

@@ -99,8 +99,9 @@
 
 .headerForm {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   flex-wrap: wrap;
+  overflow: hidden;
 
 }
 
@@ -243,7 +244,7 @@ table {
   justify-content: space-between;
 }
 .headerForm  mat-form-field {
-width:180px;
+width:200px;
   margin-left: 10px;
   /* font-size: px !important; */
   padding: 10 !important;

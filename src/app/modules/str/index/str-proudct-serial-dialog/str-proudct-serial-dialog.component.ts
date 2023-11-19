@@ -47,6 +47,8 @@ export class StrProudctSerialDialogComponent {
  id:0,
 }
 commname:any;
+ date: Date = new Date();
+date2:any;
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -139,12 +141,16 @@ commname:any;
   addProductserail(){
     if(!this.editData){
       
-      this.proudctserialForm.removeControl('id')
-      
+      this.proudctserialForm.removeControl('id');
+  
       // this.proudctserialForm.controls['commodityId'].setValue(this.selectedOption.id);
       console.log("add: ", this.proudctserialForm.value);
       this.proudctserialForm.controls['transactionUserId'].setValue(this.transactionUserId);
-      
+//       const aa= new Date (expireDate.)
+// console.log(this.expireDate.date)
+ if(this.proudctserialForm.getRawValue().productionDate> this.proudctserialForm.getRawValue().expireDate  ){
+  this .toastrErrorDate()}
+  else
       if(this.proudctserialForm.valid){
         this.api.postProductserail(this.proudctserialForm.value)
         .subscribe({
@@ -159,7 +165,9 @@ commname:any;
           }
         })
       }
-    }else{
+    }
+  
+    else{
       this.updateProductserail()
     }
   }
@@ -197,6 +205,9 @@ commname:any;
     
       toastrErrorEdit(): void {
         this.toastr.error('!خطأ عند تحديث البيانات');
+      }
+      toastrErrorDate(): void {
+        this.toastr.error('!خطأ فى تاريخ الانتهاء');
       }
   }
   

@@ -488,6 +488,9 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.selectedEmployee = employee;
     this.groupMasterForm.patchValue({ employeeId: employee.id });
     console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
+    if(this.groupMasterForm.getRawValue().destEmployeeId==this.groupMasterForm.getRawValue().employeeId){
+      this.toastrSelectSameEmpolyee()
+    }
   }
   private _filterEmployees(value: string): Employee[] {
     const filterValue = value;
