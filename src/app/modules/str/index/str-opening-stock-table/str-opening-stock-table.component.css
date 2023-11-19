@@ -68,7 +68,7 @@ margin-left: 10px;
 
 .search {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 .search button,
