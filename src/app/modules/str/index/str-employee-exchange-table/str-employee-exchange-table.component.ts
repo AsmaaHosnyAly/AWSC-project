@@ -491,7 +491,9 @@ loading :boolean=false;
       'employee in form: ',
       this.groupMasterForm.getRawValue().employeeId
     );
-
+    if(this.groupMasterForm.getRawValue().distEmployeeId==this.groupMasterForm.getRawValue().employeeId){
+      this.toastrSelectSameEmpolyee()
+    }
     // this.getSearchStrWithdraw()
     // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
     // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
@@ -523,7 +525,7 @@ loading :boolean=false;
       'distEmployee in form: ',
       this.groupMasterForm.getRawValue().distEmployeeId
     );
-    if(this.groupMasterForm.getRawValue().destEmployeeId==this.groupMasterForm.getRawValue().employeeId){
+    if(this.groupMasterForm.getRawValue().distEmployeeId==this.groupMasterForm.getRawValue().employeeId){
       this.toastrSelectSameEmpolyee()
     }
   }

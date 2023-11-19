@@ -135,8 +135,9 @@
 
       <mat-form-field appearance="outline" class="searchForm">
         <mat-select #report plceholder="اختر  التقرير" formControlName="report">
-          <mat-option value="STRItemsTransactionReport">كارت صنف</mat-option>
-          <mat-option value="STRItemsTakingReport"> جرد كميات المخزون </mat-option>
+          <mat-option value="ItemsReport">تقرير الاصناف</mat-option>
+          <mat-option value="ItemsTransactionReport">تقرير كرت صنف</mat-option>
+          <mat-option value="ItemsTakingReport"> تقرير جرد كميات المخزون </mat-option>
 
         </mat-select>
       </mat-form-field>
@@ -167,7 +168,7 @@
 
     <mat-icon class="icons" title="عرض"
       (click)="previewPrint( StartDate.value,EndDate.value,report.value,reportType.value)" class="icons"
-      title="تحميل">print</mat-icon>
+      title="عرض">print</mat-icon>
 
     <mat-icon (click)="downloadPrint( StartDate.value,EndDate.value,report.value,reportType.value)" class="icons"
       title="تحميل">get_app</mat-icon>
