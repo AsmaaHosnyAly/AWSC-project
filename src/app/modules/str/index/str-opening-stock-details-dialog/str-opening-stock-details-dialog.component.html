@@ -20,7 +20,7 @@
 
             <mat-accordion style="margin-bottom: 2%;" multi dir="rtl">
 
-                <mat-expansion-panel style="width: 80%;">
+                <mat-expansion-panel >
                     <mat-expansion-panel-header>
                         <mat-panel-description>
                         بحث بالمنتج
@@ -65,28 +65,18 @@
 
 
             <!-- <div style="display: flex; width: 100%; justify-content: space-between;"> -->
-
-                <!-- <div  > -->
+                <div class="parent">
+                <div class="child-num">
                     <mat-label>بحث بالكود*</mat-label>
 
-                    <mat-form-field appearance="outline" class=" child-num" style="width: 80%;">
+                    <mat-form-field appearance="outline" class="groupInput" >
                         <input matInput placeholder="الكود" (keydown)="getItemByCode($event)" placeholder="{{editData ? editData.fullCode : ''}}" [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
                     </mat-form-field>
-                <!-- </div> -->
-
-
-                <!-- <mat-form-field appearance="outline" class="groupInput">
-                    <mat-label> الصنف</mat-label>
-                    <mat-select placeholder="الصنف" formControlName="itemId"
-                        [value]="editData ? editData.itemId : ''"
-                        (valueChange)="itemOnChange($event)">
-                        <mat-option [value]="item.id" *ngFor="let item of itemsList">{{item.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
-                <!-- <div style="display: flex; flex-direction: column; width: 30%;"> -->
+                </div>
+              
+                  <div  class="child-num">
                     <mat-label>الصنف*</mat-label>
-                    <mat-form-field appearance="outline" class="child-num"  style="width: 80%;" >
+                    <mat-form-field appearance="outline" class="groupInput" >
                         <input matInput aria-label="commodity" [matAutocomplete]="autoItemId"
                             [formControl]="itemCtrl"
                             placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
@@ -99,26 +89,20 @@
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
-                <!-- </div> -->
-
-
-                <!-- <div style="display: flex; flex-direction: column; width: 15%; "> -->
-                 <div style="display: flex;flex-direction: row;">
-                    <div style="display: flex;flex-direction: column; width: 21rem;">
+                </div>
+                    <div  class="child-num">
                         <mat-label>الكمية*</mat-label>
 
-                    <mat-form-field appearance="outline" class=" child-num" style="width: 93%;">
+                    <mat-form-field appearance="outline" class="groupInput" >
                         <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
                             [value]="editData ? editData.qty : '1'">
                     </mat-form-field>
                     </div>
-                <!-- </div> -->
-
-                <!-- <div style="display: flex; flex-direction: column; width: 20%;"> -->
-                   <div style="display: flex;flex-direction: column;width: 21rem;">
+              
+                   <div  class="child-num">
                     <mat-label>متوسط السعر*</mat-label>
 
-                    <mat-form-field appearance="outline" class="child-num" style="width: 93%;">
+                    <mat-form-field appearance="outline" class="groupInput" >
                         <input matInput placeholder="الرقم" type="number" min="0"
                             [value]="editData ? editData.price : ''" formControlName="price"
                             [readonly]="isReadOnly">
