@@ -264,14 +264,18 @@ export class FiReportsComponent implements OnInit {
             .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
             .subscribe({
               next: (res) => {
-                let blob: Blob = res.body as Blob;
-                console.log(blob);
-                let url = window.URL.createObjectURL(blob);
-                localStorage.setItem('url', JSON.stringify(url));
-                this.pdfurl = url;
-                this.dialog.open(PrintDialogComponent, {
-                  width: '50%',
-                });
+                // let blob: Blob = res.body as Blob;
+                // console.log(blob);
+                // let url = window.URL.createObjectURL(blob);
+                // localStorage.setItem('url', JSON.stringify(url));
+                // this.pdfurl = url;
+                // this.dialog.open(PrintDialogComponent, {
+                //   width: '50%',
+                // });
+
+                console.log('download:', res);
+                const url: any = res.url;
+                window.open(url);
               },
               error: (err) => {
                 console.log('eroorr', err);
@@ -286,14 +290,17 @@ export class FiReportsComponent implements OnInit {
           .getAccountreports(StartDate, EndDate, prevStartDate, prevEndDate, account, report, reportType)
           .subscribe({
             next: (res) => {
-              let blob: Blob = res.body as Blob;
-              console.log(blob);
-              let url = window.URL.createObjectURL(blob);
-              localStorage.setItem('url', JSON.stringify(url));
-              this.pdfurl = url;
-              this.dialog.open(PrintDialogComponent, {
-                width: '50%',
-              });
+              // let blob: Blob = res.body as Blob;
+              // console.log(blob);
+              // let url = window.URL.createObjectURL(blob);
+              // localStorage.setItem('url', JSON.stringify(url));
+              // this.pdfurl = url;
+              // this.dialog.open(PrintDialogComponent, {
+              //   width: '50%',
+              // });
+              console.log('download:', res);
+              const url: any = res.url;
+              window.open(url);
             },
             error: (err) => {
               console.log('eroorr', err);
@@ -326,7 +333,7 @@ export class FiReportsComponent implements OnInit {
 
     let account = this.accountCode;
     console.log("reportt name", report);
-    if (report && reportType ) {
+    if (report && reportType) {
 
       StartDate = formatDate(StartDate, 'MM-dd-yyyy', this.locale);
       // alert("startDate: " + StartDate);

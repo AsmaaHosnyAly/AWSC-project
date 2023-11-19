@@ -937,7 +937,7 @@ export class STRAddTableComponent implements OnInit {
     if (report != null && reportType != null) {
       this.loading = true;
       this.api
-        .strAdd(no, store, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, 'pdf')
+        .strAdd(no, store, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, reportType)
         .subscribe({
           next: (res) => {
             this.loading = false;
