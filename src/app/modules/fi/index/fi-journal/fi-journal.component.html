@@ -58,7 +58,7 @@
               <mat-label>تاريخ الباية</mat-label>
 
               <mat-form-field appearance="outline" class="example-full-width">
-                <input #startDate matInput [matDatepicker]="startDatepicker" formControlName="startDate">
+                <input #startDate matInput [matDatepicker]="startDatepicker" formControlName="StartDate">
                 <mat-datepicker-toggle matIconSuffix [for]="startDatepicker">
                   <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -70,7 +70,7 @@
 
               <mat-label>تاريخ النهاية</mat-label>
               <mat-form-field appearance="outline" class="example-full-width">
-                <input #endDate matInput [matDatepicker]="endDatepicker" formControlName="endDate">
+                <input #endDate matInput [matDatepicker]="endDatepicker" formControlName="EndDate">
                 <mat-datepicker-toggle matIconSuffix [for]="endDatepicker">
                   <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -96,7 +96,7 @@
         <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)"
           class="icons" title="تحميل">get_app</mat-icon> -->
 
-            <mat-icon (click)="getFIJournals()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+            <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
           </div>
         </form>
 

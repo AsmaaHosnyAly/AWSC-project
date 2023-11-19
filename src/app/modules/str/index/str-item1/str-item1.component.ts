@@ -502,6 +502,15 @@ export class STRItem1Component implements OnInit {
 
   resetForm() {
     this.itemForm.reset();
+    
+    this.itemCtrl.reset();
+    this.unitCtrl.reset();
+    this.gradeCtrl.reset();
+    this.groupCtrl.reset();
+    this.storeCtrl.reset();
+    this.platoonCtrl.reset();
+    this.commodityCtrl.reset();
+
     this.serachFlag = false;
 
     this.getAllItems();
@@ -663,27 +672,15 @@ export class STRItem1Component implements OnInit {
 
             this.totalRows = res.length;
             if (this.serachFlag == false) {
-              // this.dataSource.data = data.items;
               this.pageIndex = 0;
               this.pageSize = 5;
               this.length = this.totalRows;
               this.serachFlag = true;
             }
-            // else{
-            //   // this.dataSource.data = data.items;
-            //   this.pageIndex = res.page;
-            //   this.pageSize = res.pageSize;
-            //   this.length = res.totalItems;
-            // }
-
             console.log('master data paginate first Time: ', res);
             this.dataSource = new MatTableDataSource(res);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-
-            // let paginateSearch = document.getElementById('paginateSearch');
-            // console.log('paginateSearch: ', paginateSearch);
-
 
           },
           error: (err) => {

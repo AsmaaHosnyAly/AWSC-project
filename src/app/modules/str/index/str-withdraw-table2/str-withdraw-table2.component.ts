@@ -289,6 +289,11 @@ export class StrWithdrawTableComponent implements OnInit {
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
         this.groupDetailsForm.reset();
+
+        this.itemCtrl.reset();
+        this.storeCtrl.reset();
+        this.employeeCtrl.reset();
+        
         // this.costcenterCtrl.setValue('');
 
         // this.groupMasterForm.getRawValue().costCenterId= null;

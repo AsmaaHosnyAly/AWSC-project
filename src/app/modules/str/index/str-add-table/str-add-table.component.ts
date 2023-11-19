@@ -155,6 +155,8 @@ export class STRAddTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource2: MatTableDataSource<STRAddTableComponent> = new MatTableDataSource();
   isLoading = false;
+  totalRows = 0;
+  serachFlag: boolean = false;
 
   userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
 
@@ -290,7 +292,7 @@ export class STRAddTableComponent implements OnInit {
   }
 
   getAllMasterForms() {
-    if (!this.currentPage) {
+    if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
       this.pageSize = 5;
 
@@ -303,6 +305,8 @@ export class STRAddTableComponent implements OnInit {
         .then(data => {
           // this.totalRows = data.length;
           console.log("master data paginate first Time: ", data);
+          this.totalRows = data.length;
+
           this.dataSource2.data = data.items;
           this.pageIndex = data.page;
           this.pageSize = data.pageSize;
@@ -318,28 +322,38 @@ export class STRAddTableComponent implements OnInit {
         });
     }
     else {
-      this.isLoading = true;
-      console.log("second time: ");
+      if (this.serachFlag == false) {
+        this.isLoading = true;
+        console.log("second time: ");
 
-      fetch(this.api.getStrAddPaginateByUserId(localStorage.getItem('transactionUserId'), this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          // this.totalRows = data.length;
-          console.log("master data paginate: ", data);
-          this.dataSource2.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
+        fetch(this.api.getStrAddPaginateByUserId(localStorage.getItem('transactionUserId'), this.currentPage, this.pageSize))
+          .then(response => response.json())
+          .then(data => {
+            // this.totalRows = data.length;
+            console.log("master data paginate: ", data);
+            this.totalRows = data.length;
+
+            this.dataSource2.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
           });
-          this.isLoading = false;
-        }, error => {
-          console.log(error);
-          this.isLoading = false;
-        });
+      }
+      else {
+        console.log("search next paginate");
+        this.getSearchStrAdd(this.groupMasterForm.getRawValue().no, this.groupMasterForm.getRawValue().EntryNo, this.groupMasterForm.getRawValue().StartDate, this.groupMasterForm.getRawValue().EndDate, this.groupMasterForm.getRawValue().fiscalYear)
+      }
+
     }
+
 
 
     // this.api.getStrAdd().subscribe({
@@ -741,15 +755,48 @@ export class STRAddTableComponent implements OnInit {
     this.api.getStrAddSearach(no, EntryNo, fiscalyear, employee, item, store, StartDate, EndDate).subscribe({
       next: (res) => {
         this.loading = false;
-        this.dataSource2 = res;
-        this.dataSource2.paginator = this.paginatorLegal;
+        // this.dataSource2 = res;
+        // this.dataSource2.paginator = this.paginatorLegal;
+        // this.dataSource2.sort = this.sort;
+
+        this.totalRows = res.length;
+        if (this.serachFlag == false) {
+          // this.dataSource.data = data.items;
+          this.pageIndex = 0;
+          this.pageSize = 5;
+          this.length = this.totalRows;
+          this.serachFlag = true;
+        }
+        // else{
+        //   // this.dataSource.data = data.items;
+        //   this.pageIndex = res.page;
+        //   this.pageSize = res.pageSize;
+        //   this.length = res.totalItems;
+        // }
+
+        console.log('master data paginate first Time: ', res);
+        this.dataSource2 = new MatTableDataSource(res);
+        this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+
       },
       error: (err) => {
         this.loading = false;
         console.log('eroorr', err);
       },
     });
+  }
+
+  resetForm() {
+    this.groupMasterForm.reset();
+
+    this.itemCtrl.reset();
+    this.storeCtrl.reset();
+    this.employeeCtrl.reset();
+    
+    this.serachFlag = false;
+
+    this.getAllMasterForms();
   }
 
   // downloadPdf(no: any, store: any, date: any) {
