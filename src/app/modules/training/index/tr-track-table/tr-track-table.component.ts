@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
 import { TrTrackDialogComponent } from './../tr-track-dialog/tr-track-dialog.component';
-import { MAT_DIALOG_DATA,  MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 // import { PyExchangeDialogComponent } from '../fi-entry-dialog/fi-entry-dialog.component';
 import {
@@ -41,11 +41,11 @@ interface USER {
   Action: string;
 }
 export class item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 export class Account {
   constructor(public id: number, public name: string) { }
@@ -66,11 +66,12 @@ export class TrTrackTableComponent implements OnInit {
   pageSize = 5;
   currentPage: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  serachFlag: boolean = false;
 
   displayedColumns: string[] = [
-   
-    'name','price',
-    'description','Action',
+
+    'name', 'price',
+    'description', 'Action',
   ];
   pdfurl = '';
   groupMasterForm!: FormGroup;
@@ -115,7 +116,7 @@ export class TrTrackTableComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   pageIndex: any;
   length: any;
-  loading :boolean=false;
+  loading: boolean = false;
   ngAfterViewInit() {
     this.dataSource2.paginator = this.paginator;
   }
@@ -126,7 +127,7 @@ export class TrTrackTableComponent implements OnInit {
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    global:GlobalService
+    global: GlobalService
   ) {
     global.getPermissionUserRoles('IT', '', 'الإدارة العامة للتدريب', 'supervised_user_circle')
     this.employeeCtrl = new FormControl();
@@ -170,14 +171,14 @@ export class TrTrackTableComponent implements OnInit {
 
 
     this.groupMasterForm = this.formBuilder.group({
- 
-      
-      name:[''],
-      price:[''],
-      courseId:[''],
-      trackId:[''],
-      startDate:[''],
-      endDate:[''],
+
+
+      name: [''],
+      price: [''],
+      courseId: [''],
+      trackId: [''],
+      startDate: [''],
+      endDate: [''],
 
       // JournalId: [''],
       // FiEntrySourceTypeId: [''],
@@ -260,13 +261,10 @@ export class TrTrackTableComponent implements OnInit {
   }
   getAllMasterForms() {
     // loadData() {
-    if (!this.currentPage) {
+    if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
 
       this.isLoading = true;
-      // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
-
-
       fetch(this.api.getTrTarckPaginate(this.currentPage, this.pageSize))
         .then(response => response.json())
         .then(data => {
@@ -284,48 +282,50 @@ export class TrTrackTableComponent implements OnInit {
         }, error => {
           console.log(error);
           this.isLoading = false;
-          this,this.groupMasterForm.reset();
+          this, this.groupMasterForm.reset();
         });
     }
     else {
-      this.isLoading = true;
-      // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
-
-
-      fetch(this.api.getTrTarckPaginate(this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          this.totalRows = data.length;
-          console.log("master data paginate: ", data);
-          this.dataSource2.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
+      if (this.serachFlag == false) {
+        this.isLoading = true;
+        fetch(this.api.getTrTarckPaginate(this.currentPage, this.pageSize))
+          .then(response => response.json())
+          .then(data => {
+            this.totalRows = data.length;
+            console.log("master data paginate: ", data);
+            this.dataSource2.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
           });
-          this.isLoading = false;
-        }, error => {
-          console.log(error);
-          this.isLoading = false;
-        });
+      }
+      else {
+        console.log("search next paginate");
+        this.getSearch(this.groupMasterForm.getRawValue().startDate, this.groupMasterForm.getRawValue().endDate)
+      }
+
     }
+  }
 
-    // }
+  resetForm() {
+    this.groupMasterForm.reset();
+    this.TrackCtrl.reset();
+    this.itemCtrl.reset();
+    this.CourseCtrl.reset();
+    this.accountCtrl.reset();
+    this.employeeCtrl.reset();
+    
+    this.serachFlag = false;
 
-    // this.api.getFiEntry().subscribe({
-    //   next: (res) => {
-    //     console.log('fiEntry from api: ', res);
-    //     this.dataSource2 = new MatTableDataSource(res);
-    //     this.dataSource2.paginator = this.paginator;
-    //     this.dataSource2.sort = this.sort;
-    //     this.groupMasterForm.reset()
-    //   },
-    //   error: () => {
-    //     // alert('خطأ أثناء جلب سجلات المدخلات !!');
-    //   },
-    // });
+    this.getAllMasterForms();
   }
 
   pageChanged(event: PageEvent) {
@@ -518,29 +518,42 @@ export class TrTrackTableComponent implements OnInit {
       },
     });
   }
-  getSearchFiEntry( startDate: any, endDate: any) {
+  getSearch(startDate: any, endDate: any) {
     let track = this.groupMasterForm.getRawValue().trackId;
     let course = this.groupMasterForm.getRawValue().courseId;
 
     console.log(
- 
+
       'startDate: ', course,
       'endDate: ', track,
     );
-this.loading=true;
+    this.loading = true;
     this.api
-      .getTrTrackSearach( startDate, endDate,track,course)
+      .getTrTrackSearach(startDate, endDate, track, course)
       .subscribe({
         next: (res) => {
-          this.loading=false;
+          this.loading = false;
           console.log('search fiEntry res: ', res);
 
-          this.dataSource2 = res;
+          // this.dataSource2 = res;
+          // this.dataSource2.paginator = this.paginator;
+          // this.dataSource2.sort = this.sort;
+
+          this.totalRows = res.length;
+          if (this.serachFlag == false) {
+            this.pageIndex = 0;
+            this.pageSize = 5;
+            this.length = this.totalRows;
+            this.serachFlag = true;
+          }
+          console.log('master data paginate first Time: ', res);
+          this.dataSource2 = new MatTableDataSource(res);
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
+
         },
         error: (err) => {
-          this.loading=false;
+          this.loading = false;
           // alert('Error');
         },
       });

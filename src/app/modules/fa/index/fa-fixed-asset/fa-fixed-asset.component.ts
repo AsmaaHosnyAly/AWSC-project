@@ -66,6 +66,7 @@ export class FaFixedAssetComponent implements OnInit {
   currentPage: any;
   pageIndex: any;
   length: any;
+  serachFlag: boolean = false;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
   categoryFirstCtrl: FormControl;
@@ -331,23 +332,7 @@ export class FaFixedAssetComponent implements OnInit {
 
 
   getFaFixedAsset() {
-    // this.api.getFaFixedAsset().subscribe({
-    //   next: (res) => {
-
-    // this.fixedAssetSearchForm.reset();
-
-    // this.categoryFirstCtrl.reset();
-    // this.categorySecondCtrl.reset();
-    // this.categoryThirdCtrl.reset();
-    // this.costCenterCtrl.reset();
-    // this.entryCtrl.reset();
-
-    // console.log("get faFixedAsset res: ", res);
-    // this.dataSource = new MatTableDataSource(res);
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
-
-    if (!this.currentPage) {
+    if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
 
       this.isLoading = true;
@@ -372,34 +357,35 @@ export class FaFixedAssetComponent implements OnInit {
         });
     }
     else {
-      this.isLoading = true;
+      if (this.serachFlag == false) {
+        this.isLoading = true;
 
-      fetch(this.api.getFaFixedAssetPaginate(this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          this.totalRows = data.length;
-          console.log("master data paginate: ", data);
-          this.dataSource.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
+        fetch(this.api.getFaFixedAssetPaginate(this.currentPage, this.pageSize))
+          .then(response => response.json())
+          .then(data => {
+            this.totalRows = data.length;
+            console.log("master data paginate: ", data);
+            this.dataSource.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
           });
-          this.isLoading = false;
-        }, error => {
-          console.log(error);
-          this.isLoading = false;
-        });
+      }
+      else {
+        console.log("search next paginate");
+        this.getFaFixedAsset();
+      }
+
     }
 
-    // }
-    // ,
-    //   error: (err) => {
-    //     alert('Error');
-    //   },
-    // });
   }
 
   pageChanged(event: PageEvent) {
@@ -547,7 +533,19 @@ export class FaFixedAssetComponent implements OnInit {
           this.loading = false;
           console.log('search faFixedAsset res: ', res);
 
-          this.dataSource = res;
+          // this.dataSource = res;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+
+          this.totalRows = res.length;
+          if (this.serachFlag == false) {
+            this.pageIndex = 0;
+            this.pageSize = 5;
+            this.length = this.totalRows;
+            this.serachFlag = true;
+          }
+          console.log('master data paginate first Time: ', res);
+          this.dataSource = new MatTableDataSource(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
 
@@ -557,6 +555,20 @@ export class FaFixedAssetComponent implements OnInit {
           // alert('Error');
         },
       });
+  }
+
+  resetForm() {
+    this.fixedAssetSearchForm.reset();
+
+    this.entryCtrl.reset();
+    this.costCenterCtrl.reset();
+    this.categoryFirstCtrl.reset();
+    this.categorySecondCtrl.reset();
+    this.categoryThirdCtrl.reset();
+    
+    this.serachFlag = false;
+
+    this.getFaFixedAsset();
   }
 
   resetMaster() {

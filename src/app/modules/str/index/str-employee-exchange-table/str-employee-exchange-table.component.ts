@@ -215,7 +215,13 @@ loading :boolean=false;
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+
         this.groupMasterForm.reset();
+        
+        this.itemCtrl.reset();
+        this.employeeCtrl.reset();
+        this.distEmployeeCtrl.reset();
+        this.costcenterCtrl.reset();
       },
       error: () => {
         // alert("خطأ أثناء جلب سجلات المجموعة !!");
