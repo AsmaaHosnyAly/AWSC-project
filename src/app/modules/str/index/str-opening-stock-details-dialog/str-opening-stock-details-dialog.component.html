@@ -33,17 +33,17 @@
                     <div class="searchbyproduct">
 
                        
-                        <div style="display: flex; flex-direction: column;">
+                        <div class="serPro">
                             <mat-label>بحث بكود المنتج </mat-label>
 
-                            <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                            <mat-form-field appearance="outline" class="groupInput" >
                                 <input matInput (keydown)="getItemByProductCode($event)">
                             </mat-form-field>
                         </div>
 
-                        <div style="display: flex; flex-direction: column;">
+                        <div class="serPro">
                             <mat-label>بحث باسم المنتج </mat-label>
-                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                            <mat-form-field appearance="outline" class="groupInput" >
                                 <input matInput aria-label="commodity" [matAutocomplete]="autoProductId"
                                     [formControl]="productCtrl" placeholder="{{productIdValue ? productIdValue : ''}}"
                                     (click)="openAutoProduct()" required />

@@ -69,7 +69,7 @@
         <div class="child-num">
           <mat-label>بحث بالكود </mat-label>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="groupInput">
             <input
               matInput
               placeholder="{{ editData ? editData.fullCode : '' }}"
@@ -87,7 +87,7 @@
         <div class="child-num">
           <mat-label> الصنف*</mat-label>
 
-          <mat-form-field appearance="outline" *ngIf="!loading">
+          <mat-form-field appearance="outline" *ngIf="!loading" class="groupInput">
             <input
               matInput
               aria-label="item"
@@ -123,7 +123,7 @@
         <div class="child-num">
           <mat-label>الكمية*</mat-label>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="groupInput">
             <input
               type="number"
               min="0"
@@ -136,11 +136,11 @@
         </div>
         <!-- </div> -->
 
-        <!-- <div style="display: flex; flex-direction: column; width: 20%;"> -->
+      
         <div class="child-num">
           <mat-label>السعر</mat-label>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="groupInput">
             <input
               type="number"
               min="0"
