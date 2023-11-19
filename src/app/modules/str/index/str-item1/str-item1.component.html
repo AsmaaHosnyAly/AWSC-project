@@ -97,11 +97,11 @@
             <mat-form-field appearance="outline" *ngIf="!loading">
               <mat-label>المخزن</mat-label>
               <input matInput aria-label="group" [matAutocomplete]="autoStores" [formControl]="storeCtrl"
-                formControlName="storeId" (click)="openAutoStore()" required />
+                 (click)="openAutoStore()" required />
               <mat-autocomplete #autoStores="matAutocomplete" [displayWith]="displayStoreName"
                 (optionSelected)="storeSelected($event)">
                 <mat-option *ngFor="let store of filteredStores | async" [value]="store">
-                  {{ store.name }} | {{ store.id }}
+                  {{ store.name }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -109,11 +109,11 @@
             <mat-form-field appearance="outline" *ngIf="!loading">
               <mat-label>الصنف</mat-label>
               <input matInput aria-label="group" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
-                formControlName="itemId" (click)="openAutoItems()" required />
+               (click)="openAutoItems()" required />
               <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
                 (optionSelected)="itemSelected($event)">
                 <mat-option *ngFor="let item of filteredItems | async" [value]="item">
-                  {{ item.name }} | {{ item.id }}
+                  {{ item.name }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
