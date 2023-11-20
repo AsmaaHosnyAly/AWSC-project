@@ -74,7 +74,7 @@
             <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId [displayWith]="displaycostcenterName"
               (optionSelected)="costcenterSelected($event)">
               <mat-option *ngFor="let costcenter of filteredcostcenter | async" [value]="costcenter">
-                {{ costcenter.name }}
+                {{ costcenter.name ? costcenter.name : '-' }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

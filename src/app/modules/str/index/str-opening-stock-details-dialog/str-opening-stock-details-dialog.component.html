@@ -116,20 +116,20 @@
                         (click)="resetControls()">مسح</button>
                 </div> -->
             <!-- </div> -->
-
-
-
-        </div>
-        <div mat-dialog-action [align]="'end'" style="display: flex; margin-right: -5%;margin-top: 0%;">
-            <div class="groupAction">
-                <button mat-raised-button class="savebtn"
-                    (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
-                    'اضافة':'تعديل'}}</button>
-
-            </div>
-
+          
+            <div mat-dialog-action [align]="'end'" >
+              <div class="groupAction" dir="ltr">
+                  <button mat-raised-button class="savebtn"
+                      (click)="addDetailsInfo()">{{actionBtnDetails.toLowerCase() =='save' ?
+                      'اضافة':'تعديل'}}</button>
+  
+              </div>
+  
+          </div>
         </div>
 
+        
+        
     </div>
 
 </form>
