@@ -603,7 +603,7 @@ export class FiEntryDialogComponent implements OnInit {
   editDetailsForm(row: any) {
     this.dialog
       .open(FiEntryDetailsDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '78%',
         data: row,
       })
@@ -693,7 +693,7 @@ export class FiEntryDialogComponent implements OnInit {
     this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }]);
     this.dialog
       .open(FiEntryDetailsDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '78%',
       })
       .afterClosed()

@@ -94,8 +94,8 @@ mat-radio-group{
 
   }
   .headerForm  mat-form-field {
-    width:171px;
-      margin-left: 10px;
+    width:161px;
+      /* margin-left: 10px; */
       padding: 10 !important;
     }
   .follow-btn {
