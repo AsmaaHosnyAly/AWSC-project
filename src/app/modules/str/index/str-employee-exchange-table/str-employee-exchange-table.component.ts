@@ -197,7 +197,7 @@ loading :boolean=false;
   openEmployeeExchangeDialog() {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
-        width: '98%',
+        width: '60%',
         height: '85%',
       })
       .afterClosed()
@@ -253,7 +253,7 @@ loading :boolean=false;
     //   });
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '80%',
         data: row,
       })

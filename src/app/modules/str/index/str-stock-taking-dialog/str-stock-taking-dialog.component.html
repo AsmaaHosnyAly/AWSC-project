@@ -12,10 +12,10 @@
 
         <div class="headerForm"  *ngIf="!loading">
 
-            <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+            <div class="searchLabels">
                 <mat-label>المخازن:</mat-label>
 
-                <mat-form-field appearance="outline" class="groupInput" style="width:  150px;">
+                <mat-form-field appearance="outline" class="groupInput">
                     <mat-select placeholder="المخازن" #storeId formControlName="storeId"
                         (valueChange)="storeValueChanges($event)">
                         <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
@@ -26,10 +26,10 @@
             </div>
 
 
-            <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+            <div class="searchLabels">
                 <mat-label>السنة المالية:</mat-label>
 
-                <mat-form-field appearance="outline" class="child-num" style="width: 180px;">
+                <mat-form-field appearance="outline" class="groupInput">
                     <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
                         (valueChange)="fiscalYearValueChanges($event)">
                         <mat-option [value]="fiscalYear.id"
@@ -39,9 +39,9 @@
             </div>
 
 
-            <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+            <div class="searchLabels">
                 <mat-label>الرقم:</mat-label>
-                <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
+                <mat-form-field appearance="outline" class="groupInput">
 
                     <input id="autoNoInput" matInput formControlName="no"
                         [value]="isEdit == true ? editData.no : autoNo" type="number" min="0" readonly>
@@ -52,10 +52,10 @@
 
 
 
-            <div style="display: flex; flex-direction: column; margin-left: 10px;">
+            <div class="searchLabels">
 
                 <mat-label>التاريخ:</mat-label>
-                <mat-form-field appearance="outline" style="width:100%">
+                <mat-form-field appearance="outline" class="groupInput">
 
                     <input matInput [matDatepicker]="picker" formControlName="date">
                     <mat-datepicker-toggle matIconSuffix [for]="picker">

@@ -246,7 +246,7 @@ export class StrStockTakingTableComponent implements OnInit {
   }
   openStockTkingkDialog() {
     this.dialog.open(StrStockTakingDialogComponent, {
-      width: '72%',
+      width: '60%',
       height: '79%',
     }).afterClosed().subscribe(val => {
       if (val === 'Save') {
@@ -260,7 +260,7 @@ export class StrStockTakingTableComponent implements OnInit {
     // this.loading=true;
     this.dialog
       .open(StrStockTakingDialogComponent, {
-        width: '72%',
+        width: '60%',
         height: '79%',
         data: row,
       })
