@@ -56,18 +56,19 @@ th {
   width: 100%;
   text-align: right;
 }
-.search mat-form-field {
-  width: 250px;
 
+
+.search {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.search mat-form-field {
+  width: 220px;
   padding: 0 !important;
   margin-left: 10px;
 }
 
-.search {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
 
 .display button {
   background: linear-gradient(rgb(252, 248, 248), rgb(146, 141, 141));
