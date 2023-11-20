@@ -58,13 +58,6 @@
 <mat-drawer-container dir="rtl" autosize>
   <mat-drawer #drawer opened="true" mode="side" position="start">
     <mat-nav-list>
-      <!-- <mat-list-item>
-        <button class="list-btn" routerLink="home" mat-button>
-          <mat-icon> store_mall_directory</mat-icon>المخازن
-        </button>
-      </mat-list-item> -->
-
-      <!-- start stores -->
       <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -113,11 +106,15 @@
               <a mat-list-item class="sideNavSubItems" routerLink="/str-model" *ngIf="hasAccessRole(pageEnums.MODEL)" routerLinkActive="active">
                 <p class="font">الموديل</p>
               </a>
+<<<<<<< HEAD
               <a mat-list-item class="sideNavSubItems" routerLink="/costCenter"
                 *ngIf="hasAccessRole(pageEnums.COST_CENTER)" routerLinkActive="active">
                 <p class="font">مركز التكلفة</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/products" *ngIf="hasAccessRole(pageEnums.PRODUCTS)" routerLinkActive="active">
+=======
+              <a mat-list-item class="sideNavSubItems" routerLink="/products" *ngIf="hasAccessRole(pageEnums.PRODUCTS)">
+>>>>>>> 67a3191de65083a60eb13d0e6e3f61faee9f4ac5
                 <p class="font">المنتجات</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/product-serial"

@@ -7,25 +7,23 @@
 <div mat-dialog-content dir="rtl" style="padding: 30px;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
-        <div class="headerForm">
-
-          
-            <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+      <div class="headerForm">
+        <div class="searchLabels">
                 <mat-label>السنة المالية:</mat-label>
               
-                <mat-form-field appearance="outline" class="child-num" style="width: 180px;">
+                <mat-form-field appearance="outline" class="child-num">
                   <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
                       (valueChange)="fiscalYearValueChanges($event)">
                       <mat-option [value]="fiscalYear.id"
                           *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                   </mat-select>
               </mat-form-field>
-               </div>
+            </div>
 
-               
-               <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+
+            <div class="searchLabels">
                 <mat-label>الرقم:</mat-label>
-                <mat-form-field appearance="outline" class="groupInput" style="width: 80px;">
+                <mat-form-field appearance="outline" class="groupInput">
                  
                   <input id="autoNoInput" matInput  formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
                       type="number" min="0" readonly>
@@ -33,10 +31,10 @@
               
               </div>
             
-              <div style="display: flex; flex-direction: column;margin-left: 10px; ">
+              <div class="searchLabels">
                 <mat-label >اسم الموظف  :</mat-label>
 
-            <mat-form-field appearance="outline" style="width: 180px;margin-left: 5px;">
+            <mat-form-field appearance="outline">
                 <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
                     (click)="openAutoEmployee()"
                     placeholder="{{editData ? editData.employeeName : ''}}" required />
@@ -50,10 +48,10 @@
           </div>
 
         
-        <div style="display: flex; flex-direction: column;margin-left: 10px;">
+          <div class="searchLabels">
             <mat-label >مركز التكلفة :</mat-label>
         
-            <mat-form-field appearance="outline" style="width: 180px;margin-left: 5px;">
+            <mat-form-field appearance="outline">
         
               <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter" [formControl]="costCenterCtrl"
                 placeholder="{{editData ? editData.costCenterName : ''}}" (click)="openAutoCostCenter()" required />
@@ -68,10 +66,10 @@
 
 
 
-           <div style="display: flex; flex-direction: column; margin-left: 10px;"> 
+           <div class="searchLabels">
     
             <mat-label>التاريخ:</mat-label>
-            <mat-form-field appearance="outline" style="width:100%">
+            <mat-form-field appearance="outline">
                     
                       <input matInput [matDatepicker]="picker" formControlName="date">
                       <mat-datepicker-toggle matIconSuffix [for]="picker">
@@ -82,12 +80,6 @@
                   </mat-form-field></div>
 
 
-<!-- 
-            <mat-form-field appearance="outline" class="groupInput" style="width: 140px;">
-                <mat-label>الاجمالى</mat-label>
-                <input matInput type="number"
-                    [value]="groupMasterForm ? groupMasterForm.getRawValue().total : sumOfTotals" readonly>
-            </mat-form-field> -->
         </div>
         <div dir="ltr">
             <button mat-raised-button class="follow-btn" (click)="nextToAddFormDetails()"
@@ -99,9 +91,7 @@
     <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
         
         <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
-            <!-- <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل إفتتاحي العهد  </h1> -->
-            <div class="detailsForm">
-             
+            <div class="detailsForm">            
 
 
                 <div mat-dialog-action [align]="'end'" style="display: flex; width: 100%; justify-content: space-between; ">
