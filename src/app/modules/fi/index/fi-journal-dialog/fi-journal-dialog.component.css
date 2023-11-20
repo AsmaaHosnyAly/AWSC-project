@@ -37,9 +37,17 @@
     height: 50px;
     }
 
+    .Dialog {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      margin: auto !important;
+    }
+
     .DialogLabels{
         display: flex;
         flex-direction: column;
+        width: 230px;
     }
     .dialog{
       display: flex;
@@ -48,5 +56,4 @@
     }
     .container{
 position: relative;
-right: 15%;
     }

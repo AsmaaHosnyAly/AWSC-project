@@ -62,19 +62,20 @@ th {
  text-align: right;
 
 }
+
+
+.search {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: auto !important;
+}
 .search mat-form-field {
-  width: 250px;
+  width: 170px;
  
   padding: 0 !important;
   
  
-}
-
-.search {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: auto !important;
 }
 .search button,
 .print button{
