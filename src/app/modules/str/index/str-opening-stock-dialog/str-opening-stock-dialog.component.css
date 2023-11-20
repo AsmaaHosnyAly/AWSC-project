@@ -82,7 +82,7 @@ margin: 5px;
 
 .headerForm {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   overflow: hidden;
 
@@ -99,7 +99,7 @@ margin: 5px;
   width: 20%;
 } */
 .headerForm  mat-form-field {
-  width:180px;
+  width:172px;
     margin-left: 10px;
     /* font-size: px !important; */
     padding: 10 !important;

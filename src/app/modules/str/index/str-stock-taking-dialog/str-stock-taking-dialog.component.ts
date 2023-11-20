@@ -434,7 +434,7 @@ export class StrStockTakingDialogComponent implements OnInit {
   addNewDetails() {
     this.router.navigate(['/StrStockTaking'], { queryParams: { StoreId: this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrStockTakingDetailsDialogComponent, {
-      width: '98%',
+      width: '60%',
       height: '79%',
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {
@@ -791,7 +791,7 @@ export class StrStockTakingDialogComponent implements OnInit {
 
     this.router.navigate(['/StrStockTaking'], { queryParams: { StoreId: this.groupMasterForm.getRawValue().storeId, masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, itemName: this.groupMasterForm.getRawValue().itemId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrStockTakingDetailsDialogComponent, {
-      width: '98%',
+      width: '60%',
       height: '79%', data: row,
     }).afterClosed().subscribe(val => {
       if (val === 'save' || val === 'update') {

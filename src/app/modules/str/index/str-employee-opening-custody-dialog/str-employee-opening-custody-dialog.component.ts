@@ -424,7 +424,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     });
     this.dialog
       .open(StrEmployeeOpeningCustodyDetailDailogComponent, {
-        width: '98%',
+        width: '60%',
         height: '85%',
       })
       .afterClosed()
@@ -784,7 +784,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     });
     this.dialog
       .open(StrEmployeeOpeningCustodyDetailDailogComponent, {
-        width: '98%',
+        width: '60%',
         height: '85%',
         data: row,
       })

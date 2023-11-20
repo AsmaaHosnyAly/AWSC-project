@@ -217,7 +217,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   addNewDetails() {
     this.router.navigate(['/employeeOpening'], { queryParams: { masterId: this.getMasterRowId.id } })
     this.dialog.open(StrEmployeeExchangeDetailsDialogComponent, {
-      width: '98%',
+      width: '60%',
         height: '85%'
     }).afterClosed().subscribe(val => {
       if (val === 'Save' || val === 'Update') {

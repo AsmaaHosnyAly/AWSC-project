@@ -383,7 +383,7 @@ export class STRAddTableComponent implements OnInit {
   openAddDialog() {
     this.dialog
       .open(STRAddDialogComponent, {
-        width: '98%',
+        width: '60%',
         height: '79%',
       })
       .afterClosed()
@@ -410,7 +410,7 @@ export class STRAddTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(STRAddDialogComponent, {
-        width: '98%',
+        width: '60%',
         height: '79%',
         data: row,
       })
