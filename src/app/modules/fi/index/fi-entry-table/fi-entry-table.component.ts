@@ -181,7 +181,7 @@ export class FiEntryTableComponent implements OnInit {
   openFiEntryDialog() {
     this.dialog
       .open(FiEntryDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '79%'
       })
       .afterClosed()
@@ -317,7 +317,7 @@ export class FiEntryTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(FiEntryDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '79%',
         data: row,
       })
@@ -466,7 +466,7 @@ export class FiEntryTableComponent implements OnInit {
             localStorage.setItem('url', JSON.stringify(url));
             this.pdfurl = url;
             this.dialog.open(PrintDialogComponent, {
-              width: '50%',
+              width: '60%',
             });
 
             // this.dataSource = res;
