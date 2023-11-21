@@ -15,7 +15,7 @@ export class Account {
   constructor(public id: number, public name: string,public code: any) { }
 }
 
-export class AccountItem {
+export class AccountItem { 
   constructor(public id: number, public name: string) { }
 }
 

@@ -195,10 +195,12 @@ export class FiEntryDialogComponent implements OnInit {
     return this.journalsList.filter(
       (jounal) =>
         // jounal.description.toLowerCase().includes(filterValue)
-               jounal.description || jounal.no ?jounal.description.toLowerCase().includes(filterValue) || jounal.no.toString().toLowerCase().includes(filterValue) : '-' 
-
+    // jounal.description || jounal.no ?jounal.description.toLowerCase().includes(filterValue) || jounal.no.toString().toLowerCase().includes(filterValue) : '-' 
+    jounal.description || jounal.no ? jounal.description.toLowerCase().includes(filterValue) ||
+    jounal.no.toString().toLowerCase().includes(filterValue): '-'
     );
   }
+  
 
   displayJounalName(jounal: any): string {
     // return jounal && jounal.description && jounal.description != null ? jounal.description : '-' : '';
