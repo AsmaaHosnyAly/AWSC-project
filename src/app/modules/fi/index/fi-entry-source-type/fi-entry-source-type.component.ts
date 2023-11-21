@@ -74,7 +74,7 @@ export class FIEntrySourceTypeComponent implements OnInit {
       map((value) => this._filterEntrySources(value))
     );
 
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
+    global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
   }
   ngOnInit(): void {
     // console.log(productForm)

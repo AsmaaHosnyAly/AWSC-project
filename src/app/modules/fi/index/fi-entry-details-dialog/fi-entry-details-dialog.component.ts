@@ -14,7 +14,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 export class Account {
   constructor(public id: number, public name: string,public code: any) { }
 }
-
 export class AccountItem {
   constructor(public id: number, public name: string) { }
 }
@@ -42,7 +41,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
   getDetailsRowId: any;
   journalsList: any;
   sourcesList: any;
- 
+
   employeesList: any;
   distEmployeesList: any;
   costCentersList: any;
@@ -100,8 +99,8 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
     this.groupDetailsForm = this.formBuilder.group({
       entryId: ['', Validators.required],
-      credit: ['', Validators.required],
-      debit: ['', Validators.required],
+      credit: [0, Validators.required],
+      debit: [0, Validators.required],
       accountId: ['', Validators.required],
       fiAccountItemId: ['', Validators.required],
       transactionUserId: ['', Validators.required],
@@ -135,12 +134,13 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
     return this.accountsList.filter(
       (account) =>
-        account.name.toLowerCase().includes(filterValue)
+        // account.name.toLowerCase().includes(filterValue)
+        account.name || account.code ? account.name.toLowerCase().includes(filterValue) || account.code.toString().toLowerCase().includes(filterValue) : '-'
     );
   }
 
   displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
+    return account ? account.name && account.name != null ? account.name : '-' : '';
   }
   AccountSelected(event: MatAutocompleteSelectedEvent): void {
     const account = event.option.value as Account;
@@ -177,7 +177,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
     console.log("accountItem selected: ", accountItem);
     this.selectedAccountItem = accountItem;
     this.groupDetailsForm.patchValue({ fiAccountItemId: accountItem.id });
- 
+
   }
   openAutoAccountItem() {
     this.accountItemCtrl.setValue(''); // Clear the input field value
@@ -207,7 +207,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
             this.sumOfCreditTotals = this.sumOfCreditTotals + this.groupDetailsForm.getRawValue().credit;
             this.sumOfDebitTotals = this.sumOfDebitTotals + this.groupDetailsForm.getRawValue().debit;
-           
+
 
             if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
               this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
@@ -221,7 +221,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
             console.log("found details withoutEdit: ", this.groupDetailsForm.value)
             this.sumOfCreditTotals = this.sumOfCreditTotals + this.groupDetailsForm.getRawValue().credit;
             this.sumOfDebitTotals = this.sumOfDebitTotals + this.groupDetailsForm.getRawValue().debit;
-           
+
           }
 
         }
@@ -233,25 +233,34 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
         if (this.groupDetailsForm.valid && !this.getDetailedRowData) {
 
-          this.api.postFiEntryDetails(this.groupDetailsForm.value)
-            .subscribe({
-              next: (res) => {
-                this.getDetailsRowId = {
-                  "id": res
-                };
-                console.log("Details res: ", this.getDetailsRowId.id)
-                
-                // alert("تمت إضافة التفاصيل بنجاح");
-                this.toastrSuccess();
-                this.groupDetailsForm.reset();
+          if (this.groupDetailsForm.getRawValue().credit != this.groupDetailsForm.getRawValue().debit && (this.groupDetailsForm.getRawValue().credit == 0 || this.groupDetailsForm.getRawValue().debit == 0)) {
+            console.log("DETAILS post: ", this.groupDetailsForm.value);
+            this.api.postFiEntryDetails(this.groupDetailsForm.value)
+              .subscribe({
+                next: (res) => {
+                  this.getDetailsRowId = {
+                    "id": res
+                  };
+                  console.log("Details res: ", this.getDetailsRowId.id)
 
-                this.dialogRef.close('save');
+                  // alert("تمت إضافة التفاصيل بنجاح");
+                  this.toastrSuccess();
+                  this.groupDetailsForm.reset();
 
-              },
-              error: () => {
-                // alert("حدث خطأ أثناء إضافة مجموعة")
-              }
-            })
+                  this.dialogRef.close('save');
+
+                },
+                error: () => {
+                  // alert("حدث خطأ أثناء إضافة مجموعة")
+                }
+              })
+          }
+          else{
+            this.toastrWarningPostDetails();
+            this.groupDetailsForm.controls['credit'].setValue(0);
+            this.groupDetailsForm.controls['debit'].setValue(0);
+          }
+
         }
         // else {
         //   this.updateBothForms();
@@ -308,7 +317,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
       })
   }
 
- 
+
   closeDialog() {
     let result = window.confirm('هل تريد اغلاق الطلب');
     if (result) {
@@ -319,5 +328,9 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
   toastrSuccess(): void {
     this.toastr.success("تم الحفظ بنجاح");
+  }
+
+  toastrWarningPostDetails(): void {
+    this.toastr.warning("غير مسموح بادخال الدائن و المدين معا !");
   }
 }

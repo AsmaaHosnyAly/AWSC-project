@@ -27,6 +27,7 @@ export class MenubarComponent {
   decodedToken: any;
   decodedToken1: any;
   decodedToken2: any;
+  testRout='withdraw';
   activeRoute: string | undefined;
   constructor(
     public global: GlobalService,
@@ -55,7 +56,7 @@ export class MenubarComponent {
     this.decodedToken1 = this.decodedToken.modules;
     this.decodedToken2 = this.decodedToken.roles;
 
-    console.log('decodedToken2 ', this.decodedToken2);
+    // console.log('decodedToken2 ', this.decodedToken2);
   }
   title = 'str-group';
 
@@ -74,7 +75,7 @@ export class MenubarComponent {
   }
   getUserGroupById() {
     this.global.getUserGroup(this.transactionUserId).subscribe((res) => {
-      console.log('usergrop', this.userGroup);
+      // console.log('usergrop', this.userGroup);
       if (res) return (this.userGroup = res);
       else this.userGroup = '';
     });
@@ -115,14 +116,5 @@ export class MenubarComponent {
       return false;
     }
   }
-  redirectToModuleHome(name: string): boolean {
-    const MODULES_LOCAL_STORAGE = this.decodedToken1;
-    const MODULES: Array<any> = MODULES_LOCAL_STORAGE;
-    // console.log('array : ', MODULES);
-    if (MODULES != undefined) {
-      return MODULES.some((i: any) => i == name);
-    } else {
-      return false;
-    }
-  }
+ 
 }
