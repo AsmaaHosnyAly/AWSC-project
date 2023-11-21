@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-str-accounts',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./str-accounts.component.css']
 })
 export class StrAccountsComponent {
-
+constructor(global:GlobalService){
+  global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
+}
 }

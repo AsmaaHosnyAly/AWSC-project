@@ -109,7 +109,8 @@ export class FiEntryTableComponent implements OnInit {
     private global: GlobalService
   ) {
 
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
+    global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')  
+
     this.accountCtrl = new FormControl();
     this.filteredAccount = this.accountCtrl.valueChanges.pipe(
       startWith(''),
