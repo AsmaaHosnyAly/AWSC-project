@@ -112,8 +112,8 @@
                (click)="openAutoItems()" required />
               <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
                 (optionSelected)="itemSelected($event)">
-                <mat-option *ngFor="let item of filteredItems | async; let i = index" [value]="item" [style.display]="i < 10 ? 'block' : 'none'" >
-                  {{ item.name }}
+                <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+                  {{ item.name }} | {{ item.fullCode }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
