@@ -372,7 +372,9 @@ export class STRAddDialogComponent implements OnInit {
 
     this.groupMasterForm.controls['fiscalYearId'].setValue(1)
 
-    this.groupMasterForm.controls['no'].setValue(this.autoNo);
+    if(this.groupMasterForm.getRawValue().no == this.autoNo){
+      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+    }
 
 
     if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no) {
