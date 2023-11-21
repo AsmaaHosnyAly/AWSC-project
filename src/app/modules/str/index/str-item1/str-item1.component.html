@@ -113,7 +113,7 @@
               <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayItemName"
                 (optionSelected)="itemSelected($event)">
                 <mat-option *ngFor="let item of filteredItems | async" [value]="item">
-                  {{ item.name }}
+                  {{ item.name }} | {{ item.fullCode }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
