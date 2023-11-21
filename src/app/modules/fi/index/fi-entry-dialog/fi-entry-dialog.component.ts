@@ -75,6 +75,9 @@ export class FiEntryDialogComponent implements OnInit {
   filteredJournal: Observable<Journal[]>;
   selectedJournal: Journal | undefined;
 
+  no: any;
+  journalByNoValue: any;
+
   displayedColumns: string[] = [
     'credit',
     'debit',
@@ -191,12 +194,15 @@ export class FiEntryDialogComponent implements OnInit {
 
     return this.journalsList.filter(
       (jounal) =>
-        jounal.description.toLowerCase().includes(filterValue)
+        // jounal.description.toLowerCase().includes(filterValue)
+               jounal.description || jounal.no ?jounal.description.toLowerCase().includes(filterValue) || jounal.no.toString().toLowerCase().includes(filterValue) : '-' 
+
     );
   }
 
   displayJounalName(jounal: any): string {
-    return jounal && jounal.description ? jounal.description : '';
+    // return jounal && jounal.description && jounal.description != null ? jounal.description : '-' : '';
+    return jounal ? jounal.description && jounal.description != null ? jounal.description : '-' : '';
   }
   JournalSelected(event: MatAutocompleteSelectedEvent): void {
     const journal = event.option.value as Journal;
@@ -204,7 +210,11 @@ export class FiEntryDialogComponent implements OnInit {
     this.selectedJournal = journal;
     this.journalStartDate = journal.startDate;
     this.journalEndDate = journal.endDate;
+   
     this.groupMasterForm.patchValue({ journalId: journal.id });
+    
+    this.getCodeByItem(journal.no);
+
   }
   openAutoJournal() {
     this.journalCtrl.setValue(''); // Clear the input field value
@@ -219,26 +229,17 @@ export class FiEntryDialogComponent implements OnInit {
       next: (res) => {
         this.journalsList = res;
         // console.log("fiscalYear Pass: ", fiscalYear);
-
         console.log('journals res: ', this.journalsList);
-
         this.journalsList = res.filter((journal: any) => {
           if (journal.fiscalYearId) {
             // console.log("journals fiscalYear not null: ", journal);
-
             return journal.fiscalYearId == fiscalYear;
           } else return false;
           // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-        });
-
-        // console.log("journals res after filter: ", this.journalsList);
-
-        // this.journalsList = res.find((journal: { fiscalYearId: any; }) => journal.fiscalYearId == fiscalYear);
-        // console.log("journals res after filter: ", this.journalsList);
+        });   
       },
       error: (err) => {
         console.log('fetch journals data err: ', err);
-        // alert("خطا اثناء جلب الدفاتر !");
       },
     });
   }
@@ -403,12 +404,12 @@ export class FiEntryDialogComponent implements OnInit {
 
     if (this.groupMasterForm.valid) {
       console.log('Master add form : ', this.groupMasterForm.value);
-    let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
-    let journalStartDateFormat = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
-    let journalEndDateFormat = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
+      let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
+      let journalStartDateFormat = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
+      let journalEndDateFormat = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
 
-      console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ",journalEndDateFormat, "date: ", dateFormat);
-      if(dateFormat >= this.journalStartDate && dateFormat <= this.journalEndDate){
+      console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ", journalEndDateFormat, "date: ", dateFormat);
+      if (dateFormat >= this.journalStartDate && dateFormat <= this.journalEndDate) {
         this.api.postFiEntry(this.groupMasterForm.value).subscribe({
           next: (res) => {
             console.log('ID fiEntry after post: ', res);
@@ -417,7 +418,7 @@ export class FiEntryDialogComponent implements OnInit {
             };
             console.log('mastered res: ', this.getMasterRowId.id);
             this.MasterGroupInfoEntered = true;
-  
+
             // alert("تم الحفظ بنجاح");
             this.toastrSuccess();
             this.getAllDetailsForms();
@@ -429,11 +430,11 @@ export class FiEntryDialogComponent implements OnInit {
           },
         });
       }
-      else{
+      else {
         this.toastrWarningEntryDate();
         this.groupMasterForm.controls['date'].setValue('');
       }
-      
+
     }
   }
 
@@ -741,25 +742,25 @@ export class FiEntryDialogComponent implements OnInit {
   getAllMasterForms() {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
-      if(this.groupMasterForm.getRawValue().balance == 0){
-        this.dialogRef.close('save');
+    if (this.groupMasterForm.getRawValue().balance == 0) {
+      this.dialogRef.close('save');
 
-        this.api.getFiEntry().subscribe({
-          next: (res) => {
-            // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-            this.dataSource = new MatTableDataSource(res);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          },
-          error: () => {
-            // alert("خطأ أثناء جلب سجلات المجموعة !!");
-          },
-        });
-      }
-      else{
-        this.toastrWarningCloseDialog();
-      }
-    
+      this.api.getFiEntry().subscribe({
+        next: (res) => {
+          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+          this.dataSource = new MatTableDataSource(res);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: () => {
+          // alert("خطأ أثناء جلب سجلات المجموعة !!");
+        },
+      });
+    }
+    else {
+      this.toastrWarningCloseDialog();
+    }
+
     // }
   }
 
@@ -794,6 +795,51 @@ export class FiEntryDialogComponent implements OnInit {
         }
       });
   }
+
+  getJournalByNumbr(no: any) {
+    console.log("no: ", no.target.value);
+    if (no.keyCode == 13) {
+      this.journalsList.filter((a: any) => {
+        if (a.no == no.target.value) {
+          this.groupMasterForm.controls['journalId'].setValue(a.id);
+       
+          this.journalCtrl.setValue(a.description);
+          if (a.description) {
+            this.journalByNoValue = a.description;
+          }
+          else {
+            this.journalByNoValue = '-';
+          }
+          this.journalByNoValue = a.description;
+
+        }
+      })
+    }
+
+  }
+
+  getCodeByItem(item: any) {
+    console.log("item by code: ", item, "code: ", this.journalsList);
+
+    // if (item.keyCode == 13) {
+    this.journalsList.filter((a: any) => {
+      if (a.no == item) {
+        // this.groupDetailsForm.controls['itemId'].setValue(a.id);
+        console.log("item by code selected: ", a)
+        // console.log("item by code selected: ", a.fullCode)
+        if (a.no) {
+          this.no = a.no;
+        }
+        else {
+          this.no = '-';
+        }
+
+        // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId)
+      }
+    })
+
+  }
+
 
   toastrWarningCloseDialog(): void {
     this.toastr.warning("تحذير القيد غير متزن !");
