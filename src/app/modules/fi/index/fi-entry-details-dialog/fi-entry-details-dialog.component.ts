@@ -12,7 +12,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export class Account {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string,public code: any) { }
 }
 
 export class AccountItem {

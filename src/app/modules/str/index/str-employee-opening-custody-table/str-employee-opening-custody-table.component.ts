@@ -205,7 +205,7 @@ loading :boolean=false;
   openEmployeeingStockDialog() {
     this.dialog
       .open(STREmployeeOpeningCustodyDialogComponent, {
-        width: '98%',
+        width: '60%',
         height: '79%',
       })
       .afterClosed()
@@ -219,7 +219,7 @@ loading :boolean=false;
   editMasterForm(row: any) {
     this.dialog
       .open(STREmployeeOpeningCustodyDialogComponent, {
-        width: '98%',
+        width: '60%',
         height: '79%',
         data: row,
       })

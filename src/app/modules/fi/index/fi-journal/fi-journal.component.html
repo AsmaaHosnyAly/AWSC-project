@@ -18,7 +18,7 @@
 
 
         <form [formGroup]="groupMasterForm">
-          <div class="search" style="display: flex; ">
+          <div class="search">
 
             <div class="searchLabels">
               <mat-label>الرقم </mat-label>
@@ -27,14 +27,6 @@
                 <input #no matInput formControlName="no">
               </mat-form-field>
             </div>
-
-            <!-- <div class="searchLabels">
-          <mat-label>اليومية</mat-label>
-
-          <mat-form-field appearance="outline">
-          <input #Description matInput placeholder="ادخل اليومية" formControlName="Description">                   
-   </mat-form-field>
-     </div> -->
 
             <div class="searchLabels">
               <mat-label>الوصف </mat-label>
@@ -88,13 +80,6 @@
             <mat-icon (click)="
         getSearchFIJournal(no.value,Description.value, startDate.value,endDate.value, fiscalYear.value)
             " class="icons" title="بحث">search</mat-icon>
-
-            <!-- <mat-icon class="icons" title="عرض"
-          (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)" class="icons"
-          title="تحميل">print</mat-icon>
-
-        <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)"
-          class="icons" title="تحميل">get_app</mat-icon> -->
 
             <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
           </div>
