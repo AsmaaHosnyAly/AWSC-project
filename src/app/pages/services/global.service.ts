@@ -20,6 +20,7 @@ export class GlobalService {
   isStatus = 'مفعل';
   pageTitle: any;
   icon: any;
+  routerLinkPage:any;
   stores = false;
   accounts = false;
   test: any;
@@ -51,7 +52,7 @@ export class GlobalService {
   }
 
   login(obj: any): Observable<any> {
-    console.log('obj ', obj);
+    // console.log('obj ', obj);
     return this.http.get(
       `${this.url}/PRUser/authenticate?username=${obj.name}&password=${obj.password}`
       
@@ -59,7 +60,7 @@ export class GlobalService {
   }
 
   loginbyJWT(obj: any): Observable<any> {
-    console.log('obj ', obj);
+    // console.log('obj ', obj);
     return this.http.post<any>(
       `${this.url}/Login`,obj
       
@@ -67,7 +68,7 @@ export class GlobalService {
   }
 
   getRolesByUserId(userId: any): Observable<any> {
-    console.log('userId ', userId);
+    // console.log('userId ', userId);
     return this.http.get(`${this.url}/PRUser/get/role/${userId}`);
   }
   //  crud group
@@ -100,7 +101,7 @@ export class GlobalService {
 
   getPermissionUserRoles(
    module: any,
-    background: any,
+   routerLinkPage:any,
     pageTitle: any,
     icon: any
   ) {
@@ -112,12 +113,14 @@ export class GlobalService {
      this.decodedToken1 = this.decodedToken.modules;
      this.decodedToken2 = this.decodedToken.roles;
  
-     console.log('decodedToken2 ', this.decodedToken2);
+    //  console.log('decodedToken2 ', this.decodedToken2);
     const MODULES_LOCAL_STORAGE = this.decodedToken1;
     for (let i = 0; i <MODULES_LOCAL_STORAGE!.length; i++) {
       if (module == MODULES_LOCAL_STORAGE![i]) {
         this.pageTitle = pageTitle; 
         this.icon = icon; 
+        this.routerLinkPage=routerLinkPage;
+
       }
   
     }

@@ -109,7 +109,8 @@ export class FiEntryTableComponent implements OnInit {
     private global: GlobalService
   ) {
 
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
+    global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')  
+
     this.accountCtrl = new FormControl();
     this.filteredAccount = this.accountCtrl.valueChanges.pipe(
       startWith(''),
@@ -226,7 +227,8 @@ export class FiEntryTableComponent implements OnInit {
     this.dialog
       .open(FiEntryDialogComponent, {
         width: '60%',
-        height: '79%'
+        height: '79%',
+        disableClose: true
       })
       .afterClosed()
       .subscribe((val) => {
@@ -364,6 +366,7 @@ export class FiEntryTableComponent implements OnInit {
         width: '60%',
         height: '79%',
         data: row,
+        disableClose: true
       })
       .afterClosed()
       .subscribe((val) => {
