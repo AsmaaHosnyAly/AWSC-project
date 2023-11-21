@@ -189,12 +189,8 @@ export class STRItem1Component implements OnInit {
     private global: GlobalService,
     private hotkeysService: HotkeysService
   ) {
-    global.getPermissionUserRoles(
-      'Store',
-      'stores',
-      'إدارة المخازن وحسابات المخازن ',
-      'store'
-    );
+    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
+
     this.unitCtrl = new FormControl();
     this.filteredUnits = this.unitCtrl.valueChanges.pipe(
       startWith(''),
