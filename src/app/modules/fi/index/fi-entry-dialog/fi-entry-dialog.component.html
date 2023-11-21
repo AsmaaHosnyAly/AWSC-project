@@ -61,9 +61,9 @@
                             <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
                                 (optionSelected)="JournalSelected($event)">
                                 <mat-option *ngFor="let journal of filteredJournal | async" [value]="journal">
-                                    {{ journal.description }} || {{journal.no}}
+                                    {{ journal.description ? journal.description : ' ' }} | {{ journal.no }}
                                 </mat-option>
-                            </mat-autocomplete>
+                            </mat-autocomplete> 
                         </mat-form-field>
 
                     </div>

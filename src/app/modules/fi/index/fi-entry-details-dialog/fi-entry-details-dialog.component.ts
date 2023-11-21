@@ -135,12 +135,13 @@ export class FiEntryDetailsDialogComponent implements OnInit {
 
     return this.accountsList.filter(
       (account) =>
-        account.name.toLowerCase().includes(filterValue)
+        // account.name.toLowerCase().includes(filterValue)
+        account.name || account.code ? account.name.toLowerCase().includes(filterValue) || account.code.toString().toLowerCase().includes(filterValue) : '-'
     );
   }
 
   displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
+    return account ? account.name && account.name != null ? account.name : '-' : '';
   }
   AccountSelected(event: MatAutocompleteSelectedEvent): void {
     const account = event.option.value as Account;
