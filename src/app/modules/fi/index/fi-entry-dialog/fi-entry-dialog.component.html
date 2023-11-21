@@ -30,17 +30,21 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="searchLabels">
+                    <div style="display: flex; flex-direction: column;">
                         <mat-label> دفتر اليومية* </mat-label>
-
-                        <mat-form-field appearance="outline" class="groupInput">
-                            <mat-select placeholder=" دفتر اليوميه " formControlName="journalId" lazy-load-options>
-                                <mat-option [value]="journal.id"
-                                    *ngFor="let journal of journalsList">{{journal.description}}</mat-option>
-                            </mat-select>
+        
+                        <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                            <input matInput aria-label="commodity" [matAutocomplete]="autoJournal" [formControl]="journalCtrl"
+                                placeholder="{{editData ? editData.journalNo : ''}}" (click)="openAutoJournal()" required />
+                            <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
+                                (optionSelected)="JournalSelected($event)">
+                                <mat-option *ngFor="let journal of filteredJournal | async" [value]="journal">
+                                    {{ journal.description }} || {{journal.no}}
+                                </mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
+        
                     </div>
-
 
                     <div class="searchLabels">
                         <mat-label> نوع مصدر الادخال* </mat-label>

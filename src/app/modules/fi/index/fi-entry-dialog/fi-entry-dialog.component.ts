@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -19,6 +19,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FiEntryDetailsDialogComponent } from '../fi-entry-details-dialog/fi-entry-details-dialog.component';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { Router, Params } from '@angular/router';
+import { Observable, map, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { formatDate } from '@angular/common';
+
+export class Journal {
+  constructor(public id: number, public description: string, public no: any, public startDate: any, public endDate: any) { }
+}
 
 @Component({
   selector: 'app-fi-entry-dialog',
@@ -41,7 +48,7 @@ export class FiEntryDialogComponent implements OnInit {
 
   getMasterRowId: any;
   getDetailsRowId: any;
-  journalsList: any;
+  // journalsList: any;
   sourcesList: any;
   accountsList: any;
   accountItemsList: any;
@@ -60,6 +67,13 @@ export class FiEntryDialogComponent implements OnInit {
 
   currentDate: any;
   defaultFiscalYearSelectValue: any;
+  journalStartDate: any;
+  journalEndDate: any;
+
+  journalsList: Journal[] = [];
+  journalCtrl: FormControl;
+  filteredJournal: Observable<Journal[]>;
+  selectedJournal: Journal | undefined;
 
   displayedColumns: string[] = [
     'credit',
@@ -84,9 +98,18 @@ export class FiEntryDialogComponent implements OnInit {
     private dialog: MatDialog,
     private toastr: ToastrService,
     private dialogRef: MatDialogRef<FiEntryDetailsDialogComponent>,
-    private router: Router
+    private router: Router,
+    @Inject(LOCALE_ID) private locale: string,
+
   ) {
     this.currentDate = new Date();
+
+    this.journalCtrl = new FormControl();
+    this.filteredJournal = this.journalCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterJournals(value))
+    );
+
   }
 
   ngOnInit(): void {
@@ -161,6 +184,35 @@ export class FiEntryDialogComponent implements OnInit {
       this.userIdFromStorage
     );
   }
+
+  private _filterJournals(value: string): Journal[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
+
+    return this.journalsList.filter(
+      (jounal) =>
+        jounal.description.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayJounalName(jounal: any): string {
+    return jounal && jounal.description ? jounal.description : '';
+  }
+  JournalSelected(event: MatAutocompleteSelectedEvent): void {
+    const journal = event.option.value as Journal;
+    console.log("journal selected: ", journal);
+    this.selectedJournal = journal;
+    this.journalStartDate = journal.startDate;
+    this.journalEndDate = journal.endDate;
+    this.groupMasterForm.patchValue({ journalId: journal.id });
+  }
+  openAutoJournal() {
+    this.journalCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.journalCtrl.updateValueAndValidity();
+  }
+
 
   getJournals(fiscalYear: any) {
     this.api.getJournals().subscribe({
@@ -300,10 +352,31 @@ export class FiEntryDialogComponent implements OnInit {
             this.dataSource.sort = this.sort;
 
             this.sumOfTotals = 0;
+            this.sumOfCreditTotals = 0;
+            this.sumOfDebitTotals = 0;
             for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-              this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+              this.sumOfCreditTotals = this.sumOfCreditTotals + parseFloat(this.matchedIds[i].credit);
+              this.sumOfCreditTotals = Number(this.sumOfCreditTotals.toFixed(2));
+              this.groupMasterForm.controls['creditTotal'].setValue(this.sumOfCreditTotals);
+
+              this.sumOfDebitTotals = this.sumOfDebitTotals + parseFloat(this.matchedIds[i].debit);
+              this.sumOfDebitTotals = Number(this.sumOfDebitTotals.toFixed(2));
+              this.groupMasterForm.controls['debitTotal'].setValue(this.sumOfDebitTotals);
+
+              if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
+                this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
+                this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
+
+              }
+              else {
+                // alert("credit: "+this.sumOfCreditTotals + "debit: "+this.sumOfDebitTotals);
+                this.resultOfBalance = this.sumOfDebitTotals - this.sumOfCreditTotals;
+                // alert("balance"+this.resultOfBalance);
+
+                this.groupMasterForm.controls['balance'].setValue(this.resultOfBalance);
+
+              }
+
               // alert('totalll: '+ this.sumOfTotals)
               // this.updateBothForms();
               this.updateMaster();
@@ -330,25 +403,37 @@ export class FiEntryDialogComponent implements OnInit {
 
     if (this.groupMasterForm.valid) {
       console.log('Master add form : ', this.groupMasterForm.value);
-      this.api.postFiEntry(this.groupMasterForm.value).subscribe({
-        next: (res) => {
-          console.log('ID fiEntry after post: ', res);
-          this.getMasterRowId = {
-            id: res,
-          };
-          console.log('mastered res: ', this.getMasterRowId.id);
-          this.MasterGroupInfoEntered = true;
+    let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
+    let journalStartDateFormat = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
+    let journalEndDateFormat = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
 
-          // alert("تم الحفظ بنجاح");
-          this.toastrSuccess();
-          this.getAllDetailsForms();
-          this.addDetailsInfo();
-        },
-        error: (err) => {
-          console.log('header post err: ', err);
-          // alert("حدث خطأ أثناء إضافة مجموعة")
-        },
-      });
+      console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ",journalEndDateFormat, "date: ", dateFormat);
+      if(dateFormat >= this.journalStartDate && dateFormat <= this.journalEndDate){
+        this.api.postFiEntry(this.groupMasterForm.value).subscribe({
+          next: (res) => {
+            console.log('ID fiEntry after post: ', res);
+            this.getMasterRowId = {
+              id: res,
+            };
+            console.log('mastered res: ', this.getMasterRowId.id);
+            this.MasterGroupInfoEntered = true;
+  
+            // alert("تم الحفظ بنجاح");
+            this.toastrSuccess();
+            this.getAllDetailsForms();
+            this.addDetailsInfo();
+          },
+          error: (err) => {
+            console.log('header post err: ', err);
+            // alert("حدث خطأ أثناء إضافة مجموعة")
+          },
+        });
+      }
+      else{
+        this.toastrWarningEntryDate();
+        this.groupMasterForm.controls['date'].setValue('');
+      }
+      
     }
   }
 
@@ -656,19 +741,25 @@ export class FiEntryDialogComponent implements OnInit {
   getAllMasterForms() {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
-      this.dialogRef.close('save');
+      if(this.groupMasterForm.getRawValue().balance == 0){
+        this.dialogRef.close('save');
 
-      this.api.getFiEntry().subscribe({
-        next: (res) => {
-          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        },
-      });
+        this.api.getFiEntry().subscribe({
+          next: (res) => {
+            // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+            this.dataSource = new MatTableDataSource(res);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          },
+          error: () => {
+            // alert("خطأ أثناء جلب سجلات المجموعة !!");
+          },
+        });
+      }
+      else{
+        this.toastrWarningCloseDialog();
+      }
+    
     // }
   }
 
@@ -702,5 +793,13 @@ export class FiEntryDialogComponent implements OnInit {
           this.getAllDetailsForms();
         }
       });
+  }
+
+  toastrWarningCloseDialog(): void {
+    this.toastr.warning("تحذير القيد غير متزن !");
+  }
+
+  toastrWarningEntryDate(): void {
+    this.toastr.warning("هذا التاريخ خارج نطاق اليومية !");
   }
 }

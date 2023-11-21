@@ -414,9 +414,11 @@ loading :boolean=false;
   }
 
   getCostCenters() {
-    this.api.getFiCostCenter().subscribe({
+    this.api.getCostCenter().subscribe({
       next: (res) => {
         this.costcentersList = res;
+        console.log("fetch costCenter data res: ", res);
+
       },
       error: (err) => {
         // console.log("fetch costCenter data err: ", err);
