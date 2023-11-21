@@ -49,15 +49,20 @@
                 </div>
 
 
-                <div class="searchLabels">
-                    <mat-label> دفتر اليوميه </mat-label>
+                <div style="display: flex; flex-direction: column;">
+                    <mat-label> دفتر اليومية* </mat-label>
 
-                    <mat-form-field appearance="outline">
-                        <mat-select #journalId plceholder="اختر مركز التكلفة" formControlName="JournalId">
-                            <mat-option *ngFor="let journal of journalsList"
-                                [value]="journal.id">{{journal.description}}</mat-option>
-                        </mat-select>
+                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                        <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
+                            [formControl]="journalCtrl" (click)="openAutoJournal()" required />
+                        <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
+                            (optionSelected)="JournalSelected($event)">
+                            <mat-option *ngFor="let journal of filteredJournal | async" [value]="journal">
+                                {{ journal.description }} || {{journal.no}}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
+
                 </div>
 
                 <div class="searchLabels">
@@ -130,24 +135,24 @@
                     </mat-form-field>
                 </div>
 
-                
+
 
 
             </div>
             <div class="print-display">
-              <mat-icon
-                  (click)="getSearchFiEntry(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value)"
-                  class="icons" title="بحث">search</mat-icon>
-              <mat-icon class="icons" title="عرض"
-                  (click)="previewPrint(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
-                  class="icons" title="تحميل">print</mat-icon>
+                <mat-icon
+                    (click)="getSearchFiEntry(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value)"
+                    class="icons" title="بحث">search</mat-icon>
+                <mat-icon class="icons" title="عرض"
+                    (click)="previewPrint(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
+                    class="icons" title="تحميل">print</mat-icon>
 
-              <mat-icon
-                  (click)="downloadPrint(no.value, journalId.value,StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
-                  class="icons" title="تحميل">get_app</mat-icon>
+                <mat-icon
+                    (click)="downloadPrint(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
+                    class="icons" title="تحميل">get_app</mat-icon>
 
-              <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
-          </div>
+                <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+            </div>
 
         </form>
 
@@ -186,7 +191,7 @@
 
         <!-- creditTotal Column -->
         <ng-container matColumnDef="creditTotal">
-            <th mat-header-cell *matHeaderCellDef> مجموع الائتمان </th>
+            <th mat-header-cell *matHeaderCellDef> مجموع الدائن </th>
             <td mat-cell *matCellDef="let row"> {{row.creditTotal}} </td>
         </ng-container>
 

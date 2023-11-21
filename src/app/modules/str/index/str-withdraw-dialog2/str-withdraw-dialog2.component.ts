@@ -397,9 +397,9 @@ export class StrWithdrawDialogComponent implements OnInit {
 
     this.getAllDetailsForms();
 
-    
+
   }
-  
+
 
   displaycostcenterName(costcenter: any): string {
     return costcenter ? costcenter.name && costcenter.name != null ? costcenter.name : '-' : '';
@@ -429,7 +429,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.costcenterCtrl.updateValueAndValidity();
   }
 
- 
+
   displayitemName(item: any): string {
     return item ? item.name && item.name != null ? item.name : '-' : '';
   }
@@ -545,16 +545,25 @@ export class StrWithdrawDialogComponent implements OnInit {
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
     console.log('dataName: ', this.groupMasterForm.value);
-    if (this.groupMasterForm.getRawValue().no) {
+
+    if (this.groupMasterForm.getRawValue().no && this.groupMasterForm.getRawValue().no == this.autoNo) {
+
       console.log('no changed: ', this.groupMasterForm.getRawValue().no);
       this.groupMasterForm.controls['no'].setValue(this.autoNo);
-    } else {
-      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+
+    }
+    else {
+      this.groupMasterForm.controls['no'].setValue(this.groupMasterForm.getRawValue().no);
       console.log(
         'no took auto number: ',
         this.groupMasterForm.getRawValue().no
       );
     }
+
+    // if (this.groupMasterForm.getRawValue().no == this.autoNo) {
+    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
+    // }
+
     console.log('Master add form : ', this.groupMasterForm.value);
 
     if (this.groupMasterForm.getRawValue().storeId) {
@@ -1573,9 +1582,9 @@ export class StrWithdrawDialogComponent implements OnInit {
 
     });
     this.dialog.open(StrWithdrawDetailsDialogComponent, {
-        width: '60%',
-        height: '85%',
-      })
+      width: '60%',
+      height: '85%',
+    })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'Save' || val === 'Update') {
