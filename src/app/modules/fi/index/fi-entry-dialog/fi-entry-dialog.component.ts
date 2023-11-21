@@ -191,12 +191,15 @@ export class FiEntryDialogComponent implements OnInit {
 
     return this.journalsList.filter(
       (jounal) =>
-        jounal.description.toLowerCase().includes(filterValue)
+        // jounal.description.toLowerCase().includes(filterValue)
+               jounal.description || jounal.no ?jounal.description.toLowerCase().includes(filterValue) || jounal.no.toString().toLowerCase().includes(filterValue) : '-' 
+
     );
   }
 
   displayJounalName(jounal: any): string {
-    return jounal && jounal.description ? jounal.description : '';
+    // return jounal && jounal.description && jounal.description != null ? jounal.description : '-' : '';
+    return jounal ? jounal.description && jounal.description != null ? jounal.description : '-' : '';
   }
   JournalSelected(event: MatAutocompleteSelectedEvent): void {
     const journal = event.option.value as Journal;
@@ -219,26 +222,17 @@ export class FiEntryDialogComponent implements OnInit {
       next: (res) => {
         this.journalsList = res;
         // console.log("fiscalYear Pass: ", fiscalYear);
-
         console.log('journals res: ', this.journalsList);
-
         this.journalsList = res.filter((journal: any) => {
           if (journal.fiscalYearId) {
             // console.log("journals fiscalYear not null: ", journal);
-
             return journal.fiscalYearId == fiscalYear;
           } else return false;
           // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-        });
-
-        // console.log("journals res after filter: ", this.journalsList);
-
-        // this.journalsList = res.find((journal: { fiscalYearId: any; }) => journal.fiscalYearId == fiscalYear);
-        // console.log("journals res after filter: ", this.journalsList);
+        });   
       },
       error: (err) => {
         console.log('fetch journals data err: ', err);
-        // alert("خطا اثناء جلب الدفاتر !");
       },
     });
   }
