@@ -22,7 +22,7 @@ export class STRAddContainerComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog, private api: ApiService,private global:GlobalService){
-    global.getPermissionUserRoles(4, 'stores', 'دارة المخازن وحسابات المخازن - اذن اضافة' , 'store')
+    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
 
     
   }

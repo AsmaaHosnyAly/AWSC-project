@@ -105,7 +105,7 @@ export class FiReportsComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
     global: GlobalService
   ) {
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
+    global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
 
     // this.reportNameList = [
     //   {
