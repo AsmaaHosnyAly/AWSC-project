@@ -22,6 +22,7 @@
 
 
 
+
 .sideNavSubItems{
   margin-right: -5px;
   padding-right: 0px;
@@ -169,7 +170,6 @@ mat-expansion-panel{
 
 .hiddenstores{
   display: hidden !important;
- 
 }
 
 .displaystores{
@@ -181,11 +181,15 @@ mat-expansion-panel{
 .hiddenRoles{
   display: block;
 }
-
-.sideNavSubItems.active {
-  background-color: rgb(164 190 199); /* Add your desired background color */
-  color: #ffffff; /* Add your desired text color */
+.sideNavSubItems:hover{
+  border-radius: 5px;
 }
-.mat-typography p{
-  margin: 0 0 2px !important;
+.sideNavSubItems.active {
+  background-color: var(--bg-primary-color) ;/* Add your desired background color */
+   /* Add your desired text color */
+   border-radius: 5px;
+   
+}
+.sideNavSubItems.active .font {
+  color: #ffff !important;
 }
