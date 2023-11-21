@@ -11,12 +11,12 @@
       <p>والصرف الصحى باسوان</p>
     </div> -->
   </div>
-  <div id="pageTitle">
-    <div class="d-flex align-items-center">
+  <div id="pageTitle" >
+    <div class="d-flex align-items-center" [routerLink]="['/',this.global.routerLinkPage]">
       <mat-icon class="ms-1">{{
         this.global.icon ? this.global.icon : "home"
         }}</mat-icon>
-      <span>{{
+      <span >{{
         this.global.pageTitle ? this.global.pageTitle : "الصفحة الرئيسية"
         }}</span>
     </div>
@@ -184,35 +184,33 @@
                 <p class="font">مستويات الحساب</p>
               </a> -->
               <a mat-list-item class="sideNavSubItems" routerLink="/FiAccountItem"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
+                
                 *ngIf="hasAccessRole(pageEnums.FiAccountItem)" routerLinkActive="active">
                 <p class="font">البنود الاحصائية</p>
               </a>
 
               <a mat-list-item class="sideNavSubItems" routerLink="/EntrySource"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
                 *ngIf="hasAccessRole(pageEnums.EntrySource)" routerLinkActive="active">
                 <p class="font">مصدر الدخل</p>
               </a>
 
               <a mat-list-item class="sideNavSubItems" routerLink="/EntrySourceType"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')"
                 *ngIf="hasAccessRole(pageEnums.EntrySourceType)" routerLinkActive="active">
                 <p class="font">نوع مصدر الدخل</p>
               </a>
             </mat-nav-list>
           </mat-expansion-panel>
           <a mat-list-item class="sideNavSubItems" routerLink="/FIJournal"
-            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')" *ngIf="hasAccessRole(pageEnums.FIJournal)" routerLinkActive="active">
+            *ngIf="hasAccessRole(pageEnums.FIJournal)" routerLinkActive="active">
             <p class="font">اليوميات</p>
           </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/fi-entry"
-            (click)="global.getPermissionUserRoles(1, 'stores', '', '')" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
+             *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
             <p class="font">القيود</p>
           </a>
 
           <a mat-list-item class="sideNavSubItems" routerLink="/fiReports"
-            (click)="global.getPermissionUserRoles(1, 'stores', '', '')" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
+             *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
             <p class="font">تقارير الحسابات</p>
           </a>
         </mat-nav-list>
@@ -280,11 +278,11 @@
             </mat-nav-list>
           </mat-expansion-panel>
           <a mat-list-item class="sideNavSubItems" routerLink="/Cc-entry"
-            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')" *ngIf="hasAccessRole(pageEnums.FIJournal)" routerLinkActive="active">
+             *ngIf="hasAccessRole(pageEnums.FIJournal)" routerLinkActive="active">
             <p class="font">القيود</p>
           </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Reports"
-            (click)="global.getPermissionUserRoles(1, 'stores', '', '')" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
+            *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
             <p class="font">تقارير التكاليف</p>
           </a>
         </mat-nav-list>
@@ -330,11 +328,11 @@
             </mat-nav-list>
           </mat-expansion-panel>
           <a mat-list-item class="sideNavSubItems" routerLink="/FIJournal"
-            (click)="global.getPermissionUserRoles(1, 'acounts', '', '')" *ngIf="hasAccessRole(pageEnums.FIJournal)" routerLinkActive="active">
+             *ngIf="hasAccessRole(pageEnums.FIJournal)" routerLinkActive="active">
             <p class="font">حركة الإصول</p>
           </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Reports"
-            (click)="global.getPermissionUserRoles(1, 'stores', '', '')" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
+           *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
             <p class="font">تقارير الإصول</p>
           </a>
         </mat-nav-list>
@@ -393,7 +391,7 @@
                 <p class="font">المؤهل</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/QualificationLevel"
-                (click)="global.getPermissionUserRoles(1, 'acounts', '', '')" routerLinkActive="active">
+                routerLinkActive="active">
                 <p class="font">مستوى المؤهل</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/QualitativeGroup"
@@ -461,7 +459,7 @@
         </a>
 
         <a mat-list-item class="sideNavSubItems" routerLink="/hr-Reports"
-          (click)="global.getPermissionUserRoles(1, 'stores', '', '')" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
+         *ngIf="hasAccessRole(pageEnums.FI_ENTRY)" routerLinkActive="active">
           <p class="font">تقارير شئون العاملين</p>
         </a>
       </mat-expansion-panel>

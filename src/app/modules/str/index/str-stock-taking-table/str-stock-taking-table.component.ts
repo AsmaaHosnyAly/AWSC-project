@@ -102,7 +102,7 @@ export class StrStockTakingTableComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
+    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),

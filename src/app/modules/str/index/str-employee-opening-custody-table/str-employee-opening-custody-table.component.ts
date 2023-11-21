@@ -96,7 +96,7 @@ loading :boolean=false;
     private toastr: ToastrService,
     private global:GlobalService
   ) {
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
+    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
       startWith(''),
