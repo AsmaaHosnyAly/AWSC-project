@@ -97,7 +97,7 @@ export class FIJournalComponent {
   }
   openDialog() {
     this.dialog.open(FIJournalDialogComponent, {
-      width: '70%'
+      width: '40%'
     }).afterClosed().subscribe(val => {
       if (val === 'حفظ') {
         this.getFIJournals();
@@ -181,7 +181,7 @@ export class FIJournalComponent {
 
   editFIJournals(row: any) {
     this.dialog.open(FIJournalDialogComponent, {
-      width: '70%',
+      width: '40%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'تحديث') {

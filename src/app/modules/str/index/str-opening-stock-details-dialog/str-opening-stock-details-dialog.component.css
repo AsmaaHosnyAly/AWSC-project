@@ -66,7 +66,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 2%;
+  /* padding: 2%; */
 }
 
 .groupAction button {
@@ -74,7 +74,7 @@
   color: aliceblue;
   font-family: 'Cairo', sans-serif !important;
   display: block;
-  margin: auto;
+  /* margin: auto; */
   font-weight: bold;
   font-size: 15px;
   padding: 5px 30px;
@@ -98,27 +98,35 @@
 
 .headerForm {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 
-}
-
-.child-num {
-  width: 20%;
-  text-align: right;
 }
 .parent{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
- 
+  align-items: center; 
 }
+
+.child-num {
+  width: 24%;
+  text-align: right;
+}
+
 
 .headerForm .groupInput {
   width: 19%;
 
 }
+
+.headerForm  mat-form-field {
+  width:171px;
+    margin-left: 10px;
+    /* font-size: px !important; */
+    padding: 10 !important;
+  }
+
 
 .detailsForm {
   display: flex;

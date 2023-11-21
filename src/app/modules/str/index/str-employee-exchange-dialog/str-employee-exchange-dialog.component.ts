@@ -217,7 +217,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   addNewDetails() {
     this.router.navigate(['/employeeOpening'], { queryParams: { masterId: this.getMasterRowId.id } })
     this.dialog.open(StrEmployeeExchangeDetailsDialogComponent, {
-      width: '98%',
+      width: '60%',
         height: '85%'
     }).afterClosed().subscribe(val => {
       if (val === 'Save' || val === 'Update') {
@@ -489,6 +489,12 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.groupMasterForm.patchValue({ employeeId: employee.id });
     console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
     if(this.groupMasterForm.getRawValue().destEmployeeId==this.groupMasterForm.getRawValue().employeeId){
+      
+      this.emploeeCtrl.reset();
+      this.distEmploeeCtrl.reset();
+     
+      this.groupMasterForm.controls['employeeId'].setValue('');
+      this.groupMasterForm.controls['destEmployeeId'].setValue('');
       this.toastrSelectSameEmpolyee()
     }
   }
@@ -517,6 +523,11 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.groupMasterForm.patchValue({ destEmployeeId: distEmployee.id });
     console.log("distemployee in form: ", this.groupMasterForm.getRawValue().destEmployeeId);
     if(this.groupMasterForm.getRawValue().destEmployeeId==this.groupMasterForm.getRawValue().employeeId){
+     
+      this.emploeeCtrl.reset();
+      this.distEmploeeCtrl.reset();
+      this.groupMasterForm.controls['employeeId'].setValue('');
+      this.groupMasterForm.controls['destEmployeeId'].setValue('');
       this.toastrSelectSameEmpolyee()
     }
   }

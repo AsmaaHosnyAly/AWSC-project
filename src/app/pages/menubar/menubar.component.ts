@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { PagesEnums } from '../../core/enums/pages.enum';
 import jwt_decode from 'jwt-decode';
 
+
 @Component({
   selector: 'app-menubar',
   templateUrl: './menubar.component.html',
@@ -26,6 +27,7 @@ export class MenubarComponent {
   decodedToken: any;
   decodedToken1: any;
   decodedToken2: any;
+  activeRoute: string | undefined;
   constructor(
     public global: GlobalService,
     public shared: SharedService,
@@ -40,6 +42,7 @@ export class MenubarComponent {
   }
 
   ngOnInit(): void {
+    this.activeRoute = this.router.url;
     this.global.bgColor = document
       .querySelector('section')
       ?.classList.add('screenBackground');

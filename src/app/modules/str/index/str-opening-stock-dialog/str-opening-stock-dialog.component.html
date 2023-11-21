@@ -12,16 +12,11 @@
 <div mat-dialog-content dir="rtl" style="padding: 30px;">
     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
-        <div class="headerForm">
-            <!-- <mat-checkbox (click)="toggleEdit()" >Disable select</mat-checkbox> -->
-            <!-- <button (click)="toggleEdit()" >Edit</button> -->
-
-            <div style="display: flex; width: 100%; justify-content: space-between;">
-
-                <div style="display: flex; flex-direction: column; width: 25%;">
+      <div class="headerForm">
+        <div class="searchLabels">
 
                     <mat-label>المخازن*</mat-label>
-                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;" *ngIf="!loading">
+                    <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
                         <mat-select placeholder="المخازن" formControlName="storeId"
                             (valueChange)="storeValueChanges($event)">
                             <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
@@ -31,10 +26,10 @@
                     </mat-form-field>
                 </div>
 
-                <div style="display: flex; flex-direction: column; width: 30%;">
+                <div class="searchLabels">
                     <mat-label>السنة المالية*</mat-label>
 
-                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;" *ngIf="!loading">
+                    <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
                         <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
                             (valueChange)="fiscalYearValueChanges($event)">
                             <mat-option [value]="fiscalYear.id"
@@ -43,19 +38,19 @@
                     </mat-form-field>
                 </div>
 
-                <div style="display: flex; flex-direction: column; width: 15%;">
+                <div class="searchLabels">
                     <mat-label>رقم الافتتاحى*</mat-label>
 
-                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                    <mat-form-field appearance="outline" class="groupInput">
                         <input id="autoNoInput" matInput placeholder="رقم الإفتتاحي" formControlName="no"
                             [value]="isEdit == true ? editData.no : autoNo" type="number" min="0" readonly>
                     </mat-form-field>
                 </div>
 
-                <div style="display: flex; flex-direction: column; width: 20%;">
+                <div class="searchLabels">
                     <mat-label>التاريخ*</mat-label>
 
-                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                    <mat-form-field appearance="outline" class="groupInput">
                         <input matInput [matDatepicker]="picker" formControlName="date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker">
                             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -64,7 +59,7 @@
                     </mat-form-field>
                 </div>
 
-            </div>
+            
 
         </div>
         <div dir="ltr">

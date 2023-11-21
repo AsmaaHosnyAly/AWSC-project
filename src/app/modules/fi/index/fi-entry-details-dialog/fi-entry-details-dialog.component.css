@@ -47,6 +47,18 @@
     display: none;
 }
 
+.parent{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center; 
+}
+
+.child-num {
+  width: 24%;
+  text-align: right;
+}
+
 .headerForm {
     display: flex;
     flex-direction: row;

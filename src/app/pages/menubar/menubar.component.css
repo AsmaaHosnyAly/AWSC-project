@@ -17,7 +17,7 @@
 .font{
   font-family: 'Droid Arabic Kufi', serif;
   font-size: 14px;
- 
+ margin: 0 0 2px !important;
 }
 
 
@@ -180,4 +180,12 @@ mat-expansion-panel{
 }
 .hiddenRoles{
   display: block;
+}
+
+.sideNavSubItems.active {
+  background-color: rgb(164 190 199); /* Add your desired background color */
+  color: #ffffff; /* Add your desired text color */
+}
+.mat-typography p{
+  margin: 0 0 2px !important;
 }

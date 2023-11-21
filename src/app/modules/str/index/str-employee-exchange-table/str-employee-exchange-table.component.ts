@@ -197,7 +197,7 @@ loading :boolean=false;
   openEmployeeExchangeDialog() {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
-        width: '98%',
+        width: '60%',
         height: '85%',
       })
       .afterClosed()
@@ -215,9 +215,7 @@ loading :boolean=false;
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
-
         this.groupMasterForm.reset();
-        
         this.itemCtrl.reset();
         this.employeeCtrl.reset();
         this.distEmployeeCtrl.reset();
@@ -255,7 +253,7 @@ loading :boolean=false;
     //   });
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '80%',
         data: row,
       })
@@ -433,7 +431,7 @@ loading :boolean=false;
   }
 
   displaycostcenterName(costcenter: any): string {
-    return costcenter && costcenter.name ? costcenter.name : '';
+    return costcenter ? costcenter.name && costcenter.name != null ? costcenter.name : '-' : '';
   }
   costcenterSelected(event: MatAutocompleteSelectedEvent): void {
     const costcenter = event.option.value as costcenter;
@@ -452,7 +450,8 @@ loading :boolean=false;
   private _filtercostcenters(value: string): costcenter[] {
     const filterValue = value;
     return this.costcentersList.filter((costcenter) =>
-      costcenter.name.toLowerCase().includes(filterValue)
+      // costcenter.name.toLowerCase().includes(filterValue)
+      costcenter.name ? costcenter.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutocostcenter() {

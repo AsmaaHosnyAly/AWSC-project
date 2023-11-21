@@ -60,17 +60,20 @@ th {
   width: 100%;
   text-align: right;
 }
+
+.search {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
 .search mat-form-field {
-  width: 180px;
+  width: 220px;
 margin-left: 10px;
   padding: 0 !important;
 }
 
-.search {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
+
 .search button,
 .print button {
   width: 250px;
