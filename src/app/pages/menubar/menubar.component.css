@@ -170,7 +170,6 @@ mat-expansion-panel{
 
 .hiddenstores{
   display: hidden !important;
- 
 }
 
 .displaystores{
@@ -193,7 +192,4 @@ mat-expansion-panel{
 }
 .sideNavSubItems.active .font {
   color: #ffff !important;
-}
-.mat-typography p{
-  margin: 0 0 2px !important;
 }

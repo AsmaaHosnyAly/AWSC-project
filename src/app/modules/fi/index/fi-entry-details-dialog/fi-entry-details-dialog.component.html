@@ -22,7 +22,7 @@
                     <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
                         (optionSelected)="AccountSelected($event)">
                         <mat-option *ngFor="let account of filteredAccount | async" [value]="account">
-                            {{ account.name }}
+                            {{ account.name ? account.name : '-' }} | {{ account.code }}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
