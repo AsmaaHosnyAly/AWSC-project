@@ -33,7 +33,7 @@ interface ccEntry {
 }
 
 export class Account {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string ,public code: any) { }
 }
 
 export class Journal {
@@ -174,12 +174,12 @@ export class FiEntryTableComponent implements OnInit {
 
     return this.accountsList.filter(
       (account) =>
-        account.name.toLowerCase().includes(filterValue)
+      account.name || account.code ? account.name.toLowerCase().includes(filterValue) || account.code.toString().toLowerCase().includes(filterValue) : '-'
     );
   }
 
   displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
+    return account ? account.name && account.name != null ? account.name : '-' : '';
   }
   AccountSelected(event: MatAutocompleteSelectedEvent): void {
     const account = event.option.value as Account;
@@ -201,12 +201,13 @@ export class FiEntryTableComponent implements OnInit {
 
     return this.journalsList.filter(
       (jounal) =>
-        jounal.description.toLowerCase().includes(filterValue)
+      jounal.description || jounal.no ? jounal.description.toLowerCase().includes(filterValue) ||
+      jounal.no.toString().toLowerCase().includes(filterValue): '-'
     );
   }
 
   displayJounalName(jounal: any): string {
-    return jounal && jounal.description ? jounal.description : '';
+    return jounal ? jounal.description && jounal.description != null ? jounal.description : '-' : '';
   }
   JournalSelected(event: MatAutocompleteSelectedEvent): void {
     const journal = event.option.value as Journal;

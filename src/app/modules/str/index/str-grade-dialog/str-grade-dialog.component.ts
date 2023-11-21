@@ -190,7 +190,7 @@ export class STRGradeDialogComponent {
     const account = event.option.value as Account;
     this.selectedAccount = account;
     this.gradeForm.patchValue({ accountId: account.id });
-    this.gradeForm.patchValue({ accountName: account.name });
+    this.gradeForm.patchValue({ accountName: account.name }); 
   }
 
   private _filterAccounts(value: string): Account[] {
