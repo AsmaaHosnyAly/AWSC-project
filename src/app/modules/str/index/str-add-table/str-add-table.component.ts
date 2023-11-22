@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, map, startWith, tap } from 'rxjs';
+import { Observable, debounceTime, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
@@ -62,6 +62,7 @@ export class store {
   selector: 'app-str-add-table',
   templateUrl: './str-add-table.component.html',
   styleUrls: ['./str-add-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class STRAddTableComponent implements OnInit {
   displayedColumns: string[] = [
@@ -165,7 +166,7 @@ export class STRAddTableComponent implements OnInit {
     private global: GlobalService,
     private hotkeysService: HotkeysService,
     private dialog: MatDialog, private toastr: ToastrService,
-
+    private cdr: ChangeDetectorRef,
     private http: HttpClient,
     private router: Router,
     @Inject(LOCALE_ID) private locale: string,
@@ -189,6 +190,7 @@ export class STRAddTableComponent implements OnInit {
     this.itemCtrl = new FormControl();
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteritems(value))
     );
 
@@ -608,6 +610,7 @@ export class STRAddTableComponent implements OnInit {
     this.api.getItem().subscribe({
       next: (res) => {
         this.itemsList = res;
+        this.cdr.detectChanges(); // Trigger change detection
         console.log("itemss res: ", this.itemsList);
       },
       error: (err) => {

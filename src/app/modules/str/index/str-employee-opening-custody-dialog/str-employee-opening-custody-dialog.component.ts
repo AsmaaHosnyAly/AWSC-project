@@ -9,7 +9,7 @@ import { ApiService } from '../../services/api.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -27,7 +27,7 @@ import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import jwt_decode from 'jwt-decode';
 
@@ -45,6 +45,7 @@ export class Item {
   selector: 'app-str-employee-opening-custody-dialog',
   templateUrl: './str-employee-opening-custody-dialog.component.html',
   styleUrls: ['./str-employee-opening-custody-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
   groupDetailsForm!: FormGroup;
@@ -136,6 +137,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     private http: HttpClient,
     private dialog: MatDialog,
     private router: Router,
+    private cdr: ChangeDetectorRef,
     private dialogRef: MatDialogRef<STREmployeeOpeningCustodyDialogComponent>,
     // private toastr: ToastrService){}
 
@@ -156,6 +158,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     this.itemCtrl = new FormControl();
     this.filteredItems = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterItems(value))
     );
   }
@@ -286,6 +289,7 @@ export class STREmployeeOpeningCustodyDialogComponent implements OnInit {
     this.api.getItems().subscribe({
       next: (res) => {
         this.itemsList = res;
+        this.cdr.detectChanges(); // Trigger change detection
         // console.log("items res: ", this.itemsList);
       },
       error: () => {

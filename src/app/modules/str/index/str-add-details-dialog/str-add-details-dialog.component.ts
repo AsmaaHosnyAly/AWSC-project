@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import { formatDate } from '@angular/common';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 export class Item {
   constructor(public id: number, public name: string, public fullCode: string) { }
@@ -25,7 +25,8 @@ export class Product {
 @Component({
   selector: 'app-str-add-details-dialog',
   templateUrl: './str-add-details-dialog.component.html',
-  styleUrls: ['./str-add-details-dialog.component.css']
+  styleUrls: ['./str-add-details-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrAddDetailsDialogComponent implements OnInit {
   loading : boolean=false;
@@ -106,6 +107,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editData: any,
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     private toastr: ToastrService,
     private dialog: MatDialog,
     @Inject(LOCALE_ID) private locale: string,
@@ -121,7 +123,8 @@ export class StrAddDetailsDialogComponent implements OnInit {
     this.itemCtrl = new FormControl();
     this.filteredItem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterItems(value))
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
+      map((value) => this._filterItems(value))
     );
 
     // this.productCtrl = new FormControl();
@@ -371,6 +374,7 @@ export class StrAddDetailsDialogComponent implements OnInit {
         next: (res) => {
           this.loading=false;
           this.itemsList = res;
+          this.cdr.detectChanges(); // Trigger change detection
           // console.log("items res: ", this.itemsList);
         },
         error: (err) => {
