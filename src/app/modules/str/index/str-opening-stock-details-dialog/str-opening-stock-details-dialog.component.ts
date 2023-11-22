@@ -7,11 +7,11 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, map, startWith,debounceTime } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 export class Item {
   constructor(public id: number, public name: string, public fullCode: string) { }
 }
@@ -23,7 +23,8 @@ export class Product {
 @Component({
   selector: 'app-str-opening-stock-details-dialog',
   templateUrl: './str-opening-stock-details-dialog.component.html',
-  styleUrls: ['./str-opening-stock-details-dialog.component.css']
+  styleUrls: ['./str-opening-stock-details-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrOpeningStockDetailsDialogComponent implements OnInit {
   loading: boolean = false;
@@ -92,6 +93,7 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<StrOpeningStockDetailsDialogComponent>,
     private toastr: ToastrService,
+    private cdr: ChangeDetectorRef,
     private route: ActivatedRoute) {
 
     // this.currentData = new Date;
@@ -99,7 +101,8 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
     this.itemCtrl = new FormControl();
     this.filteredItem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterItems(value))
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
+      map((value) => this._filterItems(value))
     );
 
     this.productCtrl = new FormControl();
@@ -354,18 +357,18 @@ export class StrOpeningStockDetailsDialogComponent implements OnInit {
 
   getItems() {
     this.loading = true;
-    this.api.getItems()
-      .subscribe({
-        next: (res) => {
-          this.loading = false;
-          this.itemsList = res;
-        },
-        error: (err) => {
-          this.loading = false;
-          // console.log("fetch items data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.itemsList = res;
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
+      },
+    });
   }
 
   getItemByID(id: any) {
