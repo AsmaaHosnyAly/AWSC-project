@@ -194,15 +194,17 @@ export class FiEntryDialogComponent implements OnInit {
 
     return this.journalsList.filter(
       (jounal) =>
-        // jounal.description.toLowerCase().includes(filterValue)
-               jounal.description || jounal.no ?jounal.description.toLowerCase().includes(filterValue) || jounal.no.toString().toLowerCase().includes(filterValue) : '-' 
+        jounal.description.toLowerCase().includes(filterValue)
+      // jounal.description || jounal.no ? jounal.description.toLowerCase().includes(filterValue) || jounal.no.toString().toLowerCase().includes(filterValue) : '-'
 
     );
   }
 
   displayJounalName(jounal: any): string {
+    return jounal && jounal.description ? jounal.description : '';
+
     // return jounal && jounal.description && jounal.description != null ? jounal.description : '-' : '';
-    return jounal ? jounal.description && jounal.description != null ? jounal.description : '-' : '';
+    // return jounal ? jounal.description && jounal.description != null ? jounal.description : '-' : '';
   }
   JournalSelected(event: MatAutocompleteSelectedEvent): void {
     const journal = event.option.value as Journal;
@@ -210,10 +212,10 @@ export class FiEntryDialogComponent implements OnInit {
     this.selectedJournal = journal;
     this.journalStartDate = journal.startDate;
     this.journalEndDate = journal.endDate;
-   
+
     this.groupMasterForm.patchValue({ journalId: journal.id });
-    
-    this.getCodeByItem(journal.no);
+
+    this.getNumberByJournal(journal.no);
 
   }
   openAutoJournal() {
@@ -236,7 +238,7 @@ export class FiEntryDialogComponent implements OnInit {
             return journal.fiscalYearId == fiscalYear;
           } else return false;
           // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-        });   
+        });
       },
       error: (err) => {
         console.log('fetch journals data err: ', err);
@@ -611,6 +613,7 @@ export class FiEntryDialogComponent implements OnInit {
       'update details form: ',
       this.groupDetailsForm.value
     );
+
     this.api.putFiEntry(this.groupMasterForm.value).subscribe({
       next: (res) => {
         // alert("تم التعديل بنجاح");
@@ -774,13 +777,29 @@ export class FiEntryDialogComponent implements OnInit {
       !this.getDetailedRowData
     );
     // console.log("edit : ", this.groupDetailsForm.value)
-    this.api.putFiEntry(this.groupMasterForm.value).subscribe({
-      next: (res) => {
-        this.groupDetailsForm.reset();
-        this.getDetailedRowData = '';
-      },
-    });
+
+    // let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
+    // let journalStartDateFormat = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
+    // let journalEndDateFormat = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
+
+    // console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ", journalEndDateFormat, "date: ", dateFormat);
+    // if (dateFormat >= this.journalStartDate && dateFormat <= this.journalEndDate) {
+      this.api.putFiEntry(this.groupMasterForm.value).subscribe({
+        next: (res) => {
+          this.groupDetailsForm.reset();
+          this.getDetailedRowData = '';
+        },
+      });
+    // }
+    // else {
+    //   this.toastrWarningEntryDate();
+    //   this.groupMasterForm.controls['date'].setValue('');
+    // }
+
+
   }
+
+
   OpenDetailsDialog() {
     this.router.navigate(['/fi-entry', { masterId: this.getMasterRowId.id }]);
     this.dialog
@@ -801,8 +820,10 @@ export class FiEntryDialogComponent implements OnInit {
     if (no.keyCode == 13) {
       this.journalsList.filter((a: any) => {
         if (a.no == no.target.value) {
+          console.log("journal obj: ", a);
+
           this.groupMasterForm.controls['journalId'].setValue(a.id);
-       
+
           this.journalCtrl.setValue(a.description);
           if (a.description) {
             this.journalByNoValue = a.description;
@@ -818,7 +839,7 @@ export class FiEntryDialogComponent implements OnInit {
 
   }
 
-  getCodeByItem(item: any) {
+  getNumberByJournal(item: any) {
     console.log("item by code: ", item, "code: ", this.journalsList);
 
     // if (item.keyCode == 13) {

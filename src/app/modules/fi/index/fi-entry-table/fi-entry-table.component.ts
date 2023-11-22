@@ -491,6 +491,7 @@ export class FiEntryTableComponent implements OnInit {
     this.groupMasterForm.reset();
 
     this.accountCtrl.reset();
+    this.journalCtrl.reset();
 
     this.serachFlag = false;
 
