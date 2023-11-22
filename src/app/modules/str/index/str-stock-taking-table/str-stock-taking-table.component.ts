@@ -102,7 +102,7 @@ export class StrStockTakingTableComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService
   ) {
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
+    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),
@@ -219,8 +219,12 @@ export class StrStockTakingTableComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource(res);
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
+
         this.groupMasterForm.reset();
         this.groupDetailsForm.reset();
+
+        this.itemCtrl.reset();
+        this.storeCtrl.reset();
       },
       error: () => {
         alert('خطأ أثناء جلب سجلات المجموعة !!');
@@ -242,7 +246,7 @@ export class StrStockTakingTableComponent implements OnInit {
   }
   openStockTkingkDialog() {
     this.dialog.open(StrStockTakingDialogComponent, {
-      width: '72%',
+      width: '60%',
       height: '79%',
     }).afterClosed().subscribe(val => {
       if (val === 'Save') {
@@ -256,7 +260,7 @@ export class StrStockTakingTableComponent implements OnInit {
     // this.loading=true;
     this.dialog
       .open(StrStockTakingDialogComponent, {
-        width: '72%',
+        width: '60%',
         height: '79%',
         data: row,
       })

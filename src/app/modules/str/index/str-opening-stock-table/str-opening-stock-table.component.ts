@@ -51,6 +51,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   pageIndex: any;
   length: any;
   dataSource2: MatTableDataSource<StrOpeningStock> = new MatTableDataSource();
+  serachFlag: boolean = false;
 
 
   displayedColumns: string[] = [
@@ -97,7 +98,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     private toastr: ToastrService,
     private global: GlobalService
   ) {
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
+    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),
@@ -166,21 +167,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     }
   }
   getAllMasterForms() {
-    // this.api.getStrOpen().subscribe({
-    //   next: (res) => {
-    //     console.log('response of get all getGroup from api: ', res);
-    //     this.dataSource2 = new MatTableDataSource(res);
-    //     this.dataSource2.paginator = this.paginator;
-    //     this.dataSource2.sort = this.sort;
-    //     this.groupMasterForm.reset();
-    //     // this.groupDetailsForm.reset();
-    //   },
-    //   error: () => {
-    //     // alert('خطأ أثناء جلب سجلات المجموعة !!');
-    //   },
-    // });
-
-    if (!this.currentPage) {
+    if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
 
       // this.isLoading = true;
@@ -205,26 +192,33 @@ export class StrOpeningStockTableComponent implements OnInit {
         });
     }
     else {
-      // this.isLoading = true;
-      fetch(this.api.getStrOpeningStockPaginate(this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          this.totalRows = data.length;
-          console.log("master data paginate: ", data);
-          this.dataSource2.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
+      if (this.serachFlag == false) {
+        // this.isLoading = true;
+        fetch(this.api.getStrOpeningStockPaginate(this.currentPage, this.pageSize))
+          .then(response => response.json())
+          .then(data => {
+            this.totalRows = data.length;
+            console.log("master data paginate: ", data);
+            this.dataSource2.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
 
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            // this.isLoading = false;
+          }, error => {
+            console.log(error);
+            // this.isLoading = false;
           });
-          // this.isLoading = false;
-        }, error => {
-          console.log(error);
-          // this.isLoading = false;
-        });
+      }
+      else {
+        console.log("search next paginate");
+        this.getSearchStrOpen(this.groupMasterForm.getRawValue().no, this.groupMasterForm.getRawValue().StartDate, this.groupMasterForm.getRawValue().EndDate, this.groupMasterForm.getRawValue().fiscalYear)
+      }
+
     }
 
   }
@@ -240,7 +234,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   openOpeningStockDialog() {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
-        width: '98%',
+        width: '60%',
         height: '85%',
       })
       .afterClosed()
@@ -253,7 +247,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(StrOpeningStockDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '85%',
         data: row,
       })
@@ -539,11 +533,35 @@ export class StrOpeningStockTableComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.loading = false;
-          this.dataSource2 = res;
+          // this.dataSource2 = res;
+          // this.dataSource2.paginator = this.paginator;
+          // this.dataSource2.sort = this.sort;
+
+          this.totalRows = res.length;
+          if (this.serachFlag == false) {
+            this.pageIndex = 0;
+            this.pageSize = 5;
+            this.length = this.totalRows;
+            this.serachFlag = true;
+          }
+          console.log('master data paginate first Time: ', res);
+          this.dataSource2 = new MatTableDataSource(res);
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
+
         },
       });
+  }
+
+  resetForm() {
+    this.groupMasterForm.reset();
+
+    this.itemCtrl.reset();
+    this.storeCtrl.reset();
+    
+    this.serachFlag = false;
+
+    this.getAllMasterForms();
   }
 
   downloadPdf(

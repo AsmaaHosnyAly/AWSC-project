@@ -55,7 +55,7 @@ export class StrProudctSerialComponent  implements OnInit{
     map((value) => this._filterProductes(value))
   );
 
-  global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
+  global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
 }
   
   ngOnInit(): void {

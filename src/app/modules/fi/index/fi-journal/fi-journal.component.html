@@ -18,7 +18,7 @@
 
 
         <form [formGroup]="groupMasterForm">
-          <div class="search" style="display: flex; ">
+          <div class="search">
 
             <div class="searchLabels">
               <mat-label>الرقم </mat-label>
@@ -27,14 +27,6 @@
                 <input #no matInput formControlName="no">
               </mat-form-field>
             </div>
-
-            <!-- <div class="searchLabels">
-          <mat-label>اليومية</mat-label>
-
-          <mat-form-field appearance="outline">
-          <input #Description matInput placeholder="ادخل اليومية" formControlName="Description">                   
-   </mat-form-field>
-     </div> -->
 
             <div class="searchLabels">
               <mat-label>الوصف </mat-label>
@@ -58,7 +50,7 @@
               <mat-label>تاريخ الباية</mat-label>
 
               <mat-form-field appearance="outline" class="example-full-width">
-                <input #startDate matInput [matDatepicker]="startDatepicker" formControlName="startDate">
+                <input #startDate matInput [matDatepicker]="startDatepicker" formControlName="StartDate">
                 <mat-datepicker-toggle matIconSuffix [for]="startDatepicker">
                   <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -70,7 +62,7 @@
 
               <mat-label>تاريخ النهاية</mat-label>
               <mat-form-field appearance="outline" class="example-full-width">
-                <input #endDate matInput [matDatepicker]="endDatepicker" formControlName="endDate">
+                <input #endDate matInput [matDatepicker]="endDatepicker" formControlName="EndDate">
                 <mat-datepicker-toggle matIconSuffix [for]="endDatepicker">
                   <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
@@ -89,14 +81,7 @@
         getSearchFIJournal(no.value,Description.value, startDate.value,endDate.value, fiscalYear.value)
             " class="icons" title="بحث">search</mat-icon>
 
-            <!-- <mat-icon class="icons" title="عرض"
-          (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)" class="icons"
-          title="تحميل">print</mat-icon>
-
-        <mat-icon (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value)"
-          class="icons" title="تحميل">get_app</mat-icon> -->
-
-            <mat-icon (click)="getFIJournals()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+            <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
           </div>
         </form>
 

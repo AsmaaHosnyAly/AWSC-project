@@ -397,84 +397,9 @@ export class StrWithdrawDialogComponent implements OnInit {
 
     this.getAllDetailsForms();
 
-    // localStorage.setItem('transactionUserId', JSON.stringify("mehrail"));
-    // this.userIdFromStorage = localStorage.getItem('transactionUserId');
-    // console.log("userIdFromStorage in localStorage: ", this.userIdFromStorage)
-    // console.log("userIdFromStorage after slice from string shape: ", this.userIdFromStorage?.slice(1, length - 1))
-    // this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
-    // this.groupMasterForm.controls['transactionUserId'].setValue(this.editData.transactionUserId);
-    // console.log("transactionuser",this.editData.transactionUserId)
+
   }
-  // displaydeststoreName(deststore: any): string {
-  //   return deststore && deststore.name ? deststore.name : '';
-  // }
-  // deststoreSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const deststore = event.option.value as deststore;
-  //   console.log("deststore selected: ", deststore);
-  //   this.selecteddeststore = deststore;
-  //   this.groupMasterForm.patchValue({ deststoreId: deststore.id });
-  //   console.log("deststore in form: ", this.groupMasterForm.getRawValue().deststoreId);
 
-  // }
-  // private _filterdeststores(value: string): deststore[] {
-  //   const filterValue = value;
-  //   return this.deststoresList.filter(deststore =>
-  //     deststore.name.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutodeststore() {
-  //   this.deststoreCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.deststoreCtrl.updateValueAndValidity();
-  // }
-
-  // private _filterFiscalYears(value: string): FiscalYear[] {
-  //   const filterValue = value;
-  //   return this.fiscalYearsList.filter(fiscalyearObj =>
-  //     fiscalyearObj.FiscalYear.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // displayFiscalYearName(vacation: any): string {
-  //   return vacation && vacation.fiscalyear ? vacation.fiscalyear : '';
-  // }
-  // fiscalYearSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const fiscalyear = event.option.value as FiscalYear;
-  //   console.log("vacation selected: ", fiscalyear);
-  //   this.selectedFiscalYear = fiscalyear;
-  //   this.groupMasterForm.patchValue({ fiscalYearId: fiscalyear.id });
-  //   console.log("vacation in form: ", this.groupMasterForm.getRawValue().fiscalYearId);
-  // }
-  // openAutoFiscalYear() {
-  //   this.fiscalYearCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.fiscalYearCtrl.updateValueAndValidity();
-  // }
-
-  // displayEmployeeName(employee: any): string {
-  //   return employee && employee.name ? employee.name : '';
-  // }
-  // employeeSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const employee = event.option.value as Employee;
-  //   console.log("employee selected: ", employee);
-  //   this.selectedEmployee = employee;
-  //   this.groupMasterForm.patchValue({ employeeId: employee.id });
-  //   console.log("employee in form: ", this.groupMasterForm.getRawValue().employeeId);
-  //   this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
-  // }
-  // private _filterEmployees(value: string): Employee[] {
-  //   const filterValue = value;
-  //   return this.employeesList.filter(employee =>
-  //     employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutoEmployee() {
-  //   this.employeeCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.employeeCtrl.updateValueAndValidity();
-  // }
 
   displaycostcenterName(costcenter: any): string {
     return costcenter ? costcenter.name && costcenter.name != null ? costcenter.name : '-' : '';
@@ -504,28 +429,6 @@ export class StrWithdrawDialogComponent implements OnInit {
     this.costcenterCtrl.updateValueAndValidity();
   }
 
-  // displaystoreName(store: any): string {
-  //   return store && store.name ? store.name : '';
-  // }
-  // storeSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const store = event.option.value as store;
-  //   console.log("store selected: ", store);
-  //   this.selectedstore = store;
-  //   this.groupMasterForm.patchValue({ storeId: store.id });
-  //   console.log("store in form: ", this.groupMasterForm.getRawValue().storeId);
-  // }
-  // private _filterstores(value: string): store[] {
-  //   const filterValue = value;
-  //   return this.storesList.filter(store =>
-  //     store.name.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutostore() {
-  //   this.storeCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.storeCtrl.updateValueAndValidity();
-  // }
 
   displayitemName(item: any): string {
     return item ? item.name && item.name != null ? item.name : '-' : '';
@@ -642,16 +545,25 @@ export class StrWithdrawDialogComponent implements OnInit {
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
     // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
     console.log('dataName: ', this.groupMasterForm.value);
-    if (this.groupMasterForm.getRawValue().no) {
+
+    if (this.groupMasterForm.getRawValue().no && this.groupMasterForm.getRawValue().no == this.autoNo) {
+
       console.log('no changed: ', this.groupMasterForm.getRawValue().no);
       this.groupMasterForm.controls['no'].setValue(this.autoNo);
-    } else {
-      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+
+    }
+    else {
+      this.groupMasterForm.controls['no'].setValue(this.groupMasterForm.getRawValue().no);
       console.log(
         'no took auto number: ',
         this.groupMasterForm.getRawValue().no
       );
     }
+
+    // if (this.groupMasterForm.getRawValue().no == this.autoNo) {
+    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
+    // }
+
     console.log('Master add form : ', this.groupMasterForm.value);
 
     if (this.groupMasterForm.getRawValue().storeId) {
@@ -1148,7 +1060,7 @@ export class StrWithdrawDialogComponent implements OnInit {
 
     this.router.navigate(['/withdraw'], { queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date } })
     this.dialog.open(StrWithdrawDetailsDialogComponent, {
-      width: '95%',
+      width: '60%',
       height: '85%',
       data: row
     }).afterClosed().subscribe(val => {
@@ -1669,11 +1581,10 @@ export class StrWithdrawDialogComponent implements OnInit {
       queryParams: { masterId: this.getMasterRowId.id, fiscalYear: this.groupMasterForm.getRawValue().fiscalYearId, store: this.groupMasterForm.getRawValue().storeId, date: this.groupMasterForm.getRawValue().date },
 
     });
-    this.dialog
-      .open(StrWithdrawDetailsDialogComponent, {
-        width: '95%',
-        height: '85%',
-      })
+    this.dialog.open(StrWithdrawDetailsDialogComponent, {
+      width: '60%',
+      height: '85%',
+    })
       .afterClosed()
       .subscribe((val) => {
         if (val === 'Save' || val === 'Update') {

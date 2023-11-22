@@ -16,11 +16,11 @@ export class StrGroupHomeComponent {
   pageEnums = PagesEnums
   constructor(public global:GlobalService,public shared:SharedService){
     if(localStorage.getItem('token')) this.global.isLogIn = true
-    console.log(this.global.isLogIn)
+    // console.log(this.global.isLogIn)
     global.getPermissionUserRoles('الصفحة الرئيسية', 'stores', ' الصفحة الرئيسية', 'home')
     // Retrieve the access token
     const accessToken: any = localStorage.getItem('accessToken');
-    console.log('accessToken', accessToken);
+    // console.log('accessToken', accessToken);
     // Decode the access token
       this.decodedToken = jwt_decode(accessToken);
     this. decodedToken1 = this.decodedToken.modules;
@@ -39,11 +39,11 @@ export class StrGroupHomeComponent {
   // }
  
   hasAccessModule(name: string): boolean {
-    console.log('name passed: ', name);
+    // console.log('name passed: ', name);
     // const MODULES_LOCAL_STORAGE = window.localStorage.getItem('modules');
     const MODULES_LOCAL_STORAGE = this.decodedToken1;
     const MODULES: Array<any> = MODULES_LOCAL_STORAGE;
-    console.log('array : ', MODULES);
+    // console.log('array : ', MODULES);
     if (MODULES != undefined) {
       return MODULES.some((i: any) => i == name);
     } else {

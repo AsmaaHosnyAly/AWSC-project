@@ -42,18 +42,14 @@ th {
   text-align: center;
 }
 .search mat-form-field {
-  width: 250px;
- 
+  width: 172px;
+
   padding: 0 !important;
-  
- 
 }
 
 .search {
   display: flex;
-  margin-left: 1%;
- 
-  /* justify-content: center; */
+  /* justify-content: space-between; */
   flex-wrap: wrap;
 }
 .search button,
@@ -263,7 +259,7 @@ td {
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
-  margin-left: 3%;
+  margin-left: 1%;
 }
 .print-display {
   display: flex;

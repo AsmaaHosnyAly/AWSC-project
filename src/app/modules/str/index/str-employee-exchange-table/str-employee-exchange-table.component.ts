@@ -197,7 +197,7 @@ loading :boolean=false;
   openEmployeeExchangeDialog() {
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
-        width: '98%',
+        width: '60%',
         height: '85%',
       })
       .afterClosed()
@@ -216,6 +216,10 @@ loading :boolean=false;
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
+        this.itemCtrl.reset();
+        this.employeeCtrl.reset();
+        this.distEmployeeCtrl.reset();
+        this.costcenterCtrl.reset();
       },
       error: () => {
         // alert("خطأ أثناء جلب سجلات المجموعة !!");
@@ -249,7 +253,7 @@ loading :boolean=false;
     //   });
     this.dialog
       .open(StrEmployeeExchangeDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '80%',
         data: row,
       })
@@ -408,9 +412,11 @@ loading :boolean=false;
   }
 
   getCostCenters() {
-    this.api.getFiCostCenter().subscribe({
+    this.api.getCostCenter().subscribe({
       next: (res) => {
         this.costcentersList = res;
+        console.log("fetch costCenter data res: ", res);
+
       },
       error: (err) => {
         // console.log("fetch costCenter data err: ", err);
@@ -425,7 +431,7 @@ loading :boolean=false;
   }
 
   displaycostcenterName(costcenter: any): string {
-    return costcenter && costcenter.name ? costcenter.name : '';
+    return costcenter ? costcenter.name && costcenter.name != null ? costcenter.name : '-' : '';
   }
   costcenterSelected(event: MatAutocompleteSelectedEvent): void {
     const costcenter = event.option.value as costcenter;
@@ -444,7 +450,8 @@ loading :boolean=false;
   private _filtercostcenters(value: string): costcenter[] {
     const filterValue = value;
     return this.costcentersList.filter((costcenter) =>
-      costcenter.name.toLowerCase().includes(filterValue)
+      // costcenter.name.toLowerCase().includes(filterValue)
+      costcenter.name ? costcenter.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutocostcenter() {

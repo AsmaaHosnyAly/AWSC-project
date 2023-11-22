@@ -5,7 +5,7 @@
 
     <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل قيد' : ' إضافة قيد'}}</h1>
     <div mat-dialog-content dir="rtl">
-        <div mat-dialog-content class="mat-dialog-content" dir="rtl" >
+        <div mat-dialog-content class="mat-dialog-content" dir="rtl">
             <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
 
                 <div class="headerForm">
@@ -20,10 +20,9 @@
                     <div class="searchLabels">
                         <mat-label>السنة المالية*</mat-label>
 
-                        <mat-form-field appearance="outline" class="child-num" >
+                        <mat-form-field appearance="outline" class="child-num">
                             <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
-                                (valueChange)="fiscalYearValueChanges($event)"
-                                >
+                                (valueChange)="fiscalYearValueChanges($event)">
                                 <mat-option [value]="fiscalYear.id"
                                     *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
                             </mat-select>
@@ -31,16 +30,43 @@
                     </div>
 
                     <div class="searchLabels">
-                        <mat-label> دفتر اليومية* </mat-label>
+                        <mat-label>بحث برقم اليومية</mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
-                            <mat-select placeholder=" دفتر اليوميه " formControlName="journalId" lazy-load-options>
-                                <mat-option [value]="journal.id"
-                                    *ngFor="let journal of journalsList">{{journal.description}}</mat-option>
-                            </mat-select>
+                            <input matInput placeholder="{{ editData ? editData.journalNo : '' }}"
+                                (keydown)="getJournalByNumbr($event)" [value]="
+                              no && no != '-'
+                                ? no
+                                : no && no == '-'
+                                ? 'لا يوجد'
+                                : ''
+                            " />
                         </mat-form-field>
                     </div>
 
+                    <div style="display: flex; flex-direction: column;">
+                        <mat-label> دفتر اليومية* </mat-label>
+
+                        <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                            <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
+                                [formControl]="journalCtrl" placeholder="{{
+                                    editData && !journalByNoValue
+                                      ? editData.journalNo
+                                      : journalByNoValue && journalByNoValue != '-'
+                                      ? journalByNoValue
+                                      : journalByNoValue && journalByNoValue == '-'
+                                      ? 'لا يوجد'
+                                      : ''
+                                  }}" (click)="openAutoJournal()" required />
+                            <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
+                                (optionSelected)="JournalSelected($event)">
+                                <mat-option *ngFor="let journal of filteredJournal | async" [value]="journal">
+                                    {{ journal.description ? journal.description : '-' }} | {{ journal.no }}
+                                </mat-option>
+                            </mat-autocomplete> 
+                        </mat-form-field>
+
+                    </div>
 
                     <div class="searchLabels">
                         <mat-label> نوع مصدر الادخال* </mat-label>
@@ -65,15 +91,15 @@
                         </mat-form-field>
                     </div>
 
-                  
 
-                    
+
+
 
                     <div class="searchLabels">
-                        <mat-label>مجموع الائتمان</mat-label>
+                        <mat-label>مجموع الدائن</mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
-                            <input matInput placeholder="مجموع الائتمان" type="number"
+                            <input matInput placeholder="مجموع الدائن" type="number"
                                 [value]="groupMasterForm ? groupMasterForm.getRawValue().creditTotal : sumOfCreditTotals"
                                 readonly>
                         </mat-form-field>
@@ -91,10 +117,9 @@
 
                     <div class="searchLabels">
                         <mat-label>الفرق</mat-label>
-    
+
                         <mat-form-field appearance="outline" class="groupInput">
-                            <input matInput placeholder="الفرق" type="number" 
-                           
+                            <input matInput placeholder="الفرق" type="number"
                                 [value]="groupMasterForm ? groupMasterForm.getRawValue().balance : resultOfBalance"
                                 readonly>
                         </mat-form-field>
@@ -140,7 +165,7 @@
 
                     </div>
 
-                    <div class="tableFixHead" >
+                    <div class="tableFixHead">
                         <table mat-table [dataSource]="dataSource" matSort class="headerTable">
 
                             <!-- credit Column -->
@@ -163,7 +188,8 @@
 
                             <!-- fiAccountItemId Column -->
                             <ng-container matColumnDef="fiAccountItemId">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> البند الاحصائي</th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;"> البند
+                                    الاحصائي</th>
                                 <td mat-cell *matCellDef="let row"> {{row.accountItemName}} </td>
                             </ng-container>
 

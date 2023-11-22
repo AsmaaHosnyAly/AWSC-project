@@ -1,7 +1,7 @@
 <!-- <p>fi-entry-table works!</p> -->
 <div class="text-center w=100" *ngIf="loading">
     <app-spinner></app-spinner>
-  </div>
+</div>
 <mat-accordion class="example-headers-align" multi dir="rtl">
     <div class="page-title" *ngIf="!loading">حزم تدريبية</div>
 
@@ -14,65 +14,63 @@
         </mat-expansion-panel-header>
         <form [formGroup]="groupMasterForm">
             <div class="search">
-        
-            <div class="searchLabels">
-                <mat-label>الكورس*</mat-label>
 
-                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
-                    <input matInput aria-label="course" [matAutocomplete]="autoCourse" [formControl]="CourseCtrl"
-                        formControlName="course"
-                        (click)="openAutoCourse()" required />
-                    <mat-autocomplete #autoCourse="matAutocomplete" [displayWith]="displayCourseName"
-                        (optionSelected)="CourseSelected($event)">
-                        <mat-option *ngFor="let Course of filteredCourse | async" [value]="Course">
-                            {{ Course.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
+                <div class="searchLabels">
+                    <mat-label>الكورس*</mat-label>
 
-            <div class="searchLabels">
-                <mat-label>المسار*</mat-label>
+                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                        <input matInput aria-label="course" [matAutocomplete]="autoCourse" [formControl]="CourseCtrl"
+                            formControlName="course" (click)="openAutoCourse()" required />
+                        <mat-autocomplete #autoCourse="matAutocomplete" [displayWith]="displayCourseName"
+                            (optionSelected)="CourseSelected($event)">
+                            <mat-option *ngFor="let Course of filteredCourse | async" [value]="Course">
+                                {{ Course.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
 
-                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
-                    <input matInput aria-label="Track" [matAutocomplete]="autoTrack" [formControl]="TrackCtrl"
-                        formControlName="Track" 
-                        (click)="openAutoTrack()" required />
-                    <mat-autocomplete #autoTrack="matAutocomplete" [displayWith]="displayTrackName"
-                        (optionSelected)="TrackSelected($event)">
-                        <mat-option *ngFor="let Track of filteredTrack | async" [value]="Track">
-                            {{ Track.name }}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            
-            <div class="searchLabels">
-                <mat-label>تاريخ البداية</mat-label>
+                <div class="searchLabels">
+                    <mat-label>المسار*</mat-label>
 
-                <mat-form-field appearance="outline" class="example-full-width" >
-                    <input #startDate matInput [matDatepicker]="picker" formControlName="startDate">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker">
-                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
+                    <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                        <input matInput aria-label="Track" [matAutocomplete]="autoTrack" [formControl]="TrackCtrl"
+                            formControlName="Track" (click)="openAutoTrack()" required />
+                        <mat-autocomplete #autoTrack="matAutocomplete" [displayWith]="displayTrackName"
+                            (optionSelected)="TrackSelected($event)">
+                            <mat-option *ngFor="let Track of filteredTrack | async" [value]="Track">
+                                {{ Track.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
 
-            <div class="searchLabels">
-                <mat-label>تاريخ النهاية</mat-label>
+                <div class="searchLabels">
+                    <mat-label>تاريخ البداية</mat-label>
 
-                <mat-form-field appearance="outline" class="example-full-width">
-                    <input #endDate matInput [matDatepicker]="pickerEnd" formControlName="endDate">
-                    <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
-                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #pickerEnd></mat-datepicker>
-                </mat-form-field>
-            </div>
-          
+                    <mat-form-field appearance="outline" class="example-full-width">
+                        <input #startDate matInput [matDatepicker]="picker" formControlName="startDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker">
+                            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
 
-            <!-- <div class="searchLabels">
+                <div class="searchLabels">
+                    <mat-label>تاريخ النهاية</mat-label>
+
+                    <mat-form-field appearance="outline" class="example-full-width">
+                        <input #endDate matInput [matDatepicker]="pickerEnd" formControlName="endDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
+                            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #pickerEnd></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+
+                <!-- <div class="searchLabels">
                 <mat-label> الحساب </mat-label>
 
                 <mat-form-field appearance="outline" class="child-num" >
@@ -99,7 +97,7 @@
                 </mat-form-field>
             </div> -->
 
-            <!-- <div class="searchLabels" >
+                <!-- <div class="searchLabels" >
                 <mat-label>الوصف</mat-label>
 
                 <mat-form-field appearance="outline" >
@@ -107,18 +105,18 @@
                 </mat-form-field>
             </div> -->
 
-            <div class="print-display">
-                <mat-icon  class="icons" (click)="getSearchFiEntry( startDate.value, endDate.value)"
-                    title="بحث">search</mat-icon>
-                   
-            
-
-                <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
-            </div>
+                <div class="print-display">
+                    <mat-icon class="icons" (click)="getSearch( startDate.value, endDate.value)"
+                        title="بحث">search</mat-icon>
 
 
 
-            <!-- <button mat-icon-button color="primary"
+                    <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+                </div>
+
+
+
+                <!-- <button mat-icon-button color="primary"
                 (click)="getSearchFiEntry(no.value, journalId.value, startDate.value, endDate.value, sourceId.value, FiscalYearId.value, Description.value)">
                 <mat-icon>search</mat-icon>
             </button>
@@ -126,7 +124,7 @@
             <button mat-icon-button color="primary">
                 <mat-icon>print</mat-icon>
             </button> -->
-            <!-- <div class="print-display">
+                <!-- <div class="print-display">
                 <mat-icon (click)="
                   getSearchStrWithdraw(no.value, StartDate.value,EndDate.value, fiscalYear.value)
                     " class="icons" title="بحث">search</mat-icon>
@@ -142,8 +140,8 @@
               </div> -->
 
 
-        </div>
-    </form>
+            </div>
+        </form>
     </mat-expansion-panel>
 </mat-accordion>
 
@@ -191,7 +189,7 @@
 
 
         <!-- date Column -->
-      
+
 
         <!-- Action Column -->
         <ng-container matColumnDef="Action">
@@ -218,5 +216,5 @@
 <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" (page)="pageChanged($event)" ></mat-paginator> -->
 
 <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
-[pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)" showFirstLastButtons>
+    [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)" showFirstLastButtons>
 </mat-paginator>

@@ -34,7 +34,7 @@ interface fiJournal {
 })
 export class FIJournalComponent {
   ELEMENT_DATA: fiJournal[] = [];
-  
+
   isLoading = false;
   totalRows = 0;
   pageSize = 5;
@@ -42,6 +42,7 @@ export class FIJournalComponent {
   pageSizeOptions: number[] = [5, 10, 25, 100];
   pageIndex: any;
   length: any;
+  serachFlag: boolean = false;
 
   title = 'angular13crud';
   fiscalYearsList: any;
@@ -60,12 +61,12 @@ export class FIJournalComponent {
   ngAfterViewInit() {
     this.dataSource2.paginator = this.paginator;
   }
-  
+
   constructor(private dialog: MatDialog,
     private hotkeysService: HotkeysService,
     private api: ApiService, private toastr: ToastrService, private formBuilder: FormBuilder, private global: GlobalService,
     @Inject(LOCALE_ID) private locale: string) {
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
+      global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
   }
   ngOnInit(): void {
     this.getFIJournals();
@@ -96,7 +97,7 @@ export class FIJournalComponent {
   }
   openDialog() {
     this.dialog.open(FIJournalDialogComponent, {
-      width: '70%'
+      width: '40%'
     }).afterClosed().subscribe(val => {
       if (val === 'حفظ') {
         this.getFIJournals();
@@ -116,21 +117,7 @@ export class FIJournalComponent {
     });
   }
   getFIJournals() {
-    // this.api.getFIJournal()
-    //   .subscribe({
-    //     next: (res) => {
-    //       this.dataSource = new MatTableDataSource(res);
-    //       this.dataSource.paginator = this.paginator;
-    //       this.dataSource.sort = this.sort;
-    //       this.groupMasterForm.reset();
-    //     },
-    //     error: (err) => {
-    //       // alert("خطأ عند استدعاء البيانات");
-    //     }
-
-    //   })
-
-    if (!this.currentPage) {
+    if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
 
       // this.isLoading = true;
@@ -154,25 +141,32 @@ export class FIJournalComponent {
         });
     }
     else {
-      // this.isLoading = true;
-      fetch(this.api.getFiJournalPaginate(this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          this.totalRows = data.length;
-          console.log("master data paginate: ", data);
-          this.dataSource2.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
+      if (this.serachFlag == false) {
+        // this.isLoading = true;
+        fetch(this.api.getFiJournalPaginate(this.currentPage, this.pageSize))
+          .then(response => response.json())
+          .then(data => {
+            this.totalRows = data.length;
+            console.log("master data paginate: ", data);
+            this.dataSource2.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            // this.isLoading = false;
+          }, error => {
+            console.log(error);
+            // this.isLoading = false;
           });
-          // this.isLoading = false;
-        }, error => {
-          console.log(error);
-          // this.isLoading = false;
-        });
+      }
+      else {
+        console.log("search next paginate");
+        this.getSearchFIJournal(this.groupMasterForm.getRawValue().no, this.groupMasterForm.getRawValue().Description, this.groupMasterForm.getRawValue().StartDate, this.groupMasterForm.getRawValue().EndDate, this.groupMasterForm.getRawValue().fiscalYear)
+      }
+
     }
 
   }
@@ -184,10 +178,10 @@ export class FIJournalComponent {
     // this.currentPage = event.previousPageIndex;
     this.getFIJournals();
   }
-  
+
   editFIJournals(row: any) {
     this.dialog.open(FIJournalDialogComponent, {
-      width: '70%',
+      width: '40%',
       data: row
     }).afterClosed().subscribe(val => {
       if (val === 'تحديث') {
@@ -222,9 +216,22 @@ export class FIJournalComponent {
       .subscribe({
         next: (res) => {
           this.loading = false;
-          this.dataSource = res;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          // this.dataSource2 = res;
+          // this.dataSource2.paginator = this.paginator;
+          // this.dataSource2.sort = this.sort;
+
+          this.totalRows = res.length;
+          if (this.serachFlag == false) {
+            this.pageIndex = 0;
+            this.pageSize = 5;
+            this.length = this.totalRows;
+            this.serachFlag = true;
+          }
+          console.log('master data paginate first Time: ', res);
+          this.dataSource2 = new MatTableDataSource(res);
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+
 
         },
         error: (err) => {
@@ -234,6 +241,14 @@ export class FIJournalComponent {
       })
     // this.getAllGrades()
   }
+
+  resetForm() {
+    this.groupMasterForm.reset();
+    this.serachFlag = false;
+
+    this.getFIJournals();
+  }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

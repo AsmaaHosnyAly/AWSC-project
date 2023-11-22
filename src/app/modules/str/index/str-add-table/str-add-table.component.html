@@ -54,17 +54,6 @@
           </mat-form-field>
         </div>
 
-        <!-- <div class="searchLabels">
-          <mat-form-field appearance="outline" class="example-full-width">
-            <mat-label>التاريخ</mat-label>
-            <input #date matInput [matDatepicker]="picker" />
-            <mat-datepicker-toggle matIconSuffix [for]="picker">
-              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </div> -->
-
         <div class="searchLabels">
           <mat-label>الصنف:</mat-label>
 
@@ -83,7 +72,7 @@
         <div class="searchLabels">
           <mat-label>الموظف:</mat-label>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="searchForm">
             <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" (keydown)="getsearch($event)"
               [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
             <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
@@ -173,7 +162,7 @@
             )
           " class="icons" title="تحميل">get_app</mat-icon>
 
-        <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+        <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
       </div>
     </form>
   </mat-expansion-panel>

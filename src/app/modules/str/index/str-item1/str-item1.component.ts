@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {
   MatPaginator,
   MatPaginatorModule,
@@ -19,7 +20,7 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith ,debounceTime } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/pages/services/global.service';
@@ -79,7 +80,8 @@ export class Stores {
 export class Items {
   constructor(
     public id: number,
-    public name: string
+    public name: string,
+    public fullCode: string
   ) { }
 }
 
@@ -100,6 +102,7 @@ interface StrItem {
   templateUrl: './str-item1.component.html',
   styleUrls: ['./str-item1.component.css'],
   providers: [DatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class STRItem1Component implements OnInit {
   ELEMENT_DATA: StrItem[] = [];
@@ -187,14 +190,11 @@ export class STRItem1Component implements OnInit {
     private datePipe: DatePipe,
     private router: Router,
     private global: GlobalService,
-    private hotkeysService: HotkeysService
+    private hotkeysService: HotkeysService,
+    private cdr: ChangeDetectorRef
   ) {
-    global.getPermissionUserRoles(
-      'Store',
-      'stores',
-      'إدارة المخازن وحسابات المخازن ',
-      'store'
-    );
+    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
+
     this.unitCtrl = new FormControl();
     this.filteredUnits = this.unitCtrl.valueChanges.pipe(
       startWith(''),
@@ -232,8 +232,14 @@ export class STRItem1Component implements OnInit {
     );
 
     this.itemCtrl = new FormControl();
+    // this.filteredItems = this.itemCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map((value) => this._filterItems(value))
+    // );
+
     this.filteredItems = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterItems(value))
     );
 
@@ -249,25 +255,7 @@ export class STRItem1Component implements OnInit {
     this.getAllPlatoonsi();
     this.getAllGroupsi();
 
-    // this.api.getAllUnitsi().subscribe((units) => {
-    //   this.units = units;
-    // });
-
-    // this.api.getAllCommoditiesi().subscribe((commodities) => {
-    //   this.commodities = commodities;
-    // });
-
-    // this.api.getAllGradesi().subscribe((grades) => {
-    //   this.grades = grades;
-    // });
-
-    // this.api.getAllPlatoonsi().subscribe((platoons) => {
-    //   this.platoons = platoons;
-    // });
-
-    // this.api.getAllGroupsi().subscribe((groups) => {
-    //   this.groups = groups;
-    // });
+    
 
     this.hotkeysService.add(
       new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
@@ -443,7 +431,8 @@ export class STRItem1Component implements OnInit {
     const filterValue = value;
     return this.itemsList.filter(
       (item) =>
-        item.name.toLowerCase().includes(filterValue)
+        item.name.toLowerCase().includes(filterValue)||
+        item.fullCode.toLowerCase().includes(filterValue)
     );
   }
 
@@ -502,6 +491,15 @@ export class STRItem1Component implements OnInit {
 
   resetForm() {
     this.itemForm.reset();
+    
+    this.itemCtrl.reset();
+    this.unitCtrl.reset();
+    this.gradeCtrl.reset();
+    this.groupCtrl.reset();
+    this.storeCtrl.reset();
+    this.platoonCtrl.reset();
+    this.commodityCtrl.reset();
+
     this.serachFlag = false;
 
     this.getAllItems();
@@ -663,27 +661,15 @@ export class STRItem1Component implements OnInit {
 
             this.totalRows = res.length;
             if (this.serachFlag == false) {
-              // this.dataSource.data = data.items;
               this.pageIndex = 0;
               this.pageSize = 5;
               this.length = this.totalRows;
               this.serachFlag = true;
             }
-            // else{
-            //   // this.dataSource.data = data.items;
-            //   this.pageIndex = res.page;
-            //   this.pageSize = res.pageSize;
-            //   this.length = res.totalItems;
-            // }
-
             console.log('master data paginate first Time: ', res);
             this.dataSource = new MatTableDataSource(res);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-
-            // let paginateSearch = document.getElementById('paginateSearch');
-            // console.log('paginateSearch: ', paginateSearch);
-
 
           },
           error: (err) => {
@@ -1058,13 +1044,29 @@ export class STRItem1Component implements OnInit {
     });
   }
 
+  // getItems() {
+  //   this.loading = true;
+  //   this.api.getItems().subscribe({
+  //     next: (res) => {
+  //       this.loading = false;
+  //       this.itemsList = res;
+  //     },
+  //     error: (err) => {
+  //       this.loading = false;
+  //       // console.log("fetch store data err: ", err);
+  //       alert('خطا اثناء جلب العناصر !');
+  //     },
+  //   });
+  // }
+
   getItems() {
     this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
         this.loading = false;
         this.itemsList = res;
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
         this.loading = false;
         // console.log("fetch store data err: ", err);

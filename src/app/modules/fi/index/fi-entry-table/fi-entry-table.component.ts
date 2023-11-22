@@ -33,7 +33,11 @@ interface ccEntry {
 }
 
 export class Account {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string ,public code: any) { }
+}
+
+export class Journal {
+  constructor(public id: number, public description: string, public no: any, public startDate: any, public endDate: any) { }
 }
 
 @Component({
@@ -48,6 +52,7 @@ export class FiEntryTableComponent implements OnInit {
   pageSize = 5;
   currentPage: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
+  serachFlag: boolean = false;
 
   displayedColumns: string[] = [
     'no',
@@ -69,7 +74,7 @@ export class FiEntryTableComponent implements OnInit {
   fiscalYearsList: any;
   employeesList: any;
   costCentersList: any;
-  journalsList: any;
+  // journalsList: any;
   // accountsList: any;
   sourcesList: any;
   loading: boolean = false;
@@ -81,6 +86,10 @@ export class FiEntryTableComponent implements OnInit {
   filteredAccount: Observable<Account[]>;
   selectedAccount: Account | undefined;
 
+  journalsList: Journal[] = [];
+  journalCtrl: FormControl;
+  filteredJournal: Observable<Journal[]>;
+  selectedJournal: Journal | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -99,11 +108,19 @@ export class FiEntryTableComponent implements OnInit {
     private toastr: ToastrService,
     private global: GlobalService
   ) {
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', 'iso')
+
+    global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')  
+
     this.accountCtrl = new FormControl();
     this.filteredAccount = this.accountCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterAccounts(value))
+    );
+
+    this.journalCtrl = new FormControl();
+    this.filteredJournal = this.journalCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterJournals(value))
     );
 
   }
@@ -157,12 +174,12 @@ export class FiEntryTableComponent implements OnInit {
 
     return this.accountsList.filter(
       (account) =>
-        account.name.toLowerCase().includes(filterValue)
+      account.name || account.code ? account.name.toLowerCase().includes(filterValue) || account.code.toString().toLowerCase().includes(filterValue) : '-'
     );
   }
 
   displayAccountName(account: any): string {
-    return account && account.name ? account.name : '';
+    return account ? account.name && account.name != null ? account.name : '-' : '';
   }
   AccountSelected(event: MatAutocompleteSelectedEvent): void {
     const account = event.option.value as Account;
@@ -177,11 +194,41 @@ export class FiEntryTableComponent implements OnInit {
     this.accountCtrl.updateValueAndValidity();
   }
 
+
+  private _filterJournals(value: string): Journal[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
+
+    return this.journalsList.filter(
+      (jounal) =>
+      jounal.description || jounal.no ? jounal.description.toLowerCase().includes(filterValue) ||
+      jounal.no.toString().toLowerCase().includes(filterValue): '-'
+    );
+  }
+
+  displayJounalName(jounal: any): string {
+    return jounal ? jounal.description && jounal.description != null ? jounal.description : '-' : '';
+  }
+  JournalSelected(event: MatAutocompleteSelectedEvent): void {
+    const journal = event.option.value as Journal;
+    console.log("journal selected: ", journal);
+    this.selectedJournal = journal;
+    this.groupMasterForm.patchValue({ JournalId: journal.id });
+  }
+  openAutoJournal() {
+    this.journalCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.journalCtrl.updateValueAndValidity();
+  }
+
+
   openFiEntryDialog() {
     this.dialog
       .open(FiEntryDialogComponent, {
-        width: '95%',
-        height: '79%'
+        width: '60%',
+        height: '79%',
+        disableClose: true
       })
       .afterClosed()
       .subscribe((val) => {
@@ -200,13 +247,10 @@ export class FiEntryTableComponent implements OnInit {
   }
   getAllMasterForms() {
     // loadData() {
-    if (!this.currentPage) {
+    if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
 
       this.isLoading = true;
-      // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
-
-
       fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
         .then(response => response.json())
         .then(data => {
@@ -227,44 +271,33 @@ export class FiEntryTableComponent implements OnInit {
         });
     }
     else {
-      this.isLoading = true;
-      // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
-
-
-      fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          this.totalRows = data.length;
-          console.log("master data paginate: ", data);
-          this.dataSource2.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
+      if (this.serachFlag == false) {
+        this.isLoading = true;
+        fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
+          .then(response => response.json())
+          .then(data => {
+            this.totalRows = data.length;
+            console.log("master data paginate: ", data);
+            this.dataSource2.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
           });
-          this.isLoading = false;
-        }, error => {
-          console.log(error);
-          this.isLoading = false;
-        });
+      }
+      else {
+        console.log("search next paginate");
+        this.getSearchFiEntry(this.groupMasterForm.getRawValue().No, this.groupMasterForm.getRawValue().StartDate, this.groupMasterForm.getRawValue().EndDate, this.groupMasterForm.getRawValue().FiEntrySourceTypeId, this.groupMasterForm.getRawValue().FiscalYearId, this.groupMasterForm.getRawValue().Description)
+      }
+
     }
-
-    // }
-
-    // this.api.getFiEntry().subscribe({
-    //   next: (res) => {
-    //     console.log('fiEntry from api: ', res);
-    //     this.dataSource2 = new MatTableDataSource(res);
-    //     this.dataSource2.paginator = this.paginator;
-    //     this.dataSource2.sort = this.sort;
-    //     this.groupMasterForm.reset()
-    //   },
-    //   error: () => {
-    //     // alert('خطأ أثناء جلب سجلات المدخلات !!');
-    //   },
-    // });
   }
 
   pageChanged(event: PageEvent) {
@@ -330,9 +363,10 @@ export class FiEntryTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(FiEntryDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '79%',
         data: row,
+        disableClose: true
       })
       .afterClosed()
       .subscribe((val) => {
@@ -409,8 +443,9 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
-  getSearchFiEntry(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any) {
+  getSearchFiEntry(no: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any) {
     let accountId = this.groupMasterForm.getRawValue().AccountId;
+    let journalId = this.groupMasterForm.getRawValue().JournalId;
 
     console.log(
       'no.: ', no,
@@ -430,9 +465,22 @@ export class FiEntryTableComponent implements OnInit {
           this.loading = false;
           console.log('search fiEntry res: ', res);
 
-          this.dataSource2 = res;
+          // this.dataSource2 = res;
+          // this.dataSource2.paginator = this.paginator;
+          // this.dataSource2.sort = this.sort;
+
+          this.totalRows = res.length;
+          if (this.serachFlag == false) {
+            this.pageIndex = 0;
+            this.pageSize = 5;
+            this.length = this.totalRows;
+            this.serachFlag = true;
+          }
+          console.log('master data paginate first Time: ', res);
+          this.dataSource2 = new MatTableDataSource(res);
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
+
         },
         error: (err) => {
           this.loading = false;
@@ -440,7 +488,19 @@ export class FiEntryTableComponent implements OnInit {
         },
       });
   }
-  previewPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
+
+  resetForm() {
+    this.groupMasterForm.reset();
+
+    this.accountCtrl.reset();
+
+    this.serachFlag = false;
+
+    this.getAllMasterForms();
+  }
+
+  previewPrint(no: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
+    let journalId = this.groupMasterForm.getRawValue().JournalId;
 
     if (report != null && reportType != null) {
       this.loading = true;
@@ -455,7 +515,7 @@ export class FiEntryTableComponent implements OnInit {
             localStorage.setItem('url', JSON.stringify(url));
             this.pdfurl = url;
             this.dialog.open(PrintDialogComponent, {
-              width: '50%',
+              width: '60%',
             });
 
             // this.dataSource = res;
@@ -476,11 +536,12 @@ export class FiEntryTableComponent implements OnInit {
   }
 
 
-  downloadPrint(no: any, journalId: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
+  downloadPrint(no: any, startDate: any, endDate: any, sourceId: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
     // let costCenter = this.groupMasterForm.getRawValue().costCenterId;
     // let employee = this.groupMasterForm.getRawValue().employeeId;
     // let item = this.groupDetailsForm.getRawValue().itemId;
     // let store = this.groupMasterForm.getRawValue().storeId;
+    let journalId = this.groupMasterForm.getRawValue().JournalId;
 
     this.api
       .getFiEntryReport(no, journalId, startDate, endDate, sourceId, FiscalYearId, Description, report, reportType)

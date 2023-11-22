@@ -248,7 +248,7 @@ export class StrWithdrawTableComponent implements OnInit {
   openWithdrawDialog() {
     this.dialog
       .open(StrWithdrawDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '79%',
       })
       .afterClosed()
@@ -289,6 +289,11 @@ export class StrWithdrawTableComponent implements OnInit {
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
         this.groupDetailsForm.reset();
+
+        this.itemCtrl.reset();
+        this.storeCtrl.reset();
+        this.employeeCtrl.reset();
+        
         // this.costcenterCtrl.setValue('');
 
         // this.groupMasterForm.getRawValue().costCenterId= null;
@@ -315,7 +320,7 @@ export class StrWithdrawTableComponent implements OnInit {
   editMasterForm(row: any) {
     this.dialog
       .open(StrWithdrawDialogComponent, {
-        width: '95%',
+        width: '60%',
         height: '79%',
         data: row,
       })

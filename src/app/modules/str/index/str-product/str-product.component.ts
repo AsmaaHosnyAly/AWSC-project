@@ -37,7 +37,7 @@ export class StrProductComponent implements OnInit {
   constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService,private hotkeysService: HotkeysService,private http: HttpClient) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
  
-    global.getPermissionUserRoles('Store', 'stores', 'إدارة المخازن وحسابات المخازن ', 'store')
+    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
    }
 
   ngOnInit(): void {
@@ -119,28 +119,18 @@ onDownload() {
   //     console.log(result);
   // });
   // }
-  downloadFile(id: number, contentType: string)
+  downloadFile(id: any)
   {
-    return this.http.get(`http://localhost:48608/FileManager/${id}`, {responseType: 'blob'})
-    .subscribe((result: Blob) => {
-      const blob = new Blob([result], { type: contentType }); // you can change the type
-      const url= window.URL.createObjectURL(blob);
+    return this.http.get(`http://localhost:48608/FileManager/${id}`)
+    .subscribe((res: any) => {
+      // you can change the type
+      // const blob = new Blob([result]); 
+      // const url= window.URL.createObjectURL(blob);
+      const url: any = res.url;
       window.open(url);
       console.log("Success");
   });
   }
-  // showfile(event:Event){
-  //   alert("shortfileeee")
-  //   this.api.showfile(this.file).subscribe(
-  //     (event: any) => {
-  //             this.shortLink = event.link;
-
-  //             this.loading = false; // Flag variable 
-  //             console.log("shortlink",this.shortLink)
-  //         }
-     
-  // );
-  //   }
 
   editProduct(row: any) {
     // console.log("edit row: ", row)

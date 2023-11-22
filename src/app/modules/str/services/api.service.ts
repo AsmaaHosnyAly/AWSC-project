@@ -827,7 +827,7 @@ export class ApiService {
   }
 
   getCostCenter() {
-    return this.http.get<any>(`${this.url}/FICostCenter/get/all `);
+    return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
   }
   getFiCostCenterPaginate(currentPage: any, pageSize: any) {
     console.log("page: ", currentPage, "pageSize: ", pageSize);
