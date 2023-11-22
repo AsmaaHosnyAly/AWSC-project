@@ -7,8 +7,9 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 // import { StrEmployeeExchangeDetailsDialogComponent } from '../str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
 // import { Router } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -25,7 +26,8 @@ export class Product {
 @Component({
   selector: 'app-str-employee-exchange-details-dialog',
   templateUrl: './str-employee-exchange-details-dialog.component.html',
-  styleUrls: ['./str-employee-exchange-details-dialog.component.css']
+  styleUrls: ['./str-employee-exchange-details-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
   loading: boolean = false;
@@ -85,6 +87,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public editDataDetails: any,
     private http: HttpClient,
     private dialog: MatDialog,
+    private cdr: ChangeDetectorRef,
     private dialogRef: MatDialogRef<StrEmployeeExchangeDetailsDialogComponent>,
     private toastr: ToastrService,
     private router: Router,
@@ -95,7 +98,8 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
     this.itemsCtrl = new FormControl();
     this.filtereditems = this.itemsCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterItems(value))
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
+      map((value) => this._filterItems(value))
     );
 
     this.productCtrl = new FormControl();
@@ -175,7 +179,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
           res.forEach((element: any) => {
             if (element.type.includes('عهد')) {
               itemArr.push(element);
-              this.loading = false;
+              this.loading = false;             
 
               console.log("item list in loop check type: ", itemArr);
 
@@ -184,6 +188,7 @@ export class StrEmployeeExchangeDetailsDialogComponent implements OnInit {
           this.itemsList = itemArr;
           console.log("item list after check type: ", this.itemsList);
           // this.itemsList = res 
+          this.cdr.detectChanges(); // Trigger change detection
 
         },
         error: (err) => {
