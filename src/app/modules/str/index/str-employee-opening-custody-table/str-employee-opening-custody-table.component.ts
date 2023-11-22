@@ -16,13 +16,13 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-import { Observable, map, startWith, tap } from 'rxjs';
+import { Observable, debounceTime, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { PrintDialogComponent } from './../print-dialog/print-dialog.component';
 import { GlobalService } from 'src/app/pages/services/global.service';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 
 
@@ -42,6 +42,7 @@ export class item {
   selector: 'app-str-employee-opening-custody-table',
   templateUrl: './str-employee-opening-custody-table.component.html',
   styleUrls: ['./str-employee-opening-custody-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   displayedColumns: string[] = [
@@ -92,6 +93,7 @@ loading :boolean=false;
     private hotkeysService: HotkeysService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
     private global:GlobalService
@@ -109,6 +111,7 @@ loading :boolean=false;
     this.itemCtrl = new FormControl();
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteritems(value))
     );
 
@@ -321,17 +324,19 @@ loading :boolean=false;
     });
   }
   getItme() {
-    this.api.getItems()
-      .subscribe({
-        next: (res) => {
-          this.itemsList = res;
-          console.log("item res: ", this.itemsList);
-        },
-        error: (err) => {
-          console.log("fetch employees data err: ", err);
-          // alert("خطا اثناء جلب الموظفين !");
-        }
-      })
+    this.loading = true;
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.itemsList = res;
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
+      },
+    });
   }
   getcostCenter() {
     this.api.getCostCenter()

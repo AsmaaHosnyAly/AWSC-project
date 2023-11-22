@@ -9,12 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 import { __param } from 'tslib';
 import { ParseSourceSpan } from '@angular/compiler';
 import { PipesModule } from 'src/app/core/pipes/pipes.module';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { UploadService } from 'src/app/upload.service';
 import { vendor } from '../str-model/str-model.component';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 export class Item {
   constructor(public id: number, public name: string) {}
 }
@@ -31,6 +32,7 @@ export class Model {
   selector: 'app-str-product-dialog',
   templateUrl: './str-product-dialog.component.html',
   styleUrls: ['./str-product-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrProductDialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId');
@@ -60,12 +62,14 @@ export class StrProductDialogComponent implements OnInit {
     private hotkeysService: HotkeysService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<StrProductDialogComponent>,
+    private cdr: ChangeDetectorRef,
     private toastr: ToastrService
   ) {
     this.getItem();
     this.itemCtrl = new FormControl();
     this.filteredItems = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterItems(value))
     );
 
@@ -137,6 +141,7 @@ export class StrProductDialogComponent implements OnInit {
       next: (res) => {
         this.items = res;
         this.loading= false;
+        this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
         this.loading = false;
