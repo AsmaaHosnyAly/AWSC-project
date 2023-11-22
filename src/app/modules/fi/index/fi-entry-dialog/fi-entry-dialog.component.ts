@@ -200,6 +200,7 @@ export class FiEntryDialogComponent implements OnInit {
     );
   }
 
+
   displayJounalName(jounal: any): string {
     return jounal && jounal.description ? jounal.description : '';
 
@@ -778,23 +779,23 @@ export class FiEntryDialogComponent implements OnInit {
     );
     // console.log("edit : ", this.groupDetailsForm.value)
 
-    // let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
-    // let journalStartDateFormat = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
-    // let journalEndDateFormat = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
+    let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
+    let journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
+    let journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
 
-    // console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ", journalEndDateFormat, "date: ", dateFormat);
-    // if (dateFormat >= this.journalStartDate && dateFormat <= this.journalEndDate) {
+    console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ", journalEndDateFormat, "date: ", dateFormat, "condition: ", dateFormat >= journalStartDateFormat && dateFormat <= journalEndDateFormat);
+    if (dateFormat >= journalStartDateFormat && dateFormat <= journalEndDateFormat) {
       this.api.putFiEntry(this.groupMasterForm.value).subscribe({
         next: (res) => {
           this.groupDetailsForm.reset();
           this.getDetailedRowData = '';
         },
       });
-    // }
-    // else {
-    //   this.toastrWarningEntryDate();
-    //   this.groupMasterForm.controls['date'].setValue('');
-    // }
+    }
+    else {
+      this.toastrWarningEntryDate();
+      this.groupMasterForm.controls['date'].setValue('');
+    }
 
 
   }
