@@ -6,10 +6,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw-dialog2.component';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, map, startWith, tap } from 'rxjs';
+import { Observable, map, startWith, tap ,debounceTime } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
@@ -42,6 +43,7 @@ export class store {
   selector: 'app-str-withdraw-table2',
   templateUrl: './str-withdraw-table2.component.html',
   styleUrls: ['./str-withdraw-table2.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrWithdrawTableComponent implements OnInit {
   selectedValue = 'STRWithdrawReport';
@@ -111,6 +113,7 @@ export class StrWithdrawTableComponent implements OnInit {
     private dialog: MatDialog,
     private hotkeysService: HotkeysService,
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     @Inject(LOCALE_ID) private locale: string
@@ -147,8 +150,10 @@ export class StrWithdrawTableComponent implements OnInit {
     );
 
     this.itemCtrl = new FormControl();
+  
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteritems(value))
     );
 
@@ -397,15 +402,31 @@ export class StrWithdrawTableComponent implements OnInit {
       },
     });
   }
+  // getItems() {
+  //   this.api.getItems().subscribe({
+  //     next: (res) => {
+  //       this.itemsList = res;
+  //       console.log('items res: ', this.itemsList);
+  //     },
+  //     error: (err) => {
+  //       console.log('fetch items data err: ', err);
+  //       // alert("خطا اثناء جلب العناصر !");
+  //     },
+  //   });
+  // }
+
   getItems() {
+    this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
+        this.loading = false;
         this.itemsList = res;
-        console.log('items res: ', this.itemsList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
-        console.log('fetch items data err: ', err);
-        // alert("خطا اثناء جلب العناصر !");
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }

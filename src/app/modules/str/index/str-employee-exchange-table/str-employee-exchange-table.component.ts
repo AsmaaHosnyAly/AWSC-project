@@ -6,9 +6,10 @@ import { ApiService } from '../../services/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { StrEmployeeExchangeDialogComponent } from '../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 import { formatDate } from '@angular/common';
-import { Observable, map, startWith, tap } from 'rxjs';
+import { Observable, map, startWith, tap,debounceTime } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EmployeeExchangePrintDialogComponent } from '../employee-exchange-print-dialog/employee-exchange-print-dialog.component';
 import { HotkeysService } from 'angular2-hotkeys';
@@ -40,6 +41,7 @@ export class item {
   selector: 'app-str-employee-exchange-table',
   templateUrl: './str-employee-exchange-table.component.html',
   styleUrls: ['./str-employee-exchange-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrEmployeeExchangeTableComponent implements OnInit {
   displayedColumns: string[] = [
@@ -94,7 +96,8 @@ loading :boolean=false;
     private formBuilder: FormBuilder,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {
     this.costcenterCtrl = new FormControl();
     this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
@@ -103,10 +106,13 @@ loading :boolean=false;
     );
 
     this.itemCtrl = new FormControl();
+    
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteritems(value))
     );
+
 
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
@@ -387,14 +393,17 @@ loading :boolean=false;
   }
 
   getItems() {
-    this.api.getItem().subscribe({
+    this.loading = true;
+    this.api.getItems().subscribe({
       next: (res) => {
+        this.loading = false;
         this.itemsList = res;
-        console.log('itemss res: ', this.itemsList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
+        this.loading = false;
         // console.log("fetch store data err: ", err);
-        // alert("خطا اثناء جلب المخازن !");
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }

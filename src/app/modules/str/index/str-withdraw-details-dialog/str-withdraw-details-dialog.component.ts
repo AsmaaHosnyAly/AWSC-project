@@ -9,6 +9,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
-import { Observable, map, startWith, tap } from 'rxjs';
+import { Observable, map, startWith, tap,debounceTime } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
@@ -40,6 +41,7 @@ export class Product {
   selector: 'app-str-withdraw-details-dialog',
   templateUrl: './str-withdraw-details-dialog.component.html',
   styleUrls: ['./str-withdraw-details-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrWithdrawDetailsDialogComponent {
   loading :boolean =true;
@@ -154,7 +156,8 @@ export class StrWithdrawDetailsDialogComponent {
     private dialog: MatDialog,
     private router: Router,
     private dialogRef: MatDialogRef<StrWithdrawDetailsDialogComponent>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {
 
     this.stateDefaultValue = "جديد";
@@ -163,8 +166,9 @@ export class StrWithdrawDetailsDialogComponent {
     this.itemCtrl = new FormControl();
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteritems(value))
-    );
+      );
 
     this.productCtrl = new FormControl();
     this.filteredProduct = this.productCtrl.valueChanges.pipe(
@@ -901,21 +905,39 @@ export class StrWithdrawDetailsDialogComponent {
     this.router.navigate(['/formedit']);
   }
 
+  // getItems() {
+  //   this.loading=true;
+  //   this.api.getItems().subscribe({
+  //     next: (res) => {
+  //       this.loading=false;
+  //       this.itemsList = res;
+  //       // console.log("items res: ", this.itemsList);
+  //     },
+  //     error: (err) => {
+  //       this.loading=false;
+  //       // console.log("fetch items data err: ", err);
+  //       // alert("خطا اثناء جلب العناصر !");
+  //     },
+  //   });
+  // }
+
+
   getItems() {
-    this.loading=true;
+    this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
-        this.loading=false;
+        this.loading = false;
         this.itemsList = res;
-        // console.log("items res: ", this.itemsList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
-        this.loading=false;
-        // console.log("fetch items data err: ", err);
-        // alert("خطا اثناء جلب العناصر !");
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }
+
   getItemByID(id: any) {
     // console.log("row item id: ", id);
     return fetch(this.api.getItemById(id))
