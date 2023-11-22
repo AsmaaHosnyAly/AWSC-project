@@ -1,11 +1,13 @@
-
-<div class="page-title"> المنتجات</div>
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
+<div class="page-title" > المنتجات</div>
 <div class="container"  ><!-- <p>str-product works!</p> -->
     <div class="container" dir="rtl">
         <div style="margin-top: 10px;">
             <mat-card-header dir="ltr">
                 <div class="child1">
-                  <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
+                  <button mat-raised-button class="add" (click)="openDialog()" dir="ltr"*ngIf="!loading">
                     <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
                   </button>
                 </div>
