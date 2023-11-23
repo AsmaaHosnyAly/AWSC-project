@@ -206,8 +206,8 @@ export class StrWithdrawDetailsDialogComponent {
       percentage: ['100'],
       price: ['', Validators.required],
       total: ['', Validators.required],
-      transactionUserId: [1, Validators.required],
-      destStoreUserId: [1, Validators.required],
+      transactionUserId: [localStorage.getItem('transactionUserId'), Validators.required],
+      destStoreUserId: [localStorage.getItem('transactionUserId'), Validators.required],
       itemId: ['', Validators.required],
       state: [this.stateDefaultValue, Validators.required],
       fullCode: [''],
@@ -402,9 +402,12 @@ export class StrWithdrawDetailsDialogComponent {
     if (state.value == "مستعمل") {
       this.isReadOnlyPercentage = false;
       this.groupDetailsForm.controls['state'].setValue(state.value);
+      this.groupDetailsForm.controls['stateName'].setValue(state.value);
+      this.groupDetailsForm.controls['percentage'].setValue(0);
     } else {
       this.isReadOnlyPercentage = true;
       this.groupDetailsForm.controls['state'].setValue(state.value);
+      this.groupDetailsForm.controls['stateName'].setValue(state.value);
       this.groupDetailsForm.controls['percentage'].setValue(100);
     }
   }
@@ -510,9 +513,11 @@ export class StrWithdrawDetailsDialogComponent {
             this.groupDetailsForm.getRawValue().itemId
           );
           this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.groupDetailsForm.controls['transactionUserId'].setValue(1);
+          this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+          this.groupDetailsForm.controls['destStoreUserId'].setValue(localStorage.getItem('transactionUserId'));
           // alert("itemId")
         }
+        this.groupDetailsForm.controls['stateName'].setValue(this.groupDetailsForm.getRawValue().state);
 
         this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
           parseInt(this.getMasterRowId)
