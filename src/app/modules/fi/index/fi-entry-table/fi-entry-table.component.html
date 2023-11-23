@@ -265,8 +265,8 @@
 
     </mat-tab>
 
-    <mat-tab >
-        <ng-template mat-tab-label >
+    <mat-tab #tab [disabled]='!tab.isActive'>
+        <ng-template mat-tab-label>
             <div class="pageTab">
                 <!-- <mat-icon class="example-tab-icon">cloud_done</mat-icon> -->
                 <h2 >اضافة قيد</h2>
@@ -305,35 +305,23 @@
                                 </mat-form-field>
                             </div>
 
-                            <!-- <div class="searchLabels">
-                                    <mat-label>بحث برقم اليومية</mat-label>
-            
-                                    <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
-                                        <input matInput placeholder="{{ editData ? editData.journalNo : '' }}"
-                                            (keydown)="getJournalByNumbr($event)" [value]="
-                                          no && no != '-'
-                                            ? no
-                                            : no && no == '-'
-                                            ? 'لا يوجد'
-                                            : ''
-                                        " />
-                                    </mat-form-field>
-                                </div> -->
+                            <div class="searchLabels">
+                                <mat-label>بحث برقم اليومية</mat-label>
+
+                                <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                                    <input matInput placeholder="{{ editData ? editData.journalNo : '' }}"
+                                        (keydown)="getJournalByNumbr($event)" [value]="journalNo ? journalNo : '' " />
+                                </mat-form-field>
+                            </div>
 
                             <div class="searchLabels">
                                 <mat-label> دفتر اليومية* </mat-label>
 
                                 <mat-form-field appearance="outline" class="groupInput">
                                     <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
-                                        [formControl]="journalCtrl" placeholder="{{
-                                                editData && !journalByNoValue
-                                                  ? editData.journalNo
-                                                  : journalByNoValue && journalByNoValue != '-'
-                                                  ? journalByNoValue
-                                                  : journalByNoValue && journalByNoValue == '-'
-                                                  ? 'لا يوجد'
-                                                  : ''
-                                              }}" (click)="openAutoJournal()" required />
+                                        [formControl]="journalCtrl"
+                                        placeholder="{{editData && !journalByNoValue ? editData.journal_Description : journalByNoValue && journalByNoValue != '-' ? journalByNoValue : journalByNoValue && journalByNoValue == '-' ? 'لا يوجد' : ''}}"
+                                        (click)="openAutoJournal()" required />
                                     <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
                                         (optionSelected)="JournalSelected($event)">
                                         <mat-option *ngFor="let journal of filteredJournal | async" [value]="journal">
@@ -457,7 +445,7 @@
                                             <mat-form-field appearance="outline"  class="groupInput" >
                                                 <input matInput aria-label="commodity" [matAutocomplete]="autoAccount"
                                                     [formControl]="accountCtrl"
-                                                    placeholder="{{editData ? editData.accountName : ''}}"
+                                                    placeholder="{{editDataDetails ? editDataDetails.accountName : ''}}"
                                                     (click)="openAutoAccount()" required />
                                                 <mat-autocomplete #autoAccount="matAutocomplete"
                                                     [displayWith]="displayAccountName"
@@ -477,7 +465,7 @@
                                             <mat-form-field appearance="outline"  class="groupInput" >
                                                 <input matInput aria-label="commodity"
                                                     [matAutocomplete]="autoAccountItem" [formControl]="accountItemCtrl"
-                                                    placeholder="{{editData ? editData.accountItemName : ''}}"
+                                                    placeholder="{{editDataDetails ? editDataDetails.accountItemName : ''}}"
                                                     (click)="openAutoAccountItem()" required />
                                                 <mat-autocomplete #autoAccountItem="matAutocomplete"
                                                     [displayWith]="displayAccountItemName"
@@ -496,7 +484,7 @@
 
                                             <mat-form-field appearance="outline" class="groupInput">
                                                 <input type="number" matInput placeholder="دائن"
-                                                    formControlName="credit" [value]="editData ? editData.credit : ''">
+                                                    formControlName="credit" [value]="editDataDetails ? editDataDetails.credit : ''">
                                             </mat-form-field>
 
                                         </div>
@@ -507,7 +495,7 @@
 
                                             <mat-form-field appearance="outline" class="groupInput">
                                                 <input type="number" matInput placeholder="المدين"
-                                                    formControlName="debit" [value]="editData ? editData.debit : ''">
+                                                    formControlName="debit" [value]="editDataDetails ? editDataDetails.debit : ''">
                                             </mat-form-field>
                                         </div>
 
