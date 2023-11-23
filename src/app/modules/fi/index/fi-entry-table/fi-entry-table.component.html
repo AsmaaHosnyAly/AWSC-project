@@ -49,10 +49,10 @@
               </div>
 
 
-              <div style="display: flex; flex-direction: column;">
+              <div class="searchLabels">
                   <mat-label> دفتر اليومية* </mat-label>
 
-                  <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                  <mat-form-field appearance="outline" class="child-num">
                       <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
                           [formControl]="journalCtrl" (click)="openAutoJournal()" required />
                       <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
@@ -127,18 +127,15 @@
                   </mat-form-field>
               </div>
 
-              <div class="searchLabels">
-                  <mat-label>الوصف</mat-label>
-
-                  <mat-form-field appearance="outline">
-                      <input #Description matInput placeholder="الوصف ..." formControlName="Description">
-                  </mat-form-field>
-              </div>
-
-
-
-
           </div>
+
+          <div class="searchLabels">
+            <mat-label>الوصف</mat-label>
+
+            <mat-form-field appearance="outline">
+                <input #Description matInput placeholder="الوصف ..." formControlName="Description">
+            </mat-form-field>
+        </div>
           <div class="print-display">
               <mat-icon
                   (click)="getSearchFiEntry(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value)"
@@ -323,7 +320,7 @@
                             <div class="searchLabels">
                                 <mat-label>بحث برقم اليومية</mat-label>
 
-                                <mat-form-field appearance="outline" class="groupInput" style="width: 100%;">
+                                <mat-form-field appearance="outline" class="groupInput">
                                     <input matInput placeholder="{{ editData ? editData.journalNo : '' }}"
                                         (keydown)="getJournalByNumbr($event)" [value]="journalNo ? journalNo : '' " />
                                 </mat-form-field>
@@ -358,10 +355,9 @@
                                 </mat-form-field>
                             </div>
 
-                            <div style="width: 22.5%;">
                                 <div class="searchLabels">
                                     <mat-label>التاريخ*</mat-label>
-                                    <mat-form-field appearance="outline">
+                                    <mat-form-field appearance="outline" class="groupInput">
                                         <input matInput [matDatepicker]="masterPicker" formControlName="date">
                                         <mat-datepicker-toggle matIconSuffix [for]="masterPicker">
                                             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -369,10 +365,8 @@
                                         <mat-datepicker #masterPicker></mat-datepicker>
                                     </mat-form-field>
                                 </div>
-                            </div>
 
-                            <div style="display: flex;flex-direction: row;">
-                                <div class="radio " style="display: flex;flex-direction: column;width: 52%;">
+                                <div class="radio searchLabels">
                                     <mat-label style="margin-top: 9px;"> حالة القيد*</mat-label>
                                     <mat-radio-group style="display: flex;flex-direction: row;"
                                         aria-label="Select an option" formControlName="state"
@@ -382,7 +376,6 @@
                                     </mat-radio-group>
 
                                 </div>
-                            </div>
 
 
                             <div class="searchLabels">
@@ -471,7 +464,7 @@
 
 
                                 <div style="overflow: hidden !important;">
-                                    <div class="headerForm" dir="rtl">
+                                    <div class="headerForm2" dir="rtl">
 
                                         <div class="searchLabels">
                                             <mat-label> الحساب* </mat-label>
