@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
 
+
 import { FiEntryDialogComponent } from '../fi-entry-dialog/fi-entry-dialog.component';
 import {
   FormControl,
@@ -59,6 +60,8 @@ export class AccountItem {
   selector: 'app-fi-entry-table',
   templateUrl: './fi-entry-table.component.html',
   styleUrls: ['./fi-entry-table.component.css'],
+  
+
 })
 export class FiEntryTableComponent implements OnInit {
   ELEMENT_DATA: ccEntry[] = [];

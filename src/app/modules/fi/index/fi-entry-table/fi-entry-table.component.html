@@ -192,7 +192,6 @@
                     <th mat-header-cell *matHeaderCellDef> الرقم </th>
                     <td mat-cell *matCellDef="let row"> {{row.no}} </td>
                 </ng-container>
-
                 <!-- balance Column -->
                 <ng-container matColumnDef="balance">
                     <th mat-header-cell *matHeaderCellDef> اليومية </th>
@@ -266,11 +265,11 @@
 
     </mat-tab>
 
-    <mat-tab>
-        <ng-template mat-tab-label>
+    <mat-tab >
+        <ng-template mat-tab-label >
             <div class="pageTab">
                 <!-- <mat-icon class="example-tab-icon">cloud_done</mat-icon> -->
-                <h2>اضافة قيد</h2>
+                <h2 >اضافة قيد</h2>
             </div>
         </ng-template>
 
@@ -280,24 +279,24 @@
                 <button class="close" mat-button (click)="getAllMasterForms()"> <mat-icon> clear</mat-icon></button>
             </div> -->
 
-            <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل قيد' : ' إضافة قيد'}}</h1>
-            <div mat-dialog-content dir="rtl">
-                <div mat-dialog-content class="mat-dialog-content" dir="rtl">
+            <!-- <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل قيد' : ' إضافة قيد'}}</h1> -->
+            <div mat-dialog-content dir="rtl" class="mt-3">
+                <div mat-dialog-content class="mat-dialog-content mt-4" dir="rtl">
                     <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
-
+                       
                         <div class="headerForm">
-                            <div class="searchLabels" style="width: 8rem;" min=0>
+                           
+                            <div class="searchLabels"  min=0>
                                 <mat-label>الرقم*</mat-label>
-
-                                <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+    
+                                <mat-form-field appearance="outline" class="groupInput" >
                                     <input matInput placeholder="الرقم" formControlName="no" type="number" min="0">
                                 </mat-form-field>
                             </div>
-
                             <div class="searchLabels">
                                 <mat-label>السنة المالية*</mat-label>
 
-                                <mat-form-field appearance="outline" class="child-num">
+                                <mat-form-field appearance="outline" class="groupInput">
                                     <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
                                         (valueChange)="fiscalYearValueChanges($event)">
                                         <mat-option [value]="fiscalYear.id"
@@ -321,10 +320,10 @@
                                     </mat-form-field>
                                 </div> -->
 
-                            <div style="display: flex; flex-direction: column;">
+                            <div class="searchLabels">
                                 <mat-label> دفتر اليومية* </mat-label>
 
-                                <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                                <mat-form-field appearance="outline" class="groupInput">
                                     <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
                                         [formControl]="journalCtrl" placeholder="{{
                                                 editData && !journalByNoValue
@@ -355,22 +354,19 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-
+                          <div style="width: 22.5%;">
                             <div class="searchLabels">
                                 <mat-label>التاريخ*</mat-label>
-
-                                <mat-form-field appearance="outline" class="example-full-width">
-                                    <input matInput [matDatepicker]="masterPicker" formControlName="date">
+                                <mat-form-field appearance="outline"   >
+                                    <input matInput [matDatepicker]="masterPicker" formControlName="date" >
                                     <mat-datepicker-toggle matIconSuffix [for]="masterPicker">
                                         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                                     </mat-datepicker-toggle>
                                     <mat-datepicker #masterPicker></mat-datepicker>
                                 </mat-form-field>
                             </div>
-
-
-
-
+                        </div>
+                        
 
                             <div class="searchLabels">
                                 <mat-label>مجموع الدائن</mat-label>
@@ -401,15 +397,16 @@
                                         readonly>
                                 </mat-form-field>
                             </div>
-                            <div class="searchLabels" style="width: 17rem;">
+                        </div>
+                            <div class="searchLabels" >
                                 <mat-label>الوصف</mat-label>
 
-                                <mat-form-field appearance="outline" style="width:96% ;">
-                                    <input formControlName="description" matInput placeholder="الوصف ...">
+                                <mat-form-field appearance="outline"  >
+                                    <textarea formControlName="description" matInput placeholder="الوصف ..." ></textarea>
                                 </mat-form-field>
                             </div>
 
-                        </div>
+                        
                         <div dir="ltr">
                             <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
                        editData ||  MasterGroupInfoEntered
@@ -428,10 +425,9 @@
                     <div [ngClass]="(MasterGroupInfoEntered || editData) ? 'restGroupInfo' : 'restGroupInfoDisable'">
 
 
-                        <div mat-dialog-action [align]="'end'"
-                            style="display: flex; width: 100%; justify-content: space-between; ">
-                            <div class="groupAction">
-                                <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل
+                        <div >
+                            <div  dir="ltr">
+                                <button mat-raised-button class="follow-btn" (click)="updateMaster()">تعديل
                                     الاذن</button>
 
                             </div>
@@ -443,7 +439,7 @@
 
                         </div>
 
-                        <div>
+                        <div >
                             <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل القيد </h1>
 
 
@@ -453,12 +449,12 @@
 
 
                                 <div style="overflow: hidden !important;">
-                                    <div class="detailsForm" dir="rtl">
+                                    <div class="headerForm" dir="rtl">
 
-                                        <div style="display: flex; flex-direction: column;">
+                                        <div class="searchLabels">
                                             <mat-label> الحساب* </mat-label>
 
-                                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                                            <mat-form-field appearance="outline"  class="groupInput" >
                                                 <input matInput aria-label="commodity" [matAutocomplete]="autoAccount"
                                                     [formControl]="accountCtrl"
                                                     placeholder="{{editData ? editData.accountName : ''}}"
@@ -475,10 +471,10 @@
 
                                         </div>
 
-                                        <div style="display: flex; flex-direction: column;">
+                                        <div class="searchLabels">
                                             <mat-label> البند الاحصائي* </mat-label>
 
-                                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                                            <mat-form-field appearance="outline"  class="groupInput" >
                                                 <input matInput aria-label="commodity"
                                                     [matAutocomplete]="autoAccountItem" [formControl]="accountItemCtrl"
                                                     placeholder="{{editData ? editData.accountItemName : ''}}"
@@ -515,13 +511,14 @@
                                             </mat-form-field>
                                         </div>
 
-                                        <div mat-dialog-action [align]="'end'">
-                                            <div class="groupAction">
-                                                <button mat-raised-button color="primary" style="margin-left: 8px;"
-                                                    (click)="addDetailsInfo()">{{!editDataDetails ?
-                                                    'اضافة':'تعديل'}}</button>
-                                                <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
-                                            </div>
+                                        
+                                    </div>
+                                    <div >
+                                        <div dir="ltr">
+                                            <button mat-raised-button class="follow-btn" 
+                                                (click)="addDetailsInfo()">{{!editDataDetails ?
+                                                'اضافة':'تعديل'}}</button>
+                                            <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
                                         </div>
                                     </div>
                                 </div>
