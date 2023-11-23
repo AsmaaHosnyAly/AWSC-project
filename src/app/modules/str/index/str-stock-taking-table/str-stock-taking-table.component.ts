@@ -101,10 +101,10 @@ export class StrStockTakingTableComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private hotkeysService: HotkeysService,
-    private cdr: ChangeDetectorRef,
     private global: GlobalService,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {
     global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
@@ -113,11 +113,6 @@ export class StrStockTakingTableComponent implements OnInit {
       map((value) => this._filterstores(value))
     );
 
-    // this.costcenterCtrl = new FormControl();
-    // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filtercostcenters(value))
-    // );
 
     this.itemCtrl = new FormControl();
 
