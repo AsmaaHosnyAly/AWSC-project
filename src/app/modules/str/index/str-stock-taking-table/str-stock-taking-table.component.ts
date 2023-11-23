@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EmployeeExchangePrintDialogComponent } from '../employee-exchange-print-dialog/employee-exchange-print-dialog.component';
 import { formatDate } from '@angular/common';
@@ -17,7 +18,8 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-import { Observable, map, startWith, tap } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map, startWith ,debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
@@ -47,6 +49,7 @@ export class item {
   selector: 'app-str-stock-taking-table',
   templateUrl: './str-stock-taking-table.component.html',
   styleUrls: ['./str-stock-taking-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrStockTakingTableComponent implements OnInit {
   displayedColumns: string[] = [
@@ -100,7 +103,8 @@ export class StrStockTakingTableComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private global: GlobalService,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {
     global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
@@ -109,23 +113,14 @@ export class StrStockTakingTableComponent implements OnInit {
       map((value) => this._filterstores(value))
     );
 
-    // this.costcenterCtrl = new FormControl();
-    // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filtercostcenters(value))
-    // );
 
     this.itemCtrl = new FormControl();
+
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteritems(value))
     );
-
-    // this.employeeCtrl = new FormControl();
-    // this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filteremployees(value))
-    // );
   }
 
   ngOnInit(): void {
@@ -133,7 +128,7 @@ export class StrStockTakingTableComponent implements OnInit {
     // this.getAllEmployees();
     this.getFiscalYears();
     // this.getEmployees();
-    this.getItme();
+    this.getItems();
     this.getStores();
     // this.getcostCenter();
 
@@ -349,15 +344,18 @@ export class StrStockTakingTableComponent implements OnInit {
     });
   }
 
-  getItme() {
+  getItems() {
+    this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
+        this.loading = false;
         this.itemsList = res;
-        console.log('item res: ', this.itemsList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
-        console.log('fetch employees data err: ', err);
-        // alert("خطا اثناء جلب الموظفين !");
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }

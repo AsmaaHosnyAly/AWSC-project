@@ -1044,21 +1044,6 @@ export class STRItem1Component implements OnInit {
     });
   }
 
-  // getItems() {
-  //   this.loading = true;
-  //   this.api.getItems().subscribe({
-  //     next: (res) => {
-  //       this.loading = false;
-  //       this.itemsList = res;
-  //     },
-  //     error: (err) => {
-  //       this.loading = false;
-  //       // console.log("fetch store data err: ", err);
-  //       alert('خطا اثناء جلب العناصر !');
-  //     },
-  //   });
-  // }
-
   getItems() {
     this.loading = true;
     this.api.getItems().subscribe({

@@ -6,7 +6,8 @@ import { ApiService } from '../../services/api.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { map, startWith ,debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -44,7 +45,8 @@ export class Item {
 @Component({
   selector: 'app-str-stock-taking-dialog',
   templateUrl: './str-stock-taking-dialog.component.html',
-  styleUrls: ['./str-stock-taking-dialog.component.css']
+  styleUrls: ['./str-stock-taking-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
@@ -137,6 +139,7 @@ export class StrStockTakingDialogComponent implements OnInit {
     // private toastr: ToastrService){}
 
     @Inject(LOCALE_ID) private locale: string,
+    private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public editData: any) {
 
     // this.employeeCtrl = new FormControl();
@@ -153,11 +156,10 @@ export class StrStockTakingDialogComponent implements OnInit {
     this.itemCtrl = new FormControl();
     this.filteredItems = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterItems(value))
     );
   }
-
-
 
 
 
@@ -294,19 +296,19 @@ export class StrStockTakingDialogComponent implements OnInit {
   }
 
   getItems() {
-    this.loading=true;
-    this.api.getItems()
-      .subscribe({
-        next: (res) => {
-          this.loading=false;
-          this.itemsList = res;
-          // console.log("items res: ", this.itemsList);
-        },
-        error: () => {
-          // console.log("fetch items data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.loading = true;
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.itemsList = res;
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
+      },
+    });
   }
 
 

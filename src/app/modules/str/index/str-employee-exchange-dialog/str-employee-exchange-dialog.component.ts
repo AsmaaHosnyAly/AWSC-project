@@ -7,7 +7,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, map, startWith } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Observable, map, startWith, debounceTime } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { StrEmployeeExchangeDetailsDialogComponent } from '../str-employee-exchange-details-dialog/str-employee-exchange-details-dialog.component';
 import { Router } from '@angular/router';
@@ -32,7 +33,8 @@ export class Item {
 @Component({
   selector: 'app-str-employee-exchange-dialog',
   templateUrl: './str-employee-exchange-dialog.component.html',
-  styleUrls: ['./str-employee-exchange-dialog.component.css']
+  styleUrls: ['./str-employee-exchange-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrEmployeeExchangeDialogComponent implements OnInit {
   groupDetailsForm !: FormGroup;
@@ -108,6 +110,7 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<StrEmployeeExchangeDialogComponent>,
     private toastr: ToastrService,
+    private cdr: ChangeDetectorRef,
     private router: Router) {
 
     this.currentDate = new Date;
@@ -141,7 +144,8 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.itemsCtrl = new FormControl();
     this.filtereditems = this.itemsCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterItems(value))
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
+      map((value) => this._filterItems(value))
     );
 
   }
@@ -245,19 +249,19 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   }
 
   getItems() {
-    this.loading=true
-    this.api.getItems()
-      .subscribe({
-        next: (res) => {
-          this.loading=false
-          this.itemsList = res;
-        },
-        error: (err) => {
-          this.loading=false
-          // console.log("fetch items data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.loading = true;
+    this.api.getItems().subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.itemsList = res;
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
+      error: (err) => {
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
+      },
+    });
   }
 
   getEmployees() {
