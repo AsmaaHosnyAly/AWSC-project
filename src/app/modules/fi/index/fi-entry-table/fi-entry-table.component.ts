@@ -51,6 +51,10 @@ export class Journal {
 }
 
 
+export class AccountItem {
+  constructor(public id: number, public name: string) { }
+}
+
 @Component({
   selector: 'app-fi-entry-table',
   templateUrl: './fi-entry-table.component.html',
@@ -132,11 +136,16 @@ export class FiEntryTableComponent implements OnInit {
   sumOfDebitTotals = 0;
   resultOfBalance = 0;
   editData: any;
-  accountItemsList: any;
+  // accountItemsList: any;
   defaultFiscalYearSelectValue: any;
   no: any;
   journalByNoValue: any;
   editDataDetails: any;
+
+  accountItemsList: AccountItem[] = [];
+  accountItemCtrl: FormControl;
+  filteredAccountItem: Observable<AccountItem[]>;
+  selectedAccountItem: AccountItem | undefined;
 
   userIdFromStorage = localStorage.getItem('transactionUserId');
 
@@ -169,6 +178,12 @@ export class FiEntryTableComponent implements OnInit {
 
     this.currentDate = new Date();
 
+    this.accountItemCtrl = new FormControl();
+    this.filteredAccountItem = this.accountItemCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterAccountItems(value))
+    );
+
 
   }
 
@@ -178,6 +193,7 @@ export class FiEntryTableComponent implements OnInit {
     this.getFiAccounts();
     this.getFiEntrySource();
     this.getFiscalYears();
+    this.getFiAccountItems();
 
     this.groupMasterFormSearch = this.formBuilder.group({
       StartDate: [''],
@@ -203,6 +219,16 @@ export class FiEntryTableComponent implements OnInit {
       date: [this.currentDate, Validators.required],
       description: [''],
     });
+
+    this.groupDetailsForm = this.formBuilder.group({
+      entryId: ['', Validators.required],
+      credit: [0, Validators.required],
+      debit: [0, Validators.required],
+      accountId: ['', Validators.required],
+      fiAccountItemId: ['', Validators.required],
+      transactionUserId: ['', Validators.required],
+    });
+
 
   }
 
@@ -269,6 +295,7 @@ export class FiEntryTableComponent implements OnInit {
 
 
   openFiEntryDialog() {
+    this.editData = '';
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
 
@@ -776,12 +803,6 @@ export class FiEntryTableComponent implements OnInit {
   async updateMaster() {
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
 
-    console.log(
-      'update both: ',
-      this.groupDetailsForm.valid
-    );
-    // console.log("edit : ", this.groupDetailsForm.value)
-
     let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
     let journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
     let journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
@@ -802,22 +823,154 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  async addDetailsInfo() {
+    this.groupDetailsForm.controls['entryId'].setValue(this.getMasterRowId);
+    this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+    console.log("haeder id: ", this.groupDetailsForm.getRawValue().entryId);
+
+    if (!this.editDataDetails) {
+      console.log("Enteeeeerrr post condition: ", this.groupDetailsForm.value)
+
+      if (this.getMasterRowId) {
+        console.log("form  headerId: ", this.getMasterRowId, "details form: ", this.groupDetailsForm.value)
+
+        if (this.groupDetailsForm.getRawValue().credit || this.groupDetailsForm.getRawValue().debit) {
+          if (this.editData) {
+            console.log("found details: ", this.editData)
+            this.sumOfCreditTotals = this.editData.creditTotal;
+            this.sumOfDebitTotals = this.editData.debitTotal;
+
+            this.sumOfCreditTotals = this.sumOfCreditTotals + this.groupDetailsForm.getRawValue().credit;
+            this.sumOfDebitTotals = this.sumOfDebitTotals + this.groupDetailsForm.getRawValue().debit;
+
+
+            if (this.sumOfCreditTotals > this.sumOfDebitTotals) {
+              this.resultOfBalance = this.sumOfCreditTotals - this.sumOfDebitTotals;
+            }
+            else {
+              this.resultOfBalance = this.sumOfDebitTotals - this.sumOfCreditTotals;
+            }
+
+          }
+          else {
+            console.log("found details withoutEdit: ", this.groupDetailsForm.value)
+            this.sumOfCreditTotals = this.sumOfCreditTotals + this.groupDetailsForm.getRawValue().credit;
+            this.sumOfDebitTotals = this.sumOfDebitTotals + this.groupDetailsForm.getRawValue().debit;
+
+          }
+
+        }
+
+        if (this.groupDetailsForm.valid) {
+
+          if (this.groupDetailsForm.getRawValue().credit != this.groupDetailsForm.getRawValue().debit && (this.groupDetailsForm.getRawValue().credit == 0 || this.groupDetailsForm.getRawValue().debit == 0)) {
+            console.log("DETAILS post: ", this.groupDetailsForm.value);
+            this.api.postFiEntryDetails(this.groupDetailsForm.value)
+              .subscribe({
+                next: (res) => {
+                  // this.getDetailsRowId = {
+                  //   "id": res
+                  // };
+                  // console.log("Details res: ", this.getDetailsRowId.id)
+
+                  // alert("تمت إضافة التفاصيل بنجاح");
+                  this.toastrSuccess();
+                  this.groupDetailsForm.reset();
+
+                  // this.dialogRef.close('save');
+
+                },
+                error: () => {
+                  // alert("حدث خطأ أثناء إضافة مجموعة")
+                }
+              })
+          }
+          else {
+            this.toastrWarningPostDetails();
+            this.groupDetailsForm.controls['credit'].setValue(0);
+            this.groupDetailsForm.controls['debit'].setValue(0);
+          }
+
+        }
+        // else {
+        //   this.updateBothForms();
+        // }
+
+      }
+
+    }
+    else {
+      console.log("Enteeeeerrr edit condition: ", this.groupDetailsForm.value)
+      if (this.groupDetailsForm.getRawValue().credit != this.groupDetailsForm.getRawValue().debit && (this.groupDetailsForm.getRawValue().credit == 0 || this.groupDetailsForm.getRawValue().debit == 0)) {
+        this.api.putFiEntryDetails(this.groupDetailsForm.value)
+          .subscribe({
+            next: (res) => {
+              this.toastrSuccess();
+              this.groupDetailsForm.reset();
+              // this.dialogRef.close('save');
+            },
+            error: (err) => {
+              // console.log("update err: ", err)
+              // alert("خطأ أثناء تحديث سجل المجموعة !!")
+            }
+          })
+        this.groupDetailsForm.removeControl('id')
+      }
+      else {
+        this.toastrWarningPostDetails();
+        this.groupDetailsForm.controls['credit'].setValue(0);
+        this.groupDetailsForm.controls['debit'].setValue(0);
+      }
+    }
+  }
+
+  private _filterAccountItems(value: string): AccountItem[] {
+    const filterValue = value;
+    console.log("filterValue222:", filterValue);
+
+    return this.accountItemsList.filter(
+      (accountItem) =>
+        accountItem.name.toLowerCase().includes(filterValue)
+      // ||
+      // accountItem.code.toString().toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayAccountItemName(accountItem: any): string {
+    return accountItem && accountItem.name ? accountItem.name : '';
+  }
+  AccountItemSelected(event: MatAutocompleteSelectedEvent): void {
+    const accountItem = event.option.value as AccountItem;
+    console.log("accountItem selected: ", accountItem);
+    this.selectedAccountItem = accountItem;
+    this.groupDetailsForm.patchValue({ fiAccountItemId: accountItem.id });
+
+  }
+  openAutoAccountItem() {
+    this.accountItemCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.accountItemCtrl.updateValueAndValidity();
+  }
+
+
   editDetailsForm(row: any) {
     console.log("details editData: ", row);
     this.editDataDetails = row;
 
-    // this.dialog
-    //   .open(FiEntryDetailsDialogComponent, {
-    //     width: '95%',
-    //     height: '78%',
-    //     data: row,
-    //   })
-    //   .afterClosed()
-    //   .subscribe((val) => {
-    //     if (val === 'save' || val === 'update') {
-    //       this.getAllDetailsForms();
-    //     }
-    //   });
+    this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+    this.groupDetailsForm.controls['entryId'].setValue(this.editData.entryId);
+    this.groupDetailsForm.controls['accountId'].setValue(this.editData.accountId);
+    this.groupDetailsForm.controls['fiAccountItemId'].setValue(this.editData.fiAccountItemId);
+
+    this.groupDetailsForm.controls['credit'].setValue(this.editData.credit);
+    this.groupDetailsForm.controls['debit'].setValue(this.editData.debit)
+
+    this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+    this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+
   }
 
   deleteFormDetails(id: number) {
@@ -934,6 +1087,10 @@ export class FiEntryTableComponent implements OnInit {
 
   toastrWarningEntryDate(): void {
     this.toastr.warning("هذا التاريخ خارج نطاق اليومية !");
+  }
+
+  toastrWarningPostDetails(): void {
+    this.toastr.warning("غير مسموح بادخال الدائن و المدين معا !");
   }
 
 }

@@ -412,7 +412,7 @@
                         </div>
                         <div dir="ltr">
                             <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
-                       editDataDetails ||  MasterGroupInfoEntered
+                       editData ||  MasterGroupInfoEntered
                             ? 'nextButtonEditHeaderDetails'
                             : 'nextButtonAddNewHeader'
                         ">
@@ -423,78 +423,165 @@
                     </form>
 
 
-                    <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
+                    <!-- <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()"> -->
 
-                        <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+                    <div [ngClass]="(MasterGroupInfoEntered || editData) ? 'restGroupInfo' : 'restGroupInfoDisable'">
 
 
-                            <div mat-dialog-action [align]="'end'"
-                                style="display: flex; width: 100%; justify-content: space-between; ">
-                                <div class="groupAction">
-                                    <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل
-                                        الاذن</button>
+                        <div mat-dialog-action [align]="'end'"
+                            style="display: flex; width: 100%; justify-content: space-between; ">
+                            <div class="groupAction">
+                                <button mat-raised-button class="savebtn" (click)="updateMaster()">تعديل
+                                    الاذن</button>
 
-                                </div>
+                            </div>
 
-                                <!-- <div class="groupAction">
+                            <!-- <div class="groupAction">
                                         <button mat-raised-button class="savebtn" (click)="OpenDetailsDialog()">اضافة بيان</button>
             
                                     </div> -->
 
-                            </div>
-
-                            <div class="tableFixHead">
-                                <table mat-table [dataSource]="dataSource" matSort class="headerTable">
-
-                                    <!-- credit Column -->
-                                    <ng-container matColumnDef="credit">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> الائتمان</th>
-                                        <td mat-cell *matCellDef="let row"> {{row.credit}} </td>
-                                    </ng-container>
-
-                                    <!-- debit Column -->
-                                    <ng-container matColumnDef="debit">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> المدين</th>
-                                        <td mat-cell *matCellDef="let row"> {{row.debit}} </td>
-                                    </ng-container>
-
-                                    <!-- accountName Column -->
-                                    <ng-container matColumnDef="accountName">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> الحساب </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.accountName}} </td>
-                                    </ng-container>
-
-                                    <!-- fiAccountItemId Column -->
-                                    <ng-container matColumnDef="fiAccountItemId">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;">
-                                            البند
-                                            الاحصائي</th>
-                                        <td mat-cell *matCellDef="let row"> {{row.accountItemName}} </td>
-                                    </ng-container>
-
-                                    <!-- action Column -->
-                                    <ng-container matColumnDef="action">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;">
-                                            الاجراء </th>
-                                        <td mat-cell *matCellDef="let row">
-                                            <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
-                                                <mat-icon>edit</mat-icon>
-                                            </button>
-                                            <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
-                                                <mat-icon>delete</mat-icon>
-                                            </button>
-                                        </td>
-                                    </ng-container>
-
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                                    <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
-
-                                </table>
-                                <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
-                            </div>
                         </div>
 
-                    </form>
+                        <div>
+                            <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل القيد </h1>
+
+
+                            <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()"
+                                style="overflow: hidden !important;">
+
+
+
+                                <div style="overflow: hidden !important;">
+                                    <div class="detailsForm" dir="rtl">
+
+                                        <div style="display: flex; flex-direction: column;">
+                                            <mat-label> الحساب* </mat-label>
+
+                                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                                                <input matInput aria-label="commodity" [matAutocomplete]="autoAccount"
+                                                    [formControl]="accountCtrl"
+                                                    placeholder="{{editData ? editData.accountName : ''}}"
+                                                    (click)="openAutoAccount()" required />
+                                                <mat-autocomplete #autoAccount="matAutocomplete"
+                                                    [displayWith]="displayAccountName"
+                                                    (optionSelected)="AccountSelected($event)">
+                                                    <mat-option *ngFor="let account of filteredAccount | async"
+                                                        [value]="account">
+                                                        {{ account.name ? account.name : '-' }} | {{ account.code }}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+
+                                        </div>
+
+                                        <div style="display: flex; flex-direction: column;">
+                                            <mat-label> البند الاحصائي* </mat-label>
+
+                                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                                                <input matInput aria-label="commodity"
+                                                    [matAutocomplete]="autoAccountItem" [formControl]="accountItemCtrl"
+                                                    placeholder="{{editData ? editData.accountItemName : ''}}"
+                                                    (click)="openAutoAccountItem()" required />
+                                                <mat-autocomplete #autoAccountItem="matAutocomplete"
+                                                    [displayWith]="displayAccountItemName"
+                                                    (optionSelected)="AccountItemSelected($event)">
+                                                    <mat-option *ngFor="let accountItem of filteredAccountItem | async"
+                                                        [value]="accountItem">
+                                                        {{ accountItem.name }}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+
+                                        </div>
+
+                                        <div class="searchLabels">
+                                            <mat-label>دائن*</mat-label>
+
+                                            <mat-form-field appearance="outline" class="groupInput">
+                                                <input type="number" matInput placeholder="دائن"
+                                                    formControlName="credit" [value]="editData ? editData.credit : ''">
+                                            </mat-form-field>
+
+                                        </div>
+
+
+                                        <div class="searchLabels">
+                                            <mat-label>المدين*</mat-label>
+
+                                            <mat-form-field appearance="outline" class="groupInput">
+                                                <input type="number" matInput placeholder="المدين"
+                                                    formControlName="debit" [value]="editData ? editData.debit : ''">
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div mat-dialog-action [align]="'end'">
+                                            <div class="groupAction">
+                                                <button mat-raised-button color="primary" style="margin-left: 8px;"
+                                                    (click)="addDetailsInfo()">{{!editDataDetails ?
+                                                    'اضافة':'تعديل'}}</button>
+                                                <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="tableFixHead">
+                            <table mat-table [dataSource]="dataSource" matSort class="headerTable">
+
+                                <!-- credit Column -->
+                                <ng-container matColumnDef="credit">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> الائتمان</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.credit}} </td>
+                                </ng-container>
+
+                                <!-- debit Column -->
+                                <ng-container matColumnDef="debit">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> المدين</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.debit}} </td>
+                                </ng-container>
+
+                                <!-- accountName Column -->
+                                <ng-container matColumnDef="accountName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> الحساب </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.accountName}} </td>
+                                </ng-container>
+
+                                <!-- fiAccountItemId Column -->
+                                <ng-container matColumnDef="fiAccountItemId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;">
+                                        البند
+                                        الاحصائي</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.accountItemName}} </td>
+                                </ng-container>
+
+                                <!-- action Column -->
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 25%;">
+                                        الاجراء </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button mat-icon-button color="primary" (click)="editDetailsForm(row)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                        <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                                aria-label="Select page of users"></mat-paginator>
+                        </div>
+                    </div>
+
+                    <!-- </form> -->
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
@@ -16,7 +17,7 @@ import {
   FormBuilder,
   FormGroup,
 } from '@angular/forms';
-import { Observable, map, startWith, tap } from 'rxjs';
+import { Observable, map, startWith, tap,debounceTime } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 import { GlobalService } from 'src/app/pages/services/global.service';
@@ -41,6 +42,7 @@ interface StrOpeningStock {
   selector: 'app-str-opening-stock-table',
   templateUrl: './str-opening-stock-table.component.html',
   styleUrls: ['./str-opening-stock-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrOpeningStockTableComponent implements OnInit {
   ELEMENT_DATA: StrOpeningStock[] = [];
@@ -96,7 +98,8 @@ export class StrOpeningStockTableComponent implements OnInit {
     private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    private global: GlobalService
+    private global: GlobalService,
+    private cdr: ChangeDetectorRef
   ) {
     global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
@@ -106,10 +109,17 @@ export class StrOpeningStockTableComponent implements OnInit {
     );
 
     this.itemCtrl = new FormControl();
+    // this.filtereditem = this.itemCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map((value) => this._filteritems(value))
+    // );
+
     this.filtereditem = this.itemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteritems(value))
     );
+
   }
 
   ngOnInit(): void {
@@ -515,11 +525,12 @@ export class StrOpeningStockTableComponent implements OnInit {
       next: (res) => {
         this.loading = false;
         this.itemsList = res;
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
         this.loading = false;
-        // console.log("fetch items data err: ", err);
-        // alert("خطا اثناء جلب العناصر !");
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }
