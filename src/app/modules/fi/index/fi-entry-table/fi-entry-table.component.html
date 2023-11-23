@@ -3,6 +3,163 @@
     <app-spinner></app-spinner>
 </div>
 
+<mat-accordion class="example-headers-align" multi dir="rtl">
+
+  <mat-expansion-panel>
+      <mat-expansion-panel-header>
+          <mat-panel-description>
+              بحث متقدم
+              <mat-icon>search</mat-icon>
+          </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <form [formGroup]="groupMasterFormSearch">
+
+          <div class="search">
+              <div class="searchLabels">
+                  <mat-label>الرقم</mat-label>
+
+                  <mat-form-field appearance="outline">
+                      <input #no matInput placeholder="ادخل الرقم" type="number" min="0" formControlName="No">
+                  </mat-form-field>
+              </div>
+
+              <div class="searchLabels">
+                  <mat-label>تاريخ البداية</mat-label>
+
+                  <mat-form-field appearance="outline" class="example-full-width">
+                      <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate">
+                      <mat-datepicker-toggle matIconSuffix [for]="picker">
+                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+              </div>
+
+              <div class="searchLabels">
+                  <mat-label>تاريخ النهاية</mat-label>
+
+                  <mat-form-field appearance="outline" class="example-full-width">
+                      <input #EndDate matInput [matDatepicker]="pickerEnd" formControlName="EndDate">
+                      <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
+                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #pickerEnd></mat-datepicker>
+                  </mat-form-field>
+              </div>
+
+
+              <div style="display: flex; flex-direction: column;">
+                  <mat-label> دفتر اليومية* </mat-label>
+
+                  <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
+                      <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
+                          [formControl]="journalCtrl" (click)="openAutoJournal()" required />
+                      <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
+                          (optionSelected)="JournalSelected($event)">
+                          <mat-option *ngFor="let journal of filteredJournal | async" [value]="journal">
+                              {{ journal.description ? journal.description : '-' }} | {{ journal.no }}
+                          </mat-option>
+                      </mat-autocomplete>
+                  </mat-form-field>
+
+              </div>
+
+              <div class="searchLabels">
+                  <mat-label>نوع مصدر الادخال</mat-label>
+
+                  <mat-form-field appearance="outline">
+                      <mat-select #sourceId plceholder="اختر النوع" formControlName="FiEntrySourceTypeId">
+                          <mat-option *ngFor="let source of sourcesList"
+                              [value]="source.id">{{source.name}}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+
+              <div class="searchLabels">
+                  <mat-label> الحساب </mat-label>
+
+                  <mat-form-field appearance="outline" class="child-num">
+                      <input matInput aria-label="commodity" [matAutocomplete]="autoAccount"
+                          [formControl]="accountCtrl" (click)="openAutoAccount()" required />
+                      <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
+                          (optionSelected)="AccountSelected($event)">
+                          <mat-option *ngFor="let account of filteredAccount | async" [value]="account">
+                              {{ account.name ? account.name : '-' }} | {{ account.code }}
+                          </mat-option>
+                      </mat-autocomplete>
+                  </mat-form-field>
+
+              </div>
+
+              <div class="searchLabels">
+                  <mat-label>السنة المالية:</mat-label>
+
+                  <mat-form-field appearance="outline" class="child-num">
+                      <mat-select #fiscalYear placeholder="السنة المالية" formControlName="FiscalYearId">
+                          <mat-option [value]="fiscalYear.id"
+                              *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+              <div class="searchLabels">
+                  <mat-label> التقارير</mat-label>
+
+                  <mat-form-field appearance="outline" class="searchForm">
+                      <mat-select #report plceholder="اختر  التقرير" formControlName="report">
+                          <mat-option value="EntryReport">تقرير</mat-option>
+                          <mat-option value="EntryDetailsReport"> تقرير تفصيلي </mat-option>
+
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+
+              <div class="searchLabels">
+                  <mat-label> نوع التقرير</mat-label>
+
+                  <mat-form-field appearance="outline" class="searchForm">
+                      <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
+                          <mat-option value="pdf"> PDF </mat-option>
+                          <mat-option value="xls">Excel </mat-option>
+
+
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+
+              <div class="searchLabels">
+                  <mat-label>الوصف</mat-label>
+
+                  <mat-form-field appearance="outline">
+                      <input #Description matInput placeholder="الوصف ..." formControlName="Description">
+                  </mat-form-field>
+              </div>
+
+
+
+
+          </div>
+          <div class="print-display">
+              <mat-icon
+                  (click)="getSearchFiEntry(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value)"
+                  class="icons" title="بحث">search</mat-icon>
+              <mat-icon class="icons" title="عرض"
+                  (click)="previewPrint(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
+                  class="icons" title="تحميل">print</mat-icon>
+
+              <mat-icon
+                  (click)="downloadPrint(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
+                  class="icons" title="تحميل">get_app</mat-icon>
+
+              <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+          </div>
+
+      </form>
+
+
+  </mat-expansion-panel>
+</mat-accordion>
+
 <mat-tab-group class="demo-tab-group" #matgroup>
     <mat-tab>
         <ng-template mat-tab-label>
@@ -12,163 +169,7 @@
             </div>
         </ng-template>
 
-        <mat-accordion class="example-headers-align" multi dir="rtl">
-            <!-- <div class="page-title" *ngIf="!loading">القيود</div> -->
-
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-description>
-                        بحث متقدم
-                        <mat-icon>search</mat-icon>
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-
-                <form [formGroup]="groupMasterFormSearch">
-
-                    <div class="search">
-                        <div class="searchLabels">
-                            <mat-label>الرقم</mat-label>
-
-                            <mat-form-field appearance="outline">
-                                <input #no matInput placeholder="ادخل الرقم" type="number" min="0" formControlName="No">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="searchLabels">
-                            <mat-label>تاريخ البداية</mat-label>
-
-                            <mat-form-field appearance="outline" class="example-full-width">
-                                <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker">
-                                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                                </mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="searchLabels">
-                            <mat-label>تاريخ النهاية</mat-label>
-
-                            <mat-form-field appearance="outline" class="example-full-width">
-                                <input #EndDate matInput [matDatepicker]="pickerEnd" formControlName="EndDate">
-                                <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
-                                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                                </mat-datepicker-toggle>
-                                <mat-datepicker #pickerEnd></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-
-
-                        <div style="display: flex; flex-direction: column;">
-                            <mat-label> دفتر اليومية* </mat-label>
-
-                            <mat-form-field appearance="outline" class="child-num" style="width: 100%;">
-                                <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
-                                    [formControl]="journalCtrl" (click)="openAutoJournal()" required />
-                                <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
-                                    (optionSelected)="JournalSelected($event)">
-                                    <mat-option *ngFor="let journal of filteredJournal | async" [value]="journal">
-                                        {{ journal.description ? journal.description : '-' }} | {{ journal.no }}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-
-                        </div>
-
-                        <div class="searchLabels">
-                            <mat-label>نوع مصدر الادخال</mat-label>
-
-                            <mat-form-field appearance="outline">
-                                <mat-select #sourceId plceholder="اختر النوع" formControlName="FiEntrySourceTypeId">
-                                    <mat-option *ngFor="let source of sourcesList"
-                                        [value]="source.id">{{source.name}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="searchLabels">
-                            <mat-label> الحساب </mat-label>
-
-                            <mat-form-field appearance="outline" class="child-num">
-                                <input matInput aria-label="commodity" [matAutocomplete]="autoAccount"
-                                    [formControl]="accountCtrl" (click)="openAutoAccount()" required />
-                                <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
-                                    (optionSelected)="AccountSelected($event)">
-                                    <mat-option *ngFor="let account of filteredAccount | async" [value]="account">
-                                        {{ account.name ? account.name : '-' }} | {{ account.code }}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-
-                        </div>
-
-                        <div class="searchLabels">
-                            <mat-label>السنة المالية:</mat-label>
-
-                            <mat-form-field appearance="outline" class="child-num">
-                                <mat-select #fiscalYear placeholder="السنة المالية" formControlName="FiscalYearId">
-                                    <mat-option [value]="fiscalYear.id"
-                                        *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="searchLabels">
-                            <mat-label> التقارير</mat-label>
-
-                            <mat-form-field appearance="outline" class="searchForm">
-                                <mat-select #report plceholder="اختر  التقرير" formControlName="report">
-                                    <mat-option value="EntryReport">تقرير</mat-option>
-                                    <mat-option value="EntryDetailsReport"> تقرير تفصيلي </mat-option>
-
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="searchLabels">
-                            <mat-label> نوع التقرير</mat-label>
-
-                            <mat-form-field appearance="outline" class="searchForm">
-                                <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
-                                    <mat-option value="pdf"> PDF </mat-option>
-                                    <mat-option value="xls">Excel </mat-option>
-
-
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="searchLabels">
-                            <mat-label>الوصف</mat-label>
-
-                            <mat-form-field appearance="outline">
-                                <input #Description matInput placeholder="الوصف ..." formControlName="Description">
-                            </mat-form-field>
-                        </div>
-
-
-
-
-                    </div>
-                    <div class="print-display">
-                        <mat-icon
-                            (click)="getSearchFiEntry(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value)"
-                            class="icons" title="بحث">search</mat-icon>
-                        <mat-icon class="icons" title="عرض"
-                            (click)="previewPrint(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
-                            class="icons" title="تحميل">print</mat-icon>
-
-                        <mat-icon
-                            (click)="downloadPrint(no.value, StartDate.value,EndDate.value,sourceId.value, fiscalYear.value, Description.value ,report.value,reportType.value)"
-                            class="icons" title="تحميل">get_app</mat-icon>
-
-                        <mat-icon (click)="resetForm()" class="icons" title="حذف قيم البحث">restore</mat-icon>
-                    </div>
-
-                </form>
-
-
-            </mat-expansion-panel>
-        </mat-accordion>
+        
 
 
         <mat-card-header dir="ltr" class="parent-search">
