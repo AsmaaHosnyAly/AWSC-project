@@ -5,29 +5,30 @@ mat-card {
   margin: 2%;
   /* background-color: blue; */
   box-shadow: none;
-  
+
 }
 
 
-mat-card-header{
+mat-card-header {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   width: 100%;
   align-items: center;
   margin-top: 10px;
 }
 
-mat-card-header .child1{
-  
+mat-card-header .child1 {
+
   width: 82%;
   /* background-color: aquamarine; */
 }
 
-.mat-mdc-card-header{
+.mat-mdc-card-header {
   padding: 0;
 }
+
 th {
-  background-color:var(--bg-primary-color)!important;
+  background-color: var(--bg-primary-color) !important;
   color: white;
   font-family: 'Cairo', sans-serif;
   font-size: 16px;
@@ -41,6 +42,7 @@ th {
   border-radius: 10px;
   text-align: center;
 }
+
 .search mat-form-field {
   width: 172px;
 
@@ -52,12 +54,13 @@ th {
   /* justify-content: space-between; */
   flex-wrap: wrap;
 }
+
 .search button,
-.print button{
+.print button {
   width: 250px;
   font-size: 15px;
   font-family: 'Cairo', sans-serif;
-  background-color:var(--bg-primary-color);
+  background-color: var(--bg-primary-color);
   color: white;
   border: none;
   border-radius: 5px;
@@ -69,8 +72,9 @@ th {
   justify-content: center;
 
 }
-.display button{
-  background:linear-gradient(rgb(252, 248, 248),rgb(146, 141, 141));
+
+.display button {
+  background: linear-gradient(rgb(252, 248, 248), rgb(146, 141, 141));
   color: #111010;
   font-weight: bold;
 }
@@ -91,10 +95,11 @@ mat-expansion-panel {
   padding: 4px 0px !important;
   margin-top: 0px;
 }
+
 mat-panel-description {
- 
+
   font-size: 20px;
-  color:rgb(26, 31, 32);
+  color: rgb(26, 31, 32);
   font-weight: 500;
   text-align: right;
 }
@@ -138,6 +143,7 @@ mat-panel-description {
 .header .header-two img {
   height: 80%;
 }
+
 /* 
 table {
   margin: 28px 0;
@@ -188,12 +194,14 @@ footer h3 {
   margin-top: 14px;
   display: none;
 }
+
 .mat-mdc-card-content:first-child {
   padding: 0px !important;
   border: none !important;
   box-shadow: none !important;
-  
+
 }
+
 .filter-search {
   padding: 0 !important;
   font-size: 15px !important;
@@ -237,6 +245,7 @@ table {
   font-family: "Cairo", sans-serif !important;
   width: 100%;
 }
+
 table,
 th,
 td {
@@ -252,15 +261,17 @@ td {
   font-size: 25px;
   text-align: center;
   padding-bottom: 25px;
-  color:var(--bg-primary-color) !important;
+  color: var(--bg-primary-color) !important;
   /* background-color: var(--bg-primary-color) !important; */
 }
-.searchLabels{
+
+.searchLabels {
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
   margin-left: 1%;
 }
+
 .print-display {
   display: flex;
   justify-content: center !important;
@@ -270,7 +281,8 @@ td {
 .icons {
   font-size: 23px;
   color: white;
-  background-color: var(--bg-primary-color) !important;  border-radius: 50%;
+  background-color: var(--bg-primary-color) !important;
+  border-radius: 50%;
   width: 50px;
   height: 50px;
   display: flex;
@@ -279,15 +291,18 @@ td {
   cursor: pointer;
   margin-left: 15px;
 }
+
 .print-display {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .icons {
   font-size: 23px;
   color: white;
-  background-color: var(--bg-primary-color) !important;  border-radius: 50%;
+  background-color: var(--bg-primary-color) !important;
+  border-radius: 50%;
   width: 50px;
   height: 50px;
   display: flex;
@@ -295,4 +310,44 @@ td {
   align-items: center;
   cursor: pointer;
   margin-left: 15px;
+}
+
+.mat-mdc-table {
+  --mat-table-row-item-outline-width: 1px;
+  table-layout: auto;
+  white-space: normal;
+  background-color: var(--mat-table-background-color);
+  font-family: "Cairo", sans-serif !important;
+  width: 100%;
+}
+
+.pageTab {
+  display: flex;
+  flex-direction: row;
+  /* padding: 5%; */
+  /* background: #fdef24 !important; */
+  width: 180%;
+}
+
+.pageTab mat-icon {
+  font-size: 1.2rem;
+  padding: 2%;
+  margin-top: 1%;
+  color: var(--bg-primary-color) !important;
+}
+
+.restGroupInfo {
+  display: block;
+}
+
+.restGroupInfoDisable {
+  display: none;
+}
+
+.nextButtonAddNewHeader {
+  display: block;
+}
+
+.nextButtonEditHeaderDetails {
+  display: none;
 }

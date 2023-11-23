@@ -12,7 +12,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export class Account {
-  constructor(public id: number, public name: string,public code: any) { }
+  constructor(public id: number, public name: string, public code: any) { }
 }
 export class AccountItem {
   constructor(public id: number, public name: string) { }
@@ -255,7 +255,7 @@ export class FiEntryDetailsDialogComponent implements OnInit {
                 }
               })
           }
-          else{
+          else {
             this.toastrWarningPostDetails();
             this.groupDetailsForm.controls['credit'].setValue(0);
             this.groupDetailsForm.controls['debit'].setValue(0);
@@ -271,20 +271,26 @@ export class FiEntryDetailsDialogComponent implements OnInit {
     }
     else {
       console.log("Enteeeeerrr edit condition: ", this.groupDetailsForm.value)
-
-      this.api.putFiEntryDetails(this.groupDetailsForm.value)
-        .subscribe({
-          next: (res) => {
-            this.toastrSuccess();
-            this.groupDetailsForm.reset();
-            this.dialogRef.close('save');
-          },
-          error: (err) => {
-            // console.log("update err: ", err)
-            // alert("خطأ أثناء تحديث سجل المجموعة !!")
-          }
-        })
-      this.groupDetailsForm.removeControl('id')
+      if (this.groupDetailsForm.getRawValue().credit != this.groupDetailsForm.getRawValue().debit && (this.groupDetailsForm.getRawValue().credit == 0 || this.groupDetailsForm.getRawValue().debit == 0)) {
+        this.api.putFiEntryDetails(this.groupDetailsForm.value)
+          .subscribe({
+            next: (res) => {
+              this.toastrSuccess();
+              this.groupDetailsForm.reset();
+              this.dialogRef.close('save');
+            },
+            error: (err) => {
+              // console.log("update err: ", err)
+              // alert("خطأ أثناء تحديث سجل المجموعة !!")
+            }
+          })
+        this.groupDetailsForm.removeControl('id')
+      }
+      else {
+        this.toastrWarningPostDetails();
+        this.groupDetailsForm.controls['credit'].setValue(0);
+        this.groupDetailsForm.controls['debit'].setValue(0);
+      }
     }
   }
 
