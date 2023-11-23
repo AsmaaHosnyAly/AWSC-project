@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
 
+
 import { FiEntryDialogComponent } from '../fi-entry-dialog/fi-entry-dialog.component';
 import {
   FormControl,
@@ -59,6 +60,8 @@ export class AccountItem {
   selector: 'app-fi-entry-table',
   templateUrl: './fi-entry-table.component.html',
   styleUrls: ['./fi-entry-table.component.css'],
+  
+
 })
 export class FiEntryTableComponent implements OnInit {
   ELEMENT_DATA: ccEntry[] = [];
@@ -138,9 +141,10 @@ export class FiEntryTableComponent implements OnInit {
   editData: any;
   // accountItemsList: any;
   defaultFiscalYearSelectValue: any;
-  no: any;
+  journalNo: any;
   journalByNoValue: any;
   editDataDetails: any;
+  defaultState: any;
 
   accountItemsList: AccountItem[] = [];
   accountItemCtrl: FormControl;
@@ -177,6 +181,7 @@ export class FiEntryTableComponent implements OnInit {
     );
 
     this.currentDate = new Date();
+    this.defaultState = "مغلق";
 
     this.accountItemCtrl = new FormControl();
     this.filteredAccountItem = this.accountItemCtrl.valueChanges.pipe(
@@ -214,7 +219,7 @@ export class FiEntryTableComponent implements OnInit {
       creditTotal: ['', Validators.required],
       debitTotal: ['', Validators.required],
       balance: ['', Validators.required],
-      state: ['', Validators.required], //will rename to state
+      state: [this.defaultState, Validators.required], //will rename to state
       transactionUserId: ['', Validators.required],
       date: [this.currentDate, Validators.required],
       description: [''],
@@ -230,6 +235,14 @@ export class FiEntryTableComponent implements OnInit {
     });
 
 
+  }
+
+  selectedTab(tab: any) {
+    console.log("tab: ", tab);
+
+    // if(tab.index == 1){
+    //   this.openFiEntryDialog();
+    // }
   }
 
   private _filterAccounts(value: string): Account[] {
@@ -250,6 +263,7 @@ export class FiEntryTableComponent implements OnInit {
     console.log("account selected: ", account);
     this.selectedAccount = account;
     this.groupMasterFormSearch.patchValue({ AccountId: account.id });
+    this.groupDetailsForm.patchValue({ accountId: account.id });
   }
   openAutoAccount() {
     this.accountCtrl.setValue(''); // Clear the input field value
@@ -265,13 +279,12 @@ export class FiEntryTableComponent implements OnInit {
 
     return this.journalsList.filter(
       (jounal) =>
-        jounal.description || jounal.no ? jounal.description.toLowerCase().includes(filterValue) ||
-          jounal.no.toString().toLowerCase().includes(filterValue) : '-'
+        jounal.description ? jounal.description.toLowerCase().includes(filterValue) : '-'
     );
   }
 
   displayJounalName(jounal: any): string {
-    return jounal ? jounal.description && jounal.description != null ? jounal.description : '-' : '';
+    return jounal && jounal.description ? jounal.description : '';
   }
   JournalSelected(event: MatAutocompleteSelectedEvent): void {
     const journal = event.option.value as Journal;
@@ -296,12 +309,27 @@ export class FiEntryTableComponent implements OnInit {
 
   openFiEntryDialog() {
     this.editData = '';
+    // this.groupMasterForm.reset();
+    this.groupMasterForm.controls['no'].setValue('');
+    this.groupMasterForm.controls['journalId'].setValue('');
+    this.journalCtrl.reset();
+
+    this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue('');
+    this.groupMasterForm.controls['date'].setValue(this.currentDate);
+    this.getFiscalYears();
+
+    this.groupMasterForm.controls['creditTotal'].setValue(0);
+    this.groupMasterForm.controls['debitTotal'].setValue(0);
+    this.groupMasterForm.controls['balance'].setValue(0);
+    this.groupMasterForm.controls['state'].setValue(this.defaultState);
+    this.groupMasterForm.controls['description'].setValue('');
+
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
 
     console.log("matGroup: ", tabGroup, "selectIndex: ", tabGroup.selectedIndex);
 
-    this.getAllDetailsForms();
+    // this.getAllDetailsForms();
   }
 
   applyFilter(event: Event) {
@@ -311,7 +339,12 @@ export class FiEntryTableComponent implements OnInit {
     if (this.dataSource2.paginator) {
       this.dataSource2.paginator.firstPage();
     }
+
+    if (filterValue == '') {
+      this.getAllMasterForms();
+    }
   }
+
   getAllMasterForms() {
     // loadData() {
     if (!this.currentPage && this.serachFlag == false) {
@@ -483,6 +516,9 @@ export class FiEntryTableComponent implements OnInit {
     this.groupMasterForm.controls['journalId'].setValue(
       this.editData.journalId
     );
+    this.groupMasterForm.controls['fiscalYearId'].setValue(
+      this.editData.fiscalYearId
+    );
     this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue(
       this.editData.fiEntrySourceTypeId
     );
@@ -506,8 +542,11 @@ export class FiEntryTableComponent implements OnInit {
     this.groupMasterForm.controls['id'].setValue(this.editData.id);
 
     this.groupMasterForm.controls['transactionUserId'].setValue(
-      this.userIdFromStorage
+      localStorage.getItem('transactionUserId')
     );
+
+    this.getAllDetailsForms();
+
 
   }
 
@@ -626,9 +665,13 @@ export class FiEntryTableComponent implements OnInit {
 
   resetForm() {
     this.groupMasterFormSearch.reset();
+    this.groupMasterForm.reset();
+    this.groupDetailsForm.reset();
 
     this.accountCtrl.reset();
     this.journalCtrl.reset();
+    this.accountItemCtrl.reset();
+
 
     this.serachFlag = false;
 
@@ -736,7 +779,7 @@ export class FiEntryTableComponent implements OnInit {
 
             this.toastrSuccess();
             this.getAllDetailsForms();
-            // this.addDetailsInfo();
+            this.addDetailsInfo();
           },
           error: (err) => {
             console.log('header post err: ', err);
@@ -754,6 +797,14 @@ export class FiEntryTableComponent implements OnInit {
 
 
   getAllDetailsForms() {
+    if (!this.getMasterRowId) {
+      this.getMasterRowId = {
+        "id": this.editData.id
+      }
+    }
+    // else{
+
+    // }
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
       this.api.getFiEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
@@ -802,16 +853,29 @@ export class FiEntryTableComponent implements OnInit {
 
   async updateMaster() {
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
+    let journalStartDateFormat;
+    let journalEndDateFormat;
 
     let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
-    let journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
-    let journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
+    if (this.editData) {
+      journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
+      journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
+    }
+    else {
+      journalStartDateFormat = this.selectedJournal?.startDate;
+      journalEndDateFormat = this.selectedJournal?.endDate;
+      console.log("startDate selected journal: ", journalStartDateFormat, "endDate: ", journalEndDateFormat);
+    }
+
 
     console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ", journalEndDateFormat, "date: ", dateFormat, "condition: ", dateFormat >= journalStartDateFormat && dateFormat <= journalEndDateFormat);
     if (dateFormat >= journalStartDateFormat && dateFormat <= journalEndDateFormat) {
       this.api.putFiEntry(this.groupMasterForm.value).subscribe({
         next: (res) => {
           this.groupDetailsForm.reset();
+
+          this.accountCtrl.reset();
+          this.accountItemCtrl.reset();
         },
       });
     }
@@ -826,9 +890,14 @@ export class FiEntryTableComponent implements OnInit {
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   async addDetailsInfo() {
-    this.groupDetailsForm.controls['entryId'].setValue(this.getMasterRowId);
-    this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
-    console.log("haeder id: ", this.groupDetailsForm.getRawValue().entryId);
+    if (!this.getMasterRowId) {
+      this.getMasterRowId = {
+        "id": this.editData.id
+      }
+    }
+    this.groupDetailsForm.controls['entryId'].setValue(this.getMasterRowId.id);
+    this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+    console.log("haeder id: ", this.editData.id);
 
     if (!this.editDataDetails) {
       console.log("Enteeeeerrr post condition: ", this.groupDetailsForm.value)
@@ -878,6 +947,11 @@ export class FiEntryTableComponent implements OnInit {
                   // alert("تمت إضافة التفاصيل بنجاح");
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
+                  this.accountCtrl.reset();
+                  this.accountItemCtrl.reset();
+                  this.editDataDetails = '';
+
+                  this.getAllDetailsForms();
 
                   // this.dialogRef.close('save');
 
@@ -909,6 +983,12 @@ export class FiEntryTableComponent implements OnInit {
             next: (res) => {
               this.toastrSuccess();
               this.groupDetailsForm.reset();
+
+              this.accountCtrl.reset();
+              this.accountItemCtrl.reset();
+              this.editDataDetails = '';
+              this.getAllDetailsForms();
+
               // this.dialogRef.close('save');
             },
             error: (err) => {
@@ -961,15 +1041,15 @@ export class FiEntryTableComponent implements OnInit {
     this.editDataDetails = row;
 
     this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
-    this.groupDetailsForm.controls['entryId'].setValue(this.editData.entryId);
-    this.groupDetailsForm.controls['accountId'].setValue(this.editData.accountId);
-    this.groupDetailsForm.controls['fiAccountItemId'].setValue(this.editData.fiAccountItemId);
+    this.groupDetailsForm.controls['entryId'].setValue(this.editDataDetails.entryId);
+    this.groupDetailsForm.controls['accountId'].setValue(this.editDataDetails.accountId);
+    this.groupDetailsForm.controls['fiAccountItemId'].setValue(this.editDataDetails.fiAccountItemId);
 
-    this.groupDetailsForm.controls['credit'].setValue(this.editData.credit);
-    this.groupDetailsForm.controls['debit'].setValue(this.editData.debit)
+    this.groupDetailsForm.controls['credit'].setValue(this.editDataDetails.credit);
+    this.groupDetailsForm.controls['debit'].setValue(this.editDataDetails.debit)
 
     this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
-    this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+    this.groupDetailsForm.controls['id'].setValue(this.editDataDetails.id);
 
   }
 
@@ -1063,10 +1143,10 @@ export class FiEntryTableComponent implements OnInit {
       if (a.no == item) {
         console.log("item by code selected: ", a)
         if (a.no) {
-          this.no = a.no;
+          this.journalNo = a.no;
         }
         else {
-          this.no = '-';
+          this.journalNo = 0;
         }
       }
     })
@@ -1086,7 +1166,10 @@ export class FiEntryTableComponent implements OnInit {
   }
 
   toastrWarningEntryDate(): void {
-    this.toastr.warning("هذا التاريخ خارج نطاق اليومية !");
+    this.journalStartDate = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
+    this.journalEndDate = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
+
+    this.toastr.warning(` التاريخ خارج اليومية من ${this.journalStartDate} الى ${this.journalEndDate} `);
   }
 
   toastrWarningPostDetails(): void {

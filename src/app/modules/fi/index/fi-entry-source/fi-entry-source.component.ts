@@ -55,7 +55,7 @@ export class FIEntrySourceComponent  implements OnInit {
   }
 
   constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService, private global:GlobalService) {
-    global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
+                                                             
    }
   ngOnInit(): void {
     // console.log(productForm)

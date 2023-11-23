@@ -87,14 +87,17 @@ th {
 }
 
 mat-expansion-panel {
+
   width: 100%;
   margin: 30px auto;
   box-shadow: none !important;
   border: 1px rgb(29, 26, 26) solid;
   border-radius: 10px !important;
   padding: 4px 0px !important;
-  margin-top: 0px;
+  margin-top: 20px;
+  
 }
+
 
 mat-panel-description {
 
@@ -211,6 +214,7 @@ footer h3 {
   border-bottom: 1px #2b2727 solid;
   width: 100%;
   text-align: right;
+ 
 
 }
 
@@ -264,14 +268,23 @@ td {
   color: var(--bg-primary-color) !important;
   /* background-color: var(--bg-primary-color) !important; */
 }
-
+.headerForm{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 .searchLabels {
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */
-  margin-left: 1%;
+  justify-content: start;
 }
 
+
+
+.groupInput{
+  width:100%;
+}
 .print-display {
   display: flex;
   justify-content: center !important;
@@ -319,21 +332,33 @@ td {
   background-color: var(--mat-table-background-color);
   font-family: "Cairo", sans-serif !important;
   width: 100%;
+  
+}
+.mat-mdc-tab-header {
+  --mdc-secondary-navigation-tab-container-height: 0px;
+ 
+}
+mat-tab {
+  background-color: blue !important;
 }
 
 .pageTab {
-  display: flex;
-  flex-direction: row;
+  /* display: flex; */
+  /* flex-direction: row; */
   /* padding: 5%; */
   /* background: #fdef24 !important; */
-  width: 180%;
+  width: 100%;
+ 
 }
-
+.vvv{
+  background-color: blue !important;
+}
 .pageTab mat-icon {
   font-size: 1.2rem;
   padding: 2%;
   margin-top: 1%;
   color: var(--bg-primary-color) !important;
+ 
 }
 
 .restGroupInfo {
@@ -351,3 +376,23 @@ td {
 .nextButtonEditHeaderDetails {
   display: none;
 }
+
+.follow-btn {
+  background-color: var(--bg-primary-color) !important;
+  color: antiquewhite;
+  text-align: left;
+  padding: 5px 20px;
+  font-size: 20px;
+}
+.savebtn {
+  background-color:var(--bg-primary-color);
+  color: aliceblue;
+  font-family: 'Cairo', sans-serif !important;
+  display: block;
+  font-weight: bold;
+  font-size: 15px;
+  
+  width: 100%;
+  padding: 10px 0px;
+  height: 50px;
+  }
