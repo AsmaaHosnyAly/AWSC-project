@@ -1,4 +1,3 @@
-import { FiscalYear } from '../str-employee-exchange-dialog/str-employee-exchange-dialog.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -7,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { formatDate } from '@angular/common';
 import { StrWithdrawDialogComponent } from '../str-withdraw-dialog2/str-withdraw-dialog2.component';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map, startWith, tap ,debounceTime } from 'rxjs';
@@ -118,10 +116,6 @@ export class StrWithdrawTableComponent implements OnInit {
     private toastr: ToastrService,
     @Inject(LOCALE_ID) private locale: string
   ) {
-    // this.form = this.formBuilder.group({
-    //   name: [''],
-    //   email: ['']
-    // });
 
     this.reportNameList = [
       {
@@ -144,8 +138,10 @@ export class StrWithdrawTableComponent implements OnInit {
     );
 
     this.employeeCtrl = new FormControl();
+    
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteremployees(value))
     );
 
@@ -442,15 +438,31 @@ export class StrWithdrawTableComponent implements OnInit {
       },
     });
   }
+  // getEmployees() {
+  //   this.api.getEmployee().subscribe({
+  //     next: (res) => {
+  //       this.employeesList = res;
+  //       // console.log("store res: ", this.storeList);
+  //     },
+  //     error: (err) => {
+  //       // console.log("fetch store data err: ", err);
+  //       // alert("خطا اثناء جلب المخازن !");
+  //     },
+  //   });
+  // }
+
   getEmployees() {
+    this.loading = true;
     this.api.getEmployee().subscribe({
       next: (res) => {
+        this.loading = false;
         this.employeesList = res;
-        // console.log("store res: ", this.storeList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
+        this.loading = false;
         // console.log("fetch store data err: ", err);
-        // alert("خطا اثناء جلب المخازن !");
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }

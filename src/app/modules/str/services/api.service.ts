@@ -192,6 +192,7 @@ export class ApiService {
       `${this.url}/STRItem/Get/lastNo?GroupId=${data}`
     );
   }
+
   getItem() {
     return this.http.get<any>(`${this.url}/STRItem/get/all`);
   }
