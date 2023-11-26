@@ -445,7 +445,7 @@ export class FiEntryTableComponent implements OnInit {
       error: (err) => {
         this.loading = false;
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب العناصر !');
+        // alert('خطا اثناء جلب العناصر !');
       },
     });
   }
@@ -910,7 +910,7 @@ export class FiEntryTableComponent implements OnInit {
     console.log('JOURNAL start date: ', this.journalStartDateFormat, "endDate: ", this.journalEndDateFormat, "date: ", this.dateFormat, "condition: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat);
     // console.log("date get time condition: ", dateFormat.getTime() >= journalStartDateFormat && dateFormat <= journalEndDateFormat);
     if (this.dateFormat == undefined || this.journalStartDateFormat == undefined || this.journalEndDateFormat == undefined) {
-      alert("False: " + this.dateFormat + "s: " + this.journalStartDateFormat + "e: " + this.journalEndDateFormat);
+      // alert("False: " + this.dateFormat + "s: " + this.journalStartDateFormat + "e: " + this.journalEndDateFormat);
     }
     // else {
     //   alert("True... date: " + dateFormat + " start: " + journalStartDateFormat + " end: " + journalEndDateFormat);
