@@ -44,7 +44,21 @@ th {
 }
 
 .search mat-form-field {
+  width: 175px;
+  margin-left: 10px;
+
+  padding: 0 !important;
+}
+
+.headerForm mat-form-field {
   width: 172px;
+  margin-left: 10px;
+
+  padding: 0 !important;
+}
+.headerForm2 mat-form-field {
+  width: 220px;
+  margin-left: 10px;
 
   padding: 0 !important;
 }
@@ -273,11 +287,15 @@ td {
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.searchLabels {
+.headerForm2{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.searchLabels{
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 

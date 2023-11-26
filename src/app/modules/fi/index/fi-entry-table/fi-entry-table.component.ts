@@ -8,29 +8,13 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
-
-
-import { FiEntryDialogComponent } from '../fi-entry-dialog/fi-entry-dialog.component';
-import {
-  FormControl,
-  FormControlName,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import { FormControl, FormBuilder, FormGroup} from '@angular/forms';
+import { Observable, map, startWith, debounceTime } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { MatTabGroup } from '@angular/material/tabs';
-
-import {
-  Validators,
-} from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-} from '@angular/material/dialog';
-
-import { Router, Params } from '@angular/router';
+import { Validators} from '@angular/forms';
 interface ccEntry {
   no: string;
   balance: string;
@@ -60,8 +44,7 @@ export class AccountItem {
   selector: 'app-fi-entry-table',
   templateUrl: './fi-entry-table.component.html',
   styleUrls: ['./fi-entry-table.component.css'],
-  
-
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FiEntryTableComponent implements OnInit {
   ELEMENT_DATA: ccEntry[] = [];
@@ -145,6 +128,7 @@ export class FiEntryTableComponent implements OnInit {
   journalByNoValue: any;
   editDataDetails: any;
   defaultState: any;
+  entryRowReadOnlyState: boolean = true;
 
   accountItemsList: AccountItem[] = [];
   accountItemCtrl: FormControl;
@@ -152,6 +136,9 @@ export class FiEntryTableComponent implements OnInit {
   selectedAccountItem: AccountItem | undefined;
 
   userIdFromStorage = localStorage.getItem('transactionUserId');
+  journalStartDateFormat: any;
+  journalEndDateFormat: any;
+  dateFormat: any;
 
   ngAfterViewInit() {
     this.dataSource2.paginator = this.paginator;
@@ -163,14 +150,17 @@ export class FiEntryTableComponent implements OnInit {
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    private global: GlobalService
+    private global: GlobalService,
+    private cdr: ChangeDetectorRef
   ) {
 
     global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
 
     this.accountCtrl = new FormControl();
+
     this.filteredAccount = this.accountCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterAccounts(value))
     );
 
@@ -181,11 +171,12 @@ export class FiEntryTableComponent implements OnInit {
     );
 
     this.currentDate = new Date();
-    this.defaultState = "مغلق";
+    this.defaultState = "تحرير";
 
     this.accountItemCtrl = new FormControl();
     this.filteredAccountItem = this.accountItemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterAccountItems(value))
     );
 
@@ -237,13 +228,18 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
-  selectedTab(tab: any) {
-    console.log("tab: ", tab);
+  // setState(state: any) {
 
-    // if(tab.index == 1){
-    //   this.openFiEntryDialog();
-    // }
-  }
+  //   console.log("state value changed: ", state.value);
+
+  //   if (this.groupMasterForm.getRawValue().state != "مغلق") {
+  //     this.entryRowReadOnlyState = true;
+  //   }
+  //   else {
+  //     this.entryRowReadOnlyState = false;
+  //   }
+
+  // }
 
   private _filterAccounts(value: string): Account[] {
     const filterValue = value;
@@ -297,8 +293,12 @@ export class FiEntryTableComponent implements OnInit {
     this.groupMasterFormSearch.patchValue({ JournalId: journal.id });
     this.groupMasterForm.patchValue({ journalId: journal.id });
 
+    this.journalStartDateFormat = formatDate(journal.startDate, 'yyyy-MM-dd', this.locale);
+    this.journalEndDateFormat = formatDate(journal.endDate, 'yyyy-MM-dd', this.locale);
+
     this.getNumberByJournal(journal.no);
   }
+
   openAutoJournal() {
     this.journalCtrl.setValue(''); // Clear the input field value
 
@@ -421,15 +421,31 @@ export class FiEntryTableComponent implements OnInit {
     });
   }
 
+  // getFiAccounts() {
+  //   this.api.getFiAccounts().subscribe({
+  //     next: (res) => {
+  //       this.accountsList = res;
+  //       console.log('accounts res: ', this.accountsList);
+  //     },
+  //     error: (err) => {
+  //       console.log('fetch accounts data err: ', err);
+  //       // alert('خطا اثناء جلب الدفاتر !');
+  //     },
+  //   });
+  // }
+
   getFiAccounts() {
+    this.loading = true;
     this.api.getFiAccounts().subscribe({
       next: (res) => {
+        this.loading = false;
         this.accountsList = res;
-        console.log('accounts res: ', this.accountsList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
-        console.log('fetch accounts data err: ', err);
-        // alert('خطا اثناء جلب الدفاتر !');
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }
@@ -530,7 +546,17 @@ export class FiEntryTableComponent implements OnInit {
     this.groupMasterForm.controls['debitTotal'].setValue(
       this.editData.debitTotal
     );
+
     this.groupMasterForm.controls['state'].setValue(this.editData.state);
+    // this.setState(this.editData.state);
+    if (this.groupMasterForm.getRawValue().state != "مغلق") {
+      this.entryRowReadOnlyState = true;
+    }
+    else {
+      this.entryRowReadOnlyState = false;
+    }
+
+
     this.groupMasterForm.controls['description'].setValue(
       this.editData.description
     );
@@ -756,7 +782,6 @@ export class FiEntryTableComponent implements OnInit {
     this.groupMasterForm.controls['debitTotal'].setValue(0);
     this.groupMasterForm.controls['balance'].setValue(0);
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-    this.groupMasterForm.controls['state'].setValue('مغلق');
 
     console.log('fiEntry master form: ', this.groupMasterForm.value);
 
@@ -765,6 +790,13 @@ export class FiEntryTableComponent implements OnInit {
       let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
       let journalStartDateFormat = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
       let journalEndDateFormat = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
+
+      if (this.groupMasterForm.getRawValue().state != "مغلق") {
+        this.entryRowReadOnlyState = true;
+      }
+      else {
+        this.entryRowReadOnlyState = false;
+      }
 
       console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ", journalEndDateFormat, "date: ", dateFormat);
       if (dateFormat >= this.journalStartDate && dateFormat <= this.journalEndDate) {
@@ -778,6 +810,7 @@ export class FiEntryTableComponent implements OnInit {
             this.MasterGroupInfoEntered = true;
 
             this.toastrSuccess();
+            this.getAllMasterForms();
             this.getAllDetailsForms();
             this.addDetailsInfo();
           },
@@ -852,26 +885,58 @@ export class FiEntryTableComponent implements OnInit {
   }
 
   async updateMaster() {
-    console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
-    let journalStartDateFormat;
-    let journalEndDateFormat;
+    console.log('editData: ', this.editData, "for new data: ", this.groupMasterForm.value);
+    this.journalStartDateFormat;
+    this.journalEndDateFormat;
 
-    let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
-    if (this.editData) {
-      journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
-      journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
+    console.log('editData CASE', this.selectedJournal);
+
+    this.dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
+    // if (this.editData.journal_StartDate != this.selectedJournal?.startDate && this.editData.journal_EndDate != this.selectedJournal?.endDate) {
+    //   // alert("editData journal S date" + this.editData.journal_StartDate + "format result: " + formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale));
+
+    //   journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
+    //   journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
+    // }
+    // else {
+    //   console.log('NOT editData CASE');
+
+    //   journalStartDateFormat = this.selectedJournal?.startDate;
+    //   journalEndDateFormat = this.selectedJournal?.endDate;
+    //   console.log("startDate selected journal: ", journalStartDateFormat, "endDate: ", journalEndDateFormat);
+    // }
+
+
+    console.log('JOURNAL start date: ', this.journalStartDateFormat, "endDate: ", this.journalEndDateFormat, "date: ", this.dateFormat, "condition: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat);
+    // console.log("date get time condition: ", dateFormat.getTime() >= journalStartDateFormat && dateFormat <= journalEndDateFormat);
+    if (this.dateFormat == undefined || this.journalStartDateFormat == undefined || this.journalEndDateFormat == undefined) {
+      alert("False: " + this.dateFormat + "s: " + this.journalStartDateFormat + "e: " + this.journalEndDateFormat);
     }
-    else {
-      journalStartDateFormat = this.selectedJournal?.startDate;
-      journalEndDateFormat = this.selectedJournal?.endDate;
-      console.log("startDate selected journal: ", journalStartDateFormat, "endDate: ", journalEndDateFormat);
-    }
+    // else {
+    //   alert("True... date: " + dateFormat + " start: " + journalStartDateFormat + " end: " + journalEndDateFormat);
+    //   alert("check condition: " + dateFormat >= journalStartDateFormat && dateFormat <= journalEndDateFormat);
 
+    //   if (dateFormat >= journalStartDateFormat && dateFormat <= journalEndDateFormat) {
+    //     this.api.putFiEntry(this.groupMasterForm.value).subscribe({
+    //       next: (res) => {
+    //         this.getAllMasterForms();
+    //         this.groupDetailsForm.reset();
 
-    console.log('JOURNAL start date: ', journalStartDateFormat, "endDate: ", journalEndDateFormat, "date: ", dateFormat, "condition: ", dateFormat >= journalStartDateFormat && dateFormat <= journalEndDateFormat);
-    if (dateFormat >= journalStartDateFormat && dateFormat <= journalEndDateFormat) {
+    //         this.accountCtrl.reset();
+    //         this.accountItemCtrl.reset();
+    //       },
+    //     });
+    //   }
+    //   else {
+    //     this.toastrWarningEntryDate();
+    //     this.groupMasterForm.controls['date'].setValue('');
+    //   }
+
+    // }
+    if (formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat) {
       this.api.putFiEntry(this.groupMasterForm.value).subscribe({
         next: (res) => {
+          this.getAllMasterForms();
           this.groupDetailsForm.reset();
 
           this.accountCtrl.reset();
@@ -1051,6 +1116,13 @@ export class FiEntryTableComponent implements OnInit {
     this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
     this.groupDetailsForm.controls['id'].setValue(this.editDataDetails.id);
 
+    if (this.groupMasterForm.getRawValue().state != "مغلق") {
+      this.entryRowReadOnlyState = true;
+    }
+    else {
+      this.entryRowReadOnlyState = false;
+    }
+
   }
 
   deleteFormDetails(id: number) {
@@ -1098,15 +1170,19 @@ export class FiEntryTableComponent implements OnInit {
     });
   }
 
+
   getFiAccountItems() {
+    this.loading = true;
     this.api.getFiAccountItems().subscribe({
       next: (res) => {
+        this.loading = false;
         this.accountItemsList = res;
-        // console.log("accountItems res: ", this.accountItemsList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
-        console.log('fetch accountItems data err: ', err);
-        // alert("خطا اثناء جلب الدفاتر !");
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }
