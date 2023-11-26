@@ -15,6 +15,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Validators } from '@angular/forms';
+
 interface ccEntry {
   no: string;
   balance: string;
@@ -25,6 +26,14 @@ interface ccEntry {
   state: string;
   date: string;
   Action: string;
+}
+
+interface ccEntryDetails {
+  credit: string;
+  debit: string;
+  accountName: string;
+  fiAccountItemId: string;
+  action: string;
 }
 
 export class Account {
@@ -110,9 +119,13 @@ export class FiEntryTableComponent implements OnInit {
   // pageIndex2: any;
   length: any;
 
+  dataSource: MatTableDataSource<ccEntryDetails> = new MatTableDataSource();
   pageIndexDetails: any;
   lengthDetails: any;
-  pageSizeDetails: any;
+  // pageSizeDetails: any;
+  pageSizeDetails = 5;
+  ELEMENT_DATA_DETAILS: ccEntryDetails[] = [];
+  currentPageDetails: any;
 
   @ViewChild("matgroup", { static: false })
   matgroup!: MatTabGroup;
@@ -124,7 +137,7 @@ export class FiEntryTableComponent implements OnInit {
   journalEndDate: any;
   getMasterRowId: any;
   MasterGroupInfoEntered = false;
-  dataSource!: MatTableDataSource<any>;
+  // dataSource!: MatTableDataSource<any>;
   sumOfTotals = 0;
   sumOfCreditTotals = 0;
   sumOfDebitTotals = 0;
@@ -429,7 +442,7 @@ export class FiEntryTableComponent implements OnInit {
   pageChangedDetails(event: PageEvent) {
     console.log("page event: ", event);
     this.pageSizeDetails = event.pageSize;
-    this.currentPage = event.pageIndex;
+    this.currentPageDetails = event.pageIndex;
     // this.currentPage = event.previousPageIndex;
     this.getAllDetailsForms();
   }
@@ -876,9 +889,7 @@ export class FiEntryTableComponent implements OnInit {
         "id": this.editData.id
       }
     }
-    // else{
 
-    // }
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
       this.api.getFiEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
@@ -887,19 +898,19 @@ export class FiEntryTableComponent implements OnInit {
           console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res, "paginate: ", this.paginator);
 
           if (this.matchedIds) {
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginatorDetails;
-            // this.dataSource.sort = this.sort;
-            // this.dataSource.data = this.matchedIds.items;
-            this.pageIndexDetails = 0;
-            // this.pageSizeDetails = this.matchedIds.length;
-            this.lengthDetails = this.matchedIds.length;
-            // setTimeout(() => {
-              // this.paginator.pageIndexDetails = this.currentPage;
-              // this.paginator.length = this.length;
-            // });
+            // this.dataSource = new MatTableDataSource(this.matchedIds);
+            // this.dataSource.paginator = this.paginatorDetails;
+            // // this.dataSource.sort = this.sort;
+            // // this.dataSource.data = this.matchedIds.items;
+            // this.pageIndexDetails = 0;
+            // // this.pageSizeDetails = this.matchedIds.length;
+            // this.lengthDetails = this.matchedIds.length;
+            // // setTimeout(() => {
+            // // this.paginator.pageIndexDetails = this.currentPage;
+            // // this.paginator.length = this.length;
+            // // });
 
-            console.log("dataSource: ", this.dataSource);
+            // console.log("dataSource: ", this.dataSource);
             this.sumOfTotals = 0;
             this.sumOfCreditTotals = 0;
             this.sumOfDebitTotals = 0;
@@ -931,6 +942,57 @@ export class FiEntryTableComponent implements OnInit {
           // alert("خطا اثناء جلب العناصر !");
         }
       })
+
+      if (!this.currentPageDetails) {
+        this.currentPageDetails = 0;
+
+        this.isLoading = true;
+        fetch(this.api.getFiEntryDeatilsPaginateByMasterId(this.currentPageDetails, this.pageSizeDetails, this.getMasterRowId.id))
+          .then(response => response.json())
+          .then(data => {
+
+            console.log("details data paginate first Time: ", data);
+            this.dataSource.data = data.items;
+            this.pageIndexDetails = data.page;
+            this.pageSizeDetails = data.pageSize;
+            this.lengthDetails = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPageDetails;
+              this.paginator.length = this.lengthDetails;
+            });
+
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
+          });
+      }
+      else {
+
+        this.isLoading = true;
+        fetch(this.api.getFiEntryDeatilsPaginateByMasterId(this.currentPageDetails, this.pageSizeDetails, this.getMasterRowId.id))
+          .then(response => response.json())
+          .then(data => {
+
+            console.log("details data paginate: ", data);
+            this.dataSource.data = data.items;
+            this.pageIndexDetails = data.page;
+            this.pageSizeDetails = data.pageSize;
+            this.lengthDetails = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPageDetails;
+              this.paginator.length = this.lengthDetails;
+            });
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
+          });
+
+
+      }
+
+
     }
   }
 
@@ -985,15 +1047,16 @@ export class FiEntryTableComponent implements OnInit {
     // }
     if (this.groupMasterForm.getRawValue().balance != 0 && this.groupMasterForm.getRawValue().state == "مغلق") {
       this.toastrWarningCloseDialog();
+      console.log("balance: ", this.groupMasterForm.getRawValue().balance, "state: ", this.groupMasterForm.getRawValue().state);
       this.groupMasterForm.controls['state'].setValue(this.defaultState);
     }
-    else{
+    else {
       if (formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat) {
         this.api.putFiEntry(this.groupMasterForm.value).subscribe({
           next: (res) => {
             this.getAllMasterForms();
             this.groupDetailsForm.reset();
-  
+
             this.accountCtrl.reset();
             this.accountItemCtrl.reset();
           },
@@ -1004,7 +1067,7 @@ export class FiEntryTableComponent implements OnInit {
         this.groupMasterForm.controls['date'].setValue('');
       }
     }
-    
+
 
 
   }
@@ -1098,6 +1161,8 @@ export class FiEntryTableComponent implements OnInit {
 
     }
     else {
+      this.groupDetailsForm.controls['entryId'].setValue(this.editData.id);
+
       console.log("Enteeeeerrr edit condition: ", this.groupDetailsForm.value)
       if (this.groupDetailsForm.getRawValue().credit != this.groupDetailsForm.getRawValue().debit && (this.groupDetailsForm.getRawValue().credit == 0 || this.groupDetailsForm.getRawValue().debit == 0)) {
         this.api.putFiEntryDetails(this.groupDetailsForm.value)
