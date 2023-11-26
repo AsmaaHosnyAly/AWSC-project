@@ -458,6 +458,9 @@ export class ApiService {
   postFiEntry(data: any) {
     return this.http.post<any>(`${this.url}/FIEntry/Add`, data);
   }
+  getFiEntryAutoCode() {
+    return this.http.get<any>(`${this.url}/FIEntry/AutoCode`);
+  }
   getFiEntry() {
     return this.http.get<any>(`${this.url}/FIEntry/get/all`);
   }
