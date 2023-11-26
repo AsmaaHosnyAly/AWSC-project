@@ -231,18 +231,19 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
-  // setState(state: any) {
+  setState(state: any) {
 
-  //   console.log("state value changed: ", state.value);
+    console.log("state value changed: ", state.value);
 
-  //   if (this.groupMasterForm.getRawValue().state != "مغلق") {
-  //     this.entryRowReadOnlyState = true;
-  //   }
-  //   else {
-  //     this.entryRowReadOnlyState = false;
-  //   }
+    if (this.groupMasterForm.getRawValue().state == "مغلق") {
+      if (this.groupMasterForm.getRawValue().balance != 0) {
+        // this.groupMasterForm.controls['state'].reset();
+        this.toastrWarningCloseDialog();
 
-  // }
+      }
+    }
+
+  }
 
   private _filterAccounts(value: string): Account[] {
     const filterValue = value;
@@ -911,12 +912,12 @@ export class FiEntryTableComponent implements OnInit {
     console.log('editData CASE', this.selectedJournal);
 
     this.dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
-    // if (this.editData.journal_StartDate != this.selectedJournal?.startDate && this.editData.journal_EndDate != this.selectedJournal?.endDate) {
-    //   // alert("editData journal S date" + this.editData.journal_StartDate + "format result: " + formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale));
+    if (this.editData.journal_StartDate != this.selectedJournal?.startDate && this.editData.journal_EndDate != this.selectedJournal?.endDate) {
+      // alert("editData journal S date" + this.editData.journal_StartDate + "format result: " + formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale));
 
-    //   journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
-    //   journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
-    // }
+      this.journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
+      this.journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
+    }
     // else {
     //   console.log('NOT editData CASE');
 
@@ -952,21 +953,28 @@ export class FiEntryTableComponent implements OnInit {
     //   }
 
     // }
-    if (formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat) {
-      this.api.putFiEntry(this.groupMasterForm.value).subscribe({
-        next: (res) => {
-          this.getAllMasterForms();
-          this.groupDetailsForm.reset();
-
-          this.accountCtrl.reset();
-          this.accountItemCtrl.reset();
-        },
-      });
+    if (this.groupMasterForm.getRawValue().balance != 0 && this.groupMasterForm.getRawValue().state == "مغلق") {
+      this.toastrWarningCloseDialog();
+      this.groupMasterForm.controls['state'].setValue(this.defaultState);
     }
-    else {
-      this.toastrWarningEntryDate();
-      this.groupMasterForm.controls['date'].setValue('');
+    else{
+      if (formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat) {
+        this.api.putFiEntry(this.groupMasterForm.value).subscribe({
+          next: (res) => {
+            this.getAllMasterForms();
+            this.groupDetailsForm.reset();
+  
+            this.accountCtrl.reset();
+            this.accountItemCtrl.reset();
+          },
+        });
+      }
+      else {
+        this.toastrWarningEntryDate();
+        this.groupMasterForm.controls['date'].setValue('');
+      }
     }
+    
 
 
   }
@@ -1141,7 +1149,7 @@ export class FiEntryTableComponent implements OnInit {
     else {
       this.entryRowReadOnlyState = false;
     }
-    this.getMasterRowId= {
+    this.getMasterRowId = {
       "id": this.editDataDetails.id
     }
   }
