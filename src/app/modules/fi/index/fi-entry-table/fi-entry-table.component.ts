@@ -107,6 +107,10 @@ export class FiEntryTableComponent implements OnInit {
   pageIndex: any;
   length: any;
 
+  pageIndexDetails: any;
+  lengthDetails: any;
+  pageSizeDetails: any;
+
   @ViewChild("matgroup", { static: false })
   matgroup!: MatTabGroup;
 
@@ -410,6 +414,14 @@ export class FiEntryTableComponent implements OnInit {
     this.currentPage = event.pageIndex;
     // this.currentPage = event.previousPageIndex;
     this.getAllMasterForms();
+  }
+
+  pageChangedDetails(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSizeDetails = event.pageSize;
+    this.currentPage = event.pageIndex;
+    // this.currentPage = event.previousPageIndex;
+    this.getAllDetailsForms();
   }
 
   getFiEntryAutoCode() {
@@ -866,8 +878,16 @@ export class FiEntryTableComponent implements OnInit {
 
           if (this.matchedIds) {
             this.dataSource = new MatTableDataSource(this.matchedIds);
-            // this.dataSource.paginator = this.paginator;
+            this.dataSource.paginator = this.paginatorDetails;
             // this.dataSource.sort = this.sort;
+            // this.dataSource.data = this.matchedIds.items;
+            this.pageIndexDetails = 0;
+            // this.pageSizeDetails = this.matchedIds.length;
+            this.lengthDetails = this.matchedIds.length;
+            // setTimeout(() => {
+              // this.paginator.pageIndexDetails = this.currentPage;
+              // this.paginator.length = this.length;
+            // });
 
             console.log("dataSource: ", this.dataSource);
             this.sumOfTotals = 0;
