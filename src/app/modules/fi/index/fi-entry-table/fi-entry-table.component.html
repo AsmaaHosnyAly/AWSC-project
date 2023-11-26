@@ -370,7 +370,8 @@
                                     <mat-label style="margin-top: 9px;"> حالة القيد*</mat-label>
                                     <mat-radio-group style="display: flex;flex-direction: row;"
                                         aria-label="Select an option" formControlName="state"
-                                        [value]="editData ? editData.state : defaultState">
+                                        [value]="editData ? editData.state : defaultState"
+                                        (change)="setState($event)">
                                         <mat-radio-button value="تحرير">تحرير</mat-radio-button>
                                         <mat-radio-button value="مغلق">مغلق</mat-radio-button>
                                     </mat-radio-group>
