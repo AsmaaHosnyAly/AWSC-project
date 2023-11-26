@@ -8,13 +8,13 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
-import { FormControl, FormBuilder, FormGroup} from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, map, startWith, debounceTime } from 'rxjs';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { MatTabGroup } from '@angular/material/tabs';
-import { Validators} from '@angular/forms';
+import { Validators } from '@angular/forms';
 interface ccEntry {
   no: string;
   balance: string;
@@ -102,6 +102,7 @@ export class FiEntryTableComponent implements OnInit {
   selectedJournal: Journal | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginatorDetails!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   pageIndex: any;
   length: any;
@@ -139,6 +140,7 @@ export class FiEntryTableComponent implements OnInit {
   journalStartDateFormat: any;
   journalEndDateFormat: any;
   dateFormat: any;
+  autoCode: any;
 
   ngAfterViewInit() {
     this.dataSource2.paginator = this.paginator;
@@ -185,6 +187,7 @@ export class FiEntryTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllMasterForms();
+    this.getFiEntryAutoCode();
     this.getJournals();
     this.getFiAccounts();
     this.getFiEntrySource();
@@ -329,7 +332,7 @@ export class FiEntryTableComponent implements OnInit {
 
     console.log("matGroup: ", tabGroup, "selectIndex: ", tabGroup.selectedIndex);
 
-    // this.getAllDetailsForms();
+    this.getFiEntryAutoCode()
   }
 
   applyFilter(event: Event) {
@@ -408,6 +411,21 @@ export class FiEntryTableComponent implements OnInit {
     this.getAllMasterForms();
   }
 
+  getFiEntryAutoCode() {
+    this.api.getFiEntryAutoCode().subscribe({
+      next: (res) => {
+        this.autoCode = res;
+        this.groupMasterForm.controls['no'].setValue(this.autoCode);
+        console.log('autoCode res: ', this.autoCode);
+      },
+      error: (err) => {
+        console.log('fetch autoCode data err: ', err);
+        // alert('خطا اثناء جلب الدفاتر !');
+        this.toastrAutoCodeGenerateError();
+      },
+    });
+  }
+
   getJournals() {
     this.api.getJournals().subscribe({
       next: (res) => {
@@ -441,11 +459,11 @@ export class FiEntryTableComponent implements OnInit {
         this.loading = false;
         this.accountsList = res;
         this.cdr.detectChanges(); // Trigger change detection
-      },      
+      },
       error: (err) => {
         this.loading = false;
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب العناصر !');
+        // alert('خطا اثناء جلب العناصر !');
       },
     });
   }
@@ -830,7 +848,7 @@ export class FiEntryTableComponent implements OnInit {
 
 
   getAllDetailsForms() {
-    if (!this.getMasterRowId) {
+    if (this.editData) {
       this.getMasterRowId = {
         "id": this.editData.id
       }
@@ -843,13 +861,14 @@ export class FiEntryTableComponent implements OnInit {
       this.api.getFiEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
           this.matchedIds = res;
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res, "paginate: ", this.paginator);
 
           if (this.matchedIds) {
             this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
 
+            console.log("dataSource: ", this.dataSource);
             this.sumOfTotals = 0;
             this.sumOfCreditTotals = 0;
             this.sumOfDebitTotals = 0;
@@ -910,7 +929,7 @@ export class FiEntryTableComponent implements OnInit {
     console.log('JOURNAL start date: ', this.journalStartDateFormat, "endDate: ", this.journalEndDateFormat, "date: ", this.dateFormat, "condition: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat);
     // console.log("date get time condition: ", dateFormat.getTime() >= journalStartDateFormat && dateFormat <= journalEndDateFormat);
     if (this.dateFormat == undefined || this.journalStartDateFormat == undefined || this.journalEndDateFormat == undefined) {
-      alert("False: " + this.dateFormat + "s: " + this.journalStartDateFormat + "e: " + this.journalEndDateFormat);
+      // alert("False: " + this.dateFormat + "s: " + this.journalStartDateFormat + "e: " + this.journalEndDateFormat);
     }
     // else {
     //   alert("True... date: " + dateFormat + " start: " + journalStartDateFormat + " end: " + journalEndDateFormat);
@@ -1122,7 +1141,9 @@ export class FiEntryTableComponent implements OnInit {
     else {
       this.entryRowReadOnlyState = false;
     }
-
+    this.getMasterRowId= {
+      "id": this.editDataDetails.id
+    }
   }
 
   deleteFormDetails(id: number) {
@@ -1178,11 +1199,11 @@ export class FiEntryTableComponent implements OnInit {
         this.loading = false;
         this.accountItemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
-      },      
+      },
       error: (err) => {
         this.loading = false;
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب العناصر !');
+        // alert('خطا اثناء جلب العناصر !');
       },
     });
   }
@@ -1234,9 +1255,9 @@ export class FiEntryTableComponent implements OnInit {
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
   }
-  // toastrDeleteSuccess(): void {
-  //   this.toastr.success('تم الحذف بنجاح');
-  // }
+  toastrAutoCodeGenerateError(): void {
+    this.toastr.error('  حدث خطا اثناء توليد الكود ! ');
+  }
   toastrWarningCloseDialog(): void {
     this.toastr.warning("تحذير القيد غير متزن !");
   }
