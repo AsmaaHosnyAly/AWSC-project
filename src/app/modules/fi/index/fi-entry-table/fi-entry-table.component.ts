@@ -60,7 +60,9 @@ export class FiEntryTableComponent implements OnInit {
   isLoading = false;
   totalRows = 0;
   pageSize = 5;
+  // pageSize2 = 5;
   currentPage: any;
+  // currentPage2: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   serachFlag: boolean = false;
 
@@ -114,6 +116,7 @@ export class FiEntryTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginatorDetails!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   pageIndex: any;
+  // pageIndex2: any;
   length: any;
 
   dataSource: MatTableDataSource<ccEntryDetails> = new MatTableDataSource();
@@ -428,6 +431,13 @@ export class FiEntryTableComponent implements OnInit {
     // this.currentPage = event.previousPageIndex;
     this.getAllMasterForms();
   }
+  // pageChanged2(event: PageEvent2) {
+  //   console.log("page event: ", event);
+  //   this.pageSize2 = event.pageSize2;
+  //   this.currentPage2 = event.pageIndex2;
+  //   // this.currentPage = event.previousPageIndex;
+  //   this.getAllDetailsForms();
+  // }
 
   pageChangedDetails(event: PageEvent) {
     console.log("page event: ", event);
