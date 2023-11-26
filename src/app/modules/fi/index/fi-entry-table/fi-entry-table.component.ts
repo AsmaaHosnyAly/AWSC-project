@@ -8,30 +8,13 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
-
-
-import { FiEntryDialogComponent } from '../fi-entry-dialog/fi-entry-dialog.component';
-import {
-  FormControl,
-  FormControlName,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import { FormControl, FormBuilder, FormGroup} from '@angular/forms';
+import { Observable, map, startWith, debounceTime } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { MatTabGroup } from '@angular/material/tabs';
-
-import {
-  Validators,
-} from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-} from '@angular/material/dialog';
-
-import { Router, Params } from '@angular/router';
-import { state } from '@angular/animations';
+import { Validators} from '@angular/forms';
 interface ccEntry {
   no: string;
   balance: string;
@@ -61,8 +44,7 @@ export class AccountItem {
   selector: 'app-fi-entry-table',
   templateUrl: './fi-entry-table.component.html',
   styleUrls: ['./fi-entry-table.component.css'],
-
-
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FiEntryTableComponent implements OnInit {
   ELEMENT_DATA: ccEntry[] = [];
@@ -168,14 +150,17 @@ export class FiEntryTableComponent implements OnInit {
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    private global: GlobalService
+    private global: GlobalService,
+    private cdr: ChangeDetectorRef
   ) {
 
     global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
 
     this.accountCtrl = new FormControl();
+
     this.filteredAccount = this.accountCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterAccounts(value))
     );
 
@@ -191,6 +176,7 @@ export class FiEntryTableComponent implements OnInit {
     this.accountItemCtrl = new FormControl();
     this.filteredAccountItem = this.accountItemCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterAccountItems(value))
     );
 
@@ -435,15 +421,31 @@ export class FiEntryTableComponent implements OnInit {
     });
   }
 
+  // getFiAccounts() {
+  //   this.api.getFiAccounts().subscribe({
+  //     next: (res) => {
+  //       this.accountsList = res;
+  //       console.log('accounts res: ', this.accountsList);
+  //     },
+  //     error: (err) => {
+  //       console.log('fetch accounts data err: ', err);
+  //       // alert('خطا اثناء جلب الدفاتر !');
+  //     },
+  //   });
+  // }
+
   getFiAccounts() {
+    this.loading = true;
     this.api.getFiAccounts().subscribe({
       next: (res) => {
+        this.loading = false;
         this.accountsList = res;
-        console.log('accounts res: ', this.accountsList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
-        console.log('fetch accounts data err: ', err);
-        // alert('خطا اثناء جلب الدفاتر !');
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }
@@ -1168,15 +1170,19 @@ export class FiEntryTableComponent implements OnInit {
     });
   }
 
+
   getFiAccountItems() {
+    this.loading = true;
     this.api.getFiAccountItems().subscribe({
       next: (res) => {
+        this.loading = false;
         this.accountItemsList = res;
-        // console.log("accountItems res: ", this.accountItemsList);
-      },
+        this.cdr.detectChanges(); // Trigger change detection
+      },      
       error: (err) => {
-        console.log('fetch accountItems data err: ', err);
-        // alert("خطا اثناء جلب الدفاتر !");
+        this.loading = false;
+        // console.log("fetch store data err: ", err);
+        alert('خطا اثناء جلب العناصر !');
       },
     });
   }

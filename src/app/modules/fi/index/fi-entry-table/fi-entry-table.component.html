@@ -53,7 +53,7 @@
                   <mat-label> دفتر اليومية* </mat-label>
 
                   <mat-form-field appearance="outline" class="child-num">
-                      <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
+                      <input matInput aria-label="commodity" [matAutocomplete]="autoJournal" placeholder="دفتر اليومية"
                           [formControl]="journalCtrl" (click)="openAutoJournal()" required />
                       <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
                           (optionSelected)="JournalSelected($event)">
@@ -80,7 +80,7 @@
                   <mat-label> الحساب </mat-label>
 
                   <mat-form-field appearance="outline" class="child-num">
-                      <input matInput aria-label="commodity" [matAutocomplete]="autoAccount"
+                      <input matInput aria-label="commodity" [matAutocomplete]="autoAccount" placeholder="الحساب"
                           [formControl]="accountCtrl" (click)="openAutoAccount()" required />
                       <mat-autocomplete #autoAccount="matAutocomplete" [displayWith]="displayAccountName"
                           (optionSelected)="AccountSelected($event)">
@@ -332,7 +332,7 @@
                                 <mat-form-field appearance="outline" class="groupInput">
                                     <input matInput aria-label="commodity" [matAutocomplete]="autoJournal"
                                         [formControl]="journalCtrl"
-                                        placeholder="{{editData && !journalByNoValue ? editData.journal_Description : journalByNoValue && journalByNoValue != '-' ? journalByNoValue : journalByNoValue && journalByNoValue == '-' ? 'لا يوجد' : ''}}"
+                                        placeholder="{{editData && !journalByNoValue ? editData.journal_Description : journalByNoValue && journalByNoValue != '-' ? journalByNoValue : journalByNoValue && journalByNoValue == '-' ? 'لا يوجد' : 'دفتر اليومية'}}"
                                         (click)="openAutoJournal()" required />
                                     <mat-autocomplete #autoJournal="matAutocomplete" [displayWith]="displayJounalName"
                                         (optionSelected)="JournalSelected($event)">
@@ -472,7 +472,7 @@
                                             <mat-form-field appearance="outline" class="groupInput">
                                                 <input matInput aria-label="commodity" [matAutocomplete]="autoAccount"
                                                     [formControl]="accountCtrl"
-                                                    placeholder="{{editDataDetails ? editDataDetails.accountName : ''}}"
+                                                    placeholder="{{editDataDetails ? editDataDetails.accountName : 'الحساب'}}"
                                                     (click)="openAutoAccount()" required />
                                                 <mat-autocomplete #autoAccount="matAutocomplete"
                                                     [displayWith]="displayAccountName"
@@ -492,7 +492,7 @@
                                             <mat-form-field appearance="outline" class="groupInput">
                                                 <input matInput aria-label="commodity"
                                                     [matAutocomplete]="autoAccountItem" [formControl]="accountItemCtrl"
-                                                    placeholder="{{editDataDetails ? editDataDetails.accountItemName : ''}}"
+                                                    placeholder="{{editDataDetails ? editDataDetails.accountItemName : 'البند الاحصائي'}}"
                                                     (click)="openAutoAccountItem()" required />
                                                 <mat-autocomplete #autoAccountItem="matAutocomplete"
                                                     [displayWith]="displayAccountItemName"
