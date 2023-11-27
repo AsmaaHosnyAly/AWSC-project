@@ -184,6 +184,7 @@ export class STRAddTableComponent implements OnInit {
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteremployees(value))
     );
 
@@ -626,6 +627,7 @@ export class STRAddTableComponent implements OnInit {
     this.api.getEmployee().subscribe({
       next: (res) => {
         this.employeeList = res;
+        this.cdr.detectChanges(); // Trigger change detection
         console.log("employeeeeeeeeee res: ", this.storeList);
       },
       error: (err) => {

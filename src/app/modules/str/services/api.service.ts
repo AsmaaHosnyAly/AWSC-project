@@ -1097,6 +1097,11 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRItem/get/all`);
   }
 
+  getItemsPositive(storeId: any, fiscalyearId: any) {
+    console.log("storeId: ", storeId, "fiscalYear: ", fiscalyearId);
+    return this.http.get<any>(`${this.url}/STRItem/Get/Items/WithPositive/TotalQty?storeId=${storeId}&fiscalyearId=${fiscalyearId}`);
+  }
+
   getItemById(id: any) {
     let urlPassed = `${this.url}/STRItem/get/${id}`;
     return urlPassed;

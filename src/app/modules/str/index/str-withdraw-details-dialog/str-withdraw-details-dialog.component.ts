@@ -19,14 +19,14 @@ import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
-import { Observable, map, startWith, tap,debounceTime } from 'rxjs';
+import { Observable, map, startWith, tap, debounceTime } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import jwt_decode from 'jwt-decode';
 
 export class item {
-  constructor(public id: number, public name: string, public fullCode: string) { }
+  constructor(public itemId: number, public name: string, public fullCode: string) { }
 }
 
 export class List {
@@ -44,7 +44,7 @@ export class Product {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrWithdrawDetailsDialogComponent {
-  loading :boolean =true;
+  loading: boolean = true;
   groupDetailsForm!: FormGroup;
   getMasterRowEmployeeId: any
   groupMasterForm!: FormGroup;
@@ -168,7 +168,7 @@ export class StrWithdrawDetailsDialogComponent {
       startWith(''),
       debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteritems(value))
-      );
+    );
 
     this.productCtrl = new FormControl();
     this.filteredProduct = this.productCtrl.valueChanges.pipe(
@@ -188,7 +188,7 @@ export class StrWithdrawDetailsDialogComponent {
     this.decodedToken2 = this.decodedToken.roles;
 
 
-    this.getItems();
+    // this.getItemsPositive();
     this.getProducts();
     this.getStores();
 
@@ -228,6 +228,7 @@ export class StrWithdrawDetailsDialogComponent {
     this.getMasterRowDate = formatDate(this.route.snapshot.queryParamMap.get('date')!, 'yyyy-MM-dd', this.locale);
 
     console.log("get params after: ", "masterId: ", this.getMasterRowId, "storeId: ", this.getMasterRowStoreId, "fisclaYear: ", this.getMasterRowFiscalYearId, "date: ", this.getMasterRowDate, "employeeId: ", this.getMasterRowEmployeeId);
+    this.getItemsPositive();
 
     if (this.editData) {
       this.actionBtnDetails = 'Update';
@@ -276,7 +277,7 @@ export class StrWithdrawDetailsDialogComponent {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item;
-    this.groupDetailsForm.patchValue({ itemId: item.id });
+    this.groupDetailsForm.patchValue({ itemId: item.itemId });
     this.groupDetailsForm.patchValue({ fullCode: item.fullCode });
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
     this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
@@ -458,41 +459,41 @@ export class StrWithdrawDetailsDialogComponent {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
 
-      this.dialogRef.close('Save');
-      console.log("master Id: ", this.getMasterRowId.id)
+    this.dialogRef.close('Save');
+    console.log("master Id: ", this.getMasterRowId.id)
 
-      if (this.getMasterRowId.id) {
-       
-        this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
-          .subscribe({
-            
-            next: (res) => {
-              
-              // this.itemsList = res;
-              this.matchedIds = res[0].strWithDrawDetailsGetVM;
+    if (this.getMasterRowId.id) {
 
-              if (this.matchedIds) {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
-                this.dataSource = new MatTableDataSource(this.matchedIds);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
+      this.api.getStrWithdrawDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
 
-                this.sumOfTotals = 0;
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                  this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+          next: (res) => {
 
-                }
+            // this.itemsList = res;
+            this.matchedIds = res[0].strWithDrawDetailsGetVM;
+
+            if (this.matchedIds) {
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strWithDrawDetailsGetVM);
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+
               }
-            },
-            error: (err) => {
-            
             }
-          })
-      }
-      // }
-    
+          },
+          error: (err) => {
+
+          }
+        })
+    }
+    // }
+
 
 
   }
@@ -776,26 +777,26 @@ export class StrWithdrawDetailsDialogComponent {
   getAllMasterForms() {
     // let result = window.confirm('هل تريد اغلاق الطلب');
     // if (result) {
-      //   if(this.actionBtnMaster=='save'){
-      //     this.dialogRef.close('save');
-      // }
-      // else{
-      //   this.dialogRef.close('update');
+    //   if(this.actionBtnMaster=='save'){
+    //     this.dialogRef.close('save');
+    // }
+    // else{
+    //   this.dialogRef.close('update');
 
-      // }
-      // this.closeDialog();
-      this.dialogRef.close('Save');
-      this.api.getStrWithdraw().subscribe({
-        next: (res) => {
-          // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: () => {
-          // alert("خطأ أثناء جلب سجلات المجموعة !!");
-        },
-      });
+    // }
+    // this.closeDialog();
+    this.dialogRef.close('Save');
+    this.api.getStrWithdraw().subscribe({
+      next: (res) => {
+        // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: () => {
+        // alert("خطأ أثناء جلب سجلات المجموعة !!");
+      },
+    });
     // }
   }
 
@@ -927,14 +928,30 @@ export class StrWithdrawDetailsDialogComponent {
   // }
 
 
-  getItems() {
+  // getItems() {
+  //   this.loading = true;
+  //   this.api.getItems().subscribe({
+  //     next: (res) => {
+  //       this.loading = false;
+  //       this.itemsList = res;
+  //       this.cdr.detectChanges(); // Trigger change detection
+  //     },      
+  //     error: (err) => {
+  //       this.loading = false;
+  //       // console.log("fetch store data err: ", err);
+  //       alert('خطا اثناء جلب العناصر !');
+  //     },
+  //   });
+  // }
+
+  getItemsPositive() {
     this.loading = true;
-    this.api.getItems().subscribe({
+    this.api.getItemsPositive(this.getMasterRowStoreId, this.getMasterRowFiscalYearId).subscribe({
       next: (res) => {
         this.loading = false;
         this.itemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
-      },      
+      },
       error: (err) => {
         this.loading = false;
         // console.log("fetch store data err: ", err);
@@ -961,7 +978,7 @@ export class StrWithdrawDetailsDialogComponent {
     if (code.keyCode == 13) {
       this.itemsList.filter((a: any) => {
         if (a.fullCode === code.target.value) {
-          this.groupDetailsForm.controls['itemId'].setValue(a.id);
+          this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
           this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
           console.log("item by code: ", a.name);
           this.itemCtrl.setValue(a.name);
@@ -1014,7 +1031,7 @@ export class StrWithdrawDetailsDialogComponent {
           this.productCtrl.setValue(a.name);
 
           // console.log("itemsList: ", this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode);
-          this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
+          this.fullCodeValue = this.itemsList.find((item: { itemId: any; }) => item.itemId == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
           // alert("fullCode: " + this.fullCodeValue);
           this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
 
@@ -1062,7 +1079,7 @@ export class StrWithdrawDetailsDialogComponent {
 
     // if (item.keyCode == 13) {
     this.itemsList.filter((a: any) => {
-      if (a.id === item) {
+      if (a.itemId === item) {
         // this.groupDetailsForm.controls['itemId'].setValue(a.id);
         console.log("item by code selected: ", a)
         // console.log("item by code selected: ", a.fullCode)
@@ -1124,7 +1141,7 @@ export class StrWithdrawDetailsDialogComponent {
       if (a.id === productEvent) {
         this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
         // this.groupDetailsForm.controls['fullCode'].setValue(a.code);
-        this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
+        this.fullCodeValue = this.itemsList.find((item: { itemId: any; }) => item.itemId == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
         this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
 
         console.log("item by code: ", a.itemName);

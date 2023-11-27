@@ -8,13 +8,14 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { formatDate } from '@angular/common';
 import { PrintDialogComponent } from '../../../str/index/print-dialog/print-dialog.component';
-import { FormControl, FormBuilder, FormGroup} from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, map, startWith, debounceTime } from 'rxjs';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { MatTabGroup } from '@angular/material/tabs';
-import { Validators} from '@angular/forms';
+import { Validators } from '@angular/forms';
+
 interface ccEntry {
   no: string;
   balance: string;
@@ -25,6 +26,14 @@ interface ccEntry {
   state: string;
   date: string;
   Action: string;
+}
+
+interface ccEntryDetails {
+  credit: string;
+  debit: string;
+  accountName: string;
+  fiAccountItemId: string;
+  action: string;
 }
 
 export class Account {
@@ -51,7 +60,9 @@ export class FiEntryTableComponent implements OnInit {
   isLoading = false;
   totalRows = 0;
   pageSize = 5;
+  // pageSize2 = 5;
   currentPage: any;
+  // currentPage2: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   serachFlag: boolean = false;
 
@@ -102,9 +113,19 @@ export class FiEntryTableComponent implements OnInit {
   selectedJournal: Journal | undefined;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginatorDetails!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   pageIndex: any;
+  // pageIndex2: any;
   length: any;
+
+  dataSource: MatTableDataSource<ccEntryDetails> = new MatTableDataSource();
+  pageIndexDetails: any;
+  lengthDetails: any;
+  // pageSizeDetails: any;
+  pageSizeDetails = 5;
+  ELEMENT_DATA_DETAILS: ccEntryDetails[] = [];
+  currentPageDetails: any;
 
   @ViewChild("matgroup", { static: false })
   matgroup!: MatTabGroup;
@@ -116,7 +137,7 @@ export class FiEntryTableComponent implements OnInit {
   journalEndDate: any;
   getMasterRowId: any;
   MasterGroupInfoEntered = false;
-  dataSource!: MatTableDataSource<any>;
+  // dataSource!: MatTableDataSource<any>;
   sumOfTotals = 0;
   sumOfCreditTotals = 0;
   sumOfDebitTotals = 0;
@@ -139,6 +160,7 @@ export class FiEntryTableComponent implements OnInit {
   journalStartDateFormat: any;
   journalEndDateFormat: any;
   dateFormat: any;
+  autoCode: any;
 
   ngAfterViewInit() {
     this.dataSource2.paginator = this.paginator;
@@ -185,6 +207,7 @@ export class FiEntryTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllMasterForms();
+    this.getFiEntryAutoCode();
     this.getJournals();
     this.getFiAccounts();
     this.getFiEntrySource();
@@ -228,18 +251,19 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
-  // setState(state: any) {
+  setState(state: any) {
 
-  //   console.log("state value changed: ", state.value);
+    console.log("state value changed: ", state.value);
 
-  //   if (this.groupMasterForm.getRawValue().state != "مغلق") {
-  //     this.entryRowReadOnlyState = true;
-  //   }
-  //   else {
-  //     this.entryRowReadOnlyState = false;
-  //   }
+    if (this.groupMasterForm.getRawValue().state == "مغلق") {
+      if (this.groupMasterForm.getRawValue().balance != 0) {
+        // this.groupMasterForm.controls['state'].reset();
+        this.toastrWarningCloseDialog();
 
-  // }
+      }
+    }
+
+  }
 
   private _filterAccounts(value: string): Account[] {
     const filterValue = value;
@@ -329,7 +353,7 @@ export class FiEntryTableComponent implements OnInit {
 
     console.log("matGroup: ", tabGroup, "selectIndex: ", tabGroup.selectedIndex);
 
-    // this.getAllDetailsForms();
+    this.getFiEntryAutoCode()
   }
 
   applyFilter(event: Event) {
@@ -407,6 +431,36 @@ export class FiEntryTableComponent implements OnInit {
     // this.currentPage = event.previousPageIndex;
     this.getAllMasterForms();
   }
+  // pageChanged2(event: PageEvent2) {
+  //   console.log("page event: ", event);
+  //   this.pageSize2 = event.pageSize2;
+  //   this.currentPage2 = event.pageIndex2;
+  //   // this.currentPage = event.previousPageIndex;
+  //   this.getAllDetailsForms();
+  // }
+
+  pageChangedDetails(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSizeDetails = event.pageSize;
+    this.currentPageDetails = event.pageIndex;
+    // this.currentPage = event.previousPageIndex;
+    this.getAllDetailsForms();
+  }
+
+  getFiEntryAutoCode() {
+    this.api.getFiEntryAutoCode().subscribe({
+      next: (res) => {
+        this.autoCode = res;
+        this.groupMasterForm.controls['no'].setValue(this.autoCode);
+        console.log('autoCode res: ', this.autoCode);
+      },
+      error: (err) => {
+        console.log('fetch autoCode data err: ', err);
+        // alert('خطا اثناء جلب الدفاتر !');
+        this.toastrAutoCodeGenerateError();
+      },
+    });
+  }
 
   getJournals() {
     this.api.getJournals().subscribe({
@@ -441,11 +495,11 @@ export class FiEntryTableComponent implements OnInit {
         this.loading = false;
         this.accountsList = res;
         this.cdr.detectChanges(); // Trigger change detection
-      },      
+      },
       error: (err) => {
         this.loading = false;
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب العناصر !');
+        // alert('خطا اثناء جلب العناصر !');
       },
     });
   }
@@ -830,26 +884,33 @@ export class FiEntryTableComponent implements OnInit {
 
 
   getAllDetailsForms() {
-    if (!this.getMasterRowId) {
+    if (this.editData) {
       this.getMasterRowId = {
         "id": this.editData.id
       }
     }
-    // else{
 
-    // }
     console.log("mastered row get all data: ", this.getMasterRowId)
     if (this.getMasterRowId) {
       this.api.getFiEntryDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
           this.matchedIds = res;
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res, "paginate: ", this.paginator);
 
           if (this.matchedIds) {
-            this.dataSource = new MatTableDataSource(this.matchedIds);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+            // this.dataSource = new MatTableDataSource(this.matchedIds);
+            // this.dataSource.paginator = this.paginatorDetails;
+            // // this.dataSource.sort = this.sort;
+            // // this.dataSource.data = this.matchedIds.items;
+            // this.pageIndexDetails = 0;
+            // // this.pageSizeDetails = this.matchedIds.length;
+            // this.lengthDetails = this.matchedIds.length;
+            // // setTimeout(() => {
+            // // this.paginator.pageIndexDetails = this.currentPage;
+            // // this.paginator.length = this.length;
+            // // });
 
+            // console.log("dataSource: ", this.dataSource);
             this.sumOfTotals = 0;
             this.sumOfCreditTotals = 0;
             this.sumOfDebitTotals = 0;
@@ -881,6 +942,57 @@ export class FiEntryTableComponent implements OnInit {
           // alert("خطا اثناء جلب العناصر !");
         }
       })
+
+      if (!this.currentPageDetails) {
+        this.currentPageDetails = 0;
+
+        this.isLoading = true;
+        fetch(this.api.getFiEntryDeatilsPaginateByMasterId(this.currentPageDetails, this.pageSizeDetails, this.getMasterRowId.id))
+          .then(response => response.json())
+          .then(data => {
+
+            console.log("details data paginate first Time: ", data);
+            this.dataSource.data = data.items;
+            this.pageIndexDetails = data.page;
+            this.pageSizeDetails = data.pageSize;
+            this.lengthDetails = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPageDetails;
+              this.paginator.length = this.lengthDetails;
+            });
+
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
+          });
+      }
+      else {
+
+        this.isLoading = true;
+        fetch(this.api.getFiEntryDeatilsPaginateByMasterId(this.currentPageDetails, this.pageSizeDetails, this.getMasterRowId.id))
+          .then(response => response.json())
+          .then(data => {
+
+            console.log("details data paginate: ", data);
+            this.dataSource.data = data.items;
+            this.pageIndexDetails = data.page;
+            this.pageSizeDetails = data.pageSize;
+            this.lengthDetails = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPageDetails;
+              this.paginator.length = this.lengthDetails;
+            });
+            this.isLoading = false;
+          }, error => {
+            console.log(error);
+            this.isLoading = false;
+          });
+
+
+      }
+
+
     }
   }
 
@@ -892,12 +1004,12 @@ export class FiEntryTableComponent implements OnInit {
     console.log('editData CASE', this.selectedJournal);
 
     this.dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
-    // if (this.editData.journal_StartDate != this.selectedJournal?.startDate && this.editData.journal_EndDate != this.selectedJournal?.endDate) {
-    //   // alert("editData journal S date" + this.editData.journal_StartDate + "format result: " + formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale));
+    if (this.editData.journal_StartDate != this.selectedJournal?.startDate && this.editData.journal_EndDate != this.selectedJournal?.endDate) {
+      // alert("editData journal S date" + this.editData.journal_StartDate + "format result: " + formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale));
 
-    //   journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
-    //   journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
-    // }
+      this.journalStartDateFormat = formatDate(this.editData.journal_StartDate, 'yyyy-MM-dd', this.locale);
+      this.journalEndDateFormat = formatDate(this.editData.journal_EndDate, 'yyyy-MM-dd', this.locale);
+    }
     // else {
     //   console.log('NOT editData CASE');
 
@@ -910,7 +1022,7 @@ export class FiEntryTableComponent implements OnInit {
     console.log('JOURNAL start date: ', this.journalStartDateFormat, "endDate: ", this.journalEndDateFormat, "date: ", this.dateFormat, "condition: ", formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat);
     // console.log("date get time condition: ", dateFormat.getTime() >= journalStartDateFormat && dateFormat <= journalEndDateFormat);
     if (this.dateFormat == undefined || this.journalStartDateFormat == undefined || this.journalEndDateFormat == undefined) {
-      alert("False: " + this.dateFormat + "s: " + this.journalStartDateFormat + "e: " + this.journalEndDateFormat);
+      // alert("False: " + this.dateFormat + "s: " + this.journalStartDateFormat + "e: " + this.journalEndDateFormat);
     }
     // else {
     //   alert("True... date: " + dateFormat + " start: " + journalStartDateFormat + " end: " + journalEndDateFormat);
@@ -933,21 +1045,29 @@ export class FiEntryTableComponent implements OnInit {
     //   }
 
     // }
-    if (formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat) {
-      this.api.putFiEntry(this.groupMasterForm.value).subscribe({
-        next: (res) => {
-          this.getAllMasterForms();
-          this.groupDetailsForm.reset();
-
-          this.accountCtrl.reset();
-          this.accountItemCtrl.reset();
-        },
-      });
+    if (this.groupMasterForm.getRawValue().balance != 0 && this.groupMasterForm.getRawValue().state == "مغلق") {
+      this.toastrWarningCloseDialog();
+      console.log("balance: ", this.groupMasterForm.getRawValue().balance, "state: ", this.groupMasterForm.getRawValue().state);
+      this.groupMasterForm.controls['state'].setValue(this.defaultState);
     }
     else {
-      this.toastrWarningEntryDate();
-      this.groupMasterForm.controls['date'].setValue('');
+      if (formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) >= this.journalStartDateFormat && formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale) <= this.journalEndDateFormat) {
+        this.api.putFiEntry(this.groupMasterForm.value).subscribe({
+          next: (res) => {
+            this.getAllMasterForms();
+            this.groupDetailsForm.reset();
+
+            this.accountCtrl.reset();
+            this.accountItemCtrl.reset();
+          },
+        });
+      }
+      else {
+        this.toastrWarningEntryDate();
+        this.groupMasterForm.controls['date'].setValue('');
+      }
     }
+
 
 
   }
@@ -1041,6 +1161,8 @@ export class FiEntryTableComponent implements OnInit {
 
     }
     else {
+      this.groupDetailsForm.controls['entryId'].setValue(this.editData.id);
+
       console.log("Enteeeeerrr edit condition: ", this.groupDetailsForm.value)
       if (this.groupDetailsForm.getRawValue().credit != this.groupDetailsForm.getRawValue().debit && (this.groupDetailsForm.getRawValue().credit == 0 || this.groupDetailsForm.getRawValue().debit == 0)) {
         this.api.putFiEntryDetails(this.groupDetailsForm.value)
@@ -1122,7 +1244,9 @@ export class FiEntryTableComponent implements OnInit {
     else {
       this.entryRowReadOnlyState = false;
     }
-
+    this.getMasterRowId = {
+      "id": this.editDataDetails.id
+    }
   }
 
   deleteFormDetails(id: number) {
@@ -1178,11 +1302,11 @@ export class FiEntryTableComponent implements OnInit {
         this.loading = false;
         this.accountItemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
-      },      
+      },
       error: (err) => {
         this.loading = false;
         // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب العناصر !');
+        // alert('خطا اثناء جلب العناصر !');
       },
     });
   }
@@ -1234,9 +1358,9 @@ export class FiEntryTableComponent implements OnInit {
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
   }
-  // toastrDeleteSuccess(): void {
-  //   this.toastr.success('تم الحذف بنجاح');
-  // }
+  toastrAutoCodeGenerateError(): void {
+    this.toastr.error('  حدث خطا اثناء توليد الكود ! ');
+  }
   toastrWarningCloseDialog(): void {
     this.toastr.warning("تحذير القيد غير متزن !");
   }

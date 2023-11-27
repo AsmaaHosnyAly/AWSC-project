@@ -458,6 +458,9 @@ export class ApiService {
   postFiEntry(data: any) {
     return this.http.post<any>(`${this.url}/FIEntry/Add`, data);
   }
+  getFiEntryAutoCode() {
+    return this.http.get<any>(`${this.url}/FIEntry/AutoCode`);
+  }
   getFiEntry() {
     return this.http.get<any>(`${this.url}/FIEntry/get/all`);
   }
@@ -478,6 +481,10 @@ export class ApiService {
   }
   getFiEntryDetails() {
     return this.http.get<any>(`${this.url}/FIEntryDetails/get/all`);
+  }
+  getFiEntryDeatilsPaginateByMasterId(currentPage: any, pageSize: any, HeaderId: any) {
+    let urlPassed = `${this.url}/FIEntryDetails/get/by/pagination?page=${currentPage}&pageSize=${pageSize}&HeaderId=${HeaderId}`;
+    return urlPassed;
   }
   getFiEntryDetailsByMasterId(id: any) {
     return this.http.get<any>(`${this.url}/FIEntryDetails/get/By/Header/${id}`);
