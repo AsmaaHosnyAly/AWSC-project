@@ -1465,6 +1465,10 @@ export class ApiService {
       `${this.url}/api/STRWithdraw/get/{id}`
     );
   }
+  getStrWithdrawDetailsPaginateByMasterId(currentPage: any, pageSize: any, HeaderId: any) {
+    let urlPassed = `${this.url}/STRWithdrawDetails/get/by/pagination?page=${currentPage}&pageSize=${pageSize}&HeaderId=${HeaderId}`;
+    return urlPassed;
+  }
   getStrWithdrawDetailsByMasterId(id: any) {
     return this.http.get<any>(
       `${this.url}/STRWithdrawDetails/get/by/header/${id}`

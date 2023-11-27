@@ -835,6 +835,8 @@ export class FiEntryTableComponent implements OnInit {
     this.groupMasterForm.controls['creditTotal'].setValue(0);
     this.groupMasterForm.controls['debitTotal'].setValue(0);
     this.groupMasterForm.controls['balance'].setValue(0);
+    this.groupDetailsForm.controls['credit'].setValue(0);
+    this.groupDetailsForm.controls['debit'].setValue(0);
     this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
     console.log('fiEntry master form: ', this.groupMasterForm.value);
@@ -1136,6 +1138,9 @@ export class FiEntryTableComponent implements OnInit {
                   this.accountItemCtrl.reset();
                   this.editDataDetails = '';
 
+                  this.groupDetailsForm.controls['credit'].setValue(0);
+                  this.groupDetailsForm.controls['debit'].setValue(0);
+
                   this.getAllDetailsForms();
 
                   // this.dialogRef.close('save');
@@ -1175,6 +1180,9 @@ export class FiEntryTableComponent implements OnInit {
               this.accountItemCtrl.reset();
               this.editDataDetails = '';
               this.getAllDetailsForms();
+
+              this.groupDetailsForm.controls['credit'].setValue(0);
+              this.groupDetailsForm.controls['debit'].setValue(0);
 
               // this.dialogRef.close('save');
             },
