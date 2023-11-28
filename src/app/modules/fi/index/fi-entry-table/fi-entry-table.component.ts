@@ -273,6 +273,7 @@ export class FiEntryTableComponent implements OnInit {
           this.groupMasterForm.controls['state'].setValue(this.defaultState);
           this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue('');
 
+          this.getAllMasterForms();
         }
         else {
           console.log("continue");
