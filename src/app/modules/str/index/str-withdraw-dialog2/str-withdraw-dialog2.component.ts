@@ -313,7 +313,8 @@ export class StrWithdrawDialogComponent implements OnInit {
         // );
 
         // alert("deststore in edit:"+this.editData.deststoreId)
-      } else {
+      } 
+      else {
         this.actionName = 'choose';
         let type = 'الموظف';
         this.getListCtrl(type);
@@ -466,7 +467,6 @@ export class StrWithdrawDialogComponent implements OnInit {
       item.name ? item.name.toLowerCase().includes(filterValue) : '-'
     );
   }
-
   openAutoitem() {
     this.itemCtrl.setValue(''); // Clear the input field value
 
@@ -616,6 +616,7 @@ export class StrWithdrawDialogComponent implements OnInit {
     // this.groupMasterForm.controls['employeeId'].setValue('');
     this.isReadOnlyEmployee = true;
   }
+
   // itemOnChange(itemEvent: any) {
   //   // this.isReadOnly = true;
   //   console.log("itemId: ", itemEvent)
