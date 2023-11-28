@@ -44,14 +44,14 @@ th {
 }
 
 .search mat-form-field {
-  width: 175px;
+  width: 173px;
   margin-left: 10px;
 
   padding: 0 !important;
 }
 
 .headerForm mat-form-field {
-  width: 172px;
+  width: 210px;
   margin-left: 10px;
 
   padding: 0 !important;
@@ -69,7 +69,21 @@ th {
   /* justify-content: space-between; */
   flex-wrap: wrap;
 }
-
+.searchbyproduct{
+  display: flex;
+  justify-content: space-around;
+}
+.radio{
+  display: flex;
+   flex-direction: column;
+    width: 100%
+} 
+.sum-label{
+  font-size: 22px;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 8px;
+}
 .search button,
 .print button {
   width: 250px;
@@ -287,13 +301,13 @@ td {
 .headerForm {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .headerForm2 {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .searchLabels {
@@ -432,4 +446,7 @@ mat-tab {
 .showOnlyBtn {
   color: rgba(60, 201, 252, 0.8);
 
+}
+::ng-deep .mat-typography h1 {
+  margin: 20px 0 16px !important;
 }

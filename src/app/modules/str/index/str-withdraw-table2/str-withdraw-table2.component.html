@@ -90,10 +90,9 @@
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
-
-          <div style="display: flex; flex-direction: column;">
-            <mat-label>تاريخ النهاية</mat-label>
-            <mat-form-field appearance="outline" class="searchForm">
+          <div class="searchLabels">
+          <mat-label>تاريخ النهاية</mat-label>
+          <mat-form-field appearance="outline" class="searchForm">
               <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate">
               <mat-datepicker-toggle matIconSuffix [for]="picke">
                 <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -405,8 +404,8 @@
 
 
                 <div>
-                  <div class="groupAction">
-                    <button mat-raised-button class="savebtn" (click)="updateMaster()">
+                  <div dir="ltr" class="groupAction">
+                    <button mat-raised-button class="follow-btn" (click)="updateMaster()">
                       تعديل الاذن
                     </button>
                   </div>
@@ -471,7 +470,9 @@
                               </div>
                             </mat-expansion-panel>
                           </mat-accordion>
-
+                        </div>
+                      </div>
+                    </div>
                           <div class="headerForm2">
                             <!-- <div class="parent"> -->
                             <div class="searchLabels">
@@ -534,7 +535,7 @@
 
                             <!-- </div> -->
                             <div style="display: flex; flex-direction: row">
-                              <div class="radio" style="display: flex; flex-direction: column; width: 50%">
+                              <div class="radio" >
                                 <mat-label style="margin-top: 9px"> حالةالصنف*</mat-label>
 
                                 <mat-radio-group style="display: flex; flex-direction: row"
@@ -550,9 +551,9 @@
                             </div>
                           </div>
 
-                        </div>
-                      </div>
-                    </div>
+                        
+                      
+                    
 
                     <div>
                       <div dir="ltr">
