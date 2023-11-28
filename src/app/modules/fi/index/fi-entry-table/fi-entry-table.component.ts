@@ -251,6 +251,54 @@ export class FiEntryTableComponent implements OnInit {
 
   }
 
+  tabSelected(tab: any) {
+
+    console.log("tab selected: ", tab);
+    if (tab.index == 0) {
+      if (this.groupMasterForm.getRawValue().balance != 0) {
+        var result = confirm('القيد غير متزن هل تريد الاستمرار ؟');
+        if (result) {
+          console.log("close");
+
+          this.editData = '';
+          this.MasterGroupInfoEntered = false;
+          this.journalNo = '';
+          this.groupMasterForm.controls['no'].setValue('');
+          this.journalCtrl.setValue('');
+          this.groupMasterForm.controls['date'].setValue(this.currentDate);
+          this.groupMasterForm.controls['creditTotal'].setValue(0);
+          this.groupMasterForm.controls['debitTotal'].setValue(0);
+          this.groupMasterForm.controls['balance'].setValue(0);
+          this.groupMasterForm.controls['description'].setValue('');
+          this.groupMasterForm.controls['state'].setValue(this.defaultState);
+          this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue('');
+
+        }
+        else {
+          console.log("continue");
+
+          let tabGroup = this.matgroup;
+          tabGroup.selectedIndex = 1;
+        }
+      }
+      // console.log("done: ", tab);
+
+      // this.editData = '';
+      // this.MasterGroupInfoEntered = false;
+      // this.journalNo = '';
+      // this.groupMasterForm.controls['no'].setValue('');
+      // this.journalCtrl.setValue('');
+      // this.groupMasterForm.controls['date'].setValue(this.currentDate);
+      // this.groupMasterForm.controls['creditTotal'].setValue(0);
+      // this.groupMasterForm.controls['debitTotal'].setValue(0);
+      // this.groupMasterForm.controls['balance'].setValue(0);
+      // this.groupMasterForm.controls['description'].setValue('');
+      // this.groupMasterForm.controls['state'].setValue(this.defaultState);
+      // this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue('');
+
+    }
+  }
+
   setState(state: any) {
 
     console.log("state value changed: ", state.value);

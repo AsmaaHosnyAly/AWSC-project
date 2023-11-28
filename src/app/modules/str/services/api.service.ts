@@ -1439,6 +1439,10 @@ export class ApiService {
       `${this.url}/STRWithdraw/get/all`
     );
   }
+  getStrWithdrawUserStorePaginateByMasterId(userId: any, currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/STRWithdraw/get/By/User/Stores/${userId}?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putStrWithdraw(data: any) {
     console.log('put data ', data);
 

@@ -63,6 +63,17 @@ export class Product {
   constructor(public id: number, public name: string, public code: any) { }
 }
 
+interface strWithdraw {
+  no: any;
+  storeName: any;
+  employeeName: any;
+  desstoreName: any;
+  costCenterName: any;
+  fiscalyear: any;
+  date: any;
+  Action: any;
+}
+
 interface strWithdrawDetails {
   itemName: any;
   price: any;
@@ -139,7 +150,14 @@ export class StrWithdrawTableComponent implements OnInit {
   sourceSelected: any;
 
   formcontrol = new FormControl('');
-  dataSource2!: MatTableDataSource<any>;
+  dataSource2: MatTableDataSource<strWithdraw> = new MatTableDataSource();
+  pageIndex: any;
+  length: any;
+  pageSize = 5;
+  ELEMENT_DATA: strWithdraw[] = [];
+  currentPage: any;
+
+  // dataSource2!: MatTableDataSource<any>;
   dataSource!: MatTableDataSource<any>;
   pdfurl = '';
   reportNameList: any;
@@ -212,6 +230,7 @@ export class StrWithdrawTableComponent implements OnInit {
   productIdValue: any;
   isReadOnlyPercentage: any = true;
   editDataDetails: any;
+  currentDate: any;
 
   constructor(
     private api: ApiService,
@@ -320,7 +339,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getStores();
     this.getEmployees();
 
-    let dateNow: Date = new Date();
+    this.currentDate = new Date();
     // console.log('Date = ' + dateNow);
 
     // console.log('looo', this.sharedStores);
@@ -359,7 +378,7 @@ export class StrWithdrawTableComponent implements OnInit {
       type: ['', Validators.required],
       sourceInput: [''],
 
-      date: [dateNow, Validators.required],
+      date: [this.currentDate, Validators.required],
       fiscalYearId: ['', Validators.required],
       employeeId: [''],
       employeeName: [''],
@@ -398,6 +417,23 @@ export class StrWithdrawTableComponent implements OnInit {
 
   }
 
+  tabSelected(tab: any) {
+    console.log("tab selected: ", tab);
+    if (tab.index == 0) {
+      console.log("done: ", tab);
+
+      this.editData = '';
+      this.MasterGroupInfoEntered = false;
+      this.groupMasterForm.controls['no'].setValue('');
+      this.listCtrl.setValue('');
+      this.costcenterCtrl.setValue('');
+      this.groupMasterForm.controls['date'].setValue(this.currentDate);
+
+      this.getAllMasterForms();
+
+    }
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource2.filter = filterValue.trim().toLowerCase();
@@ -413,6 +449,7 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   openWithdrawDialog() {
     this.editData = '';
+    // this.editDataDetails = '';
 
     // this.groupMasterForm.controls['no'].setValue('');
     // this.groupMasterForm.controls['journalId'].setValue('');
@@ -527,8 +564,9 @@ export class StrWithdrawTableComponent implements OnInit {
           console.log('mastered res: ', this.getMasterRowId.id);
           this.MasterGroupInfoEntered = true;
 
-          // this.toastrSuccess();
-          // this.getAllDetailsForms();
+          this.toastrSuccess();
+          this.getAllDetailsForms();
+          this.getAllMasterForms();
           // this.updateDetailsForm();
 
         },
@@ -562,6 +600,7 @@ export class StrWithdrawTableComponent implements OnInit {
         next: (res) => {
           this.groupDetailsForm.reset();
           this.getDetailedRowData = '';
+          this.getAllMasterForms();
           this.groupDetailsForm.controls['qty'].setValue(1);
         },
 
@@ -570,30 +609,88 @@ export class StrWithdrawTableComponent implements OnInit {
 
 
   getAllMasterForms() {
-    this.api.getStrWithdraw().subscribe({
-      next: (res) => {
-        console.log('response of get all getGroup from api: ', res);
-        this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-        this.groupMasterSearchForm.reset();
-        this.groupDetailsForm.reset();
+    // this.api.getStrWithdraw().subscribe({
+    //   next: (res) => {
+    //     console.log('response of get all getGroup from api: ', res);
+    //     this.dataSource2 = new MatTableDataSource(res);
+    //     this.dataSource2.paginator = this.paginator;
+    //     this.dataSource2.sort = this.sort;
+    //     this.groupMasterSearchForm.reset();
+    //     this.groupDetailsForm.reset();
 
-        this.itemCtrl.reset();
-        this.storeCtrl.reset();
-        this.employeeCtrl.reset();
+    //     this.itemCtrl.reset();
+    //     this.storeCtrl.reset();
+    //     this.employeeCtrl.reset();
 
 
-        console.log(
-          'costcenterId in getall:',
-          this.groupMasterSearchForm.getRawValue().selectedcostcenter?.id
-        );
+    //     console.log(
+    //       'costcenterId in getall:',
+    //       this.groupMasterSearchForm.getRawValue().selectedcostcenter?.id
+    //     );
 
-      },
-      error: () => {
-        // alert('خطأ أثناء جلب سجلات اذن الصرف !!');
-      },
-    });
+    //   },
+    //   error: () => {
+    //     // alert('خطأ أثناء جلب سجلات اذن الصرف !!');
+    //   },
+    // });
+
+    if (!this.currentPage) {
+      this.currentPage = 0;
+
+      // this.isLoading = true;
+      fetch(this.api.getStrWithdrawUserStorePaginateByMasterId(this.userIdFromStorage, this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+
+          console.log("master data paginate first Time: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+    }
+    else {
+
+      // this.isLoading = true;
+      fetch(this.api.getStrWithdrawUserStorePaginateByMasterId(this.userIdFromStorage, this.currentPage, this.pageSize))
+        .then(response => response.json())
+        .then(data => {
+
+          console.log("master data paginate: ", data);
+          this.dataSource2.data = data.items;
+          this.pageIndex = data.page;
+          this.pageSize = data.pageSize;
+          this.length = data.totalItems;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.currentPage;
+            this.paginator.length = this.length;
+          });
+          // this.isLoading = false;
+        }, error => {
+          console.log(error);
+          // this.isLoading = false;
+        });
+
+
+    }
+
+  }
+
+  pageChanged(event: PageEvent) {
+    console.log("page event: ", event);
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    this.getAllMasterForms();
   }
 
   editMasterForm(row: any) {
@@ -601,6 +698,7 @@ export class StrWithdrawTableComponent implements OnInit {
     tabGroup.selectedIndex = 1;
 
     this.editData = row;
+    this.editDataDetails = '';
 
     console.log('master edit form: ', this.editData);
 
@@ -616,19 +714,19 @@ export class StrWithdrawTableComponent implements OnInit {
       );
     }
     else {
-      this.actionName = 'choose';
-      let type = 'الموظف';
-      this.getListCtrl(type);
-      this.getEmployees();
+      //   this.actionName = 'choose';
+      //   let type = 'الموظف';
+      //   this.getListCtrl(type);
+      //   this.getEmployees();
 
       this.groupMasterForm.controls['type'].setValue('الموظف');
-      this.groupMasterForm.controls['sourceInput'].setValue(
-        this.groupMasterForm.getRawValue().employeeName
-      );
-      console.log(
-        'employee in edit:',
-        this.groupMasterForm.getRawValue().employeeName
-      );
+      // this.groupMasterForm.controls['sourceInput'].setValue(
+      //     this.groupMasterForm.getRawValue().employeeName
+      //   );
+      //   console.log(
+      //     'employee in edit:',
+      //     this.groupMasterForm.getRawValue().employeeName
+      //   );
 
     }
 
@@ -760,7 +858,7 @@ export class StrWithdrawTableComponent implements OnInit {
             next: (res) => {
               this.matchedIds = res.filter((a: any) => {
                 // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                return a.stR_WithdrawId === id;
+                return a.stR_WithdrawId == id;
               });
 
               for (let i = 0; i < this.matchedIds.length; i++) {
@@ -787,6 +885,7 @@ export class StrWithdrawTableComponent implements OnInit {
       next: (res) => {
         this.toastrDeleteSuccess();
         this.getAllMasterForms();
+        this.getAllDetailsForms();
       },
       error: (err) => {
         // console.log("delete details err: ", err)
@@ -1585,6 +1684,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.selecteditemPositive = itemPositive;
     this.groupDetailsForm.patchValue({ itemId: itemPositive.itemId });
     this.groupDetailsForm.patchValue({ fullCode: itemPositive.fullCode });
+    this.fullCodeValue = itemPositive.fullCode;
 
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
     this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
@@ -1673,8 +1773,8 @@ export class StrWithdrawTableComponent implements OnInit {
     console.log("item by code: ", item, "code: ", this.itemsList);
 
     // if (item.keyCode == 13) {
-    this.itemsList.filter((a: any) => {
-      if (a.itemId === item) {
+    this.itemsPositiveList.filter((a: any) => {
+      if (a.itemId == item) {
         // this.groupDetailsForm.controls['itemId'].setValue(a.id);
         console.log("item by code selected: ", a)
         // console.log("item by code selected: ", a.fullCode)
@@ -1714,17 +1814,27 @@ export class StrWithdrawTableComponent implements OnInit {
 
   getItemByProductId(productEvent: any) {
     console.log("productEvent: ", productEvent);
+    let item;
+    let itemName;
 
     this.productsList.filter((a: any) => {
-      if (a.id === productEvent) {
+      if (a.id == productEvent) {
         this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
         // this.groupDetailsForm.controls['fullCode'].setValue(a.code);
-        this.fullCodeValue = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
+        console.log("product: ", a);
+
+        this.fullCodeValue = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == a.itemId)?.fullCode;
         this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
 
-        console.log("item by code: ", a.itemName);
-        this.itemCtrl.setValue(a.itemName);
-        if (a.itemName) {
+        item = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == a.itemId)?.itemId;
+        this.groupDetailsForm.controls['itemId'].setValue(item);
+
+        itemName = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == a.itemId)?.name;
+        this.groupDetailsForm.controls['itemId'].setValue(itemName);
+
+        console.log("item by code: ", itemName, "id: ", item, "item full code: ", this.fullCodeValue);
+        // this.itemPositiveCtrl.setValue(a.itemName);
+        if (item) {
           this.itemByFullCodeValue = a.itemName;
 
           this.api.getAvgPrice(
@@ -1748,37 +1858,45 @@ export class StrWithdrawTableComponent implements OnInit {
         else {
           this.itemByFullCodeValue = '-';
         }
-        this.itemByFullCodeValue = a.itemName;
+        // this.itemByFullCodeValue = a.itemName;
       }
     })
   }
 
   getItemByProductCode(code: any) {
     if (code.keyCode == 13) {
+      let item;
+      let itemName;
+
       this.productsList.filter((a: any) => {
         console.log("enter product code case, ", "a.code: ", a.code, " code target: ", code.target.value);
         if (a.code == code.target.value) {
-          console.log("enter product code case condition: ", a.code === code.target.value);
+          console.log("enter product code case condition: ", a.code == code.target.value);
 
-          this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
-          // this.groupDetailsForm.controls['productId'].setValue(a.id);
-          this.productIdValue = a.name;
-          this.productCtrl.setValue(a.name);
+          // this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
 
-          // console.log("itemsList: ", this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode);
-          this.fullCodeValue = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
-          // alert("fullCode: " + this.fullCodeValue);
+          // this.productIdValue = a.name;
+          // this.productCtrl.setValue(a.name);
+
+          this.fullCodeValue = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == a.itemId)?.fullCode;
           this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
 
-          this.itemCtrl.setValue(a.itemName);
-          if (a.itemName) {
-            this.itemByFullCodeValue = a.name;
+          item = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == a.itemId)?.itemId;
+          this.groupDetailsForm.controls['itemId'].setValue(item);
+
+          itemName = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == a.itemId)?.name;
+          this.groupDetailsForm.controls['itemName'].setValue(itemName);
+
+
+          if (item) {
+            this.itemByFullCodeValue = itemName;
+            this.itemCtrl.setValue(itemName);
 
             this.api.getAvgPrice(
               this.groupMasterForm.getRawValue().storeId,
               this.groupMasterForm.getRawValue().fiscalYearId,
               formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-              this.groupDetailsForm.getRawValue().itemId
+              item
             )
               .subscribe({
                 next: (res) => {
@@ -1797,8 +1915,8 @@ export class StrWithdrawTableComponent implements OnInit {
           else {
             this.itemByFullCodeValue = '-';
           }
-          this.itemByFullCodeValue = a.name;
-          // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+          // this.itemByFullCodeValue = a.name;
+          // // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
         }
         else {
@@ -1810,12 +1928,13 @@ export class StrWithdrawTableComponent implements OnInit {
 
   getItemByCode(code: any) {
     if (code.keyCode == 13) {
-      this.itemsList.filter((a: any) => {
-        if (a.fullCode === code.target.value) {
+      this.itemsPositiveList.filter((a: any) => {
+        console.log("full item code: ", a.fullCode, "code target: ", code.target.value)
+        if (a.fullCode == code.target.value) {
           this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
           this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
           console.log("item by code: ", a.name);
-          this.itemCtrl.setValue(a.name);
+          this.itemPositiveCtrl.setValue(a.name);
           if (a.name) {
             this.itemByFullCodeValue = a.name;
 
@@ -1842,6 +1961,9 @@ export class StrWithdrawTableComponent implements OnInit {
           }
           this.itemByFullCodeValue = a.name;
 
+        }
+        else {
+          this.itemByFullCodeValue = '-';
         }
       })
     }
@@ -1870,44 +1992,35 @@ export class StrWithdrawTableComponent implements OnInit {
 
     // this.goToPart();
     if (this.editDataDetails || row) {
-      // this.getDetailedRowData = row;
+
       console.log('dETAILS ROW: ', this.editDataDetails);
 
       // this.actionBtnDetails = 'Update';
-      this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
-        this.editDataDetails.stR_WithdrawId
-      );
-
-      this.groupDetailsForm.controls['qty'].setValue(
-        this.editDataDetails.qty
-      );
-      this.groupDetailsForm.controls['price'].setValue(
-        this.editDataDetails.price
-      );
-      this.groupDetailsForm.controls['percentage'].setValue(
-        this.editDataDetails.percentage
-      );
+      this.groupDetailsForm.controls['stR_WithdrawId'].setValue(this.editDataDetails.stR_WithdrawId);
+      this.groupDetailsForm.controls['qty'].setValue(this.editDataDetails.qty);
+      this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
+      this.groupDetailsForm.controls['percentage'].setValue(this.editDataDetails.percentage);
 
       this.groupDetailsForm.controls['total'].setValue(
         parseFloat(this.groupDetailsForm.getRawValue().price) *
         parseFloat(this.groupDetailsForm.getRawValue().qty)
       );
 
-      this.groupDetailsForm.controls['itemId'].setValue(
-        this.editDataDetails.itemId
-      );
-      this.groupDetailsForm.controls['itemName'].setValue(
-        this.editDataDetails.itemName
-      );
-
-      this.groupDetailsForm.controls['stateName'].setValue(
-        this.editDataDetails.stateName
-      );
+      this.groupDetailsForm.controls['transactionUserId'].setValue(this.editDataDetails.transactionUserId);
+      this.groupDetailsForm.controls['destStoreUserId'].setValue(this.userIdFromStorage);
+      this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
+      this.groupDetailsForm.controls['itemName'].setValue(this.editDataDetails.itemName);
+      this.groupDetailsForm.controls['state'].setValue(this.editDataDetails.state);
+      this.groupDetailsForm.controls['fullCode'].setValue(this.editDataDetails.fullCode);
+      this.groupDetailsForm.controls['stateName'].setValue(this.editDataDetails.stateName);
 
     }
   }
 
   getAllDetailsForms() {
+    this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
+    this.groupDetailsForm.controls['qty'].setValue(1);
+
     console.log("mastered row get all data: ", this.getMasterRowId)
     // if (this.getMasterRowId) {
 
@@ -2086,9 +2199,13 @@ export class StrWithdrawTableComponent implements OnInit {
                 this.groupDetailsForm.reset();
                 this.updateDetailsForm();
                 this.getAllDetailsForms();
-                this.itemCtrl.setValue('');
+                this.itemPositiveCtrl.setValue('');
                 this.itemByFullCodeValue = '';
                 this.fullCodeValue = '';
+                this.productCtrl.setValue('');
+
+                // alert("autoNo: " + this.autoNo + " no control: " + this.groupMasterForm.getRawValue().no)
+                this.autoNo = this.groupMasterForm.getRawValue().no;
               },
               error: (err) => {
                 // alert("حدث خطأ أثناء إضافة مجموعة")
@@ -2128,6 +2245,11 @@ export class StrWithdrawTableComponent implements OnInit {
       this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
     }
 
+    this.groupDetailsForm.controls['total'].setValue(
+      parseFloat(this.groupDetailsForm.getRawValue().price) *
+      parseFloat(this.groupDetailsForm.getRawValue().qty)
+    );
+
     // if (this.getDetailedRowData) {
     console.log('details foorm: ', this.groupDetailsForm.value);
 
@@ -2143,13 +2265,18 @@ export class StrWithdrawTableComponent implements OnInit {
           next: (res) => {
             this.groupDetailsForm.reset();
             this.getAllDetailsForms();
-            this.itemCtrl.setValue('');
+            this.itemPositiveCtrl.setValue('');
             this.itemByFullCodeValue = '';
             this.fullCodeValue = '';
             this.getDetailedRowData = '';
+            this.productCtrl.reset();
+            this.editDataDetails = '';
             // alert('تم التعديل بنجاح');
+            this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
             this.toastrEditSuccess();
 
+            // alert("autoNo: " + this.autoNo + " no control: " + this.groupMasterForm.getRawValue().no)
+            this.autoNo = this.groupMasterForm.getRawValue().no;
           },
           error: (err) => {
             console.log("update err: ", err)

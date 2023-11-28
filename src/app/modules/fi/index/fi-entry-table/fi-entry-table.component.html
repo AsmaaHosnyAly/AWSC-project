@@ -158,7 +158,7 @@
     </mat-expansion-panel>
 </mat-accordion>
 
-<mat-tab-group class="demo-tab-group" #matgroup>
+<mat-tab-group class="demo-tab-group" #matgroup (selectedTabChange)="tabSelected($event)">
     <mat-tab>
         <ng-template mat-tab-label>
             <div class="pageTab">
