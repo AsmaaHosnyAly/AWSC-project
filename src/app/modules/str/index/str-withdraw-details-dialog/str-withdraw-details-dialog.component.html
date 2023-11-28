@@ -7,11 +7,7 @@
     <mat-icon> clear</mat-icon>
   </button>
 </div>
-<form
-  [formGroup]="groupDetailsForm"
-  (keydown.enter)="$event.preventDefault()"
-  style="overflow: hidden !important"
->
+<form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()" style="overflow: hidden !important">
   <div style="overflow: hidden !important">
     <h1 mat-dialog-title class="add-h1">اكمل تفاصيل اذن صرف</h1>
 
@@ -37,24 +33,11 @@
             <div class="serPro">
               <mat-label>بحث باسم المنتج </mat-label>
               <mat-form-field appearance="outline">
-                <input
-                  matInput
-                  aria-label="commodity"
-                  [matAutocomplete]="autoProductId"
-                  [formControl]="productCtrl"
-                  placeholder="{{ productIdValue ? productIdValue : '' }}"
-                  (click)="openAutoProduct()"
-                  required
-                />
-                <mat-autocomplete
-                  #autoProductId="matAutocomplete"
-                  [displayWith]="displayProductName"
-                  (optionSelected)="ProductSelected($event)"
-                >
-                  <mat-option
-                    *ngFor="let product of filteredProduct | async"
-                    [value]="product"
-                  >
+                <input matInput aria-label="commodity" [matAutocomplete]="autoProductId" [formControl]="productCtrl"
+                  placeholder="{{ productIdValue ? productIdValue : '' }}" (click)="openAutoProduct()" required />
+                <mat-autocomplete #autoProductId="matAutocomplete" [displayWith]="displayProductName"
+                  (optionSelected)="ProductSelected($event)">
+                  <mat-option *ngFor="let product of filteredProduct | async" [value]="product">
                     {{ product.name }} | {{ product.code }}
                     <!-- {{ product.name }} -->
                   </mat-option>
@@ -70,30 +53,21 @@
           <mat-label>بحث بالكود </mat-label>
 
           <mat-form-field appearance="outline" class="groupInput">
-            <input
-              matInput
-              placeholder="{{ editData ? editData.fullCode : '' }}"
-              (keydown)="getItemByCode($event)"
+            <input matInput placeholder="{{ editData ? editData.fullCode : '' }}" (keydown)="getItemByCode($event)"
               [value]="
                 fullCodeValue && fullCodeValue != '-'
                   ? fullCodeValue
                   : fullCodeValue && fullCodeValue == '-'
                   ? 'لا يوجد'
                   : ''
-              "
-            />
+              " />
           </mat-form-field>
         </div>
         <div class="child-num">
           <mat-label> الصنف*</mat-label>
 
           <mat-form-field appearance="outline" *ngIf="!loading" class="groupInput">
-            <input
-              matInput
-              aria-label="item"
-              [matAutocomplete]="autoItem"
-              [formControl]="itemCtrl"
-              placeholder="{{
+            <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl" placeholder="{{
                 editData && !itemByFullCodeValue
                   ? editData.itemName
                   : itemByFullCodeValue && itemByFullCodeValue != '-'
@@ -101,19 +75,10 @@
                   : itemByFullCodeValue && itemByFullCodeValue == '-'
                   ? 'لا يوجد'
                   : ''
-              }}"
-              (click)="openAutoitem()"
-              required
-            />
-            <mat-autocomplete
-              #autoItem="matAutocomplete"
-              [displayWith]="displayitemName"
-              (optionSelected)="itemSelected($event)"
-            >
-              <mat-option
-                *ngFor="let item of filtereditem | async"
-                [value]="item"
-              >
+              }}" (click)="openAutoitem()" required />
+            <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
+              (optionSelected)="itemSelected($event)">
+              <mat-option *ngFor="let item of filtereditem | async" [value]="item">
                 {{ item.name }}
               </mat-option>
             </mat-autocomplete>
@@ -124,54 +89,32 @@
           <mat-label>الكمية*</mat-label>
 
           <mat-form-field appearance="outline" class="groupInput">
-            <input
-              type="number"
-              min="0"
-              matInput
-              placeholder="الكمية"
-              formControlName="qty"
-              [value]="editData ? editData.qty : '1'"
-            />
+            <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
+              [value]="editData ? editData.qty : '1'" />
           </mat-form-field>
         </div>
         <!-- </div> -->
 
-      
+
         <div class="child-num">
           <mat-label>السعر</mat-label>
 
           <mat-form-field appearance="outline" class="groupInput">
-            <input
-              type="number"
-              min="0"
-              matInput
-              placeholder="السعر"
-              formControlName="price"
-              [value]="editData ? editData.price : ''"
-              readonly="true"
-            />
+            <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
+              [value]="editData ? editData.price : ''" readonly="true" />
           </mat-form-field>
         </div>
       </div>
       <div style="display: flex; flex-direction: row">
-        <div
-          class="radio"
-          style="display: flex; flex-direction: column; width: 52%"
-        >
+        <div class="radio" style="display: flex; flex-direction: column; width: 52%">
           <mat-label style="margin-top: 9px"> حالةالصنف*</mat-label>
           <!-- <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"> -->
-          <mat-radio-group
-            style="display: flex; flex-direction: row"
-            aria-label="Select an option"
-            formControlName="state"
-            (change)="set_Percentage($event)"
-            [value]="editData ? editData.state : stateDefaultValue"
-          >
+          <mat-radio-group style="display: flex; flex-direction: row" aria-label="Select an option"
+            formControlName="state" (change)="set_Percentage($event)"
+            [value]="editData ? editData.state : stateDefaultValue">
             <mat-radio-button value="جديد">جديد</mat-radio-button>
             <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
-            <mat-radio-button value="قابل للاصلاح"
-              >قابل للاصلاح</mat-radio-button
-            >
+            <mat-radio-button value="قابل للاصلاح">قابل للاصلاح</mat-radio-button>
             <mat-radio-button value="كهنة و خردة">كهنة و خردة</mat-radio-button>
           </mat-radio-group>
         </div>
@@ -179,12 +122,7 @@
     </div>
     <div mat-dialog-action [align]="'end'">
       <div class="groupAction">
-        <button
-          mat-raised-button
-          color="primary"
-          style="margin-left: 8px"
-          (click)="addDetailsInfo()"
-        >
+        <button mat-raised-button color="primary" style="margin-left: 8px" (click)="addDetailsInfo()">
           {{ actionBtnDetails.toLowerCase() == "save" ? "اضافة" : "تعديل" }}
         </button>
         <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
