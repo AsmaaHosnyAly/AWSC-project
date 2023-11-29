@@ -139,7 +139,7 @@
 
         </div>
 
-        <div class="print-display">
+        <div class="print-display"*ngIf="!loading" >
           <mat-icon (click)="
             getSearchStrWithdraw(no.value, StartDate.value,EndDate.value, fiscalYear.value)
               " class="icons" title="بحث">search</mat-icon>

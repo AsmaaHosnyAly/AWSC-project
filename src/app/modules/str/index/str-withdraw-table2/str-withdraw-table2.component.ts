@@ -1511,7 +1511,7 @@ export class StrWithdrawTableComponent implements OnInit {
     let store = this.groupMasterSearchForm.getRawValue().storeId;
 
     console.log('itemId in ts:', this.groupDetailsForm.getRawValue().itemId);
-    this.loading = true;
+   this.loading = true;
     this.api
       .getStrWithdrawSearch(
         no,
@@ -1523,13 +1523,17 @@ export class StrWithdrawTableComponent implements OnInit {
         employee,
         costCenter
       )
+
       .subscribe({
+        
         next: (res) => {
           this.loading = false;
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
+       
         },
+
         error: (err) => {
           this.loading = false;
           console.log('eroorr', err);
