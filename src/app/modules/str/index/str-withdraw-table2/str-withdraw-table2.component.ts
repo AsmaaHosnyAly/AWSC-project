@@ -107,7 +107,7 @@ export class StrWithdrawTableComponent implements OnInit {
   storeName: any;
   fiscalYearsList: any;
   fiscalYear: any;
-  // employeesList: any;
+  employeeSelectList: any;
   employeeName: any;
   // costcenterList: any;
   costCenterName: any;
@@ -142,12 +142,12 @@ export class StrWithdrawTableComponent implements OnInit {
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
 
-  listCtrl: FormControl;
-  filteredList: Observable<List[]>;
-  lists: List[] = [];
-  selectedList: List | undefined;
-  getAddData: any;
-  sourceSelected: any;
+  // listCtrl: FormControl;
+  // filteredList: Observable<List[]>;
+  // lists: List[] = [];
+  // selectedList: List | undefined;
+  // getAddData: any;
+  // sourceSelected: any;
 
   formcontrol = new FormControl('');
   dataSource2: MatTableDataSource<strWithdraw> = new MatTableDataSource();
@@ -230,7 +230,7 @@ export class StrWithdrawTableComponent implements OnInit {
   productIdValue: any;
   isReadOnlyPercentage: any = true;
   editDataDetails: any;
-  currentDate: any;
+  // currentDate: any;
 
   constructor(
     private api: ApiService,
@@ -293,11 +293,11 @@ export class StrWithdrawTableComponent implements OnInit {
       'titleval4': 'اهداءات ليست النشاط الرئيسي للجهة',
     }];
 
-    this.listCtrl = new FormControl();
-    this.filteredList = this.listCtrl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filterLists(value))
-    );
+    // this.listCtrl = new FormControl();
+    // this.filteredList = this.listCtrl.valueChanges.pipe(
+    //   startWith(''),
+    //   map((value) => this._filterLists(value))
+    // );
 
     this.stateDefaultValue = "جديد";
 
@@ -339,7 +339,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getStores();
     this.getEmployees();
 
-    this.currentDate = new Date();
+    // this.currentDate = new Date();
     // console.log('Date = ' + dateNow);
 
     // console.log('looo', this.sharedStores);
@@ -378,7 +378,7 @@ export class StrWithdrawTableComponent implements OnInit {
       type: ['', Validators.required],
       sourceInput: [''],
 
-      date: [this.currentDate, Validators.required],
+      date: ['', Validators.required],
       fiscalYearId: ['', Validators.required],
       employeeId: [''],
       employeeName: [''],
@@ -425,9 +425,10 @@ export class StrWithdrawTableComponent implements OnInit {
       this.editData = '';
       this.MasterGroupInfoEntered = false;
       this.groupMasterForm.controls['no'].setValue('');
-      this.listCtrl.setValue('');
+      // this.listCtrl.setValue('');
       this.costcenterCtrl.setValue('');
-      this.groupMasterForm.controls['date'].setValue(this.currentDate);
+      // this.groupMasterForm.controls['date'].setValue(this.currentDate);
+      // this.lists = [];
 
       this.getAllMasterForms();
 
@@ -471,6 +472,8 @@ export class StrWithdrawTableComponent implements OnInit {
     console.log("matGroup: ", tabGroup, "selectIndex: ", tabGroup.selectedIndex);
     this.autoNo = '';
     this.getStrWithdrawAutoNo();
+    // // this.lists = [];
+    // this.getListCtrl(this.groupMasterForm.getRawValue().type);
 
     this.getProducts();
     this.getItemsPositive();
@@ -798,18 +801,27 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   getListCtrl(type: any) {
-    this.sourceSelected = type;
+    // this.sourceSelected = type;
 
     if (type === 'الموظف') {
+      // this.lists = [];
+      // this.openAutoList();
+      // console.log("list employee: ", this.lists);
+
       this.api.getEmployee().subscribe((lists) => {
-        this.lists = lists;
+        // this.lists = lists;
+        this.employeesList = lists;
         this.groupMasterForm.controls['deststoreId'].setValue(null);
         this.groupMasterForm.controls['type'].setValue('الموظف');
         this.actionName = 'choose';
       });
     } else {
+      // this.lists = [];
+      // this.openAutoList();
+      // console.log("list store: ", this.lists);
+
       this.api.getAllstores().subscribe((lists) => {
-        this.lists = lists;
+        // this.lists = lists;
         this.groupMasterForm.controls['employeeId'].setValue(null);
         this.groupMasterForm.controls['type'].setValue('المخزن');
         this.actionName = 'store';
@@ -1224,10 +1236,11 @@ export class StrWithdrawTableComponent implements OnInit {
 
   getEmployees() {
     this.loading = true;
-    this.api.getEmployee().subscribe({
+    this.api.getEmployees().subscribe({
       next: (res) => {
         this.loading = false;
         this.employeesList = res;
+        console.log("employees List: ", this.employeesList);
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
@@ -1394,12 +1407,14 @@ export class StrWithdrawTableComponent implements OnInit {
 
   }
   private _filteremployees(value: string): Employee[] {
+    console.log("filter:", value, "list: ", this.employeesList);
     const filterValue = value;
     return this.employeesList.filter((employee) =>
       employee.name.toLowerCase().includes(filterValue)
     );
   }
   openAutoEmployee() {
+    console.log("open employee autoComplete");
     this.employeeCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
@@ -1454,38 +1469,38 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
 
-  displayListName(list: any): string {
-    return list ? list.name && list.name != null ? list.name : '-' : '';
-  }
-  listSelected(event: MatAutocompleteSelectedEvent): void {
-    console.log("list select: ", event.option.value, "sourceSelected: ", this.sourceSelected);
-    const list = event.option.value as List;
-    this.selectedList = list;
+  // displayListName(list: any): string {
+  //   return list ? list.name && list.name != null ? list.name : '-' : '';
+  // }
+  // listSelected(event: MatAutocompleteSelectedEvent): void {
+  //   console.log("list select: ", event.option.value, "sourceSelected: ", this.sourceSelected);
+  //   const list = event.option.value as List;
+  //   this.selectedList = list;
 
-    if (this.sourceSelected === 'الموظف') {
-      this.groupMasterForm.patchValue({ employeeId: list.id });
-      this.groupMasterForm.patchValue({ employeeName: list.name });
-      this.set_store_Null(this.groupMasterForm.getRawValue().emolyeeId);
-    } else {
-      console.log("store list selected: ");
-      this.groupMasterForm.patchValue({ deststoreId: list.id });
-      this.groupMasterForm.patchValue({ desstoreName: list.name });
-      // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
-      this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
-    }
-  }
-  private _filterLists(value: string): List[] {
-    const filterValue = value.toLowerCase();
-    return this.lists.filter((list) =>
-      list.name ? list.name.toLowerCase().includes(filterValue) : '-'
-    );
-  }
-  openAutoList() {
-    this.listCtrl.setValue(''); // Clear the input field value
+  //   if (this.sourceSelected === 'الموظف') {
+  //     this.groupMasterForm.patchValue({ employeeId: list.id });
+  //     this.groupMasterForm.patchValue({ employeeName: list.name });
+  //     this.set_store_Null(this.groupMasterForm.getRawValue().emolyeeId);
+  //   } else {
+  //     console.log("store list selected: ");
+  //     this.groupMasterForm.patchValue({ deststoreId: list.id });
+  //     this.groupMasterForm.patchValue({ desstoreName: list.name });
+  //     // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
+  //     this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
+  //   }
+  // }
+  // private _filterLists(value: string): List[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.lists.filter((list) =>
+  //     list.name ? list.name.toLowerCase().includes(filterValue) : '-'
+  //   );
+  // }
+  // openAutoList() {
+  //   this.listCtrl.setValue(''); // Clear the input field value
 
-    // Open the autocomplete dropdown by triggering the value change event
-    this.listCtrl.updateValueAndValidity();
-  }
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.listCtrl.updateValueAndValidity();
+  // }
 
 
   set_store_Null(employeeId: any) {

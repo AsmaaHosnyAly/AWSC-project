@@ -252,7 +252,7 @@ export class FiEntryTableComponent implements OnInit {
     console.log("tab selected: ", tab);
     if (tab.index == 0) {
       if (this.groupMasterForm.getRawValue().balance != 0) {
-        var result = confirm('القيد غير متزن هل تريد الاستمرار ؟');
+        var result = confirm('القيد غير متزن هل تريد الخروج ؟');
         if (result) {
           console.log("close");
 
