@@ -9,7 +9,7 @@
         <mat-expansion-panel-header>
             <mat-panel-description>
                 بحث متقدم
-                <mat-icon>search</mat-icon> 
+                <mat-icon>search</mat-icon>
             </mat-panel-description>
         </mat-expansion-panel-header>
 
@@ -485,7 +485,7 @@
                                                 </mat-autocomplete>
                                             </mat-form-field>
 
-                                        </div> 
+                                        </div>
 
                                         <div class="searchLabels">
                                             <mat-label> البند الاحصائي* </mat-label>
@@ -513,7 +513,8 @@
                                             <mat-form-field appearance="outline" class="groupInput">
                                                 <input type="number" matInput placeholder="دائن"
                                                     formControlName="credit"
-                                                    [value]="editDataDetails ? editDataDetails.credit : ''">
+                                                    [value]="editDataDetails ? editDataDetails.credit : ''"
+                                                    (input)="creditChange($event)">
                                             </mat-form-field>
 
                                         </div>
@@ -525,7 +526,8 @@
                                             <mat-form-field appearance="outline" class="groupInput">
                                                 <input type="number" matInput placeholder="المدين"
                                                     formControlName="debit"
-                                                    [value]="editDataDetails ? editDataDetails.debit : ''">
+                                                    [value]="editDataDetails ? editDataDetails.debit : ''"
+                                                    (input)="debitChange($event)">
                                             </mat-form-field>
                                         </div>
 

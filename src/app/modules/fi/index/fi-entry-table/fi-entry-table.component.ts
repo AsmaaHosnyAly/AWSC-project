@@ -296,6 +296,31 @@ export class FiEntryTableComponent implements OnInit {
     }
   }
 
+  creditChange(credit: any) {
+    console.log("credit change: ", credit);
+    var creditValue: number = credit.data;
+
+    if (creditValue) {
+      this.groupDetailsForm.controls['debit'].setValue(0);
+    }
+    else {
+      this.groupDetailsForm.controls['debit'].setValue('');
+    }
+  }
+
+  debitChange(debit: any) {
+    console.log("debit change: ", debit);
+    var debitValue: number = debit.data;
+
+    if (debitValue) {
+      this.groupDetailsForm.controls['credit'].setValue(0);
+    }
+    else {
+      this.groupDetailsForm.controls['credit'].setValue('');
+
+    }
+  }
+
   setState(state: any) {
 
     console.log("state value changed: ", state.value);
@@ -476,7 +501,7 @@ export class FiEntryTableComponent implements OnInit {
     // this.currentPage = event.previousPageIndex;
     this.getAllMasterForms();
   }
-  
+
 
   pageChangedDetails(event: PageEvent) {
     console.log("page event: ", event);
