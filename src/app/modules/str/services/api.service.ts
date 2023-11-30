@@ -1695,7 +1695,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRAddDetails/get/by/header/${id}`);
   }
   putStrAddDetails(data: any) {
-    console.log('strOpenDetails data: ', data);
+    console.log('strAddDetails data: ', data);
     return this.http.put<any>(
       `${this.url}/STRAddDetails/Update/`,
       data
