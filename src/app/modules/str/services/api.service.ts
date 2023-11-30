@@ -1639,10 +1639,11 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/STRAdd/AddFromStore`, data);
   }
 
-  getStrAddAutoNo() {
-    return this.http.get<any>(`${this.url}/STRAdd/get/AutoNo`);
+  getStrAddAutoNo(storeId: any, fiscalYearId: any) {
+    return this.http.get<any>(
+      `${this.url}/STRAdd/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalYearId}`
+    );
   }
-
   postStrAdd(data: any) {
     console.log('dataaaaaa: ', data);
     return this.http.post<any>(`${this.url}/STRAdd/Add`, data);

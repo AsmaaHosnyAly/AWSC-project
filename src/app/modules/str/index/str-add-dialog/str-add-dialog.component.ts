@@ -208,7 +208,7 @@ export class STRAddDialogComponent implements OnInit {
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
-    this.getStrAddAutoNo();
+    // this.getStrAddAutoNo();
 
     this.getFiscalYears();
 
@@ -1122,19 +1122,19 @@ export class STRAddDialogComponent implements OnInit {
   }
 
 
-  getStrAddAutoNo() {
-    this.api.getStrAddAutoNo()
-      .subscribe({
-        next: (res) => {
-          this.autoNo = res;
-          return res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
-  }
+  // getStrAddAutoNo() {
+  //   this.api.getStrAddAutoNo()
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.autoNo = res;
+  //         return res;
+  //       },
+  //       error: (err) => {
+  //         // console.log("fetch fiscalYears data err: ", err);
+  //         // alert("خطا اثناء جلب العناصر !");
+  //       }
+  //     })
+  // }
 
 
   displayItemName(item: any): string {
