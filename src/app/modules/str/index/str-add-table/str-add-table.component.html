@@ -12,7 +12,7 @@
         <mat-icon>search</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <form [formGroup]="groupMasterForm">
+    <form [formGroup]="groupMasterSearchForm">
       <div class="search">
         <div class="searchLabels">
           <mat-label>رقم الاذن</mat-label>
@@ -173,7 +173,7 @@
 
 
 
-<mat-tab-group>
+<mat-tab-group #matgroup (selectedTabChange)="tabSelected($event)">
   <mat-tab>
     <ng-template mat-tab-label>
       <div class="pageTab">
@@ -247,7 +247,7 @@
           </ng-container>
 
           <!-- Action Column -->
-          <ng-container matColumnDef="Action" >
+          <ng-container matColumnDef="Action">
             <th mat-header-cell *matHeaderCellDef style="width: 15%;">الاجراء</th>
             <td mat-cell *matCellDef="let row">
               <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
@@ -279,6 +279,196 @@
 
   </mat-tab>
 
+
+  <!-- --------------------------------------------------------------------------- -->
+
+  <mat-tab #tab [disabled]='!tab.isActive'>
+    <ng-template mat-tab-label>
+      <div class="pageTab">
+        <h2>اضافة اذن</h2>
+      </div>
+    </ng-template>
+
+    <div class="container">
+
+      <div mat-dialog-content dir="rtl" class="mt-3">
+        <div mat-dialog-content class="mat-dialog-content mt-4" dir="rtl">
+          <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
+
+            <div class="headerForm">
+
+              <div class="searchLabels">
+                <mat-label>المخازن:</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput">
+                  <mat-select placeholder="المخازن" formControlName="storeId" (valueChange)="storeValueChanges($event)">
+                    <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
+                      *ngFor="let store of storeList">{{userRoles.includes(userRoleStoresAcc) ? store.name :
+                      store.storeName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
+              <div class="searchLabels">
+                <mat-label>السنة المالية:</mat-label>
+
+                <mat-form-field appearance="outline">
+                  <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
+                    (valueChange)="fiscalYearValueChanges($event)">
+                    <mat-option [value]="fiscalYear.id"
+                      *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
+              <div class="searchLabels">
+                <mat-label>الرقم:</mat-label>
+                <mat-form-field appearance="outline" class="groupInput">
+
+                  <input id="autoNoInput" matInput formControlName="no" [value]="isEdit == true ? editData.no : autoNo"
+                    type="number" min="0">
+                </mat-form-field>
+
+              </div>
+
+
+
+              <div class="searchLabels">
+                <mat-label>المصدر</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput">
+                  <input matInput aria-label="list" [matAutocomplete]="autoAddType" [formControl]="addTypeCtrl"
+                    placeholder="{{editData ? editData.addTypeName : ''}}" (click)="openAutoAddType()" required />
+                  <mat-autocomplete #autoAddType="matAutocomplete" [displayWith]="displayAddTypeName"
+                    (optionSelected)="AddTypeSelected($event)">
+                    <mat-option *ngFor="let addType of filteredAddType | async" [value]="addType">
+                      {{ addType.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="searchLabels">
+                <mat-label>{{ actionName.toLowerCase() == "choose" ?" المورد : " :
+                  actionName.toLowerCase() == "str" ?" مخزن :": actionName.toLowerCase() == "emp" ?" موظف :":''
+                  }}</mat-label>
+                <mat-form-field appearance="outline" class="groupInput">
+                  <input matInput aria-label="list" [matAutocomplete]="autoList" [formControl]="listCtrl"
+                    placeholder="{{editData && editData.sellerName ? editData.sellerName : editData && editData.employeeName ?  editData.employeeName :  editData && editData.sourceStoreName ? editData.sourceStoreName :''}}"
+                    (click)="openAutoList()" required />
+                  <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
+                    (optionSelected)="listSelected($event)">
+                    <mat-option *ngFor="let list of filteredList | async" [value]="list">
+                      {{ list.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="searchLabels">
+                <mat-label>رقم القيد:</mat-label>
+                <mat-form-field appearance="outline" class="groupInput">
+
+                  <input id="autoNoInput" matInput formControlName="entryNo" type="number" min="0">
+                </mat-form-field>
+
+              </div>
+
+              <div class="searchLabels">
+
+                <mat-label>التاريخ:</mat-label>
+                <mat-form-field appearance="outline">
+
+                  <input matInput [matDatepicker]="dateMasterPicker" formControlName="date">
+                  <mat-datepicker-toggle matIconSuffix [for]="dateMasterPicker">
+                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #dateMasterPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+
+              <div class="searchLabels">
+                <mat-label>السلعة</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput">
+                  <input matInput aria-label="list" [matAutocomplete]="autoCommodity" [formControl]="commodityCtrl"
+                    placeholder="{{editData ? editData.commodityName : ''}}" (click)="openAutoCommodity()" required />
+                  <mat-autocomplete #autoCommodity="matAutocomplete" [displayWith]="displayCommodityName"
+                    (optionSelected)="CommoditySelected($event)">
+                    <mat-option *ngFor="let commodity of filteredCommodity | async" [value]="commodity">
+                      {{ commodity.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="searchLabels">
+                <mat-label>حالة الموافقة</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput">
+                  <input matInput aria-label="list" [matAutocomplete]="autoApprovalStatus"
+                    [formControl]="approvalStatusCtrl" placeholder="{{editData ? editData.approvalStatusName : ''}}"
+                    (click)="openAutoApprovalStatus()" required />
+                  <mat-autocomplete #autoApprovalStatus="matAutocomplete" [displayWith]="displayApprovalStatusName"
+                    (optionSelected)="ApprovalStatusSelected($event)">
+                    <mat-option *ngFor="let approvalStatus of filteredApprovalStatus | async" [value]="approvalStatus">
+                      {{ approvalStatus.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+
+              <div dir="ltr">
+                <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
+                    editData || MasterGroupInfoEntered
+                      ? 'nextButtonEditHeaderDetails'
+                      : 'nextButtonAddNewHeader'
+                  ">
+                  حفظ
+                </button>
+              </div>
+            </div>
+
+          </form>
+
+
+          <div [ngClass]="(MasterGroupInfoEntered || editData) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+
+
+            <div>
+              <div dir="ltr" class="groupAction">
+                <button mat-raised-button class="follow-btn" (click)="updateMaster()">
+                  تعديل الاذن
+                </button>
+              </div>
+
+              <mat-label class="sum-label">الإجمالى : {{ sumOfTotals }}</mat-label>
+
+
+
+            </div>
+
+
+            <!-- --------------------------------------------------------------------------------------- -->
+
+
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+
+
+  <!-- --------------------------------------------------------------------------- -->
+
   <mat-tab>
     <ng-template mat-tab-label>
       <div class="pageTab">
@@ -299,7 +489,8 @@
 
         <mat-form-field appearance="outline" class="groupInput" style="width: 30%">
           <mat-select placeholder="المخازن" (valueChange)="storeValueChanges($event)">
-            <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId" *ngFor="let store of storeList">{{
+            <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
+              *ngFor="let store of storeList">{{
               userRoles.includes(userRoleStoresAcc) ? store.name : store.storeName
               }}</mat-option>
           </mat-select>
@@ -346,7 +537,7 @@
 
           <!-- Action Column -->
           <ng-container matColumnDef="Action">
-            <th mat-header-cell *matHeaderCellDef >الاجراء</th>
+            <th mat-header-cell *matHeaderCellDef>الاجراء</th>
             <td mat-cell *matCellDef="let row">
               <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
                 <mat-icon>visibility</mat-icon>
@@ -373,7 +564,8 @@
     </div>
     <!-- </div> -->
 
-    <mat-paginator #paginatorGSTN="matPaginator" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" showFirstLastButtons></mat-paginator>
-      
+    <mat-paginator #paginatorGSTN="matPaginator" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
+      showFirstLastButtons></mat-paginator>
+
   </mat-tab>
 </mat-tab-group>
