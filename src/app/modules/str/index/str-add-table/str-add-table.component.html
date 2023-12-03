@@ -72,13 +72,23 @@
         <div class="searchLabels">
           <mat-label>الموظف:</mat-label>
 
-          <mat-form-field appearance="outline" class="searchForm">
+          <!-- <mat-form-field appearance="outline" class="searchForm">
             <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" (keydown)="getsearch($event)"
               [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
             <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
               (optionSelected)="employeeSelected($event)">
               <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
                 {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field> -->
+          <mat-form-field appearance="outline" class="groupInput">
+            <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
+              [matAutocomplete]="autoList" [formControl]="listCtrl"  (click)="openAutoList()" required />
+            <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
+              (optionSelected)="listSelected($event)">
+              <mat-option *ngFor="let list of filteredList | async" [value]="list">
+                {{ list.name ? list.name : "-" }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -347,7 +357,7 @@
                   <input matInput aria-label="list" [matAutocomplete]="autoList" [formControl]="listCtrl"
                     placeholder="{{editData && editData.sellerName ? editData.sellerName : editData && editData.employeeName ?  editData.employeeName :  editData && editData.sourceStoreName ? editData.sourceStoreName :''}}"
                     (click)="openAutoList()" required 
-                    (keydown)="getSellerCode($event)"/>
+                   />
                   <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
                     (optionSelected)="listSelected($event)">
                     <mat-option *ngFor="let list of filteredList | async" [value]="list">

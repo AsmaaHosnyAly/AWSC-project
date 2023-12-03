@@ -157,8 +157,7 @@ export class STRAddTableComponent implements OnInit {
   // costcenterCtrl: FormControl<any>;
   // filteredcostcenter: Observable<costcenter[]>;
   // selectedcostcenter: costcenter | undefined;
-
-  employeeList: Employee[] = [];
+  employeesList: Employee[] = [];
   employeeCtrl: FormControl<any>;
   filteredEmployee: Observable<Employee[]>;
   selectedEmployee: Employee | undefined;
@@ -620,6 +619,9 @@ export class STRAddTableComponent implements OnInit {
   }
 
   editMasterForm(row: any) {
+    this.getStrAddType();
+    this.getStrApprovalStatus();
+    this.getStrCommodity();
 
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
@@ -653,47 +655,85 @@ export class STRAddTableComponent implements OnInit {
     this.groupMasterForm.controls['total'].setValue(this.editData.total);
     this.groupMasterForm.controls['addTypeId'].setValue(this.editData.addTypeId);
 
+    this.lists = [];
+    this.listCtrl.setValue('');
+
     console.log("edit dataaaaaaaaaaaaaaa: ", this.editData);
-    if (this.editData.addTypeName == 'اذن صرف') {
-      this.actionName = "str";
-      console.log("action btnnnnnnnnnnnnn", this.actionName)
-      // this.groupMasterForm.controls['addTypeId'].setValue('المخزن');
-      this.groupMasterForm.controls['entryNo'].disable();
+    // if (this.editData.addTypeName == 'اذن صرف') {
+    //   this.actionName = "str";
+    //   console.log("action btnnnnnnnnnnnnn", this.actionName)
+    //   // this.groupMasterForm.controls['addTypeId'].setValue('المخزن');
+    //   this.groupMasterForm.controls['entryNo'].disable();
 
 
+    // }
+    if (this.editData.addTypeName == 'فاتورة' || this.editData.addTypeName == 'شهادة ادارية') {
+      alert("1")
+      // this.actionName = "choose";
+      // console.log("action btnnnnnnnnnnnnn 3", this.actionName);
+      // this.groupMasterForm.controls['sellerId'].setValue(this.editData.sellerId);
+
+      // // this.groupMasterForm.controls['addTypeId'].setValue('المورد');
+      // this.groupMasterForm.controls['entryNo'].enable();
+      // this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
+
+      this.api.getAllSellers().subscribe((lists) => {
+        this.lists = lists;
+        this.groupMasterForm.controls['sellerId'].setValue(this.editData.sellerId);
+
+        this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+        // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
+        this.groupMasterForm.controls['employeeId'].setValue(null);
+        this.actionName = "choose";
+
+        this.groupMasterForm.controls['entryNo'].enable();
+        this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
+
+      });
     }
-    else if (this.editData.addTypeName == 'فاتورة') {
-      this.actionName = "choose";
-      console.log("action btnnnnnnnnnnnnn 3", this.actionName);
+    else if (this.editData.addTypeName == 'اذن ارتجاع' || this.editData.addTypeName == 'الموظف') {
+      alert("2")
 
-      // this.groupMasterForm.controls['addTypeId'].setValue('المورد');
-      this.groupMasterForm.controls['entryNo'].enable();
-      this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
-    }
-    else if (this.editData.addTypeName == 'اذن ارتجاع' || 'الموظف') {
-      this.actionName = "emp";
-      console.log("action btnnnnnnnnnnnnn 2", this.actionName);
-      // this.groupMasterForm.controls['addTypeId'].setValue('الموظف')
-      this.groupMasterForm.controls['entryNo'].disable();
+      // this.actionName = "emp";
+      // console.log("action btnnnnnnnnnnnnn 2", this.actionName);
+      this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
+
+      // // this.groupMasterForm.controls['addTypeId'].setValue('الموظف')
+      // this.groupMasterForm.controls['entryNo'].disable();
+      this.getQuickEmployees();
 
 
     } else {
-      this.actionName = "choose";
-      console.log("action btnnnnnnnnnnnnn 3", this.actionName);
+      alert("3")
 
-      // this.groupMasterForm.controls['addTypeId'].setValue('المورد');
-      // this.groupMasterForm.controls['entryNo'].enable();
-      // this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
-      this.groupMasterForm.controls['entryNo'].disable();
+      // this.actionName = "choose";
+      // console.log("action btnnnnnnnnnnnnn 3", this.actionName);
+      // this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
+
+      // // this.groupMasterForm.controls['addTypeId'].setValue('المورد');
+      // // this.groupMasterForm.controls['entryNo'].enable();
+      // // this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
+      // this.groupMasterForm.controls['entryNo'].disable();
+
+      this.api.getAllStore().subscribe((lists) => {
+        this.lists = lists;
+        this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
+
+        this.groupMasterForm.controls['sellerId'].setValue(null);
+        // this.groupMasterForm.controls['sellerName'].setValue(null);
+        this.groupMasterForm.controls['employeeId'].setValue(null);
+        this.actionName = "str";
+        this.groupMasterForm.controls['entryNo'].disable();
+      });
 
 
     }
 
     // this.groupMasterForm.controls['addReceiptId'].setValue(this.editData.addReceiptId);
 
-    this.groupMasterForm.controls['sellerId'].setValue(this.editData.sellerId);
-    this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
-    this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
+    // this.groupMasterForm.controls['sellerId'].setValue(this.editData.sellerId);
+    // this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
+    // this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
 
     this.groupMasterForm.controls['commodityId'].setValue(this.editData.commodityId);
     this.groupMasterForm.controls['approvalStatusId'].setValue(this.editData.approvalStatusId);
@@ -947,41 +987,31 @@ export class STRAddTableComponent implements OnInit {
 
 
   getEmployees() {
-    this.api.getEmployee().subscribe({
-      next: (res) => {
-        this.employeeList = res;
-        this.cdr.detectChanges(); // Trigger change detection
-        console.log("employeeeeeeeeee res: ", this.storeList);
-      },
-      error: (err) => {
-        // console.log("fetch store data err: ", err);
-        // alert("خطا اثناء جلب المخازن !");
-      },
+    this.api.getEmployee().subscribe((lists) => {
+      this.lists = lists;
+
     });
   }
 
-
   displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
     console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
-    this.groupMasterSearchForm.patchValue({ employeeId: employee.id });
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+    this.groupMasterForm.patchValue({ employeeName: employee.name });
     console.log(
       'employee in form: ',
       this.groupMasterSearchForm.getRawValue().employeeId
     );
 
-    // this.getSearchStrWithdraw()
-    // this.set_store_Null(this.groupMasterSearchForm.getRawValue().employeeId);
-    // return     this.groupMasterSearchForm.patchValue({ employeeId: employee.id });
   }
   private _filteremployees(value: string): Employee[] {
-    const filterValue = value;
-    return this.employeeList.filter((employee) =>
-      employee.name.toLowerCase().includes(filterValue)
+    const filterValue = value.toLowerCase();
+    return this.employeesList.filter((employee) =>
+      employee.name ? employee.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutoEmployee() {
@@ -1205,114 +1235,76 @@ export class STRAddTableComponent implements OnInit {
   // }
 
 
+  // displayListName(list: any): string {
+  //   return list && list.name ? list.name : '';
+  // }
+  // listSelected(event: MatAutocompleteSelectedEvent): void {
+  //   const list = event.option.value as List;
+  //   this.selectedList = list;
+  //   console.log("list: ", list, "sourceSelected: ", this.sourceSelected.source);
+
+  //   if (this.sourceSelected.source == "المورد" || this.sourceSelected.source == "شهادة ادارية") {
+  //     this.groupMasterForm.patchValue({ sellerId: list.id });
+  //     // this.groupMasterForm.patchValue({ sellerName: list.name });
+  //   }
+  //   else if (this.sourceSelected.source == "الموظف") {
+  //     this.groupMasterForm.patchValue({ employeeId: list.id });
+  //     // this.groupMasterForm.patchValue({ employeeName: list.name });
+
+  //   } else {
+  //     this.groupMasterForm.patchValue({ sourceStoreId: list.id });
+  //     // this.groupMasterForm.patchValue({ sourceStoreName: list.name });
+
+  //   }
+
+
+  // }
+  // private _filterLists(value: string): List[] {
+  //   console.log("filterValue: ", value);
+  //   const filterValue = value;
+  //   return this.lists.filter(list =>
+  //     list.name.toLowerCase().includes(filterValue)
+  //   );
+  // }
+  // openAutoList() {
+  //   this.listCtrl.setValue(''); // Clear the input field value
+
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.listCtrl.updateValueAndValidity();
+  // }
+
   displayListName(list: any): string {
-    return list && list.name ? list.name : '';
+    return list ? list.name && list.name != null ? list.name : '-' : '';
   }
   listSelected(event: MatAutocompleteSelectedEvent): void {
+    console.log("list select: ", event.option.value, "sourceSelected: ", this.sourceSelected);
     const list = event.option.value as List;
     this.selectedList = list;
-    console.log("list: ", list, "sourceSelected: ", this.sourceSelected.source);
 
-    if (this.sourceSelected.source == "المورد" || this.sourceSelected.source == "شهادة ادارية") {
-      this.groupMasterForm.patchValue({ sellerId: list.id });
-      // this.groupMasterForm.patchValue({ sellerName: list.name });
+    if (this.editData) {
+      this.sourceSelected = this.editData.addTypeName
     }
-    else if (this.sourceSelected.source == "الموظف") {
+
+    if (this.sourceSelected.name == 'فاتورة' || this.sourceSelected.name == 'شهادة ادارية') {
+      this.groupMasterForm.patchValue({ sellerId: list.id });
+      // this.groupMasterForm.patchValue({ employeeName: list.name });
+    }
+    else if (this.sourceSelected.name == 'اذن ارتجاع') {
       this.groupMasterForm.patchValue({ employeeId: list.id });
       // this.groupMasterForm.patchValue({ employeeName: list.name });
-
-    } else {
-      this.groupMasterForm.patchValue({ sourceStoreId: list.id });
-      // this.groupMasterForm.patchValue({ sourceStoreName: list.name });
-
     }
-
-
+    else {
+      console.log("store list selected: ");
+      this.groupMasterForm.patchValue({ sourceStoreId: list.id });
+      // this.groupMasterForm.patchValue({ desstoreName: list.name });
+      // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
+    }
   }
   private _filterLists(value: string): List[] {
-    console.log("filterValue: ", value);
-    const filterValue = value;
-
-    return this.lists.filter(list =>
-      list.name || list.code ? list.name.toLowerCase().includes(filterValue) ||
-        list.code.toString().toLowerCase().includes(filterValue) : '-')
-
-  }
-  getSellerCode(code: any) {
-    // if (code.keyCode == 13) {
-    //   alert("code: " + code.target.value)
-    // }
-
-    this.groupMasterForm.controls['sellerId'].setValue('');
-    this.listCtrl.setValue('');
-    if (code.keyCode == 13) {
-
-      // if (this.itemSearchWay != 'searchByProductName') {
-
-      this.lists.filter((a: any) => {
-        // console.log("enter product code case, ", "a.code: ", a.fullCode, " code target: ", code.target.value);
-
-        if (a.code == code.target.value) {
-          // console.log("enter product code case condition: ", a.fullCode === code.target.value);
-
-
-          this.listCtrl.setValue(a.name);
-          if (a.name) {
-            this.groupMasterForm.controls['sellerId'].setValue(a.id);
-            // this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
-
-            console.log("seller by code: ", a.name);
-          }
-          // else {
-          //   this.itemByFullCodeValue = '-';
-          // }
-          // this.itemByFullCodeValue = a.name;
-          // // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
-          else {
-            this.groupMasterForm.controls['sellerId'].setValue(null);
-            // this.groupMasterForm.controls['sellerName'].setValue(null);
-            this.groupMasterForm.controls['employeeId'].setValue(null);
-            this.actionName = "str";
-            this.groupMasterForm.controls['entryNo'].disable();
-          }
-        }
-
-      })
-
-      if (!this.groupMasterForm.getRawValue().sellerId) {
-        // this.itemByFullCodeValue = '-';
-        var result = confirm('هذا المورد غير موجود هل تريد تكويده ؟');
-        if (result) {
-          this.dialog
-            .open(ProSellerTypeDialogComponent, {
-              width: '50%',
-            })
-            .afterClosed()
-            .subscribe((val) => {
-              if (val == 'save' || val == 'حفظ' ) {
-                // this.getItems();
-                this.lists = [];
-                this.api.getAllSellers().subscribe((lists) => {
-                  this.lists = lists;
-                  this.groupMasterForm.controls['sourceStoreId'].setValue(null);
-                  // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
-                  this.groupMasterForm.controls['employeeId'].setValue(null);
-                  this.actionName = "choose";
-
-                  this.groupMasterForm.controls['entryNo'].enable();
-
-                });
-              }
-            });
-        }
-      }
-      // }
-      // else {
-
-      // }
-
-    }
-
+    const filterValue = value.toLowerCase();
+    return this.lists.filter((list) =>
+      list.name ? list.name.toLowerCase().includes(filterValue) : '-'
+    );
   }
   openAutoList() {
     this.listCtrl.setValue(''); // Clear the input field value
@@ -1394,7 +1386,7 @@ export class STRAddTableComponent implements OnInit {
   getListCtrl(type: any) {
     console.log("addType obj: ", type);
     this.sourceSelected = type;
-
+    this.lists = [];
     if (type.source == "المورد" || type.source == "شهادة ادارية") {
 
       this.api.getAllSellers().subscribe((lists) => {
@@ -1453,6 +1445,10 @@ export class STRAddTableComponent implements OnInit {
         this.actionName = "emp";
         this.groupMasterForm.controls['entryNo'].disable();
 
+        // if (this.editData) {
+        //   this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
+
+        // }
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
@@ -1811,7 +1807,7 @@ export class STRAddTableComponent implements OnInit {
   async updateMaster() {
     this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
-    console.log("update both: ", this.groupDetailsForm.valid);
+    console.log("update both: ", this.groupMasterForm.value);
     this.api.putStrAdd(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
