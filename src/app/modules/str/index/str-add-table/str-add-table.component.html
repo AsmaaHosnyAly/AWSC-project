@@ -187,7 +187,6 @@
   <mat-tab>
     <ng-template mat-tab-label>
       <div class="pageTab">
-        <mat-icon class="example-tab-icon">cloud_done</mat-icon>
         <h2>اذونات الاضافة الموجودة</h2>
       </div>
     </ng-template>
@@ -233,17 +232,7 @@
             <th mat-header-cell *matHeaderCellDef>الموظف</th>
             <td mat-cell *matCellDef="let row">{{ row.employeeName }}</td>
           </ng-container>
-          <!-- receipt Column -->
-          <ng-container matColumnDef="receiptName">
-            <th mat-header-cell *matHeaderCellDef>سند الاضافة</th>
-            <td mat-cell *matCellDef="let row">{{ row.receiptName }}</td>
-          </ng-container>
-
-          <!-- Type Column -->
-          <ng-container matColumnDef="typeName">
-            <th mat-header-cell *matHeaderCellDef>النوع</th>
-            <td mat-cell *matCellDef="let row">{{ row.typeName }}</td>
-          </ng-container>
+         
           <!-- Type Column -->
           <ng-container matColumnDef="fiscalyear">
             <th mat-header-cell *matHeaderCellDef>السنة المالية</th>
@@ -367,11 +356,12 @@
                 <mat-form-field appearance="outline" class="groupInput">
                   <input matInput aria-label="list" [matAutocomplete]="autoList" [formControl]="listCtrl"
                     placeholder="{{editData && editData.sellerName ? editData.sellerName : editData && editData.employeeName ?  editData.employeeName :  editData && editData.sourceStoreName ? editData.sourceStoreName :''}}"
-                    (click)="openAutoList()" required />
+                    (click)="openAutoList()" required 
+                   />
                   <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
                     (optionSelected)="listSelected($event)">
                     <mat-option *ngFor="let list of filteredList | async" [value]="list">
-                      {{ list.name }}
+                      {{ list.name }} | {{ list.code }}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
@@ -663,7 +653,6 @@
   <mat-tab>
     <ng-template mat-tab-label>
       <div class="pageTab">
-        <mat-icon class="example-tab-icon">cloud_download</mat-icon>
         <h2>اذونات الاضافة المعلقة</h2>
       </div>
     </ng-template>
