@@ -157,8 +157,7 @@ export class STRAddTableComponent implements OnInit {
   // costcenterCtrl: FormControl<any>;
   // filteredcostcenter: Observable<costcenter[]>;
   // selectedcostcenter: costcenter | undefined;
-
-  employeeList: Employee[] = [];
+  employeesList: Employee[] = [];
   employeeCtrl: FormControl<any>;
   filteredEmployee: Observable<Employee[]>;
   selectedEmployee: Employee | undefined;
@@ -947,41 +946,31 @@ export class STRAddTableComponent implements OnInit {
 
 
   getEmployees() {
-    this.api.getEmployee().subscribe({
-      next: (res) => {
-        this.employeeList = res;
-        this.cdr.detectChanges(); // Trigger change detection
-        console.log("employeeeeeeeeee res: ", this.storeList);
-      },
-      error: (err) => {
-        // console.log("fetch store data err: ", err);
-        // alert("خطا اثناء جلب المخازن !");
-      },
+    this.api.getEmployee().subscribe((lists) => {
+      this.lists = lists;
+     
     });
   }
 
-
   displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
     console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
-    this.groupMasterSearchForm.patchValue({ employeeId: employee.id });
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+      this.groupMasterForm.patchValue({ employeeName: employee.name });
     console.log(
       'employee in form: ',
       this.groupMasterSearchForm.getRawValue().employeeId
     );
 
-    // this.getSearchStrWithdraw()
-    // this.set_store_Null(this.groupMasterSearchForm.getRawValue().employeeId);
-    // return     this.groupMasterSearchForm.patchValue({ employeeId: employee.id });
   }
   private _filteremployees(value: string): Employee[] {
-    const filterValue = value;
-    return this.employeeList.filter((employee) =>
-      employee.name.toLowerCase().includes(filterValue)
+    const filterValue = value.toLowerCase();
+    return this.employeesList.filter((employee) =>
+      employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutoEmployee() {
@@ -1195,35 +1184,66 @@ export class STRAddTableComponent implements OnInit {
   // }
 
 
+  // displayListName(list: any): string {
+  //   return list && list.name ? list.name : '';
+  // }
+  // listSelected(event: MatAutocompleteSelectedEvent): void {
+  //   const list = event.option.value as List;
+  //   this.selectedList = list;
+  //   console.log("list: ", list, "sourceSelected: ", this.sourceSelected.source);
+
+  //   if (this.sourceSelected.source == "المورد" || this.sourceSelected.source == "شهادة ادارية") {
+  //     this.groupMasterForm.patchValue({ sellerId: list.id });
+  //     // this.groupMasterForm.patchValue({ sellerName: list.name });
+  //   }
+  //   else if (this.sourceSelected.source == "الموظف") {
+  //     this.groupMasterForm.patchValue({ employeeId: list.id });
+  //     // this.groupMasterForm.patchValue({ employeeName: list.name });
+
+  //   } else {
+  //     this.groupMasterForm.patchValue({ sourceStoreId: list.id });
+  //     // this.groupMasterForm.patchValue({ sourceStoreName: list.name });
+
+  //   }
+
+
+  // }
+  // private _filterLists(value: string): List[] {
+  //   console.log("filterValue: ", value);
+  //   const filterValue = value;
+  //   return this.lists.filter(list =>
+  //     list.name.toLowerCase().includes(filterValue)
+  //   );
+  // }
+  // openAutoList() {
+  //   this.listCtrl.setValue(''); // Clear the input field value
+
+  //   // Open the autocomplete dropdown by triggering the value change event
+  //   this.listCtrl.updateValueAndValidity();
+  // }
+
   displayListName(list: any): string {
-    return list && list.name ? list.name : '';
+    return list ? list.name && list.name != null ? list.name : '-' : '';
   }
   listSelected(event: MatAutocompleteSelectedEvent): void {
+    console.log("list select: ", event.option.value, "sourceSelected: ", this.sourceSelected);
     const list = event.option.value as List;
     this.selectedList = list;
-    console.log("list: ", list, "sourceSelected: ", this.sourceSelected.source);
 
-    if (this.sourceSelected.source == "المورد" || this.sourceSelected.source == "شهادة ادارية") {
-      this.groupMasterForm.patchValue({ sellerId: list.id });
-      // this.groupMasterForm.patchValue({ sellerName: list.name });
-    }
-    else if (this.sourceSelected.source == "الموظف") {
+    if (this.sourceSelected === 'الموظف') {
       this.groupMasterForm.patchValue({ employeeId: list.id });
-      // this.groupMasterForm.patchValue({ employeeName: list.name });
-
+      this.groupMasterForm.patchValue({ employeeName: list.name });
     } else {
-      this.groupMasterForm.patchValue({ sourceStoreId: list.id });
-      // this.groupMasterForm.patchValue({ sourceStoreName: list.name });
-
+      console.log("store list selected: ");
+      this.groupMasterForm.patchValue({ deststoreId: list.id });
+      this.groupMasterForm.patchValue({ desstoreName: list.name });
+      // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
     }
-
-
   }
   private _filterLists(value: string): List[] {
-    console.log("filterValue: ", value);
-    const filterValue = value;
-    return this.lists.filter(list =>
-      list.name.toLowerCase().includes(filterValue)
+    const filterValue = value.toLowerCase();
+    return this.lists.filter((list) =>
+      list.name ? list.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutoList() {
