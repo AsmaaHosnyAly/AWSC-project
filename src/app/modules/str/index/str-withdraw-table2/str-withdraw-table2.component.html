@@ -91,8 +91,8 @@
             </mat-form-field>
           </div>
           <div class="searchLabels">
-          <mat-label>تاريخ النهاية</mat-label>
-          <mat-form-field appearance="outline" class="searchForm">
+            <mat-label>تاريخ النهاية</mat-label>
+            <mat-form-field appearance="outline" class="searchForm">
               <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate">
               <mat-datepicker-toggle matIconSuffix [for]="picke">
                 <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -254,9 +254,9 @@
           <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
             showFirstLastButtons></mat-paginator> -->
 
-          <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex"
-            [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
-            (page)="pageChanged($event)" showFirstLastButtons>
+          <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)"
+            showFirstLastButtons>
           </mat-paginator>
         </div>
 
@@ -334,23 +334,51 @@
                   </div>
 
                   <div class="searchLabels">
-                    <mat-label>{{
-                      actionName.toLowerCase() == "choose" ? " موظف : " : " مخزن :"
-                      }}</mat-label>
+                    <mat-label> موظف : </mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput">
                       <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
                         [matAutocomplete]="autoList" [formControl]="listCtrl" placeholder="{{
                           editData && editData.employeeName
                             ? editData.employeeName
-                            : editData && editData.desstoreName
-                            ? editData.desstoreName
                             : ''
                         }}" (click)="openAutoList()" required />
                       <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
                         (optionSelected)="listSelected($event)">
                         <mat-option *ngFor="let list of filteredList | async" [value]="list">
                           {{ list.name ? list.name : "-" }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- <div class="searchLabels">
+                    <mat-label>الموظف :</mat-label>
+
+                    <mat-form-field appearance="outline">
+                      <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee"
+                        [formControl]="employeeCtrl" placeholder="{{ editData ? editData.employeeName : '' }}"
+                        (click)="openAutoEmployee()" required />
+                      <mat-autocomplete #autoEmployee="matAutocomplete"
+                        [displayWith]="displayEmployeeName" (optionSelected)="employeeSelected($event)">
+                        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                          {{ employee.name ? employee.name : "" }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div> -->
+
+                  <div class="searchLabels">
+                    <mat-label>مخزن *</mat-label>
+        
+                    <mat-form-field appearance="outline" class="searchForm">
+        
+                      <input matInput aria-label="commodity" [matAutocomplete]="autostore"
+                        [formControl]="storeCtrl" placeholder="{{ editData ? editData.desstoreName : '' }}" (click)="openAutostore()" required />
+                      <mat-autocomplete #autostore="matAutocomplete" [displayWith]="displaystoreName"
+                        (optionSelected)="storeSelected($event)">
+                        <mat-option *ngFor="let store of filteredstore | async" [value]="store">
+                          {{ store.name }} | {{ store.id }}
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
@@ -473,28 +501,28 @@
                         </div>
                       </div>
                     </div>
-                          <div class="headerForm2">
-                            <!-- <div class="parent"> -->
-                            <div class="searchLabels">
-                              <mat-label>بحث بالكود </mat-label>
+                    <div class="headerForm2">
+                      <!-- <div class="parent"> -->
+                      <div class="searchLabels">
+                        <mat-label>بحث بالكود </mat-label>
 
-                              <mat-form-field appearance="outline" class="groupInput">
-                                <input matInput placeholder="{{ editDataDetails ? editDataDetails.fullCode : '' }}"
-                                  (keydown)="getItemByCode($event)" [value]="
+                        <mat-form-field appearance="outline" class="groupInput">
+                          <input matInput placeholder="{{ editDataDetails ? editDataDetails.fullCode : '' }}"
+                            (keydown)="getItemByCode($event)" [value]="
                                           fullCodeValue && fullCodeValue != '-'
                                             ? fullCodeValue
                                             : fullCodeValue && fullCodeValue == '-'
                                             ? 'لا يوجد'
                                             : ''
                                         " />
-                              </mat-form-field>
-                            </div>
-                            <div class="searchLabels">
-                              <mat-label> الصنف*</mat-label>
+                        </mat-form-field>
+                      </div>
+                      <div class="searchLabels">
+                        <mat-label> الصنف*</mat-label>
 
-                              <mat-form-field appearance="outline" *ngIf="!loading" class="groupInput">
-                                <input matInput aria-label="item" [matAutocomplete]="autoItemPositive"
-                                  [formControl]="itemPositiveCtrl" placeholder="{{
+                        <mat-form-field appearance="outline" *ngIf="!loading" class="groupInput">
+                          <input matInput aria-label="item" [matAutocomplete]="autoItemPositive"
+                            [formControl]="itemPositiveCtrl" placeholder="{{
                                           editDataDetails && !itemByFullCodeValue
                                             ? editDataDetails.itemName
                                             : itemByFullCodeValue && itemByFullCodeValue != '-'
@@ -503,57 +531,55 @@
                                             ? 'لا يوجد'
                                             : ''
                                         }}" (click)="openAutoitemPositive()" required />
-                                <mat-autocomplete #autoItemPositive="matAutocomplete"
-                                  [displayWith]="displayitemPositiveName"
-                                  (optionSelected)="itemPositiveSelected($event)">
-                                  <mat-option *ngFor="let item of filtereditemPositive | async" [value]="item">
-                                    {{ item.name }}
-                                  </mat-option>
-                                </mat-autocomplete>
-                              </mat-form-field>
-                            </div>
+                          <mat-autocomplete #autoItemPositive="matAutocomplete" [displayWith]="displayitemPositiveName"
+                            (optionSelected)="itemPositiveSelected($event)">
+                            <mat-option *ngFor="let item of filtereditemPositive | async" [value]="item">
+                              {{ item.name }}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
 
-                            <div class="searchLabels">
-                              <mat-label>الكمية*</mat-label>
+                      <div class="searchLabels">
+                        <mat-label>الكمية*</mat-label>
 
-                              <mat-form-field appearance="outline" class="groupInput">
-                                <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
-                                  [value]="editDataDetails ? editDataDetails.qty : '1'" />
-                              </mat-form-field>
-                            </div>
-                            <!-- </div> -->
+                        <mat-form-field appearance="outline" class="groupInput">
+                          <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
+                            [value]="editDataDetails ? editDataDetails.qty : '1'" />
+                        </mat-form-field>
+                      </div>
+                      <!-- </div> -->
 
 
-                            <div class="searchLabels">
-                              <mat-label>السعر</mat-label>
+                      <div class="searchLabels">
+                        <mat-label>السعر</mat-label>
 
-                              <mat-form-field appearance="outline" class="groupInput">
-                                <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
-                                  [value]="editDataDetails ? editDataDetails.price : ''" readonly="true" />
-                              </mat-form-field>
-                            </div>
+                        <mat-form-field appearance="outline" class="groupInput">
+                          <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
+                            [value]="editDataDetails ? editDataDetails.price : ''" readonly="true" />
+                        </mat-form-field>
+                      </div>
 
-                            <!-- </div> -->
-                            <div style="display: flex; flex-direction: row">
-                              <div class="radio" >
-                                <mat-label style="margin-top: 9px"> حالةالصنف*</mat-label>
+                      <!-- </div> -->
+                      <div style="display: flex; flex-direction: row">
+                        <div class="radio">
+                          <mat-label style="margin-top: 9px"> حالةالصنف*</mat-label>
 
-                                <mat-radio-group style="display: flex; flex-direction: row"
-                                  aria-label="Select an option" formControlName="state"
-                                  (change)="set_Percentage($event)"
-                                  [value]="editDataDetails ? editDataDetails.state : stateDefaultValue">
-                                  <mat-radio-button value="جديد">جديد</mat-radio-button>
-                                  <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
-                                  <mat-radio-button value="قابل للاصلاح">قابل للاصلاح</mat-radio-button>
-                                  <mat-radio-button value="كهنة و خردة">كهنة و خردة</mat-radio-button>
-                                </mat-radio-group>
-                              </div>
-                            </div>
-                          </div>
+                          <mat-radio-group style="display: flex; flex-direction: row" aria-label="Select an option"
+                            formControlName="state" (change)="set_Percentage($event)"
+                            [value]="editDataDetails ? editDataDetails.state : 'جديد'">
+                            <mat-radio-button value="جديد">جديد</mat-radio-button>
+                            <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
+                            <mat-radio-button value="قابل للاصلاح">قابل للاصلاح</mat-radio-button>
+                            <mat-radio-button value="كهنة و خردة">كهنة و خردة</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                      </div>
+                    </div>
 
-                        
-                      
-                    
+
+
+
 
                     <div>
                       <div dir="ltr">
