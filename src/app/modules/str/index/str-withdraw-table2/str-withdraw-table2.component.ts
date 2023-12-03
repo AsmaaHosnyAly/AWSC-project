@@ -1223,18 +1223,9 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   getEmployees() {
-    this.loading = true;
-    this.api.getEmployee().subscribe({
-      next: (res) => {
-        this.loading = false;
-        this.employeesList = res;
-        this.cdr.detectChanges(); // Trigger change detection
-      },
-      error: (err) => {
-        this.loading = false;
-        // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب العناصر !');
-      },
+    this.api.getEmployee().subscribe((lists) => {
+      this.lists = lists;
+     
     });
   }
 
@@ -1378,33 +1369,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.costcenterCtrl.updateValueAndValidity();
   }
 
-  displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
-  }
-  employeeSelected(event: MatAutocompleteSelectedEvent): void {
-    const employee = event.option.value as Employee;
-    console.log('employee selected: ', employee);
-    this.selectedEmployee = employee;
-    this.groupMasterSearchForm.patchValue({ employeeId: employee.id });
-    this.groupMasterForm.patchValue({ employeeId: employee.id });
-    console.log(
-      'employee in form: ',
-      this.groupMasterSearchForm.getRawValue().employeeId
-    );
-
-  }
-  private _filteremployees(value: string): Employee[] {
-    const filterValue = value;
-    return this.employeesList.filter((employee) =>
-      employee.name.toLowerCase().includes(filterValue)
-    );
-  }
-  openAutoEmployee() {
-    this.employeeCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
-    this.employeeCtrl.updateValueAndValidity();
-  }
+ 
 
   displayitemName(item: any): string {
     return item && item.name ? item.name : '';
@@ -1486,7 +1451,33 @@ export class StrWithdrawTableComponent implements OnInit {
     // Open the autocomplete dropdown by triggering the value change event
     this.listCtrl.updateValueAndValidity();
   }
+  displayEmployeeName(employee: any): string {
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log('employee selected: ', employee);
+    this.selectedEmployee = employee;
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+      this.groupMasterForm.patchValue({ employeeName: employee.name });
+    console.log(
+      'employee in form: ',
+      this.groupMasterSearchForm.getRawValue().employeeId
+    );
 
+  }
+  private _filteremployees(value: string): Employee[] {
+    const filterValue = value.toLowerCase();
+    return this.employeesList.filter((employee) =>
+      employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
+    );
+  }
+  openAutoEmployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.employeeCtrl.updateValueAndValidity();
+  }
 
   set_store_Null(employeeId: any) {
     // alert("employeeId in null fun:"+employeeId)

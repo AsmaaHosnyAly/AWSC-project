@@ -208,7 +208,7 @@ export class STRAddDialogComponent implements OnInit {
     this.getSellers();
     this.getReciepts();
     this.getEmployees();
-    this.getStrAddAutoNo();
+    // this.getStrAddAutoNo();
 
     this.getFiscalYears();
 
@@ -294,6 +294,14 @@ export class STRAddDialogComponent implements OnInit {
 
 
       }
+      else if (this.editData.addTypeName == 'فاتورة') {
+        this.actionName = "choose";
+        console.log("action btnnnnnnnnnnnnn 3", this.actionName);
+
+        // this.groupMasterForm.controls['addTypeId'].setValue('المورد');
+        this.groupMasterForm.controls['entryNo'].enable();
+        this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
+      }
       else if (this.editData.addTypeName == 'اذن ارتجاع' || 'الموظف') {
         this.actionName = "emp";
         console.log("action btnnnnnnnnnnnnn 2", this.actionName);
@@ -306,8 +314,10 @@ export class STRAddDialogComponent implements OnInit {
         console.log("action btnnnnnnnnnnnnn 3", this.actionName);
 
         // this.groupMasterForm.controls['addTypeId'].setValue('المورد');
-        this.groupMasterForm.controls['entryNo'].enable();
-        this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
+        // this.groupMasterForm.controls['entryNo'].enable();
+        // this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
+        this.groupMasterForm.controls['entryNo'].disable();
+
 
       }
 
@@ -372,7 +382,7 @@ export class STRAddDialogComponent implements OnInit {
 
     this.groupMasterForm.controls['fiscalYearId'].setValue(1)
 
-    if(this.groupMasterForm.getRawValue().no == this.autoNo){
+    if (this.groupMasterForm.getRawValue().no == this.autoNo) {
       this.groupMasterForm.controls['no'].setValue(this.autoNo);
     }
 
@@ -1112,19 +1122,19 @@ export class STRAddDialogComponent implements OnInit {
   }
 
 
-  getStrAddAutoNo() {
-    this.api.getStrAddAutoNo()
-      .subscribe({
-        next: (res) => {
-          this.autoNo = res;
-          return res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
-  }
+  // getStrAddAutoNo() {
+  //   this.api.getStrAddAutoNo()
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.autoNo = res;
+  //         return res;
+  //       },
+  //       error: (err) => {
+  //         // console.log("fetch fiscalYears data err: ", err);
+  //         // alert("خطا اثناء جلب العناصر !");
+  //       }
+  //     })
+  // }
 
 
   displayItemName(item: any): string {
