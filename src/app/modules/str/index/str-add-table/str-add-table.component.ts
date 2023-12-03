@@ -27,6 +27,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
+import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
+import { ProSellerTypeDialogComponent } from 'src/app/modules/pro/index/pro-seller-type-dialog/pro-seller-type-dialog.component';
 
 
 interface StrAddGetAllByUserId {
@@ -68,7 +70,7 @@ export interface Source {
   name: string
 }
 export class List {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public code: any) { }
 }
 // export class Item {
 //   constructor(public id: number, public name: string) { }
@@ -115,8 +117,6 @@ export class STRAddTableComponent implements OnInit {
     'employeeName',
     'fiscalyear',
     'date',
-    'receiptName',
-    'typeName',
     'Action',
   ];
   displayedPendingColumns: string[] = [
@@ -443,7 +443,7 @@ export class STRAddTableComponent implements OnInit {
       total: ['', Validators.required],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
-      itemName: ['', Validators.required],
+      // itemName: ['', Validators.required],
       avgPrice: [''],
       balanceQty: ['', Validators.required],
       percentage: ['100'],
@@ -1042,7 +1042,7 @@ export class STRAddTableComponent implements OnInit {
     //   })
 
     this.groupDetailsForm.patchValue({ itemId: item.id });
-    this.groupDetailsForm.patchValue({ itemName: item.name });
+    // this.groupDetailsForm.patchValue({ itemName: item.name });
     this.groupDetailsForm.patchValue({ fullCode: item.fullCode });
 
     this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
@@ -1059,8 +1059,18 @@ export class STRAddTableComponent implements OnInit {
           this.groupDetailsForm.controls['avgPrice'].setValue(res);
           this.groupDetailsForm.controls['price'].setValue(res);
           console.log("include ? ", this.addTypeSource);
-          alert("addTypeSource to readOnly price: " + this.addTypeSource);
-          if (this.addTypeSource.includes('مورد')) {
+          if (!this.addTypeSource && this.editData) {
+            if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+              this.isReadOnly = false;
+              console.log("change readOnly to enable here");
+            }
+            else {
+              this.isReadOnly = true;
+              console.log("change readOnly to disable here");
+            }
+
+          }
+          else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
             this.isReadOnly = false;
             console.log("change readOnly to enable here");
           }
@@ -1222,9 +1232,87 @@ export class STRAddTableComponent implements OnInit {
   private _filterLists(value: string): List[] {
     console.log("filterValue: ", value);
     const filterValue = value;
+
     return this.lists.filter(list =>
-      list.name.toLowerCase().includes(filterValue)
-    );
+      list.name || list.code ? list.name.toLowerCase().includes(filterValue) ||
+        list.code.toString().toLowerCase().includes(filterValue) : '-')
+
+  }
+  getSellerCode(code: any) {
+    // if (code.keyCode == 13) {
+    //   alert("code: " + code.target.value)
+    // }
+
+    this.groupMasterForm.controls['sellerId'].setValue('');
+    this.listCtrl.setValue('');
+    if (code.keyCode == 13) {
+
+      // if (this.itemSearchWay != 'searchByProductName') {
+
+      this.lists.filter((a: any) => {
+        // console.log("enter product code case, ", "a.code: ", a.fullCode, " code target: ", code.target.value);
+
+        if (a.code == code.target.value) {
+          // console.log("enter product code case condition: ", a.fullCode === code.target.value);
+
+
+          this.listCtrl.setValue(a.name);
+          if (a.name) {
+            this.groupMasterForm.controls['sellerId'].setValue(a.id);
+            // this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
+
+            console.log("seller by code: ", a.name);
+          }
+          // else {
+          //   this.itemByFullCodeValue = '-';
+          // }
+          // this.itemByFullCodeValue = a.name;
+          // // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+          else {
+            this.groupMasterForm.controls['sellerId'].setValue(null);
+            // this.groupMasterForm.controls['sellerName'].setValue(null);
+            this.groupMasterForm.controls['employeeId'].setValue(null);
+            this.actionName = "str";
+            this.groupMasterForm.controls['entryNo'].disable();
+          }
+        }
+
+      })
+
+      if (!this.groupMasterForm.getRawValue().sellerId) {
+        // this.itemByFullCodeValue = '-';
+        var result = confirm('هذا المورد غير موجود هل تريد تكويده ؟');
+        if (result) {
+          this.dialog
+            .open(ProSellerTypeDialogComponent, {
+              width: '50%',
+            })
+            .afterClosed()
+            .subscribe((val) => {
+              if (val == 'save' || val == 'حفظ' ) {
+                // this.getItems();
+                this.lists = [];
+                this.api.getAllSellers().subscribe((lists) => {
+                  this.lists = lists;
+                  this.groupMasterForm.controls['sourceStoreId'].setValue(null);
+                  // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
+                  this.groupMasterForm.controls['employeeId'].setValue(null);
+                  this.actionName = "choose";
+
+                  this.groupMasterForm.controls['entryNo'].enable();
+
+                });
+              }
+            });
+        }
+      }
+      // }
+      // else {
+
+      // }
+
+    }
+
   }
   openAutoList() {
     this.listCtrl.setValue(''); // Clear the input field value
@@ -1880,7 +1968,7 @@ export class STRAddTableComponent implements OnInit {
       this.groupDetailsForm.controls['balanceQty'].setValue(this.editDataDetails.balanceQty);
       this.groupDetailsForm.controls['fullCode'].setValue(this.editDataDetails.fullCode);
       this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
-      this.groupDetailsForm.controls['itemName'].setValue(this.editDataDetails.itemName);
+      // this.groupDetailsForm.controls['itemName'].setValue(this.editDataDetails.itemName);
       this.groupDetailsForm.controls['percentage'].setValue(this.editDataDetails.percentage);
       this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
       this.groupDetailsForm.controls['qty'].setValue(this.editDataDetails.qty);
@@ -1957,6 +2045,25 @@ export class STRAddTableComponent implements OnInit {
                 console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
                 console.log("price called res3: ", this.groupDetailsForm.getRawValue().price);
 
+                if (!this.addTypeSource && this.editData) {
+                  if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+                    this.isReadOnly = false;
+                    console.log("change readOnly to enable here");
+                  }
+                  else {
+                    this.isReadOnly = true;
+                    console.log("change readOnly to disable here");
+                  }
+
+                }
+                else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
+                  this.isReadOnly = false;
+                  console.log("change readOnly to enable here");
+                }
+                else {
+                  this.isReadOnly = true;
+                  console.log("change readOnly to disable here");
+                }
               },
               error: (err) => {
                 // console.log("fetch fiscalYears data err: ", err);
@@ -2034,7 +2141,7 @@ export class STRAddTableComponent implements OnInit {
           // console.log("item by code: ", a.itemName);
           // console.log("item FULLCODE: ", this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId).fullCode);
           this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
-          alert("fullCode: " + this.fullCodeValue);
+          // alert("fullCode: " + this.fullCodeValue);
           this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
 
           this.itemCtrl.setValue(a.itemName);
@@ -2054,7 +2161,26 @@ export class STRAddTableComponent implements OnInit {
                   this.groupDetailsForm.controls['price'].setValue(res)
                   console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
                   console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+                  // alert("addTypeSource to readOnly price: " + this.addTypeSource);
+                  if (!this.addTypeSource && this.editData) {
+                    if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+                      this.isReadOnly = false;
+                      console.log("change readOnly to enable here");
+                    }
+                    else {
+                      this.isReadOnly = true;
+                      console.log("change readOnly to disable here");
+                    }
 
+                  }
+                  else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
+                    this.isReadOnly = false;
+                    console.log("change readOnly to enable here");
+                  }
+                  else {
+                    this.isReadOnly = true;
+                    console.log("change readOnly to disable here");
+                  }
                 },
                 error: (err) => {
                   // console.log("fetch fiscalYears data err: ", err);
@@ -2094,6 +2220,8 @@ export class STRAddTableComponent implements OnInit {
   }
 
   getItemByCode(code: any) {
+    this.groupDetailsForm.controls['itemId'].setValue('');
+    this.itemCtrl.setValue('');
     if (code.keyCode == 13) {
 
       if (this.itemSearchWay != 'searchByProductName') {
@@ -2125,7 +2253,25 @@ export class STRAddTableComponent implements OnInit {
                     this.groupDetailsForm.controls['price'].setValue(res)
                     console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
                     console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+                    if (!this.addTypeSource && this.editData) {
+                      if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+                        this.isReadOnly = false;
+                        console.log("change readOnly to enable here");
+                      }
+                      else {
+                        this.isReadOnly = true;
+                        console.log("change readOnly to disable here");
+                      }
 
+                    }
+                    else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
+                      this.isReadOnly = false;
+                      console.log("change readOnly to enable here");
+                    }
+                    else {
+                      this.isReadOnly = true;
+                      console.log("change readOnly to disable here");
+                    }
                   },
                   error: (err) => {
                     // console.log("fetch fiscalYears data err: ", err);
@@ -2157,7 +2303,25 @@ export class STRAddTableComponent implements OnInit {
             // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
           }
+
         })
+
+        if (!this.groupDetailsForm.getRawValue().itemId) {
+          this.itemByFullCodeValue = '-';
+          var result = confirm('هذا الكود غير موجود هل تريد تكويده ؟');
+          if (result) {
+            this.dialog
+              .open(STRItem1DialogComponent, {
+                width: '50%',
+              })
+              .afterClosed()
+              .subscribe((val) => {
+                if (val === 'save') {
+                  this.getItems();
+                }
+              });
+          }
+        }
       }
       // else {
 
@@ -2210,12 +2374,12 @@ export class STRAddTableComponent implements OnInit {
       // if (this.getMasterRowId) {
       console.log("form  headerId: ", this.getMasterRowId)
 
-      if (this.groupDetailsForm.getRawValue().itemId) {
-        this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-        this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-        // this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
-        this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-      }
+      // if (this.groupDetailsForm.getRawValue().itemId) {
+      // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
+      // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
+      // this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
+      this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      // }
 
       this.groupDetailsForm.controls['state'].setValue(this.groupDetailsForm.getRawValue().state);
 
