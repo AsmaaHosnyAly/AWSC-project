@@ -1,9 +1,7 @@
-<div class="text-center w=100" *ngIf="loading">
-  <app-spinner></app-spinner>
-</div>
-<div class="container" *ngIf="!loading">
+
+<div class="container" >
   <mat-accordion class="example-headers-align" multi dir="rtl">
-    <div class="page-title">أذونات الصرف</div>
+    <div class="page-title" >أذونات الصرف</div>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-description>
@@ -138,7 +136,7 @@
 
         </div>
 
-        <div class="print-display"*ngIf="!loading" >
+        <div class="print-display" >
           <mat-icon (click)="
             getSearchStrWithdraw(no.value, StartDate.value,EndDate.value, fiscalYear.value)
               " class="icons" title="بحث">search</mat-icon>
@@ -492,7 +490,7 @@
                             <div class="searchLabels">
                               <mat-label> الصنف*</mat-label>
 
-                              <mat-form-field appearance="outline" *ngIf="!loading" class="groupInput">
+                              <mat-form-field appearance="outline" class="groupInput">
                                 <input matInput aria-label="item" [matAutocomplete]="autoItemPositive"
                                   [formControl]="itemPositiveCtrl" placeholder="{{
                                           editDataDetails && !itemByFullCodeValue
@@ -639,4 +637,7 @@
     </mat-tab-group>
 
   </section>
+  <div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
 </div>
