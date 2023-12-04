@@ -1668,7 +1668,7 @@ export class ApiService {
   }
   getAllSellers() {
     // return this.http.get<any>(`${this.url}/PRSeller/get/all`);
-    return this.http.get<any>(`${this.url}/ProSellerType/get/all`);
+    return this.http.get<any>(`${this.url}/ProSeller/get/all`);
   }
   getAllEmployee() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
