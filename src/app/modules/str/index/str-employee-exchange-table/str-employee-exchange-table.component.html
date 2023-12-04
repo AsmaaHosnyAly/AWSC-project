@@ -44,7 +44,7 @@
               <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
                 (optionSelected)="employeeSelected($event)">
                 <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                  {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                  {{ employee.name }} | {{ employee.code }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
