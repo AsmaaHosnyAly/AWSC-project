@@ -64,6 +64,8 @@ export class StrOpeningStockTableComponent implements OnInit {
     'Action',
   ];
   matchedIds: any;
+  MasterGroupInfoEntered = false;
+  editData: any;
   // storeList: any;
   storeName: any;
   fiscalYearsList: any;
@@ -170,6 +172,7 @@ export class StrOpeningStockTableComponent implements OnInit {
       this.dataSource2.paginator.firstPage();
     }
   }
+
 
   getsearch(code: any) {
     if (code.keyCode == 13) {

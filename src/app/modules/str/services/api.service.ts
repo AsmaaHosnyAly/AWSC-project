@@ -1230,6 +1230,9 @@ export class ApiService {
   ///////////////////////////////// STR-EmployeeExchange & details/////////////////////////////
   getStrEmployeeExchangeAutoNo() {
     return this.http.get<any>(`${this.url}/STREmployeeExchange/get/AutoNo`);
+    // return this.http.get<any>(
+    //   `${this.url}/STREmployeeExchange/get/AutoNo?FiscalYearId=${fiscalyearId}`
+    // );
   }
 
   getHrEmployees() {
