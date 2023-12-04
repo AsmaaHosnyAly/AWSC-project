@@ -1972,10 +1972,28 @@ export class STRAddTableComponent implements OnInit {
 
             console.log("enter getAllDetails: ", res);
 
-            this.matchedIds = res[0].strAddDetailsGetVM;
+            this.matchedIds = res;
+
+            // if (this.matchedIds) {
+            //   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
+            //   this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
+            //   this.dataSourceDetails.paginator = this.paginatorDetails;
+            //   this.dataSourceDetails.sort = this.sort;
+
+            //   this.sumOfTotals = 0;
+            //   for (let i = 0; i < this.matchedIds.length; i++) {
+            //     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+            //     this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+            //     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+            //     // alert('totalll: '+ this.sumOfTotals)
+            //     // this.updateBothForms();
+
+            //     this.updateMaster();
+            //   }
+            // }
 
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
+              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
               this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
               this.dataSourceDetails.paginator = this.paginatorDetails;
               this.dataSourceDetails.sort = this.sort;
@@ -2359,7 +2377,7 @@ export class STRAddTableComponent implements OnInit {
 
         if (!this.groupDetailsForm.getRawValue().itemId) {
           this.itemByFullCodeValue = '-';
-          var result = confirm('هذا الكود غير موجود هل تريد تكويده ؟');
+          var result = confirm('هذا الصنف غير موجود هل تريد تكويده ؟');
           if (result) {
             this.dialog
               .open(STRItem1DialogComponent, {
