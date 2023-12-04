@@ -220,12 +220,14 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteremployees(value))
     );
 
     this.distEmployeeCtrl = new FormControl();
     this.filtereddistEmployee = this.distEmployeeCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filterdistEmployees(value))
     );
 
@@ -725,14 +727,9 @@ this.getStrEmployeeExchangeAutoNo();
   }
 
   getEmployees() {
-    this.api.getEmployees().subscribe({
-      next: (res) => {
-        this.employeesList = res;
-      },
-      error: (err) => {
-        // console.log("fetch employees data err: ", err);
-        // alert("خطا اثناء جلب الموظفين !");
-      },
+    this.api.getEmployee().subscribe((lists) => {
+      this.employeesList= lists;
+     
     });
   }
 
@@ -769,14 +766,9 @@ this.getStrEmployeeExchangeAutoNo();
   }
 
   getDistEmployees() {
-    this.api.getEmployees().subscribe({
-      next: (res) => {
-        this.distEmployeesList = res;
-      },
-      error: (err) => {
-        // console.log("fetch employees data err: ", err);
-        // alert("خطا اثناء جلب الموظفين !");
-      },
+    this.api.getEmployee().subscribe((lists) => {
+      this.distEmployeesList= lists;
+     
     });
   }
 
@@ -915,16 +907,17 @@ this.getStrEmployeeExchangeAutoNo();
 
   /////employeee
 
+
   displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
     console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
-    this.groupMasterFormDialog.patchValue({ employeeId: employee.id });
 
     this.groupMasterForm.patchValue({ employeeId: employee.id });
+    this.groupMasterForm.patchValue({ employeeName: employee.name });
     console.log(
       'employee in form: ',
       this.groupMasterForm.getRawValue().employeeId
@@ -932,35 +925,33 @@ this.getStrEmployeeExchangeAutoNo();
     if (this.groupMasterFormDialog.getRawValue().distEmployeeId == this.groupMasterFormDialog.getRawValue().employeeId) {
       this.toastrSelectSameEmpolyee()
     }
-    // this.getSearchStrWithdraw()
-    // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
-    // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
   }
+
   private _filteremployees(value: string): Employee[] {
-    const filterValue = value;
-    return this.employeesList.filter(
-      (employee) => employee.name.toLowerCase().includes(filterValue),
-      console.log('employee in filteremployee:', this.employeesList)
+    const filterValue = value.toLowerCase();
+    return this.employeesList.filter((employee) =>
+      employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
     );
   }
+ 
   openAutoEmployee() {
     this.employeeCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
     this.employeeCtrl.updateValueAndValidity();
   }
-
+ 
   //////distemployee
   displaydistEmployeeName(distEmployee: any): string {
-    return distEmployee && distEmployee.name ? distEmployee.name : '';
+    return distEmployee ? distEmployee.name && distEmployee.name != null ? distEmployee.name : '-' : '';
   }
   distEmployeeSelected(event: MatAutocompleteSelectedEvent): void {
     const distEmployee = event.option.value as distEmployee;
     console.log('distEmployee selected: ', distEmployee);
     this.selecteddistEmployee = distEmployee;
-    this.groupMasterFormDialog.patchValue({ distEmployeeId: distEmployee.id });
-
     this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
+    this.groupMasterForm.patchValue({ employeeName: distEmployee.name });
+
     console.log(
       'distEmployee in form: ',
       this.groupMasterForm.getRawValue().distEmployeeId
@@ -969,25 +960,21 @@ this.getStrEmployeeExchangeAutoNo();
       this.toastrSelectSameEmpolyee()
     }
   }
-  // this.getSearchStrWithdraw()
-  // this.set_store_Null(this.groupMasterForm.getRawValue().distEmployeeId);
-  // return     this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
 
   private _filterdistEmployees(value: string): distEmployee[] {
     const filterValue = value;
     return this.distEmployeesList.filter((distEmployee) =>
-      distEmployee.name.toLowerCase().includes(filterValue)
+      distEmployee.name? distEmployee.name.toLowerCase().includes(filterValue) : '-'
+
     );
   }
+ 
   openAutodistEmployee() {
     this.distEmployeeCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
     this.distEmployeeCtrl.updateValueAndValidity();
   }
-
-
-
 
   displayitemPositiveName(item: any): string {
     return item && item.name ? item.name : '';
