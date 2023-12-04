@@ -190,7 +190,7 @@
             <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
           </div>
         </mat-card-header>
-        <div class="div-table">
+                <div class="div-table">
           <table mat-table [dataSource]="dataSource2" dir="rtl">
             <!-- No Column -->
             <ng-container matColumnDef="no">
@@ -370,11 +370,11 @@
 
                   <div class="searchLabels">
                     <mat-label>مخزن *</mat-label>
-        
+
                     <mat-form-field appearance="outline" class="searchForm">
-        
-                      <input matInput aria-label="commodity" [matAutocomplete]="autostore"
-                        [formControl]="storeCtrl" placeholder="{{ editData ? editData.desstoreName : '' }}" (click)="openAutostore()" required />
+
+                      <input matInput aria-label="commodity" [matAutocomplete]="autostore" [formControl]="storeCtrl"
+                        placeholder="{{ editData ? editData.desstoreName : '' }}" (click)="openAutostore()" required />
                       <mat-autocomplete #autostore="matAutocomplete" [displayWith]="displaystoreName"
                         (optionSelected)="storeSelected($event)">
                         <mat-option *ngFor="let store of filteredstore | async" [value]="store">
@@ -517,6 +517,9 @@
                                         " />
                         </mat-form-field>
                       </div>
+
+
+                      
                       <div class="searchLabels">
                         <mat-label> الصنف*</mat-label>
 

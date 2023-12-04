@@ -715,26 +715,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.groupMasterForm.controls['type'].setValue(this.editData.type);
     this.getListCtrl(this.groupMasterForm.getRawValue().type);
 
-    // this.groupMasterForm.controls['sourceInput'].setValue(
-    //   this.groupMasterForm.getRawValue().desstoreName
-    // );
-    // }
-    // else {
-    //   this.actionName = 'choose';
-    //   let type = 'الموظف';
-    //   this.getListCtrl(type);
-    //   this.getEmployees();
 
-    // this.groupMasterForm.controls['type'].setValue('الموظف');
-    // this.groupMasterForm.controls['sourceInput'].setValue(
-    //     this.groupMasterForm.getRawValue().employeeName
-    //   );
-    //   console.log(
-    //     'employee in edit:',
-    //     this.groupMasterForm.getRawValue().employeeName
-    //   );
-
-    // }
 
     console.log('master edit form: ', this.editData);
 
@@ -789,9 +770,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.groupMasterForm.controls['costCenterId'].setValue(
       this.editData.costCenterId
     );
-    // this.groupMasterForm.controls['costcenterName'].setValue(
-    //   this.editData.costcenterName
-    // );
+ 
     this.isEditDataReadOnly = true;
 
     this.autoNo = '';
@@ -1440,7 +1419,7 @@ export class StrWithdrawTableComponent implements OnInit {
   private _filteremployees(value: string): Employee[] {
     console.log("filter:", value, "list: ", this.employeesList);
     const filterValue = value;
-    return this.employeesList.filter((employee) =>
+    return this.employeesList.filter((employee: { name: string }) =>
       employee.name.toLowerCase().includes(filterValue)
     );
   }
