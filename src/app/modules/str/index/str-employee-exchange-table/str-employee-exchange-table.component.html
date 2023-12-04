@@ -55,13 +55,14 @@
               الموظف المحول اليه:</mat-label>
 
             <mat-form-field appearance="outline">
-              <input matInput aria-label="commodity" [matAutocomplete]="autodistEmployee" (keydown)="getsearch($event)"
-                [formControl]="distEmployeeCtrl" formControlName="distEmployee" (click)="openAutodistEmployee()"
+              <input matInput aria-label="commodity" [matAutocomplete]="autodestEmployee" (keydown)="getsearch($event)"
+                [formControl]="destEmployeeCtrl" formControlName="destEmployee" (click)="openAutodestEmployee()"
                 required />
-              <mat-autocomplete #autodistEmployee="matAutocomplete" #distEmployeeId
-                [displayWith]="displaydistEmployeeName" (optionSelected)="distEmployeeSelected($event)">
-                <mat-option *ngFor="let distEmployee of filtereddistEmployee | async" [value]="distEmployee">
-                  {{ distEmployee.name }} | {{ distEmployee.code }}                  
+              <mat-autocomplete #autodestEmployee="matAutocomplete" #destEmployeeId
+                [displayWith]="displaydestEmployeeName" (optionSelected)="destEmployeeSelected($event)">
+                <mat-option *ngFor="let distEmployee of filtereddestEmployee | async" [value]="distEmployee">
+                  {{ distEmployee.name }} | {{ distEmployee.code }} |
+                  {{ distEmployee.id }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -308,12 +309,13 @@
 
                 <div class="headerForm">
                   <div class="searchLabels">
-                    <mat-label>الرقم:</mat-label>
+                    <mat-label>الرقم*</mat-label>
+
                     <mat-form-field appearance="outline" class="groupInput">
-                      <input id="autoNoInput" matInput formControlName="no"
-                        [value]="isEdit == true ? editData.no : autoNo" type="number" min="0" />
+                        <input matInput placeholder="الرقم" formControlName="no"
+                            [value]="editData ? editData.no : autoNo" type="number" readonly>
                     </mat-form-field>
-                  </div>
+                </div>
 
 
 
@@ -332,14 +334,13 @@
 
 
                   <div class="searchLabels">
-                    <mat-label>التاريخ</mat-label>
-
-                    <mat-form-field appearance="outline" class="groupInput">
-                      <input matInput [matDatepicker]="picker" formControlName="date">
-                      <mat-datepicker-toggle matIconSuffix [for]="picker">
+                    <mat-label>التاريخ:</mat-label>
+                    <mat-form-field appearance="outline">
+                      <input matInput [matDatepicker]="masterPicker" formControlName="date" />
+                      <mat-datepicker-toggle matIconSuffix [for]="masterPicker">
                         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                       </mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-datepicker #masterPicker></mat-datepicker>
                     </mat-form-field>
                   </div>
 
@@ -363,13 +364,13 @@
 
                     <mat-label>الموظف المحول اليه*</mat-label>
                     <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
-                      <input matInput aria-label="commodity" [matAutocomplete]="autoDistEmployee"
-                        [formControl]="distEmployeeCtrl" placeholder="{{editData ? editData.destEmployeeName : ''}}"
+                      <input matInput aria-label="commodity" [matAutocomplete]="autodestEmployee"
+                        [formControl]="destEmployeeCtrl" placeholder="{{editData ? editData.destEmployeeName : ''}}"
                         (click)="openAutoEmployee()" required />
-                      <mat-autocomplete #autoDistEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
-                        (optionSelected)="distEmployeeSelected($event)">
-                        <mat-option *ngFor="let distEmployee of filtereddistEmployee | async" [value]="distEmployee">
-                          {{ distEmployee.name ? distEmployee.name : '-' }} | {{ distEmployee.code }}
+                      <mat-autocomplete #autodestEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                        (optionSelected)="destEmployeeSelected($event)">
+                        <mat-option *ngFor="let destEmployee of filtereddestEmployee | async" [value]="destEmployee">
+                          {{ destEmployee.name ? destEmployee.name : '-' }} | {{ destEmployee.code }}
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
@@ -389,11 +390,23 @@
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
-                  </div>
+              
 
                 </div>
-
+                <div dir="ltr">
+                  <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
+                      editData || MasterGroupInfoEntered
+                        ? 'nextButtonEditHeaderDetails'
+                        : 'nextButtonAddNewHeader'
+                    ">
+                    حفظ
+                  </button>
+                </div>
+              </div>
               </form>
+
+
+              <div [ngClass]="(MasterGroupInfoEntered || editData) ? 'restGroupInfo' : 'restGroupInfoDisable'">
 
               <div>
                 <div dir="ltr" class="groupAction">
@@ -480,22 +493,20 @@
 
 
                         <div class="searchLabels">
-                          <mat-label> الصنف*</mat-label>
-  
-                          <mat-form-field appearance="outline" *ngIf="!loading" class="groupInput">
-                            <input matInput aria-label="item" [matAutocomplete]="autoItemPositive"
-                              [formControl]="itemPositiveCtrl" placeholder="{{
-                                            editDataDetails && !itemByFullCodeValue
-                                              ? editDataDetails.itemName
-                                              : itemByFullCodeValue && itemByFullCodeValue != '-'
-                                              ? itemByFullCodeValue
-                                              : itemByFullCodeValue && itemByFullCodeValue == '-'
-                                              ? 'لا يوجد'
-                                              : ''
-                                          }}" (click)="openAutoitemPositive()" required />
-                            <mat-autocomplete #autoItemPositive="matAutocomplete" [displayWith]="displayitemPositiveName"
-                              (optionSelected)="itemPositiveSelected($event)">
-                              <mat-option *ngFor="let item of filtereditemPositive | async" [value]="item">
+                          <mat-label>الصنف*</mat-label>
+                          <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+                            <input matInput aria-label="commodity" [matAutocomplete]="itemId" [formControl]="itemCtrl" placeholder="{{
+                                editData && !itemByFullCodeValue
+                                  ? editData.itemName
+                                  : itemByFullCodeValue && itemByFullCodeValue != '-'
+                                  ? itemByFullCodeValue
+                                  : itemByFullCodeValue && itemByFullCodeValue == '-'
+                                  ? 'لا يوجد'
+                                  : ''
+                              }}" (click)="openAutoitem()" required />
+                            <mat-autocomplete #itemId="matAutocomplete" [displayWith]="displayitemName"
+                              (optionSelected)="itemSelected($event)">
+                              <mat-option *ngFor="let item of filtereditem | async" [value]="item">
                                 {{ item.name }}
                               </mat-option>
                             </mat-autocomplete>
@@ -612,7 +623,7 @@
             (page)="pageChangedDetails($event)" showFirstLastButtons>
           </mat-paginator>
 
-
+              </div>
 
 
 

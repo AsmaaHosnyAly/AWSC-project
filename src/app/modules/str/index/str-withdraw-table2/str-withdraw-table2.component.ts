@@ -230,7 +230,7 @@ export class StrWithdrawTableComponent implements OnInit {
   productIdValue: any;
   isReadOnlyPercentage: any = true;
   editDataDetails: any;
-  // currentDate: any;
+  currentDate: any;
 
   constructor(
     private api: ApiService,
@@ -497,6 +497,8 @@ export class StrWithdrawTableComponent implements OnInit {
 
 
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
+
+
     console.log(
       'in next to add employee name:',
       this.groupMasterForm.getRawValue().employeeName
