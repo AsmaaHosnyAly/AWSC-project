@@ -1,4 +1,4 @@
-// import { distEmployee } from './str-employee-exchange-table.component';
+// import { destEmployee } from './str-employee-exchange-table.component';
 // import { FiscalYear } from './../str-withdraw-dialog2/str-withdraw-dialog2.component';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -22,7 +22,7 @@ import {
   FormControl,
   FormControlName,
   FormBuilder,
-  FormGroup,
+  FormGroup,Validators
 } from '@angular/forms';
 
 export class Employee {
@@ -33,7 +33,7 @@ export class costcenter {
   constructor(public id: number, public name: string) { }
 }
 
-export class distEmployee {
+export class destEmployee {
   constructor(public id: number, public name: string, public code: string) { }
 }
 
@@ -53,7 +53,7 @@ interface strEmployeeExchange {
   no: any;
   storeName: any;
   employeeName: any;
-  distEmployee: any;
+  destEmployee: any;
   costCenterName: any;
   fiscalyear: any;
   date: any;
@@ -108,10 +108,10 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   filteredEmployee: Observable<Employee[]>;
   selectedEmployee: Employee | undefined;
 
-  distEmployeesList: distEmployee[] = [];
-  distEmployeeCtrl: FormControl<any>;
-  filtereddistEmployee: Observable<distEmployee[]>;
-  selecteddistEmployee: distEmployee | undefined;
+  destEmployeesList: destEmployee[] = [];
+  destEmployeeCtrl: FormControl<any>;
+  filtereddestEmployee: Observable<destEmployee[]>;
+  selecteddestEmployee: destEmployee | undefined;
 
   itemsList: item[] = [];
   itemCtrl: FormControl;
@@ -139,7 +139,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   actionName: string = 'choose';
   actionBtnMaster: string = 'Save';
   employeeName: any;
-  distEmployee: any;
+  destEmployee: any;
   isEditDataReadOnly: boolean = true;
   getDetailedRowData: any;
   sumOfTotals = 0;
@@ -220,13 +220,15 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteremployees(value))
     );
 
-    this.distEmployeeCtrl = new FormControl();
-    this.filtereddistEmployee = this.distEmployeeCtrl.valueChanges.pipe(
+    this.destEmployeeCtrl = new FormControl();
+    this.filtereddestEmployee = this.destEmployeeCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterdistEmployees(value))
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
+      map((value) => this._filterdestEmployees(value))
     );
 
 
@@ -243,10 +245,10 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.getStores();
     this.getFiscalYears();
     this.getEmployees();
-    this.getDistEmployees();
+    this.getdestEmployees();
     this.getItems();
     this.getStrEmployeeExchangeAutoNo();
-
+this.getProduct();
     this.getCostCenters();
 
     this.groupMasterForm = this.formBuilder.group({
@@ -259,12 +261,12 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
       storeId: [''],
       itemId: [''],
-      distEmployeeId: [''],
+      destEmployeeId: [''],
       item: [''],
-      fiscalyear: [''],
+
       date: [''],
       store: [''],
-      distEmployee: [''],
+      destEmployee: [''],
       fiscalYear: [''],
       report: [''],
       reportType: [''],
@@ -273,19 +275,22 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     });
 
     this.groupMasterFormDialog = this.formBuilder.group({
-      no: [''],
-      employee: [''],
+      no: ['', Validators.required],
+      total: ['0', Validators.required],
+      transactionUserId: [this.userIdFromStorage, Validators.required],
+
+      // employee: [''],
       employeeId: [''],
-      costcenter: [],
+      costCenterName: [],
       costCenterId: [],
+      employeeName: [''],
+      destEmployeeId: [''],
 
-      distEmployeeId: [''],
-      
-      date: [''],
-      distEmployee: [''],
-      fiscalYear: [''],
+      date: ['', Validators.required],
+      // displayEmployeeName: [''],
+      // fiscalYear: [''],
       fiscalYearId: [''],
-
+      destEmployeeName:['']
 
     });
 
@@ -345,36 +350,22 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   // }
   openEmployeeExchangeDialog() {
     this.editData = '';
-    // this.editDataDetails = '';
 
-    // this.groupMasterForm.controls['no'].setValue('');
-    // this.groupMasterForm.controls['journalId'].setValue('');
-    // this.journalCtrl.reset();
-
-    // this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue('');
-    // this.groupMasterForm.controls['date'].setValue(this.currentDate);
-    // this.getFiscalYears();
-
-    // this.groupMasterForm.controls['creditTotal'].setValue(0);
-    // this.groupMasterForm.controls['debitTotal'].setValue(0);
-    // this.groupMasterForm.controls['balance'].setValue(0);
-    // this.groupMasterForm.controls['state'].setValue(this.defaultState);
-    // this.groupMasterForm.controls['description'].setValue('');
 
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
 
     console.log("matGroup: ", tabGroup, "selectIndex: ", tabGroup.selectedIndex);
     this.autoNo = '';
-this.getStrEmployeeExchangeAutoNo();
+    this.getStrEmployeeExchangeAutoNo();
     // this.getStrWithdrawAutoNo();
     // // this.lists = [];
     // this.getListCtrl(this.groupMasterForm.getRawValue().type);
 
-    // this.getProducts();
+    this.getProduct();
     // this.getItemsPositive();
 
-    // this.getAllDetailsForms();
+    this.getAllDetailsForms();
 
   }
 
@@ -386,9 +377,11 @@ this.getStrEmployeeExchangeAutoNo();
         this.dataSource2.paginator = this.paginator;
         this.dataSource2.sort = this.sort;
         this.groupMasterForm.reset();
+        this.groupMasterFormDialog.reset();
+
         this.itemCtrl.reset();
         this.employeeCtrl.reset();
-        this.distEmployeeCtrl.reset();
+        this.destEmployeeCtrl.reset();
         this.costcenterCtrl.reset();
       },
       error: () => {
@@ -449,9 +442,11 @@ this.getStrEmployeeExchangeAutoNo();
     console.log('action btnnnnnnnnnnnnn', this.actionName);
     // let type = 'المخزن';
     // this.getDestStores();
-    this.groupMasterFormDialog.controls['type'].setValue(this.editData.type);
+    // this.groupMasterFormDialog.controls['type'].setValue(this.editData.type);
     // this.getListCtrl(this.groupMasterFormDialog.getRawValue().type);
 
+    this.groupMasterFormDialog.controls['date'].setValue(this.editData.date);
+    this.groupMasterFormDialog.controls['no'].setValue(this.editData.autoNo);
 
 
     console.log('master edit form: ', this.editData);
@@ -462,17 +457,17 @@ this.getStrEmployeeExchangeAutoNo();
     this.groupMasterFormDialog.controls['expireDate'].setValue(this.editData.expireDate)
     this.employeeName = this.getemployeeByID(this.editData.employeeId);
     // console.log('desstore id in edit data', this.editData.destStoreId);
-    this.distEmployee = this.getdistEmployeeById(this.editData.distEmployee);
+    this.destEmployee = this.getdestEmployeeById(this.editData.destEmployee);
 
     console.log('employeename in edit', this.employeeName);
 
-    this.groupMasterFormDialog.controls['employeeName'].setValue(
-      this.editData.employeeName
-    );
+    // this.groupMasterFormDialog.controls['employeeName'].setValue(
+    //   this.editData.employeeId
+    // );
 
-    this.groupMasterFormDialog.controls['distEmployee'].setValue(
-      this.editData.distEmployee
-    );
+    // this.groupMasterFormDialog.controls['destEmployeeId'].setValue(
+    //   this.editData.destEmployeeId
+    // );
 
 
     this.groupMasterFormDialog.controls['fiscalYearId'].setValue(
@@ -494,8 +489,8 @@ this.getStrEmployeeExchangeAutoNo();
     );
 
 
-    this.groupMasterFormDialog.controls['distEmployeeId'].setValue(
-      this.editData.distEmployeeId
+    this.groupMasterFormDialog.controls['destEmployeeId'].setValue(
+      this.editData.destEmployeeId
     );
 
     console.log('costcenter:', this.editData.costCenterId);
@@ -510,10 +505,10 @@ this.getStrEmployeeExchangeAutoNo();
     this.getStrEmployeeExchangeAutoNo()
     // this.getStrWithdrawAutoNo();
 
-    // this.getProducts();
+    this.getProduct();
     // this.getItemsPositive();
 
-    // this.getAllDetailsForms();
+    this.getAllDetailsForms();
   }
   getItemsPositive() {
     // this.loading = true;
@@ -557,7 +552,7 @@ this.getStrEmployeeExchangeAutoNo();
       });
   }
 
-  getdistEmployeeById(id: any) {
+  getdestEmployeeById(id: any) {
     console.log('row deststore id: ', id);
     return fetch(this.api.getHrEmployeeById(id))
       .then((response) => response.json())
@@ -725,14 +720,9 @@ this.getStrEmployeeExchangeAutoNo();
   }
 
   getEmployees() {
-    this.api.getEmployees().subscribe({
-      next: (res) => {
-        this.employeesList = res;
-      },
-      error: (err) => {
-        // console.log("fetch employees data err: ", err);
-        // alert("خطا اثناء جلب الموظفين !");
-      },
+    this.api.getEmployee().subscribe((lists) => {
+      this.employeesList = lists;
+
     });
   }
 
@@ -768,15 +758,10 @@ this.getStrEmployeeExchangeAutoNo();
     });
   }
 
-  getDistEmployees() {
-    this.api.getEmployees().subscribe({
-      next: (res) => {
-        this.distEmployeesList = res;
-      },
-      error: (err) => {
-        // console.log("fetch employees data err: ", err);
-        // alert("خطا اثناء جلب الموظفين !");
-      },
+  getdestEmployees() {
+    this.api.getEmployee().subscribe((lists) => {
+      this.destEmployeesList = lists;
+
     });
   }
 
@@ -807,6 +792,8 @@ this.getStrEmployeeExchangeAutoNo();
     console.log('costcenter selected: ', costcenter);
     this.selectedcostcenter = costcenter;
     this.groupMasterForm.patchValue({ costCenterId: costcenter.id });
+    this.groupMasterFormDialog.patchValue({ costCenterName: costcenter.name });
+
     this.groupMasterFormDialog.patchValue({ costCenterId: costcenter.id });
 
     console.log(
@@ -915,34 +902,31 @@ this.getStrEmployeeExchangeAutoNo();
 
   /////employeee
 
+
   displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
     console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
-    this.groupMasterFormDialog.patchValue({ employeeId: employee.id });
 
-    this.groupMasterForm.patchValue({ employeeId: employee.id });
+    this.groupMasterFormDialog.patchValue({ employeeId: employee.id });
+    this.groupMasterFormDialog.patchValue({ employeeName: employee.name });
     console.log(
       'employee in form: ',
-      this.groupMasterForm.getRawValue().employeeId
+      this.groupMasterFormDialog.getRawValue().employeeId
     );
-    if (this.groupMasterFormDialog.getRawValue().distEmployeeId == this.groupMasterFormDialog.getRawValue().employeeId) {
-      this.toastrSelectSameEmpolyee()
-    }
-    // this.getSearchStrWithdraw()
-    // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
-    // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
+
   }
+
   private _filteremployees(value: string): Employee[] {
     const filterValue = value;
-    return this.employeesList.filter(
-      (employee) => employee.name.toLowerCase().includes(filterValue),
-      console.log('employee in filteremployee:', this.employeesList)
+    return this.employeesList.filter((employee) =>
+      employee.name ? employee.name.includes(filterValue) : '-'
     );
   }
+
   openAutoEmployee() {
     this.employeeCtrl.setValue(''); // Clear the input field value
 
@@ -950,44 +934,40 @@ this.getStrEmployeeExchangeAutoNo();
     this.employeeCtrl.updateValueAndValidity();
   }
 
-  //////distemployee
-  displaydistEmployeeName(distEmployee: any): string {
-    return distEmployee && distEmployee.name ? distEmployee.name : '';
+  //////destEmployee
+  displaydestEmployeeName(destEmployee: any): string {
+    return destEmployee ? destEmployee.name && destEmployee.name != null ? destEmployee.name : '-' : '';
   }
-  distEmployeeSelected(event: MatAutocompleteSelectedEvent): void {
-    const distEmployee = event.option.value as distEmployee;
-    console.log('distEmployee selected: ', distEmployee);
-    this.selecteddistEmployee = distEmployee;
-    this.groupMasterFormDialog.patchValue({ distEmployeeId: distEmployee.id });
+  destEmployeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const destEmployee = event.option.value as destEmployee;
+    console.log('destEmployee selected: ', destEmployee);
+    this.selecteddestEmployee = destEmployee;
+    this.groupMasterFormDialog.patchValue({ destEmployeeId: destEmployee.id });
+    this.groupMasterFormDialog.patchValue({ destEmployeeName: destEmployee.name });
 
-    this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
     console.log(
-      'distEmployee in form: ',
-      this.groupMasterForm.getRawValue().distEmployeeId
+      'destEmployee in form: ',
+      this.groupMasterFormDialog.getRawValue().destEmployeeId
     );
-    if (this.groupMasterFormDialog.getRawValue().distEmployeeId == this.groupMasterFormDialog.getRawValue().employeeId) {
-      this.toastrSelectSameEmpolyee()
-    }
+    // if (this.groupMasterFormDialog.getRawValue().destEmployeeId == this.groupMasterFormDialog.getRawValue().employeeId) {
+    //   this.toastrSelectSameEmpolyee()
+    // }
   }
-  // this.getSearchStrWithdraw()
-  // this.set_store_Null(this.groupMasterForm.getRawValue().distEmployeeId);
-  // return     this.groupMasterForm.patchValue({ distEmployeeId: distEmployee.id });
 
-  private _filterdistEmployees(value: string): distEmployee[] {
+  private _filterdestEmployees(value: string): destEmployee[] {
     const filterValue = value;
-    return this.distEmployeesList.filter((distEmployee) =>
-      distEmployee.name.toLowerCase().includes(filterValue)
+    return this.destEmployeesList.filter((destEmployee) =>
+      destEmployee.name ? destEmployee.name.includes(filterValue) : '-'
+
     );
   }
-  openAutodistEmployee() {
-    this.distEmployeeCtrl.setValue(''); // Clear the input field value
+
+  openAutodestEmployee() {
+    this.destEmployeeCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
-    this.distEmployeeCtrl.updateValueAndValidity();
+    this.destEmployeeCtrl.updateValueAndValidity();
   }
-
-
-
 
   displayitemPositiveName(item: any): string {
     return item && item.name ? item.name : '';
@@ -1043,7 +1023,7 @@ this.getStrEmployeeExchangeAutoNo();
     console.log('fiscal year in ts:', fiscalyear);
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
-    let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
+    let destEmployee = this.groupMasterForm.getRawValue().destEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     this.loading = true;
     this.api
@@ -1053,7 +1033,7 @@ this.getStrEmployeeExchangeAutoNo();
         employeeId,
         item,
 
-        distEmployee,
+        destEmployee,
         StartDate,
         EndDate,
         fiscalyear
@@ -1082,13 +1062,13 @@ this.getStrEmployeeExchangeAutoNo();
   ) {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
-    let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
+    let destEmployee = this.groupMasterForm.getRawValue().destEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
 
     this.api
       .getStrEmployeeExchangeItem(
         no,
-        distEmployee,
+        destEmployee,
         StartDate,
         EndDate,
         Fiscalyear,
@@ -1127,14 +1107,14 @@ this.getStrEmployeeExchangeAutoNo();
   ) {
     let costCenterId = this.groupMasterForm.getRawValue().costCenterId;
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
-    let distEmployee = this.groupMasterForm.getRawValue().distEmployeeId;
+    let destEmployee = this.groupMasterForm.getRawValue().destEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     if (report != null && reportType != null) {
       this.loading = true;
       this.api
         .getStrEmployeeExchangeItem(
           no,
-          distEmployee,
+          destEmployee,
           StartDate,
           EndDate,
           Fiscalyear,
@@ -1268,7 +1248,7 @@ this.getStrEmployeeExchangeAutoNo();
 
       this.editData = '';
       this.MasterGroupInfoEntered = false;
-      this.groupMasterForm.controls['no'].setValue('');
+      // this.groupMasterForm.controls['no'].setValue('');
       this.groupMasterFormDialog.controls['no'].setValue('');
 
       this.costcenterCtrl.setValue('');
@@ -1284,8 +1264,8 @@ this.getStrEmployeeExchangeAutoNo();
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
 
 
-    this.groupMasterFormDialog.controls['distEmployee'].setValue(
-      this.groupMasterFormDialog.getRawValue().distEmployee
+    this.groupMasterFormDialog.controls['destEmployee'].setValue(
+      this.groupMasterFormDialog.getRawValue().destEmployee
     );
 
     this.groupMasterFormDialog.controls['deststoreId'].setValue(
@@ -1296,7 +1276,7 @@ this.getStrEmployeeExchangeAutoNo();
 
     console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
     console.log("edit : ", this.groupDetailsForm.value)
-    this.api.putStrWithdraw(this.groupMasterFormDialog.value)
+    this.api.putStrEmployeeExchange(this.groupMasterFormDialog.value)
       .subscribe({
         next: (res) => {
           this.groupDetailsForm.reset();
@@ -1310,30 +1290,30 @@ this.getStrEmployeeExchangeAutoNo();
 
   async nextToAddFormDetails() {
     this.groupMasterFormDialog.removeControl('id');
-    console.log(
-      'in next to add storeId',
-      this.groupMasterFormDialog.getRawValue().storeId
-    );
+    // console.log(
+    //   'in next to add storeId',
+    //   this.groupMasterFormDialog.getRawValue().storeId
+    // );
 
     // this.getAllDetailsForms();
 
 
-  
+
 
     console.log(
       'emoloyeeIddddd',
       this.groupMasterFormDialog.getRawValue().employeeId
     );
-    this.groupMasterFormDialog.controls['employeeId'].setValue(
-      this.groupMasterFormDialog.getRawValue().employeeId
-    );
+    // this.groupMasterFormDialog.controls['employeeId'].setValue(
+    //   this.groupMasterFormDialog.getRawValue().employeeId
+    // );
 
     // this.costCenterName = await this.getemployeeByID(
     //   this.groupMasterFormDialog.getRawValue().employeeId
     // );
-    this.groupMasterFormDialog.controls['employeeName'].setValue(
-      this.groupMasterFormDialog.getRawValue().employeeName
-    );
+    // this.groupMasterFormDialog.controls['employeeName'].setValue(
+    //   this.groupMasterFormDialog.getRawValue().employeeName
+    // );
 
     // this.costCenterName = await this.getcostcenterByID(
     //   this.groupMasterFormDialog.getRawValue().costCenterId
@@ -1342,9 +1322,9 @@ this.getStrEmployeeExchangeAutoNo();
     //   this.costCenterName
     // );
 
-    this.groupMasterFormDialog.controls['distEmployeeId'].setValue(
-      this.groupMasterFormDialog.getRawValue().distEmployeeId
-    );
+    // this.groupMasterFormDialog.controls['destEmployeeId'].setValue(
+    //   this.groupMasterFormDialog.getRawValue().destEmployeeId
+    // );
     // this.costCenterName = await this.getDestStoreById(
     //   this.groupMasterFormDialog.getRawValue().deststoreId
     // );
@@ -1352,11 +1332,11 @@ this.getStrEmployeeExchangeAutoNo();
       'in next to add deststore name:',
       this.groupMasterFormDialog.getRawValue().desstoreName
     );
-    this.groupMasterFormDialog.controls['distEmployee'].setValue(
-      this.groupMasterFormDialog.getRawValue().distEmployee
-    );
+    // this.groupMasterFormDialog.controls['destEmployee'].setValue(
+    //   this.groupMasterFormDialog.getRawValue().destEmployee
+    // );
 
-    console.log('dataName: ', this.groupMasterFormDialog.value);
+    console.log('dataName: ', this.groupMasterFormDialog.value, "autoNo: ", this.autoNo);
 
     if (this.groupMasterFormDialog.getRawValue().no && this.groupMasterFormDialog.getRawValue().no == this.autoNo) {
 
@@ -1371,15 +1351,19 @@ this.getStrEmployeeExchangeAutoNo();
         this.groupMasterFormDialog.getRawValue().no
       );
     }
+    this.groupMasterFormDialog.controls['total'].setValue(0);
+    this.groupMasterFormDialog.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
     console.log('Master add form : ', this.groupMasterFormDialog.value);
 
-    if (this.groupMasterFormDialog.getRawValue().storeId) {
+    console.log('', this.groupMasterFormDialog.valid);
+
+    if (this.groupMasterFormDialog.valid) {
 
       console.log('Master add form in : ', this.groupMasterFormDialog.value);
-      this.api.postStrWithdraw(this.groupMasterFormDialog.value).subscribe({
+      this.api.postStrEmployeeExchange(this.groupMasterFormDialog.value).subscribe({
         next: (res) => {
-          console.log('res code: ', res.status);
+          console.log('res code: ', res);
 
           this.getMasterRowId = {
             id: res,
@@ -1632,7 +1616,7 @@ this.getStrEmployeeExchangeAutoNo();
             for (let i = 0; i < this.matchedIds.length; i++) {
               this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
               this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-              this.groupMasterForm.controls['total'].setValue(Number(this.sumOfTotals.toFixed(2)));
+              this.groupMasterFormDialog.controls['total'].setValue(Number(this.sumOfTotals.toFixed(2)));
               // alert('totalll: '+ this.sumOfTotals)
               // this.updateBothForms();
               this.updateMaster();
@@ -1838,13 +1822,25 @@ this.getStrEmployeeExchangeAutoNo();
 
     this.getAllMasterForms();
   }
-
+  getProduct() {
+    this.api.getStrProduct().subscribe({
+      next: (res) => {
+        this.productsList = res;
+        console.log("productsList res: ", this.productsList);
+      },
+      error: (err) => {
+        // console.log("fetch products data err: ", err);
+        // alert("خطا اثناء جلب المنتجات !");
+      },
+    });
+  }
 
   getStrEmployeeExchangeAutoNo() {
     this.api.getStrEmployeeExchangeAutoNo()
       .subscribe({
         next: (res) => {
           this.autoNo = res;
+          this.groupMasterFormDialog.controls['no'].setValue(this.autoNo);
           return res;
         },
         error: (err) => {
@@ -1859,10 +1855,10 @@ this.getStrEmployeeExchangeAutoNo();
   // getStrEmployeeExchangeAutoNo() {
   //   console.log("enter AutoNo function");
 
-   
+
 
   //   if (this.groupMasterFormDialog) {
-     
+
 
   //     console.log('editData: ', this.editData, "fiscaLYearId: ", this.fiscalYearSelectedId);
 
@@ -1880,7 +1876,7 @@ this.getStrEmployeeExchangeAutoNo();
 
   //       this.api
   //         .getStrEmployeeExchangeAutoNo(
-           
+
   //           this.editData.fiscalYearId
   //         )
   //         .subscribe({
@@ -1904,7 +1900,7 @@ this.getStrEmployeeExchangeAutoNo();
 
   //       this.api
   //         .getStrEmployeeExchangeAutoNo(
-            
+
   //           this.groupMasterFormDialog.getRawValue().fiscalYearId
   //         )
   //         .subscribe({
