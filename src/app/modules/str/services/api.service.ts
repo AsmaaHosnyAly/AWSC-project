@@ -1230,6 +1230,9 @@ export class ApiService {
   ///////////////////////////////// STR-EmployeeExchange & details/////////////////////////////
   getStrEmployeeExchangeAutoNo() {
     return this.http.get<any>(`${this.url}/STREmployeeExchange/get/AutoNo`);
+    // return this.http.get<any>(
+    //   `${this.url}/STREmployeeExchange/get/AutoNo?FiscalYearId=${fiscalyearId}`
+    // );
   }
 
   getHrEmployees() {
@@ -1667,7 +1670,8 @@ export class ApiService {
     );
   }
   getAllSellers() {
-    return this.http.get<any>(`${this.url}/PRSeller/get/all`);
+    // return this.http.get<any>(`${this.url}/PRSeller/get/all`);
+    return this.http.get<any>(`${this.url}/ProSellerType/get/all`);
   }
   getAllEmployee() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);

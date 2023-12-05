@@ -78,6 +78,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   ];
   isLoading = false;
   matchedIds: any;
+  MasterGroupInfoEntered = false;
   // storeList: any;
   storeName: any;
   itemName: any;
@@ -108,7 +109,6 @@ export class StrOpeningStockTableComponent implements OnInit {
   decodedToken2: any;
   sumOfTotals = 0;
   getMasterRowId: any;
-  MasterGroupInfoEntered = false;
   productsList: Product[] = [];
   productCtrl: FormControl;
   selectedProduct: Product | undefined;

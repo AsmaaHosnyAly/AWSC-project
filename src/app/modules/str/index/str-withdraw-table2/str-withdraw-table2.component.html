@@ -53,13 +53,13 @@
           <div class="searchLabels">
             <mat-label>الموظف:</mat-label>
 
-            <mat-form-field appearance="outline" class="searchForm">
-              <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" (keydown)="getsearch($event)"
-                [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
-              <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
-                (optionSelected)="employeeSelected($event)">
-                <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                  {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+            <mat-form-field appearance="outline" class="groupInput">
+              <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
+                [matAutocomplete]="autoList" [formControl]="listCtrl"  (click)="openAutoList()" required />
+              <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
+                (optionSelected)="listSelected($event)">
+                <mat-option *ngFor="let list of filteredList | async" [value]="list">
+                  {{ list.name ? list.name : "-" }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -190,7 +190,7 @@
             <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
           </div>
         </mat-card-header>
-        <div class="div-table">
+                <div class="div-table">
           <table mat-table [dataSource]="dataSource2" dir="rtl">
             <!-- No Column -->
             <ng-container matColumnDef="no">
@@ -370,11 +370,11 @@
 
                   <div class="searchLabels">
                     <mat-label>مخزن *</mat-label>
-        
+
                     <mat-form-field appearance="outline" class="searchForm">
-        
-                      <input matInput aria-label="commodity" [matAutocomplete]="autostore"
-                        [formControl]="storeCtrl" placeholder="{{ editData ? editData.desstoreName : '' }}" (click)="openAutostore()" required />
+
+                      <input matInput aria-label="commodity" [matAutocomplete]="autostore" [formControl]="storeCtrl"
+                        placeholder="{{ editData ? editData.desstoreName : '' }}" (click)="openAutostore()" required />
                       <mat-autocomplete #autostore="matAutocomplete" [displayWith]="displaystoreName"
                         (optionSelected)="storeSelected($event)">
                         <mat-option *ngFor="let store of filteredstore | async" [value]="store">
@@ -517,6 +517,9 @@
                                         " />
                         </mat-form-field>
                       </div>
+
+
+                      
                       <div class="searchLabels">
                         <mat-label> الصنف*</mat-label>
 
