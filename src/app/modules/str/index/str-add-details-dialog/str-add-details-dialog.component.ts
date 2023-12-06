@@ -29,7 +29,7 @@ export class Product {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StrAddDetailsDialogComponent implements OnInit {
-  loading : boolean=false;
+  // loading : boolean=false;
   groupDetailsForm !: FormGroup;
   groupMasterForm !: FormGroup;
   actionBtnMaster: string = "Save";
@@ -368,33 +368,33 @@ export class StrAddDetailsDialogComponent implements OnInit {
 
 
   getItems() {
-    this.loading=true;
+    // this.loading=true;
     this.api.getItems()
       .subscribe({
         next: (res) => {
-          this.loading=false;
+          // this.loading=false;
           this.itemsList = res;
           this.cdr.detectChanges(); // Trigger change detection
           // console.log("items res: ", this.itemsList);
         },
         error: (err) => {
-          this.loading=false;
+          // this.loading=false;
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
       })
   }
   getAllItems() {
-    this.loading=true;
+    // this.loading=true;
     this.api.getAllItems()
       .subscribe({
         next: (res) => {
-          this.loading=false;
+          // this.loading=false;
           this.items = res;
           // console.log("items res: ", this.itemsList);
         },
         error: (err) => {
-          this.loading=false;
+          // this.loading=false;
           // console.log("fetch items data err: ", err);
           // alert("خطا اثناء جلب العناصر !");
         }
@@ -600,11 +600,11 @@ export class StrAddDetailsDialogComponent implements OnInit {
     console.log("master Id: ", this.getMasterRowId.id)
 
     if (this.getMasterRowId.id) {
-this.loading=true
+// this.loading=true
       this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
         .subscribe({
           next: (res) => {
-            this.loading=false;
+         
             // this.itemsList = res;
             this.matchedIds = res[0].strAddDetailsGetVM;
 
@@ -626,7 +626,7 @@ this.loading=true
             }
           },
           error: (err) => {
-            this.loading=false
+            // this.loading=false
             // console.log("fetch items data err: ", err);
             // alert("خطا اثناء جلب العناصر !");
           }

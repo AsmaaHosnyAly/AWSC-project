@@ -1,9 +1,9 @@
 <!-- <p>str-opening-stock-table works!</p> -->
-<div class="text-center w=100" *ngIf="loading">
+<!-- <div class="text-center w=100" *ngIf="loading">
   <app-spinner></app-spinner>
-</div>
+</div> -->
 <mat-accordion class="example-headers-align" multi dir="rtl">
-  <div class="page-title" *ngIf="!loading">أذونات الاضافة</div>
+  <div class="page-title" >أذونات الاضافة</div>
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -523,7 +523,7 @@
                   <div class="searchLabels">
                     <mat-label> الصنف*</mat-label>
 
-                    <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+                    <mat-form-field appearance="outline" class="groupInput" >
                       <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
                         placeholder="{{editDataDetails && !itemByFullCodeValue ? editDataDetails.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
                         (click)="openAutoitem()" required />

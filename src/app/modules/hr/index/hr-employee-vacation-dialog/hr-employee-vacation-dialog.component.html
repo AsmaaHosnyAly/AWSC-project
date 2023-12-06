@@ -1,5 +1,5 @@
 <div class="cdk-overlay-pane  ">
-    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>  
 </div>
 <h1 mat-dialog-title class="add-h1">{{editData? ' تعديل اجازة موظف ' : 'إضافة اجازة موظف '}}</h1>
 
@@ -61,15 +61,6 @@
                 </mat-form-field>
             </div>
             <div class="searchLabels">
-                <mat-label>الايام </mat-label>
-                <mat-form-field appearance="outline" class="groupInput">
-                    <input matInput placeholder="الايام " formControlName="nodDays" type="number" min="0">
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div style="display: flex;flex-direction: row;">
-            <div class="searchLabels">
                 <mat-label>تاريخ االبداية</mat-label>
                 <mat-form-field appearance="outline" class="example-full-width">
                     <input matInput [matDatepicker]="pickerStart" formControlName="startDate">
@@ -79,19 +70,33 @@
                     <mat-datepicker #pickerStart></mat-datepicker>
                 </mat-form-field>
             </div>
+           
+        </div>
+
+        <div style="display: flex;flex-direction: row;">
+           
 
             <div class="searchLabels">
                 <mat-label>تاريخ الانتهاء</mat-label>
-                <mat-form-field appearance="outline" class="example-full-width">
-                    <input matInput [matDatepicker]="pickerEnd" formControlName="endDate">
+                <mat-form-field appearance="outline" class="example-full-width"  >
+                    <input matInput [matDatepicker]="pickerEnd" formControlName="endDate" (dateChange)="day()">
                     <mat-datepicker-toggle matIconSuffix [for]="pickerEnd">
                         <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                     </mat-datepicker-toggle>
                     <mat-datepicker #pickerEnd></mat-datepicker>
                 </mat-form-field>
             </div>
+            <div class="searchLabels">
+                <mat-label>الايام </mat-label>
+                <mat-form-field appearance="outline" class="groupInput">
+                    <input matInput placeholder="الايام " formControlName="nodDays" type="number" min="0" 
+                    
+                   
+                    readonly>
+                </mat-form-field>
+            </div>
         </div>
-
+       
         <div mat-dialog-action [align]="'end'">
             <div class="groupAction">
                 <!-- <button mat-raised-button class="cancelBtn" mat-dialog-close>اغلاق</button> -->

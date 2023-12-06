@@ -152,7 +152,7 @@ export class STRAddTableComponent implements OnInit {
   groupMasterSearchForm!: FormGroup;
   groupMasterForm!: FormGroup;
 
-  loading: boolean = false;
+  // loading: boolean = false;
   // costcentersList: costcenter[] = [];
   // costcenterCtrl: FormControl<any>;
   // filteredcostcenter: Observable<costcenter[]>;
@@ -1432,10 +1432,10 @@ export class STRAddTableComponent implements OnInit {
   }
 
   getQuickEmployees() {
-    this.loading = true;
+    // this.loading = true;
     this.api.getEmployee().subscribe({
       next: (res) => {
-        this.loading = false;
+        // this.loading = false;
 
         this.lists = res;
         console.log("employees selected list: ", this.lists);
@@ -1452,7 +1452,7 @@ export class STRAddTableComponent implements OnInit {
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
-        this.loading = false;
+        // this.loading = false;
         // console.log("fetch store data err: ", err);
         // alert('خطا اثناء جلب العناصر !');
       },
@@ -1505,10 +1505,10 @@ export class STRAddTableComponent implements OnInit {
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterSearchForm.getRawValue().storeId;
 
-    this.loading = true;
+    // this.loading = true;
     this.api.getStrAddSearach(no, EntryNo, fiscalyear, employee, item, store, StartDate, EndDate).subscribe({
       next: (res) => {
-        this.loading = false;
+        // this.loading = false;
 
         this.totalRows = res.length;
         if (this.serachFlag == false) {
@@ -1526,7 +1526,7 @@ export class STRAddTableComponent implements OnInit {
 
       },
       error: (err) => {
-        this.loading = false;
+        // this.loading = false;
         console.log('eroorr', err);
       },
     });
@@ -2590,12 +2590,12 @@ export class STRAddTableComponent implements OnInit {
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterSearchForm.getRawValue().storeId;
     if (report != null && reportType != null) {
-      this.loading = true;
+      // this.loading = true;
       this.api
         .strAdd(no, store, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, reportType)
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -2608,7 +2608,7 @@ export class STRAddTableComponent implements OnInit {
 
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },

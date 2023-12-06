@@ -16,54 +16,7 @@
     <h1 mat-dialog-title class="add-h1">اكمل تفاصيل افتتاحي العهد</h1>
 
     <div class="detailsForm" dir="rtl" style="overflow: hidden !important">
-      <mat-accordion style="margin-bottom: 2%" multi dir="rtl">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-description>
-              بحث بالمنتج
-              <mat-icon style="text-align: left">search</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <div class="searchbyproduct">
-            <div class="serPro">
-              <mat-label>بحث بكود المنتج </mat-label>
-
-              <mat-form-field appearance="outline" class="groupInput">
-                <input matInput (keydown)="getItemByProductCode($event)" />
-              </mat-form-field>
-            </div>
-
-            <div class="serPro">
-              <mat-label>بحث باسم المنتج </mat-label>
-              <mat-form-field appearance="outline" class="groupInput">
-                <input
-                  matInput
-                  aria-label="commodity"
-                  [matAutocomplete]="autoProductId"
-                  [formControl]="productCtrl"
-                  placeholder="{{ productIdValue ? productIdValue : '' }}"
-                  (click)="openAutoProduct()"
-                  required
-                />
-                <mat-autocomplete
-                  #autoProductId="matAutocomplete"
-                  [displayWith]="displayProductName"
-                  (optionSelected)="ProductSelected($event)"
-                >
-                  <mat-option
-                    *ngFor="let product of filteredProduct | async"
-                    [value]="product"
-                  >
-                    {{ product.name ? product.name : "-" }} | {{ product.code }}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </div>
-            <!-- </div> -->
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
+     Z
 
       <div class="parent">
         <div class="child-num">
