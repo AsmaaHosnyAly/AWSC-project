@@ -528,6 +528,12 @@ export class ApiService {
       responseType: 'blob',
     });
   }
+  getStremployeeOpenAutoNo( fiscalYearId: any) {
+    return this.http.get<any>(
+      `${this.url}/STREmployeeOpeningCustody/get/AutoNo
+      ?&FiscalYearId=${fiscalYearId}`
+    );
+  }
 
   getStrEmployeeCustodyReport(
     no: any, StartDate: any, EndDate: any, fiscalYear: any, itemId: any, employeeId: any,
@@ -1364,10 +1370,12 @@ export class ApiService {
     );
   }
   putStrEmployeeOpen(data: any) {
+    console.log("hhh",data)
     return this.http.put<any>(
       `${this.url}/STREmployeeOpeningCustody/update`,
       data
     );
+    
   }
   deleteStrEmployeeOpen(id: number) {
     return this.http.delete<any>(
@@ -1420,6 +1428,10 @@ export class ApiService {
     return this.http.get<any>(
       `${this.url}/STREmployeeOpeningCustodyDetails/get/by/header/${id}`
     );
+  }
+  getStrEmployeeOpenPaginateByUserId(userId: any, currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/STREmployeeOpeningCustody/get/By/User/Stores/${userId}?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putStEmp(data: any) {
     return this.http.put<any>(

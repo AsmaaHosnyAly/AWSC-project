@@ -602,9 +602,11 @@ export class StrWithdrawTableComponent implements OnInit {
 
     console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
     console.log("edit : ", this.groupDetailsForm.value)
+    this.loading=true
     this.api.putStrWithdraw(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
+          this.loading=false;
           this.groupDetailsForm.reset();
           this.getDetailedRowData = '';
           this.getAllMasterForms();
@@ -919,15 +921,15 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   getItems() {
-    this.loading = true;
+    // this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
-        this.loading = false;
+        // this.loading = false;
         this.itemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
-        this.loading = false;
+        // this.loading = false;
         // console.log("fetch store data err: ", err);
         alert('خطا اثناء جلب العناصر !');
       },
@@ -1467,13 +1469,14 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   getSearchStrWithdraw(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
+  
     let costCenter = this.groupMasterSearchForm.getRawValue().costCenterId;
     let employee = this.groupMasterSearchForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterSearchForm.getRawValue().storeId;
-
+    
     console.log('itemId in ts:', this.groupDetailsForm.getRawValue().itemId);
-    this.loading = true;
+    // this.loading=true;
     this.api
       .getStrWithdrawSearch(
         no,
@@ -1485,16 +1488,21 @@ export class StrWithdrawTableComponent implements OnInit {
         employee,
         costCenter
       )
+
       .subscribe({
+        
         next: (res) => {
-          this.loading = false;
+          // this.loading=false
+          // console.log(this.loading)
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
+           this.loading=false
         },
+
         error: (err) => {
-          this.loading = false;
-          console.log('eroorr', err);
+          
+     console.log('eroorr', err);
         },
       });
   }
@@ -1593,7 +1601,7 @@ export class StrWithdrawTableComponent implements OnInit {
     let item = this.groupMasterSearchForm.getRawValue().itemId;
     let store = this.groupMasterSearchForm.getRawValue().storeId;
     if (report != null && reportType != null) {
-      this.loading = true;
+     this.loading = true;
       this.api
         .getStr(
           no,
@@ -1610,6 +1618,7 @@ export class StrWithdrawTableComponent implements OnInit {
         .subscribe({
           next: (res) => {
             this.loading = false;
+            // console.log ( "load",this.loading)
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -1624,7 +1633,7 @@ export class StrWithdrawTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading = false;
+             this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },
