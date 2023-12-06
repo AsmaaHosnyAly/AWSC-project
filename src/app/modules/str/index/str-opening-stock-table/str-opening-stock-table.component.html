@@ -238,29 +238,30 @@
           <h2>الرصيد الإفتتاحي</h2>
         </div>
       </ng-template>
-      
-<mat-card-header dir="ltr" class="parent-search">
-  <div class="child1">
-    <button
-      mat-raised-button
-      class="add"
-      (click)="openOpeningStockDialog()"
-      dir="ltr"
-    >
-      <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
-    </button>
-  </div>
 
-  <div>
-    <input
-      matInput
-      class="filter-search"
-      (keyup)="applyFilter($event)"
-      placeholder="بحث"
-      #input
-    />
-  </div>
-</mat-card-header>
+      <mat-card-header dir="ltr" class="parent-search">
+        <div class="child1">
+          <button
+            mat-raised-button
+            class="add"
+            (click)="openOpeningStockDialog()"
+            dir="ltr"
+          >
+            <span class="ms-2">اضافة</span>
+            <mat-icon class="me-1">add</mat-icon>
+          </button>
+        </div>
+
+        <div>
+          <input
+            matInput
+            class="filter-search"
+            (keyup)="applyFilter($event)"
+            placeholder="بحث"
+            #input
+          />
+        </div>
+      </mat-card-header>
       <div class="div-table">
         <div id="table-content">
           <table mat-table [dataSource]="dataSource2" dir="rtl">
@@ -325,6 +326,17 @@
             </tr>
           </table>
         </div>
+        <mat-paginator
+          #paginator
+          [length]="length"
+          [pageIndex]="pageIndex"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 25, 100, 1000]"
+          aria-label="الصفحات"
+          (page)="pageChanged($event)"
+          showFirstLastButtons
+        >
+        </mat-paginator>
       </div>
     </mat-tab>
     <mat-tab #tab>
@@ -468,129 +480,183 @@
             <!-- </div> -->
           </div>
 
-          <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()">
-
-
+          <form
+            [formGroup]="groupDetailsForm"
+            (keydown.enter)="$event.preventDefault()"
+          >
             <div class="allform">
-                <!-- <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'"> -->
-                
-                 <div class="headerTitle">
-                    <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل الرصيد الإفتتاحي </h1>
-                 </div>
-                <div class="detailsForm" dir="rtl">
-        
-                    <mat-accordion style="margin-bottom: 2%;" multi dir="rtl">
-        
-                        <mat-expansion-panel >
-                            <mat-expansion-panel-header>
-                                <mat-panel-description>
-                                بحث بالمنتج
-                                    <mat-icon style="text-align: left;">search</mat-icon>
-                                </mat-panel-description>
-        
-                            </mat-expansion-panel-header>
-                        
-        
-                            <div class="searchbyproduct">
-        
-                               
-                                <div class="searchLabels">
-                                    <mat-label>بحث بكود المنتج </mat-label>
-        
-                                    <mat-form-field appearance="outline" class="groupInput" >
-                                        <input matInput (keydown)="getItemByProductCode($event)">
-                                    </mat-form-field>
-                                </div>
-        
-                                <div class="searchLabels">
-                                    <mat-label>بحث باسم المنتج </mat-label>
-                                    <mat-form-field appearance="outline" class="groupInput" >
-                                        <input matInput aria-label="commodity" [matAutocomplete]="autoProductId"
-                                            [formControl]="productCtrl" placeholder="{{productIdValue ? productIdValue : ''}}"
-                                            (click)="openAutoProduct()" required />
-                                        <mat-autocomplete #autoProductId="matAutocomplete" [displayWith]="displayProductName"
-                                            (optionSelected)="ProductSelected($event)">
-                                            <mat-option *ngFor="let product of filteredProduct | async" [value]="product">
-                                                {{ product.name }} | {{ product.code }}
-                                                <!-- {{ product.name }} -->
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                    </mat-form-field>
-        
-                                </div>
-                                <!-- </div> -->
-        
-                            </div>
-                        </mat-expansion-panel>
-                    </mat-accordion>
-        
-        
-                    <!-- <div style="display: flex; width: 100%; justify-content: space-between;"> -->
-                        <div class="headerForm">
-                        <div class="searchLabels">
-                            <mat-label>بحث بالكود*</mat-label>
-        
-                            <mat-form-field appearance="outline" class="groupInput" >
-                                <input matInput placeholder="الكود" (keydown)="getItemByCode($event)" placeholder="{{editData ? editData.fullCode : ''}}" [value]="fullCodeValue && fullCodeValue != '-' ? fullCodeValue : fullCodeValue && fullCodeValue == '-' ? 'لا يوجد' : '' ">
-                            </mat-form-field>
-                        </div>
-                      
-                          <div  class="searchLabels">
-                            <mat-label>الصنف*</mat-label>
-                            <mat-form-field appearance="outline" class="groupInput" >
-                                <input matInput aria-label="commodity" [matAutocomplete]="autoItemId"
-                                    [formControl]="itemCtrl"
-                                    placeholder="{{editData && !itemByFullCodeValue ? editData.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
-                                    (click)="openAutoItem()" required />
-                                <mat-autocomplete #autoItemId="matAutocomplete" [displayWith]="displayItemName"
-                                    (optionSelected)="ItemSelected($event)">
-                                    <mat-option *ngFor="let item of filteredItem | async" [value]="item">
-                                        <!-- {{ item.name }} | {{ item.id }} -->
-                                        {{ item.name }}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-                        </div>
-                            <div  class="searchLabels">
-                                <mat-label>الكمية*</mat-label>
-        
-                            <mat-form-field appearance="outline" class="groupInput" >
-                                <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
-                                    [value]="editData ? editData.qty : '1'">
-                            </mat-form-field>
-                            </div>
-                      
-                           <div  class="searchLabels">
-                            <mat-label>متوسط السعر*</mat-label>
-        
-                            <mat-form-field appearance="outline" class="groupInput" >
-                                <input matInput placeholder="الرقم" type="number" min="0"
-                                    [value]="editData ? editData.price : ''" formControlName="price"
-                                    [readonly]="isReadOnly">
-                            </mat-form-field>
-                           </div>
-                         </div>
-                        <!-- </div> -->
-        
-                        <!-- <div style="margin-top: 5%; margin-right: 2%;">
+              <!-- <div [ngClass]="(MasterGroupInfoEntered || editDataDetails) ? 'restGroupInfo' : 'restGroupInfoDisable'"> -->
+
+              <div class="headerTitle">
+                <h1 mat-dialog-title class="add-h1">
+                  اكمل تفاصيل الرصيد الإفتتاحي
+                </h1>
+              </div>
+              <div class="detailsForm" dir="rtl">
+                <mat-accordion style="margin-bottom: 2%" multi dir="rtl">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-description>
+                        بحث بالمنتج
+                        <mat-icon style="text-align: left">search</mat-icon>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="searchbyproduct">
+                      <div class="searchLabels">
+                        <mat-label>بحث بكود المنتج </mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput">
+                          <input
+                            matInput
+                            (keydown)="getItemByProductCode($event)"
+                          />
+                        </mat-form-field>
+                      </div>
+
+                      <div class="searchLabels">
+                        <mat-label>بحث باسم المنتج </mat-label>
+                        <mat-form-field appearance="outline" class="groupInput">
+                          <input
+                            matInput
+                            aria-label="commodity"
+                            [matAutocomplete]="autoProductId"
+                            [formControl]="productCtrl"
+                            placeholder="{{
+                              productIdValue ? productIdValue : ''
+                            }}"
+                            (click)="openAutoProduct()"
+                            required
+                          />
+                          <mat-autocomplete
+                            #autoProductId="matAutocomplete"
+                            [displayWith]="displayProductName"
+                            (optionSelected)="ProductSelected($event)"
+                          >
+                            <mat-option
+                              *ngFor="let product of filteredProduct | async"
+                              [value]="product"
+                            >
+                              {{ product.name }} | {{ product.code }}
+                              <!-- {{ product.name }} -->
+                            </mat-option>
+                          </mat-autocomplete>
+                        </mat-form-field>
+                      </div>
+                      <!-- </div> -->
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+
+                <!-- <div style="display: flex; width: 100%; justify-content: space-between;"> -->
+                <div class="headerForm">
+                  <div class="searchLabels">
+                    <mat-label>بحث بالكود*</mat-label>
+
+                    <mat-form-field appearance="outline" class="groupInput">
+                      <input
+                        matInput
+                        placeholder="الكود"
+                        (keydown)="getItemByCode($event)"
+                        placeholder="{{ editDataDetails ? editDataDetails.fullCode : '' }}"
+                        [value]="
+                          fullCodeValue && fullCodeValue != '-'
+                            ? fullCodeValue
+                            : fullCodeValue && fullCodeValue == '-'
+                            ? 'لا يوجد'
+                            : ''
+                        "
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="searchLabels">
+                    <mat-label>الصنف*</mat-label>
+                    <mat-form-field appearance="outline" class="groupInput">
+                      <input
+                        matInput
+                        aria-label="commodity"
+                        [matAutocomplete]="autoItemId"
+                        [formControl]="itemCtrl"
+                        placeholder="{{
+                          editDataDetails && !itemByFullCodeValue
+                            ? editDataDetails.itemName
+                            : itemByFullCodeValue && itemByFullCodeValue != '-'
+                            ? itemByFullCodeValue
+                            : itemByFullCodeValue && itemByFullCodeValue == '-'
+                            ? 'لا يوجد'
+                            : ''
+                        }}"
+                        (click)="openAutoItem()"
+                        required
+                      />
+                      <mat-autocomplete
+                        #autoItemId="matAutocomplete"
+                        [displayWith]="displayItemName"
+                        (optionSelected)="ItemSelected($event)"
+                      >
+                        <mat-option
+                          *ngFor="let item of filteredItem | async"
+                          [value]="item"
+                        >
+                          <!-- {{ item.name }} | {{ item.id }} -->
+                          {{ item.name }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div class="searchLabels">
+                    <mat-label>الكمية*</mat-label>
+
+                    <mat-form-field appearance="outline" class="groupInput">
+                      <input
+                        type="number"
+                        min="0"
+                        matInput
+                        placeholder="الكمية"
+                        formControlName="qty"
+                        [value]="editDataDetails ? editDataDetails.qty : '1'"
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="searchLabels">
+                    <mat-label>متوسط السعر*</mat-label>
+
+                    <mat-form-field appearance="outline" class="groupInput">
+                      <input
+                        matInput
+                        placeholder="الرقم"
+                        type="number"
+                        min="0"
+                        [value]="editDataDetails ? editDataDetails.price : ''"
+                        formControlName="price"
+                        [readonly]="isReadOnly"
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- </div> -->
+
+                <!-- <div style="margin-top: 5%; margin-right: 2%;">
                             <button mat-raised-button color="warn"
                                 (click)="resetControls()">مسح</button>
                         </div> -->
-                    <!-- </div> -->
-                  
-                    
-                </div>
-        
-                
-                
+                <!-- </div> -->
+              </div>
             </div>
             <div>
               <div dir="ltr">
-                <button mat-raised-button class="follow-btn" (click)="addDetailsInfo()">{{!editDataDetails ?
-                  'اضافة':'تعديل'}}</button>
+                <button
+                  mat-raised-button
+                  class="follow-btn"
+                  (click)="addNewDetails()"
+                >
+                  {{ !editDataDetails ? "اضافة" : "تعديل" }}
+                </button>
               </div>
             </div>
-        </form>
+          </form>
           <form
             [formGroup]="groupDetailsForm"
             (keydown.enter)="$event.preventDefault()"
@@ -623,7 +689,7 @@
                 <div class="tableFixHead">
                   <table
                     mat-table
-                    [dataSource]="dataSource"
+                    [dataSource]="dataSourceDetails"
                     matSort
                     class="headerTable"
                   >
@@ -651,24 +717,36 @@
                       <td mat-cell *matCellDef="let row">{{ row.total }}</td>
                     </ng-container>
 
-                
                     <!-- action Column -->
                     <ng-container matColumnDef="action">
-                      <th mat-header-cell *matHeaderCellDef id="action-header">الاجراء</th>
-                            <td mat-cell *matCellDef="let row" id="buttn">
-                      <button mat-icon-button class="editbtn" (click)="editDetailsForm(row)">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                      <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
-                                    <mat-icon>delete_forever</mat-icon>
-                                </button>
+                      <th mat-header-cell *matHeaderCellDef id="action-header">
+                        الاجراء
+                      </th>
+                      <td mat-cell *matCellDef="let row" id="buttn">
+                        <button
+                          mat-icon-button
+                          class="editbtn"
+                          (click)="editDetailsForm(row)"
+                        >
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          color="warn"
+                          (click)="deleteFormDetails(row.id)"
+                        >
+                          <mat-icon>delete_forever</mat-icon>
+                        </button>
                       </td>
                     </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedDetailsColumns; sticky: true"></tr>
+                    <tr
+                      mat-header-row
+                      *matHeaderRowDef="displayedDetailsColumns; sticky: true"
+                    ></tr>
                     <tr
                       mat-row
-                      *matRowDef="let emprow; columns: displayedColumns"
+                      *matRowDef="let emprow; columns: displayedDetailsColumns"
                     ></tr>
                   </table>
                   <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
@@ -676,15 +754,16 @@
                 </div>
               </div>
               <mat-paginator
-                #paginator
-                [length]="length"
-                [pageIndex]="pageIndex"
-                [pageSize]="pageSize"
-                [pageSizeOptions]="[5, 10, 25, 100, 1000]"
-                (page)="pageChanged($event)"
-                showFirstLastButtons
-              >
-              </mat-paginator>
+              #paginatorDetails
+              [length]="lengthDetails"
+              [pageIndex]="pageIndexDetails"
+              [pageSize]="pageSizeDetails"
+              [pageSizeOptions]="[5, 10, 25, 100, 1000]"
+              aria-label="الصفحات"
+              (page)="pageChangedDetails($event)"
+              showFirstLastButtons
+            >
+            </mat-paginator>
             </div>
           </form>
         </div>
@@ -692,15 +771,3 @@
     </mat-tab>
   </mat-tab-group>
 </section>
-
-<mat-paginator
-  #paginator
-  [length]="length"
-  [pageIndex]="pageIndex"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="[5, 10, 25, 100, 1000]"
-  aria-label="الصفحات"
-  (page)="pageChanged($event)"
-  showFirstLastButtons
->
-</mat-paginator>
