@@ -230,7 +230,7 @@ export class StrWithdrawTableComponent implements OnInit {
   productIdValue: any;
   isReadOnlyPercentage: any = true;
   editDataDetails: any;
-  // currentDate: any;
+  currentDate: any;
 
   constructor(
     private api: ApiService,
@@ -497,6 +497,8 @@ export class StrWithdrawTableComponent implements OnInit {
 
 
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
+
+
     console.log(
       'in next to add employee name:',
       this.groupMasterForm.getRawValue().employeeName
@@ -717,26 +719,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.groupMasterForm.controls['type'].setValue(this.editData.type);
     this.getListCtrl(this.groupMasterForm.getRawValue().type);
 
-    // this.groupMasterForm.controls['sourceInput'].setValue(
-    //   this.groupMasterForm.getRawValue().desstoreName
-    // );
-    // }
-    // else {
-    //   this.actionName = 'choose';
-    //   let type = 'الموظف';
-    //   this.getListCtrl(type);
-    //   this.getEmployees();
 
-    // this.groupMasterForm.controls['type'].setValue('الموظف');
-    // this.groupMasterForm.controls['sourceInput'].setValue(
-    //     this.groupMasterForm.getRawValue().employeeName
-    //   );
-    //   console.log(
-    //     'employee in edit:',
-    //     this.groupMasterForm.getRawValue().employeeName
-    //   );
-
-    // }
 
     console.log('master edit form: ', this.editData);
 
@@ -791,9 +774,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.groupMasterForm.controls['costCenterId'].setValue(
       this.editData.costCenterId
     );
-    // this.groupMasterForm.controls['costcenterName'].setValue(
-    //   this.editData.costcenterName
-    // );
+ 
     this.isEditDataReadOnly = true;
 
     this.autoNo = '';
@@ -1087,79 +1068,9 @@ export class StrWithdrawTableComponent implements OnInit {
   getStrWithdrawAutoNo() {
     console.log("enter AutoNo function");
 
-    // console.log(
-    //   'storeId: ',
-    //   this.storeSelectedId,
-    //   ' fiscalYearId: ',
-    //   this.fiscalYearSelectedId
-    // );
-    // console.log(
-    //   'get default selected storeId & fisclYearId: ',
-    //   this.defaultStoreSelectValue,
-    //   ' , ',
-    //   this.defaultFiscalYearSelectValue
-    // );
-
+  
     if (this.groupMasterForm) {
-      // if (this.editData && !this.fiscalYearSelectedId) {
-      //   console.log('change storeId only in updateHeader');
-      //   this.api
-      //     .getStrWithdrawAutoNo(
-      //       this.groupMasterForm.getRawValue().storeId,
-      //       this.editData.fiscalYearId
-      //     )
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         console.log('autoNo1: ', this.autoNo);
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log('fetch autoNo err1: ', err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       },
-      //     });
-      // } else if (this.editData && !this.storeSelectedId) {
-      //   console.log('change fiscalYearId only in updateHeader');
-      //   this.api
-      //     .getStrWithdrawAutoNo(
-      //       this.editData.storeId,
-      //       this.groupMasterForm.getRawValue().fiscalYearId
-      //     )
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         console.log('autoNo2: ', this.autoNo);
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log('fetch autoNo err2: ', err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       },
-      //     });
-      // } else if (this.editData) {
-      //   console.log('change both in edit data: ', this.isEdit);
-
-      //   this.api
-      //     .getStrWithdrawAutoNo(
-      //       this.groupMasterForm.getRawValue().storeId,
-      //       this.groupMasterForm.getRawValue().fiscalYearId
-      //     )
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         // this.editData = null;
-      //         console.log('isEdit : ', this.isEdit);
-      //         console.log('autoNo3: ', this.autoNo);
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log('fetch autoNo err3: ', err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       },
-      //     });
-      // } 
-
+    
       console.log('editData: ', this.editData, "storeSelected: ", this.storeSelectedId, "fiscaLYearId: ", this.fiscalYearSelectedId);
 
       if (this.editData && (this.editData.storeId == this.storeSelectedId) && (this.editData.fiscalYearId == this.fiscalYearSelectedId)) {
@@ -1266,21 +1177,11 @@ export class StrWithdrawTableComponent implements OnInit {
       }
     }
   }
-
+ 
   getEmployees() {
-    this.loading = true;
-    this.api.getEmployees().subscribe({
-      next: (res) => {
-        // this.loading = false;
-        this.employeesList = res;
-        console.log("employees List: ", this.employeesList);
-        this.cdr.detectChanges(); // Trigger change detection
-      },
-      error: (err) => {
-        // this.loading = false;
-        // console.log("fetch store data err: ", err);
-        alert('خطا اثناء جلب العناصر !');
-      },
+    this.api.getEmployee().subscribe((lists) => {
+      this.lists = lists;
+     
     });
   }
 
@@ -1424,35 +1325,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.costcenterCtrl.updateValueAndValidity();
   }
 
-  displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
-  }
-  employeeSelected(event: MatAutocompleteSelectedEvent): void {
-    const employee = event.option.value as Employee;
-    console.log('employee selected: ', employee);
-    this.selectedEmployee = employee;
-    this.groupMasterSearchForm.patchValue({ employeeId: employee.id });
-    this.groupMasterForm.patchValue({ employeeId: employee.id });
-    console.log(
-      'employee in form: ',
-      this.groupMasterSearchForm.getRawValue().employeeId
-    );
-
-  }
-  private _filteremployees(value: string): Employee[] {
-    console.log("filter:", value, "list: ", this.employeesList);
-    const filterValue = value;
-    return this.employeesList.filter((employee) =>
-      employee.name.toLowerCase().includes(filterValue)
-    );
-  }
-  openAutoEmployee() {
-    console.log("open employee autoComplete");
-    this.employeeCtrl.setValue(''); // Clear the input field value
-
-    // Open the autocomplete dropdown by triggering the value change event
-    this.employeeCtrl.updateValueAndValidity();
-  }
+ 
 
   displayitemName(item: any): string {
     return item && item.name ? item.name : '';
@@ -1551,7 +1424,33 @@ export class StrWithdrawTableComponent implements OnInit {
     // Open the autocomplete dropdown by triggering the value change event
     this.listCtrl.updateValueAndValidity();
   }
+  displayEmployeeName(employee: any): string {
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log('employee selected: ', employee);
+    this.selectedEmployee = employee;
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
+      this.groupMasterForm.patchValue({ employeeName: employee.name });
+    console.log(
+      'employee in form: ',
+      this.groupMasterSearchForm.getRawValue().employeeId
+    );
 
+  }
+  private _filteremployees(value: string): Employee[] {
+    const filterValue = value.toLowerCase();
+    return this.employeesList.filter((employee) =>
+      employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
+    );
+  }
+  openAutoEmployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.employeeCtrl.updateValueAndValidity();
+  }
 
   set_store_Null(employeeId: any) {
     // alert("employeeId in null fun:"+employeeId)
@@ -2092,7 +1991,7 @@ export class StrWithdrawTableComponent implements OnInit {
   getAllDetailsForms() {
     this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
     this.groupDetailsForm.controls['qty'].setValue(1);
-
+// alert("masterrowww"+this.getMasterRowId)
     console.log("mastered row get all data: ", this.getMasterRowId)
     // if (this.getMasterRowId) {
 
@@ -2297,15 +2196,7 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   async updateDetailsForm() {
-    // console.log(
-    //   'store id in update:',
-    //   this.getMasterRowStoreId
-    // );
-
-    // console.log("values getMasterRowId: ", this.getMasterRowId)
-    // console.log("values details form: ", this.groupDetailsForm.value)
-
-    // if (this.editData) {
+   
     this.groupDetailsForm.addControl(
       'id',
       new FormControl('', Validators.required)

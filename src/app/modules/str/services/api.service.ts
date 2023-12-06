@@ -1049,6 +1049,7 @@ export class ApiService {
     return urlPassed;
   }
   putStrOpen(data: any) {
+    console.log("put data"+data)
     return this.http.put<any>(`${this.url}/STROpeningStock/update`, data);
   }
   deleteStrOpen(id: number) {
@@ -1057,8 +1058,9 @@ export class ApiService {
 
   postStrOpenDetails(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStockDetails/Add`, data);
+    
   }
-  getStrOpenDetailsPaginateByMasterId(masterId: any, currentPage: any, pageSize: any) {
+  getStrOpenDetailsPaginateByMasterId(currentPage: any, pageSize: any, masterId: any ) {
     console.log("masterId: ", masterId, "page: ", currentPage, "pageSize: ", pageSize);
     let urlPassed = `${this.url}/STROpeningStockDetails/get/by/pagination?id=${masterId}&page=${currentPage}&pageSize=${pageSize}`;
     return urlPassed;
@@ -1067,6 +1069,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STROpeningStockDetails/get/all`);
   }
   getStrOpenDetailsByMasterId(id: any) {
+    console.log("id"+id)
     return this.http.get<any>(
       `${this.url}/STROpeningStockDetails/Get/by/header/${id}`
     );
@@ -1236,6 +1239,9 @@ export class ApiService {
   ///////////////////////////////// STR-EmployeeExchange & details/////////////////////////////
   getStrEmployeeExchangeAutoNo() {
     return this.http.get<any>(`${this.url}/STREmployeeExchange/get/AutoNo`);
+    // return this.http.get<any>(
+    //   `${this.url}/STREmployeeExchange/get/AutoNo?FiscalYearId=${fiscalyearId}`
+    // );
   }
 
   getHrEmployees() {
@@ -1679,7 +1685,8 @@ export class ApiService {
     );
   }
   getAllSellers() {
-    return this.http.get<any>(`${this.url}/PRSeller/get/all`);
+    // return this.http.get<any>(`${this.url}/PRSeller/get/all`);
+    return this.http.get<any>(`${this.url}/ProSellerType/get/all`);
   }
   getAllEmployee() {
     return this.http.get<any>(`${this.url}/HREmployee/get/all`);
