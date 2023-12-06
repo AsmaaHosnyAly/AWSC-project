@@ -648,11 +648,11 @@ export class STRItem1Component implements OnInit {
     let unit = this.itemForm.getRawValue().unitId;
     console.log('unitRow:', unit);
     if (name || fullCode || type || commodity || grade || platoon || group || unit) {
-      this.loading = true;
+      // this.loading = true;
       this.api.getSearchItem( name, fullCode, type, commodity, grade, platoon, group, unit)
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('search:', res);
 
             // this.dataSource = res;
@@ -673,7 +673,7 @@ export class STRItem1Component implements OnInit {
 
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
           },
         });
@@ -888,7 +888,7 @@ export class STRItem1Component implements OnInit {
 
       if (this.itemForm.getRawValue().storeId) {
         console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType, "storeId: ", storeId);
-        this.loading = true
+        // this.loading = true
         this.api
           .printReportItems(
             name,
@@ -908,7 +908,7 @@ export class STRItem1Component implements OnInit {
           )
           .subscribe({
             next: (res) => {
-              this.loading = false;
+              // this.loading = false;
               let blob: Blob = res.body as Blob;
               console.log(blob);
               let url = window.URL.createObjectURL(blob);
@@ -923,7 +923,7 @@ export class STRItem1Component implements OnInit {
               // this.dataSource.sort = this.sort;
             },
             error: (err) => {
-              this.loading = false;
+              // this.loading = false;
               console.log('eroorr', err);
               window.open(err.url);
             },
@@ -937,7 +937,7 @@ export class STRItem1Component implements OnInit {
     else if (reportName == 'ItemsTransactionReport') {
       if (this.itemForm.getRawValue().storeId && this.itemForm.getRawValue().itemId) {
         console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType, "storeId: ", storeId, "itemId: ", itemId);
-        this.loading = true
+        // this.loading = true
         this.api
           .printReportItems(
             name,
@@ -957,7 +957,7 @@ export class STRItem1Component implements OnInit {
           )
           .subscribe({
             next: (res) => {
-              this.loading = false;
+              // this.loading = false;
               let blob: Blob = res.body as Blob;
               console.log(blob);
               let url = window.URL.createObjectURL(blob);
@@ -972,7 +972,7 @@ export class STRItem1Component implements OnInit {
               // this.dataSource.sort = this.sort;
             },
             error: (err) => {
-              this.loading = false;
+              // this.loading = false;
               console.log('eroorr', err);
               window.open(err.url);
             },
@@ -985,7 +985,7 @@ export class STRItem1Component implements OnInit {
     }
     else {
       console.log('preview report rest values, name:', name, "fullCode: ", fullCode, "type: ", type, "commodity: ", commodity, "grade: ", grade, "platoon: ", platoon, "group: ", group, "unit: ", unit, "reportName: ", reportName, "reportType: ", reportType);
-      this.loading = true
+      // this.loading = true
       this.api
         .printReportItems(
           name,
@@ -1005,7 +1005,7 @@ export class STRItem1Component implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -1020,7 +1020,7 @@ export class STRItem1Component implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },
