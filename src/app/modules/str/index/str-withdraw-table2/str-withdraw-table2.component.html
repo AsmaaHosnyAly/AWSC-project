@@ -13,13 +13,18 @@
       </mat-expansion-panel-header>
       <form [formGroup]="groupMasterSearchForm">
         <div class="search">
-
           <div class="searchLabels">
             <mat-label>الرقم</mat-label>
 
             <mat-form-field appearance="outline" class="searchForm">
-              <input #no matInput formControlName="no" (keydown)="getsearch($event)" type="number" min="0" />
-
+              <input
+                #no
+                matInput
+                formControlName="no"
+                (keydown)="getsearch($event)"
+                type="number"
+                min="0"
+              />
             </mat-form-field>
           </div>
 
@@ -27,12 +32,26 @@
             <mat-label>مخزن *</mat-label>
 
             <mat-form-field appearance="outline" class="searchForm">
-
-              <input matInput aria-label="commodity" [matAutocomplete]="autostore" (keydown)="getsearch($event)"
-                [formControl]="storeCtrl" formControlName="store" (click)="openAutostore()" required />
-              <mat-autocomplete #autostore="matAutocomplete" #storeId [displayWith]="displaystoreName"
-                (optionSelected)="storeSelected($event)">
-                <mat-option *ngFor="let store of filteredstore | async" [value]="store">
+              <input
+                matInput
+                aria-label="commodity"
+                [matAutocomplete]="autostore"
+                (keydown)="getsearch($event)"
+                [formControl]="storeCtrl"
+                formControlName="store"
+                (click)="openAutostore()"
+                required
+              />
+              <mat-autocomplete
+                #autostore="matAutocomplete"
+                #storeId
+                [displayWith]="displaystoreName"
+                (optionSelected)="storeSelected($event)"
+              >
+                <mat-option
+                  *ngFor="let store of filteredstore | async"
+                  [value]="store"
+                >
                   {{ store.name }} | {{ store.id }}
                 </mat-option>
               </mat-autocomplete>
@@ -43,9 +62,16 @@
             <mat-label>السنة المالية</mat-label>
 
             <mat-form-field appearance="outline" class="searchForm">
-              <mat-select #fiscalYear plceholder="اختر السنة المالية" formControlName="fiscalYear">
-                <mat-option *ngFor="let fiscalYear of fiscalYearsList" [value]="fiscalYear.id">{{
-                  fiscalYear.fiscalyear }}</mat-option>
+              <mat-select
+                #fiscalYear
+                plceholder="اختر السنة المالية"
+                formControlName="fiscalYear"
+              >
+                <mat-option
+                  *ngFor="let fiscalYear of fiscalYearsList"
+                  [value]="fiscalYear.id"
+                  >{{ fiscalYear.fiscalyear }}</mat-option
+                >
               </mat-select>
             </mat-form-field>
           </div>
@@ -54,11 +80,26 @@
             <mat-label>الموظف:</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput">
-              <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
-                [matAutocomplete]="autoList" [formControl]="listCtrl"  (click)="openAutoList()" required />
-              <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
-                (optionSelected)="listSelected($event)">
-                <mat-option *ngFor="let list of filteredList | async" [value]="list">
+              <input
+                matInput
+                class="placeholderr"
+                aria-label="list"
+                formControlName="sourceInput"
+                [matAutocomplete]="autoList"
+                [formControl]="listCtrl"
+                (click)="openAutoList()"
+                required
+              />
+              <mat-autocomplete
+                #ListId
+                #autoList="matAutocomplete"
+                [displayWith]="displayListName"
+                (optionSelected)="listSelected($event)"
+              >
+                <mat-option
+                  *ngFor="let list of filteredList | async"
+                  [value]="list"
+                >
                   {{ list.name ? list.name : "-" }}
                 </mat-option>
               </mat-autocomplete>
@@ -69,11 +110,26 @@
             <mat-label>الصنف:</mat-label>
 
             <mat-form-field appearance="outline" class="searchForm">
-              <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
-                formControlName="itemName" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
-              <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
-                (optionSelected)="itemSelected($event)">
-                <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+              <input
+                matInput
+                aria-label="commodity"
+                [matAutocomplete]="autoitem"
+                [formControl]="itemCtrl"
+                formControlName="itemName"
+                (keydown)="getsearch($event)"
+                (click)="openAutoitem()"
+                required
+              />
+              <mat-autocomplete
+                #autoitem="matAutocomplete"
+                #itemId
+                [displayWith]="displayitemName"
+                (optionSelected)="itemSelected($event)"
+              >
+                <mat-option
+                  *ngFor="let item of filtereditem | async"
+                  [value]="item"
+                >
                   {{ item.name }} | {{ item.id }}
                 </mat-option>
               </mat-autocomplete>
@@ -83,7 +139,12 @@
           <div class="searchLabels">
             <mat-label> تاريخ البداية</mat-label>
             <mat-form-field appearance="outline" class="searchForm">
-              <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate">
+              <input
+                #StartDate
+                matInput
+                [matDatepicker]="picker"
+                formControlName="StartDate"
+              />
               <mat-datepicker-toggle matIconSuffix [for]="picker">
                 <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
               </mat-datepicker-toggle>
@@ -93,7 +154,12 @@
           <div class="searchLabels">
             <mat-label>تاريخ النهاية</mat-label>
             <mat-form-field appearance="outline" class="searchForm">
-              <input #EndDate matInput [matDatepicker]="picke" formControlName="EndDate">
+              <input
+                #EndDate
+                matInput
+                [matDatepicker]="picke"
+                formControlName="EndDate"
+              />
               <mat-datepicker-toggle matIconSuffix [for]="picke">
                 <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
               </mat-datepicker-toggle>
@@ -105,11 +171,26 @@
             <mat-label>مركز التكلفة :</mat-label>
 
             <mat-form-field appearance="outline" class="searchForm">
-              <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter" (keydown)="getsearch($event)"
-                [formControl]="costcenterCtrl" formControlName="costcenter" (click)="openAutocostcenter()" required />
-              <mat-autocomplete #autocostcenter="matAutocomplete" #costcenterId [displayWith]="displaycostcenterName"
-                (optionSelected)="costcenterSelected($event)">
-                <mat-option *ngFor="let costcenter of filteredcostcenter | async" [value]="costcenter">
+              <input
+                matInput
+                aria-label="commodity"
+                [matAutocomplete]="autocostcenter"
+                (keydown)="getsearch($event)"
+                [formControl]="costcenterCtrl"
+                formControlName="costcenter"
+                (click)="openAutocostcenter()"
+                required
+              />
+              <mat-autocomplete
+                #autocostcenter="matAutocomplete"
+                #costcenterId
+                [displayWith]="displaycostcenterName"
+                (optionSelected)="costcenterSelected($event)"
+              >
+                <mat-option
+                  *ngFor="let costcenter of filteredcostcenter | async"
+                  [value]="costcenter"
+                >
                   {{ costcenter.name }}
                 </mat-option>
               </mat-autocomplete>
@@ -119,9 +200,15 @@
           <div class="searchLabels">
             <mat-label> التقارير</mat-label>
             <mat-form-field appearance="outline" class="searchForm">
-              <mat-select #report plceholder="اختر  التقرير" formControlName="report">
+              <mat-select
+                #report
+                plceholder="اختر  التقرير"
+                formControlName="report"
+              >
                 <mat-option value="WithdrawReport">تقرير</mat-option>
-                <mat-option value="WithdrawDetailsReport"> تقرير تفصيلي </mat-option>
+                <mat-option value="WithdrawDetailsReport">
+                  تقرير تفصيلي
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -129,31 +216,74 @@
           <div class="searchLabels">
             <mat-label> نوع التقرير</mat-label>
             <mat-form-field appearance="outline" class="searchForm">
-              <mat-select #reportType plceholder="اختر  النوع" formControlName="report">
+              <mat-select
+                #reportType
+                plceholder="اختر  النوع"
+                formControlName="report"
+              >
                 <mat-option value="pdf"> PDF </mat-option>
                 <mat-option value="xls">Excel </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-
         </div>
 
         <div class="print-display">
-          <mat-icon (click)="
-            getSearchStrWithdraw(no.value, StartDate.value,EndDate.value, fiscalYear.value)
-              " class="icons" title="بحث">search</mat-icon>
-
-          <mat-icon class="icons" title="عرض"
-            (click)="previewPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
-            class="icons" title="عرض">print</mat-icon>
+          <mat-icon
+            (click)="
+              getSearchStrWithdraw(
+                no.value,
+                StartDate.value,
+                EndDate.value,
+                fiscalYear.value
+              )
+            "
+            class="icons"
+            title="بحث"
+            >search</mat-icon
+          >
 
           <mat-icon
-            (click)="downloadPrint(no.value, StartDate.value,EndDate.value, fiscalYear.value,report.value,reportType.value)"
-            class="icons" title="تحميل">get_app</mat-icon>
+            class="icons"
+            title="عرض"
+            (click)="
+              previewPrint(
+                no.value,
+                StartDate.value,
+                EndDate.value,
+                fiscalYear.value,
+                report.value,
+                reportType.value
+              )
+            "
+            class="icons"
+            title="عرض"
+            >print</mat-icon
+          >
 
-          <mat-icon (click)="getAllMasterForms()" class="icons" title="حذف قيم البحث">restore</mat-icon>
+          <mat-icon
+            (click)="
+              downloadPrint(
+                no.value,
+                StartDate.value,
+                EndDate.value,
+                fiscalYear.value,
+                report.value,
+                reportType.value
+              )
+            "
+            class="icons"
+            title="تحميل"
+            >get_app</mat-icon
+          >
+
+          <mat-icon
+            (click)="getAllMasterForms()"
+            class="icons"
+            title="حذف قيم البحث"
+            >restore</mat-icon
+          >
         </div>
-
       </form>
     </mat-expansion-panel>
   </mat-accordion>
@@ -170,7 +300,11 @@
       </div>
     </header>
 
-    <mat-tab-group class="demo-tab -group" #matgroup (selectedTabChange)="tabSelected($event)">
+    <mat-tab-group
+      class="demo-tab -group"
+      #matgroup
+      (selectedTabChange)="tabSelected($event)"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <div class="pageTab">
@@ -181,13 +315,25 @@
 
         <mat-card-header dir="ltr" class="parent-search">
           <div class="child1">
-            <button mat-raised-button class="add" (click)="openWithdrawDialog()" dir="ltr">
-              <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
+            <button
+              mat-raised-button
+              class="add"
+              (click)="openWithdrawDialog()"
+              dir="ltr"
+            >
+              <span class="ms-2">اضافة</span>
+              <mat-icon class="me-1">add</mat-icon>
             </button>
           </div>
 
           <div>
-            <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
+            <input
+              matInput
+              class="filter-search"
+              (keyup)="applyFilter($event)"
+              placeholder="بحث"
+              #input
+            />
           </div>
         </mat-card-header>
         <div class="div-table">
@@ -229,14 +375,27 @@
 
             <!-- Action Column -->
             <ng-container matColumnDef="Action">
-              <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 15%">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                id="action-header"
+                style="width: 15%"
+              >
                 الاجراء
               </th>
               <td mat-cell *matCellDef="let row" id="buttn">
-                <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
+                <button
+                  mat-icon-button
+                  class="editbtn"
+                  (click)="editMasterForm(row)"
+                >
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="deleteBothForms(row.id)">
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteBothForms(row.id)"
+                >
                   <mat-icon>delete_forever</mat-icon>
                 </button>
               </td>
@@ -254,18 +413,23 @@
           <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
             showFirstLastButtons></mat-paginator> -->
 
-          <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
-            [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)"
-            showFirstLastButtons>
+          <mat-paginator
+            #paginator
+            [length]="length"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100, 1000]"
+            aria-label="الصفحات"
+            (page)="pageChanged($event)"
+            showFirstLastButtons
+          >
           </mat-paginator>
         </div>
-
-
       </mat-tab>
 
       <!-- --------------------------------------------------------------------------- -->
 
-      <mat-tab #tab [disabled]='!tab.isActive'>
+      <mat-tab #tab [disabled]="!tab.isActive">
         <ng-template mat-tab-label>
           <div class="pageTab">
             <!-- <mat-icon class="example-tab-icon">cloud_done</mat-icon> -->
@@ -274,28 +438,35 @@
         </ng-template>
 
         <div class="container">
-
           <div mat-dialog-content dir="rtl" class="mt-3">
             <div mat-dialog-content class="mat-dialog-content mt-4" dir="rtl">
-              <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
-
+              <form
+                [formGroup]="groupMasterForm"
+                (keydown.enter)="$event.preventDefault()"
+              >
                 <div class="headerForm">
-
                   <div class="searchLabels">
                     <mat-label>المخازن:</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput">
-                      <mat-select placeholder="المخازن" formControlName="storeId"
-                        (valueChange)="storeValueChanges($event)">
-                        <mat-option [value]="
+                      <mat-select
+                        placeholder="المخازن"
+                        formControlName="storeId"
+                        (valueChange)="storeValueChanges($event)"
+                      >
+                        <mat-option
+                          [value]="
                             userRoles.includes(userRoleStoresAcc)
                               ? store.id
                               : 'store.storeId'
-                          " *ngFor="let store of storeList">{{
-                          userRoles.includes(userRoleStoresAcc)
-                          ? store.name
-                          : 'store.storeName'
-                          }}</mat-option>
+                          "
+                          *ngFor="let store of storeList"
+                          >{{
+                            userRoles.includes(userRoleStoresAcc)
+                              ? store.name
+                              : "store.storeName"
+                          }}</mat-option
+                        >
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -304,11 +475,16 @@
                     <mat-label>السنة المالية:</mat-label>
 
                     <mat-form-field appearance="outline">
-                      <mat-select placeholder="السنة المالية" formControlName="fiscalYearId"
-                        (valueChange)="fiscalYearValueChanges($event)">
-                        <mat-option [value]="fiscalYear.id" *ngFor="let fiscalYear of fiscalYearsList">{{
-                          fiscalYear.fiscalyear
-                          }}</mat-option>
+                      <mat-select
+                        placeholder="السنة المالية"
+                        formControlName="fiscalYearId"
+                        (valueChange)="fiscalYearValueChanges($event)"
+                      >
+                        <mat-option
+                          [value]="fiscalYear.id"
+                          *ngFor="let fiscalYear of fiscalYearsList"
+                          >{{ fiscalYear.fiscalyear }}</mat-option
+                        >
                       </mat-select>
                     </mat-form-field>
                   </div>
@@ -316,8 +492,14 @@
                   <div class="searchLabels">
                     <mat-label>الرقم:</mat-label>
                     <mat-form-field appearance="outline" class="groupInput">
-                      <input id="autoNoInput" matInput formControlName="no"
-                        [value]="isEdit == true ? editData.no : autoNo" type="number" min="0" />
+                      <input
+                        id="autoNoInput"
+                        matInput
+                        formControlName="no"
+                        [value]="isEdit == true ? editData.no : autoNo"
+                        type="number"
+                        min="0"
+                      />
                     </mat-form-field>
                   </div>
 
@@ -325,8 +507,11 @@
                     <mat-label>الجهة:</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput">
-                      <mat-select formControlName="type" (valueChange)="getListCtrl($event)"
-                        placeholder="{{ editData ? editData.type : '' }}">
+                      <mat-select
+                        formControlName="type"
+                        (valueChange)="getListCtrl($event)"
+                        placeholder="{{ editData ? editData.type : '' }}"
+                      >
                         <mat-option value="الموظف">الموظف</mat-option>
                         <mat-option value="المخزن">المخزن</mat-option>
                       </mat-select>
@@ -337,15 +522,31 @@
                     <mat-label> موظف : </mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput">
-                      <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
-                        [matAutocomplete]="autoList" [formControl]="listCtrl" placeholder="{{
+                      <input
+                        matInput
+                        class="placeholderr"
+                        aria-label="list"
+                        formControlName="sourceInput"
+                        [matAutocomplete]="autoList"
+                        [formControl]="listCtrl"
+                        placeholder="{{
                           editData && editData.employeeName
                             ? editData.employeeName
                             : ''
-                        }}" (click)="openAutoList()" required />
-                      <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
-                        (optionSelected)="listSelected($event)">
-                        <mat-option *ngFor="let list of filteredList | async" [value]="list">
+                        }}"
+                        (click)="openAutoList()"
+                        required
+                      />
+                      <mat-autocomplete
+                        #ListId
+                        #autoList="matAutocomplete"
+                        [displayWith]="displayListName"
+                        (optionSelected)="listSelected($event)"
+                      >
+                        <mat-option
+                          *ngFor="let list of filteredList | async"
+                          [value]="list"
+                        >
                           {{ list.name ? list.name : "-" }}
                         </mat-option>
                       </mat-autocomplete>
@@ -370,14 +571,28 @@
 
                   <div class="searchLabels">
                     <mat-label>مخزن *</mat-label>
-        
+
                     <mat-form-field appearance="outline" class="searchForm">
-        
-                      <input matInput aria-label="commodity" [matAutocomplete]="autostore"
-                        [formControl]="storeCtrl" placeholder="{{ editData ? editData.desstoreName : '' }}" (click)="openAutostore()" required />
-                      <mat-autocomplete #autostore="matAutocomplete" [displayWith]="displaystoreName"
-                        (optionSelected)="storeSelected($event)">
-                        <mat-option *ngFor="let store of filteredstore | async" [value]="store">
+                      <input
+                        matInput
+                        aria-label="commodity"
+                        [matAutocomplete]="autostore"
+                        [formControl]="storeCtrl"
+                        placeholder="{{
+                          editData ? editData.desstoreName : ''
+                        }}"
+                        (click)="openAutostore()"
+                        required
+                      />
+                      <mat-autocomplete
+                        #autostore="matAutocomplete"
+                        [displayWith]="displaystoreName"
+                        (optionSelected)="storeSelected($event)"
+                      >
+                        <mat-option
+                          *ngFor="let store of filteredstore | async"
+                          [value]="store"
+                        >
                           {{ store.name }} | {{ store.id }}
                         </mat-option>
                       </mat-autocomplete>
@@ -388,84 +603,129 @@
                     <mat-label>مركز التكلفة :</mat-label>
 
                     <mat-form-field appearance="outline">
-                      <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter"
-                        [formControl]="costcenterCtrl" placeholder="{{ editData ? editData.costCenterName : '' }}"
-                        (click)="openAutocostcenter()" required />
-                      <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId
-                        [displayWith]="displaycostcenterName" (optionSelected)="costcenterSelected($event)">
-                        <mat-option *ngFor="let costcenter of filteredcostcenter | async" [value]="costcenter">
+                      <input
+                        matInput
+                        aria-label="commodity"
+                        [matAutocomplete]="autocostcenter"
+                        [formControl]="costcenterCtrl"
+                        placeholder="{{
+                          editData ? editData.costCenterName : ''
+                        }}"
+                        (click)="openAutocostcenter()"
+                        required
+                      />
+                      <mat-autocomplete
+                        #autocostcenter="matAutocomplete"
+                        #costCenterId
+                        [displayWith]="displaycostcenterName"
+                        (optionSelected)="costcenterSelected($event)"
+                      >
+                        <mat-option
+                          *ngFor="let costcenter of filteredcostcenter | async"
+                          [value]="costcenter"
+                        >
                           {{ costcenter.name ? costcenter.name : "-" }}
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
                   </div>
 
-                  <div style="display: flex; flex-direction: row; margin-left: 10px">
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      margin-left: 10px;
+                    "
+                  >
                     <div class="searchLabels">
                       <mat-label>التاريخ:</mat-label>
                       <mat-form-field appearance="outline">
-                        <input matInput [matDatepicker]="masterPicker" formControlName="date" />
-                        <mat-datepicker-toggle matIconSuffix [for]="masterPicker">
-                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        <input
+                          matInput
+                          [matDatepicker]="masterPicker"
+                          formControlName="date"
+                        />
+                        <mat-datepicker-toggle
+                          matIconSuffix
+                          [for]="masterPicker"
+                        >
+                          <mat-icon matDatepickerToggleIcon
+                            >keyboard_arrow_down</mat-icon
+                          >
                         </mat-datepicker-toggle>
                         <mat-datepicker #masterPicker></mat-datepicker>
                       </mat-form-field>
                     </div>
                   </div>
 
-
                   <div dir="ltr">
-                    <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
+                    <button
+                      class="follow-btn"
+                      mat-raised-button
+                      (click)="nextToAddFormDetails()"
+                      [ngClass]="
                         editData || MasterGroupInfoEntered
                           ? 'nextButtonEditHeaderDetails'
                           : 'nextButtonAddNewHeader'
-                      ">
+                      "
+                    >
                       حفظ
                     </button>
                   </div>
                 </div>
-
               </form>
 
-
-              <div [ngClass]="(MasterGroupInfoEntered || editData) ? 'restGroupInfo' : 'restGroupInfoDisable'">
-
-
+              <div
+                [ngClass]="
+                  MasterGroupInfoEntered || editData
+                    ? 'restGroupInfo'
+                    : 'restGroupInfoDisable'
+                "
+              >
                 <div>
                   <div dir="ltr" class="groupAction">
-                    <button mat-raised-button class="follow-btn" (click)="updateMaster()">
+                    <button
+                      mat-raised-button
+                      class="follow-btn"
+                      (click)="updateMaster()"
+                    >
                       تعديل الاذن
                     </button>
                   </div>
 
                   <!-- <div class="sum-label-parent"> -->
-                  <mat-label class="sum-label">الإجمالى : {{ sumOfTotals }}</mat-label>
+                  <mat-label class="sum-label"
+                    >الإجمالى : {{ sumOfTotals }}</mat-label
+                  >
 
                   <!-- </div> -->
-
-
-
                 </div>
-
 
                 <!-- --------------------------------------------------------------------------------------- -->
 
                 <div>
-                  <h1 mat-dialog-title class="add-h1"> اكمل تفاصيل اذن الصرف </h1>
+                  <h1 mat-dialog-title class="add-h1">اكمل تفاصيل اذن الصرف</h1>
 
-
-                  <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()"
-                    style="overflow: hidden !important;">
-
-                    <div style="overflow: hidden !important;">
+                  <form
+                    [formGroup]="groupDetailsForm"
+                    (keydown.enter)="$event.preventDefault()"
+                    style="overflow: hidden !important"
+                  >
+                    <div style="overflow: hidden !important">
                       <div dir="rtl">
                         <div dir="rtl" style="overflow: hidden !important">
-                          <mat-accordion class="example-headers-align" multi dir="rtl">
+                          <mat-accordion
+                            class="example-headers-align"
+                            multi
+                            dir="rtl"
+                          >
                             <mat-expansion-panel>
                               <mat-expansion-panel-header>
                                 <mat-panel-description>
                                   بحث بالمنتج
-                                  <mat-icon style="text-align: left">search</mat-icon>
+                                  <mat-icon style="text-align: left"
+                                    >search</mat-icon
+                                  >
                                 </mat-panel-description>
                               </mat-expansion-panel-header>
 
@@ -474,20 +734,38 @@
                                   <mat-label>بحث بكود المنتج </mat-label>
 
                                   <mat-form-field appearance="outline">
-                                    <input matInput (keydown)="getItemByProductCode($event)" />
+                                    <input
+                                      matInput
+                                      (keydown)="getItemByProductCode($event)"
+                                    />
                                   </mat-form-field>
                                 </div>
 
                                 <div>
                                   <mat-label>بحث باسم المنتج </mat-label>
                                   <mat-form-field appearance="outline">
-                                    <input matInput aria-label="commodity" [matAutocomplete]="autoProductId"
+                                    <input
+                                      matInput
+                                      aria-label="commodity"
+                                      [matAutocomplete]="autoProductId"
                                       [formControl]="productCtrl"
-                                      placeholder="{{ productIdValue ? productIdValue : '' }}"
-                                      (click)="openAutoProduct()" required />
-                                    <mat-autocomplete #autoProductId="matAutocomplete"
-                                      [displayWith]="displayProductName" (optionSelected)="ProductSelected($event)">
-                                      <mat-option *ngFor="let product of filteredProduct | async" [value]="product">
+                                      placeholder="{{
+                                        productIdValue ? productIdValue : ''
+                                      }}"
+                                      (click)="openAutoProduct()"
+                                      required
+                                    />
+                                    <mat-autocomplete
+                                      #autoProductId="matAutocomplete"
+                                      [displayWith]="displayProductName"
+                                      (optionSelected)="ProductSelected($event)"
+                                    >
+                                      <mat-option
+                                        *ngFor="
+                                          let product of filteredProduct | async
+                                        "
+                                        [value]="product"
+                                      >
                                         {{ product.name }} | {{ product.code }}
                                         <!-- {{ product.name }} -->
                                       </mat-option>
@@ -507,33 +785,59 @@
                         <mat-label>بحث بالكود </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
-                          <input matInput placeholder="{{ editDataDetails ? editDataDetails.fullCode : '' }}"
-                            (keydown)="getItemByCode($event)" [value]="
-                                          fullCodeValue && fullCodeValue != '-'
-                                            ? fullCodeValue
-                                            : fullCodeValue && fullCodeValue == '-'
-                                            ? 'لا يوجد'
-                                            : ''
-                                        " />
+                          <input
+                            matInput
+                            placeholder="{{
+                              editDataDetails ? editDataDetails.fullCode : ''
+                            }}"
+                            (keydown)="getItemByCode($event)"
+                            [value]="
+                              fullCodeValue && fullCodeValue != '-'
+                                ? fullCodeValue
+                                : fullCodeValue && fullCodeValue == '-'
+                                ? 'لا يوجد'
+                                : ''
+                            "
+                          />
                         </mat-form-field>
                       </div>
+
                       <div class="searchLabels">
                         <mat-label> الصنف*</mat-label>
 
-                        <mat-form-field appearance="outline" *ngIf="!loading" class="groupInput">
-                          <input matInput aria-label="item" [matAutocomplete]="autoItemPositive"
-                            [formControl]="itemPositiveCtrl" placeholder="{{
-                                          editDataDetails && !itemByFullCodeValue
-                                            ? editDataDetails.itemName
-                                            : itemByFullCodeValue && itemByFullCodeValue != '-'
-                                            ? itemByFullCodeValue
-                                            : itemByFullCodeValue && itemByFullCodeValue == '-'
-                                            ? 'لا يوجد'
-                                            : ''
-                                        }}" (click)="openAutoitemPositive()" required />
-                          <mat-autocomplete #autoItemPositive="matAutocomplete" [displayWith]="displayitemPositiveName"
-                            (optionSelected)="itemPositiveSelected($event)">
-                            <mat-option *ngFor="let item of filtereditemPositive | async" [value]="item">
+                        <mat-form-field
+                          appearance="outline"
+                          *ngIf="!loading"
+                          class="groupInput"
+                        >
+                          <input
+                            matInput
+                            aria-label="item"
+                            [matAutocomplete]="autoItemPositive"
+                            [formControl]="itemPositiveCtrl"
+                            placeholder="{{
+                              editDataDetails && !itemByFullCodeValue
+                                ? editDataDetails.itemName
+                                : itemByFullCodeValue &&
+                                  itemByFullCodeValue != '-'
+                                ? itemByFullCodeValue
+                                : itemByFullCodeValue &&
+                                  itemByFullCodeValue == '-'
+                                ? 'لا يوجد'
+                                : ''
+                            }}"
+                            (click)="openAutoitemPositive()"
+                            required
+                          />
+                          <mat-autocomplete
+                            #autoItemPositive="matAutocomplete"
+                            [displayWith]="displayitemPositiveName"
+                            (optionSelected)="itemPositiveSelected($event)"
+                          >
+                            <mat-option
+                              *ngFor="let item of filtereditemPositive | async"
+                              [value]="item"
+                            >
                               {{ item.name }}
                             </mat-option>
                           </mat-autocomplete>
@@ -544,55 +848,91 @@
                         <mat-label>الكمية*</mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
-                          <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
-                            [value]="editDataDetails ? editDataDetails.qty : '1'" />
+                          <input
+                            type="number"
+                            min="0"
+                            matInput
+                            placeholder="الكمية"
+                            formControlName="qty"
+                            [value]="
+                              editDataDetails ? editDataDetails.qty : '1'
+                            "
+                          />
                         </mat-form-field>
                       </div>
                       <!-- </div> -->
-
 
                       <div class="searchLabels">
                         <mat-label>السعر</mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
-                          <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
-                            [value]="editDataDetails ? editDataDetails.price : ''" readonly="true" />
+                          <input
+                            type="number"
+                            min="0"
+                            matInput
+                            placeholder="السعر"
+                            formControlName="price"
+                            [value]="
+                              editDataDetails ? editDataDetails.price : ''
+                            "
+                            readonly="true"
+                          />
                         </mat-form-field>
                       </div>
 
                       <!-- </div> -->
                       <div style="display: flex; flex-direction: row">
                         <div class="radio">
-                          <mat-label style="margin-top: 9px"> حالةالصنف*</mat-label>
+                          <mat-label style="margin-top: 9px">
+                            حالةالصنف*</mat-label
+                          >
 
-                          <mat-radio-group style="display: flex; flex-direction: row" aria-label="Select an option"
-                            formControlName="state" (change)="set_Percentage($event)"
-                            [value]="editDataDetails ? editDataDetails.state : 'جديد'">
-                            <mat-radio-button value="جديد">جديد</mat-radio-button>
-                            <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
-                            <mat-radio-button value="قابل للاصلاح">قابل للاصلاح</mat-radio-button>
-                            <mat-radio-button value="كهنة و خردة">كهنة و خردة</mat-radio-button>
+                          <mat-radio-group
+                            style="display: flex; flex-direction: row"
+                            aria-label="Select an option"
+                            formControlName="state"
+                            (change)="set_Percentage($event)"
+                            [value]="
+                              editDataDetails ? editDataDetails.state : 'جديد'
+                            "
+                          >
+                            <mat-radio-button value="جديد"
+                              >جديد</mat-radio-button
+                            >
+                            <mat-radio-button value="مستعمل"
+                              >مستعمل</mat-radio-button
+                            >
+                            <mat-radio-button value="قابل للاصلاح"
+                              >قابل للاصلاح</mat-radio-button
+                            >
+                            <mat-radio-button value="كهنة و خردة"
+                              >كهنة و خردة</mat-radio-button
+                            >
                           </mat-radio-group>
                         </div>
                       </div>
                     </div>
 
-
-
-
-
                     <div>
                       <div dir="ltr">
-                        <button mat-raised-button class="follow-btn" (click)="addNewDetails()">{{!editDataDetails ?
-                          'اضافة':'تعديل'}}</button>
+                        <button
+                          mat-raised-button
+                          class="follow-btn"
+                          (click)="addNewDetails()"
+                        >
+                          {{ !editDataDetails ? "اضافة" : "تعديل" }}
+                        </button>
                       </div>
                     </div>
-
                   </form>
                 </div>
 
                 <div class="tableFixHead">
-                  <table mat-table [dataSource]="dataSourceDetails" class="headerTable">
+                  <table
+                    mat-table
+                    [dataSource]="dataSourceDetails"
+                    class="headerTable"
+                  >
                     <!-- itemName Column -->
                     <ng-container matColumnDef="itemName">
                       <th mat-header-cell *matHeaderCellDef>الصنف</th>
@@ -618,7 +958,11 @@
 
                     <!-- total Column -->
                     <ng-container matColumnDef="total">
-                      <th mat-header-cell *matHeaderCellDef style="text-align: center">
+                      <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        style="text-align: center"
+                      >
                         المجموع
                       </th>
                       <td mat-cell *matCellDef="let row">{{ row.total }}</td>
@@ -628,41 +972,56 @@
                     <ng-container matColumnDef="action">
                       <th mat-header-cell *matHeaderCellDef>الاجراء</th>
                       <td mat-cell *matCellDef="let row">
-                        <button type="button" mat-icon-button color="primary" (click)="editDetailsForm(row)">
+                        <button
+                          type="button"
+                          mat-icon-button
+                          color="primary"
+                          (click)="editDetailsForm(row)"
+                        >
                           <mat-icon>edit</mat-icon>
                         </button>
 
-                        <button mat-icon-button color="warn" (click)="deleteFormDetails(row.id)">
+                        <button
+                          mat-icon-button
+                          color="warn"
+                          (click)="deleteFormDetails(row.id)"
+                        >
                           <mat-icon>delete</mat-icon>
                         </button>
                       </td>
                     </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedDetailsColumns; sticky: true"></tr>
-                    <tr mat-row *matRowDef="let emprow; columns: displayedDetailsColumns"></tr>
+                    <tr
+                      mat-header-row
+                      *matHeaderRowDef="displayedDetailsColumns; sticky: true"
+                    ></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let emprow; columns: displayedDetailsColumns"
+                    ></tr>
                   </table>
                 </div>
 
-
                 <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
 
-                <mat-paginator #paginatorDetails [length]="lengthDetails" [pageIndex]="pageIndexDetails"
-                  [pageSize]="pageSizeDetails" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
-                  (page)="pageChangedDetails($event)" showFirstLastButtons>
+                <mat-paginator
+                  #paginatorDetails
+                  [length]="lengthDetails"
+                  [pageIndex]="pageIndexDetails"
+                  [pageSize]="pageSizeDetails"
+                  [pageSizeOptions]="[5, 10, 25, 100, 1000]"
+                  aria-label="الصفحات"
+                  (page)="pageChangedDetails($event)"
+                  showFirstLastButtons
+                >
                 </mat-paginator>
               </div>
-
-
             </div>
 
             <!-- </form> -->
           </div>
         </div>
-
-
-
       </mat-tab>
     </mat-tab-group>
-
   </section>
 </div>
