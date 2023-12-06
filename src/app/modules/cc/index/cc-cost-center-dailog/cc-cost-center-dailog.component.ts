@@ -211,6 +211,7 @@ vendorName: any;
       }));
   
       if(this.editData){
+        console.log("edit data",this.editData)
         this.actionBtn = "تعديل";
         console.log("")
       this.getModelData = this.editData;
@@ -499,6 +500,7 @@ vendorName: any;
         this.api.putCostCenter(this.equipmentForm.value)
         .subscribe({
           next:(res)=>{
+            console.log("ppp",this.equipmentForm.value)
             this.toastrEdit();
             this.equipmentForm.reset();
             this.dialogRef.close('update');

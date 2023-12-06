@@ -26,11 +26,11 @@ export class Vacation {
   styleUrls: ['./hr-employee-vacation-dialog.component.css']
 })
 export class HrEmployeeVacationDialogComponent implements OnInit {
-  transactionUserId=localStorage.getItem('transactionUserId')
+  transactionUserId = localStorage.getItem('transactionUserId')
   groupForm !: FormGroup;
   actionBtn: string = "Save";
   userIdFromStorage: any;
-
+  days: any
   employeesList: Employee[] = [];
   emploeeCtrl: FormControl;
   filteredEmployee: Observable<Employee[]>;
@@ -117,7 +117,15 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
 
     }
   }
+  day() {
+    let hh = this.groupForm.getRawValue().startDate
+    let gg = this.groupForm.getRawValue().endDate
+    this.days = Math.floor((gg.getTime() - hh.getTime()) / 1000 / 60 / 60 / 24);
+    this.groupForm.controls['nodDays'].setValue(this.days);
+    console.log(this.days)
+    return this.days;
 
+  }
   displayEmployeeName(employee: any): string {
     return employee && employee.name ? employee.name : '';
   }
@@ -154,10 +162,10 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
     const employee = event.option.value as subEmployee;
     console.log("employee selected: ", employee);
     this.selectedsubEmployee = employee;
-    this.groupForm.patchValue({substituteEmpolyeeId: employee.id });
+    this.groupForm.patchValue({ substituteEmpolyeeId: employee.id });
     console.log("employee in form: ", this.groupForm.getRawValue().substituteEmpolyeeId);
 
-    console.log("employee change: ", this.emploeeCtrl, ", ", this.subemploeeCtrl, ',', this.filteredEmployee, ',', this.selectedEmployee,',',this.selectedsubEmployee)
+    console.log("employee change: ", this.emploeeCtrl, ", ", this.subemploeeCtrl, ',', this.filteredEmployee, ',', this.selectedEmployee, ',', this.selectedsubEmployee)
     // this.groupForm.patchValue({ emplpoyeeId: employee.name });
   }
   private _filtersubEmployees(value: string): subEmployee[] {
