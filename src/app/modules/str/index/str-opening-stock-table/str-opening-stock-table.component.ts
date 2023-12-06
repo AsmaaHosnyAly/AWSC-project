@@ -27,7 +27,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import jwt_decode from 'jwt-decode';
 
 export class store {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 
 export class item {
@@ -35,7 +35,7 @@ export class item {
     public id: number,
     public name: string,
     public fullCode: string
-  ) {}
+  ) { }
 }
 
 export class Item {
@@ -43,11 +43,11 @@ export class Item {
     public id: number,
     public name: string,
     public fullCode: string
-  ) {}
+  ) { }
 }
 
 export class Product {
-  constructor(public id: number, public name: string, public code: any) {}
+  constructor(public id: number, public name: string, public code: any) { }
 }
 interface StrOpeningStock {
   no: any;
@@ -827,9 +827,9 @@ export class StrOpeningStockTableComponent implements OnInit {
   async updateMaster() {
     console.log('nnnvvvvvvvvvv: ', this.groupMasterForm.value);
     console.log('nnnvvvvvvvvvvhhhhhhhhhhh: ', this.isEdit);
-    if (this.isEdit == false) {
-      this.groupMasterForm.controls['no'].setValue(this.editData.autoNo);
-    }
+    // if (this.isEdit == false) {
+    //   this.groupMasterForm.controls['no'].setValue(this.editData.autoNo);
+    // }
 
     // if (this.getMasterRowId.id) {
     //   if (this.getMasterRowId.id) {
@@ -870,7 +870,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     // else {
     // console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
     // this.groupMasterForm.controls['no'].setValue(this.autoNo);
-    this.groupMasterForm.controls['no'].setValue(this.editData.autoNo);
+    // this.groupMasterForm.controls['no'].setValue(this.editData.autoNo);
     console.log('edit : ', this.groupMasterForm.value);
     this.api.putStrOpen(this.groupMasterForm.value).subscribe({
       next: (res) => {
@@ -932,7 +932,7 @@ export class StrOpeningStockTableComponent implements OnInit {
 
     // this.getStrOpenAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId);
 
-    this.groupMasterForm.controls['no'].setValue(this.autoNo);
+    // this.groupMasterForm.controls['no'].setValue(this.autoNo);
     if (
       this.groupMasterForm.getRawValue().storeName &&
       this.groupMasterForm.getRawValue().date &&
@@ -1114,9 +1114,18 @@ export class StrOpeningStockTableComponent implements OnInit {
   openOpeningStockDialog() {
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
+
+    this.autoNo = ''; 
+    this.groupMasterForm.controls['date'].setValue('');
+    this.editData = '';
+    this.editDataDetails = '';
+
     this.getStores();
     this.getFiscalYears();
     this.getAllDetailsForms();
+
+    this.getItems();
+    this.getProducts();
   }
   // editMasterForm(row: any) {
   //   let tabGroup = this.matgroup;
@@ -1128,6 +1137,11 @@ export class StrOpeningStockTableComponent implements OnInit {
   // }
 
   editMasterForm(row: any) {
+    this.getProducts();
+    this.getItems();
+
+    this.isEdit = true;
+
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
 
@@ -1137,6 +1151,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.getFiscalYears();
     this.editData = row;
     console.log('master edit form: ', this.editData);
+    // alert("no edit data: " + this.editData.no);
 
     // if (this.editData.type == 'المخزن') {
     this.actionName = 'sss';
@@ -1173,7 +1188,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.groupMasterForm.controls['fiscalYearId'].setValue(
       this.editData.fiscalYearId
     );
-    this.groupMasterForm.controls['no'].setValue(this.editData.autoNo);
+    this.groupMasterForm.controls['no'].setValue(this.editData.no);
     this.groupMasterForm.controls['date'].setValue(this.editData.date);
     // this.groupMasterForm.controls['destStoreConfirm'].setValue(this.editData.destStoreConfirm);
     this.groupMasterForm.controls['transactionUserId'].setValue(
@@ -1191,7 +1206,9 @@ export class StrOpeningStockTableComponent implements OnInit {
     this.isEditDataReadOnly = true;
 
     this.autoNo = '';
-    this.getStrOpenAutoNo();
+    // alert("no edit data control: " + this.groupMasterForm.getRawValue().no);
+
+    // this.getStrOpenAutoNo();
 
     // this.getProducts();
     // this.getItemsPositive();
@@ -1207,37 +1224,37 @@ export class StrOpeningStockTableComponent implements OnInit {
 
     console.log("nnnnnnnnnnnnnnnnnnn edit d before: ", this.editDataDetails);
 
-      // this.actionBtnDetails = 'Update';
-      this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.editDataDetails.stR_Opening_StockId);
-      this.groupDetailsForm.controls['transactionUserId'].setValue(this.transactionUserId);
+    // this.actionBtnDetails = 'Update';
+    this.groupDetailsForm.controls['stR_Opening_StockId'].setValue(this.editDataDetails.stR_Opening_StockId);
+    this.groupDetailsForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
-      this.groupDetailsForm.controls['qty'].setValue(this.editDataDetails.qty);
-      this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
-      // this.groupDetailsForm.controls['date'].setValue(this.editData.date);
-      // this.groupDetailsForm.controls['total'].setValue(this.editData.total);
-      // this.toggleEdit();
-      this.groupDetailsForm.controls['total'].setValue(this.editDataDetails.total);
+    this.groupDetailsForm.controls['qty'].setValue(this.editDataDetails.qty);
+    this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
+    // this.groupDetailsForm.controls['date'].setValue(this.editData.date);
+    // this.groupDetailsForm.controls['total'].setValue(this.editData.total);
+    // this.toggleEdit();
+    this.groupDetailsForm.controls['total'].setValue(this.editDataDetails.total);
 
-      this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
-      this.itemCtrl.setValue(this.editDataDetails.itemName);
-      this.fullCodeValue = this.editDataDetails.fullCode;
-      // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
-      // this.getItemByCode(this.groupDetailsForm.getRawValue().itemId);
-      console.log("nnnnnnnnnnnnnnnnnnn edit d after: ", this.editDataDetails);
+    this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
+    this.itemCtrl.setValue(this.editDataDetails.itemName);
+    this.fullCodeValue = this.editDataDetails.fullCode;
+    // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
+    // this.getItemByCode(this.groupDetailsForm.getRawValue().itemId);
+    console.log("nnnnnnnnnnnnnnnnnnn edit d after: ", this.editDataDetails);
 
 
-      this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
-      this.groupDetailsForm.controls['id'].setValue(this.editDataDetails.id);
-      // this.isEditDataReadOnly = true;
+    this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+    this.groupDetailsForm.controls['id'].setValue(this.editDataDetails.id);
+    // this.isEditDataReadOnly = true;
 
-      if (this.groupDetailsForm.getRawValue().price == 0 || this.editDataDetails?.price == 0) {
-        this.isReadOnly = false;
-        console.log("change readOnly to enable here");
-      }
-      else {
-        this.isReadOnly = true;
-        console.log("change readOnly to disable here");
-      }
+    if (this.groupDetailsForm.getRawValue().price == 0 || this.editDataDetails?.price == 0) {
+      this.isReadOnly = false;
+      console.log("change readOnly to enable here");
+    }
+    else {
+      this.isReadOnly = true;
+      console.log("change readOnly to disable here");
+    }
     // this.getAllDetailsForms();
   }
 
@@ -1415,6 +1432,7 @@ export class StrOpeningStockTableComponent implements OnInit {
       next: (res) => {
         // alert('تم حذف الصنف بنجاح');
         this.getAllMasterForms();
+        this.getAllDetailsForms();
       },
       error: (err) => {
         console.log('delete details err: ', err);
@@ -1448,7 +1466,7 @@ export class StrOpeningStockTableComponent implements OnInit {
       }
       this.groupDetailsForm.controls['total'].setValue(
         parseFloat(this.groupDetailsForm.getRawValue().price) *
-          parseFloat(this.groupDetailsForm.getRawValue().qty)
+        parseFloat(this.groupDetailsForm.getRawValue().qty)
       );
       console.log(
         'post d: ',
@@ -1470,6 +1488,8 @@ export class StrOpeningStockTableComponent implements OnInit {
 
             // this.updateDetailsForm()
             // this.getAllDetailsForms();
+            this.autoNo = this.groupMasterForm.getRawValue().no;
+
           },
           error: () => {
             // alert("حدث خطأ أثناء إضافة مجموعة")
@@ -1520,7 +1540,7 @@ export class StrOpeningStockTableComponent implements OnInit {
 
         this.groupDetailsForm.controls['total'].setValue(
           parseFloat(this.groupDetailsForm.getRawValue().price) *
-            parseFloat(this.groupDetailsForm.getRawValue().qty)
+          parseFloat(this.groupDetailsForm.getRawValue().qty)
         );
 
         this.groupDetailsForm.removeControl('id');
@@ -1617,7 +1637,7 @@ export class StrOpeningStockTableComponent implements OnInit {
   async updateDetailsForm() {
     this.groupDetailsForm.controls['total'].setValue(
       parseFloat(this.groupDetailsForm.getRawValue().price) *
-        parseFloat(this.groupDetailsForm.getRawValue().qty)
+      parseFloat(this.groupDetailsForm.getRawValue().qty)
     );
 
     this.isEdit = false;
@@ -1625,9 +1645,11 @@ export class StrOpeningStockTableComponent implements OnInit {
     // this.api.putStrOpen(this.groupMasterForm.value)
     // .subscribe({
     //   next: (res) => {
+    this.groupDetailsForm.removeControl('id');
+
     if (this.groupDetailsForm.value) {
       this.api
-        .putStrOpenDetails(this.groupDetailsForm.value, this.editData.id)
+        .putStrOpenDetails(this.groupDetailsForm.value, this.editDataDetails.id)
         .subscribe({
           next: (res) => {
             this.toastrEditSuccess();
@@ -1636,6 +1658,9 @@ export class StrOpeningStockTableComponent implements OnInit {
             this.itemByFullCodeValue = '';
             this.fullCodeValue = '';
             this.groupDetailsForm.controls['qty'].setValue(1);
+            this.autoNo = this.groupMasterForm.getRawValue().no;
+            
+            this.getAllDetailsForms();
           },
           error: (err) => {
             console.log('update err: ', err);
@@ -2194,12 +2219,26 @@ export class StrOpeningStockTableComponent implements OnInit {
       });
   }
 
+  getProducts() {
+    this.api.getStrProduct().subscribe({
+      next: (res) => {
+        this.productsList = res;
+        console.log("productsList res: ", this.productsList);
+      },
+      error: (err) => {
+        // console.log("fetch products data err: ", err);
+        // alert("خطا اثناء جلب المنتجات !");
+      },
+    });
+  }
+
   openAutoItem() {
     this.itemCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
     this.itemCtrl.updateValueAndValidity();
   }
+
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
   }

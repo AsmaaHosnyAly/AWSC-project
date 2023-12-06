@@ -1,0 +1,79 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل الموردين ' : 'إضافة الموردين'}}</h1>
+
+<div mat-dialog-content dir="rtl">
+    <form [formGroup]="proSellerForm" style="overflow: hidden;">
+        <div class="serachLabels">
+
+            <mat-label>الكود*</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="الكود" formControlName="code" readonly>
+            </mat-form-field>
+
+            <mat-label> اسم المورد*</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder=" اسم المورد" formControlName="name">
+            </mat-form-field>
+
+            <mat-label>رقم الهاتف*</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="رقم الهاتف" formControlName="phone" type="number" min="0">
+            </mat-form-field>
+
+            <mat-label>البريد الالكترونى</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="البريد الالكترونى" formControlName="email">
+            </mat-form-field>
+
+            <mat-label> المدينة</mat-label>
+            <mat-form-field appearance="outline" class="child-num">
+                <input placeholder="{{editData  ? editData.cityName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoCity" [formControl]="cityCtrl" (click)="openAutoCity()" required />
+                <mat-autocomplete #autoCity="matAutocomplete" [displayWith]="displayCityName"
+                    (optionSelected)="CitySelected($event)">
+                    <mat-option *ngFor="let city of filteredCity | async" [value]="city">
+                        {{ city.name ? city.name : '-'}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            
+            <mat-label> المركز</mat-label>
+            <mat-form-field appearance="outline" class="child-num">
+                <input placeholder="{{editData  ? editData.cityStateName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="autoCityState" [formControl]="cityStateCtrl" (click)="openAutoCityState()"
+                    required />
+                <mat-autocomplete #autoCityState="matAutocomplete" [displayWith]="displayCityStateName"
+                    (optionSelected)="CityStateSelected($event)">
+                    <mat-option *ngFor="let cityState of filteredCityState | async" [value]="cityState">
+                        {{ cityState.name ? cityState.name : '-'}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+
+            <mat-label>العنوان</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="العنوان" formControlName="address">
+            </mat-form-field>
+
+            <mat-label>السجل التجارى*</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="السجل التجارى" formControlName="commericalRegister">
+            </mat-form-field>
+
+            <mat-label>البطاقة الضريبية*</mat-label>
+            <mat-form-field appearance="outline" class="groupInput">
+                <input matInput placeholder="البطاقة الضريبية" formControlName="taxCard">
+            </mat-form-field>
+
+        </div>
+
+    </form>
+    <button mat-raised-button class="savebtn" (click)="addProSeller()" style="margin-left: 8px;">{{actionBtn}}</button>
+
+</div>
+
+<div mat-dialog-action [align]="'end'"></div>
