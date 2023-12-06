@@ -1271,6 +1271,7 @@ export class ApiService {
   }
 
   postStrEmployeeExchangeDetails(data: any) {
+    console.log("data in post details:",data)
     return this.http.post<any>(
       `${this.url}/STREmployeeExchangeDetails/Add`,
       data
@@ -1287,7 +1288,7 @@ export class ApiService {
   putStrEmployeeExchangeDetails(data: any) {
     console.log('StrEmployeeExchangeDetails data: ', data);
     return this.http.put<any>(
-      `${this.url}/STREmployeeExchangeDetails/update/`,
+      `${this.url}/STREmployeeExchangeDetails/update`,
       data
     );
   }

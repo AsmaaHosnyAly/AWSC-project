@@ -842,20 +842,21 @@
                         </mat-form-field>
                       </div>
 
+                      
+                      <div class="searchLabels">
+                        <mat-label>كمية المخزن*</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput">
+                          <input type="number" min="0" matInput placeholder="كمية المخزن"  formControlName="storeQty"
+                            [value]="editDataDetails ? editDataDetails.qty : '1'" />
+                        </mat-form-field>
+                      </div>
                       <div class="searchLabels">
                         <mat-label>الكمية*</mat-label>
 
-                        <mat-form-field appearance="outline" class="groupInput">
-                          <input
-                            type="number"
-                            min="0"
-                            matInput
-                            placeholder="الكمية"
-                            formControlName="qty"
-                            [value]="
-                              editDataDetails ? editDataDetails.qty : '1'
-                            "
-                          />
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 120px !important;" >
+                          <input type="number" min="0" matInput placeholder="الكمية"  formControlName="qty"
+                            [value]="editDataDetails ? editDataDetails.qty : ''" readonly="true"  />
                         </mat-form-field>
                       </div>
                       <!-- </div> -->
@@ -863,18 +864,9 @@
                       <div class="searchLabels">
                         <mat-label>السعر</mat-label>
 
-                        <mat-form-field appearance="outline" class="groupInput">
-                          <input
-                            type="number"
-                            min="0"
-                            matInput
-                            placeholder="السعر"
-                            formControlName="price"
-                            [value]="
-                              editDataDetails ? editDataDetails.price : ''
-                            "
-                            readonly="true"
-                          />
+                        <mat-form-field appearance="outline" class="groupInput" style="width: 120px !important;" >
+                          <input type="number" min="0"   matInput placeholder="السعر" formControlName="price"
+                            [value]="editDataDetails ? editDataDetails.price : ''" readonly="true" />
                         </mat-form-field>
                       </div>
 
