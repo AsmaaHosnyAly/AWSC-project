@@ -3,7 +3,7 @@
   <app-spinner></app-spinner>
 </div> -->
 <mat-accordion class="example-headers-align" multi dir="rtl">
-  <div class="page-title" >أذونات الاضافة</div>
+  <div class="page-title">أذونات الاضافة</div>
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -84,7 +84,7 @@
           </mat-form-field> -->
           <mat-form-field appearance="outline" class="groupInput">
             <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
-              [matAutocomplete]="autoList" [formControl]="listCtrl"  (click)="openAutoList()" required />
+              [matAutocomplete]="autoList" [formControl]="listCtrl" (click)="openAutoList()" required />
             <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
               (optionSelected)="listSelected($event)">
               <mat-option *ngFor="let list of filteredList | async" [value]="list">
@@ -232,7 +232,7 @@
             <th mat-header-cell *matHeaderCellDef>الموظف</th>
             <td mat-cell *matCellDef="let row">{{ row.employeeName }}</td>
           </ng-container>
-         
+
           <!-- Type Column -->
           <ng-container matColumnDef="fiscalyear">
             <th mat-header-cell *matHeaderCellDef>السنة المالية</th>
@@ -353,9 +353,9 @@
                 <mat-label>بحث بكود المورد </mat-label>
 
                 <mat-form-field appearance="outline" class="groupInput">
-                  <input matInput  
-                    (keydown)="getSellerByCode($event)"
-                    [value]="sellerCode && sellerCode != '-' ? sellerCode : sellerCode && sellerCode == '-' ? 'لا يوجد' : '' " [disabled]="sellerCodeIsDisabled">
+                  <input matInput (keydown)="getSellerByCode($event)"
+                    [value]="sellerCode && sellerCode != '-' ? sellerCode : sellerCode && sellerCode == '-' ? 'لا يوجد' : '' "
+                    [disabled]="sellerCodeIsDisabled">
                 </mat-form-field>
 
               </div>
@@ -367,8 +367,7 @@
                 <mat-form-field appearance="outline" class="groupInput">
                   <input matInput aria-label="list" [matAutocomplete]="autoList" [formControl]="listCtrl"
                     placeholder="{{editData && editData.sellerName ? editData.sellerName : editData && editData.employeeName ?  editData.employeeName :  editData && editData.sourceStoreName ? editData.sourceStoreName :''}}"
-                    (click)="openAutoList()" required 
-                   />
+                    (click)="openAutoList()" required />
                   <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
                     (optionSelected)="listSelected($event)">
                     <mat-option *ngFor="let list of filteredList | async" [value]="list">
@@ -534,7 +533,7 @@
                   <div class="searchLabels">
                     <mat-label> الصنف*</mat-label>
 
-                    <mat-form-field appearance="outline" class="groupInput" >
+                    <mat-form-field appearance="outline" class="groupInput">
                       <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
                         placeholder="{{editDataDetails && !itemByFullCodeValue ? editDataDetails.itemName : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : ''}}"
                         (click)="openAutoitem()" required />
@@ -545,6 +544,15 @@
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
+                  </div>
+
+                  <div class="searchLabels">
+                    <mat-label>رصيد المخزن </mat-label>
+
+                    <mat-form-field appearance="outline" class="groupInput">
+                      <input matInput [value]="sumOfItemsStore" [disabled]="!sumOfItemsStore">
+                    </mat-form-field>
+
                   </div>
 
                   <div class="searchLabels">
