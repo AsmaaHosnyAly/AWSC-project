@@ -22,7 +22,7 @@ import {
   FormControl,
   FormControlName,
   FormBuilder,
-  FormGroup,Validators
+  FormGroup, Validators
 } from '@angular/forms';
 
 export class Employee {
@@ -169,7 +169,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
   itemByFullCodeValue: any;
   fullCodeValue: any;
-    stateDefaultValue = "جديد";
+  stateDefaultValue = "جديد";
   actionBtnDetails: string = "Save";
   isEdit: boolean = false;
   fiscalYearSelectedId: any;
@@ -248,7 +248,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     this.getdestEmployees();
     this.getItems();
     this.getStrEmployeeExchangeAutoNo();
-this.getProduct();
+    this.getProduct();
     this.getCostCenters();
 
     this.groupMasterForm = this.formBuilder.group({
@@ -290,7 +290,7 @@ this.getProduct();
       // displayEmployeeName: [''],
       // fiscalYear: [''],
       fiscalYearId: [''],
-      destEmployeeName:['']
+      destEmployeeName: ['']
 
     });
 
@@ -452,6 +452,7 @@ this.getProduct();
 
     this.editData = row;
     this.editDataDetails = '';
+    this.matchedIds = [];
 
     console.log('master edit form: ', this.editData);
 
@@ -464,7 +465,7 @@ this.getProduct();
     // this.getListCtrl(this.groupMasterFormDialog.getRawValue().type);
 
     this.groupMasterFormDialog.controls['date'].setValue(this.editData.date);
-    this.groupMasterFormDialog.controls['no'].setValue(this.editData.autoNo);
+    this.groupMasterFormDialog.controls['no'].setValue(this.editData.no);
 
 
     console.log('master edit form: ', this.editData);
@@ -520,7 +521,7 @@ this.getProduct();
     this.isEditDataReadOnly = true;
 
     this.autoNo = '';
-    this.getStrEmployeeExchangeAutoNo()
+    // this.getStrEmployeeExchangeAutoNo()
     // this.getStrWithdrawAutoNo();
 
     this.getProduct();
@@ -673,6 +674,7 @@ this.getProduct();
       next: (res) => {
         // alert('تم حذف الصنف بنجاح');
         this.getAllMasterForms();
+        this.getAllDetailsForms();
       },
       error: (err) => {
         console.log('delete details err: ', err);
@@ -1464,7 +1466,7 @@ this.getProduct();
     }
 
 
-  
+
 
 
   }
@@ -1482,23 +1484,23 @@ this.getProduct();
         if (this.groupDetailsForm.getRawValue().itemId) {
           this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
           this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-      this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
-      this.groupMasterFormDialog.controls['employeeId'].setValue(this.editData.employeeId);
-      this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
-      // this.groupDetailsForm.controls['stateName'].setValue(this.groupDetailsForm.getRawValue().state);
+          this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
+          this.groupMasterFormDialog.controls['employeeId'].setValue(this.editData.employeeId);
+          this.groupDetailsForm.controls['transactionUserId'].setValue(localStorage.getItem('transactionUserId'));
+          // this.groupDetailsForm.controls['stateName'].setValue(this.groupDetailsForm.getRawValue().state);
 
           this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
         }
         this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.getMasterRowId.id);
-      // alert('employeeexchangeId:'+this.getDetailsRowId.id)
+        // alert('employeeexchangeId:'+this.getDetailsRowId.id)
         // this.groupDetailsForm.controls['stR_WithdrawId'].setValue(
         //   parseInt(this.getMasterRowId.id)
         // );
-        console.log('validd:'+this.groupDetailsForm.valid)
+        console.log('validd:' + this.groupDetailsForm.valid)
 
         console.log("groupDetails: ", this.groupDetailsForm.value);
         if (this.groupDetailsForm.valid) {
-          alert('validd:'+this.groupDetailsForm.valid)
+          alert('validd:' + this.groupDetailsForm.valid)
           this.loading = true
           this.api.postStrEmployeeExchangeDetails(this.groupDetailsForm.value)
             .subscribe({
@@ -1513,7 +1515,7 @@ this.getProduct();
                 this.fullCodeValue = '';
                 this.productCtrl.setValue('');
 
-              
+
 
                 // alert("autoNo: " + this.autoNo + " no control: " + this.groupMasterForm.getRawValue().no)
                 this.autoNo = this.groupMasterFormDialog.getRawValue().no;
@@ -1554,14 +1556,15 @@ this.getProduct();
 
 
     this.groupDetailsForm.addControl('id', new FormControl(''));
-    this.groupDetailsForm.controls['id'].setValue(this.editData.id);
+    this.groupDetailsForm.controls['id'].setValue(this.editDataDetails.id);
 
     if (this.groupDetailsForm.getRawValue().itemId) {
       this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
       this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
       this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.getMasterRowId.id);
-// alert("emoloyeeexchange in put:"+this.getDetailedRowData.id)
+      // alert("emoloyeeexchange in put:"+this.getDetailedRowData.id)
       this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
+      // this.groupDetailsForm.controls['transactionUserId'].setValue(user);
     }
 
     console.log("groupDetails update: ", this.groupDetailsForm.value);
@@ -1578,7 +1581,7 @@ this.getProduct();
 
           this.itemByFullCodeValue = '';
           this.fullCodeValue = '';
-       
+          this.getAllDetailsForms();
 
         },
         error: (err) => {
@@ -1650,17 +1653,26 @@ this.getProduct();
       this.api.getStrEmployeeExchangeDetailsByMasterId(this.getMasterRowId.id).subscribe({
         next: (res) => {
           this.matchedIds = res;
+          this.dataSourceDetails.data = [];
+          this.pageIndexDetails = 0;
+          this.pageSizeDetails = 0;
+          this.lengthDetails = 0;
           console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res, "paginate: ", this.paginator);
 
-          if (this.matchedIds) {
+          if (res) {
 
             this.sumOfTotals = 0;
-            for (let i = 0; i < this.matchedIds.length; i++) {
-              this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+            for (let i = 0; i < res.length; i++) {
+              this.sumOfTotals = this.sumOfTotals + parseFloat(res[i].total);
               this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
               this.groupMasterFormDialog.controls['total'].setValue(Number(this.sumOfTotals.toFixed(2)));
               // alert('totalll: '+ this.sumOfTotals)
               // this.updateBothForms();
+              this.dataSourceDetails.data = res;
+              this.pageIndexDetails = this.currentPageDetails;
+              this.pageSizeDetails = this.pageSizeDetails;
+              this.lengthDetails = res.length;
+
               this.updateMaster();
             }
           }
@@ -1829,32 +1841,24 @@ this.getProduct();
     this.editDataDetails = row;
 
     // this.goToPart();
-    if (this.editDataDetails || row) {
+    if (this.editDataDetails) {
 
       console.log('dETAILS ROW: ', this.editDataDetails);
 
       this.actionBtnDetails = 'Update';
-      this.groupDetailsForm.controls['employee_ExchangeId)'].setValue(this.editDataDetails.employee_ExchangeId);
-
-      this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
-      this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
-      this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
-      this.groupDetailsForm.controls['percentage'].setValue(this.getDetailedRowData.percentage);
-      // this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
-
-
-      this.groupDetailsForm.controls['total'].setValue(
-        parseFloat(this.groupDetailsForm.getRawValue().price) *
-        parseFloat(this.groupDetailsForm.getRawValue().qty)
-      );
-
-      this.groupDetailsForm.controls['transactionUserId'].setValue(this.editDataDetails.transactionUserId);
-      this.groupDetailsForm.controls['destStoreUserId'].setValue(this.userIdFromStorage);
+      this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.editDataDetails.employee_ExchangeId);
       this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
-      this.groupDetailsForm.controls['itemName'].setValue(this.editDataDetails.itemName);
-      this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
-      this.groupDetailsForm.controls['fullCode'].setValue(this.editDataDetails.fullCode);
-      // this.groupDetailsForm.controls['stateName'].setValue(this.editDataDetails.stateName);
+      this.itemCtrl.setValue(this.editDataDetails.itemName);
+      this.fullCodeValue = this.editDataDetails.fullCode;
+      this.groupDetailsForm.controls['percentage'].setValue(this.editDataDetails.percentage);
+
+      this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
+      // alert("price editDataDetails: " + this.editDataDetails.qty);
+      this.groupDetailsForm.controls['qty'].setValue(this.editDataDetails.qty);
+      this.groupDetailsForm.controls['state'].setValue(this.editDataDetails.state);
+      this.groupDetailsForm.controls['total'].setValue(this.editDataDetails.total);
+      this.groupDetailsForm.controls['transactionUserId'].setValue(this.editDataDetails.transactionUserId);
+      // this.groupDetailsForm.controls['stateName'].setValue(this.editDataDetailsDetails.stateName);
 
     }
   }

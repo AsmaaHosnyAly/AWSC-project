@@ -496,8 +496,8 @@
                           <mat-label>الصنف*</mat-label>
                           <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
                             <input matInput aria-label="commodity" [matAutocomplete]="itemId" [formControl]="itemCtrl" placeholder="{{
-                                editData && !itemByFullCodeValue
-                                  ? editData.itemName
+                                ediDetailsData && !itemByFullCodeValue
+                                  ? ediDetailsData.itemName
                                   : itemByFullCodeValue && itemByFullCodeValue != '-'
                                   ? itemByFullCodeValue
                                   : itemByFullCodeValue && itemByFullCodeValue == '-'
