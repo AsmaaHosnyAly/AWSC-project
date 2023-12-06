@@ -350,6 +350,17 @@
               </div>
 
               <div class="searchLabels">
+                <mat-label>بحث بكود المورد </mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput">
+                  <input matInput  
+                    (keydown)="getSellerByCode($event)"
+                    [value]="sellerCode && sellerCode != '-' ? sellerCode : sellerCode && sellerCode == '-' ? 'لا يوجد' : '' " [disabled]="sellerCodeIsDisabled">
+                </mat-form-field>
+
+              </div>
+
+              <div class="searchLabels">
                 <mat-label>{{ actionName.toLowerCase() == "choose" ?" المورد : " :
                   actionName.toLowerCase() == "str" ?" مخزن :": actionName.toLowerCase() == "emp" ?" موظف :":''
                   }}</mat-label>
@@ -361,7 +372,7 @@
                   <mat-autocomplete #autoList="matAutocomplete" [displayWith]="displayListName"
                     (optionSelected)="listSelected($event)">
                     <mat-option *ngFor="let list of filteredList | async" [value]="list">
-                      {{ list.name }} | {{ list.code }}
+                      {{ list.name }}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>

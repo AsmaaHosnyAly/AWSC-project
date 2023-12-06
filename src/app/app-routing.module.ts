@@ -182,6 +182,7 @@ import { ProContractorTypeComponent } from './modules/pro/index/pro-contractor-t
 import { ProOperationTypeComponent } from './modules/pro/index/pro-operation-type/pro-operation-type.component';
 import { ProSellerTypeComponent } from './modules/pro/index/pro-seller-type/pro-seller-type.component';
 import { ProTenderComponent } from './modules/pro/index/pro-tender/pro-tender.component';
+import { ProSellerComponent } from './modules/pro/index/pro-seller/pro-seller.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -691,6 +692,7 @@ const routes: Routes = [
       { path: 'proOperationType', component: ProOperationTypeComponent },
       { path: 'proSellerType', component: ProSellerTypeComponent },
       { path: 'proTender', component: ProTenderComponent },
+      { path: 'proSeller', component: ProSellerComponent },
 
       /*********************End pro module  العقود و المشتريات***************************/
     ],
