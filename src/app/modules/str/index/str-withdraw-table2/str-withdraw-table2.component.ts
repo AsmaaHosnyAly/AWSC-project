@@ -107,7 +107,7 @@ export class StrWithdrawTableComponent implements OnInit {
   storeName: any;
   fiscalYearsList: any;
   fiscalYear: any;
-  // employeesList: any;
+  employeeSelectList: any;
   employeeName: any;
   // costcenterList: any;
   costCenterName: any;
@@ -230,7 +230,7 @@ export class StrWithdrawTableComponent implements OnInit {
   productIdValue: any;
   isReadOnlyPercentage: any = true;
   editDataDetails: any;
-  currentDate: any;
+  // currentDate: any;
 
   constructor(
     private api: ApiService,
@@ -339,7 +339,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getStores();
     this.getEmployees();
 
-    this.currentDate = new Date();
+    // this.currentDate = new Date();
     // console.log('Date = ' + dateNow);
 
     // console.log('looo', this.sharedStores);
@@ -378,12 +378,12 @@ export class StrWithdrawTableComponent implements OnInit {
       type: ['', Validators.required],
       sourceInput: [''],
 
-      date: [this.currentDate, Validators.required],
+      date: ['', Validators.required],
       fiscalYearId: ['', Validators.required],
       employeeId: [''],
       employeeName: [''],
       costCenterId: [''],
-      costcenterName: [''],
+      // costcenterName: [''],
       deststoreId: [''],
       desstoreName: [''],
       ListId: ['0'],
@@ -427,7 +427,9 @@ export class StrWithdrawTableComponent implements OnInit {
       this.groupMasterForm.controls['no'].setValue('');
       this.listCtrl.setValue('');
       this.costcenterCtrl.setValue('');
-      this.groupMasterForm.controls['date'].setValue(this.currentDate);
+      this.storeCtrl.setValue('');
+      // this.groupMasterForm.controls['date'].setValue(this.currentDate);
+      // this.lists = [];
 
       this.getAllMasterForms();
 
@@ -470,7 +472,10 @@ export class StrWithdrawTableComponent implements OnInit {
 
     console.log("matGroup: ", tabGroup, "selectIndex: ", tabGroup.selectedIndex);
     this.autoNo = '';
+
     this.getStrWithdrawAutoNo();
+    // // this.lists = [];
+    // this.getListCtrl(this.groupMasterForm.getRawValue().type);
 
     this.getProducts();
     this.getItemsPositive();
@@ -505,26 +510,26 @@ export class StrWithdrawTableComponent implements OnInit {
       this.groupMasterForm.getRawValue().employeeId
     );
 
-    this.costCenterName = await this.getemployeeByID(
-      this.groupMasterForm.getRawValue().employeeId
-    );
+    // this.costCenterName = await this.getemployeeByID(
+    //   this.groupMasterForm.getRawValue().employeeId
+    // );
     this.groupMasterForm.controls['employeeName'].setValue(
       this.groupMasterForm.getRawValue().employeeName
     );
 
-    this.costCenterName = await this.getcostcenterByID(
-      this.groupMasterForm.getRawValue().costCenterId
-    );
-    this.groupMasterForm.controls['costcenterName'].setValue(
-      this.costCenterName
-    );
+    // this.costCenterName = await this.getcostcenterByID(
+    //   this.groupMasterForm.getRawValue().costCenterId
+    // );
+    // this.groupMasterForm.controls['costcenterName'].setValue(
+    //   this.costCenterName
+    // );
 
     this.groupMasterForm.controls['deststoreId'].setValue(
       this.groupMasterForm.getRawValue().deststoreId
     );
-    this.costCenterName = await this.getDestStoreById(
-      this.groupMasterForm.getRawValue().deststoreId
-    );
+    // this.costCenterName = await this.getDestStoreById(
+    //   this.groupMasterForm.getRawValue().deststoreId
+    // );
     console.log(
       'in next to add deststore name:',
       this.groupMasterForm.getRawValue().desstoreName
@@ -704,33 +709,34 @@ export class StrWithdrawTableComponent implements OnInit {
 
     console.log('master edit form: ', this.editData);
 
-    if (this.editData.employeeId == null) {
-      this.actionName = 'sss';
-      console.log('action btnnnnnnnnnnnnn', this.actionName);
-      let type = 'المخزن';
-      this.getListCtrl(type);
-      this.getDestStores();
-      this.groupMasterForm.controls['type'].setValue('المخزن');
-      this.groupMasterForm.controls['sourceInput'].setValue(
-        this.groupMasterForm.getRawValue().desstoreName
-      );
-    }
-    else {
-      //   this.actionName = 'choose';
-      //   let type = 'الموظف';
-      //   this.getListCtrl(type);
-      //   this.getEmployees();
+    // if (this.editData.type == 'المخزن') {
+    this.actionName = 'sss';
+    console.log('action btnnnnnnnnnnnnn', this.actionName);
+    // let type = 'المخزن';
+    // this.getDestStores();
+    this.groupMasterForm.controls['type'].setValue(this.editData.type);
+    this.getListCtrl(this.groupMasterForm.getRawValue().type);
 
-      this.groupMasterForm.controls['type'].setValue('الموظف');
-      // this.groupMasterForm.controls['sourceInput'].setValue(
-      //     this.groupMasterForm.getRawValue().employeeName
-      //   );
-      //   console.log(
-      //     'employee in edit:',
-      //     this.groupMasterForm.getRawValue().employeeName
-      //   );
+    // this.groupMasterForm.controls['sourceInput'].setValue(
+    //   this.groupMasterForm.getRawValue().desstoreName
+    // );
+    // }
+    // else {
+    //   this.actionName = 'choose';
+    //   let type = 'الموظف';
+    //   this.getListCtrl(type);
+    //   this.getEmployees();
 
-    }
+    // this.groupMasterForm.controls['type'].setValue('الموظف');
+    // this.groupMasterForm.controls['sourceInput'].setValue(
+    //     this.groupMasterForm.getRawValue().employeeName
+    //   );
+    //   console.log(
+    //     'employee in edit:',
+    //     this.groupMasterForm.getRawValue().employeeName
+    //   );
+
+    // }
 
     console.log('master edit form: ', this.editData);
 
@@ -785,9 +791,9 @@ export class StrWithdrawTableComponent implements OnInit {
     this.groupMasterForm.controls['costCenterId'].setValue(
       this.editData.costCenterId
     );
-    this.groupMasterForm.controls['costcenterName'].setValue(
-      this.editData.costcenterName
-    );
+    // this.groupMasterForm.controls['costcenterName'].setValue(
+    //   this.editData.costcenterName
+    // );
     this.isEditDataReadOnly = true;
 
     this.autoNo = '';
@@ -802,20 +808,57 @@ export class StrWithdrawTableComponent implements OnInit {
   getListCtrl(type: any) {
     this.sourceSelected = type;
 
+    this.api.getEmployee().subscribe((lists) => {
+      this.lists = lists;
+      // this.employeesList = lists;
+      // this.groupMasterForm.controls['deststoreId'].setValue(null);
+      this.actionName = 'choose';
+    });
+
+    if (this.editData) {
+      this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
+      this.groupMasterForm.controls['employeeName'].setValue(this.editData.employeeName);
+
+    }
+
     if (type === 'الموظف') {
-      this.api.getEmployee().subscribe((lists) => {
-        this.lists = lists;
-        this.groupMasterForm.controls['deststoreId'].setValue(null);
-        this.groupMasterForm.controls['type'].setValue('الموظف');
-        this.actionName = 'choose';
-      });
+      // this.lists = [];
+      // this.openAutoList();
+      // console.log("list employee: ", this.lists);
+      this.groupMasterForm.controls['deststoreId'].setValue(null);
+      this.groupMasterForm.controls['type'].setValue('الموظف');
+      this.groupMasterForm.controls['deststoreId'].setValue(null);
+      this.groupMasterForm.controls['desstoreName'].setValue(null);
+      this.storeCtrl.disable();
+      this.costcenterCtrl.enable();
+
+      if (this.editData) {
+        this.groupMasterForm.controls['costCenterId'].setValue(this.editData.costCenterId);
+      }
+
     } else {
-      this.api.getAllstores().subscribe((lists) => {
-        this.lists = lists;
-        this.groupMasterForm.controls['employeeId'].setValue(null);
-        this.groupMasterForm.controls['type'].setValue('المخزن');
-        this.actionName = 'store';
-      });
+
+
+      //   this.lists = [];
+      //   // this.openAutoList();
+      //   // console.log("list store: ", this.lists);
+
+      //   this.api.getAllstores().subscribe((lists) => {
+      //     this.lists = lists;
+      //     this.groupMasterForm.controls['employeeId'].setValue(null);
+      this.groupMasterForm.controls['type'].setValue('المخزن');
+      this.groupMasterForm.controls['costCenterId'].setValue(null);
+      this.costcenterCtrl.disable();
+
+      this.storeCtrl.enable();
+      this.actionName = 'store';
+
+      if (this.editData) {
+        this.groupMasterForm.controls['deststoreId'].setValue(this.editData.destStoreId);
+        this.groupMasterForm.controls['desstoreName'].setValue(this.editData.desstoreName);
+      }
+
+      //   });
     }
   }
 
@@ -1225,11 +1268,12 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   getEmployees() {
-    // this.loading = true;
-    this.api.getEmployee().subscribe({
+    this.loading = true;
+    this.api.getEmployees().subscribe({
       next: (res) => {
         // this.loading = false;
         this.employeesList = res;
+        console.log("employees List: ", this.employeesList);
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
@@ -1396,12 +1440,14 @@ export class StrWithdrawTableComponent implements OnInit {
 
   }
   private _filteremployees(value: string): Employee[] {
+    console.log("filter:", value, "list: ", this.employeesList);
     const filterValue = value;
     return this.employeesList.filter((employee) =>
       employee.name.toLowerCase().includes(filterValue)
     );
   }
   openAutoEmployee() {
+    console.log("open employee autoComplete");
     this.employeeCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
@@ -1441,6 +1487,16 @@ export class StrWithdrawTableComponent implements OnInit {
     this.selectedstore = store;
     this.groupMasterSearchForm.patchValue({ storeId: store.id });
     console.log('store in form: ', this.groupMasterSearchForm.getRawValue().storeId);
+
+    if (this.sourceSelected === 'المخزن') {
+      console.log("store list selected: ");
+      this.groupMasterForm.patchValue({ deststoreId: store.id });
+      this.groupMasterForm.patchValue({ desstoreName: store.name });
+      // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
+      // this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
+
+
+    }
   }
   private _filterstores(value: string): store[] {
     const filterValue = value;
@@ -1464,17 +1520,24 @@ export class StrWithdrawTableComponent implements OnInit {
     const list = event.option.value as List;
     this.selectedList = list;
 
-    if (this.sourceSelected === 'الموظف') {
-      this.groupMasterForm.patchValue({ employeeId: list.id });
-      this.groupMasterForm.patchValue({ employeeName: list.name });
-      this.set_store_Null(this.groupMasterForm.getRawValue().emolyeeId);
-    } else {
-      console.log("store list selected: ");
-      this.groupMasterForm.patchValue({ deststoreId: list.id });
-      this.groupMasterForm.patchValue({ desstoreName: list.name });
-      // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
-      this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
-    }
+    this.groupMasterForm.patchValue({ employeeId: list.id });
+    this.groupMasterForm.patchValue({ employeeName: list.name });
+    // this.set_store_Null(this.groupMasterForm.getRawValue().emolyeeId);
+
+    // if (this.sourceSelected === 'المخزن') {
+    //   console.log("store list selected: ");
+    //   this.groupMasterForm.patchValue({ deststoreId: list.id });
+    //   this.groupMasterForm.patchValue({ desstoreName: list.name });
+    //   // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
+    //   // this.set_Employee_Null(this.groupMasterForm.getRawValue().deststoreId);
+
+
+    // }
+    // else {
+    //   this.groupMasterForm.patchValue({ employeeId: list.id });
+    //   this.groupMasterForm.patchValue({ employeeName: list.name });
+    //   this.set_store_Null(this.groupMasterForm.getRawValue().emolyeeId);
+    // }
   }
   private _filterLists(value: string): List[] {
     const filterValue = value.toLowerCase();
@@ -1639,7 +1702,7 @@ export class StrWithdrawTableComponent implements OnInit {
     let item = this.groupMasterSearchForm.getRawValue().itemId;
     let store = this.groupMasterSearchForm.getRawValue().storeId;
     if (report != null && reportType != null) {
-      // this.loading = true;
+     this.loading = true;
       this.api
         .getStr(
           no,
@@ -1655,7 +1718,7 @@ export class StrWithdrawTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            // this.loading = false;
+            this.loading = false;
             // console.log ( "load",this.loading)
             let blob: Blob = res.body as Blob;
             console.log(blob);
@@ -1671,7 +1734,7 @@ export class StrWithdrawTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            // this.loading = false;
+             this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },

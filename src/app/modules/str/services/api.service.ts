@@ -528,6 +528,12 @@ export class ApiService {
       responseType: 'blob',
     });
   }
+  getStremployeeOpenAutoNo( fiscalYearId: any) {
+    return this.http.get<any>(
+      `${this.url}/STREmployeeOpeningCustody/get/AutoNo
+      ?&FiscalYearId=${fiscalYearId}`
+    );
+  }
 
   getStrEmployeeCustodyReport(
     no: any, StartDate: any, EndDate: any, fiscalYear: any, itemId: any, employeeId: any,
@@ -1358,10 +1364,12 @@ export class ApiService {
     );
   }
   putStrEmployeeOpen(data: any) {
+    console.log("hhh",data)
     return this.http.put<any>(
       `${this.url}/STREmployeeOpeningCustody/update`,
       data
     );
+    
   }
   deleteStrEmployeeOpen(id: number) {
     return this.http.delete<any>(
@@ -1414,6 +1422,10 @@ export class ApiService {
     return this.http.get<any>(
       `${this.url}/STREmployeeOpeningCustodyDetails/get/by/header/${id}`
     );
+  }
+  getStrEmployeeOpenPaginateByUserId(userId: any, currentPage: any, pageSize: any) {
+    let urlPassed = `${this.url}/STREmployeeOpeningCustody/get/By/User/Stores/${userId}?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
   }
   putStEmp(data: any) {
     return this.http.put<any>(
@@ -1639,10 +1651,11 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/STRAdd/AddFromStore`, data);
   }
 
-  getStrAddAutoNo() {
-    return this.http.get<any>(`${this.url}/STRAdd/get/AutoNo`);
+  getStrAddAutoNo(storeId: any, fiscalYearId: any) {
+    return this.http.get<any>(
+      `${this.url}/STRAdd/get/AutoNo?StoreId=${storeId}&FiscalYearId=${fiscalYearId}`
+    );
   }
-
   postStrAdd(data: any) {
     console.log('dataaaaaa: ', data);
     return this.http.post<any>(`${this.url}/STRAdd/Add`, data);
@@ -1694,7 +1707,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STRAddDetails/get/by/header/${id}`);
   }
   putStrAddDetails(data: any) {
-    console.log('strOpenDetails data: ', data);
+    console.log('strAddDetails data: ', data);
     return this.http.put<any>(
       `${this.url}/STRAddDetails/Update/`,
       data
