@@ -37,14 +37,6 @@
   </div>
 
   <mat-menu #menu="matMenu">
-    <!-- <button mat-menu-item>
-      <mat-icon>dialpad</mat-icon>
-      <span>Redial</span>
-    </button>
-    <button mat-menu-item disabled>
-      <mat-icon>voicemail</mat-icon>
-      <span>Check voice mail</span>
-    </button> -->
     <button mat-menu-item (click)="handleLogOut()" routerLink="login">
       <mat-icon style="color: rgb(60, 202, 252)">exit_to_app</mat-icon>
       <span class="changFont">تسجيل الخروج</span>
@@ -55,9 +47,43 @@
     </button>
   </mat-menu>
 </mat-toolbar>
+
 <mat-drawer-container dir="rtl" autosize>
+  
   <mat-drawer #drawer opened="true" mode="side" position="start">
     <mat-nav-list>
+      <div class="searchLabels" dir="rtl">
+        <mat-label>بحث</mat-label>
+        <mat-form-field appearance="outline" class="searchForm">
+          <input
+            matInput
+            aria-label="commodity"
+            [matAutocomplete]="autostore"
+            (keydown)="getsearch($event)"
+            [formControl]="storeCtrl"
+            formControlName="store"
+            (click)="openAutostore()"
+            required
+          />
+          <mat-autocomplete
+            #autostore="matAutocomplete"
+            #storeId
+            [displayWith]="displaystoreName"
+            (optionSelected)="storeSelected($event)"
+          >
+          <mat-option>الكل</mat-option>
+         
+         
+            <mat-option
+              *ngFor="let store of filteredstore | async"
+              [value]="store"
+            >
+              {{ store.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      
       <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -184,14 +210,7 @@
                 *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
                 <p class="font">الحسابات</p>
               </a>
-              <!-- <a
-                mat-list-item
-                class="sideNavSubItems"
-                routerLink="/AccountHierarchy"
-                *ngIf="hasAccessRole(pageEnums.AccountHierarchy)"
-              >
-                <p class="font">مستويات الحساب</p>
-              </a> -->
+           
               <a mat-list-item class="sideNavSubItems" routerLink="/FiAccountItem"
                 *ngIf="hasAccessRole(pageEnums.FiAccountItem)" routerLinkActive="active">
                 <p class="font">البنود الاحصائية</p>
@@ -474,12 +493,7 @@
       </mat-expansion-panel>
       <!-- end Hr -->
 
-      <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
-
-      <!-- end Hr -->
-      <!-- start roles -->
-      <!-- [ngClass]="(this.shared.roles) ? 'displayRoles' : 'hiddenRoles'" -->
-      <!-- <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(2)"> -->
+  
       <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.ROLES)">
         <mat-expansion-panel-header>
           <mat-panel-title>
