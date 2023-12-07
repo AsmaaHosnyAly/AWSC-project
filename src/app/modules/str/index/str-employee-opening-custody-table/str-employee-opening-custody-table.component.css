@@ -73,11 +73,11 @@ th {
   display: flex;
   justify-content: space-around;
 }
-.radio{
+/* .radio{
   display: flex;
    flex-direction: column;
     width: 100%
-} 
+}  */
 .sum-label{
   font-size: 22px;
   border: 1px solid black;

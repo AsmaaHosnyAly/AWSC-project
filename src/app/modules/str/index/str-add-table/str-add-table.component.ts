@@ -286,6 +286,7 @@ export class STRAddTableComponent implements OnInit {
   matgroup!: MatTabGroup;
   sellerCode: any;
   sellerCodeIsDisabled: boolean = true;
+  sumOfItemsStore: any = 0;
 
   constructor(
     private api: ApiService,
@@ -1164,9 +1165,8 @@ export class STRAddTableComponent implements OnInit {
     )
       .subscribe({
         next: (res) => {
-          // this.priceCalled = res;
-          this.groupDetailsForm.controls['balanceQty'].setValue(res);
-          console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+          this.sumOfItemsStore = res;
+          console.log("sumOfItemsStore : ", this.sumOfItemsStore);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -2037,7 +2037,7 @@ export class STRAddTableComponent implements OnInit {
       this.groupDetailsForm.controls['balanceQty'].setValue(this.editDataDetails.balanceQty);
       this.groupDetailsForm.controls['fullCode'].setValue(this.editDataDetails.fullCode);
       this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
-      // this.groupDetailsForm.controls['itemName'].setValue(this.editDataDetails.itemName);
+      // // this.groupDetailsForm.controls['itemName'].setValue(this.editDataDetails.itemName);
       this.groupDetailsForm.controls['percentage'].setValue(this.editDataDetails.percentage);
       this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
       this.groupDetailsForm.controls['qty'].setValue(this.editDataDetails.qty);
@@ -2045,10 +2045,25 @@ export class STRAddTableComponent implements OnInit {
       this.groupDetailsForm.controls['total'].setValue(this.editDataDetails.total);
       this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
 
-      this.groupDetailsForm.controls['date'].setValue(this.editData.date);
-      this.groupDetailsForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-      this.groupDetailsForm.controls['storeId'].setValue(this.editData.storeId);
+      this.groupMasterForm.controls['date'].setValue(this.editData.date);
+      this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+      this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
 
+      // this.api.getSumQuantity(
+      //   this.groupMasterForm.getRawValue().storeId,
+      //   this.groupDetailsForm.getRawValue().itemId,
+      // )
+      //   .subscribe({
+      //     next: (res) => {
+      //       this.sumOfItemsStore = res;
+      //       console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+      //     },
+      //     error: (err) => {
+      //       // console.log("fetch fiscalYears data err: ", err);
+      //       // alert("خطا اثناء جلب الرصيد الحالى  !");
+      //     }
+      //   })
+      this.sumOfItemsStore = '';
 
     }
   }
@@ -2146,9 +2161,8 @@ export class STRAddTableComponent implements OnInit {
           )
             .subscribe({
               next: (res) => {
-                // this.priceCalled = res;
-                this.groupDetailsForm.controls['balanceQty'].setValue(res);
-                console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+                this.sumOfItemsStore = res;
+                console.log("sumOfItemsStore : ", this.sumOfItemsStore);
               },
               error: (err) => {
                 // console.log("fetch fiscalYears data err: ", err);
@@ -2264,9 +2278,8 @@ export class STRAddTableComponent implements OnInit {
             )
               .subscribe({
                 next: (res) => {
-                  // this.priceCalled = res;
-                  this.groupDetailsForm.controls['balanceQty'].setValue(res);
-                  console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+                  this.sumOfItemsStore = res;
+                  console.log("sumOfItemsStore : ", this.sumOfItemsStore);
                 },
                 error: (err) => {
                   // console.log("fetch fiscalYears data err: ", err);
@@ -2355,9 +2368,8 @@ export class STRAddTableComponent implements OnInit {
               )
                 .subscribe({
                   next: (res) => {
-                    // this.priceCalled = res;
-                    this.groupDetailsForm.controls['balanceQty'].setValue(res);
-                    console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
+                    this.sumOfItemsStore = res;
+                    console.log("sumOfItemsStore : ", this.sumOfItemsStore);
                   },
                   error: (err) => {
                     // console.log("fetch fiscalYears data err: ", err);
@@ -2724,6 +2736,7 @@ export class STRAddTableComponent implements OnInit {
         // alert("خطا اثناء جلب رقم العنصر !");
       });
   }
+
 
   // -----------------------------------------------------------------------------------------
 
