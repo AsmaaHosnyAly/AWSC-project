@@ -371,6 +371,7 @@
                 </div> -->
 
                 <div class="headerForm2">
+                  <div class="searchLabels">
                   <mat-label>بحث بالكود </mat-label>
 
                   <mat-form-field appearance="outline" class="groupInput">
@@ -384,6 +385,7 @@
                         " />
                   </mat-form-field>
                 </div>
+                
 
                 <div class="searchLabels">
                   <mat-label> الصنف*</mat-label>
@@ -446,15 +448,15 @@
                   </mat-form-field>
                 </div>
 
-                <div style="width: 100%;">
+                <div class="searchLabels">
                   <mat-label> الملاحظات*</mat-label>
 
                   <mat-form-field appearance="outline" class="groupInput">
-                    <textarea matInput placeholder="الملاحظات" formControlName="notes"
+                    <textarea rows="1" matInput placeholder="الملاحظات" formControlName="notes"
                       [value]="editDataDetails ? editDataDetails.notes : ''"></textarea>
                   </mat-form-field>
                 </div>
-
+              </div>
 
                 <div>
                   <div dir="ltr">
