@@ -698,15 +698,9 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     });
   }
   getEmployees() {
-    this.api.getHrEmployees().subscribe({
-      next: (res) => {
-        this.employeesList = res;
-        console.log('employees res: ', this.employeesList);
-      },
-      error: (err) => {
-        console.log('fetch employees data err: ', err);
-        // alert("خطا اثناء جلب الموظفين !");
-      },
+    this.api.getEmployee().subscribe((lists) => {
+      this.employeesList = lists;
+     
     });
   }
   getItme() {
@@ -803,7 +797,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   /////employeee
 
   displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
@@ -815,14 +809,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       this.groupsearchForm.getRawValue().employeeId
     );
 
-    // this.getSearchStrWithdraw()
-    // this.set_store_Null(this.groupMasterForm.getRawValue().employeeId);
-    // return     this.groupMasterForm.patchValue({ employeeId: employee.id });
   }
   private _filteremployees(value: string): Employee[] {
-    const filterValue = value;
+    const filterValue = value.toLowerCase();
     return this.employeesList.filter((employee) =>
-      employee.name.toLowerCase().includes(filterValue)
+      employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutoEmployee() {
