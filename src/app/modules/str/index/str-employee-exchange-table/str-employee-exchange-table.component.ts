@@ -922,9 +922,9 @@ this.getStrEmployeeExchangeAutoNo();
       'employee in form: ',
       this.groupMasterForm.getRawValue().employeeId
     );
-    if (this.groupMasterFormDialog.getRawValue().distEmployeeId == this.groupMasterFormDialog.getRawValue().employeeId) {
-      this.toastrSelectSameEmpolyee()
-    }
+    // if (this.groupMasterFormDialog.getRawValue().distEmployeeId == this.groupMasterFormDialog.getRawValue().employeeId) {
+    //   this.toastrSelectSameEmpolyee()
+    // }
   }
 
   private _filteremployees(value: string): Employee[] {
@@ -956,9 +956,9 @@ this.getStrEmployeeExchangeAutoNo();
       'distEmployee in form: ',
       this.groupMasterForm.getRawValue().distEmployeeId
     );
-    if (this.groupMasterFormDialog.getRawValue().distEmployeeId == this.groupMasterFormDialog.getRawValue().employeeId) {
-      this.toastrSelectSameEmpolyee()
-    }
+    // if (this.groupMasterFormDialog.getRawValue().distEmployeeId == this.groupMasterFormDialog.getRawValue().employeeId) {
+    //   this.toastrSelectSameEmpolyee()
+    // }
   }
 
   private _filterdistEmployees(value: string): distEmployee[] {
