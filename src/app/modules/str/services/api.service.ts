@@ -1784,7 +1784,7 @@ export class ApiService {
   }
 
   getStrStockTaking() {
-    console.log('Avg price inputs to backend');
+    // console.log('Avg price inputs to backend');
     return this.http.get<any>(`${this.url}/StrStockTaking/get/all`);
   }
 
