@@ -943,7 +943,6 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       'employee in form: ',
       this.groupMasterFormDialog.getRawValue().employeeId
     );
-
   }
 
   private _filteremployees(value: string): Employee[] {
