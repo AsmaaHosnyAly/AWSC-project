@@ -1426,7 +1426,7 @@ export class ApiService {
   getStrEmployeeOpenDetailsByMasterId(id: any) {
     console.log("custodyId: ", id);
     return this.http.get<any>(
-      `${this.url}/STREmployeeOpeningCustodyDetails/get/by/header/${id}`
+      `${this.url}STREmployeeOpeningCustodyDetails/get${id}`
     );
   }
   getStrEmployeeOpenPaginateByUserId(userId: any, currentPage: any, pageSize: any) {

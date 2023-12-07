@@ -1176,7 +1176,7 @@ export class StrWithdrawTableComponent implements OnInit {
           });
       }
     }
-  }
+  } 
  
   getEmployees() {
     this.api.getEmployee().subscribe((lists) => {

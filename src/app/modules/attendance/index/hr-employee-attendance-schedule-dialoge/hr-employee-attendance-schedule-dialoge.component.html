@@ -15,17 +15,16 @@
     
     <div class="child1">
     <mat-label>الموظف</mat-label>
-    <mat-form-field appearance="outline">
-      <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-        placeholder="{{ getEmployeeAttendanceScheduleData ? getEmployeeAttendanceScheduleData.employeeName : '' }}" 
-        (click)="openAutoEmployee()" required />
-      <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
-        (optionSelected)="employeeSelected($event)">
-        <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
-          {{ employee.name }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" 
+          [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
+        <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
+          (optionSelected)="employeeSelected($event)">
+          <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
+            {{ employee.name }} 
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
     <div class="child1">
       <mat-label>جدول الحضور</mat-label>
