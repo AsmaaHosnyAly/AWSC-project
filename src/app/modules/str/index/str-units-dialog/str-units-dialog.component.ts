@@ -82,7 +82,9 @@ export class STRUnitsDialogComponent {
       this.unitsForm.controls['transactionUserId'].setValue(this.transactionUserId);
 
       this.unitsForm.removeControl('id')
+      console.log(this.unitsForm.value)
       if(this.unitsForm.valid){
+        
         this.api.postunit(this.unitsForm.value)
         .subscribe({
           next:(res)=>{

@@ -57,7 +57,6 @@ th {
   text-align: right;
 }
 
-
 .search {
   display: flex;
   justify-content: flex-start;
@@ -68,7 +67,6 @@ th {
   padding: 0 !important;
   margin-left: 10px;
 }
-
 
 .display button {
   background: linear-gradient(rgb(252, 248, 248), rgb(146, 141, 141));
@@ -281,14 +279,12 @@ footer h3 {
   margin-right: 90px;
 }
 
-.searchLabels{
+.searchLabels {
   display: flex;
   flex-direction: column;
 }
 
-
-
-.buttonSearch{
+.buttonSearch {
   display: flex;
 }
 
@@ -321,6 +317,47 @@ footer h3 {
   top: 15px;
 }
 
-.showRowReport{
+.showRowReport {
   color: rgb(60, 202, 252);
+}
+
+.pageTab {
+  width: 100%;
+}
+
+mat-tab {
+  /* background-color: blue !important; */
+}
+
+.pageTab mat-icon {
+  font-size: 1.2rem;
+  padding: 2%;
+  margin-top: 1%;
+  color: var(--bg-primary-color) !important;
+}
+
+.mat-mdc-table {
+  --mat-table-row-item-outline-width: 1px;
+  table-layout: auto;
+  white-space: normal;
+  background-color: var(--mat-table-background-color);
+  font-family: "Cairo", sans-serif !important;
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-tab-group,
+.mat-mdc-tab-nav-bar {
+  --mdc-tab-indicator-active-indicator-color: #005061 !important;
+  --mat-tab-header-disabled-ripple-color: rgba(0, 0, 0, 0.38);
+  --mat-tab-header-pagination-icon-color: #000;
+  --mat-tab-header-inactive-label-text-color: rgba(0, 0, 0, 0.6);
+  --mat-tab-header-active-label-text-color: #005061 !important;
+  --mat-tab-header-active-ripple-color: #005061 !important;
+  --mat-tab-header-inactive-ripple-color: #005061 !important;
+  --mat-tab-header-inactive-focus-label-text-color: rgba(0, 0, 0, 0.6);
+  --mat-tab-header-inactive-hover-label-text-color: rgba(0, 0, 0, 0.6);
+  --mat-tab-header-active-focus-label-text-color: #005061 !important;
+  --mat-tab-header-active-hover-label-text-color: #005061 !important;
+  --mat-tab-header-active-focus-indicator-color: #005061 !important;
+  --mat-tab-header-active-hover-indicator-color: #005061 !important;
 }

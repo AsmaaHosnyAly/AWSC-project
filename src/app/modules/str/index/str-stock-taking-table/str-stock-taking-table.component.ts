@@ -11,15 +11,17 @@ import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { StrStockTakingDialogComponent } from '../str-stock-taking-dialog/str-stock-taking-dialog.component';
+import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
 import {
   FormControl,
   FormControlName,
   FormBuilder,
   FormGroup,
+  Validators,
 } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith ,debounceTime } from 'rxjs/operators';
+import { map, startWith, debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
@@ -27,11 +29,11 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
 
 export class store {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: string) {}
 }
 
 // export class Employee {
@@ -42,14 +44,14 @@ export class Employee {
 //   constructor(public id: number, public name: string) { }
 // }
 export class item {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 @Component({
   selector: 'app-str-stock-taking-table',
   templateUrl: './str-stock-taking-table.component.html',
   styleUrls: ['./str-stock-taking-table.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StrStockTakingTableComponent implements OnInit {
   displayedColumns: string[] = [
@@ -72,7 +74,7 @@ export class StrStockTakingTableComponent implements OnInit {
   // employeesList: any;
   // itemList:any;
   fiscalYearsList: any;
-  loading :boolean=false;
+  loading: boolean = false;
   groupMasterForm!: FormGroup;
   groupDetailsForm!: FormGroup;
 
@@ -95,6 +97,29 @@ export class StrStockTakingTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  storeSelectedId: any;
+  isEdit: boolean = false;
+  autoNo: any;
+  userRoles: any;
+  userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
+
+  fiscalYearSelectedId: any;
+  defaultStoreSelectValue: any;
+  defaultFiscalYearSelectValue: any;
+  sumOfTotals = 0;
+  getMasterRowId: any;
+  MasterGroupInfoEntered = false;
+  pageSize: any;
+  currentPage: any;
+  dataSource: MatTableDataSource<StrStockTakingTableComponent> =
+    new MatTableDataSource();
+  isLoading = false;
+  pageIndex: any;
+  length: any;
+  getDetailedRowData: any;
+  editDataDetails: any;
+  editData: any;
+
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
@@ -103,16 +128,21 @@ export class StrStockTakingTableComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private global: GlobalService,
     @Inject(LOCALE_ID) private locale: string,
+    // @Inject(MAT_DIALOG_DATA) public editDataDetail: any,
     private toastr: ToastrService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef // @Inject(MAT_DIALOG_DATA) public editData: any
   ) {
-    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
+    global.getPermissionUserRoles(
+      'Store',
+      'str-home',
+      'إدارة المخازن وحسابات المخازن ',
+      'store'
+    );
     this.storeCtrl = new FormControl();
     this.filteredstore = this.storeCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterstores(value))
     );
-
 
     this.itemCtrl = new FormControl();
 
@@ -240,16 +270,18 @@ export class StrStockTakingTableComponent implements OnInit {
     });
   }
   openStockTkingkDialog() {
-    this.dialog.open(StrStockTakingDialogComponent, {
-      width: '60%',
-      height: '79%',
-    }).afterClosed().subscribe(val => {
-      if (val === 'Save') {
-        // alert("refreshhhh")
-        this.getAllMasterForms();
-      }
-    })
-
+    this.dialog
+      .open(StrStockTakingDialogComponent, {
+        width: '60%',
+        height: '79%',
+      })
+      .afterClosed()
+      .subscribe((val) => {
+        if (val === 'Save') {
+          // alert("refreshhhh")
+          this.getAllMasterForms();
+        }
+      });
   }
   editMasterForm(row: any) {
     // this.loading=true;
@@ -264,12 +296,10 @@ export class StrStockTakingTableComponent implements OnInit {
         // this.loading=false;
         if (val === 'Update' || 'Save') {
           // alert("REFRESH")
-        
+
           this.getAllMasterForms();
-          
         }
       });
-      
   }
 
   deleteBothForms(id: number) {
@@ -278,20 +308,19 @@ export class StrStockTakingTableComponent implements OnInit {
     if (result) {
       this.api.deleteStrStockTking(id).subscribe({
         next: (res) => {
-          this.api.getStrStockTakingDetailsByMasterId(id)
-            .subscribe(
-              (res) => {
-                this.matchedIds = res;
+          this.api.getStrStockTakingDetailsByMasterId(id).subscribe(
+            (res) => {
+              this.matchedIds = res;
 
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
-                }
-                // alert("تم حذف الاذن بنجاح");
-              },
-              (err) => {
-                // alert('خطا اثناء تحديد المجموعة !!');
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.deleteFormDetails(this.matchedIds[i].id);
               }
-            );
+              // alert("تم حذف الاذن بنجاح");
+            },
+            (err) => {
+              // alert('خطا اثناء تحديد المجموعة !!');
+            }
+          );
 
           this.toastrDeleteSuccess();
           this.getAllMasterForms();
@@ -304,18 +333,17 @@ export class StrStockTakingTableComponent implements OnInit {
   }
 
   deleteFormDetails(id: any) {
-    this.api.deleteStockTakingDetails(id)
-      .subscribe({
-        next: () => {
-          // alert("تم الحذف بنجاح");
-          // this.toastrDeleteSuccess();
-          // this.getAllDetailsForms()
-          console.log("details delete res: ");
-        },
-        error: () => {
-          // alert("خطأ أثناء حذف التفاصيل !!");
-        }
-      })
+    this.api.deleteStockTakingDetails(id).subscribe({
+      next: () => {
+        // alert("تم الحذف بنجاح");
+        // this.toastrDeleteSuccess();
+        // this.getAllDetailsForms()
+        console.log('details delete res: ');
+      },
+      error: () => {
+        // alert("خطأ أثناء حذف التفاصيل !!");
+      },
+    });
   }
 
   getAllEmployees() {
@@ -351,7 +379,7 @@ export class StrStockTakingTableComponent implements OnInit {
         this.loading = false;
         this.itemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
-      },      
+      },
       error: (err) => {
         this.loading = false;
         // console.log("fetch store data err: ", err);
@@ -415,7 +443,6 @@ export class StrStockTakingTableComponent implements OnInit {
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
-
         },
         error: (err) => {
           console.log('eroorr', err);
@@ -426,25 +453,40 @@ export class StrStockTakingTableComponent implements OnInit {
   previewReportRow(row: any) {
     // console.log("row preview report: ", row);
     let id = row.id;
-    let EndDate = formatDate(row.date, 'MM-dd-yyyy', this.locale);
+    // let EndDate = formatDate(row.date, 'MM-dd-yyyy', this.locale);
+    let EndDate = row.date;
     let LastYearDate = new Date(EndDate);
     LastYearDate.setFullYear(LastYearDate.getFullYear() - 1);
-    let StartDate = formatDate(LastYearDate, 'MM-dd-yyyy', this.locale);
+    let StartDate = LastYearDate;
+    // let StartDate = formatDate(LastYearDate, 'MM-dd-yyyy', this.locale);
     let report = 'StockTakingDetailsReport';
     let reportType = 'pdf';
 
-    console.log("row data to print report, id: ", id, " StartDate: ", StartDate, " EndDate: ", EndDate, " reportName: ", report, " reportType: ", reportType);
-
+    console.log(
+      'row data to print report, id: ',
+      id,
+      ' StartDate: ',
+      StartDate,
+      ' EndDate: ',
+      EndDate,
+      ' reportName: ',
+      report,
+      ' reportType: ',
+      reportType
+    );
 
     if (report != null && reportType != null) {
-
       if (report == 'StockTakingCommodityIdTotalReport') {
         id = 6;
       }
 
       this.api
         .getStrStockTakingDetailsReport(
-          id, StartDate, EndDate, report, reportType
+          id,
+          StartDate,
+          EndDate,
+          report,
+          reportType
         )
         .subscribe({
           next: (res) => {
@@ -465,7 +507,6 @@ export class StrStockTakingTableComponent implements OnInit {
     } else {
       alert('ادخل التقرير و نوع التقرير!');
     }
-
   }
 
   previewPrint(
@@ -480,7 +521,7 @@ export class StrStockTakingTableComponent implements OnInit {
     let storeId = this.groupMasterForm.getRawValue().storeId;
     let id;
     if (report != null && reportType != null) {
-      this.loading=true;
+      this.loading = true;
 
       if (report == 'StockTakingCommodityIdTotalReport') {
         id = 6;
@@ -488,11 +529,19 @@ export class StrStockTakingTableComponent implements OnInit {
 
       this.api
         .getStrStockTakingItem(
-          id, no, StartDate, EndDate, storeId, fiscalYear, itemId, report, 'pdf'
+          id,
+          no,
+          StartDate,
+          EndDate,
+          storeId,
+          fiscalYear,
+          itemId,
+          report,
+          'pdf'
         )
         .subscribe({
           next: (res) => {
-            this.loading=false;
+            this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -507,7 +556,7 @@ export class StrStockTakingTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading=false;
+            this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },
@@ -516,7 +565,6 @@ export class StrStockTakingTableComponent implements OnInit {
       alert('ادخل التقرير و نوع التقرير!');
     }
   }
-
 
   download(
     no: any,
@@ -531,13 +579,22 @@ export class StrStockTakingTableComponent implements OnInit {
     let id;
 
     if (report != null && reportType != null) {
-
       if (report == 'StockTakingCommodityIdTotalReport') {
         id = 6;
       }
 
       this.api
-        .getStrStockTakingItem(id, no, StartDate, EndDate, storeId, fiscalYear, itemId, report, 'pdf')
+        .getStrStockTakingItem(
+          id,
+          no,
+          StartDate,
+          EndDate,
+          storeId,
+          fiscalYear,
+          itemId,
+          report,
+          'pdf'
+        )
         .subscribe({
           next: (res) => {
             console.log('search:', res);
@@ -560,21 +617,24 @@ export class StrStockTakingTableComponent implements OnInit {
     }
   }
 
-
   getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
     let store = this.groupMasterForm.getRawValue().storeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-this.loading=true;
+    this.loading = true;
     this.api
       .getStrStockTakingSearach(no, store, fiscalYear, item, StartDate, EndDate)
       .subscribe({
         next: (res) => {
-          this.loading=false;
+          this.loading = false;
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
         },
       });
+  }
+
+  toastrSuccess(): void {
+    this.toastr.success('تم الحفظ بنجاح');
   }
 
   toastrDeleteSuccess(): void {
@@ -589,5 +649,383 @@ this.loading=true;
     }
   }
 
+  tabSelected(tab: any) {
+    console.log('tab selected: ', tab);
+    if (tab.index == 0) {
+      console.log('done: ', tab);
 
+      // this.editData = '';
+      this.MasterGroupInfoEntered = false;
+      this.groupMasterForm.controls['no'].setValue('');
+      // this.listCtrl.setValue('');
+      // this.costcenterCtrl.setValue('');
+      this.storeCtrl.setValue('');
+      // this.groupMasterForm.controls['date'].setValue(this.currentDate);
+      // this.lists = [];
+
+      this.getAllMasterForms();
+    }
+  }
+
+  getStrEmployeeOpenAutoNo() {
+    this.api.getStrEmployeeOpenAutoNo().subscribe({
+      next: (res) => {
+        this.autoNo = res;
+        return res;
+      },
+      error: () => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+
+  storeValueChanges(storeId: any) {
+    console.log('store: ', storeId);
+    this.storeSelectedId = storeId;
+    this.groupMasterForm.controls['storeId'].setValue(this.storeSelectedId);
+    this.isEdit = false;
+    console.log('kkkkkkkkkkk:', this.isEdit);
+
+    this.getStrEmployeeOpenAutoNo();
+  }
+
+  async fiscalYearValueChanges(fiscalyaerId: any) {
+    console.log('fiscalyaer: ', fiscalyaerId);
+    this.fiscalYearSelectedId = await fiscalyaerId;
+    this.groupMasterForm.controls['fiscalYearId'].setValue(
+      this.fiscalYearSelectedId
+    );
+    this.isEdit = false;
+
+    this.getStrOpenAutoNo();
+  }
+
+  getStrOpenAutoNo() {
+    console.log(
+      'storeId: ',
+      this.storeSelectedId,
+      ' fiscalYearId: ',
+      this.fiscalYearSelectedId
+    );
+    console.log(
+      'get default selected storeId & fisclYearId: ',
+      this.defaultStoreSelectValue,
+      ' , ',
+      this.defaultFiscalYearSelectValue
+    );
+
+    if (this.groupMasterForm) {
+      if (this.editData && !this.fiscalYearSelectedId) {
+        console.log('change storeId only in updateHeader');
+        this.api
+          .getStrOpenAutoNo(
+            this.groupMasterForm.getRawValue().storeId,
+            this.editData.fiscalYearId
+          )
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              console.log('autoNo: ', this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log('fetch autoNo err: ', err);
+              // alert("خطا اثناء جلب العناصر !");
+            },
+          });
+      } else if (this.editData && !this.storeSelectedId) {
+        console.log('change fiscalYearId only in updateHeader');
+        this.api
+          .getStrOpenAutoNo(
+            this.editData.storeId,
+            this.groupMasterForm.getRawValue().fiscalYearId
+          )
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              console.log('autoNo: ', this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log('fetch autoNo err: ', err);
+              // alert("خطا اثناء جلب العناصر !");
+            },
+          });
+      } else if (this.editData) {
+        console.log('change both in edit data: ', this.isEdit);
+        this.api
+          .getStrOpenAutoNo(
+            this.groupMasterForm.getRawValue().storeId,
+            this.groupMasterForm.getRawValue().fiscalYearId
+          )
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              // this.editData = null;
+              console.log('isEdit : ', this.isEdit);
+              // this.groupMasterForm.controls['no'].setValue(666);
+              console.log('autoNo: ', this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log('fetch autoNo err: ', err);
+              // alert("خطا اثناء جلب العناصر !");
+            },
+          });
+      } else {
+        console.log(
+          'change both values in updateHeader',
+          this.groupMasterForm.getRawValue().storeId
+        );
+        this.api
+          .getStrOpenAutoNo(
+            this.groupMasterForm.getRawValue().storeId,
+            this.groupMasterForm.getRawValue().fiscalYearId
+          )
+          .subscribe({
+            next: (res) => {
+              this.autoNo = res;
+              // this.editData.no = res
+              console.log('isEdit : ', this.isEdit);
+              console.log('autoNo: ', this.autoNo);
+              return res;
+            },
+            error: (err) => {
+              console.log('fetch autoNo err: ', err);
+              // alert("خطا اثناء جلب العناصر !");
+            },
+          });
+      }
+    }
+  }
+
+  async nextToAddFormDetails() {
+    this.groupMasterForm.removeControl('id');
+
+    this.groupMasterForm.controls['total'].setValue(
+      Number(this.sumOfTotals.toFixed(2))
+    );
+    this.storeName = await this.getStoreByID(
+      this.groupMasterForm.getRawValue().storeId
+    );
+
+    // alert("store name in add: " + this.storeName)
+    this.groupMasterForm.controls['storeName'].setValue(this.storeName);
+    this.groupMasterForm.controls['fiscalYearId'].setValue(1);
+    // console.log("faciaaaaal year add: ", this.groupMasterForm.getRawValue().fiscalYearId)
+    console.log('dataName: ', this.groupMasterForm.value);
+    if (this.groupMasterForm.getRawValue().no) {
+      console.log('no changed: ', this.groupMasterForm.getRawValue().no);
+    } else {
+      this.groupMasterForm.controls['no'].setValue(this.autoNo);
+      console.log(
+        'no took auto number: ',
+        this.groupMasterForm.getRawValue().no
+      );
+    }
+    if (this.groupMasterForm) {
+      // if (this.groupMasterForm.getRawValue().storeName && this.groupMasterForm.valid) {
+
+      console.log('Master add form : ', this.groupMasterForm.value);
+
+      this.api.postStrStockTaking(this.groupMasterForm.value).subscribe({
+        next: (res) => {
+          // console.log("ID header after post req: ", res);
+          this.getMasterRowId = {
+            id: res,
+          };
+          // this.getMasterRowId = res;
+          console.log('mastered res: ', this.getMasterRowId.id);
+          this.MasterGroupInfoEntered = true;
+
+          // alert("تم الحفظ بنجاح");
+          this.toastrSuccess();
+          this.getAllDetailsForms();
+          // this.addDetailsInfo();
+          // this.getAllDetailsForms();
+          // this.updateDetailsForm();
+          this.updateDetailsForm();
+
+          // this.addDetailsInfo();
+        },
+        error: (err) => {
+          console.log('header post err: ', err);
+          // alert("حدث خطأ أثناء إضافة مجموعة")
+        },
+      });
+    }
+    // else {
+    //   alert("تاكد من ادخال البيانات صحيحة")
+    // }
+  }
+  getStoreByID(id: any) {
+    console.log(' store: ', id);
+    return fetch(`http://ims.aswan.gov.eg/api/STRStore/get/${id}`)
+      .then((response) => response.json())
+      .then((json) => {
+        // console.log("fetch name by id res: ", json.name);
+        return json.name;
+      })
+      .catch((err) => {
+        // console.log("error in fetch name by id: ", err);
+        // alert("خطا اثناء جلب رقم المخزن !");
+      });
+  }
+
+  getAllDetailsForms() {
+    console.log('mastered row get all data: ', this.getMasterRowId);
+    if (this.getMasterRowId) {
+      console.log(
+        'currentPage: ',
+        this.currentPage,
+        'pageSize: ',
+        this.pageSize
+      );
+
+      if (!this.currentPage && !this.pageSize) {
+        this.currentPage = 0;
+        this.pageSize = 5;
+
+        // this.isLoading = true;
+        console.log('first time: ');
+
+        fetch(
+          this.api.getStrStockTakingDetailsPaginateByMasterId(
+            this.getMasterRowId.id,
+            this.currentPage,
+            this.pageSize
+          )
+        )
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              // this.totalRows = data.length;
+              console.log('master data paginate first Time: ', data);
+              this.dataSource.data = data.items;
+              this.pageIndex = data.page;
+              this.pageSize = data.pageSize;
+              this.length = data.totalItems;
+              setTimeout(() => {
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = this.length;
+              });
+              this.isLoading = false;
+            },
+            (error) => {
+              console.log(error);
+              this.isLoading = false;
+            }
+          );
+      } else {
+        this.isLoading = true;
+        console.log('second time: ');
+
+        fetch(
+          this.api.getStrStockTakingDetailsPaginateByMasterId(
+            this.getMasterRowId.id,
+            this.currentPage,
+            this.pageSize
+          )
+        )
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              // this.totalRows = data.length;
+              console.log('master data paginate: ', data);
+              this.dataSource.data = data.items;
+              this.pageIndex = data.page;
+              this.pageSize = data.pageSize;
+              this.length = data.totalItems;
+              setTimeout(() => {
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = this.length;
+              });
+              this.isLoading = false;
+            },
+            (error) => {
+              console.log(error);
+              this.isLoading = false;
+            }
+          );
+      }
+    }
+  }
+
+  async updateDetailsForm() {
+    this.storeName = await this.getStoreByID(
+      this.groupMasterForm.getRawValue().storeId
+    );
+    // alert("update Store name: " + this.storeName)
+    this.groupMasterForm.controls['storeName'].setValue(this.storeName);
+    this.groupMasterForm.controls['storeId'].setValue(
+      this.groupMasterForm.getRawValue().storeId
+    );
+    this.groupMasterForm.controls['fiscalYearId'].setValue(
+      this.groupMasterForm.getRawValue().fiscalYearId
+    );
+
+    if (this.editData) {
+      this.groupMasterForm.addControl(
+        'id',
+        new FormControl('', Validators.required)
+      );
+      this.groupMasterForm.controls['id'].setValue(this.editData.id);
+      // console.log("data item Name in edit: ", this.groupMasterForm.value)
+    }
+
+    this.groupMasterForm.addControl(
+      'id',
+      new FormControl('', Validators.required)
+    );
+    this.groupMasterForm.controls['id'].setValue(this.getMasterRowId.id);
+    // this.groupMasterForm.controls['employee_ExchangeId'].setValue(this.getMasterRowId.id);
+    // console.log("data item Name in edit without id: ", this.groupMasterForm.value)
+
+    this.api.putStrStockTaking(this.groupMasterForm.value).subscribe({
+      next: (res) => {
+        // alert("تم التعديل بنجاح");
+        console.log(
+          'update res: ',
+          res,
+          'details form values: ',
+          this.groupDetailsForm.value,
+          'details id: ',
+          this.getDetailedRowData
+        );
+        // console.log("update res: ", res, "details form values: ", this.groupDetailsForm.value, "details id: ", this.getDetailedRowData);
+        if (this.groupDetailsForm.value && this.getDetailedRowData) {
+          // this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+          // this.groupDetailsForm.controls['id'].setValue(this.getDetailedRowData.id);
+
+          this.api
+            .putStrStockTakingDetails(
+              this.groupDetailsForm.value,
+              this.getDetailedRowData.id
+            )
+            .subscribe({
+              next: () => {
+                // alert("تم تحديث التفاصيل بنجاح");
+                // this.toastrEditSuccess();
+                // console.log("update res: ", res);
+                this.groupDetailsForm.reset();
+                this.getAllDetailsForms();
+                this.getDetailedRowData = '';
+                // this.dialogRef.close('update');
+              },
+              error: () => {
+                // console.log("update err: ", err)
+                // alert("خطأ أثناء تحديث سجل المجموعة !!")
+              },
+            });
+          this.groupDetailsForm.removeControl('id');
+        }
+
+        // this.dialogRef.close('update');
+      },
+      error: () => {
+        // alert("خطأ أثناء تحديث سجل الصنف !!")
+      },
+    });
+  }
 }

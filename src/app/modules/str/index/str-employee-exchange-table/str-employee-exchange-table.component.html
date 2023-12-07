@@ -307,7 +307,7 @@
               <form [formGroup]="groupMasterFormDialog" (keydown.enter)="$event.preventDefault()">
 
 
-                <div class="headerForm">
+                <div class="headerForm"> 
                   <div class="searchLabels">
                     <mat-label>الرقم*</mat-label>
 
@@ -480,7 +480,7 @@
                           <mat-label>بحث بالكود*</mat-label>
 
                           <mat-form-field appearance="outline" class="groupInput">
-                            <input matInput placeholder="الكود" (keydown)="getItemByCode($event)"
+                            <input matInput placeholder="الكود" formContorlName="fullCode" (keydown)="getItemByCode($event)" 
                               placeholder="{{ ediDetailsData ? ediDetailsData.fullCode : '' }}" [value]="
                               fullCodeValue && fullCodeValue != '-'
                                 ? fullCodeValue
@@ -496,8 +496,8 @@
                           <mat-label>الصنف*</mat-label>
                           <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
                             <input matInput aria-label="commodity" [matAutocomplete]="itemId" [formControl]="itemCtrl" placeholder="{{
-                                editData && !itemByFullCodeValue
-                                  ? editData.itemName
+                                ediDetailsData && !itemByFullCodeValue
+                                  ? ediDetailsData.itemName
                                   : itemByFullCodeValue && itemByFullCodeValue != '-'
                                   ? itemByFullCodeValue
                                   : itemByFullCodeValue && itemByFullCodeValue == '-'
@@ -535,7 +535,7 @@
                         <div class="radio">
                           <mat-label>الحالة</mat-label>
 
-                          <mat-radio-group style="display: flex; flex-direction: row" aria-label="Select an option" formControlName="state"
+                          <mat-radio-group style="display: flex; flex-direction: row" aria-label="Select an option" formControlName="state"(change)="set_Percentage($event)"
                            
                             [value]="ediDetailsData ? ediDetailsData.state : stateDefaultValue">
                             <div class="statusRadioBtns">
