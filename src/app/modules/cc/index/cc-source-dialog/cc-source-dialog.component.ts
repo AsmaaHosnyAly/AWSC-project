@@ -102,6 +102,7 @@ export class CcSourceDialogComponent {
     // });
 
     if (this.editData) {
+      console.log("editData: ", this.editData);
       this.actionBtn = 'تعديل';
       this.getCcSourceData = this.editData;
       this.CcSourceForm.controls['transactionUserId'].setValue(
@@ -114,9 +115,9 @@ export class CcSourceDialogComponent {
         this.editData.functionId
       );
 
-      this.CcSourceForm.controls['accountId'].setValue(
-        this.editData.accountId
-      );
+      // this.CcSourceForm.controls['accountId'].setValue(
+      //   this.editData.accountId
+      // );
       // console.log("functionId: ", this.CcSourceForm.controls['functionId'].value)
       this.CcSourceForm.addControl('id', new FormControl('', Validators.required));
       this.CcSourceForm.controls['id'].setValue(this.editData.id);
@@ -261,13 +262,16 @@ export class CcSourceDialogComponent {
 
 
   updateCcSource() {
-    this.api.putCcSource(this.CcSourceForm.value).subscribe({
+    console.log("form update: ",this.CcSourceForm.value);
+    this.api.putCcSource(this.CcSourceForm.value)
+    .subscribe({
       next: (res) => {
         this.toastrEdit();
         this.CcSourceForm.reset();
         this.dialogRef.close('update');
       },
-      error: () => {
+      error: (err) => {
+        console.log("err updae: ", err);
         this.toastrErrorEdit();
       },
     });

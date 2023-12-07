@@ -25,6 +25,7 @@ import {
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import { MatTabGroup } from '@angular/material/tabs';
 import { formatDate } from '@angular/common';
+import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
 
 export class item {
   constructor(public id: number, public name: string) { }
@@ -195,7 +196,7 @@ export class StrWithdrawTableComponent implements OnInit {
   MasterGroupInfoEntered = false;
   getDetailedRowData: any;
   sumOfTotals = 0;
-
+  sumOfItemsStore: any = 0;
 
   displayedDetailsColumns: string[] = [
     'itemName',
@@ -221,6 +222,7 @@ export class StrWithdrawTableComponent implements OnInit {
   itemPositiveCtrl: FormControl;
   filtereditemPositive: Observable<itemPositive[]>;
   selecteditemPositive: itemPositive | undefined;
+  isReadOnly: any = false;
 
   productsList: Product[] = [];
   productCtrl: FormControl;
@@ -230,7 +232,13 @@ export class StrWithdrawTableComponent implements OnInit {
   productIdValue: any;
   isReadOnlyPercentage: any = true;
   editDataDetails: any;
-  // currentDate: any;
+  currentDate: any;
+
+
+  addTypeSource: any;
+
+  itemSearchWay: any;
+
 
   constructor(
     private api: ApiService,
@@ -402,6 +410,8 @@ export class StrWithdrawTableComponent implements OnInit {
       destStoreUserId: [localStorage.getItem('transactionUserId'), Validators.required],
       itemId: ['', Validators.required],
       state: [this.stateDefaultValue, Validators.required],
+      stateId: [this.stateDefaultValue, Validators.required],
+
       fullCode: [''],
       itemName: [''],
       stateName: [''],
@@ -497,6 +507,8 @@ export class StrWithdrawTableComponent implements OnInit {
 
 
     this.groupMasterForm.controls['storeName'].setValue(this.storeName);
+
+
     console.log(
       'in next to add employee name:',
       this.groupMasterForm.getRawValue().employeeName
@@ -600,9 +612,11 @@ export class StrWithdrawTableComponent implements OnInit {
 
     console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
     console.log("edit : ", this.groupDetailsForm.value)
+    this.loading = true
     this.api.putStrWithdraw(this.groupMasterForm.value)
       .subscribe({
         next: (res) => {
+          this.loading = false;
           this.groupDetailsForm.reset();
           this.getDetailedRowData = '';
           this.getAllMasterForms();
@@ -770,7 +784,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.groupMasterForm.controls['costCenterId'].setValue(
       this.editData.costCenterId
     );
- 
+
     this.isEditDataReadOnly = true;
 
     this.autoNo = '';
@@ -780,6 +794,8 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getItemsPositive();
 
     this.getAllDetailsForms();
+    this.sumOfItemsStore = '';
+
   }
 
   getListCtrl(type: any) {
@@ -917,15 +933,15 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   getItems() {
-    this.loading = true;
+    // this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
-        this.loading = false;
+        // this.loading = false;
         this.itemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
-        this.loading = false;
+        // this.loading = false;
         // console.log("fetch store data err: ", err);
         alert('خطا اثناء جلب العناصر !');
       },
@@ -1064,78 +1080,8 @@ export class StrWithdrawTableComponent implements OnInit {
   getStrWithdrawAutoNo() {
     console.log("enter AutoNo function");
 
-    // console.log(
-    //   'storeId: ',
-    //   this.storeSelectedId,
-    //   ' fiscalYearId: ',
-    //   this.fiscalYearSelectedId
-    // );
-    // console.log(
-    //   'get default selected storeId & fisclYearId: ',
-    //   this.defaultStoreSelectValue,
-    //   ' , ',
-    //   this.defaultFiscalYearSelectValue
-    // );
 
     if (this.groupMasterForm) {
-      // if (this.editData && !this.fiscalYearSelectedId) {
-      //   console.log('change storeId only in updateHeader');
-      //   this.api
-      //     .getStrWithdrawAutoNo(
-      //       this.groupMasterForm.getRawValue().storeId,
-      //       this.editData.fiscalYearId
-      //     )
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         console.log('autoNo1: ', this.autoNo);
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log('fetch autoNo err1: ', err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       },
-      //     });
-      // } else if (this.editData && !this.storeSelectedId) {
-      //   console.log('change fiscalYearId only in updateHeader');
-      //   this.api
-      //     .getStrWithdrawAutoNo(
-      //       this.editData.storeId,
-      //       this.groupMasterForm.getRawValue().fiscalYearId
-      //     )
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         console.log('autoNo2: ', this.autoNo);
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log('fetch autoNo err2: ', err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       },
-      //     });
-      // } else if (this.editData) {
-      //   console.log('change both in edit data: ', this.isEdit);
-
-      //   this.api
-      //     .getStrWithdrawAutoNo(
-      //       this.groupMasterForm.getRawValue().storeId,
-      //       this.groupMasterForm.getRawValue().fiscalYearId
-      //     )
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         // this.editData = null;
-      //         console.log('isEdit : ', this.isEdit);
-      //         console.log('autoNo3: ', this.autoNo);
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log('fetch autoNo err3: ', err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       },
-      //     });
-      // } 
 
       console.log('editData: ', this.editData, "storeSelected: ", this.storeSelectedId, "fiscaLYearId: ", this.fiscalYearSelectedId);
 
@@ -1243,11 +1189,11 @@ export class StrWithdrawTableComponent implements OnInit {
       }
     }
   }
- 
+
   getEmployees() {
     this.api.getEmployee().subscribe((lists) => {
       this.lists = lists;
-     
+
     });
   }
 
@@ -1391,7 +1337,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.costcenterCtrl.updateValueAndValidity();
   }
 
- 
+
 
   displayitemName(item: any): string {
     return item && item.name ? item.name : '';
@@ -1498,7 +1444,7 @@ export class StrWithdrawTableComponent implements OnInit {
     console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
     this.groupMasterForm.patchValue({ employeeId: employee.id });
-      this.groupMasterForm.patchValue({ employeeName: employee.name });
+    this.groupMasterForm.patchValue({ employeeName: employee.name });
     console.log(
       'employee in form: ',
       this.groupMasterSearchForm.getRawValue().employeeId
@@ -1508,7 +1454,7 @@ export class StrWithdrawTableComponent implements OnInit {
   private _filteremployees(value: string): Employee[] {
     const filterValue = value.toLowerCase();
     return this.employeesList.filter((employee) =>
-      employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
+      employee.name ? employee.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutoEmployee() {
@@ -1535,13 +1481,14 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   getSearchStrWithdraw(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
+
     let costCenter = this.groupMasterSearchForm.getRawValue().costCenterId;
     let employee = this.groupMasterSearchForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterSearchForm.getRawValue().storeId;
 
     console.log('itemId in ts:', this.groupDetailsForm.getRawValue().itemId);
-    this.loading = true;
+    // this.loading=true;
     this.api
       .getStrWithdrawSearch(
         no,
@@ -1553,15 +1500,20 @@ export class StrWithdrawTableComponent implements OnInit {
         employee,
         costCenter
       )
+
       .subscribe({
+
         next: (res) => {
-          this.loading = false;
+          // this.loading=false
+          // console.log(this.loading)
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
+          this.loading = false
         },
+
         error: (err) => {
-          this.loading = false;
+
           console.log('eroorr', err);
         },
       });
@@ -1678,6 +1630,7 @@ export class StrWithdrawTableComponent implements OnInit {
         .subscribe({
           next: (res) => {
             this.loading = false;
+            // console.log ( "load",this.loading)
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -1740,6 +1693,22 @@ export class StrWithdrawTableComponent implements OnInit {
         }
       })
 
+
+    this.api.getSumQuantity(
+      this.groupMasterForm.getRawValue().storeId,
+      this.groupDetailsForm.getRawValue().itemId,
+    )
+      .subscribe({
+        next: (res) => {
+          this.sumOfItemsStore = res;
+          console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب الرصيد الحالى  !");
+        }
+      })
+
   }
   private _filteritemsPositive(value: string): itemPositive[] {
     const filterValue = value;
@@ -1796,6 +1765,22 @@ export class StrWithdrawTableComponent implements OnInit {
       this.groupMasterForm.getRawValue().fiscalYearId,
       formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
       itemEvent)
+      
+
+      this.api.getSumQuantity(
+        this.groupMasterForm.getRawValue().storeId,
+        this.groupDetailsForm.getRawValue().itemId,
+      )
+        .subscribe({
+          next: (res) => {
+            this.sumOfItemsStore = res;
+            console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+          },
+          error: (err) => {
+            // console.log("fetch fiscalYears data err: ", err);
+            // alert("خطا اثناء جلب الرصيد الحالى  !");
+          }
+        })
 
   }
 
@@ -1840,6 +1825,21 @@ export class StrWithdrawTableComponent implements OnInit {
           // alert("خطا اثناء جلب متوسط السعر !");
         }
       })
+
+      this.api.getSumQuantity(
+        this.groupMasterForm.getRawValue().storeId,
+        this.groupDetailsForm.getRawValue().itemId,
+      )
+        .subscribe({
+          next: (res) => {
+            this.sumOfItemsStore = res;
+            console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+          },
+          error: (err) => {
+            // console.log("fetch fiscalYears data err: ", err);
+            // alert("خطا اثناء جلب الرصيد الحالى  !");
+          }
+        })
   }
 
   getItemByProductId(productEvent: any) {
@@ -1860,7 +1860,7 @@ export class StrWithdrawTableComponent implements OnInit {
         this.groupDetailsForm.controls['itemId'].setValue(item);
 
         itemName = this.itemsPositiveList.find((item: { itemId: any; }) => item.itemId == a.itemId)?.name;
-        this.groupDetailsForm.controls['itemId'].setValue(itemName);
+        // this.groupDetailsForm.controls['itemId'].setValue(itemName);
 
         console.log("item by code: ", itemName, "id: ", item, "item full code: ", this.fullCodeValue);
         // this.itemPositiveCtrl.setValue(a.itemName);
@@ -1883,6 +1883,21 @@ export class StrWithdrawTableComponent implements OnInit {
                 // alert("خطا اثناء جلب متوسط السعر !");
               }
             })
+
+            this.api.getSumQuantity(
+              this.groupMasterForm.getRawValue().storeId,
+              this.groupDetailsForm.getRawValue().itemId,
+            )
+              .subscribe({
+                next: (res) => {
+                  this.sumOfItemsStore = res;
+                  console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                },
+                error: (err) => {
+                  // console.log("fetch fiscalYears data err: ", err);
+                  // alert("خطا اثناء جلب الرصيد الحالى  !");
+                }
+              })
 
         }
         else {
@@ -1941,6 +1956,21 @@ export class StrWithdrawTableComponent implements OnInit {
                 }
               })
 
+              this.api.getSumQuantity(
+                this.groupMasterForm.getRawValue().storeId,
+                this.groupDetailsForm.getRawValue().itemId,
+              )
+                .subscribe({
+                  next: (res) => {
+                    this.sumOfItemsStore = res;
+                    console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب الرصيد الحالى  !");
+                  }
+                })
+
           }
           else {
             this.itemByFullCodeValue = '-';
@@ -1956,51 +1986,163 @@ export class StrWithdrawTableComponent implements OnInit {
     }
   }
 
+  // getItemByCode(code: any) {
+  //   if (code.keyCode == 13) {
+  //     this.itemsPositiveList.filter((a: any) => {
+  //       console.log("full item code: ", a.fullCode, "code target: ", code.target.value)
+  //       if (a.fullCode == code.target.value) {
+  //         this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
+  //         this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
+  //         console.log("item by code: ", a.name);
+  //         this.itemPositiveCtrl.setValue(a.name);
+  //         if (a.name) {
+  //           this.itemByFullCodeValue = a.name;
+
+  //           this.api.getAvgPrice(
+  //             this.groupMasterForm.getRawValue().storeId,
+  //             this.groupMasterForm.getRawValue().fiscalYearId,
+  //             formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+  //             this.groupDetailsForm.getRawValue().itemId
+  //           )
+  //             .subscribe({
+  //               next: (res) => {
+  //                 this.groupDetailsForm.controls['price'].setValue(res)
+  //                 console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
+  //               },
+  //               error: (err) => {
+  //                 // console.log("fetch fiscalYears data err: ", err);
+  //                 // alert("خطا اثناء جلب متوسط السعر !");
+  //               }
+  //             })
+
+  //         }
+  //         else {
+  //           this.itemByFullCodeValue = '-';
+  //         }
+  //         this.itemByFullCodeValue = a.name;
+
+  //       }
+  //       else {
+  //         this.itemByFullCodeValue = '-';
+  //       }
+  //     })
+  //   }
+
+
+  // }
+
+
   getItemByCode(code: any) {
+    this.groupDetailsForm.controls['itemId'].setValue('');
+    this.itemCtrl.setValue('');
     if (code.keyCode == 13) {
-      this.itemsPositiveList.filter((a: any) => {
-        console.log("full item code: ", a.fullCode, "code target: ", code.target.value)
-        if (a.fullCode == code.target.value) {
-          this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
-          this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
-          console.log("item by code: ", a.name);
-          this.itemPositiveCtrl.setValue(a.name);
-          if (a.name) {
+
+      if (this.itemSearchWay != 'searchByProductName') {
+
+        this.itemsList.filter((a: any) => {
+          // console.log("enter product code case, ", "a.code: ", a.fullCode, " code target: ", code.target.value);
+
+          if (a.fullCode == code.target.value) {
+            // console.log("enter product code case condition: ", a.fullCode === code.target.value);
+
+            this.groupDetailsForm.controls['itemId'].setValue(a.id);
+            this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
+
+            console.log("item by code: ", a.name);
+            this.itemCtrl.setValue(a.name);
+            if (a.name) {
+              this.itemByFullCodeValue = a.name;
+
+              this.api.getAvgPrice(
+                this.groupMasterForm.getRawValue().storeId,
+                this.groupMasterForm.getRawValue().fiscalYearId,
+                formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+                this.groupDetailsForm.getRawValue().itemId
+              )
+                .subscribe({
+                  next: (res) => {
+                    // this.priceCalled = res;
+                    this.groupDetailsForm.controls['avgPrice'].setValue(res);
+                    this.groupDetailsForm.controls['price'].setValue(res)
+                    console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
+                    console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+                    if (!this.addTypeSource && this.editData) {
+                      if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+                        this.isReadOnly = false;
+                        console.log("change readOnly to enable here");
+                      }
+                      else {
+                        this.isReadOnly = true;
+                        console.log("change readOnly to disable here");
+                      }
+
+                    }
+                    else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
+                      this.isReadOnly = false;
+                      console.log("change readOnly to enable here");
+                    }
+                    else {
+                      this.isReadOnly = true;
+                      console.log("change readOnly to disable here");
+                    }
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب متوسط السعر !");
+                  }
+                })
+
+
+              this.api.getSumQuantity(
+                this.groupMasterForm.getRawValue().storeId,
+                this.groupDetailsForm.getRawValue().itemId,
+              )
+                .subscribe({
+                  next: (res) => {
+                    this.sumOfItemsStore = res;
+                    console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب الرصيد الحالى  !");
+                  }
+                })
+            }
+            else {
+              this.itemByFullCodeValue = '-';
+            }
             this.itemByFullCodeValue = a.name;
-
-            this.api.getAvgPrice(
-              this.groupMasterForm.getRawValue().storeId,
-              this.groupMasterForm.getRawValue().fiscalYearId,
-              formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-              this.groupDetailsForm.getRawValue().itemId
-            )
-              .subscribe({
-                next: (res) => {
-                  this.groupDetailsForm.controls['price'].setValue(res)
-                  console.log("price avg called res: ", this.groupDetailsForm.getRawValue().price);
-                },
-                error: (err) => {
-                  // console.log("fetch fiscalYears data err: ", err);
-                  // alert("خطا اثناء جلب متوسط السعر !");
-                }
-              })
+            // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
 
           }
-          else {
-            this.itemByFullCodeValue = '-';
-          }
-          this.itemByFullCodeValue = a.name;
 
-        }
-        else {
+        })
+
+        if (!this.groupDetailsForm.getRawValue().itemId) {
           this.itemByFullCodeValue = '-';
+          var result = confirm('هذا الكود غير موجود هل تريد تكويده ؟');
+          if (result) {
+            this.dialog
+              .open(STRItem1DialogComponent, {
+                width: '50%',
+              })
+              .afterClosed()
+              .subscribe((val) => {
+                if (val === 'save') {
+                  this.getItems();
+                }
+              });
+          }
         }
-      })
+      }
+      // else {
+
+      // }
+
     }
 
 
   }
-
   set_Percentage(state: any) {
     console.log('state value changed: ', state.value);
     if (state.value == "مستعمل") {
@@ -2050,7 +2192,7 @@ export class StrWithdrawTableComponent implements OnInit {
   getAllDetailsForms() {
     this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
     this.groupDetailsForm.controls['qty'].setValue(1);
-
+    // alert("masterrowww"+this.getMasterRowId)
     console.log("mastered row get all data: ", this.getMasterRowId)
     // if (this.getMasterRowId) {
 
@@ -2255,15 +2397,7 @@ export class StrWithdrawTableComponent implements OnInit {
   }
 
   async updateDetailsForm() {
-    // console.log(
-    //   'store id in update:',
-    //   this.getMasterRowStoreId
-    // );
 
-    // console.log("values getMasterRowId: ", this.getMasterRowId)
-    // console.log("values details form: ", this.groupDetailsForm.value)
-
-    // if (this.editData) {
     this.groupDetailsForm.addControl(
       'id',
       new FormControl('', Validators.required)

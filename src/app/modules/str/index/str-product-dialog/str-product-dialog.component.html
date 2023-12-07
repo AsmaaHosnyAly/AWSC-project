@@ -20,10 +20,10 @@
         <input formControlName="name" matInput />
       </mat-form-field>
       </div>
-      <div class="child1">
+      <div class="child1"*ngIf="!loading">
         
       <mat-label>الصنف</mat-label>
-      <mat-form-field appearance="outline"*ngIf="!loading">
+      <mat-form-field appearance="outline">
         
         <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
           placeholder="{{ getProductData ? getProductData.itemName : '' }}" 
