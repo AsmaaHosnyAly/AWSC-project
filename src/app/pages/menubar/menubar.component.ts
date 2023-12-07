@@ -4,7 +4,13 @@ import { SharedService } from '../../core/guards/shared.service';
 import { Router } from '@angular/router';
 import { PagesEnums } from '../../core/enums/pages.enum';
 import jwt_decode from 'jwt-decode';
+import { Observable, map, startWith, tap, debounceTime } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
 
+export class store {
+  constructor(public name: string) {}
+}
 
 @Component({
   selector: 'app-menubar',
@@ -13,8 +19,9 @@ import jwt_decode from 'jwt-decode';
 })
 export class MenubarComponent {
   str1: any;
-  pageTitle:any
+  pageTitle: any;
   badgevisible = false;
+  newArr: any;
   badgevisibility() {
     this.badgevisible = true;
   }
@@ -27,15 +34,24 @@ export class MenubarComponent {
   decodedToken: any;
   decodedToken1: any;
   decodedToken2: any;
-  testRout='withdraw';
+  testRout = 'withdraw';
+  storeCtrl: FormControl;
+  storeSelectedId: any;
+  filteredstore: Observable<store[]>;
+  storeList: store[] = [];
+  selectedstore: store | undefined;
+  sourceSelected: any;
   activeRoute: string | undefined;
   constructor(
     public global: GlobalService,
     public shared: SharedService,
     private router: Router
   ) {
-   
-
+    this.storeCtrl = new FormControl();
+    this.filteredstore = this.storeCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterstores(value))
+    );
     this.getUserById();
 
     this.getUserGroupById();
@@ -43,6 +59,8 @@ export class MenubarComponent {
   }
 
   ngOnInit(): void {
+    // this.getDestStores();
+
     this.activeRoute = this.router.url;
     this.global.bgColor = document
       .querySelector('section')
@@ -55,8 +73,20 @@ export class MenubarComponent {
     this.decodedToken = jwt_decode(accessToken);
     this.decodedToken1 = this.decodedToken.modules;
     this.decodedToken2 = this.decodedToken.roles;
+    let tmpTabKV: { name: any}[] = [];
 
-    // console.log('decodedToken2 ', this.decodedToken2);
+    console.log('decodedToken2 ', this.decodedToken);
+    this.storeList = this.decodedToken2;
+    console.log('modules list:', this.storeList);
+    for (let i = 0; i < this.storeList.length; i++) {
+      // this.newArr = {
+      //   name: this.storeList[i],
+      // };
+      tmpTabKV.push({ name: this.storeList[i]});
+    }
+
+    console.log('newArr: ', tmpTabKV);
+    this.storeList= tmpTabKV
   }
   title = 'str-group';
 
@@ -93,7 +123,6 @@ export class MenubarComponent {
     window.location.reload();
   }
 
-
   hasAccessModule(name: string): boolean {
     // console.log('name passed: ', name);
     // const MODULES_LOCAL_STORAGE = window.localStorage.getItem('modules');
@@ -116,5 +145,66 @@ export class MenubarComponent {
       return false;
     }
   }
- 
+
+  // autocomplete
+  getsearch(code: any) {
+    if (code.keyCode == 13) {
+      // this.getSearchStrWithdraw()
+    }
+  }
+
+  openAutostore() {
+    this.storeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.storeCtrl.updateValueAndValidity();
+  }
+
+  displaystoreName(store: any): string {
+    return store && store.name ? store.name : '';
+  }
+
+  storeSelected(event: MatAutocompleteSelectedEvent): void {
+    const store = event.option.value as store;
+    const store2= event.option.value
+    console.log('store selected: ', store);
+    this.selectedstore = store;
+    console.log("store2: ",store2.name);
+
+  
+      if(store2.name===this.pageEnums.WITHDRAW  ){
+        this.router.navigate(['/withdraw']);
+      }
+      else if(store2.name===this.pageEnums.STRAdd  ){
+        this.router.navigate(['/STRAdd']);
+      }
+      else if(store2.name===this.pageEnums.STR_OPENING_STOCK  ){
+        this.router.navigate(['/str-openingStock']);
+      }
+      else if(store2.name===this.pageEnums.EMPLOYEE_OPENING  ){
+        this.router.navigate(['/employeeOpening']);
+      }
+    
+  }
+  storeValueChanges(storeId: any) {}
+  getDestStores() {
+    // this.global.getStore().subscribe({
+    //   next: (res) => {
+    //     this.storeList = res;
+    //     // console.log('deststore res: ', this.deststoreList);
+    //   },
+    //   error: (err) => {
+
+    //   },
+    // });
+    this.storeList = this.decodedToken;
+    console.log('modules list:', this.storeList);
+  }
+
+  private _filterstores(value: string): store[] {
+    const filterValue = value;
+    return this.storeList.filter((store: { name: string }) =>
+      store.name.toLowerCase().includes(filterValue)
+    );
+  }
 }
