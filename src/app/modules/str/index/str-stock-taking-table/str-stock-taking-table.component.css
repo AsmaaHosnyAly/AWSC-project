@@ -69,21 +69,24 @@ th {
   /* justify-content: space-between; */
   flex-wrap: wrap;
 }
-.searchbyproduct{
+
+.searchbyproduct {
   display: flex;
   justify-content: space-around;
 }
+
 /* .radio{
   display: flex;
    flex-direction: column;
     width: 100%
 }  */
-.sum-label{
+.sum-label {
   font-size: 22px;
   border: 1px solid black;
   padding: 5px;
   border-radius: 8px;
 }
+
 .search button,
 .print button {
   width: 250px;
@@ -447,6 +450,11 @@ mat-tab {
   color: rgba(60, 201, 252, 0.8);
 
 }
+
 ::ng-deep .mat-typography h1 {
   margin: 20px 0 16px !important;
+}
+
+.showRowReport {
+  color: rgba(60, 201, 252, 0.8);
 }
