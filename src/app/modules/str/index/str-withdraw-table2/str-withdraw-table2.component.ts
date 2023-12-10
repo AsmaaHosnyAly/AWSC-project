@@ -40,7 +40,7 @@ export class costcenter {
 }
 
 export class store {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public storeId: any, public storeName: any) { }
 }
 
 export class deststore {

@@ -27,7 +27,7 @@ import { MatTabGroup } from '@angular/material/tabs';
 import jwt_decode from 'jwt-decode';
 
 export class store {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public storeId: any, public storeName: any) { }
 }
 
 export class item {
