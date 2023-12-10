@@ -483,7 +483,7 @@
                             <mat-form-field appearance="outline" class="groupInput">
                               <input matInput placeholder="الكود" formContorlName="fullCode"
                                 (keydown)="getItemByCode($event)"
-                                placeholder="{{ ediDetailsData ? ediDetailsData.fullCode : '' }}" [value]="
+                                placeholder="{{ editDataDetails ? editDataDetails.fullCode : '' }}" [value]="
                               fullCodeValue && fullCodeValue != '-'
                                 ? fullCodeValue
                                 : fullCodeValue && fullCodeValue == '-'
@@ -499,8 +499,8 @@
                             <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
                               <input matInput aria-label="commodity" [matAutocomplete]="itemId" [formControl]="itemCtrl"
                                 placeholder="{{
-                                ediDetailsData && !itemByFullCodeValue
-                                  ? ediDetailsData.itemName
+                                editDataDetails && !itemByFullCodeValue
+                                  ? editDataDetails.itemName
                                   : itemByFullCodeValue && itemByFullCodeValue != '-'
                                   ? itemByFullCodeValue
                                   : itemByFullCodeValue && itemByFullCodeValue == '-'
@@ -521,7 +521,7 @@
 
                             <mat-form-field appearance="outline" class="groupInput">
                               <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
-                                [value]="ediDetailsData ? ediDetailsData.qty : '1'" />
+                                [value]="editDataDetails ? editDataDetails.qty : '1'" />
                             </mat-form-field>
                           </div>
 
@@ -530,7 +530,7 @@
 
                             <mat-form-field appearance="outline" class="groupInput">
                               <input type="number" min="0" matInput placeholder="السعر" formControlName="price"
-                                [value]="ediDetailsData ? ediDetailsData.price : ''" />
+                                [value]="editDataDetails ? editDataDetails.price : ''" />
                             </mat-form-field>
                           </div>
                         </div>
@@ -540,7 +540,7 @@
 
                             <mat-radio-group style="display: flex; flex-direction: row" aria-label="Select an option"
                               formControlName="state" (change)="set_Percentage($event)"
-                              [value]="ediDetailsData ? ediDetailsData.state : stateDefaultValue">
+                              [value]="editDataDetails ? editDataDetails.state : stateDefaultValue">
                               <div class="statusRadioBtns">
                                 <mat-radio-button value="جديد">جديد</mat-radio-button>
                                 <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
