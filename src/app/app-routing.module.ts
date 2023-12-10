@@ -190,7 +190,7 @@ const routes: Routes = [
   {
     path: '',
     component: MenubarComponent,
-    data: {},
+    data: {}, 
 
     children: [
       { path: 'home', component: StrGroupHomeComponent },
@@ -378,13 +378,13 @@ const routes: Routes = [
 
       { path: 'pr-home', component: PrHomeComponent },
       {
-        path: 'pr-group',
+        path: 'مجموعات المستخدمين',
         component: PrGroupTableComponent,
         canActivate: [prGroupGuard],
         data: { PageLsit: [PagesEnums.PR_GROUP] },
       },
       {
-        path: 'pr-user',
+        path: 'المستخدمين',
         component: PrUserTableComponent,
         canActivate: [prUserGuard],
         data: { PageLsit: [PagesEnums.PR_USER] },
@@ -573,43 +573,43 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-AttendancePermission',
+        path: 'نوع الإذن',
         component: HrAttendancePermissionComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceMachine',
+        path: 'أجهزة البصمة',
         component: HrAttendanceMachineComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceMachineWorkPlace',
+        path: 'أماكن أجهزة البصمة',
         component: HrAttendanceMachineWorkPlaceComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceSchedule',
+        path: 'الورديات',
         component: HrAttendanceScheduleComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeAttendanceSchedule',
+        path: 'ورديات الموظفين',
         component: HrEmployeeAttendanceScheduleComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-EmployeeAttendancePermission',
+        path: 'أذونات الموظفين',
         component: HrEmployeeAttendancePermissionComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-EmployeeAttendance',
+        path: 'الحضور والإنصراف',
         component: HrEmployeeAttendanceComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },

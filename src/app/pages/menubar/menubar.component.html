@@ -514,13 +514,13 @@
 
             <mat-nav-list> </mat-nav-list>
           </mat-expansion-panel>
-          <a mat-list-item class="sideNavSubItems" routerLink="/pr-user" *ngIf="hasAccessRole(pageEnums.PR_USER)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/المستخدمين" *ngIf="hasAccessRole(pageEnums.PR_USER)"
             routerLinkActive="active">
             <p class="font">المستخدمين</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/pr-group" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/مجموعات المستخدمين" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
             routerLinkActive="active">
-            <p class="font">المجموعات</p>
+            <p class="font">مجموعات المستخدمين</p>
           </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/pr-reports" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
             routerLinkActive="active">
@@ -547,19 +547,19 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="hr-AttendancePermission"
+              <a mat-list-item class="sideNavSubItems" routerLink="نوع الإذن"
                 *ngIf="hasAccessRole(pageEnums.PR_USER)" routerLinkActive="active">
                 <p class="font">نوع الإذن</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/hr-attendanceSchedule"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الورديات"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
                 <p class="font">الورديات</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/hr-attendanceMachine"
+              <a mat-list-item class="sideNavSubItems" routerLink="/أجهزة البصمة"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
                 <p class="font">جهاز البصمة</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/hr-attendanceMachineWorkPlace"
+              <a mat-list-item class="sideNavSubItems" routerLink="/أماكن أجهزة البصمة"
                 *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
                 <p class="font">مكان جهاز البصمة</p>
               </a>
@@ -567,16 +567,16 @@
           </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
-          <a mat-list-item class="sideNavSubItems" routerLink="/hr-employeeAttendanceSchedule"
+          <a mat-list-item class="sideNavSubItems" routerLink="/ورديات الموظفين"
             *ngIf="hasAccessRole(pageEnums.PR_USER)" routerLinkActive="active">
-            <p class="font">جدول حضور الموظفين</p>
+            <p class="font">ورديات الموظفين</p>
           </a>
 
-          <a mat-list-item class="sideNavSubItems" routerLink="/hr-EmployeeAttendancePermission"
+          <a mat-list-item class="sideNavSubItems" routerLink="/أذونات الموظفين"
             *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
             <p class="font">اذن تصريح الموظفين</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/hr-EmployeeAttendance"
+          <a mat-list-item class="sideNavSubItems" routerLink="الحضور والإنصراف"
             *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
             <p class="font">الحضور والانصراف</p>
           </a>

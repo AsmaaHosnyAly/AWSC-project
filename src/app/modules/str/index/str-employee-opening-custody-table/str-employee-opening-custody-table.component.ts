@@ -213,6 +213,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteremployees(value))
     );
 
@@ -231,7 +232,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     console.log('accessToken2', this.decodedToken2);
 
     this.getAllMasterForms();
-    this.getAllEmployees();
+    // this.getAllEmployees();
     this.getFiscalYears();
     this.getEmployees();
     this.getItme();
@@ -378,7 +379,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     //  this.getTypes();
     // this.getSellers();
     // this.getReciepts();
-    this.getEmployees();
+    // this.getEmployees();
     // this.getStrAddAutoNo();
     this.getStrEmployeeOpenAutoNo();
     this.getFiscalYears();
@@ -899,6 +900,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
     this.groupsearchForm.patchValue({ employeeId: employee.id });
+    this.groupsearchForm.patchValue({ employeeName: employee.name });
     console.log(
       'employee in form: ',
       this.groupsearchForm.getRawValue().employeeId
@@ -907,8 +909,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   }
   private _filteremployees(value: string): Employee[] {
     const filterValue = value.toLowerCase();
-    return this.employeesList.filter((employee) =>
-      employee.name ? employee.name.toLowerCase().includes(filterValue) : '-'
+    return this.employeesList.filter((employee: { name: string }) =>
+      employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutoEmployee() {
@@ -1051,7 +1053,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupsearchForm.getRawValue().storeId;
     if (report != null && reportType != null) {
-      this.loading = true;
+      // this.loading = true;
       this.api
         .getStrEmployeeCustodyReport(
           no,
@@ -1066,7 +1068,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -1081,7 +1083,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },

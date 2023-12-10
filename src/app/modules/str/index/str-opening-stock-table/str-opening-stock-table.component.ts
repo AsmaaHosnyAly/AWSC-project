@@ -1863,7 +1863,7 @@ export class StrOpeningStockTableComponent implements OnInit {
     let item = this.groupMasterFormSearch.getRawValue().itemId;
     let store = this.groupMasterFormSearch.getRawValue().storeId;
     if (report != null && reportType != null) {
-      this.loading = true;
+      // this.loading = true;
       this.api
         .openingStock(
           no,
@@ -1879,7 +1879,7 @@ export class StrOpeningStockTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -1894,7 +1894,7 @@ export class StrOpeningStockTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },
