@@ -1135,7 +1135,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let destEmployee = this.groupMasterForm.getRawValue().destEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     if (report != null && reportType != null) {
-      this.loading = true;
+      // this.loading = true;
       this.api
         .getStrEmployeeExchangeItem(
           no,
@@ -1151,7 +1151,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -1166,7 +1166,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },

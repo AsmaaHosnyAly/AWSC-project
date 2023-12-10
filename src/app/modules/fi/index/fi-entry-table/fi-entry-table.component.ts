@@ -826,12 +826,12 @@ export class FiEntryTableComponent implements OnInit {
     let journalId = this.groupMasterFormSearch.getRawValue().JournalId;
 
     if (report != null && reportType != null) {
-      this.loading = true;
+      // this.loading = true;
       this.api
         .getFiEntryReport(no, journalId, startDate, endDate, sourceId, FiscalYearId, Description, report, reportType)
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -846,7 +846,7 @@ export class FiEntryTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },

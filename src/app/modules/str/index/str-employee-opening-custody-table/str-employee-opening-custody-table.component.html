@@ -30,7 +30,7 @@
             <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
               (optionSelected)="employeeSelected($event)">
               <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                {{ employee.name }} | {{ employee.code }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -282,20 +282,19 @@
                 </mat-form-field>
               </div>
 
-              <div class="searchLabels">
-                <mat-label>اسم الموظف :</mat-label>
-
-                <mat-form-field appearance="outline">
-                  <input matInput aria-label="employee" [matAutocomplete]="autoemployee" [formControl]="employeeCtrl"
-                    (click)="openAutoEmployee()" placeholder="{{ editData ? editData.employeeName : '' }}" required />
-                  <mat-autocomplete #autoemployee="matAutocomplete" [displayWith]="displayEmployeeName"
-                    (optionSelected)="employeeSelected($event)">
-                    <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                      {{ employee.name ? employee.name : "-" }}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-              </div>
+                <div class="searchLabels">
+                  <mat-label>اسم الموظف :</mat-label>
+                  <mat-form-field appearance="outline">
+                    <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" (keydown)="getsearch($event)"
+                      [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
+                    <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
+                      (optionSelected)="employeeSelected($event)">
+                      <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                        {{ employee.name }} | {{ employee.code }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
 
               <div class="searchLabels">
                 <mat-label>مركز التكلفة :</mat-label>

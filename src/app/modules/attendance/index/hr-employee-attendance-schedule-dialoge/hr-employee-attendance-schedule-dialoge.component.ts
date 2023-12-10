@@ -64,7 +64,7 @@ export class HrEmployeeAttendanceScheduleDialogeComponent implements OnInit {
     this.employeeCtrl = new FormControl();
     this.filteredEmployees = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
-      map((value) => this._filterEmployees(value))
+      map((value) => this._filteremployees(value))
     );
 
     this.attendanceScheduleCtrl = new FormControl();
@@ -89,10 +89,14 @@ export class HrEmployeeAttendanceScheduleDialogeComponent implements OnInit {
       attendancePermissionId: ['', Validators.required],
       transactionUserId: ['',Validators.required],
     });
-
-    this.api.getAllEmployees().subscribe((employees) => {
-      this.employees = employees;
-    });
+    this.getEmployees();
+    
+      // this.employees = employees;
+      // this.api.getEmployee().subscribe((lists) => {
+      //   this.employees = lists;
+       
+      // });
+   
 
     this.api.getAllAttendanceSchedules().subscribe((attendanceSchedules) => {
       this.attendanceSchedules = attendanceSchedules;
@@ -123,27 +127,37 @@ export class HrEmployeeAttendanceScheduleDialogeComponent implements OnInit {
       this.EmployeeAttendanceScheduleForm.controls['id'].setValue(this.editData.id);
     }
   }
-
-  displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+  getEmployees() {
+    this.api.getEmployee().subscribe((lists) => {
+      this.employees = lists;
+     
+    });
   }
-
+  displayEmployeeName(employee: any): string {
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
+  }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
+    console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
+
     this.EmployeeAttendanceScheduleForm.patchValue({ employeeId: employee.id });
     this.EmployeeAttendanceScheduleForm.patchValue({ employeeName: employee.name });
+  
+
   }
 
-  private _filterEmployees(value: string): Employee[] {
-    const filterValue = value.toLowerCase();
-    return this.employees.filter(
-      (employee) => employee.name.toLowerCase().includes(filterValue)
-      );
+  private _filteremployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employees.filter((employee) =>
+      employee.name ? employee.name.includes(filterValue) : '-'
+    );
   }
 
   openAutoEmployee() {
-    this.employeeCtrl.setValue('');
+    this.employeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
     this.employeeCtrl.updateValueAndValidity();
   }
 
