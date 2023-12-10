@@ -299,11 +299,11 @@
                         <mat-option [value]="
                             userRoles.includes(userRoleStoresAcc)
                               ? store.id
-                              : 'store.storeId'
+                              : store.storeId
                           " *ngFor="let store of storeList">{{
                           userRoles.includes(userRoleStoresAcc)
                           ? store.name
-                          : "store.storeName"
+                          : store.storeName
                           }}</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -326,8 +326,8 @@
                     <mat-form-field appearance="outline" class="groupInput">
                       <!-- <input id="autoNoInput" matInput formControlName="no"
                         [value]="isEdit == true ? editData.no : autoNo" type="number" min="0" /> -->
-                        <input id="autoNoInput" matInput formControlName="no"
-                        [value]="editData ? editData.no : '' " type="number" min="0" />
+                      <input id="autoNoInput" matInput formControlName="no" [value]="editData ? editData.no : '' "
+                        type="number" min="0" />
                     </mat-form-field>
                   </div>
 
@@ -583,7 +583,7 @@
                         </mat-form-field>
                       </div>
 
-                     
+
                       <!-- <div style="display: flex; flex-direction: row">
                         <div class="radio">
                           <mat-label style="margin-top: 9px">

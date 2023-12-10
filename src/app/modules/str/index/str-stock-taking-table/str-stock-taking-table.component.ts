@@ -32,7 +32,7 @@ import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import { MatTabGroup } from '@angular/material/tabs';
 
 export class store {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public storeId: any, public storeName: any) { }
 }
 
 export class Employee {

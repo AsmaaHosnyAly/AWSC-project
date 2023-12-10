@@ -249,11 +249,11 @@
                   <mat-option [value]="
                       userRoles.includes(userRoleStoresAcc)
                         ? store.id
-                        : 'store.storeId'
+                        : store.storeId
                     " *ngFor="let store of storeList">{{
                     userRoles.includes(userRoleStoresAcc)
                     ? store.name
-                    : "store.storeName"
+                    : store.storeName
                     }}</mat-option>
                 </mat-select>
               </mat-form-field>
