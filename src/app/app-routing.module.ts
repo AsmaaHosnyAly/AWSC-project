@@ -190,7 +190,7 @@ const routes: Routes = [
   {
     path: '',
     component: MenubarComponent,
-    data: {},
+    data: {}, 
 
     children: [
       { path: 'home', component: StrGroupHomeComponent },
@@ -378,13 +378,13 @@ const routes: Routes = [
 
       { path: 'pr-home', component: PrHomeComponent },
       {
-        path: 'pr-group',
+        path: 'مجموعات المستخدمين',
         component: PrGroupTableComponent,
         canActivate: [prGroupGuard],
         data: { PageLsit: [PagesEnums.PR_GROUP] },
       },
       {
-        path: 'pr-user',
+        path: 'المستخدمين',
         component: PrUserTableComponent,
         canActivate: [prUserGuard],
         data: { PageLsit: [PagesEnums.PR_USER] },
@@ -418,50 +418,50 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'city',
+        path: 'المحافظات',
         component: HrCityComponent,
         canActivate: [cityGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'cityState',
+        path: 'المراكز',
         component: HrCityStateComponent,
         canActivate: [cityStateGuard],
         data: { PageLsit: [PagesEnums.CITY_STATE] },
       },
       {
-        path: 'QualitativeGroup',
+        path: 'المجموعات النوعية',
         component: HrQualitativeGroupComponent,
         canActivate: [qualitativeGroupGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'WorkPlace',
+        path: 'أماكن العمل',
         component: HrWorkPlaceComponent,
         canActivate: [workPlaceGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'specialization',
+        path: 'التخصصات',
         component: HrSpecializationComponent,
         canActivate: [specializationGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       
       {
-        path: 'hr-position',
+        path: 'الوظائف',
         component: HrPositionComponent,
         canActivate: [hrPositionGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-MillitryState',
+        path: 'الموقف من التجنيد',
         component: HrMillitryStateComponent,
         canActivate: [hrMillitryStateGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-vacation',
+        path: 'الاجازات',
         component: HrVacationComponent,
         canActivate: [hrVacationGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
@@ -480,87 +480,87 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'Qualification',
+        path: 'المؤهلات',
         component: HrQualificationComponent,
         canActivate: [qualificationGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'QualificationLevel',
+        path: 'الدرجة العلمية',
         component: HrQualificationLevelComponent,
         canActivate: [qualificationLevelGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeVacation',
+        path: 'اجازات الموظفين',
         component: HrEmployeeVacationComponent,
         canActivate: [hrEmployeeVacationGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       }, //waiting back to update
       {
-        path: 'hr-employeeVacationBalance',
+        path: 'رصيد الاجازات',
         component: HrEmployeeVacationBalanceComponent,
         canActivate: [hrEmployeeVacationBalanceGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-position',
+        path: 'الوظائف',
         component: HrPositionComponent,
         canActivate: [hrPositionGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-disciplinary',
+        path: 'الجزاءات',
         component: HrDisciplinaryComponent,
         canActivate: [hrDisciplinaryGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-financialDegree',
+        path: 'الدرجات المالية',
         component: HrFinancialDegreeComponent,
         canActivate: [hrFinancialDegreeGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeFinancialDegree',
+        path: 'درجات الموظف المالية',
         component: HrEmployeeFinancialDegreeComponent,
         canActivate: [hrEmployeeFinancialDegreeGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeِAppraisal',
+        path: 'تقييم الموظفين',
         component: HrEmployeeAppraisalComponent,
         canActivate: [hrEmployeeAppraisalGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
 
       {
-        path: 'hr-EmployeeDisciplinary',
+        path: 'جزاءات الموظفين',
         component: HrEmployeeDisciplinaryComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
 
       {
-        path: 'hr-employee-position',
+        path: 'وظائف الموظف',
         component: HrEmployeePositionComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
 
       {
-        path: 'hr-employee',
+        path: 'الموظفين',
         component: HrEmployeeComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'EmployeeQualification',
+        path: 'مؤهلات الوظف',
         component: HrEmployeeQualificationComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
-      { path: 'hr-Reports', component: HrReportsComponent },
+      { path: 'تقارير شئون العاملين', component: HrReportsComponent },
 
       /*********************End Hr modules شئون العاميلن***************************/
 
@@ -573,43 +573,43 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-AttendancePermission',
+        path: 'نوع الإذن',
         component: HrAttendancePermissionComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceMachine',
+        path: 'أجهزة البصمة',
         component: HrAttendanceMachineComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceMachineWorkPlace',
+        path: 'أماكن أجهزة البصمة',
         component: HrAttendanceMachineWorkPlaceComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceSchedule',
+        path: 'الورديات',
         component: HrAttendanceScheduleComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeAttendanceSchedule',
+        path: 'ورديات الموظفين',
         component: HrEmployeeAttendanceScheduleComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-EmployeeAttendancePermission',
+        path: 'أذونات الموظفين',
         component: HrEmployeeAttendancePermissionComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-EmployeeAttendance',
+        path: 'الحضور والإنصراف',
         component: HrEmployeeAttendanceComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },

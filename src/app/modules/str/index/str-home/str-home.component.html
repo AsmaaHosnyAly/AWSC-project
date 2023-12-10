@@ -5,94 +5,94 @@
  
   <mat-card>
     <div class="card-parent">
-      <mat-card class="card-class" routerLink="/STRAdd"  *ngIf="hasAccessRole(pageEnums.STRAdd)">    
+      <mat-card class="card-class" routerLink="/اذن اضافة"  *ngIf="hasAccessRole(pageEnums.STRAdd)">    
         <mat-card-content>
             <mat-card-title>إذن الإضافة</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink=""  *ngIf="hasAccessRole(pageEnums.WITHDRAW)">    
+      <mat-card class="card-class" routerLink="/اذن صرف"  *ngIf="hasAccessRole(pageEnums.WITHDRAW)">    
         <mat-card-content>
             <mat-card-title routerLink="/withdraw">إذن الصرف</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/str-openingStock"  *ngIf="hasAccessRole(pageEnums.STR_OPENING_STOCK)">    
+      <mat-card class="card-class" routerLink="/الافتتاحية"  *ngIf="hasAccessRole(pageEnums.STR_OPENING_STOCK)">    
         <mat-card-content>
             <mat-card-title>الرصيد الافتتاحى</mat-card-title>
         </mat-card-content>
       </mat-card>
-      <mat-card class="card-class"  routerLink="/employeeOpening"  *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING)">    
+      <mat-card class="card-class"  routerLink="/نقل عهده"  *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING)">    
         <mat-card-content>
             <mat-card-title> نقل عهدة</mat-card-title>
         </mat-card-content>
       </mat-card>
-      <mat-card class="card-class" routerLink="/EmployeeOpeningCustody"  *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)">    
+      <mat-card class="card-class" routerLink="/افتتاحي لعهد"  *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)">    
         <mat-card-content>
             <mat-card-title>افتتاحي العهد</mat-card-title>
         </mat-card-content>
-      </mat-card>
+      </mat-card> 
     
-      <mat-card class="card-class" routerLink="/items1"  *ngIf="hasAccessRole(pageEnums.ITEMES1)">    
+      <mat-card class="card-class" routerLink="/الاصناف"  *ngIf="hasAccessRole(pageEnums.ITEMES1)">    
       
         <mat-card-content>
             <mat-card-title>إضافة صنف</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/commodity"  *ngIf="hasAccessRole(pageEnums.COMMODITY)">    
+      <mat-card class="card-class" routerLink="/السلعة"  *ngIf="hasAccessRole(pageEnums.COMMODITY)">    
         <mat-card-content>
             <mat-card-title>إضافة سلعة</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/str-grade"  *ngIf="hasAccessRole(pageEnums.GRADE)">    
+      <mat-card class="card-class" routerLink="/النوعية"  *ngIf="hasAccessRole(pageEnums.GRADE)">    
         <mat-card-content>
             <mat-card-title>إضافة نوعية</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/str-platoon"  *ngIf="hasAccessRole(pageEnums.STR_PLATOON)">       
+      <mat-card class="card-class" routerLink="/الفصيلة"  *ngIf="hasAccessRole(pageEnums.STR_PLATOON)">       
         <mat-card-content>
             <mat-card-title>إضافة فصيلة</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/group1"  *ngIf="hasAccessRole(pageEnums.GROUP1)">    
+      <mat-card class="card-class" routerLink="/المجموعة"  *ngIf="hasAccessRole(pageEnums.GROUP1)">    
         <mat-card-content>
             <mat-card-title>إضافة مجموعة</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/unit"  *ngIf="hasAccessRole(pageEnums.UNIT)">    
+      <mat-card class="card-class" routerLink="/الوحدة"  *ngIf="hasAccessRole(pageEnums.UNIT)">    
         <mat-card-content>
             <mat-card-title>إضافة وحدة</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/store"  *ngIf="hasAccessRole(pageEnums.STORE)">    
+      <mat-card class="card-class" routerLink="/المخازن"  *ngIf="hasAccessRole(pageEnums.STORE)">    
         <mat-card-content>
             <mat-card-title>إضافة مخزن</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/costCenter"  *ngIf="hasAccessRole(pageEnums.COST_CENTER)">    
+      <mat-card class="card-class" routerLink="/مركز التكلفة"  *ngIf="hasAccessRole(pageEnums.COST_CENTER)">    
         <mat-card-content>
             <mat-card-title>إضافة مركز تكلفة</mat-card-title>
         </mat-card-content>
       </mat-card>
     
-      <mat-card class="card-class" routerLink="/str-vendor"  *ngIf="hasAccessRole(pageEnums.STR_VENDOR)">    
+      <mat-card class="card-class" routerLink="/المصنع"  *ngIf="hasAccessRole(pageEnums.STR_VENDOR)">    
         <mat-card-content>
             <mat-card-title> المصنع</mat-card-title>
         </mat-card-content>
       </mat-card>
-      <mat-card class="card-class" routerLink="/str-model"  *ngIf="hasAccessRole(pageEnums.MODEL)">    
+      <mat-card class="card-class" routerLink="/الموديلات"  *ngIf="hasAccessRole(pageEnums.MODEL)">    
         <mat-card-content>
             <mat-card-title>الموديل</mat-card-title>
         </mat-card-content>
       </mat-card>
-      <mat-card class="card-class"   routerLink="/products" *ngIf="hasAccessRole(pageEnums.PRODUCTS)">    
+      <mat-card class="card-class"   routerLink="/المنتجات" *ngIf="hasAccessRole(pageEnums.PRODUCTS)">    
         <mat-card-content>
             <mat-card-title>المنتجات</mat-card-title>
         </mat-card-content>

@@ -108,7 +108,10 @@ export class ApiService {
   getHrWorkPlace() {
     return this.http.get<any>(`${this.url}/HrWorkPlace/get/all`);
   }
+  getEmployee() {
+    return this.http.get<any>(`${this.url}/HREmployee/get/all`);
 
+  }
 
   ///////////////////////////////// Hr-EmployeeAttendanceSchedule /////////////////////////////
   postHrEmployeeAttendanceSchedule(data: any) {
