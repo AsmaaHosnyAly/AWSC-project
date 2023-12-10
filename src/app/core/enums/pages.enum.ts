@@ -51,7 +51,7 @@ export enum PagesEnums {
 HR_JOB_TITLE='المسمى الوظيفى',
 HR_INCENTIVE='الحوافز',
 HR_HIRING_TYPE='توع التوظيف',
-SeveranceReason ='نهاية العمل',
+SeveranceReason ='الانقطاع',
 HR_MILLIIRY_STATE='الموقف من التجنيد',
 CITY='المحافظات',
 CITY_STATE='المراكز',
