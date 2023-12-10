@@ -528,7 +528,7 @@ export class ApiService {
       responseType: 'blob',
     });
   }
-  getStremployeeOpenAutoNo( fiscalYearId: any) {
+  getStremployeeOpenAutoNo(fiscalYearId: any) {
     return this.http.get<any>(
       `${this.url}/STREmployeeOpeningCustody/get/AutoNo
       ?&FiscalYearId=${fiscalYearId}`
@@ -1049,7 +1049,7 @@ export class ApiService {
     return urlPassed;
   }
   putStrOpen(data: any) {
-    console.log("put data"+data)
+    console.log("put data" + data)
     return this.http.put<any>(`${this.url}/STROpeningStock/update`, data);
   }
   deleteStrOpen(id: number) {
@@ -1058,9 +1058,9 @@ export class ApiService {
 
   postStrOpenDetails(data: any) {
     return this.http.post<any>(`${this.url}/STROpeningStockDetails/Add`, data);
-    
+
   }
-  getStrOpenDetailsPaginateByMasterId(currentPage: any, pageSize: any, masterId: any ) {
+  getStrOpenDetailsPaginateByMasterId(currentPage: any, pageSize: any, masterId: any) {
     console.log("masterId: ", masterId, "page: ", currentPage, "pageSize: ", pageSize);
     let urlPassed = `${this.url}/STROpeningStockDetails/get/by/pagination?id=${masterId}&page=${currentPage}&pageSize=${pageSize}`;
     return urlPassed;
@@ -1069,7 +1069,7 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/STROpeningStockDetails/get/all`);
   }
   getStrOpenDetailsByMasterId(id: any) {
-    console.log("id"+id)
+    console.log("id" + id)
     return this.http.get<any>(
       `${this.url}/STROpeningStockDetails/Get/by/header/${id}`
     );
@@ -1271,6 +1271,7 @@ export class ApiService {
   }
 
   postStrEmployeeExchangeDetails(data: any) {
+    console.log("data in post details:", data)
     return this.http.post<any>(
       `${this.url}/STREmployeeExchangeDetails/Add`,
       data
@@ -1287,7 +1288,7 @@ export class ApiService {
   putStrEmployeeExchangeDetails(data: any) {
     console.log('StrEmployeeExchangeDetails data: ', data);
     return this.http.put<any>(
-      `${this.url}/STREmployeeExchangeDetails/update/`,
+      `${this.url}/STREmployeeExchangeDetails/update`,
       data
     );
   }
@@ -1370,12 +1371,12 @@ export class ApiService {
     );
   }
   putStrEmployeeOpen(data: any) {
-    console.log("hhh",data)
+    console.log("hhh", data)
     return this.http.put<any>(
       `${this.url}/STREmployeeOpeningCustody/update`,
       data
     );
-    
+
   }
   deleteStrEmployeeOpen(id: number) {
     return this.http.delete<any>(
@@ -1740,7 +1741,7 @@ export class ApiService {
     );
   }
   getSumQuantity(storeid: any, itemid: any) {
-    console.log('Avg price inputs to backend');
+    console.log('storeId: ', storeid, "iemId: ", itemid);
     return this.http.get<any>(
       `${this.url}/STRAddDetails/get/sum/quantity/${storeid}/${itemid}`
     );
