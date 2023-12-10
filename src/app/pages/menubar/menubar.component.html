@@ -102,47 +102,47 @@
             </mat-expansion-panel-header>
             <mat-nav-list>
               <a *ngIf="hasAccessRole(pageEnums.COMMODITY)" mat-list-item class="sideNavSubItems"
-                routerLink="/commodity" routerLinkActive="active">
+                routerLink="/السلعة" routerLinkActive="active">
                 <p class="font">السلعة</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/grade" *ngIf="hasAccessRole(pageEnums.GRADE)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/النوعية" *ngIf="hasAccessRole(pageEnums.GRADE)"
                 routerLinkActive="active">
                 <p class="font">النوعية</p>
               </a>
               <a *ngIf="hasAccessRole(pageEnums.STR_PLATOON)" mat-list-item class="sideNavSubItems"
-                routerLink="/str-platoon" routerLinkActive="active">
+                routerLink="/الفصيلة" routerLinkActive="active">
                 <p class="font">الفصيلة</p>
               </a>
-              <a *ngIf="hasAccessRole(pageEnums.GROUP1)" mat-list-item routerLink="/group1" class="sideNavSubItems"
+              <a *ngIf="hasAccessRole(pageEnums.GROUP1)" mat-list-item routerLink="/المجموعة" class="sideNavSubItems"
                 routerLinkActive="active">
                 <p class="font">المجموعة</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/unit" *ngIf="hasAccessRole(pageEnums.UNIT)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الوحدة" *ngIf="hasAccessRole(pageEnums.UNIT)"
                 routerLinkActive="active">
                 <p class="font">الوحدة</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/items1" *ngIf="hasAccessRole(pageEnums.ITEMES1)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الاصناف" *ngIf="hasAccessRole(pageEnums.ITEMES1)"
                 routerLinkActive="active">
                 <p class="font">الاصناف</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/store" *ngIf="hasAccessRole(pageEnums.STORE)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/المخازن" *ngIf="hasAccessRole(pageEnums.STORE)"
                 routerLinkActive="active">
                 <p class="font">المخازن</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/str-vendor"
+              <a mat-list-item class="sideNavSubItems" routerLink="/المصنع"
                 *ngIf="hasAccessRole(pageEnums.STR_VENDOR)" routerLinkActive="active">
                 <p class="font">المصنع</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/str-model" *ngIf="hasAccessRole(pageEnums.MODEL)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الموديلات" *ngIf="hasAccessRole(pageEnums.MODEL)"
                 routerLinkActive="active">
                 <p class="font">الموديل</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/costCenter"
+              <a mat-list-item class="sideNavSubItems" routerLink="/مركز التكلفة"
                 *ngIf="hasAccessRole(pageEnums.COST_CENTER)" routerLinkActive="active">
                 <p class="font">مركز التكلفة</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/products" *ngIf="hasAccessRole(pageEnums.PRODUCTS)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/المنتجات" *ngIf="hasAccessRole(pageEnums.PRODUCTS)"
                 routerLinkActive="active">
                 <p class="font">المنتجات</p>
               </a>
@@ -152,34 +152,35 @@
               </a>
             </mat-nav-list>
           </mat-expansion-panel>
-          <a *ngIf="hasAccessRole(pageEnums.WITHDRAW)" mat-list-item class="sideNavSubItems" routerLink="/withdraw"
+          <a *ngIf="hasAccessRole(pageEnums.WITHDRAW)" mat-list-item class="sideNavSubItems" routerLink="/اذن صرف"
             routerLinkActive="active">
             <p class="font">اذن صرف</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/STRAdd" *ngIf="hasAccessRole(pageEnums.STRAdd)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/اذن اضافة" *ngIf="hasAccessRole(pageEnums.STRAdd)"
             routerLinkActive="active">
             <p class="font">اذن اضافة</p>
           </a>
-          <a mat-list-item routerLink="/str-openingStock" class="sideNavSubItems"
+          <a mat-list-item routerLink="/الافتتاحية" class="sideNavSubItems"
             *ngIf="hasAccessRole(pageEnums.STR_OPENING_STOCK)" routerLinkActive="active">
             <p class="font">الرصيد الافتتاحى</p>
           </a>
 
-          <a mat-list-item routerLink="/employeeOpening" class="sideNavSubItems"
+          <a mat-list-item routerLink="/نقل عهده" class="sideNavSubItems"
             *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING)" routerLinkActive="active">
             <p class="font">نقل عهدة</p>
           </a>
+        
 
-          <a mat-list-item routerLink="/EmployeeOpeningCustody" class="sideNavSubItems"
+          <a mat-list-item routerLink="/افتتاحي لعهد" class="sideNavSubItems"
             *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)" routerLinkActive="active">
             <p class="font">الإفتتاحي العهد</p>
           </a>
 
-          <a mat-list-item routerLink="/StrStockTaking" class="sideNavSubItems"
+          <a mat-list-item routerLink="/الجرد" class="sideNavSubItems"
             *ngIf="hasAccessRole(pageEnums.StrStockTaking)" routerLinkActive="active">
             <p class="font">الجرد</p>
           </a>
-          <a mat-list-item routerLink="/reports" class="sideNavSubItems"
+          <a mat-list-item routerLink="/تقارير المخازن" class="sideNavSubItems"
             *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)" routerLinkActive="active">
             <p class="font">تقارير المخازن</p>
           </a>
@@ -206,37 +207,37 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="/account"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الحسابات"
                 *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
                 <p class="font">الحسابات</p>
               </a>
            
-              <a mat-list-item class="sideNavSubItems" routerLink="/FiAccountItem"
+              <a mat-list-item class="sideNavSubItems" routerLink="/البنود الاحصائية"
                 *ngIf="hasAccessRole(pageEnums.FiAccountItem)" routerLinkActive="active">
                 <p class="font">البنود الاحصائية</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/EntrySource"
+              <a mat-list-item class="sideNavSubItems" routerLink="/مصدر الدخل"
                 *ngIf="hasAccessRole(pageEnums.EntrySource)" routerLinkActive="active">
                 <p class="font">مصدر الدخل</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/EntrySourceType"
+              <a mat-list-item class="sideNavSubItems" routerLink="/نوع مصدر الدخل"
                 *ngIf="hasAccessRole(pageEnums.EntrySourceType)" routerLinkActive="active">
                 <p class="font">نوع مصدر الدخل</p>
               </a>
             </mat-nav-list>
           </mat-expansion-panel>
-          <a mat-list-item class="sideNavSubItems" routerLink="/FIJournal" *ngIf="hasAccessRole(pageEnums.FIJournal)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/اليوميات" *ngIf="hasAccessRole(pageEnums.FIJournal)"
             routerLinkActive="active">
             <p class="font">اليوميات</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/fi-entry" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/القيود" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
             routerLinkActive="active">
             <p class="font">القيود</p>
           </a>
 
-          <a mat-list-item class="sideNavSubItems" routerLink="/fiReports" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/تقارير الحسابات" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
             routerLinkActive="active">
             <p class="font">تقارير الحسابات</p>
           </a>
@@ -385,16 +386,16 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="/hr-jobTitle"
+              <a mat-list-item class="sideNavSubItems" routerLink="/المسمى الوظيفى"
                 *ngIf="hasAccessRole(pageEnums.HR_JOB_TITLE)" routerLinkActive="active">
                 <p class="font">المسمي الوظيفي</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/hr-incentive"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الحوافز"
                 *ngIf="hasAccessRole(pageEnums.HR_INCENTIVE)" routerLinkActive="active">
                 <p class="font">الحوافز</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/hr-hiringType"
+              <a mat-list-item class="sideNavSubItems" routerLink="/توع التوظيف"
                 *ngIf="hasAccessRole(pageEnums.HR_HIRING_TYPE)" routerLinkActive="active">
                 <p class="font">نوع التوظيف</p>
               </a>
@@ -418,8 +419,8 @@
                 *ngIf="hasAccessRole(pageEnums.QUALIFICATION)" routerLinkActive="active">
                 <p class="font">المؤهل</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/QualificationLevel" routerLinkActive="active">
-                <p class="font">مستوى المؤهل</p>
+              <a mat-list-item class="sideNavSubItems" routerLink="/الدرجة العلمية" routerLinkActive="active">
+                <p class="font">الدرجة العلمية</p>
               </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/QualitativeGroup"
                 *ngIf="hasAccessRole(pageEnums.QUALIATIVE_GROUP)" routerLinkActive="active">
