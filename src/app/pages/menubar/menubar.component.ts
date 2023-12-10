@@ -172,18 +172,10 @@ export class MenubarComponent {
     console.log("store2: ",store2.name);
 
   
-      if(store2.name===this.pageEnums.WITHDRAW  ){
-        this.router.navigate(['/withdraw']);
+      if(store2.name){
+        this.router.navigate([`/${store2.name}`]);
       }
-      else if(store2.name===this.pageEnums.STRAdd  ){
-        this.router.navigate(['/STRAdd']);
-      }
-      else if(store2.name===this.pageEnums.STR_OPENING_STOCK  ){
-        this.router.navigate(['/str-openingStock']);
-      }
-      else if(store2.name===this.pageEnums.EMPLOYEE_OPENING  ){
-        this.router.navigate(['/employeeOpening']);
-      }
+     
     
   }
   storeValueChanges(storeId: any) {}
