@@ -99,6 +99,10 @@ export class GlobalService {
     );
   }
 
+  getStore() {
+    return this.http.get<any>(`${this.url}/STRStore/get/all`);
+  }
+
   getPermissionUserRoles(
    module: any,
    routerLinkPage:any,

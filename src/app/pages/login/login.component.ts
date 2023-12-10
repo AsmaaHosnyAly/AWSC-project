@@ -16,7 +16,7 @@ export class LoginComponent {
   transactionUserId: any;
   modules:any
   showLogin:any
-
+  testRoles:any
 
   OnIinit(): void {
 
@@ -105,12 +105,22 @@ export class LoginComponent {
     if(this.loginForm.valid){
       this.global.loginbyJWT(this.loginForm.value).subscribe({
         next: (res) => {
-          console.log(res)
           localStorage.setItem('transactionUserId', res.id);
           this.global.isLogIn = true;
           localStorage.setItem('accessToken', res.accessToken);
-          // localStorage.setItem('userRoles', res.roles);
-          localStorage.setItem('modules', res.modules);
+      //     let modules=res['modules']
+      //     let tmpTabKV: { }[] = [];
+      //     // console.log('userRoles',modules)
+      //     for (let i = 0; i <modules!.length; i++) {
+      //       console.log('userRoles',modules[i].roles)
+      //       // this.testRoles.push(modules[i].roles)
+      // tmpTabKV.push([modules[i].roles]);
+
+      //     }
+      //     // localStorage.setItem('userRoles',tmpTabKV);
+      //     this.testRoles=  tmpTabKV
+      //    console.log("this.testRoles",this.testRoles)
+        
           this.toastrloginSuccess();
           this.router.navigate(['/home']);
         },
