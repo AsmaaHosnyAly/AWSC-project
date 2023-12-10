@@ -324,8 +324,10 @@
                   <div class="searchLabels">
                     <mat-label>الرقم:</mat-label>
                     <mat-form-field appearance="outline" class="groupInput">
-                      <input id="autoNoInput" matInput formControlName="no"
-                        [value]="isEdit == true ? editData.no : autoNo" type="number" min="0" />
+                      <!-- <input id="autoNoInput" matInput formControlName="no"
+                        [value]="isEdit == true ? editData.no : autoNo" type="number" min="0" /> -->
+                        <input id="autoNoInput" matInput formControlName="no"
+                        [value]="editData ? editData.no : '' " type="number" min="0" />
                     </mat-form-field>
                   </div>
 
@@ -567,7 +569,7 @@
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 120px !important;">
                           <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
-                            [value]="editDataDetails ? editDataDetails.qty : ''" readonly="true" />
+                            [value]="editDataDetails ? editDataDetails.qty : ''" />
                         </mat-form-field>
                       </div>
                       <!-- </div> -->
@@ -581,8 +583,8 @@
                         </mat-form-field>
                       </div>
 
-                      <!-- </div> -->
-                      <div style="display: flex; flex-direction: row">
+                     
+                      <!-- <div style="display: flex; flex-direction: row">
                         <div class="radio">
                           <mat-label style="margin-top: 9px">
                             حالةالصنف*</mat-label>
@@ -597,7 +599,8 @@
                             <mat-radio-button value="كهنة و خردة">كهنة و خردة</mat-radio-button>
                           </mat-radio-group>
                         </div>
-                      </div>
+                      </div> -->
+
                     </div>
 
                     <div>

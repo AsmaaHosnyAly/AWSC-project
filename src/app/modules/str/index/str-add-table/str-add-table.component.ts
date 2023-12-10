@@ -360,7 +360,7 @@ export class STRAddTableComponent implements OnInit {
       map(value => this._filterCommodity(value))
     );
 
-    this.stateDefaultValue = "جديد";
+    // this.stateDefaultValue = "جديد";
 
     this.productCtrl = new FormControl();
     this.filteredProduct = this.productCtrl.valueChanges.pipe(
@@ -434,15 +434,15 @@ export class STRAddTableComponent implements OnInit {
       // sourceStoreName: [''],
 
       addTypeId: [''],
-      entryNo: ['0'],
-      approvalStatusId: ['0'],
-      commodityId: ['0']
+      entryNo: [0],
+      approvalStatusId: [0],
+      commodityId: [0]
 
     });
 
     this.groupDetailsForm = this.formBuilder.group({
       addId: ['', Validators.required], //MasterId
-      qty: ['1', Validators.required],
+      qty: ['', Validators.required],
       price: ['', Validators.required],
       total: ['', Validators.required],
       transactionUserId: ['', Validators.required],
@@ -451,7 +451,8 @@ export class STRAddTableComponent implements OnInit {
       avgPrice: [''],
       balanceQty: ['', Validators.required],
       percentage: ['100'],
-      state: [this.stateDefaultValue, Validators.required],
+      // state: [this.stateDefaultValue],
+      state: [],
       fullCode: [''],
 
 
@@ -591,7 +592,8 @@ export class STRAddTableComponent implements OnInit {
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
 
-    this.autoNo = '';
+    this.groupMasterForm.controls['no'].setValue('');
+    // this.autoNo = '';
     this.editData = '';
     this.lists = [];
     this.sellerCode = '';
@@ -599,14 +601,14 @@ export class STRAddTableComponent implements OnInit {
 
     this.MasterGroupInfoEntered = false;
     this.groupMasterForm.controls['date'].setValue('');
-    this.groupMasterForm.controls['entryNo'].setValue('');
+    // this.groupMasterForm.controls['entryNo'].setValue('');
     this.groupMasterForm.controls['employeeId'].setValue('');
     this.groupMasterForm.controls['sellerId'].setValue('');
     this.groupMasterForm.controls['sourceStoreId'].setValue('');
     this.listCtrl.setValue('');
 
-    this.groupMasterForm.controls['commodityId'].setValue('');
-    this.groupMasterForm.controls['approvalStatusId'].setValue('');
+    // this.groupMasterForm.controls['commodityId'].setValue('');
+    // this.groupMasterForm.controls['approvalStatusId'].setValue('');
 
     this.commodityCtrl.setValue('');
     this.approvalStatusCtrl.setValue('');
@@ -654,14 +656,15 @@ export class STRAddTableComponent implements OnInit {
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
 
-    this.autoNo = '';
+    // this.autoNo = '';
+
     this.editData = row;
     this.editDataDetails = '';
     this.groupDetailsForm.reset();
     this.fullCodeValue = '';
     this.itemCtrl.setValue('');
-    this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
-    this.groupDetailsForm.controls['qty'].setValue(1);
+    // this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
+    // this.groupDetailsForm.controls['qty'].setValue(1);
 
     console.log('master edit form: ', this.editData);
 
@@ -867,7 +870,7 @@ export class STRAddTableComponent implements OnInit {
                 }
                 else {
                   this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-                  this.getStrOpenAutoNo();
+                  // this.getStrOpenAutoNo();
                 }
               },
               error: (err) => {
@@ -1166,6 +1169,8 @@ export class STRAddTableComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.sumOfItemsStore = res;
+          this.groupDetailsForm.controls['balanceQty'].setValue(res);
+
           console.log("sumOfItemsStore : ", this.sumOfItemsStore);
         },
         error: (err) => {
@@ -1602,7 +1607,7 @@ export class STRAddTableComponent implements OnInit {
     this.groupMasterForm.controls['fiscalYearId'].setValue(this.fiscalYearSelectedId);
     this.isEdit = false;
 
-    this.getStrOpenAutoNo();
+    // this.getStrOpenAutoNo();
   }
 
   getStrOpenAutoNo() {
@@ -1825,9 +1830,9 @@ export class STRAddTableComponent implements OnInit {
 
     // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
 
-    if (this.groupMasterForm.getRawValue().no == this.autoNo) {
-      this.groupMasterForm.controls['no'].setValue(this.autoNo);
-    }
+    // if (this.groupMasterForm.getRawValue().no == this.autoNo) {
+    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
+    // }
 
     console.log("Master add form : ", this.groupMasterForm.value)
 
@@ -1867,7 +1872,7 @@ export class STRAddTableComponent implements OnInit {
           this.groupDetailsForm.reset();
 
           // this.getDetailedRowData = '';
-          this.groupDetailsForm.controls['qty'].setValue(1);
+          // this.groupDetailsForm.controls['qty'].setValue(1);
 
 
         },
@@ -2162,6 +2167,8 @@ export class STRAddTableComponent implements OnInit {
             .subscribe({
               next: (res) => {
                 this.sumOfItemsStore = res;
+                this.groupDetailsForm.controls['balanceQty'].setValue(res);
+
                 console.log("sumOfItemsStore : ", this.sumOfItemsStore);
               },
               error: (err) => {
@@ -2279,6 +2286,8 @@ export class STRAddTableComponent implements OnInit {
               .subscribe({
                 next: (res) => {
                   this.sumOfItemsStore = res;
+                this.groupDetailsForm.controls['balanceQty'].setValue(res);
+
                   console.log("sumOfItemsStore : ", this.sumOfItemsStore);
                 },
                 error: (err) => {
@@ -2369,6 +2378,8 @@ export class STRAddTableComponent implements OnInit {
                 .subscribe({
                   next: (res) => {
                     this.sumOfItemsStore = res;
+                this.groupDetailsForm.controls['balanceQty'].setValue(res);
+
                     console.log("sumOfItemsStore : ", this.sumOfItemsStore);
                   },
                   error: (err) => {
@@ -2637,16 +2648,16 @@ export class STRAddTableComponent implements OnInit {
               this.toastrSuccess();
               // alert("تمت إضافة المجموعة بنجاح");
               this.groupDetailsForm.reset();
-              this.groupDetailsForm.controls['qty'].setValue(1);
-              this.groupDetailsForm.controls['percentage'].setValue(100);
-              this.groupDetailsForm.controls['state'].setValue("جديد");
+              // this.groupDetailsForm.controls['qty'].setValue(1);
+              // this.groupDetailsForm.controls['percentage'].setValue(100);
+              // this.groupDetailsForm.controls['state'].setValue("جديد");
 
               // this.updateDetailsForm();
 
               console.log("form details after remove controllers: ", this.groupDetailsForm.value)
 
               this.groupDetailsForm.reset();
-              this.groupDetailsForm.controls['qty'].setValue(1);
+              // this.groupDetailsForm.controls['qty'].setValue(1);
               this.itemCtrl.setValue('');
               this.itemByFullCodeValue = '';
               this.fullCodeValue = '';
@@ -2702,14 +2713,14 @@ export class STRAddTableComponent implements OnInit {
             this.toastrEditSuccess();
             // console.log("update res: ", res);
             this.groupDetailsForm.reset();
-            this.groupDetailsForm.controls['state'].setValue("جديد");
+            // this.groupDetailsForm.controls['state'].setValue("جديد");
             this.itemByFullCodeValue = '';
             this.fullCodeValue = '';
             this.getAllDetailsForms();
             this.editDataDetails = '';
             this.itemCtrl.setValue('');
 
-            this.autoNo = this.groupMasterForm.getRawValue().no;
+            // this.autoNo = this.groupMasterForm.getRawValue().no;
 
 
           },

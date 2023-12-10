@@ -610,18 +610,6 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
     this.groupMasterForm.removeControl('id')
     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
 
-    // if (this.groupMasterForm.getRawValue().no) {
-    //   console.log("no changed: ", this.groupMasterForm.getRawValue().no)
-    // }
-    // else {
-    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
-    //   console.log("no took auto number: ", this.groupMasterForm.getRawValue().no)
-    // }
-
-    // this.fiscalYearName = await this.getFiscalYearById(this.groupMasterForm.getRawValue().fiscalYearId);
-    // this.employeeName = await this.getEmployeeById(this.groupMasterForm.getRawValue().employeeId);
-    // this.distEmployeeName = await this.getDistEmployeeById(this.groupMasterForm.getRawValue().destEmployeeId);
-
     this.groupMasterForm.controls['no'].setValue(this.autoNo);
 
     console.log("groupMaster: ", this.groupMasterForm.value);
@@ -760,22 +748,6 @@ export class StrEmployeeExchangeDialogComponent implements OnInit {
   }
 
   editDetailsForm(row: any) {
-
-    // if (this.editDataDetails || row) {
-    //   this.getDetailedRowData = row;
-
-    //   this.actionBtnDetails = "Update";
-    //   this.groupDetailsForm.controls['employee_ExchangeId'].setValue(this.getDetailedRowData.employee_ExchangeId);
-
-    //   this.groupDetailsForm.controls['qty'].setValue(this.getDetailedRowData.qty);
-    //   this.groupDetailsForm.controls['price'].setValue(this.getDetailedRowData.price);
-    //   this.groupDetailsForm.controls['total'].setValue(parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty));
-    //   this.groupDetailsForm.controls['percentage'].setValue(this.getDetailedRowData.percentage);
-    //   this.groupDetailsForm.controls['state'].setValue(this.getDetailedRowData.state);
-
-    //   this.groupDetailsForm.controls['itemId'].setValue(this.getDetailedRowData.itemId);
-
-    // }
 
     this.router.navigate(['/employeeOpening'], { queryParams: { masterId: this.getMasterRowId.id} })
     this.dialog.open(StrEmployeeExchangeDetailsDialogComponent, {
