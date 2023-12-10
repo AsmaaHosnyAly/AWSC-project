@@ -1053,7 +1053,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupsearchForm.getRawValue().storeId;
     if (report != null && reportType != null) {
-      this.loading = true;
+      // this.loading = true;
       this.api
         .getStrEmployeeCustodyReport(
           no,
@@ -1068,7 +1068,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -1083,7 +1083,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },

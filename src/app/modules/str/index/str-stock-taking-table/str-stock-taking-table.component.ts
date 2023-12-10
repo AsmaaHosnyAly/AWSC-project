@@ -710,7 +710,7 @@ export class StrStockTakingTableComponent implements OnInit {
     let storeId = this.groupMasterSearchForm.getRawValue().storeId;
     let id;
     if (report != null && reportType != null) {
-      this.loading = true;
+      // this.loading = true;
 
       if (report == 'StockTakingCommodityIdTotalReport') {
         id = 6;
@@ -722,7 +722,7 @@ export class StrStockTakingTableComponent implements OnInit {
         )
         .subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             let blob: Blob = res.body as Blob;
             console.log(blob);
             let url = window.URL.createObjectURL(blob);
@@ -737,7 +737,7 @@ export class StrStockTakingTableComponent implements OnInit {
             // this.dataSource.sort = this.sort;
           },
           error: (err) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('eroorr', err);
             window.open(err.url);
           },

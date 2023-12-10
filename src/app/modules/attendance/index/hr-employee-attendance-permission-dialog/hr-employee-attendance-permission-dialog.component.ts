@@ -38,9 +38,10 @@ export class HrEmployeeAttendancePermissionDialogComponent {
   getEmployeeAttendancePermissionData: any;
 
   employeeCtrl: FormControl;
-  filteredEmployee: Observable<Employee[]>;
+  filteredEmployees: Observable<Employee[]>;
   employees: Employee[] = [];
   selectedEmployee: Employee | undefined;
+
 
   attendancePermissionCtrl: FormControl;
   filteredAttendancePermission: Observable<attendancePermission[]>;
@@ -61,10 +62,11 @@ accordion!: MatAccordion;
     @Inject(MAT_DIALOG_DATA) public editData : any,
     private dialogRef : MatDialogRef<HrEmployeeAttendancePermissionDialogComponent>){
       this.employeeCtrl = new FormControl();
-      this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterEmployee(value))
-      );
+      this.employeeCtrl = new FormControl();
+    this.filteredEmployees = this.employeeCtrl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filteremployees(value))
+    );
 
       this.attendancePermissionCtrl = new FormControl();
       this.filteredAttendancePermission = this.attendancePermissionCtrl.valueChanges.pipe(
@@ -113,30 +115,33 @@ accordion!: MatAccordion;
       }
     }
 
-    displayEmployeeName(employee: any): string {
-      return employee && employee.name ? employee.name : '';
-    }
+     displayEmployeeName(employee: any): string {
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
+  }
+  employeeSelected(event: MatAutocompleteSelectedEvent): void {
+    const employee = event.option.value as Employee;
+    console.log('employee selected: ', employee);
+    this.selectedEmployee = employee;
 
-    employeeSelected(event: MatAutocompleteSelectedEvent): void {
-      const employee = event.option.value as Employee;
-      this.selectedEmployee = employee;
-      this.EmployeeAttendancePermission.patchValue({ employeeId: employee.id });
-      this.EmployeeAttendancePermission.patchValue({ employeeName: employee.name });
-    }
+    this.EmployeeAttendancePermission.patchValue({ employeeId: employee.id });
+    this.EmployeeAttendancePermission.patchValue({ employeeName: employee.name });
+  
 
-    private _filterEmployee(value: string): Employee[] {
-      const filterValue = value.toLowerCase();
-      return this.employees.filter(employee =>
-        employee.name.toLowerCase().includes(filterValue) 
-      );
-    }
+  }
 
-    openAutoemployee() {
-      this.employeeCtrl.setValue(''); // Clear the input field value
-    
-      // Open the autocomplete dropdown by triggering the value change event
-      this.employeeCtrl.updateValueAndValidity();
-    }
+  private _filteremployees(value: string): Employee[] {
+    const filterValue = value;
+    return this.employees.filter((employee) =>
+      employee.name ? employee.name.includes(filterValue) : '-'
+    );
+  }
+
+  openAutoEmployee() {
+    this.employeeCtrl.setValue(''); // Clear the input field value
+
+    // Open the autocomplete dropdown by triggering the value change event
+    this.employeeCtrl.updateValueAndValidity();
+  }
     displayAttendancePermissionName(attendancePermission: any): string {
       return attendancePermission && attendancePermission.name ? attendancePermission.name : '';
     }
