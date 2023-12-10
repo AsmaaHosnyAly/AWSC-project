@@ -126,7 +126,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
 
   ///////////////////////////
   editData: any;
-  ediDetailsData: any;
+  // ediDetailsData: any;
   MasterGroupInfoEntered = false;
   groupMasterFormDialog!: FormGroup;
   @ViewChild("matgroup", { static: false })

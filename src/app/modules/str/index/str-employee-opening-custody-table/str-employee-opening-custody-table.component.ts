@@ -29,28 +29,28 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { StrOpeningStockTableComponent } from '../str-opening-stock-table/str-opening-stock-table.component';
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) {}
+  constructor(public id: number, public name: string, public code: string) { }
 }
 
 export class costcenter {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class item {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 export class List {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 // export class Item {
 //   constructor(public id: number, public name: string) { }
 // }
 
 export class AddType {
-  constructor(public id: number, public name: string, public source: any) {}
+  constructor(public id: number, public name: string, public source: any) { }
 }
 
 export class ApprovalStatus {
-  constructor(public id: number, public name: string) {}
+  constructor(public id: number, public name: string) { }
 }
 interface STREmployeeOpeningCustody {
   no: any;
@@ -213,6 +213,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.employeeCtrl = new FormControl();
     this.filteredEmployee = this.employeeCtrl.valueChanges.pipe(
       startWith(''),
+      debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
       map((value) => this._filteremployees(value))
     );
 
@@ -231,7 +232,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     console.log('accessToken2', this.decodedToken2);
 
     this.getAllMasterForms();
-    this.getAllEmployees();
+    // this.getAllEmployees();
     this.getFiscalYears();
     this.getEmployees();
     this.getItme();
@@ -273,7 +274,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       price: ['', Validators.required],
       total: ['', Validators.required],
       state: [this.stateDefaultValue, Validators.required],
-      percentage: ['', Validators.required],
+      percentage: ['100'],
       transactionUserId: ['', Validators.required],
       itemId: ['', Validators.required],
       itemName: ['', Validators.required],
@@ -378,7 +379,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     //  this.getTypes();
     // this.getSellers();
     // this.getReciepts();
-    this.getEmployees();
+    // this.getEmployees();
     // this.getStrAddAutoNo();
     this.getStrEmployeeOpenAutoNo();
     this.getFiscalYears();
@@ -681,40 +682,40 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.api.deleteStrEmployeeOpenDetails(id).subscribe({
       next: (res) => {
         // alert('تم حذف الصنف بنجاح');
-        this.getAllMasterForms();
-        this.api
-          .getStrEmployeeOpenDetailsByMasterId(this.editData.id)
-          .subscribe({
-            next: (res) => {
-              // this.itemsList = res;
-              // this.matchedIds = res[1].strEmployeeOpeningCustodyDetailsGetVM;
+        this.getAllDetailsForms();
+        // this.api
+        //   .getStrEmployeeOpenDetailsByMasterId(this.editData.id)
+        //   .subscribe({
+        //     next: (res) => {
+        //       // this.itemsList = res;
+        //       // this.matchedIds = res[1].strEmployeeOpeningCustodyDetailsGetVM;
 
-              console.log(res);
+        //       console.log(res);
 
-              this.dataSource = new MatTableDataSource(res);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
+        //       this.dataSource = new MatTableDataSource(res);
+        //       this.dataSource.paginator = this.paginator;
+        //       this.dataSource.sort = this.sort;
 
-              // if (this.matchedIds) {
-              //   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[1].strEmployeeOpeningCustodyDetailsGetVM);
-              //   this.dataSource = new MatTableDataSource(this.matchedIds);
-              //   this.dataSource.paginator = this.paginator;
-              //   this.dataSource.sort = this.sort;
+        //       // if (this.matchedIds) {
+        //       //   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[1].strEmployeeOpeningCustodyDetailsGetVM);
+        //       //   this.dataSource = new MatTableDataSource(this.matchedIds);
+        //       //   this.dataSource.paginator = this.paginator;
+        //       //   this.dataSource.sort = this.sort;
 
-              //   this.sumOfTotals = 0;
-              //   for (let i = 0; i < this.matchedIds.length; i++) {
-              //     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-              //     this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-              //     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+        //       //   this.sumOfTotals = 0;
+        //       //   for (let i = 0; i < this.matchedIds.length; i++) {
+        //       //     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+        //       //     this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+        //       //     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
 
-              //   }
-              // }
-            },
-            error: (err) => {
-              // console.log("fetch items data err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
-            },
-          });
+        //       //   }
+        //       // }
+        //     },
+        //     error: (err) => {
+        //       // console.log("fetch items data err: ", err);
+        //       // alert("خطا اثناء جلب العناصر !");
+        //     },
+        //   });
       },
       error: (err) => {
         console.log('delete details err: ', err);
@@ -736,11 +737,54 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     });
   }
 
-  getFiscalYears() {
+  // getFiscalYears() {
+  //   this.api.getFiscalYears().subscribe({
+  //     next: (res) => {
+  //       this.fiscalYearsList = res;
+  //       console.log('fiscalYears res in search: ', this.fiscalYearsList);
+  //     },
+  //     error: (err) => {
+  //       // console.log("fetch fiscalYears data err: ", err);
+  //       // alert("خطا اثناء جلب العناصر !");
+  //     },
+  //   });
+  // }
+
+  async getFiscalYears() {
     this.api.getFiscalYears().subscribe({
-      next: (res) => {
+      next: async (res) => {
         this.fiscalYearsList = res;
-        console.log('fiscalYears res in search: ', this.fiscalYearsList);
+
+        this.api.getLastFiscalYear().subscribe({
+          next: async (res) => {
+            // this.defaultFiscalYearSelectValue = await this.fiscalYearsList.find((yearList: { fiscalyear: number; }) => yearList.fiscalyear == new Date().getFullYear());
+            this.defaultFiscalYearSelectValue = await res;
+            console.log(
+              'selectedYearggggggggggggggggggg: ',
+              this.defaultFiscalYearSelectValue
+            );
+            if (this.editData) {
+              console.log(
+                'selectedYear id in get: ',
+                this.editData.fiscalYearId
+              );
+
+              this.groupMasterForm.controls['fiscalYearId'].setValue(
+                this.editData.fiscalYearId
+              );
+            } else {
+              this.groupMasterForm.controls['fiscalYearId'].setValue(
+                this.defaultFiscalYearSelectValue.id
+              );
+              // this.getStrWithdrawAutoNo();
+              this.getStrEmployeeOpenAutoNo();
+            }
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          },
+        });
       },
       error: (err) => {
         // console.log("fetch fiscalYears data err: ", err);
@@ -748,10 +792,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       },
     });
   }
+
   getEmployees() {
     this.api.getEmployee().subscribe((lists) => {
       this.employeesList = lists;
-     
+
     });
   }
   getItme() {
@@ -855,6 +900,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
     this.groupsearchForm.patchValue({ employeeId: employee.id });
+    this.groupsearchForm.patchValue({ employeeName: employee.name });
     console.log(
       'employee in form: ',
       this.groupsearchForm.getRawValue().employeeId
@@ -863,7 +909,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   }
   private _filteremployees(value: string): Employee[] {
     const filterValue = value.toLowerCase();
-    return this.employeesList.filter((employee) =>
+    return this.employeesList.filter((employee: { name: string }) =>
       employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
     );
   }
@@ -1104,107 +1150,117 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     console.log('state value changed: ', state.value);
     this.groupDetailsForm.controls['state'].setValue(state.value);
 
-    if (this.groupDetailsForm.getRawValue().state == 'جديد') {
+    // if (this.groupDetailsForm.getRawValue().state == 'جديد') {
+    //   this.isReadOnlyPercentage = true;
+    //   this.groupDetailsForm.controls['percentage'].setValue(100);
+    // } else if (this.groupDetailsForm.getRawValue().state == 'مستعمل') {
+    //   this.isReadOnlyPercentage = true;
+    //   this.groupDetailsForm.controls['percentage'].setValue(70);
+    // } else if (this.groupDetailsForm.getRawValue().state == 'قابل للاصلاح') {
+    //   this.isReadOnlyPercentage = true;
+    //   this.groupDetailsForm.controls['percentage'].setValue(40);
+    // } else if (this.groupDetailsForm.getRawValue().state == 'كهنة و خردة') {
+    //   this.isReadOnlyPercentage = true;
+    //   this.groupDetailsForm.controls['percentage'].setValue(0);
+    // }
+
+    console.log('state value changed: ', this.groupDetailsForm.getRawValue().state);
+    if (this.groupDetailsForm.getRawValue().state == "مستعمل") {
+      this.isReadOnlyPercentage = false;
+      this.groupDetailsForm.controls['state'].setValue(this.groupDetailsForm.getRawValue().state);
+    } else {
       this.isReadOnlyPercentage = true;
+      this.groupDetailsForm.controls['state'].setValue(this.groupDetailsForm.getRawValue().state);
       this.groupDetailsForm.controls['percentage'].setValue(100);
-    } else if (this.groupDetailsForm.getRawValue().state == 'مستعمل') {
-      this.isReadOnlyPercentage = true;
-      this.groupDetailsForm.controls['percentage'].setValue(70);
-    } else if (this.groupDetailsForm.getRawValue().state == 'قابل للاصلاح') {
-      this.isReadOnlyPercentage = true;
-      this.groupDetailsForm.controls['percentage'].setValue(40);
-    } else if (this.groupDetailsForm.getRawValue().state == 'كهنة و خردة') {
-      this.isReadOnlyPercentage = true;
-      this.groupDetailsForm.controls['percentage'].setValue(0);
     }
   }
   getAllDetailsForms() {
+    // console.log('editDataaaa: ', this.editData);
+    // this.getMasterRowId = this.editData;
     if (this.editData) {
-      this.isEdit = true;
-      console.log('nnnnnnnnnnnnnnnnnnn edit d before: ', this.editData);
-
-      this.actionBtnDetails = 'Update';
-      this.groupDetailsForm.controls['custodyId'].setValue(
-        this.editData.custodyId
-      );
-      this.groupDetailsForm.controls['transactionUserId'].setValue(
-        this.editData.transactionUserId
-      );
-
-      this.groupDetailsForm.controls['qty'].setValue(this.editData.qty);
-      this.groupDetailsForm.controls['price'].setValue(this.editData.price);
-      this.groupDetailsForm.controls['state'].setValue(this.editData.state);
-      this.groupDetailsForm.controls['percentage'].setValue(
-        this.editData.percentage
-      );
-
-      this.groupDetailsForm.controls['total'].setValue(this.editData.total);
-
-      this.groupDetailsForm.controls['itemId'].setValue(this.editData.itemId);
-
-      this.groupDetailsForm.controls['notes'].setValue(this.editData.notes);
-      this.groupDetailsForm.controls['description'].setValue(
-        this.editData.description
-      );
-
-      console.log('nnnnnnnnnnnnnnnnnnn edit d after: ', this.editData);
-
-      this.groupDetailsForm.addControl(
-        'id',
-        new FormControl('', Validators.required)
-      );
-      this.groupDetailsForm.controls['id'].setValue(this.editData.id);
-      // this.isEditDataReadOnly = true;
-
-      if (
-        this.groupDetailsForm.getRawValue().price == 0 ||
-        this.editData?.price == 0
-      ) {
-        this.isReadOnly = false;
-        console.log('change readOnly to enable here');
-      } else {
-        this.isReadOnly = true;
-        console.log('change readOnly to disable here');
+      this.getMasterRowId = {
+        "id": this.editData.id
       }
+    }
 
-      // this.groupDetailsForm.controls['no'].setValue(this.editData.no);
+
+    console.log('mastered row get all data: ', this.getMasterRowId);
+
+    if (this.getMasterRowId) {
+
+      console.log('enter condition');
+      this.api
+        .getStrEmployeeOpenDetailsByMasterId(this.getMasterRowId.id)
+        .subscribe({
+          next: (res) => {
+            console.log("res comming: ", res)
+            // this.itemsList = res;
+            this.matchedIds = res;
+
+            if (this.matchedIds) {
+              console.log(
+                'eeeeeeeeeeeeeeeeeeeeeeeeeeee: ',
+                res
+              );
+              this.dataSource = new MatTableDataSource(this.matchedIds);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals =
+                  this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.groupMasterForm.controls['total'].setValue(
+                  this.sumOfTotals
+                );
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+                this.updateMaster();
+              }
+            }
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
+          },
+        });
     }
   }
 
   editMasterForm(row: any) {
     console.log(row);
 
-    this.api.getStrEmployeeOpenDetailsByMasterId(row.id).subscribe({
-      next: (res) => {
-        // this.itemsList = res;
-        // this.matchedIds = res[1].strEmployeeOpeningCustodyDetailsGetVM;
+    // this.api.getStrEmployeeOpenDetailsByMasterId(row.id).subscribe({
+    //   next: (res) => {
+    //     // this.itemsList = res;
+    //     // this.matchedIds = res[1].strEmployeeOpeningCustodyDetailsGetVM;
 
-        console.log(res);
+    //     console.log(res);
 
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+    //     this.dataSource = new MatTableDataSource(res);
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
 
-        // if (this.matchedIds) {
-        //   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[1].strEmployeeOpeningCustodyDetailsGetVM);
-        //   this.dataSource = new MatTableDataSource(this.matchedIds);
-        //   this.dataSource.paginator = this.paginator;
-        //   this.dataSource.sort = this.sort;
+    //     // if (this.matchedIds) {
+    //     //   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[1].strEmployeeOpeningCustodyDetailsGetVM);
+    //     //   this.dataSource = new MatTableDataSource(this.matchedIds);
+    //     //   this.dataSource.paginator = this.paginator;
+    //     //   this.dataSource.sort = this.sort;
 
-        //   this.sumOfTotals = 0;
-        //   for (let i = 0; i < this.matchedIds.length; i++) {
-        //     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-        //     this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-        //     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+    //     //   this.sumOfTotals = 0;
+    //     //   for (let i = 0; i < this.matchedIds.length; i++) {
+    //     //     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+    //     //     this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+    //     //     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
 
-        //   }
-        // }
-      },
-      error: (err) => {
-        // console.log("fetch items data err: ", err);
-        // alert("خطا اثناء جلب العناصر !");
-      },
-    });
+    //     //   }
+    //     // }
+    //   },
+    //   error: (err) => {
+    //     // console.log("fetch items data err: ", err);
+    //     // alert("خطا اثناء جلب العناصر !");
+    //   },
+    // });
 
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
@@ -1251,7 +1307,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     );
     this.groupMasterForm.controls['id'].setValue(this.editData.id);
     this.isEditDataReadOnly = true;
+
+    this.getAllDetailsForms();
   }
+
+
   async addNewDetails() {
     if (!this.getMasterRowId) {
       this.getMasterRowId = {
@@ -1282,7 +1342,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
         this.groupDetailsForm.controls['total'].setValue(
           parseFloat(this.groupDetailsForm.getRawValue().price) *
-            parseFloat(this.groupDetailsForm.getRawValue().qty)
+          parseFloat(this.groupDetailsForm.getRawValue().qty)
         );
 
         this.groupDetailsForm.controls['custodyId'].setValue(
@@ -1362,6 +1422,25 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       this.updateDetailsForm();
     }
   }
+
+  editDetailsForm(row: any) {
+    this.editDataDetails = row;
+    console.log("editData DETAILS: ", this.editDataDetails);
+
+    this.groupDetailsForm.controls['custodyId'].setValue(this.editDataDetails.custodyId);
+    this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
+    this.itemCtrl.setValue(this.editDataDetails.itemName);
+    this.groupDetailsForm.controls['itemName'].setValue(this.editDataDetails.itemName);
+    this.groupDetailsForm.controls['description'].setValue(this.editDataDetails.description);
+    this.groupDetailsForm.controls['notes'].setValue(this.editDataDetails.notes);
+    this.groupDetailsForm.controls['percentage'].setValue(this.editDataDetails.percentage);
+    this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
+    this.groupDetailsForm.controls['qty'].setValue(this.editDataDetails.qty);
+    this.groupDetailsForm.controls['state'].setValue(this.editDataDetails.state);
+    this.groupDetailsForm.controls['total'].setValue(this.editDataDetails.total);
+    this.groupDetailsForm.controls['transactionUserId'].setValue(this.editDataDetails.transactionUserId);
+  }
+
   getItemByID(id: any) {
     // console.log("row item id: ", id);
     return fetch(this.api.getItemById(id))
@@ -1393,14 +1472,14 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       this.groupDetailsForm.controls['id'].setValue(this.editDataDetails.id);
       console.log('data item Name in edit: ', this.groupDetailsForm.value);
       // }
-      this.groupDetailsForm.controls['price'].setValue(
-        this.editDataDetails.price
-      );
+      // this.groupDetailsForm.controls['price'].setValue(
+      //   this.editDataDetails.price
+      // );
     }
 
     this.groupDetailsForm.controls['total'].setValue(
       parseFloat(this.groupDetailsForm.getRawValue().price) *
-        parseFloat(this.groupDetailsForm.getRawValue().qty)
+      parseFloat(this.groupDetailsForm.getRawValue().qty)
     );
 
     // if (this.getDetailedRowData) {
@@ -1411,7 +1490,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     // this.api.putStrWithdraw(this.groupMasterForm.value).subscribe({
     //   next: (res) => {
     if (this.groupDetailsForm.valid) {
-      this.api.putStEmp(this.groupDetailsForm.value).subscribe({
+      this.api.putStrEmployeeOpenDetail(this.groupDetailsForm.value).subscribe({
         next: (res) => {
           this.groupDetailsForm.reset();
           this.getAllDetailsForms();
@@ -1435,6 +1514,8 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
           // alert("خطأ أثناء تحديث سجل المجموعة !!")
         },
       });
+      this.groupDetailsForm.removeControl('id');
+
     }
   }
   toastrSuccess(): void {

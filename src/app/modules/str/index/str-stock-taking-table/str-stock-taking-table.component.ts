@@ -551,15 +551,15 @@ export class StrStockTakingTableComponent implements OnInit {
   }
 
   getItems() {
-    this.loading = true;
+    // this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
-        this.loading = false;
+        // this.loading = false;
         this.itemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
-        this.loading = false;
+        // this.loading = false;
         // console.log("fetch store data err: ", err);
         alert('خطا اثناء جلب العناصر !');
       },
@@ -572,7 +572,7 @@ export class StrStockTakingTableComponent implements OnInit {
   itemSelected(event: MatAutocompleteSelectedEvent): void {
     const item = event.option.value as item;
     console.log('item selected: ', item);
-    this.selecteditem = item;
+    this.selecteditem = item; 
     this.groupDetailsForm.patchValue({ itemId: item.id });
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
 
