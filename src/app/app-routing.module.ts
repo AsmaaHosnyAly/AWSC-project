@@ -480,55 +480,55 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'Qualification',
+        path: 'المؤهلات',
         component: HrQualificationComponent,
         canActivate: [qualificationGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'QualificationLevel',
+        path: 'الدرجة العلمية',
         component: HrQualificationLevelComponent,
         canActivate: [qualificationLevelGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeVacation',
+        path: 'اجازات الموظفين',
         component: HrEmployeeVacationComponent,
         canActivate: [hrEmployeeVacationGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       }, //waiting back to update
       {
-        path: 'hr-employeeVacationBalance',
+        path: 'رصيد الاجازات',
         component: HrEmployeeVacationBalanceComponent,
         canActivate: [hrEmployeeVacationBalanceGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-position',
+        path: 'الوظائف',
         component: HrPositionComponent,
         canActivate: [hrPositionGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-disciplinary',
+        path: 'الجزاءات',
         component: HrDisciplinaryComponent,
         canActivate: [hrDisciplinaryGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-financialDegree',
+        path: 'الدرجات المالية',
         component: HrFinancialDegreeComponent,
         canActivate: [hrFinancialDegreeGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeFinancialDegree',
+        path: 'درجات الموظف المالية',
         component: HrEmployeeFinancialDegreeComponent,
         canActivate: [hrEmployeeFinancialDegreeGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeِAppraisal',
+        path: 'تقييم الموظفين',
         component: HrEmployeeAppraisalComponent,
         canActivate: [hrEmployeeAppraisalGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
@@ -542,25 +542,25 @@ const routes: Routes = [
       },
 
       {
-        path: 'hr-employee-position',
+        path: 'وظائف الموظف',
         component: HrEmployeePositionComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
 
       {
-        path: 'hr-employee',
+        path: 'الموظفين',
         component: HrEmployeeComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'EmployeeQualification',
+        path: 'مؤهلات الوظف',
         component: HrEmployeeQualificationComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
-      { path: 'hr-Reports', component: HrReportsComponent },
+      { path: 'تقارير شئون العاملين', component: HrReportsComponent },
 
       /*********************End Hr modules شئون العاميلن***************************/
 
