@@ -323,13 +323,25 @@ const routes: Routes = [
       //   data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       // },
       {
-        path: 'EntrySource',
+        path: 'الحسابات',
+        component: FIAccountComponent,
+        canActivate: [accountGuard],
+        data: { PageLsit: [PagesEnums.ADD_ACCOUNT] },
+      },
+      {
+        path: 'البنود الاحصائية',
+        component: FiAccountItemComponent,
+        canActivate: [fiAccountItemGuard],
+        data: { PageLsit: [PagesEnums.FiAccountItem] },
+      },
+      {
+        path: 'مصدر الدخل',
         component: FIEntrySourceComponent,
         canActivate: [accountGuard],
         data: { PageLsit: [PagesEnums.ADD_ACCOUNT] },
       },
       {
-        path: 'EntrySourceType',
+        path: 'نوع مصدر الدخل',
         component: FIEntrySourceTypeComponent,
         canActivate: [entrySourceTypeGuard],
         data: { PageLsit: [PagesEnums.EntrySourceType] },
@@ -340,33 +352,23 @@ const routes: Routes = [
       //   canActivate: [productSerialGuard],
       //   data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       // },
+    
       {
-        path: 'FiAccountItem',
-        component: FiAccountItemComponent,
-        canActivate: [fiAccountItemGuard],
-        data: { PageLsit: [PagesEnums.FiAccountItem] },
-      },
-      {
-        path: 'FIJournal',
+        path: 'اليوميات',
         component: FIJournalComponent,
         canActivate: [fIJournalGuard],
         data: { PageLsit: [PagesEnums.FIJournal] },
       },
       {
-        path: 'fi-entry',
+        path: 'القيود',
         component: FiEntryContainerComponent,
         canActivate: [fiEntryGuard],
         data: { PageLsit: [PagesEnums.FI_ENTRY] },
       },
-      {
-        path: 'account',
-        component: FIAccountComponent,
-        canActivate: [accountGuard],
-        data: { PageLsit: [PagesEnums.ADD_ACCOUNT] },
-      },
+      
 
       {
-        path: 'fiReports',
+        path: 'تقارير الحسابات',
         component: FiReportsComponent,
       },
 
@@ -404,6 +406,18 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
+        path: 'المسمى الوظيفى',
+        component: HrJobTitleComponent,
+        canActivate: [hrJobTitleGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
+        path: 'الحوافز',
+        component: HrIncentiveAllowanceComponent,
+        canActivate: [hrIncentiveGuard],
+        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
+      },
+      {
         path: 'city',
         component: HrCityComponent,
         canActivate: [cityGuard],
@@ -433,12 +447,7 @@ const routes: Routes = [
         canActivate: [specializationGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
-      {
-        path: 'hr-jobTitle',
-        component: HrJobTitleComponent,
-        canActivate: [hrJobTitleGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
-      },
+      
       {
         path: 'hr-position',
         component: HrPositionComponent,
@@ -457,20 +466,15 @@ const routes: Routes = [
         canActivate: [hrVacationGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
+      
       {
-        path: 'hr-incentive',
-        component: HrIncentiveAllowanceComponent,
-        canActivate: [hrIncentiveGuard],
-        data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
-      },
-      {
-        path: 'hr-hiringType',
+        path: 'توع التوظيف',
         component: HrHiringTypeComponent,
         canActivate: [hrHiringTypeGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'SeveranceReason',
+        path: 'الانقطاع',
         component: HrSeveranceReasonComponent,
         canActivate: [severanceReasonGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
