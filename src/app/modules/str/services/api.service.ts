@@ -1417,10 +1417,10 @@ export class ApiService {
       HeaderId
     );
   }
-  putStrEmployeeOpenDetail(data: any, id: number) {
-    console.log('strOpenDetails id: ', id, 'strOpenDetails data: ', data);
+  putStrEmployeeOpenDetail(data: any) {
+    console.log('strOpenDetails data: ', data);
     return this.http.put<any>(
-      `${this.url}/STREmployeeOpeningCustodyDetails/update/` + id,
+      `${this.url}/STREmployeeOpeningCustodyDetails/update/`,
       data
     );
   }
