@@ -513,13 +513,13 @@
 
             <mat-nav-list> </mat-nav-list>
           </mat-expansion-panel>
-          <a mat-list-item class="sideNavSubItems" routerLink="/pr-user" *ngIf="hasAccessRole(pageEnums.PR_USER)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/المستخدمين" *ngIf="hasAccessRole(pageEnums.PR_USER)"
             routerLinkActive="active">
             <p class="font">المستخدمين</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/pr-group" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/مجموعات المستخدمين" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
             routerLinkActive="active">
-            <p class="font">المجموعات</p>
+            <p class="font">مجموعات المستخدمين</p>
           </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/pr-reports" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
             routerLinkActive="active">

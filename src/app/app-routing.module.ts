@@ -378,13 +378,13 @@ const routes: Routes = [
 
       { path: 'pr-home', component: PrHomeComponent },
       {
-        path: 'pr-group',
+        path: 'مجموعات المستخدمين',
         component: PrGroupTableComponent,
         canActivate: [prGroupGuard],
         data: { PageLsit: [PagesEnums.PR_GROUP] },
       },
       {
-        path: 'pr-user',
+        path: 'المستخدمين',
         component: PrUserTableComponent,
         canActivate: [prUserGuard],
         data: { PageLsit: [PagesEnums.PR_USER] },
