@@ -190,7 +190,7 @@ const routes: Routes = [
   {
     path: '',
     component: MenubarComponent,
-    data: {},
+    data: {}, 
 
     children: [
       { path: 'home', component: StrGroupHomeComponent },
@@ -569,43 +569,43 @@ const routes: Routes = [
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-AttendancePermission',
+        path: 'نوع الإذن',
         component: HrAttendancePermissionComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceMachine',
+        path: 'أجهزة البصمة',
         component: HrAttendanceMachineComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceMachineWorkPlace',
+        path: 'أماكن أجهزة البصمة',
         component: HrAttendanceMachineWorkPlaceComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-attendanceSchedule',
+        path: 'الورديات',
         component: HrAttendanceScheduleComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-employeeAttendanceSchedule',
+        path: 'ورديات الموظفين',
         component: HrEmployeeAttendanceScheduleComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-EmployeeAttendancePermission',
+        path: 'أذونات الموظفين',
         component: HrEmployeeAttendancePermissionComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
       },
       {
-        path: 'hr-EmployeeAttendance',
+        path: 'الحضور والإنصراف',
         component: HrEmployeeAttendanceComponent,
         canActivate: [productSerialGuard],
         data: { PageLsit: [PagesEnums.PRODUCT_SERIAL] },
