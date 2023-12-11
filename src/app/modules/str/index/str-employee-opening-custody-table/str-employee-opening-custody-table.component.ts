@@ -8,14 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { formatDate } from '@angular/common';
 import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
-import { STREmployeeOpeningCustodyDialogComponent } from '../str-employee-opening-custody-dialog/str-employee-opening-custody-dialog.component';
-
-import {
-  FormControl,
-  FormControlName,
-  FormBuilder,
-  FormGroup,
-  Validators,
+import {FormControl,FormBuilder,FormGroup,Validators,
 } from '@angular/forms';
 import { Observable, debounceTime, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -242,7 +235,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       no: ['', Validators.required],
       // storeId: ['', Validators.required],
       // storeName: ['', Validators.required],
-      // employeName: ['', Validators.required],
+      employeName: ['', Validators.required],
       employeeId: ['', Validators.required],
       costCenterName: ['', Validators.required],
       costCenterId: ['', Validators.required],
@@ -254,10 +247,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
 
     this.groupsearchForm = this.formBuilder.group({
       no: [''],
-      employee: [''],
+      // employee: [''],
       costcenter: [],
       costCenterId: [''],
       employeeId: [''],
+      employeeName: [''],
       StartDate: [''],
       EndDate: [''],
       itemName: [''],
@@ -796,9 +790,10 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   getEmployees() {
     this.api.getEmployee().subscribe((lists) => {
       this.employeesList = lists;
-
+      this.cdr.detectChanges();
     });
   }
+
   getItme() {
     this.loading = true;
     this.api.getItems().subscribe({
@@ -814,6 +809,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       },
     });
   }
+
   getcostCenter() {
     this.api.getCostCenter().subscribe({
       next: (res) => {
@@ -834,6 +830,9 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item;
+    // this.groupMasterForm.patchValue({ itemId: item.id });
+    this.groupsearchForm.patchValue({ itemId: item.id });
+
     this.groupDetailsForm.patchValue({ itemId: item.id });
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
   }
@@ -900,7 +899,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
     this.groupsearchForm.patchValue({ employeeId: employee.id });
-    this.groupsearchForm.patchValue({ employeeName: employee.name });
+    this.groupMasterForm.patchValue({ employeeId: employee.id });
     console.log(
       'employee in form: ',
       this.groupsearchForm.getRawValue().employeeId
