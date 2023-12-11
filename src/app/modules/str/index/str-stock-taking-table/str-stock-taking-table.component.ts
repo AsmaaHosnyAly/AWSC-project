@@ -794,7 +794,7 @@ export class StrStockTakingTableComponent implements OnInit {
   getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
     let store = this.groupMasterSearchForm.getRawValue().storeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-    this.loading = true;
+    // this.loading = true;
     this.api
       .getStrStockTakingSearach(no, store, fiscalYear, item, StartDate, EndDate)
       .subscribe({

@@ -946,7 +946,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     let employeeId = this.groupsearchForm.getRawValue().employeeId;
     let itemId = this.groupDetailsForm.getRawValue().itemId;
 
-    this.loading = true;
+    // this.loading = true;
 
     this.api
       .getStrEmployeeOpenSearach(
@@ -960,14 +960,14 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          this.loading = false;
+          // this.loading = false;
           console.log('search employeeExchange 4res: ', res);
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
         },
         error: (err) => {
-          this.loading = false;
+          // this.loading = false;
           console.log('eroorr', err);
         },
       });
