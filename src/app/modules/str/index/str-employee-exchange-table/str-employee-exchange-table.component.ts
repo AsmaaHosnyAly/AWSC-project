@@ -1050,7 +1050,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
     let employeeId = this.groupMasterForm.getRawValue().employeeId;
     let destEmployee = this.groupMasterForm.getRawValue().destEmployeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-    this.loading = true;
+    // this.loading = true;
     this.api
       .getStrEmployeeExchangeSearach(
         no,
@@ -1065,13 +1065,13 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          this.loading = false;
+          // this.loading = false;
           this.dataSource2 = res;
           this.dataSource2.paginator = this.paginator;
           this.dataSource2.sort = this.sort;
         },
         error: (err) => {
-          this.loading = false;
+          // this.loading = false;
           // alert("Error")
         },
       });
