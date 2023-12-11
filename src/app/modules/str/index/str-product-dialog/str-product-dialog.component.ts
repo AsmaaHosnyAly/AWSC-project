@@ -1,20 +1,13 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { GlobalService } from 'src/app/pages/services/global.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { __param } from 'tslib';
-import { ParseSourceSpan } from '@angular/compiler';
-import { PipesModule } from 'src/app/core/pipes/pipes.module';
 import { Observable, debounceTime, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
-import { UploadService } from 'src/app/upload.service';
-import { vendor } from '../str-model/str-model.component';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 export class Item {
   constructor(public id: number, public name: string) {}
