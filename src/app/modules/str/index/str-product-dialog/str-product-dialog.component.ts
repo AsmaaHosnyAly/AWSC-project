@@ -1,5 +1,10 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +14,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+
 export class Item {
   constructor(public id: number, public name: string) {}
 }
@@ -25,11 +31,13 @@ export class Model {
   selector: 'app-str-product-dialog',
   templateUrl: './str-product-dialog.component.html',
   styleUrls: ['./str-product-dialog.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StrProductDialogComponent implements OnInit {
   transactionUserId = localStorage.getItem('transactionUserId');
-  
+  fileName = '';
+  selectedFile: File | undefined;
+
   itemCtrl: FormControl;
   filteredItems: Observable<Item[]>;
   items: Item[] = [];
@@ -42,13 +50,17 @@ export class StrProductDialogComponent implements OnInit {
   filteredModels: Observable<Model[]>;
   models: Model[] = [];
   selectedModel: Model | undefined;
+  status: 'initial' | 'uploading' | 'success' | 'fail' = 'initial';
+  file: any;
   getProductData: any;
   productForm!: FormGroup;
   actionBtn: string = 'حفظ';
   autoCode: any;
   productIdToEdit: any;
   existingNames: string[] = [];
-  loading :boolean=false;
+  loading: boolean = false;
+  MasterGroupInfoEntered: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private api: ApiService,
@@ -67,7 +79,7 @@ export class StrProductDialogComponent implements OnInit {
     );
 
     this.vendorCtrl = new FormControl();
-    this.filteredVendors= this.vendorCtrl.valueChanges.pipe(
+    this.filteredVendors = this.vendorCtrl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filterVendors(value))
     );
@@ -83,15 +95,15 @@ export class StrProductDialogComponent implements OnInit {
     this.getExistingNames(); // Fetch existing names
     this.getProductAutoCode();
     this.productForm = this.formBuilder.group({
+      id: [''],
       code: ['', Validators.required],
       name: ['', Validators.required],
       itemId: ['', Validators.required],
       vendorId: ['', Validators.required],
       modelId: ['', Validators.required],
+      attachment: [''],
       transactionUserId: ['', Validators.required],
     });
-
-   
 
     this.getVendors();
 
@@ -105,6 +117,7 @@ export class StrProductDialogComponent implements OnInit {
     );
 
     if (this.editData) {
+      console.log('editData: ', this.editData);
       this.actionBtn = 'تحديث';
       this.getProductData = this.editData;
       // alert( this.productForm.controls['name'].setValue(this.editData.name))
@@ -116,11 +129,17 @@ export class StrProductDialogComponent implements OnInit {
       // this.productForm.controls['vendorName'].setValue(this.editData.vendorName);
       this.productForm.controls['modelId'].setValue(this.editData.modelId);
       // this.productForm.controls['modelName'].setValue(this.editData.modelName);
+      this.productForm.controls['attachment'].setValue(
+        this.editData.attachment
+      );
 
       this.productForm.controls['transactionUserId'].setValue(
         this.editData.transactionUserId
       );
-      this.productForm.addControl('id', new FormControl('', Validators.required));
+      this.productForm.addControl(
+        'id',
+        new FormControl('', Validators.required)
+      );
       this.productForm.controls['id'].setValue(this.editData.id);
     }
   }
@@ -129,11 +148,11 @@ export class StrProductDialogComponent implements OnInit {
   }
 
   getItem() {
-    this.loading= true;
+    this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
         this.items = res;
-        this.loading= false;
+        this.loading = false;
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
@@ -148,8 +167,7 @@ export class StrProductDialogComponent implements OnInit {
     this.api.getVendors().subscribe({
       next: (res) => {
         this.loading = false;
-        this.vendors= res;
-       
+        this.vendors = res;
       },
       error: (err) => {
         this.loading = false;
@@ -163,8 +181,7 @@ export class StrProductDialogComponent implements OnInit {
     this.api.getModels().subscribe({
       next: (res) => {
         this.loading = false;
-        this.models= res;
-       
+        this.models = res;
       },
       error: (err) => {
         this.loading = false;
@@ -173,7 +190,7 @@ export class StrProductDialogComponent implements OnInit {
       },
     });
   }
- 
+
   itemSelected(event: MatAutocompleteSelectedEvent): void {
     const item = event.option.value as Item;
     this.selectedItem = item;
@@ -183,19 +200,16 @@ export class StrProductDialogComponent implements OnInit {
 
   private _filterItems(value: string): Item[] {
     const filterValue = value.toLowerCase();
-    return this.items.filter(item => 
+    return this.items.filter((item) =>
       item.name ? item.name.toLowerCase().includes(filterValue) : '-'
-      );
+    );
   }
 
   openAutoItem() {
-   
     this.itemCtrl.setValue('');
     this.itemCtrl.updateValueAndValidity();
-   
   }
 
-  
   displayVendorName(vendor: any): string {
     return vendor && vendor.name ? vendor.name : '';
   }
@@ -209,9 +223,9 @@ export class StrProductDialogComponent implements OnInit {
 
   private _filterVendors(value: string): Vendor[] {
     const filterValue = value.toLowerCase();
-    return this.vendors.filter( vendor =>
-       vendor.name ? vendor.name.toLowerCase().includes(filterValue) : '-'
-      );
+    return this.vendors.filter((vendor) =>
+      vendor.name ? vendor.name.toLowerCase().includes(filterValue) : '-'
+    );
   }
 
   openAutoVendor() {
@@ -232,7 +246,7 @@ export class StrProductDialogComponent implements OnInit {
 
   private _filterModels(value: string): Model[] {
     const filterValue = value.toLowerCase();
-    return this.models.filter(model =>
+    return this.models.filter((model) =>
       model.name ? model.name.toLowerCase().includes(filterValue) : '-'
     );
   }
@@ -252,9 +266,23 @@ export class StrProductDialogComponent implements OnInit {
       },
     });
   }
-  
 
   addProduct() {
+    const formData = new FormData();
+    if (this.file) {
+      formData.append('attachment', this.file, this.file.name);
+    }
+
+    // Add other form data fields to the formData object
+    formData.append('code', this.productForm.get('code')?.value);
+    formData.append('name', this.productForm.get('name')?.value);
+    formData.append('itemId', this.productForm.get('itemId')?.value);
+    formData.append('vendorId', this.productForm.get('vendorId')?.value);
+    formData.append('modelId', this.productForm.get('modelId')?.value);
+    formData.append(
+      'transactionUserId',
+      this.productForm.get('transactionUserId')?.value
+    );
     if (!this.editData) {
       const enteredName = this.productForm.get('name')?.value;
 
@@ -272,22 +300,22 @@ export class StrProductDialogComponent implements OnInit {
         this.transactionUserId
       );
       if (this.productForm.valid) {
-        this.loading = true;
+        // this.loading = true;
         this.api.postStrProduct(this.productForm.value).subscribe({
           next: (res) => {
-            this.loading = false;
+            // this.loading = false;
             console.log('add product res: ', res);
-            this.productIdToEdit = res.id;
-
+            this.productIdToEdit = res;
+            this.MasterGroupInfoEntered = true;
             this.toastrSuccess();
             this.productForm.reset();
 
-            this.dialogRef.close('save');
+            // this.dialogRef.close('save');
           },
           error: (err) => {
-            this.loading = false;
-            console.log('error:',err)
-              this.toastrErrorSave(); 
+            // this.loading = false;
+            console.log('error:', err);
+            this.toastrErrorSave();
           },
         });
       }
@@ -324,6 +352,74 @@ export class StrProductDialogComponent implements OnInit {
     });
   }
 
+  onChange(event: any) {
+    this.file = event.target.files;
+    console.log('file ', this.file[0]);
+    if (this.file.length) {
+      this.status = 'initial';
+      this.selectedFile = this.file[0].name;
+    }
+  }
+
+  // Modify the onUpload() method
+  onUpload() {
+    if (this.selectedFile) {
+      // const formData = new FormData();
+      // formData.append("attachment", this.selectedFile, this.selectedFile.name);
+      // const formData = new FormData();
+      // if (this.file) {
+      //   formData.append("attachment", this.selectedFile);
+      // }
+
+      // // Add other form data fields to the formData object
+      // formData.append("code", this.productForm.get("code")?.value);
+      // formData.append("name", this.productForm.get("name")?.value);
+      // formData.append("itemId", this.productForm.get("itemId")?.value);
+      // formData.append("vendorId", this.productForm.get("vendorId")?.value);
+      // formData.append("modelId", this.productForm.get("modelId")?.value);
+      // formData.append("transactionUserId", this.productForm.get("transactionUserId")?.value);
+      this.productForm.controls['attachment'].setValue(this.selectedFile);
+
+      if (this.editData) {
+        this.productIdToEdit = this.editData.id;
+      }
+      console.log(
+        'formData: ',
+        this.productForm.value,
+        'id: ',
+        this.productIdToEdit
+      );
+      this.api.uploadedFile(this.productForm.value, this.productIdToEdit).subscribe({
+        next: (res) => {
+          // this.loading = false;
+          console.log('attach res: ', res);
+          this.toastrSuccess();
+
+          // this.dialogRef.close('save');
+        },
+        error: (err) => {
+          // this.loading = false;
+          console.log('attach error:', err);
+          this.toastrErrorSave();
+        },
+      });
+
+      // const upload$ = this.api.uploadedFile(this.productForm.value, this.productIdToEdit); // Replace 'id' with the appropriate value
+
+      // this.status = "uploading";
+
+      // upload$.subscribe({
+      //   next: () => {
+      //     this.status = "success";
+      //   },
+      //   error: (error: any) => {
+      //     this.status = "fail";
+      //     alert("خطا اثناء رفع الملف !");
+      //   },
+      // });
+    }
+  }
+
   toastrSuccess(): void {
     this.toastr.success('تم الحفظ بنجاح');
   }
@@ -339,6 +435,4 @@ export class StrProductDialogComponent implements OnInit {
   toastrErrorEdit(): void {
     this.toastr.error('!خطأ عند تحديث البيانات');
   }
-  
 }
-

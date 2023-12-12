@@ -64,10 +64,26 @@
             </mat-autocomplete>
           </mat-form-field>
           </div>
+        
           
-      <button mat-raised-button class="savebtn" (click)="addProduct()" style="margin-left: 8px">
+      <button mat-raised-button class="savebtn" (click)="addProduct()" style="margin-left: 8px" [ngClass]="(editData || MasterGroupInfoEntered) ? 'nextButtonEditHeaderDetails' : 'nextButtonAddNewHeader'">
         {{ actionBtn }}
       </button>
+
+      <div [ngClass]="(MasterGroupInfoEntered || editData) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+        <div class="child1">
+          <mat-label>رفع الملف</mat-label>
+          <input type="file" class="file-input" (change)="onChange($event)" />
+          <!-- <button (click)="onUpload()" class="upload-button">Upload the file</button> -->
+          <div *ngIf="selectedFile">{{ selectedFile.name }}</div>
+        </div>
+
+        <button mat-raised-button class="savebtn" (click)="onUpload()" style="margin-left: 8px">
+          {{ actionBtn }}
+        </button>
+      </div>
+        
+
     </form>
   </div>
 </form>

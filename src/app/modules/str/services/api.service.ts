@@ -1633,9 +1633,9 @@ export class ApiService {
     return this.http.put<any>(`${this.url}/STRProduct/update`, data);
   }
 
-  uploadedFile(data: any) {
+  uploadedFile(data:any,id: any) {
     console.log('form add product data to backend: ', data);
-    return this.http.post<any>(`${this.url}/STRProduct/UploadFile`, data);
+    return this.http.post<any>(`${this.url}/STRProduct/UploadFile?Id=${id}`,data);
   }
 
   deleteStrProduct(id: number) {
