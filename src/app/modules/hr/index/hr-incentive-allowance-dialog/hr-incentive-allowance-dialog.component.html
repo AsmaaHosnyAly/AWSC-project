@@ -15,19 +15,19 @@
             <mat-label>رقم الحافز</mat-label>
             <input matInput placeholder="رقم الحافز" formControlName="no" type="number">
         </mat-form-field>
-
-        <mat-label>الموظف*</mat-label>
-        <mat-form-field appearance="outline">
-            <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" [formControl]="emploeeCtrl"
-                placeholder="{{editData ? editData.employeename : ''}}" (click)="openAutoEmployee()"
-                required />
-            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+        <div class="child1">
+          <mat-label>الموظف</mat-label>
+            <mat-form-field appearance="outline">
+              <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" 
+                [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
+              <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
                 (optionSelected)="employeeSelected($event)">
-                <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                    {{ employee.name }} | {{ employee.code }} | {{ employee.id }}
+                <mat-option *ngFor="let employee of filteredEmployees | async" [value]="employee">
+                  {{ employee.name }} 
                 </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
 
         <mat-label>السنة المالية*</mat-label>
         <mat-form-field appearance="outline">
