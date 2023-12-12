@@ -127,21 +127,22 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
 
   }
   displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+    return employee && employee.name ? employee.name != null ? employee.name : '-' : '';;
   }
+ 
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
     console.log("employee selected: ", employee);
     this.selectedEmployee = employee;
     this.groupForm.patchValue({ emplpoyeeId: employee.id });
+    this.groupForm.patchValue({ emplpoyeeName: employee.name });
     console.log("employee in form: ", this.groupForm.getRawValue().emplpoyeeId);
     // this.groupForm.patchValue({ emplpoyeeId: employee.name });
   }
   private _filterEmployees(value: string): Employee[] {
     const filterValue = value;
     return this.employeesList.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
-    );
+      employee.name ? employee.name.includes(filterValue) : '-')
   }
   openAutoEmployee() {
     console.log("display employee list: ", this.vacationCtrl)
@@ -171,8 +172,7 @@ export class HrEmployeeVacationDialogComponent implements OnInit {
   private _filtersubEmployees(value: string): subEmployee[] {
     const filterValue = value;
     return this.subemployeesList.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
-    );
+      employee.name ? employee.name.includes(filterValue) : '-')
   }
   openAutosubEmployee() {
     // console.log("display employee list: ", this.vacationCtrl)
