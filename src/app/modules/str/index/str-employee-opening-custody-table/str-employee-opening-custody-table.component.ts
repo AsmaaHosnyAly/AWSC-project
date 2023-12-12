@@ -18,6 +18,7 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import { MatTabGroup } from '@angular/material/tabs';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
@@ -293,7 +294,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   tabSelected(tab: any) {
     console.log('tab selected: ', tab);
     if (tab.index == 0) {
-      this.getAllMasterFormss();
+      this.getAllMasterForms();
     }
   }
   async fiscalYearValueChanges(fiscalyaerId: any) {
@@ -351,6 +352,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       'selectIndex: ',
       tabGroup.selectedIndex
     );
+    this.isEdit = false;
     this.autoNo = '';
     this.editData = '';
     this.MasterGroupInfoEntered = false;
@@ -494,7 +496,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     // this.currentPage = event.previousPageIndex;
-    this.getAllMasterFormss();
+    this.getAllMasterForms();
   }
 
   private _filterApprovalStatus(value: string): ApprovalStatus[] {
@@ -1098,6 +1100,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         );
 
         // this.groupDetailsForm.removeControl('id');
+        this.groupDetailsForm.removeControl('id');
 
         console.log('form details after item: ', this.groupDetailsForm.value);
 
