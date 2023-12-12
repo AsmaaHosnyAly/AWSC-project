@@ -167,12 +167,14 @@ export class MenubarComponent {
   storeSelected(event: MatAutocompleteSelectedEvent): void {
     const store = event.option.value as store;
     const store2= event.option.value
-    console.log('store selected: ', store);
+    console.log('store selected: ', store2);
     this.selectedstore = store;
     console.log("store2: ",store2.name);
 
     if(store2.name ){
       this.router.navigate([`/${store2.name}`]);
+    }else if(store2=='home'){
+      this.router.navigate([`/${store2}`]);
     }
   
       // if(store2.name===this.pageEnums.WITHDRAW  ){

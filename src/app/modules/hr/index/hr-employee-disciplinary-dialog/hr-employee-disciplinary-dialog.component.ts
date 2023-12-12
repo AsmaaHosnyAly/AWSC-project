@@ -121,8 +121,7 @@ this.getdisciplinary();
   private _filterEmployees(value: string): Employee[] {
     const filterValue = value;
     return this.employeesList.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
-    );
+      employee.name ? employee.name.includes(filterValue) : '-')
   }
   openAutoEmployee() {
     this.emploeeCtrl.setValue(''); // Clear the input field value

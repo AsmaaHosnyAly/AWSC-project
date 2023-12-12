@@ -118,8 +118,9 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
 
-  dataSource2!: MatTableDataSource<any>;
+  // dataSource2!: MatTableDataSource<any>;
   pdfurl = '';
+  dataSource2: MatTableDataSource<strEmployeeExchange> = new MatTableDataSource();
 
 
 
@@ -161,6 +162,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   pageSize = 5;
   ELEMENT_DATA: strEmployeeExchange[] = [];
   currentPage: any;
+  serachFlag: boolean = false;
 
   productsList: Product[] = [];
   productCtrl: FormControl;
@@ -186,6 +188,9 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  ngAfterViewInit() {
+    this.dataSource2.paginator = this.paginator;
+  }
   constructor(
     private api: ApiService,
     private dialog: MatDialog,
@@ -388,24 +393,92 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
   }
 
   getAllMasterForms() {
-    this.api.getStrEmployeeExchange().subscribe({
-      next: (res) => {
-        console.log("get all data: ", res);
-        this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-        this.groupMasterForm.reset();
-        this.groupMasterFormDialog.reset();
+    // this.api.getStrEmployeeExchange().subscribe({
+    //   next: (res) => {
+    //     console.log("get all data: ", res);
+    //     this.dataSource2 = new MatTableDataSource(res);
+    //     this.dataSource2.paginator = this.paginator;
+    //     this.dataSource2.sort = this.sort;
+    //     this.groupMasterForm.reset();
+    //     this.groupMasterFormDialog.reset();
 
-        this.itemCtrl.reset();
-        this.employeeCtrl.reset();
-        this.destEmployeeCtrl.reset();
-        this.costcenterCtrl.reset();
-      },
-      error: () => {
-        // alert("خطأ أثناء جلب سجلات المجموعة !!");
-      },
-    });
+    //     this.itemCtrl.reset();
+    //     this.employeeCtrl.reset();
+    //     this.destEmployeeCtrl.reset();
+    //     this.costcenterCtrl.reset();
+    //   },
+    //   error: () => {
+    //     // alert("خطأ أثناء جلب سجلات المجموعة !!");
+    //   },
+    // });
+
+    if (!this.currentPage && this.serachFlag == false) {
+      this.currentPage = 0;
+
+      // this.isLoading = true;
+      fetch(
+        this.api.getStrEmployeeExchangePaginate(this.currentPage, this.pageSize)
+      )
+        .then((response) => response.json())
+        .then(
+          (data) => {
+            // this.totalRows = data.length;
+            console.log('master data paginate first Time: ', data);
+            this.dataSource2.data = data.items;
+            this.pageIndex = data.page;
+            this.pageSize = data.pageSize;
+            this.length = data.totalItems;
+
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPage;
+              this.paginator.length = this.length;
+            });
+            // this.isLoading = false;
+          },
+          (error) => {
+            console.log(error);
+            // this.isLoading = false;
+          }
+        );
+    } else {
+      if (this.serachFlag == false) {
+        // this.isLoading = true;
+        fetch(
+          this.api.getStrEmployeeExchangePaginate(this.currentPage, this.pageSize)
+        )
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              // this.totalRows = data.length;
+              console.log('master data paginate: ', data);
+              this.dataSource2.data = data.items;
+              this.pageIndex = data.page;
+              this.pageSize = data.pageSize;
+              this.length = data.totalItems;
+
+              setTimeout(() => {
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = this.length;
+              });
+              // this.isLoading = false;
+            },
+            (error) => {
+              console.log(error);
+              // this.isLoading = false;
+            }
+          );
+      } 
+      // else {
+      //   console.log('search next paginate');
+      //   this.getSearchStrOpen(
+      //     this.groupMasterFormSearch.getRawValue().no,
+      //     this.groupMasterFormSearch.getRawValue().StartDate,
+      //     this.groupMasterFormSearch.getRawValue().EndDate,
+      //     this.groupMasterFormSearch.getRawValue().fiscalYear
+      //   );
+      // }
+    }
+
   }
 
   getStores() {

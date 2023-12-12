@@ -6,7 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import {FormControl,FormBuilder,FormGroup,Validators,
+import {
+  FormControl, FormBuilder, FormGroup, Validators,
 } from '@angular/forms';
 import { Observable, debounceTime, map, startWith, tap } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -17,6 +18,7 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import { MatTabGroup } from '@angular/material/tabs';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 export class Employee {
   constructor(public id: number, public name: string, public code: string) { }
@@ -84,7 +86,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   matchedIds: any;
   storeList: any;
   storeName: any;
-  
+
   fiscalYearsList: any;
   approvalStatusCtrl: FormControl;
   filteredApprovalStatus: Observable<ApprovalStatus[]>;
@@ -152,6 +154,11 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   dataSource: MatTableDataSource<STREmployeeOpeningCustodyditals> =
     new MatTableDataSource();
   ELEMENT_DATA_DETAILS: STREmployeeOpeningCustodyditals[] = [];
+  pageIndexDetails: any;
+  lengthDetails: any;
+  // pageSizeDetails: any;
+  pageSizeDetails = 5;
+  currentPageDetails: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -287,7 +294,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   tabSelected(tab: any) {
     console.log('tab selected: ', tab);
     if (tab.index == 0) {
-      this.getAllMasterFormss();
+      this.getAllMasterForms();
     }
   }
   async fiscalYearValueChanges(fiscalyaerId: any) {
@@ -345,6 +352,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       'selectIndex: ',
       tabGroup.selectedIndex
     );
+    this.isEdit = false;
     this.autoNo = '';
     this.editData = '';
     this.MasterGroupInfoEntered = false;
@@ -488,7 +496,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     // this.currentPage = event.previousPageIndex;
-    this.getAllMasterFormss();
+    this.getAllMasterForms();
   }
 
   private _filterApprovalStatus(value: string): ApprovalStatus[] {
@@ -737,7 +745,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   private _filteremployees(value: string): Employee[] {
     const filterValue = value.toLowerCase();
     return this.employeesList.filter((employee: { name: string }) =>
-      employee.name? employee.name.toLowerCase().includes(filterValue) : '-'
+      employee.name ? employee.name.toLowerCase().includes(filterValue) : '-'
     );
   }
   openAutoEmployee() {
@@ -754,14 +762,14 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     let employeeId = this.groupsearchForm.getRawValue().employeeId;
     let itemId = this.groupDetailsForm.getRawValue().itemId;
     this.api.getStrEmployeeOpenSearach(
-        no,
-        costCenterId,
-        employeeId,
-        itemId,
-        StartDate,
-        EndDate,
-        fiscalyear
-      )
+      no,
+      costCenterId,
+      employeeId,
+      itemId,
+      StartDate,
+      EndDate,
+      fiscalyear
+    )
       .subscribe({
         next: (res) => {
           // this.loading = false;
@@ -802,16 +810,16 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     let store = this.groupsearchForm.getRawValue().storeId;
 
     this.api.getStrEmployeeCustodyReport(
-        no,
-        StartDate,
-        EndDate,
-        fiscalYear,
-        item,
-        employee,
-        costCenter,
-        report,
-        reportType
-      )
+      no,
+      StartDate,
+      EndDate,
+      fiscalYear,
+      item,
+      employee,
+      costCenter,
+      report,
+      reportType
+    )
       .subscribe({
         next: (res) => {
           console.log('search:', res);
@@ -836,8 +844,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.getAllMasterForms();
   }
 
-  previewPrint(no: any, StartDate: any, EndDate: any, fiscalYear: any, report: any, reportType: any) 
-  {
+  previewPrint(no: any, StartDate: any, EndDate: any, fiscalYear: any, report: any, reportType: any) {
     let costCenter = this.groupsearchForm.getRawValue().costCenterId;
     let employee = this.groupsearchForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
@@ -845,7 +852,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     if (report != null && reportType != null) {
       // this.loading = true;
       this.api
-        .getStrEmployeeCustodyReport( no, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, 'pdf')
+        .getStrEmployeeCustodyReport(no, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, 'pdf')
         .subscribe({
           next: (res) => {
             // this.loading = false;
@@ -868,7 +875,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
       alert('ادخل التقرير و نوع التقرير!');
     }
   }
- 
+
   // -------------------------------------------------------------------//
   async updateMaster() {
     // this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
@@ -941,6 +948,77 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
           },
         });
     }
+
+
+    if (!this.currentPageDetails) {
+      this.currentPageDetails = 0;
+
+      // this.isLoading = true;
+      fetch(
+        this.api.getStrEmployeeOpenDetailsPaginateByMaster(
+          this.currentPageDetails,
+          this.pageSizeDetails,
+          this.getMasterRowId.id
+        )
+      )
+        .then((response) => response.json())
+        .then(
+          (data) => {
+            console.log('details data paginate first Time: ', data);
+            this.dataSource.data = data.items;
+            this.pageIndexDetails = data.page;
+            this.pageSizeDetails = data.pageSize;
+            this.lengthDetails = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPageDetails;
+              this.paginator.length = this.lengthDetails;
+            });
+
+            // this.isLoading = false;
+          },
+          (error) => {
+            console.log(error);
+            // this.isLoading = false;
+          }
+        );
+    } else {
+      // this.isLoading = true;
+      fetch(
+        this.api.getStrEmployeeOpenDetailsPaginateByMaster(
+          this.currentPageDetails,
+          this.pageSizeDetails,
+          this.getMasterRowId.id
+        )
+      )
+        .then((response) => response.json())
+        .then(
+          (data) => {
+            console.log('details data paginate: ', data);
+            this.dataSource.data = data.items;
+            this.pageIndexDetails = data.page;
+            this.pageSizeDetails = data.pageSize;
+            this.lengthDetails = data.totalItems;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.currentPageDetails;
+              this.paginator.length = this.lengthDetails;
+            });
+            // this.isLoading = false;
+          },
+          (error) => {
+            console.log(error);
+            // this.isLoading = false;
+          }
+        );
+      // }
+    }
+  }
+
+  pageChangedDetails(event: PageEvent) {
+    console.log('page event: ', event);
+    this.pageSizeDetails = event.pageSize;
+    this.currentPageDetails = event.pageIndex;
+    // this.currentPage = event.previousPageIndex;
+    this.getAllDetailsForms();
   }
 
   editMasterForm(row: any) {
@@ -964,10 +1042,10 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     console.log('master edit form: ', this.editData);
     this.actionBtnMaster = 'Update';
     this.groupMasterForm.controls['no'].setValue(this.editData.no);
-    this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
-    this.employeeCtrl.setValue(this.editDataDetails.employeeName);
+    // this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
+    // this.employeeCtrl.setValue(this.editDataDetails.employeeName);
     this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
-    this.groupMasterForm.controls['employeeName'].setValue(this.editData.employeeName);
+    // this.groupMasterForm.controls['employeeName'].setValue(this.editData.employeeName);
 
     this.groupMasterForm.controls['costCenterName'].setValue(this.editData.costCenterName);
     this.groupMasterForm.controls['costCenterId'].setValue(this.editData.costCenterId);
@@ -977,7 +1055,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.groupMasterForm.controls['date'].setValue(this.editData.date);
     this.groupMasterForm.controls['total'].setValue(this.editData.total);
 
-    this.groupMasterForm.addControl('id',new FormControl('', Validators.required));
+    this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
     this.groupMasterForm.controls['id'].setValue(this.editData.id);
     this.isEditDataReadOnly = true;
     this.getAllDetailsForms();
@@ -1022,6 +1100,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         );
 
         // this.groupDetailsForm.removeControl('id');
+        this.groupDetailsForm.removeControl('id');
 
         console.log('form details after item: ', this.groupDetailsForm.value);
 
@@ -1110,7 +1189,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
         // alert("خطا اثناء جلب رقم العنصر !");
       });
   }
-  async updateDetailsForm() { 
+  async updateDetailsForm() {
     this.groupDetailsForm.addControl(
       'id',
       new FormControl('', Validators.required)
@@ -1118,7 +1197,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     if (this.editDataDetails) {
       this.groupDetailsForm.controls['id'].setValue(this.editDataDetails.id);
       console.log('data item Name in edit: ', this.groupDetailsForm.value);
-      
+
     }
 
     this.groupDetailsForm.controls['total'].setValue(

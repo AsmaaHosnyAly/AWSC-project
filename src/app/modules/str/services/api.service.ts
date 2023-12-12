@@ -1263,6 +1263,11 @@ export class ApiService {
   getStrEmployeeExchange() {
     return this.http.get<any>(`${this.url}/STREmployeeExchange/get/all`);
   }
+  getStrEmployeeExchangePaginate(currentPage: any, pageSize: any) {
+    console.log("page: ", currentPage, "pageSize: ", pageSize);
+    let urlPassed = `${this.url}/STREmployeeExchange/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+    return urlPassed;
+  }
   putStrEmployeeExchange(data: any) {
     return this.http.put<any>(`${this.url}/STREmployeeExchange/update`, data);
   }
@@ -1284,6 +1289,10 @@ export class ApiService {
     return this.http.get<any>(
       `${this.url}/STREmployeeExchangeDetails/get/by/header/${id}`
     );
+  }
+  getStrEmployeeExchangeDetailsPaginateByMaster(currentPage: any, pageSize: any, HeaderId: any) {
+    let urlPassed = `${this.url}/STREmployeeExchangeDetails/get/by/pagination?page=${currentPage}&pageSize=${pageSize}&HeaderId=${HeaderId}`;
+    return urlPassed;
   }
   putStrEmployeeExchangeDetails(data: any) {
     console.log('StrEmployeeExchangeDetails data: ', data);
@@ -1429,6 +1438,10 @@ export class ApiService {
     return this.http.get<any>(
       `${this.url}/STREmployeeOpeningCustodyDetails/get/by/header/${id}`
     );
+  }
+  getStrEmployeeOpenDetailsPaginateByMaster(currentPage: any, pageSize: any, HeaderId: any) {
+    let urlPassed = `${this.url}/STREmployeeOpeningCustodyDetails/get/by/pagination?page=${currentPage}&pageSize=${pageSize}&HeaderId=${HeaderId}`;
+    return urlPassed;
   }
   getStrEmployeeOpenPaginateByUserId(userId: any, currentPage: any, pageSize: any) {
     let urlPassed = `${this.url}/STREmployeeOpeningCustody/get/By/User/Stores/${userId}?page=${currentPage}&pageSize=${pageSize}`;
