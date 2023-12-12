@@ -242,8 +242,13 @@
           </tr>
         </table>
       </section>
-      <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
-        showFirstLastButtons></mat-paginator>
+
+      <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex"
+      [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
+      (page)="pageChanged($event)" showFirstLastButtons>
+    </mat-paginator>
+      <!-- <mat-paginator id="paginator" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
+        showFirstLastButtons></mat-paginator> -->
     </div>
     <div class="text-center w=100" *ngIf="loading">
       <app-spinner></app-spinner>

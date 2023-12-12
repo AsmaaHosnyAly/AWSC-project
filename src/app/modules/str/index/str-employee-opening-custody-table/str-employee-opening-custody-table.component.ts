@@ -294,7 +294,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   tabSelected(tab: any) {
     console.log('tab selected: ', tab);
     if (tab.index == 0) {
-      this.getAllMasterFormss();
+      this.getAllMasterForms();
     }
   }
   async fiscalYearValueChanges(fiscalyaerId: any) {
@@ -496,7 +496,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     // this.currentPage = event.previousPageIndex;
-    this.getAllMasterFormss();
+    this.getAllMasterForms();
   }
 
   private _filterApprovalStatus(value: string): ApprovalStatus[] {
