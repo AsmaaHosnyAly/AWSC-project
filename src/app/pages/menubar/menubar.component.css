@@ -193,3 +193,25 @@ mat-expansion-panel{
 .sideNavSubItems.active .font {
   color: #ffff !important;
 }
+::ng-deep .mat-mdc-form-field-infix {
+  min-height: 30px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  border: 0 !important;
+}
+
+.searchForm input{
+  border: 1px solid rgb(0, 204, 255);
+  width: 100%;
+  border-radius: 20px;
+  padding: 10px 10px;
+  margin-bottom: 20px;
+  outline-color: #147a9f
+ 
+}
+.search-title{
+  color: #272727;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
