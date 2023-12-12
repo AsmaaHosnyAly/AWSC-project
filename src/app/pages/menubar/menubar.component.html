@@ -53,8 +53,8 @@
   <mat-drawer #drawer opened="true" mode="side" position="start">
     <mat-nav-list>
       <div class="searchLabels" dir="rtl">
-        <mat-label>بحث</mat-label>
-        <mat-form-field appearance="outline" class="searchForm">
+        <mat-label class="search-title" > <mat-icon color="primary" >search</mat-icon><p >بحث شاشة</p></mat-label>
+        <div appearance="outline" class="searchForm">
           <input
             matInput
             aria-label="commodity"
@@ -71,9 +71,8 @@
             [displayWith]="displaystoreName"
             (optionSelected)="storeSelected($event)"
           >
-          <mat-option>الكل</mat-option>
-         
-         
+          <mat-option
+          value="home">الرئيسية</mat-option>
             <mat-option
               *ngFor="let store of filteredstore | async"
               [value]="store"
@@ -81,7 +80,7 @@
               {{ store.name }}
             </mat-option>
           </mat-autocomplete>
-        </mat-form-field>
+        </div>
       </div>
       
       <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.STORES)">
