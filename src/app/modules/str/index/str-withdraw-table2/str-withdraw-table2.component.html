@@ -22,7 +22,7 @@
             <mat-label>مخزن *</mat-label>
 
             <mat-form-field appearance="outline" class="searchForm">
-              <input matInput aria-label="commodity" [matAutocomplete]="autostore" (keydown)="getsearch($event)"
+              <input matInput aria-label="store" [matAutocomplete]="autostore" (keydown)="getsearch($event)"
                 [formControl]="storeCtrl" formControlName="store" (click)="openAutostore()" required />
               <mat-autocomplete #autostore="matAutocomplete" #storeId [displayWith]="displaystoreName"
                 (optionSelected)="storeSelected($event)">
@@ -48,7 +48,7 @@
             <mat-label>الموظف:</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput">
-              <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
+              <input matInput aria-label="list" formControlName="sourceInput"
                 [matAutocomplete]="autoList" [formControl]="listCtrl" (click)="openAutoList()" required />
               <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
                 (optionSelected)="listSelected($event)">
@@ -63,7 +63,7 @@
             <mat-label>الصنف:</mat-label>
 
             <mat-form-field appearance="outline" class="searchForm">
-              <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
+              <input matInput aria-label="item" [matAutocomplete]="autoitem" [formControl]="itemCtrl" 
                 formControlName="itemName" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
               <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
                 (optionSelected)="itemSelected($event)">
@@ -347,7 +347,7 @@
                     <mat-label> موظف : </mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput">
-                      <input matInput class="placeholderr" aria-label="list" formControlName="sourceInput"
+                      <input matInput aria-label="list" formControlName="sourceInput"
                         [matAutocomplete]="autoList" [formControl]="listCtrl" placeholder="{{
                           editData && editData.employeeName
                             ? editData.employeeName
