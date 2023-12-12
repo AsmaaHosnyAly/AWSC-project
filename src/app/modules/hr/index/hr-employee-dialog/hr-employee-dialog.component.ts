@@ -100,6 +100,7 @@ export class HrEmployeeDialogComponent implements OnInit {
   qualificationLevelCtrl: FormControl;
   filteredqualificationLevel: Observable<qualificationLevel[]>;
   selectedqualificationLevel: qualificationLevel | undefined;
+email: any;
 
 
   constructor(private formBuilder: FormBuilder,
