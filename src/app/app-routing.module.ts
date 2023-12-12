@@ -183,6 +183,7 @@ import { ProOperationTypeComponent } from './modules/pro/index/pro-operation-typ
 import { ProSellerTypeComponent } from './modules/pro/index/pro-seller-type/pro-seller-type.component';
 import { ProTenderComponent } from './modules/pro/index/pro-tender/pro-tender.component';
 import { ProSellerComponent } from './modules/pro/index/pro-seller/pro-seller.component';
+import { FaMoveFixedAssetComponent } from './modules/fa/index/fa-move-fixed-asset/fa-move-fixed-asset.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -686,6 +687,7 @@ const routes: Routes = [
       { path: 'faCategorySecond', component: FaCategorySecondComponent },
       { path: 'faCategoryThird', component: FaCategoryThirdComponent },
       { path: 'faFixedAsset', component: FaFixedAssetComponent },
+      { path: 'faMoveFixedAsset', component: FaMoveFixedAssetComponent },
         /*********************End py module  الاصول الثابتة***************************/
 
       /*********************End py module   العقود والمشتريات***************************/

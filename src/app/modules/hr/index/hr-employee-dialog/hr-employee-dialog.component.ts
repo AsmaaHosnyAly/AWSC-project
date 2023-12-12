@@ -187,7 +187,7 @@ export class HrEmployeeDialogComponent implements OnInit {
       departmentId: ['', Validators.required],
       severanceReasonId: ['', Validators.required],
       maritalState: ['',Validators.required],
-      email:['',Validators.required],
+      email:['',Validators.required,Validators.email],
       phone:['',Validators.required],
       transactionUserId: ['', Validators.required],
       updateUserName:['admin',Validators.required]
@@ -434,7 +434,7 @@ export class HrEmployeeDialogComponent implements OnInit {
 
       console.log("date json beore: ", this.groupForm.getRawValue().birth_Date);
       
-      this.groupForm.controls['birth_Date'].setValue(this.groupForm.getRawValue().birth_Date.toISOString());
+      this.groupForm.controls['birth_Date'].setValue(this.groupForm.getRawValue().birth_Date);
       this.groupForm.controls['qualificationDate'].setValue(this.groupForm.getRawValue().qualificationDate.toISOString());
       this.groupForm.controls['hiringDate'].setValue(this.groupForm.getRawValue().hiringDate.toISOString());
       this.groupForm.controls['workingStateDate'].setValue(this.groupForm.getRawValue().workingStateDate.toISOString());
