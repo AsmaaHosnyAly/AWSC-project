@@ -22,19 +22,19 @@
         </div>
 
         <div class="searchLabels">
-          
-            <mat-label>الموظف</mat-label>
 
-              <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
-                <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-                formControlName="employee" (keydown)="getsearch($event)" (click)="openAutoEmployee()" required />
-                <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
-                  (optionSelected)="employeeSelected($event)">
-                  <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                    {{ employee.name ? employee.name : "-" }}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>         
+          <mat-label>الموظف</mat-label>
+
+          <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+            <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+              formControlName="employee" (keydown)="getsearch($event)" (click)="openAutoEmployee()" required />
+            <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+              (optionSelected)="employeeSelected($event)">
+              <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                {{ employee.name ? employee.name : "-" }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
 
         <div class="searchLabels">
@@ -53,16 +53,16 @@
         </div>
         <div class="searchLabels">
           <mat-label> الصنف*</mat-label>
-                    <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
-                      <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
-                      formControlName="item" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
-                      <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
-                        (optionSelected)="itemSelected($event)">
-                        <mat-option *ngFor="let item of filtereditem | async" [value]="item">
-                          {{ item.name ? item.name : "-" }}
-                        </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field>
+          <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+            <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
+              formControlName="item" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
+            <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
+              (optionSelected)="itemSelected($event)">
+              <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+                {{ item.name ? item.name : "-" }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </div>
 
         <div class="searchLabels">
@@ -287,14 +287,15 @@
 
                 <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
                   <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
-                  formControlName="employee" (keydown)="getsearch($event)" (click)="openAutoEmployee()" required placeholder="{{editData ? editData.employeeName : 'اسم الموظف' }}" />
+                    formControlName="employee" (keydown)="getsearch($event)" (click)="openAutoEmployee()" required
+                    placeholder="{{editData ? editData.employeeName : 'اسم الموظف' }}" />
                   <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
                     (optionSelected)="employeeSelected($event)">
                     <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
                       {{ employee.name ? employee.name : "-" }}
                     </mat-option>
                   </mat-autocomplete>
-                </mat-form-field>  
+                </mat-form-field>
               </div>
 
               <div class="searchLabels">
@@ -302,7 +303,9 @@
 
                 <mat-form-field appearance="outline">
                   <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter"
-                    [formControl]="costcenterCtrl" placeholder="{{editData ? editData.costCenterName : 'مركز التكلفة' }}" (click)="openAutocostcenter()" required />
+                    [formControl]="costcenterCtrl"
+                    placeholder="{{editData ? editData.costCenterName : 'مركز التكلفة' }}"
+                    (click)="openAutocostcenter()" required />
                   <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId
                     [displayWith]="displaycostcenterName" (optionSelected)="costcenterSelected($event)">
                     <mat-option *ngFor="let costcenter of filteredcostcenter | async" [value]="costcenter">
@@ -485,11 +488,11 @@
                 <tr mat-row *matRowDef="let emprow; columns: displayedPendingColumns"></tr>
               </table>
 
-              
-              <!-- <mat-paginator #paginatorDetails [length]="lengthDetails" [pageIndex]="pageIndexDetails"
-          [pageSize]="pageSizeDetails" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
-          (page)="pageChangedDetails($event)" showFirstLastButtons>
-        </mat-paginator> -->
+
+              <mat-paginator #paginatorDetails [length]="lengthDetails" [pageIndex]="pageIndexDetails"
+                [pageSize]="pageSizeDetails" [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
+                (page)="pageChangedDetails($event)" showFirstLastButtons>
+              </mat-paginator>
             </div>
           </div>
         </div>
