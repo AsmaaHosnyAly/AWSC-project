@@ -796,7 +796,7 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   getEmployees() {
     this.api.getEmployee().subscribe((lists) => {
       this.employeesList = lists;
-
+      console.log("employeesList: ", this.employeesList);
     });
   }
   getItme() {

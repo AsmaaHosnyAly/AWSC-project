@@ -318,6 +318,8 @@ import { ProTenderComponent } from './modules/pro/index/pro-tender/pro-tender.co
 import { ProTenderDialogComponent } from './modules/pro/index/pro-tender-dialog/pro-tender-dialog.component';
 import { ProSellerComponent } from './modules/pro/index/pro-seller/pro-seller.component';
 import { ProSellerDialogComponent } from './modules/pro/index/pro-seller-dialog/pro-seller-dialog.component';
+import { FaMoveFixedAssetComponent } from './modules/fa/index/fa-move-fixed-asset/fa-move-fixed-asset.component';
+import { FaMoveFixedAssetDialogComponent } from './modules/fa/index/fa-move-fixed-asset-dialog/fa-move-fixed-asset-dialog.component';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -612,7 +614,9 @@ import { ProSellerDialogComponent } from './modules/pro/index/pro-seller-dialog/
     ProTenderComponent,
     ProTenderDialogComponent,
     ProSellerComponent,
-    ProSellerDialogComponent
+    ProSellerDialogComponent,
+    FaMoveFixedAssetComponent,
+    FaMoveFixedAssetDialogComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],
