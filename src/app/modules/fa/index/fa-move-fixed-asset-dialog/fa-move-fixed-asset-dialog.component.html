@@ -1,0 +1,127 @@
+<div class="cdk-overlay-pane  ">
+    <button class="close" mat-button mat-dialog-close> <mat-icon> clear</mat-icon></button>
+</div>
+
+<h1 mat-dialog-title class="add-h1">{{editData? ' تعديل حركة الاصول ' : 'إضافة حركة اصول جديدة'}}</h1>
+<form [formGroup]="MovefixedAssetForm" dir="rtl">
+    <div mat-dialog-content>
+        <form [formGroup]="MovefixedAssetForm">
+
+            <div class="searchLabels">
+                <mat-label>نوع الحركة*</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="نوع الحركة" formControlName="move_Type">
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>رقم الحركة*</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="رقم الحركة" formControlName="move_No" type="number" min="0">
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>الوصف</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="الوصف" formControlName="description">
+                </mat-form-field>
+            </div>
+
+
+            <div class="searchLabels">
+                <mat-label>البيان*</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="البيان" formControlName="statement">
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>رقم المستند*</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="رقم المستند" formControlName="document_NO" type="number" min="0">
+                </mat-form-field>
+            </div>
+
+
+            <div class="searchLabels">
+                <mat-label>تاريخ المستند*</mat-label>
+
+                <mat-form-field appearance="outline" class="example-full-width">
+                    <input matInput [matDatepicker]="documentDatePicker" formControlName="document_Date">
+                    <mat-datepicker-toggle matIconSuffix [for]="documentDatePicker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #documentDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="searchLabels">
+                <mat-label>المعدل*</mat-label>
+
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="المعدل" formControlName="rate" type="number" min="0">
+                </mat-form-field>
+            </div>
+
+            <mat-label> مركز التكلفة *</mat-label>
+            <mat-form-field appearance="outline" class="child-num">
+                <input placeholder="{{editData  ? editData.costCenterName : ''}}" matInput aria-label="commodity"
+                    [matAutocomplete]="costCenterId" [formControl]="costCenterCtrl" (click)="openAutoCostCenter()"
+                    required />
+                <mat-autocomplete #costCenterId="matAutocomplete" [displayWith]="displayCostCenterName"
+                    (optionSelected)="CostCenterSelected($event)">
+                    <mat-option *ngFor="let costCenter of filteredCostCenter | async" [value]="costCenter">
+                        {{ costCenter.name ? costCenter.name : '-' }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <div class="searchLabels">
+                <mat-label> النشاط *</mat-label>
+
+                <mat-form-field appearance="outline" class="child-num">
+                    <input placeholder="{{editData  ? editData.activityName : ''}}" matInput aria-label="commodity"
+                        [matAutocomplete]="autoActivityId" [formControl]="activityCtrl" (click)="openAutoActivity()"
+                        required />
+                    <mat-autocomplete #autoActivityId="matAutocomplete" [displayWith]="displayActivityName"
+                        (optionSelected)="ActivitySelected($event)">
+                        <mat-option *ngFor="let activity of filteredActivity | async" [value]="activity">
+                            {{ activity.name ? activity.name : '-'}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+
+            <div class="searchLabels">
+                <mat-label> الاصول الثابتة *</mat-label>
+
+                <mat-form-field appearance="outline" class="child-num">
+                    <input placeholder="{{editData  ? editData.fixedAssetName : ''}}" matInput aria-label="commodity"
+                        [matAutocomplete]="autoFixedAssetId" [formControl]="fixedAssetCtrl"
+                        (click)="openAutoFixedAsset()" required />
+                    <mat-autocomplete #autoFixedAssetId="matAutocomplete" [displayWith]="displayFixedAssetName"
+                        (optionSelected)="FixedAssetSelected($event)">
+                        <mat-option *ngFor="let fixedAsset of filteredFixedAsset | async" [value]="fixedAsset">
+                            {{ fixedAsset.name ? fixedAsset.name : '-'}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+            </div>
+        </form>
+    </div>
+
+</form>
+
+<div mat-dialog-actions>
+    <button mat-raised-button class="savebtn" (click)="addFaMoveFixedAset()"
+        style="margin-left: 8px;">{{actionBtn}}</button>
+</div>
