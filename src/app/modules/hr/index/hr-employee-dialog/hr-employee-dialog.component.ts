@@ -187,7 +187,7 @@ export class HrEmployeeDialogComponent implements OnInit {
       departmentId: ['', Validators.required],
       severanceReasonId: ['', Validators.required],
       maritalState: ['',Validators.required],
-      email:['',Validators.required],
+      email:['',Validators.required,Validators.email],
       phone:['',Validators.required],
       transactionUserId: ['', Validators.required],
       updateUserName:['admin',Validators.required]
