@@ -288,7 +288,7 @@
                 <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
                   <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
                     formControlName="employee" (keydown)="getsearch($event)" (click)="openAutoEmployee()" required
-                    placeholder="{{editData ? editData.employeeName : 'اسم الموظف' }}" />
+                    placeholder="{{editData ? editData.employeeName : '' }}" />
                   <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
                     (optionSelected)="employeeSelected($event)">
                     <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
@@ -304,7 +304,7 @@
                 <mat-form-field appearance="outline">
                   <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter"
                     [formControl]="costcenterCtrl"
-                    placeholder="{{editData ? editData.costCenterName : 'مركز التكلفة' }}"
+                    placeholder="{{editData ? editData.costCenterName : '' }}"
                     (click)="openAutocostcenter()" required />
                   <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId
                     [displayWith]="displaycostcenterName" (optionSelected)="costcenterSelected($event)">
