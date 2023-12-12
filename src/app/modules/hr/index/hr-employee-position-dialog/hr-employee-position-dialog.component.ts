@@ -167,8 +167,7 @@ export class HrEmployeePositionDialogComponent implements OnInit {
   private _filterEmployee(value: string): Employee[] {
     const filterValue = value.toLowerCase();
     return this.employees.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) 
-    );
+      employee.name ? employee.name.includes(filterValue) : '-')
   }
 
   openAutoemployee() {
