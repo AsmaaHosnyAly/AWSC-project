@@ -6,33 +6,21 @@ import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EmployeeExchangePrintDialogComponent } from '../employee-exchange-print-dialog/employee-exchange-print-dialog.component';
 import { formatDate } from '@angular/common';
-import { StrOpeningStockDialogComponent } from '../str-opening-stock-dialog/str-opening-stock-dialog.component';
 import { ToastrService } from 'ngx-toastr';
-import { StrStockTakingDialogComponent } from '../str-stock-taking-dialog/str-stock-taking-dialog.component';
-
-import {
-  FormControl,
-  FormControlName,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith, debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
-import { Hotkey } from 'angular2-hotkeys';
 import { GlobalService } from 'src/app/pages/services/global.service';
 import { PrintDialogComponent } from '../print-dialog/print-dialog.component';
-
 import jwt_decode from 'jwt-decode';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 import { MatTabGroup } from '@angular/material/tabs';
 
 export class store {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public storeId: any, public storeName: any) { }
 }
 
 export class Employee {
@@ -82,6 +70,7 @@ export class StrStockTakingTableComponent implements OnInit {
   groupMasterForm!: FormGroup;
   groupDetailsForm!: FormGroup;
 
+  itemName: any;
   itemsList: item[] = [];
   itemCtrl: FormControl;
   filtereditem: Observable<item[]>;
@@ -144,7 +133,7 @@ export class StrStockTakingTableComponent implements OnInit {
     private global: GlobalService,
     @Inject(LOCALE_ID) private locale: string,
     private toastr: ToastrService,
-    private cdr: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef
   ) {
     global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store')
     this.storeCtrl = new FormControl();
@@ -192,8 +181,6 @@ export class StrStockTakingTableComponent implements OnInit {
     this.groupMasterForm = this.formBuilder.group({
       no: ['', Validators.required],
       storeId: ['', Validators.required],
-      // storeName: ['', Validators.required],
-
       transactionUserId: [this.userIdFromStorage, Validators.required],
       date: [dateNow, Validators.required],
       total: ['', Validators.required],
@@ -212,14 +199,8 @@ export class StrStockTakingTableComponent implements OnInit {
       notes: [''],
       transactionUserId: [this.userIdFromStorage, Validators.required],
       itemId: ['', Validators.required],
-      // itemName: ['', Validators.required],
+      itemName: ['', Validators.required],
     });
-
-    // this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-    //   // Call the deleteGrade() function in the current component
-    //   this.openEmployeeingStockDialog();
-    //   return false; // Prevent the default browser behavior
-    // }));
   }
 
   getsearch(code: any) {
@@ -272,19 +253,6 @@ export class StrStockTakingTableComponent implements OnInit {
       },
     });
   }
-
-  // getStores() {
-  //   this.api.getStore().subscribe({
-  //     next: (res) => {
-  //       this.storeList = res;
-  //       // console.log("store res: ", this.storeList);
-  //     },
-  //     error: (err) => {
-  //       // console.log("fetch store data err: ", err);
-  //       // alert('خطا اثناء جلب المخازن !');
-  //     },
-  //   });
-  // }
 
   async getStores() {
     // this.userRoles = localStorage.getItem('userRoles');
@@ -342,15 +310,6 @@ export class StrStockTakingTableComponent implements OnInit {
 
   }
   openStockTkingkDialog() {
-    // this.dialog.open(StrStockTakingDialogComponent, {
-    //   width: '60%',
-    //   height: '79%',
-    // }).afterClosed().subscribe(val => {
-    //   if (val === 'Save') {
-    //     // alert("refreshhhh")
-    //     this.getAllMasterForms();
-    //   }
-    // })
 
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
@@ -360,41 +319,6 @@ export class StrStockTakingTableComponent implements OnInit {
     this.groupMasterForm.controls['no'].setValue('');
     this.groupMasterForm.controls['date'].setValue('');
     this.editDataDetails = '';
-
-    // this.lists = [];
-    // this.sellerCode = '';
-    // this.sellerCodeIsDisabled = true;
-
-    // this.MasterGroupInfoEntered = false;
-    // this.groupMasterForm.controls['date'].setValue('');
-    // this.groupMasterForm.controls['entryNo'].setValue('');
-    // this.groupMasterForm.controls['employeeId'].setValue('');
-    // this.groupMasterForm.controls['sellerId'].setValue('');
-    // this.groupMasterForm.controls['sourceStoreId'].setValue('');
-    // this.listCtrl.setValue('');
-
-    // this.groupMasterForm.controls['commodityId'].setValue('');
-    // this.groupMasterForm.controls['approvalStatusId'].setValue('');
-
-    // this.commodityCtrl.setValue('');
-    // this.approvalStatusCtrl.setValue('');
-
-    // this.groupMasterForm.controls['addTypeId'].setValue('');
-    // this.addTypeCtrl.setValue('');
-
-
-    // this.getStrApprovalStatus();
-    // this.getStrCommodity();
-    // this.getStrAddType();
-    // this.getStores();
-    // this.getItems();
-    // this.getTypes();
-    // this.getSellers();
-    // this.getReciepts();
-    // this.getEmployees();
-    // this.getProducts();
-    // this.getStrAddAutoNo();
-
     this.getStores();
     this.getFiscalYears();
     this.getItems();
@@ -409,15 +333,6 @@ export class StrStockTakingTableComponent implements OnInit {
 
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
-
-    // // this.autoNo = '';
-    // this.editDataDetails = '';
-    // this.groupDetailsForm.reset();
-    // this.fullCodeValue = '';
-    // this.itemCtrl.setValue('');
-    // this.groupDetailsForm.controls['state'].setValue(this.stateDefaultValue);
-    // this.groupDetailsForm.controls['qty'].setValue(1);
-    // this.isEdit = true;
 
     this.editData = row;
     console.log("editData master: ", this.editData);
@@ -551,20 +466,21 @@ export class StrStockTakingTableComponent implements OnInit {
   }
 
   getItems() {
-    // this.loading = true;
+    this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
-        // this.loading = false;
+        this.loading = false;
         this.itemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
       },
       error: (err) => {
-        // this.loading = false;
+        this.loading = false;
         // console.log("fetch store data err: ", err);
         alert('خطا اثناء جلب العناصر !');
       },
     });
   }
+
 
   displayitemName(item: any): string {
     return item && item.name ? item.name : '';
@@ -573,6 +489,7 @@ export class StrStockTakingTableComponent implements OnInit {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item; 
+    this.groupMasterSearchForm.patchValue({ itemId: item.id });
     this.groupDetailsForm.patchValue({ itemId: item.id });
     console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
 
@@ -794,7 +711,7 @@ export class StrStockTakingTableComponent implements OnInit {
   getSearchStrOpen(no: any, StartDate: any, EndDate: any, fiscalYear: any) {
     let store = this.groupMasterSearchForm.getRawValue().storeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
-    this.loading = true;
+    // this.loading = true;
     this.api
       .getStrStockTakingSearach(no, store, fiscalYear, item, StartDate, EndDate)
       .subscribe({

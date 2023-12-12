@@ -57,7 +57,7 @@
 
         <div class="searchLabels">
 
-          <mat-label>الصنف:</mat-label>
+          <!-- <mat-label>الصنف:</mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
               formControlName="itemName" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
@@ -67,7 +67,22 @@
                 {{ item.name }}
               </mat-option>
             </mat-autocomplete>
-          </mat-form-field>
+          </mat-form-field> -->
+
+          <mat-label> الصنف*</mat-label>
+                    <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+                      <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
+                        placeholder="{{ editDataDetails && !itemByFullCodeValue ? editDataDetails.itemName
+                              : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue
+                              : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : 'الصنف'
+                          }}" (click)="openAutoitem()" required />
+                      <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
+                        (optionSelected)="itemSelected($event)">
+                        <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+                          {{ item.name ? item.name : "-" }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
         </div>
         <div class="searchLabels">
           <mat-label> تاريخ البداية</mat-label>
@@ -247,9 +262,9 @@
                 <mat-form-field appearance="outline" class="groupInput">
                   <mat-select placeholder="المخازن" #storeId formControlName="storeId"
                     (valueChange)="storeValueChanges($event)">
-                    <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : 'store.storeId'"
+                    <mat-option [value]="userRoles.includes(userRoleStoresAcc) ? store.id : store.storeId"
                       *ngFor="let store of storeList">{{userRoles.includes(userRoleStoresAcc) ? store.name :
-                      'store.storeName'}}</mat-option>
+                      store.storeName}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -323,53 +338,6 @@
 
               <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()"
                 style="overflow: hidden !important">
-                <!-- <div style="overflow: hidden !important">
-                  <div dir="rtl">
-                    <div dir="rtl" style="overflow: hidden !important">
-                      <mat-accordion class="example-headers-align" multi dir="rtl">
-                        <mat-expansion-panel>
-                          <mat-expansion-panel-header>
-                            <mat-panel-description>
-                              بحث بالمنتج
-                              <mat-icon style="text-align: left">search</mat-icon>
-                            </mat-panel-description>
-                          </mat-expansion-panel-header>
-
-                          <div class="searchbyproduct">
-                            <div>
-                              <mat-label>بحث بكود المنتج </mat-label>
-
-                              <mat-form-field appearance="outline">
-                                <input matInput (keydown)="getItemByProductCode($event)" />
-                              </mat-form-field>
-                            </div>
-
-                            <div>
-                              <mat-label>بحث باسم المنتج </mat-label>
-                              <mat-form-field appearance="outline">
-                                <input matInput aria-label="commodity" [matAutocomplete]="autoProductId"
-                                  [formControl]="productCtrl" placeholder="{{
-                                  productIdValue ? productIdValue : ''
-                                }}" (click)="openAutoProduct()" required />
-                                <mat-autocomplete #autoProductId="matAutocomplete" [displayWith]="displayProductName"
-                                  (optionSelected)="ProductSelected($event)">
-                                  <mat-option *ngFor="
-                                    let product of filteredProduct | async
-                                  " [value]="product">
-                                    {{ product.name }} | {{ product.code }}
-                              
-                                  </mat-option>
-                                </mat-autocomplete>
-                              </mat-form-field>
-                            </div>
-                          
-                          </div>
-                        </mat-expansion-panel>
-                      </mat-accordion>
-                    </div>
-                  </div>
-                </div> -->
-
                 <div class="headerForm2">
                   <div class="searchLabels">
                   <mat-label>بحث بالكود </mat-label>
@@ -388,25 +356,21 @@
                 
 
                 <div class="searchLabels">
-                  <mat-label> الصنف*</mat-label>
 
-                  <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
-                    <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl" placeholder="{{
-                          editDataDetails && !itemByFullCodeValue
-                            ? editDataDetails.itemName
-                            : itemByFullCodeValue && itemByFullCodeValue != '-'
-                            ? itemByFullCodeValue
-                            : itemByFullCodeValue && itemByFullCodeValue == '-'
-                            ? 'لا يوجد'
-                            : ''
-                        }}" (click)="openAutoitem()" required />
-                    <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
-                      (optionSelected)="itemSelected($event)">
-                      <mat-option *ngFor="let item of filtereditem | async" [value]="item">
-                        {{ item.name }}
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
+                  <mat-label> الصنف*</mat-label>
+                    <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+                      <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
+                        placeholder="{{ editDataDetails && !itemByFullCodeValue ? editDataDetails.itemName
+                              : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue
+                              : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : 'الصنف'
+                          }}" (click)="openAutoitem()" required />
+                      <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
+                        (optionSelected)="itemSelected($event)">
+                        <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+                          {{ item.name ? item.name : "-" }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
                 </div>
 
 
@@ -533,10 +497,6 @@
 
             </div>
 
-            <!-- 
-            <mat-paginator #paginatorDetails="matPaginator" [pageSizeOptions]="[5, 10, 25, 100, 1000]"
-              aria-label="الصفحات" showFirstLastButtons></mat-paginator> -->
-
           </div>
 
         </div>
@@ -546,7 +506,3 @@
 
   </mat-tab>
 </mat-tab-group>
-
-<!-- <div class="text-center w=100" *ngIf="loading">
-  <app-spinner></app-spinner>
-</div> -->

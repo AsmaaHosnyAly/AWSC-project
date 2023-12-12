@@ -11,7 +11,7 @@
         <mat-icon>search</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <form [formGroup]="groupMasterForm">
+    <form [formGroup]="groupsearchForm">
       <div class="search">
         <div class="searchLabels">
           <mat-label>الرقم</mat-label>
@@ -22,25 +22,26 @@
         </div>
 
         <div class="searchLabels">
-          <mat-label>الموظف:</mat-label>
+          
+            <mat-label>الموظف</mat-label>
 
-          <mat-form-field appearance="outline">
-            <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" (keydown)="getsearch($event)"
-              [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
-            <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
-              (optionSelected)="employeeSelected($event)">
-              <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                {{ employee.name }} | {{ employee.code }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+              <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+                <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+                formControlName="employee" (keydown)="getsearch($event)" (click)="openAutoEmployee()" required />
+                <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                  (optionSelected)="employeeSelected($event)">
+                  <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                    {{ employee.name ? employee.name : "-" }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>         
         </div>
 
         <div class="searchLabels">
           <mat-label>مركز التكلفة :</mat-label>
 
           <mat-form-field appearance="outline">
-            <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter" (keydown)="getsearch($event)"
+            <input matInput aria-label="costcenter" [matAutocomplete]="autocostcenter" (keydown)="getsearch($event)"
               [formControl]="costcenterCtrl" formControlName="costcenter" (click)="openAutocostcenter()" required />
             <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId [displayWith]="displaycostcenterName"
               (optionSelected)="costcenterSelected($event)">
@@ -51,18 +52,17 @@
           </mat-form-field>
         </div>
         <div class="searchLabels">
-          <mat-label>الصنف:</mat-label>
-
-          <mat-form-field appearance="outline">
-            <input matInput aria-label="commodity" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
-              formControlName="itemName" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
-            <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
-              (optionSelected)="itemSelected($event)">
-              <mat-option *ngFor="let item of filtereditem | async" [value]="item">
-                {{ item.name }} | {{ item.id }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+          <mat-label> الصنف*</mat-label>
+                    <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+                      <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
+                      formControlName="item" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
+                      <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
+                        (optionSelected)="itemSelected($event)">
+                        <mat-option *ngFor="let item of filtereditem | async" [value]="item">
+                          {{ item.name ? item.name : "-" }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
         </div>
 
         <div class="searchLabels">
@@ -282,28 +282,27 @@
                 </mat-form-field>
               </div>
 
-                <div class="searchLabels">
-                  <mat-label>اسم الموظف :</mat-label>
-                  <mat-form-field appearance="outline">
-                    <input matInput aria-label="commodity" [matAutocomplete]="autoEmployee" (keydown)="getsearch($event)"
-                      [formControl]="employeeCtrl" formControlName="employee" (click)="openAutoEmployee()" required />
-                    <mat-autocomplete #autoEmployee="matAutocomplete" #employeeId [displayWith]="displayEmployeeName"
-                      (optionSelected)="employeeSelected($event)">
-                      <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
-                        {{ employee.name }} | {{ employee.code }}
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                </div>
+              <div class="searchLabels">
+                <mat-label>اسم الموظف :</mat-label>
+
+                <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
+                  <input matInput aria-label="employee" [matAutocomplete]="autoEmployee" [formControl]="employeeCtrl"
+                  formControlName="employee" (keydown)="getsearch($event)" (click)="openAutoEmployee()" required placeholder="{{editData ? editData.employeeName : 'اسم الموظف' }}" />
+                  <mat-autocomplete #autoEmployee="matAutocomplete" [displayWith]="displayEmployeeName"
+                    (optionSelected)="employeeSelected($event)">
+                    <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+                      {{ employee.name ? employee.name : "-" }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>  
+              </div>
 
               <div class="searchLabels">
                 <mat-label>مركز التكلفة :</mat-label>
 
                 <mat-form-field appearance="outline">
                   <input matInput aria-label="commodity" [matAutocomplete]="autocostcenter"
-                    [formControl]="costcenterCtrl" placeholder="{{
-                        editData ? editData.costCenterName : ''
-                      }}" (click)="openAutocostcenter()" required />
+                    [formControl]="costcenterCtrl" placeholder="{{editData ? editData.costCenterName : 'مركز التكلفة' }}" (click)="openAutocostcenter()" required />
                   <mat-autocomplete #autocostcenter="matAutocomplete" #costCenterId
                     [displayWith]="displaycostcenterName" (optionSelected)="costcenterSelected($event)">
                     <mat-option *ngFor="let costcenter of filteredcostcenter | async" [value]="costcenter">
@@ -363,16 +362,9 @@
                     <mat-label> الصنف*</mat-label>
                     <mat-form-field appearance="outline" class="groupInput" *ngIf="!loading">
                       <input matInput aria-label="item" [matAutocomplete]="autoItem" [formControl]="itemCtrl"
-                        placeholder="{{
-                            editDataDetails && !itemByFullCodeValue
-                              ? editDataDetails.itemName
-                              : itemByFullCodeValue &&
-                                itemByFullCodeValue != '-'
-                              ? itemByFullCodeValue
-                              : itemByFullCodeValue &&
-                                itemByFullCodeValue == '-'
-                              ? 'لا يوجد'
-                              : ''
+                        placeholder="{{ editDataDetails && !itemByFullCodeValue ? editDataDetails.itemName
+                              : itemByFullCodeValue && itemByFullCodeValue != '-' ? itemByFullCodeValue
+                              : itemByFullCodeValue && itemByFullCodeValue == '-' ? 'لا يوجد' : 'الصنف'
                           }}" (click)="openAutoitem()" required />
                       <mat-autocomplete #autoItem="matAutocomplete" [displayWith]="displayitemName"
                         (optionSelected)="itemSelected($event)">
