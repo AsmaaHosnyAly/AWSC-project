@@ -32,9 +32,9 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
   IncentiveAllowanceIdToEdit: any;
   userIdFromStorage: any;
 
-  employeesList: Employee[] = [];
-  emploeeCtrl: FormControl;
-  filteredEmployee: Observable<Employee[]>;
+  employeeCtrl: FormControl;
+  filteredEmployees: Observable<Employee[]>;
+  employees: Employee[] = [];
   selectedEmployee: Employee | undefined;
   formcontrol = new FormControl('');
 
@@ -51,11 +51,11 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<HrIncentiveAllowanceDialogComponent>,
     private toastr: ToastrService) {
 
-    this.emploeeCtrl = new FormControl();
-    this.filteredEmployee = this.emploeeCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterEmployees(value))
-    );
+      this.employeeCtrl = new FormControl();
+      this.filteredEmployees = this.employeeCtrl.valueChanges.pipe(
+        startWith(''),
+        map((value) => this._filteremployees(value))
+      );
 
     this.fiscalYearCtrl = new FormControl();
     this.filteredFiscalYear = this.fiscalYearCtrl.valueChanges.pipe(
@@ -99,27 +99,35 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
 
 
   displayEmployeeName(employee: any): string {
-    return employee && employee.name ? employee.name : '';
+    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
-    console.log("employee selected: ", employee);
+    console.log('employee selected: ', employee);
     this.selectedEmployee = employee;
+
     this.groupForm.patchValue({ employeeId: employee.id });
-    console.log("employee in form: ", this.groupForm.getRawValue().employeeId);
+    this.groupForm.patchValue({ employeeName: employee.name });
+  
+
   }
-  private _filterEmployees(value: string): Employee[] {
+
+  private _filteremployees(value: string): Employee[] {
     const filterValue = value;
-    return this.employeesList.filter(employee =>
-      employee.name.toLowerCase().includes(filterValue) || employee.code.toLowerCase().includes(filterValue)
+    return this.employees.filter((employee) =>
+      employee.name ? employee.name.includes(filterValue) : '-'
     );
   }
+
   openAutoEmployee() {
-    this.emploeeCtrl.setValue(''); // Clear the input field value
+    this.employeeCtrl.setValue(''); // Clear the input field value
 
     // Open the autocomplete dropdown by triggering the value change event
-    this.emploeeCtrl.updateValueAndValidity();
+    this.employeeCtrl.updateValueAndValidity();
   }
+    displayAttendancePermissionName(attendancePermission: any): string {
+      return attendancePermission && attendancePermission.name ? attendancePermission.name : '';
+    }
 
 
   private _filterFiscalYears(value: string): FiscalYear[] {
@@ -206,8 +214,8 @@ export class HrIncentiveAllowanceDialogComponent implements OnInit {
     this.api.getHrEmployees()
       .subscribe({
         next: (res) => {
-          this.employeesList = res;
-          console.log("employeesList res: ", this.employeesList);
+          this.employees = res;
+          console.log("employeesList res: ", this.employees);
         },
         error: (err) => {
           console.log("fetch employeesList data err: ", err);
