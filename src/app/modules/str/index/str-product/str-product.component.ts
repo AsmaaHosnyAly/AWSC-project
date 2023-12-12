@@ -75,21 +75,7 @@ export class StrProductComponent implements OnInit {
         }
       })
   }
-//   onUpload() {
-//     this.loading = !this.loading;
-//     console.log(this.file);
-//     this.api.upload(this.file).subscribe(
-//         (event: any) => {
-//             if (typeof (event) === 'object') {
-
-//                 // Short link via api response
-//                 this.shortLink = event.link;
-
-//                 this.loading = false; // Flag variable 
-//             }
-//         }
-//     );
-// }
+  
 onDownload() {
   this.http.get('http://192.168.100.213/files/str-uploads', { responseType: 'blob' })
     .subscribe(response => {
@@ -109,23 +95,11 @@ onDownload() {
     })
   }
 
-
-  // getAllFiles()
-  // {
-  //   debugger
-  //   return this.http.get('http://localhost:48608/FileManager')
-  //   .subscribe((result) => {
-  //     this.files = result;
-  //     console.log(result);
-  // });
-  // }
   downloadFile(id: any)
   {
     return this.http.get(`http://localhost:48608/FileManager/${id}`)
     .subscribe((res: any) => {
-      // you can change the type
-      // const blob = new Blob([result]); 
-      // const url= window.URL.createObjectURL(blob);
+      
       const url: any = res.url;
       window.open(url);
       console.log("Success");
@@ -143,19 +117,7 @@ onDownload() {
       }
     })
   }
-   
-//   showfile() {
-
-// this.dialog.open(FileUploadDialogComponent, {
-//   width: '30%',
-
-// }).afterClosed().subscribe(val => {
-
-//     this.getAllProducts();
-  
-// })
-//       }
-    
+      
 
   deleteProduct(id: number) {
     var result = confirm("هل ترغب بتاكيد مسح المنتج ؟ ");
