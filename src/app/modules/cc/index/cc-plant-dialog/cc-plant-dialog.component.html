@@ -6,14 +6,16 @@
   <form [formGroup]="PLantForm" dir="rtl">
       <div mat-dialog-content>
         <form [formGroup]="PLantForm">
+          <mat-label>الكود</mat-label>
           <mat-form-field appearance="outline">
-            <mat-label>الكود</mat-label>
+            
+            
             <input formControlName="code" matInput placeholder="ادخل الكود">
           </mat-form-field>
 
-          
+          <mat-label>الاسم</mat-label>
           <mat-form-field appearance="outline">
-            <mat-label>الاسم</mat-label>
+          
             <input formControlName="name" matInput placeholder="ادخل الاسم">
           </mat-form-field>
         

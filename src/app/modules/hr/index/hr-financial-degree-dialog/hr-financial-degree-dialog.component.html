@@ -5,12 +5,14 @@
   <form [formGroup]="financialDegreeForm" dir="rtl">
       <div mat-dialog-content>
         <form [formGroup]="financialDegreeForm">
+          <mat-label>اسم الدرجة </mat-label>
           <mat-form-field appearance="outline">
-            <mat-label>اسم الدرجة </mat-label>
-            <input formControlName="name" matInput placeholder="ادخل القرية">
+         
+            <input formControlName="name" matInput placeholder="ادخل الدرجة">
           </mat-form-field>
+          <mat-label>رقم السنة</mat-label>
           <mat-form-field appearance="outline" class="groupInput">
-            <mat-label>رقم السنة</mat-label>
+            
             <input matInput placeholder="رقم السنة" formControlName="noYear" type="number" min="0">
         </mat-form-field>
         </form>

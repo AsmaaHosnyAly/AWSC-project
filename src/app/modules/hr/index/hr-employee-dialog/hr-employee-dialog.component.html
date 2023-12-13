@@ -186,9 +186,11 @@
               class="groupInput"
               style="width: 99%"
             >
-              <input matInput placeholder="الهاتف " formControlName="phone" />
+              <input matInput placeholder="الهاتف " id="phone" minlength="11" maxlength="11" formControlName="phone" required >
+             
             </mat-form-field>
           </div>
+        
           <div class="searchLabels" style="width: 23%">
             <mat-label> البريد الالكتروني </mat-label>
 
@@ -202,10 +204,10 @@
                 placeholder="البريد الالكتروني "
                 type="email"
                 formControlName="email"
-                
+                name="email" ngModel email="true"
               />
             </mat-form-field>
-
+        
             <!-- <input
             
              ngClass="invalid" [class.is-invalid]="
