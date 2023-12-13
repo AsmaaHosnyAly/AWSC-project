@@ -158,7 +158,7 @@ export class FaMoveFixedAssetComponent implements OnInit {
   openDialog() {
     this.dialog
       .open(FaMoveFixedAssetDialogComponent, {
-        width: '30%',
+        width: '50%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -324,7 +324,7 @@ export class FaMoveFixedAssetComponent implements OnInit {
   editFaMoveFixedAsset(row: any) {
     this.dialog
       .open(FaMoveFixedAssetDialogComponent, {
-        width: '30%',
+        width: '50%',
         data: row,
       })
       .afterClosed()
