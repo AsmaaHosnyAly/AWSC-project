@@ -231,6 +231,9 @@ export class ApiService {
   }
 
   /////////////////Cc CostCenter//////////////////
+  getCcCostCenterLastCode() {
+    return this.http.get<any>(`${this.url}/CcCostCenter/Get/Last/Code`);
+  }
   getCostCenter() {
     return this.http.get<any>(`${this.url}/CcCostCenter/get/all`);
   }
