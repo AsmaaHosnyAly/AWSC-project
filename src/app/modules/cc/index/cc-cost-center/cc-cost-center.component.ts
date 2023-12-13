@@ -206,7 +206,7 @@ export class CcCostCenterComponent {
   openDialog() {
     this.dialog
       .open(CcCostCenterDailogComponent, {
-        width: '30%',
+        width: '60%',
       })
       .afterClosed()
       .subscribe((val) => {
@@ -403,7 +403,7 @@ export class CcCostCenterComponent {
   editPlant(row: any) {
     this.dialog
       .open(CcCostCenterDailogComponent, {
-        width: '30%',
+        width: '60%',
         data: row,
       })
       .afterClosed()

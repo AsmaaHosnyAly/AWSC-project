@@ -97,12 +97,19 @@ onDownload() {
 
   downloadFile(id: any)
   {
-    return this.http.get(`http://localhost:48608/FileManager/${id}`)
-    .subscribe((res: any) => {
-      
+    console.log("rowid:",id);
+    
+     this.http.get(`http://ims.aswan.gov.eg/api/STRProduct/DownloadFile?id=${id}`)
+  .subscribe({
+    next: (res:any) => {
+      console.log('search:', res);
       const url: any = res.url;
       window.open(url);
-      console.log("Success");
+    },
+    error: (err) => {
+      console.log('eroorr', err);
+      window.open(err.url);
+    },
   });
   }
 

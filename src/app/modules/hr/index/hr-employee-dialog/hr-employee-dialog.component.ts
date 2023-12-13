@@ -69,6 +69,9 @@ export class HrEmployeeDialogComponent implements OnInit {
   cityStateNameList: any;
   millitryStateNameList: any;
 
+  
+  
+
   jobTitlesList: jobTitle[] = [];
   jobTitleCtrl: FormControl;
   filteredjobTitle: Observable<jobTitle[]>;
@@ -189,7 +192,7 @@ email: any;
       severanceReasonId: ['', Validators.required],
       maritalState: ['',Validators.required],
       email:['',Validators.required,Validators.email],
-      phone:['',Validators.required],
+      phone:[null,Validators.required, Validators.pattern('[- +()0-9]+')] ,
       transactionUserId: ['', Validators.required],
       updateUserName:['admin',Validators.required]
     });

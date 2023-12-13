@@ -189,6 +189,82 @@
         </mat-form-field>
       </div>
       <div class="child-num">
+        <mat-label>القيمة الابتدائية*</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+         
+            type="number"
+            min="0"
+            formControlName="initialValue"
+          />
+        </mat-form-field>
+      </div>
+      <div class="child-num">
+        <mat-label>القيمة المحجوزة*</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+      
+            type="number"
+            min="0"
+            formControlName="bookValue"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="child-num">
+        <mat-label>معدل الاستهلاك*</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            type="number"
+            min="0"
+            formControlName="depreciationRate"
+          />
+        </mat-form-field>
+      </div>
+      <div class="child-num">
+        <mat-label>القيمة الكهنة*</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            type="number"
+            min="0"
+            formControlName="speculateValue"
+          />
+        </mat-form-field>
+      </div>
+      <div class="child-num">
+        <mat-label>تاريخ العمل*</mat-label>
+        <mat-form-field appearance="outline" >
+          <input
+            matInput
+            [matDatepicker]="WorkDatepicker"
+            formControlName="workDate"
+          />
+          <mat-datepicker-toggle matIconSuffix [for]="WorkDatepicker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #WorkDatepicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="child-num">
+        <mat-label>تاريخ التكهين*</mat-label>
+        <mat-form-field appearance="outline" >
+          <input
+            matInput
+            [matDatepicker]="SpeculateDatepicker"
+            formControlName="speculateDate"
+          />
+          <mat-datepicker-toggle matIconSuffix [for]="SpeculateDatepicker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #SpeculateDatepicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    
+      <div class="child-num">
         <mat-label>الحالة</mat-label>
         <mat-radio-group
           aria-label="Select an option"
@@ -203,93 +279,16 @@
       </div>
       <div class="child-num">
         <mat-label>تاريخ الشراء* </mat-label>
-        <mat-form-field appearance="outline" class="example-full-width">
-          <input
+        <mat-form-field appearance="outline" >
+          <input 
             matInput
             [matDatepicker]="BuyDatepicker"
             formControlName="buyDate"
           />
-          <mat-datepicker-toggle matIconSuffix [for]="BuyDatepicker">
+          <mat-datepicker-toggle matIconSuffix [for]="BuyDatepicker" >
             <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
           </mat-datepicker-toggle>
           <mat-datepicker #BuyDatepicker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="child-num">
-        <mat-label>تاريخ العمل*</mat-label>
-        <mat-form-field appearance="outline" class="example-full-width">
-          <input
-            matInput
-            [matDatepicker]="WorkDatepicker"
-            formControlName="workDate"
-          />
-          <mat-datepicker-toggle matIconSuffix [for]="WorkDatepicker">
-            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #WorkDatepicker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="child-num">
-        <mat-label>تاريخ التكهين*</mat-label>
-        <mat-form-field appearance="outline" class="example-full-width">
-          <input
-            matInput
-            [matDatepicker]="SpeculateDatepicker"
-            formControlName="speculateDate"
-          />
-          <mat-datepicker-toggle matIconSuffix [for]="SpeculateDatepicker">
-            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #SpeculateDatepicker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="child-num">
-        <mat-label>القيمة الابتدائية*</mat-label>
-        <mat-form-field appearance="outline">
-          <input
-            matInput
-            placeholder="القيمة الابتدائية"
-            type="number"
-            min="0"
-            formControlName="initialValue"
-          />
-        </mat-form-field>
-      </div>
-      <div class="child-num">
-        <mat-label>القيمة المحجوزة*</mat-label>
-        <mat-form-field appearance="outline">
-          <input
-            matInput
-            placeholder="القيمة المحجوزة"
-            type="number"
-            min="0"
-            formControlName="bookValue"
-          />
-        </mat-form-field>
-      </div>
-
-      <div class="child-num">
-        <mat-label>معدل الاستهلاك*</mat-label>
-        <mat-form-field appearance="outline">
-          <input
-            matInput
-            placeholder="معدل الاستهلاك"
-            type="number"
-            min="0"
-            formControlName="depreciationRate"
-          />
-        </mat-form-field>
-      </div>
-      <div class="child-num">
-        <mat-label>القيمة الكهنة*</mat-label>
-        <mat-form-field appearance="outline">
-          <input
-            matInput
-            placeholder="القيمة الكهنة"
-            type="number"
-            min="0"
-            formControlName="speculateValue"
-          />
         </mat-form-field>
       </div>
    

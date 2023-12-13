@@ -61,3 +61,13 @@ mat-form-field {
     padding: 10px 0px;
     height: 50px;
 }
+
+.parent{
+    display:flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+}
+.searchLabels{
+    width: 32%;
+}
