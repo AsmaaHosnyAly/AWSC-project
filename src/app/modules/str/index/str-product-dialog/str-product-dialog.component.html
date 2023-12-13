@@ -74,7 +74,6 @@
         <div class="child1">
           <mat-label>رفع الملف</mat-label>
           <input type="file" class="file-input" (change)="onChange($event)" />
-          <!-- <button (click)="onUpload()" class="upload-button">Upload the file</button> -->
           <div *ngIf="selectedFile">{{ selectedFile.name }}</div>
         </div>
 
