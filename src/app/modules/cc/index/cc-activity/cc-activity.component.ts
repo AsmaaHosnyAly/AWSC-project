@@ -44,7 +44,7 @@ export class CcActivityComponent implements OnInit {
   }
 
   constructor(private dialog: MatDialog, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService, global: GlobalService) {
-    global.getPermissionUserRoles('IT', '', 'التكاليف', 'credit_card')
+    global.getPermissionUserRoles('CC', 'ccHome', 'التكاليف', 'credit_card')
   }
 
   ngOnInit(): void {

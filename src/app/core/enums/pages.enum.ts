@@ -10,7 +10,8 @@ export enum PagesEnums {
   ATTENDANDCE='Attendance',
   PY='PY',
   TR='TR',
-  
+  CC='CC',
+  FA='FA',
 
   /*************USER_ROLES***************/
   /****************** module:1 STORES المخازن ************************/
@@ -97,17 +98,17 @@ Qualification_level='الدرجة العلمية',
   CcRegion='المنطقة',
   CcSubRegion='المنطقة الفرعية',
   CcSource='المصدر',
-  CcPlantComponent='تحليل المنطقة',
+  CcPlantComponent='تحليل المحطة',
   CcEquipment='المعدات',
   Cccostcenter='مركزالتكاليف',
-  CcEntry='القيود',
+  CcEntry='قيود التكاليف',
   CcReports='تقارير التكاليف',
 
    /****************** module:8 FA الاصول الثابتة  ************************/
    FaCategoryFirst='تصنيف اول',
    FaCategorySecond='تصنيف ثاني',
    FaCategoryThird='تصنيف ثالث',
-   FaFixedAsset='الإصول الثابتة ',
-   FaSGGubRegion='حركة الإصول',
-   FaReports='تقارير الإصول',
+   FaFixedAsset='الاصول الثابتة',
+   FaSGGubRegion='حركة الاصول',
+   FaReports='تقارير الاصول',
 }

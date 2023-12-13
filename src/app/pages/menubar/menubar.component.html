@@ -267,51 +267,51 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-activity"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/النشاط"
+                *ngIf="hasAccessRole(pageEnums.CcActivity)" routerLinkActive="active">
                 <p class="font">النشاط</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Function"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/الوظيفي"
+                *ngIf="hasAccessRole(pageEnums.CcFunction)" routerLinkActive="active">
                 <p class="font">الوظيفي</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-plant"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/المحطة"
+                *ngIf="hasAccessRole(pageEnums.CcPlant)" routerLinkActive="active">
                 <p class="font">المحطة</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Region"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/المنطقة"
+                *ngIf="hasAccessRole(pageEnums.CcRegion)" routerLinkActive="active">
                 <p class="font">المنطقة</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-SubRegion"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/المنطقة الفرعية"
+                *ngIf="hasAccessRole(pageEnums.CcSubRegion)" routerLinkActive="active">
                 <p class="font">المنطقة الفرعية</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Source"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/المصدر"
+                *ngIf="hasAccessRole(pageEnums.CcSource)" routerLinkActive="active">
                 <p class="font">المصدر</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-PlantComponent"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/تحليل المحطة"
+                *ngIf="hasAccessRole(pageEnums.CcPlantComponent)" routerLinkActive="active">
                 <p class="font">تحليل المحطة</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Equipment"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/المعدات"
+                *ngIf="hasAccessRole(pageEnums.CcEquipment)" routerLinkActive="active">
                 <p class="font">المعدات</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="Cc-costcenter"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="مركزالتكاليف"
+                *ngIf="hasAccessRole(pageEnums.Cccostcenter)" routerLinkActive="active">
                 <p class="font">مركز التكاليف</p>
               </a>
 
             </mat-nav-list>
           </mat-expansion-panel>
-          <a mat-list-item class="sideNavSubItems" routerLink="/Cc-entry" *ngIf="hasAccessRole(pageEnums.FIJournal)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/قيود التكاليف" *ngIf="hasAccessRole(pageEnums.CcEntry)"
             routerLinkActive="active">
-            <p class="font">القيود</p>
+            <p class="font">قيود التكاليف</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Reports" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/تقارير التكاليف" *ngIf="hasAccessRole(pageEnums.CcReports)"
             routerLinkActive="active">
             <p class="font">تقارير التكاليف</p>
           </a>
@@ -319,7 +319,7 @@
       </mat-expansion-panel>
       <!-- end costs -->
       <!--start الاصول الثابتة -->
-      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.ACCOUNTS)">
+      <mat-expansion-panel dir="rtl" *ngIf="hasAccessModule(pageEnums.FA)">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon color="primary" class="ms-2">collections_bookmark</mat-icon>
@@ -338,30 +338,30 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="/faCategoryFirst"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/تصنيف اول"
+                *ngIf="hasAccessRole(pageEnums.FaCategoryFirst)" routerLinkActive="active">
                 <p class="font">تصنيف اول</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/faCategorySecond"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/تصنيف ثاني"
+                *ngIf="hasAccessRole(pageEnums.FaCategorySecond)" routerLinkActive="active">
                 <p class="font">تصنيف ثاني</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/faCategoryThird"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/تصنيف ثالث"
+                *ngIf="hasAccessRole(pageEnums.FaCategoryThird)" routerLinkActive="active">
                 <p class="font">تصنيف ثالث</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/faFixedAsset"
-                *ngIf="hasAccessRole(pageEnums.ADD_ACCOUNT)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/الاصول الثابتة"
+                *ngIf="hasAccessRole(pageEnums.FaFixedAsset)" routerLinkActive="active">
                 <p class="font">الاصول الثابتة</p>
               </a>
 
             </mat-nav-list>
           </mat-expansion-panel>
-          <a mat-list-item class="sideNavSubItems" routerLink="/faMoveFixedAsset" *ngIf="hasAccessRole(pageEnums.FIJournal)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/حركة الاصول" *ngIf="hasAccessRole(pageEnums.FaSGGubRegion)"
             routerLinkActive="active">
             <p class="font">حركة الإصول</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/Cc-Reports" *ngIf="hasAccessRole(pageEnums.FI_ENTRY)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/تقارير الاصول" *ngIf="hasAccessRole(pageEnums.FaReports)"
             routerLinkActive="active">
             <p class="font">تقارير الإصول</p>
           </a>

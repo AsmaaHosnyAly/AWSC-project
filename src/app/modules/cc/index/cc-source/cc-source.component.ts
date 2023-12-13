@@ -61,7 +61,7 @@ export class CcSourceComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private toastr: ToastrService, private api: ApiService, private global: GlobalService, private hotkeysService: HotkeysService) {
 
-    global.getPermissionUserRoles(4, 'stores', ' النوعية', '')
+    global.getPermissionUserRoles('CC', 'ccHome', 'التكاليف', 'credit_card')
   }
   ngOnInit(): void {
     this.getAllSources();
