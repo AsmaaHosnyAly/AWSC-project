@@ -22,7 +22,7 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
 export class CcRegion {
-  constructor(public id: number, public name: string, public code: any) {}
+  constructor(public id: number, public name: string, public code: any) { }
 }
 
 // export class Account {
@@ -90,7 +90,7 @@ export class CcSubRegionDialogComponent {
       transactionUserId: [1, Validators.required],
       code: [''],
       name: ['', Validators.required],
-      RegionId: ['', Validators.required],
+      regionId: ['', Validators.required],
 
       id: ['', Validators.required],
       // matautocompleteFieldName : [''],
@@ -105,6 +105,7 @@ export class CcSubRegionDialogComponent {
     // });
 
     if (this.editData) {
+      console.log("editData: ", this.editData);
       this.actionBtn = 'تعديل';
       this.getCcSubRegionData = this.editData;
       this.CcSubRegionForm.controls['transactionUserId'].setValue(
@@ -113,13 +114,13 @@ export class CcSubRegionDialogComponent {
       this.CcSubRegionForm.controls['code'].setValue(this.editData.code);
       this.CcSubRegionForm.controls['name'].setValue(this.editData.name);
 
-      this.CcSubRegionForm.controls['RegionId'].setValue(
-        this.editData.RegionId
+      this.CcSubRegionForm.controls['regionId'].setValue(
+        this.editData.regionId
       );
 
-      this.CcSubRegionForm.controls['accountId'].setValue(
-        this.editData.accountId
-      );
+      // this.CcSubRegionForm.controls['accountId'].setValue(
+      //   this.editData.accountId
+      // );
       // console.log("RegionId: ", this.CcSubRegionForm.controls['RegionId'].value)
       this.CcSubRegionForm.addControl('id', new FormControl('', Validators.required));
       this.CcSubRegionForm.controls['id'].setValue(this.editData.id);
@@ -133,7 +134,7 @@ export class CcSubRegionDialogComponent {
   CcRegionSelected(event: MatAutocompleteSelectedEvent): void {
     const CcRegion = event.option.value as CcRegion;
     this.selectedCcRegion = CcRegion;
-    this.CcSubRegionForm.patchValue({ RegionId: CcRegion.id });
+    this.CcSubRegionForm.patchValue({ regionId: CcRegion.id });
     this.CcSubRegionForm.patchValue({ CcRegionName: CcRegion.name });
     // this.getCodeByRegionId();
   }
@@ -214,20 +215,20 @@ export class CcSubRegionDialogComponent {
       }
     });
   }
-  
-  
+
+
   addCcSubRegion() {
-    
+
     this.CcSubRegionForm.controls['code'].setValue(this.CcSubRegionForm.value.code);
 
     if (!this.editData) {
       const enteredName = this.CcSubRegionForm.get('name')?.value;
-    
-    if (this.existingNames.includes(enteredName)) {
-      alert('هذا الاسم موجود من قبل، قم بتغييره');
-      return;
-    }
-    
+
+      if (this.existingNames.includes(enteredName)) {
+        alert('هذا الاسم موجود من قبل، قم بتغييره');
+        return;
+      }
+
       this.CcSubRegionForm.removeControl('id');
       // this.CcSubRegionForm.controls['RegionId'].setValue(this.selectedOption.id);
       console.log('add: ', this.CcSubRegionForm.value);
