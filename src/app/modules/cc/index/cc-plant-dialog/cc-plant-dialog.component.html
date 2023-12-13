@@ -6,21 +6,19 @@
   <form [formGroup]="PLantForm" dir="rtl">
       <div mat-dialog-content>
         <form [formGroup]="PLantForm">
+          <mat-label>الكود</mat-label>
           <mat-form-field appearance="outline">
-            <mat-label>الكود</mat-label>
-            <input formControlName="code" matInput placeholder="ادخل الكود">
+            <input formControlName="code" matInput >
           </mat-form-field>
 
-          
+          <mat-label>الاسم</mat-label>
           <mat-form-field appearance="outline">
-            <mat-label>الاسم</mat-label>
-            <input formControlName="name" matInput placeholder="ادخل الاسم">
+            <input formControlName="name" matInput >
           </mat-form-field>
         
-          <mat-label>اسم المنطقة الفرعية
+          <mat-label>اسم المنطقة الفرعية</mat-label>
 
-            
-          </mat-label>
+          
           <mat-form-field appearance="outline">
             <input matInput aria-label="subRegion" [matAutocomplete]="autoSubRegion" [formControl]="subRegionCtrl"
               placeholder="{{getModelData  ? getModelData.subRegionName : ''}}" (click)="openAutoSubRegion()" required />

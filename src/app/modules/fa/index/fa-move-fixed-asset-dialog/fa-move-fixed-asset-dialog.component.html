@@ -6,7 +6,7 @@
 <form [formGroup]="MovefixedAssetForm" dir="rtl">
     <div mat-dialog-content>
         <form [formGroup]="MovefixedAssetForm">
-
+         <div class="parent">
             <div class="searchLabels">
                 <mat-label>نوع الحركة*</mat-label>
 
@@ -68,7 +68,7 @@
                     <input matInput placeholder="المعدل" formControlName="rate" type="number" min="0">
                 </mat-form-field>
             </div>
-
+           <div class="searchLabels">
             <mat-label> مركز التكلفة *</mat-label>
             <mat-form-field appearance="outline" class="child-num">
                 <input placeholder="{{editData  ? editData.costCenterName : ''}}" matInput aria-label="commodity"
@@ -82,6 +82,8 @@
                 </mat-autocomplete>
             </mat-form-field>
 
+           </div>
+            
             <div class="searchLabels">
                 <mat-label> النشاط *</mat-label>
 
@@ -116,6 +118,7 @@
                 </mat-form-field>
 
             </div>
+        </div>
         </form>
     </div>
 
