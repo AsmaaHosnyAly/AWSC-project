@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PagesEnums } from 'src/app/core/enums/pages.enum';
 
@@ -1633,9 +1633,24 @@ export class ApiService {
     return this.http.put<any>(`${this.url}/STRProduct/update`, data);
   }
 
-  uploadedFile(data:any,id: any) {
-    console.log('form add product data to backend: ', data);
-    return this.http.post<any>(`${this.url}/STRProduct/UploadFile?Id=${id}`,data);
+  // uploadedFile(data:any,id: any) {
+  //   console.log('form add product data to backend: ', data,id);
+  //   let headers= new HttpHeaders();
+  //     headers.append('Content-Type', 'multipart/form-data');
+  //       headers.append('Accept', 'application/json');
+  //       const options = {
+  //         params: new HttpParams(),
+  //         headers:  headers
+  //       };
+  //   return this.http.post(`${this.url}/STRProduct/UploadFile?Id=${id}`,{
+  //     data,
+  //     options
+      
+  //   });
+  // }
+
+  uploadedFile(formData: FormData, id: any) {
+    return this.http.post(`${this.url}/STRProduct/UploadFile?Id=${id}`, formData);
   }
 
   deleteStrProduct(id: number) {

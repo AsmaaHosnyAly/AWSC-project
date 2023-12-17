@@ -20,7 +20,7 @@
           <mat-label> مركز التكاليف</mat-label>
           <mat-form-field appearance="outline">
             <input matInput aria-label="costCenter" [matAutocomplete]="autoCostCenter" [formControl]="costCenterCtrl"
-              placeholder="{{getModelData  ? getModelData.CostCenterName : ''}}" (click)="openAutoCostCenter()" required />
+              placeholder="{{getModelData  ? getModelData.costCenterName : ''}}" (click)="openAutoCostCenter()" required />
             <mat-autocomplete #autoCostCenter="matAutocomplete" [displayWith]="displayCostCenterName"
               (optionSelected)="costCenterSelected($event)">
               <mat-option *ngFor="let costCenter of filteredCostCenteres | async" [value]="costCenter">

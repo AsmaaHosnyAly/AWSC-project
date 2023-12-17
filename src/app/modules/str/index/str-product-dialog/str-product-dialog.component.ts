@@ -14,6 +14,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 export class Item {
   constructor(public id: number, public name: string) {}
@@ -272,8 +273,6 @@ export class StrProductDialogComponent implements OnInit {
     if (this.file) {
       formData.append('attachment', this.file, this.file.name);
     }
-
-    // Add other form data fields to the formData object
     formData.append('code', this.productForm.get('code')?.value);
     formData.append('name', this.productForm.get('name')?.value);
     formData.append('itemId', this.productForm.get('itemId')?.value);
@@ -353,70 +352,30 @@ export class StrProductDialogComponent implements OnInit {
   }
 
   onChange(event: any) {
-    this.file = event.target.files;
-    console.log('file ', this.file[0]);
-    if (this.file.length) {
-      this.status = 'initial';
-      this.selectedFile = this.file[0].name;
-    }
+    this.selectedFile = event.target.files[0];
   }
-
-  // Modify the onUpload() method
   onUpload() {
     if (this.selectedFile) {
-      // const formData = new FormData();
-      // formData.append("attachment", this.selectedFile, this.selectedFile.name);
-      // const formData = new FormData();
-      // if (this.file) {
-      //   formData.append("attachment", this.selectedFile);
-      // }
-
-      // // Add other form data fields to the formData object
-      // formData.append("code", this.productForm.get("code")?.value);
-      // formData.append("name", this.productForm.get("name")?.value);
-      // formData.append("itemId", this.productForm.get("itemId")?.value);
-      // formData.append("vendorId", this.productForm.get("vendorId")?.value);
-      // formData.append("modelId", this.productForm.get("modelId")?.value);
-      // formData.append("transactionUserId", this.productForm.get("transactionUserId")?.value);
       this.productForm.controls['attachment'].setValue(this.selectedFile);
 
       if (this.editData) {
         this.productIdToEdit = this.editData.id;
       }
-      console.log(
-        'formData: ',
-        this.productForm.value,
-        'id: ',
-        this.productIdToEdit
-      );
-      this.api.uploadedFile(this.productForm.value, this.productIdToEdit).subscribe({
-        next: (res) => {
-          // this.loading = false;
+      console.log('formData: ',this.productForm.value,'id: ',this.productIdToEdit);
+      console.log(this.productForm.value.attachment)
+      const formData = new FormData();
+      formData.append("attachment", this.productForm.value.attachment);
+      console.log(formData);
+      this.api.uploadedFile(this.productForm.value.attachment, this.productIdToEdit).subscribe({
+        next: (res:any) => {
           console.log('attach res: ', res);
           this.toastrSuccess();
-
-          // this.dialogRef.close('save');
         },
         error: (err) => {
-          // this.loading = false;
           console.log('attach error:', err);
           this.toastrErrorSave();
         },
       });
-
-      // const upload$ = this.api.uploadedFile(this.productForm.value, this.productIdToEdit); // Replace 'id' with the appropriate value
-
-      // this.status = "uploading";
-
-      // upload$.subscribe({
-      //   next: () => {
-      //     this.status = "success";
-      //   },
-      //   error: (error: any) => {
-      //     this.status = "fail";
-      //     alert("خطا اثناء رفع الملف !");
-      //   },
-      // });
     }
   }
 
