@@ -9,6 +9,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-hr-attendance-permission-dialog',
@@ -30,7 +31,9 @@ export class HrAttendancePermissionDialogComponent {
      private readonly route:ActivatedRoute,
      private toastr: ToastrService,
      @Inject(MAT_DIALOG_DATA) public editData : any,
+     global:GlobalService,
      private dialogRef : MatDialogRef<HrAttendancePermissionDialogComponent>){
+      global.getPermissionUserRoles('IT', '', 'الحضور والإنصراف', 'book')
      }
   ngOnInit(): void {
     this.HrAttendancePermissionForm  = this.formBuilder.group({

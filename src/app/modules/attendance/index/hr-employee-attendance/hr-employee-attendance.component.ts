@@ -21,6 +21,7 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { HrEmployeeAttendancePermissionDialogComponent } from '../hr-employee-attendance-permission-dialog/hr-employee-attendance-permission-dialog.component';
 import { HrEmployeeAttendanceDialogComponent } from '../hr-employee-attendance-dialog/hr-employee-attendance-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 
 @Component({
@@ -39,8 +40,8 @@ export class HrEmployeeAttendanceComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
-  
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,global:GlobalService) {
+    global.getPermissionUserRoles('IT', '', 'الحضور والإنصراف', 'book')
   }
   ngOnInit(): void {
     // console.log(productForm)
