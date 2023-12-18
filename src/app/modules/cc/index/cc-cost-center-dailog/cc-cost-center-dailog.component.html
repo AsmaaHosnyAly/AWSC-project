@@ -31,7 +31,7 @@
             aria-label="functionn"
             [matAutocomplete]="autofunctionn"
             [formControl]="functionnCtrl"
-            placeholder="{{ getModelData ? getModelData.functionname : '' }}"
+            placeholder="{{getModelData  ? getModelData.functionName : ''}}"
             (click)="openAutofunctionn()"
             required
           />
@@ -58,7 +58,7 @@
             aria-label="source"
             [matAutocomplete]="autoSource"
             [formControl]="sourceCtrl"
-            placeholder="{{ getModelData ? getModelData.sourceName : '' }}"
+            placeholder="{{getModelData  ? getModelData.sourceName : ''}}"
             (click)="openAutoSource()"
             required
           />
@@ -85,7 +85,7 @@
             aria-label="region"
             [matAutocomplete]="autoRegion"
             [formControl]="regionCtrl"
-            placeholder="{{ getModelData ? getModelData.subRegionName : '' }}"
+            placeholder="{{getModelData  ? getModelData.regionName : ''}}"
             (click)="openAutoRegion()"
             required
           />
@@ -112,7 +112,7 @@
             aria-label="subRegion"
             [matAutocomplete]="autoSubRegion"
             [formControl]="subRegionCtrl"
-            placeholder="{{ getModelData ? getModelData.subRegionName : '' }}"
+            placeholder="{{getModelData  ? getModelData.subRegionName : ''}}"
             (click)="openAutoSubRegion()"
             required
           />
@@ -139,7 +139,7 @@
             aria-label="plant"
             [matAutocomplete]="autoPlant"
             [formControl]="plantCtrl"
-            placeholder="{{ getModelData ? getModelData.subRegionName : '' }}"
+            placeholder="{{getModelData  ? getModelData.plantName : ''}}"
             (click)="openAutoPlant()"
             required
           />
@@ -166,7 +166,7 @@
             aria-label="plantComponent"
             [matAutocomplete]="autoPlantComponent"
             [formControl]="plantComponentCtrl"
-            placeholder="{{ getModelData ? getModelData.subRegionName : '' }}"
+            placeholder="{{getModelData  ? getModelData.plantComponentName : ''}}"
             (click)="openAutoPlantComponent()"
             required
           />
@@ -193,7 +193,7 @@
             aria-label="activity"
             [matAutocomplete]="autoActivity"
             [formControl]="activityCtrl"
-            placeholder="{{ getModelData ? getModelData.subRegionName : '' }}"
+            placeholder="{{getModelData  ? getModelData.activityName : ''}}"
             (click)="openAutoActivity()"
             required
           />
