@@ -86,11 +86,11 @@ Qualification_level='الدرجة العلمية',
 /****************** module:6 Py الرواتب************************/
   PyInstallment='الأقساط',
   PyItem='بنود الأجور',
-  PyItemGroup='مجموعات الأجور',
+  PyItemGroup='مجموعات الاجور',
   PyItemCategory='تصنيفات بنود الاجور',
   pytaxbracket='الوعاء الضريبي',
-
-
+  PyExchange='الصرفيات',
+  PyReports="تقارير الاستحقاقات",
   /****************** module:7 Cc التكاليف************************/
   CcActivity='النشاط',
   CcFunction='الوظيفي',

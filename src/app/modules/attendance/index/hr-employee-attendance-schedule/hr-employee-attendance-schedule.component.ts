@@ -34,7 +34,7 @@ export class HrEmployeeAttendanceScheduleComponent implements OnInit {
   constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService,private hotkeysService: HotkeysService,private http: HttpClient) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
  
-    global.getPermissionUserRoles(12, 'stores', 'المنتجات', '')
+    global.getPermissionUserRoles('Attendance', 'hr-AttendanceHome', 'الحضور والإنصراف', 'book')
    }
 
   ngOnInit(): void {

@@ -8,6 +8,6 @@ import { GlobalService } from 'src/app/pages/services/global.service';
 })
 export class HrAttendancHomeComponent {
 constructor(global:GlobalService){
-  global.getPermissionUserRoles('IT', '', 'الحضور والإنصراف', 'book')
+  global.getPermissionUserRoles('Attendance', 'hr-AttendanceHome', 'الحضور والإنصراف', 'book')
 }
 }

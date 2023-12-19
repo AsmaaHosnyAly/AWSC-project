@@ -650,14 +650,14 @@ const routes: Routes = [
 
       /*********************start py module  المرتبات***************************/
 
-      { path: 'Py-reports', component: PyReportsComponent },
+      { path: 'تقارير الاستحقاقات', component: PyReportsComponent },
       { path: 'pyHome', component: PyHomeComponent },
-      { path: 'PyInstallment', component: PyInstallmentComponent },
-      { path: 'PyItem', component: PyItemComponent },
-      { path: 'Py-Exchange', component: PyExchangeContainerComponent },
-      { path: 'PyItemCategory', component: PyItemCategoryComponent },
-      { path: 'pytaxbracket', component: PyTaxBracketComponent },
-      { path: 'PyItemGroup', component: PyGroupComponent },
+      { path: 'الأقساط', component: PyInstallmentComponent },
+      { path: 'بنود الأجور', component: PyItemComponent },
+      { path: 'الصرفيات', component: PyExchangeContainerComponent },
+      { path: 'تصنيفات بنود الاجور', component: PyItemCategoryComponent },
+      { path: 'الوعاء الضريبي', component: PyTaxBracketComponent },
+      { path: 'مجموعات الاجور', component: PyGroupComponent },
 
       /*********************End py module  المرتبات***************************/
 

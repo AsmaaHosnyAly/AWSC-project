@@ -20,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { HrAttendanceScheduleDialogComponent } from '../hr-attendance-schedule-dialog/hr-attendance-schedule-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 
 @Component({
@@ -39,8 +40,8 @@ export class HrAttendanceScheduleComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService) {
-  
+  constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,global:GlobalService) {
+    global.getPermissionUserRoles('Attendance', 'hr-AttendanceHome', 'الحضور والإنصراف', 'book')
   }
   ngOnInit(): void {
     // console.log(productForm)

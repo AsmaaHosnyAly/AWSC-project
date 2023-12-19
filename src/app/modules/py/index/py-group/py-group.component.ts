@@ -17,6 +17,7 @@ import {
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PyGroupDialogComponent } from '../py-group-dialog/py-group-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 interface PyItemGroup {
   name: string;
@@ -71,8 +72,11 @@ export class PyGroupComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    global:GlobalService
+  ) { 
+    global.getPermissionUserRoles('PY', 'pyHome', 'الاستحقاقات', 'money')
+  }
 
   ngOnInit(): void {
     this.getAllMasterForms();

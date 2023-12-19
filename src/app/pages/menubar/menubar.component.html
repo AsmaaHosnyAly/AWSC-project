@@ -591,7 +591,7 @@
       <!-- End Attendance الحضور والانصراف  -->
 
       <!-- Start PY  المرتبات  -->
-      <mat-expansion-panel dir="rtl">
+      <mat-expansion-panel dir="rtl"  *ngIf="hasAccessModule(pageEnums.PY)">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon color="primary" class="ms-2">money</mat-icon>
@@ -610,29 +610,32 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="/PyInstallment"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الأقساط"
                 *ngIf="hasAccessRole(pageEnums.PyInstallment)" routerLinkActive="active">
                 <p class="font">الأقساط</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/PyItem" *ngIf="hasAccessRole(pageEnums.PyItem)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/بنود الأجور" *ngIf="hasAccessRole(pageEnums.PyItem)"
                 routerLinkActive="active">
                 <p class="font">بنود الإجور</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/PyItemCategory"
+              <a mat-list-item class="sideNavSubItems" routerLink="/تصنيفات بنود الاجور"
                 *ngIf="hasAccessRole(pageEnums.PyItemCategory)" routerLinkActive="active">
                 <p class="font">تصنيفات بنودالاجور</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/pytaxbracket"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الوعاء الضريبي"
                 *ngIf="hasAccessRole(pageEnums.pytaxbracket)" routerLinkActive="active">
                 <p class="font">الوعاءالضريبي</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/PyItemGroup" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/مجموعات الاجور"  *ngIf="hasAccessRole(pageEnums.PyItemGroup)" routerLinkActive="active">
                 <p class="font">مجموعات الاجور</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Py-reports" routerLinkActive="active">
-                <p class="font">تقارير المرتبات</p>
+              <a mat-list-item class="sideNavSubItems" routerLink="/الصرفيات"  *ngIf="hasAccessRole(pageEnums.PyExchange)"  routerLinkActive="active">
+                <p class="font">الصرفيات</p>
+              </a>
+              <a mat-list-item class="sideNavSubItems" routerLink="/تقارير الاستحقاقات"   *ngIf="hasAccessRole(pageEnums.PyReports)" routerLinkActive="active">
+                <p class="font">تقارير الاستحقاقات</p>
               </a>
             </mat-nav-list>
           </mat-expansion-panel>

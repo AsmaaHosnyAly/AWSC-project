@@ -9,6 +9,7 @@ import { PyItemCategoryDialogComponent } from '../py-item-category-dialog/py-ite
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 interface PyItemCategory {
   name: any;
@@ -40,7 +41,9 @@ export class PyItemCategoryComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) { }
+  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService,global:GlobalService) { 
+    global.getPermissionUserRoles('PY', 'pyHome', 'الاستحقاقات', 'money')
+  }
  
   ngOnInit(): void {
     this.getPyItemCategory();
