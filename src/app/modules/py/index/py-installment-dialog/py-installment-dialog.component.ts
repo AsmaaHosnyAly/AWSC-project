@@ -128,9 +128,9 @@ export class PyInstallmentDialogComponent implements OnInit {
   
     private _filterEmployees(value: string): Employee[] {
       const filterValue = value.toLowerCase();
-      return this.employees.filter(
-        (employee) => employee.name.toLowerCase().includes(filterValue)
-        );
+      return this.employees.filter((employee) =>
+      employee.name ? employee.name.includes(filterValue) : '-'
+    );
     }
   
     openAutoEmployee() {

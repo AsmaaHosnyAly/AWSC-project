@@ -34,7 +34,7 @@ export class HrEmployeeAttendanceScheduleComponent implements OnInit {
   constructor(private dialog: MatDialog, private api: ApiService, private toastr: ToastrService,public global:GlobalService,private hotkeysService: HotkeysService,private http: HttpClient) {
     // this.mytrustedUrl=sanitizer.bypassSecurityTrustUrl(this.myUrl)
  
-    global.getPermissionUserRoles(12, 'stores', 'المنتجات', '')
+    global.getPermissionUserRoles('IT', '', 'الحضور والإنصراف', 'book')
    }
 
   ngOnInit(): void {
@@ -103,7 +103,7 @@ export class HrEmployeeAttendanceScheduleComponent implements OnInit {
               console.log("res of deletestore:",res)
             alert('تم الحذف بنجاح');
             // this.toastrDeleteSuccess();
-
+    
             this.getAllProducts()
 
           }else{

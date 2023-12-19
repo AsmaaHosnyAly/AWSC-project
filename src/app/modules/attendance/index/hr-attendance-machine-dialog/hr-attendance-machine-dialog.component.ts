@@ -9,6 +9,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-hr-attendance-machine-dialog',
@@ -28,8 +29,10 @@ export class HrAttendanceMachineDialogComponent implements OnInit {
     private hotkeysService: HotkeysService,
     private readonly route: ActivatedRoute,
     private toastr: ToastrService,
+    global:GlobalService,
     @Inject(MAT_DIALOG_DATA) public editData: any,
     private dialogRef: MatDialogRef<HrAttendanceMachineDialogComponent>) {
+      global.getPermissionUserRoles('IT', '', 'الحضور والإنصراف', 'book')
   }
 
   ngOnInit(): void {
