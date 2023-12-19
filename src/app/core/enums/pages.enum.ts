@@ -9,7 +9,7 @@ export enum PagesEnums {
   HR='HR',
   ATTENDANDCE='Attendance',
   PY='PY',
-  TR='TR',
+  TR='Training',
   CC='CC',
   FA='FA',
 
@@ -91,7 +91,28 @@ Qualification_level='الدرجة العلمية',
   pytaxbracket='الوعاء الضريبي',
   PyExchange='الصرفيات',
   PyReports="تقارير الاستحقاقات",
-  /****************** module:7 Cc التكاليف************************/
+
+   /****************** module:7 Training  ************************/
+   TrCourse='الدورات التدريبية',
+   TrCourseCategory='تصنيف الدورة التدريبية',
+   TrCourseType='نوع الدورة التدريبية',
+   TRInstructor='المدريبن',
+   TrTrainee='المتدريبن',
+   TrInstructorCourse='دورات المدربين',
+   TrCoporteClient='عملاء الشركات',
+   TrTrainingCenter='مراكز التدريب',
+   TrClassRoom='قاعات التدريب',
+   TrTrainingCenterCourse='دورات مركز التدريب',
+   TrPlan='الدورات المخططة',
+   TrExcuted='الدورات المنفذة',
+   TrTrack='حزم تدربيية',
+   TrPurpose='غرض التدريب',
+   TrBudget='الموازنة',
+   TrReports='تقارير التدريب',
+  
+
+
+  /****************** module:8 Cc التكاليف************************/
   CcActivity='النشاط',
   CcFunction='الوظيفي',
   CcPlant='المحطة',
@@ -104,11 +125,15 @@ Qualification_level='الدرجة العلمية',
   CcEntry='قيود التكاليف',
   CcReports='تقارير التكاليف',
 
-   /****************** module:8 FA الاصول الثابتة  ************************/
+   /****************** module:9 FA الاصول الثابتة  ************************/
+
+
    FaCategoryFirst='تصنيف اول',
    FaCategorySecond='تصنيف ثاني',
    FaCategoryThird='تصنيف ثالث',
    FaFixedAsset='الاصول الثابتة',
    FaSGGubRegion='حركة الاصول',
    FaReports='تقارير الاصول',
+
+   
 }
