@@ -114,10 +114,9 @@ export class PyGroupDetailEmployeeDialogComponent implements OnInit {
     const filterValue = value;
     console.log("filterValue222:", filterValue);
 
-    return this.employeesList.filter(
-      (employee) =>
-        employee.name.toLowerCase().includes(filterValue)
-    );
+    return this.employeesList.filter((employee) =>
+    employee.name ? employee.name.includes(filterValue) : '-'
+  );
   }
 
   displayEmployeeName(employee: any): string {

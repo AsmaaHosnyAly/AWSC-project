@@ -9,14 +9,14 @@
 <form [formGroup]="HrAttendanceMachineForm" dir="rtl">
     <div mat-dialog-content>
         <form [formGroup]="HrAttendanceMachineForm">
-
+            <mat-label>الاسم</mat-label>
             <mat-form-field appearance="outline">
-                <mat-label>الاسم</mat-label>
+               
                 <input formControlName="name" matInput placeholder="الاسم">
             </mat-form-field>
-
+            <mat-label>التسلسل</mat-label>
             <mat-form-field appearance="outline">
-                <mat-label>التسلسل</mat-label>
+               
                 <input formControlName="serial" matInput placeholder="التسلسل">
             </mat-form-field>
         </form>

@@ -103,7 +103,7 @@ export class HrEmployeeAttendanceScheduleComponent implements OnInit {
               console.log("res of deletestore:",res)
             alert('تم الحذف بنجاح');
             // this.toastrDeleteSuccess();
-
+    
             this.getAllProducts()
 
           }else{
