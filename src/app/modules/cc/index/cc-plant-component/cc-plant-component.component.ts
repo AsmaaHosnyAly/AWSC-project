@@ -10,6 +10,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import { CcPlantComponentDialogComponent } from '../cc-plant-component-dialog/cc-plant-component-dialog.component';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 interface CcPlantComponent {
   code: any;
@@ -41,7 +42,8 @@ export class CcPlantComponentComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService) {
+  constructor(private dialog: MatDialog, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService,global:GlobalService) {
+    global.getPermissionUserRoles('CC', 'ccHome', 'التكاليف', 'credit_card')
   }
 
   ngOnInit(): void {

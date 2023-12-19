@@ -173,7 +173,7 @@ export class CcEntryTableComponent implements OnInit {
     private toastr: ToastrService,
     private global: GlobalService
   ) {
-    global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '');
+    global.getPermissionUserRoles('CC', 'ccHome', 'التكاليف', 'credit_card')
     this.currentDate = new Date();
 
     this.accountCtrl = new FormControl();

@@ -105,7 +105,7 @@ export class AttendanceReportsComponent implements OnInit {
     global:GlobalService
   ) {
 
-    global.getPermissionUserRoles('IT', '', 'الحضور والإنصراف', 'book')
+    global.getPermissionUserRoles('Attendance', 'hr-AttendanceHome', 'الحضور والإنصراف', 'book')
     // this.reportNameList = [
     //   {
     //     titleval: 'STRItemsTransactionReport',

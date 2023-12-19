@@ -650,14 +650,14 @@ const routes: Routes = [
 
       /*********************start py module  المرتبات***************************/
 
-      { path: 'Py-reports', component: PyReportsComponent },
+      { path: 'تقارير الاستحقاقات', component: PyReportsComponent },
       { path: 'pyHome', component: PyHomeComponent },
-      { path: 'PyInstallment', component: PyInstallmentComponent },
-      { path: 'PyItem', component: PyItemComponent },
-      { path: 'Py-Exchange', component: PyExchangeContainerComponent },
-      { path: 'PyItemCategory', component: PyItemCategoryComponent },
-      { path: 'pytaxbracket', component: PyTaxBracketComponent },
-      { path: 'PyItemGroup', component: PyGroupComponent },
+      { path: 'الأقساط', component: PyInstallmentComponent },
+      { path: 'بنود الأجور', component: PyItemComponent },
+      { path: 'الصرفيات', component: PyExchangeContainerComponent },
+      { path: 'تصنيفات بنود الاجور', component: PyItemCategoryComponent },
+      { path: 'الوعاء الضريبي', component: PyTaxBracketComponent },
+      { path: 'مجموعات الاجور', component: PyGroupComponent },
 
       /*********************End py module  المرتبات***************************/
 
@@ -669,25 +669,25 @@ const routes: Routes = [
 
       ////////////////////////////////CC///////////////////
       { path: 'ccHome', component: CcHomeComponent },
-      { path: 'Cc-activity', component: CcActivityComponent },
-      { path: 'Cc-Function', component: CcFunctionComponent },
-      { path: 'Cc-Region', component: CcRegionComponent },
-      { path: 'Cc-SubRegion', component: CcSubRegionComponent },
-      { path: 'Cc-plant', component: CcPlantComponent },
-      { path: 'Cc-Source', component: CcSourceComponent },
-      { path: 'Cc-PlantComponent', component: CcPlantComponentComponent },
-      { path: 'Cc-Equipment', component: CcEquipmentComponent },
-      { path: 'Cc-costcenter', component: CcCostCenterComponent },
-      { path: 'Cc-Reports', component: CcReportsComponent },
-      { path: 'Cc-entry', component: CcEntryContainerComponent },
+      { path: 'النشاط', component: CcActivityComponent },
+      { path: 'الوظيفي', component: CcFunctionComponent },
+      { path: 'المنطقة', component: CcRegionComponent },
+      { path: 'المنطقة الفرعية', component: CcSubRegionComponent },
+      { path: 'المحطة', component: CcPlantComponent },
+      { path: 'المصدر', component: CcSourceComponent },
+      { path: 'تحليل المحطة', component: CcPlantComponentComponent },
+      { path: 'المعدات', component: CcEquipmentComponent },
+      { path: 'مركزالتكاليف', component: CcCostCenterComponent },
+      { path: 'تقارير التكاليف', component: CcReportsComponent },
+      { path: 'قيود التكاليف', component: CcEntryContainerComponent },
 
       /*********************start py module الاصول الثابتة***************************/
       { path: 'faHome', component: FaHomeComponent },
-      { path: 'faCategoryFirst', component: FaCategoryFirstComponent },
-      { path: 'faCategorySecond', component: FaCategorySecondComponent },
-      { path: 'faCategoryThird', component: FaCategoryThirdComponent },
-      { path: 'faFixedAsset', component: FaFixedAssetComponent },
-      { path: 'faMoveFixedAsset', component: FaMoveFixedAssetComponent },
+      { path: 'تصنيف اول', component: FaCategoryFirstComponent },
+      { path: 'تصنيف ثاني', component: FaCategorySecondComponent },
+      { path: 'تصنيف ثالث', component: FaCategoryThirdComponent },
+      { path: 'الاصول الثابتة', component: FaFixedAssetComponent },
+      { path: 'حركة الاصول', component: FaMoveFixedAssetComponent },
         /*********************End py module  الاصول الثابتة***************************/
 
       /*********************End py module   العقود والمشتريات***************************/

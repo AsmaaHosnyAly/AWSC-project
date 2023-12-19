@@ -119,6 +119,10 @@ export class GlobalService {
  
     //  console.log('decodedToken2 ', this.decodedToken2);
     const MODULES_LOCAL_STORAGE = this.decodedToken1;
+    if( pageTitle=="الصفحة الرئيسية"){
+      this.pageTitle = pageTitle; 
+
+    }else
     for (let i = 0; i <MODULES_LOCAL_STORAGE!.length; i++) {
       if (module == MODULES_LOCAL_STORAGE![i]) {
         this.pageTitle = pageTitle; 
@@ -128,6 +132,7 @@ export class GlobalService {
       }
   
     }
+    
   }
  
   
