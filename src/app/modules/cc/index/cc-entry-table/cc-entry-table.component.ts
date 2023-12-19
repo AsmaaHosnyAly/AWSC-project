@@ -31,10 +31,6 @@ interface ccEntry {
   Action: string;
 }
 
-// export class Account {
-//   constructor(public id: number, public name: string) { }
-// }
-
 @Component({
   selector: 'app-cc-entry-table',
   templateUrl: './cc-entry-table.component.html',
@@ -66,17 +62,10 @@ export class CcEntryTableComponent implements OnInit {
   employeesList: any;
   costCentersList: any;
   journalsList: any;
-  // accountsList: any;
+
   sourcesList: any;
 
-  // dataSource2!: MatTableDataSource<any>;
   dataSource2: MatTableDataSource<ccEntry> = new MatTableDataSource();
-
-  // accountsList: Account[] = [];
-  // accountCtrl: FormControl;
-  // filteredAccount: Observable<Account[]>;
-  // selectedAccount: Account | undefined;
-
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -96,11 +85,6 @@ export class CcEntryTableComponent implements OnInit {
     private global: GlobalService
   ) {
     global.getPermissionUserRoles('Accounts', 'stores', 'إدارة الحسابات ', '')
-    // this.accountCtrl = new FormControl();
-    // this.filteredAccount = this.accountCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map((value) => this._filterAccounts(value))
-    // );
 
   }
 
@@ -118,32 +102,6 @@ export class CcEntryTableComponent implements OnInit {
       Description: ['']
     });
   }
-
-  // private _filterAccounts(value: string): Account[] {
-  //   const filterValue = value;
-  //   console.log("filterValue222:", filterValue);
-
-  //   return this.accountsList.filter(
-  //     (account) =>
-  //       account.name.toLowerCase().includes(filterValue)
-  //   );
-  // }
-
-  // displayAccountName(account: any): string {
-  //   return account && account.name ? account.name : '';
-  // }
-  // AccountSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const account = event.option.value as Account;
-  //   console.log("account selected: ", account);
-  //   this.selectedAccount = account;
-  //   this.groupMasterForm.patchValue({ AccountId: account.id });
-  // }
-  // openAutoAccount() {
-  //   this.accountCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.accountCtrl.updateValueAndValidity();
-  // }
 
   openCcEntryDialog() {
     this.dialog
@@ -167,13 +125,10 @@ export class CcEntryTableComponent implements OnInit {
     }
   }
   getAllMasterForms() {
-    // loadData() {
     if (!this.currentPage) {
       this.currentPage = 0;
 
       this.isLoading = true;
-      // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
-
 
       fetch(this.api.getCcEntryPaginate(this.currentPage, this.pageSize))
         .then(response => response.json())
@@ -196,8 +151,6 @@ export class CcEntryTableComponent implements OnInit {
     }
     else {
       this.isLoading = true;
-      // let URL = `http://ims.aswan.gov.eg/api/FIEntry/get/pagnation?page=${this.currentPage}&pageSize=${this.pageSize}`;
-
 
       fetch(this.api.getCcEntryPaginate(this.currentPage, this.pageSize))
         .then(response => response.json())
@@ -224,50 +177,9 @@ export class CcEntryTableComponent implements OnInit {
     console.log("page event: ", event);
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
-    // this.currentPage = event.previousPageIndex;
+
     this.getAllMasterForms();
   }
-
-
-
-  // getFiAccounts() {
-  //   this.api.getFiAccounts().subscribe({
-  //     next: (res) => {
-  //       this.accountsList = res;
-  //       console.log('accounts res: ', this.accountsList);
-  //     },
-  //     error: (err) => {
-  //       console.log('fetch accounts data err: ', err);
-  //       // alert('خطا اثناء جلب الدفاتر !');
-  //     },
-  //   });
-  // }
-
-  // getFiEntrySource() {
-  //   this.api.getFiEntrySource().subscribe({
-  //     next: (res) => {
-  //       this.sourcesList = res;
-  //       console.log('sources res: ', this.sourcesList);
-  //     },
-  //     error: (err) => {
-  //       console.log('fetch sources data err: ', err);
-  //       // alert('خطا اثناء جلب الدفاتر !');
-  //     },
-  //   });
-  // }
-
-  // async getFiscalYears() {
-  //   this.api.getFiscalYears()
-  //     .subscribe({
-  //       next: async (res) => {
-  //         this.fiscalYearsList = res;
-  //       },
-  //       error: (err) => {
-  //         // console.log("fetch fiscalYears data err: ", err);
-  //         // alert("خطا اثناء جلب العناصر !");
-  //       }
-  //     })
-  // }
 
   editMasterForm(row: any) {
     this.dialog
@@ -283,74 +195,6 @@ export class CcEntryTableComponent implements OnInit {
         }
       });
   }
-
-  // deleteBothForms(id: number) {
-  //   this.api.getCcEntryDetails()
-  //     .subscribe({
-  //       next: (res) => {
-
-  //         this.matchedIds = res.filter((a: any) => {
-  //           // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-  //           return a.entryId === id;
-  //         });
-
-  //         var result = confirm('هل ترغب بتاكيد حذف التفاصيل و الرئيسي؟');
-
-  //         if (this.matchedIds.length) {
-  //           for (let i = 0; i < this.matchedIds.length; i++) {
-  //             console.log(
-  //               'matchedIds details in loop: ',
-  //               this.matchedIds[i].id
-  //             );
-
-  //             if (result) {
-  //               this.api.deleteCcEntryDetails(this.matchedIds[i].id).subscribe({
-  //                 next: (res) => {
-  //                   console.log('master id to be deleted: ', id);
-
-  //                   this.api.deleteCcEntry(id).subscribe({
-  //                     next: (res) => {
-  //                       // alert('تم حذف الرئيسي بنجاح');
-  //                       this.getAllMasterForms();
-  //                     },
-  //                     error: () => {
-  //                       // alert('خطأ أثناء حذف الرئيسي !!');
-  //                     },
-  //                   });
-  //                 },
-  //                 error: () => {
-  //                   // alert('خطأ أثناء حذف التفاصيل !!');
-  //                 },
-  //               });
-  //             }
-  //           }
-  //         } else {
-  //           if (result) {
-  //             console.log('master id to be deleted: ', id);
-
-  //             this.api.deleteCcEntry(id).subscribe({
-  //               next: (res) => {
-  //                 // alert('تم حذف الرئيسي بنجاح');
-  //                 this.toastrDeleteSuccess();
-  //                 this.getAllMasterForms();
-  //               },
-  //               error: () => {
-  //                 // alert('خطأ أثناء حذف الرئيسي !!');
-  //               },
-  //             });
-  //           }
-  //         }
-
-  //       },
-  //       error: (err) => {
-  //         // alert('خطا اثناء حذف القيد !!');
-
-  //       }
-  //     })
-
-
-  // }
-
 
   deleteBothForms(id: number) {
     var result = confirm('تاكيد الحذف ؟ ');
@@ -392,78 +236,6 @@ export class CcEntryTableComponent implements OnInit {
     });
   }
 
-  // getSearchCcEntry(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any) {
-  //   let accountId = this.groupMasterForm.getRawValue().AccountId;
-
-  //   console.log(
-  //     'no.: ', no,
-  //     'accountId : ', accountId,
-  //     'startDate: ', startDate,
-  //     'endDate: ', endDate,
-  //     'FiscalYearId', FiscalYearId,
-  //     'Description', Description
-  //   );
-
-  //   this.api
-  //     .getFiEntrySearach(no, accountId, startDate, endDate, FiscalYearId, Description)
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log('search fiEntry res: ', res);
-
-  //         this.dataSource2 = res;
-  //         this.dataSource2.paginator = this.paginator;
-  //         this.dataSource2.sort = this.sort;
-  //       },
-  //       error: (err) => {
-  //         // alert('Error');
-  //       },
-  //     });
-  // }
-  // previewPrint(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
-
-  //   if (report != null && reportType != null) {
-  //     this.api
-  //       .getFiEntryReport(no, startDate, endDate, FiscalYearId, Description, report, reportType)
-  //       .subscribe({
-  //         next: (res) => {
-  //           let blob: Blob = res.body as Blob;
-  //           console.log(blob);
-  //           let url = window.URL.createObjectURL(blob);
-  //           localStorage.setItem('url', JSON.stringify(url));
-  //           this.pdfurl = url;
-  //           this.dialog.open(PrintDialogComponent, {
-  //             width: '50%',
-  //           });
-  //         },
-  //         error: (err) => {
-  //           console.log('eroorr', err);
-  //           window.open(err.url);
-  //         },
-
-  //       });
-  //   }
-  //   else {
-  //     alert("ادخل التقرير و نوع التقرير!")
-  //   }
-  // }
-
-
-  // downloadPrint(no: any, startDate: any, endDate: any, FiscalYearId: any, Description: any, report: any, reportType: any) {
-
-  //   this.api
-  //     .getFiEntryReport(no, startDate, endDate, FiscalYearId, Description, report, reportType)
-  //     .subscribe({
-  //       next: (res) => {
-  //         console.log('search:', res);
-  //         const url: any = res.url;
-  //         window.open(url);
-  //       },
-  //       error: (err) => {
-  //         console.log('eroorr', err);
-  //         window.open(err.url);
-  //       },
-  //     });
-  // }
   toastrDeleteSuccess(): void {
     this.toastr.success('تم الحذف بنجاح');
   }
