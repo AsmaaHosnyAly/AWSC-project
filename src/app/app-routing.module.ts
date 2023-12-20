@@ -620,31 +620,28 @@ const routes: Routes = [
       /*********************End Hr-attendance module  الحضور والانصراف***************************/
 
       /*********************start TR   التدريب***************************/
-      { path: 'TR-Instructor', component: TrInstructorComponent },
-      { path: 'Tr-CourseType', component: TrCourseTypeComponent },
-      { path: 'Tr-ClassRoom', component: TrClassRoomComponent },
-      { path: 'TrTrainee', component: TrTraineeComponent },
-      { path: 'TrPlan', component: TrPlanComponent },
-      { path: 'TrExcuted', component: TrExcutedComponent },
-      { path: 'TrReports', component: TrReportsComponent },
+    
+
+      { path: 'الدورات المخططة', component: TrPlanComponent },
+      { path: 'الدورات المنفذة', component: TrExcutedComponent },
+      { path: 'تقارير التدريب', component: TrReportsComponent },
       { path: 'TrHome', component: TrHomeComponent },
-      { path: 'Tr-ClassRoom', component: TrClassRoomComponent },
-      { path: 'TrTrainee', component: TrTraineeComponent },
-      { path: 'TR-Instructor', component: TrInstructorComponent },
-      { path: 'Tr-CourseCategory', component: TrCourseCategoryComponent },
-      { path: 'Tr-CoporteClient', component: TrCoporteClientComponent },
-      { path: 'Tr-CourseType', component: TrCourseTypeComponent },
-      { path: 'Tr-Course', component: TrCourseComponent },
-      { path: 'Tr-InstructorCourse', component: TrInstructorCourseComponent },
-      { path: 'Tr-TrainingCenter', component: TrTrainingCenterComponent },
+      { path: 'قاعات التدريب', component: TrClassRoomComponent },
+      { path: 'المتدربين', component: TrTraineeComponent },
+      { path: 'المدريبن', component: TrInstructorComponent },
+      { path: 'تصنيف الدورة التدريبية', component: TrCourseCategoryComponent },
+      { path: 'عملاء الشركات', component: TrCoporteClientComponent },
+      { path: 'نوع الدورة التدريبية', component: TrCourseTypeComponent },
+      { path: 'الدورات التدريبية', component: TrCourseComponent },
+      { path: 'دورات المدربين', component: TrInstructorCourseComponent },
+      { path: 'مراكز التدريب', component: TrTrainingCenterComponent },
       {
-        path: 'Tr-trainingCenterCourse',
+        path: 'دورات مركز التدريب',
         component: TrTrainingCenterCourseComponent,
       },
-      { path: 'TrTrack', component: TrTrackContainerComponent },
-      { path: 'TrPlanCourseData', component: TrPlanCourseDataComponent },
-      { path: 'Tr-Purpose', component: TrPurposeComponent },
-      { path: 'Tr-Budget', component: TrBudgetComponent },
+      { path: 'حزم تدريبية', component: TrTrackContainerComponent },
+      { path: 'غرض التدريب', component: TrPurposeComponent },
+      { path: 'الموازنة', component: TrBudgetComponent },
 
       /*********************End  TR   التدريب****************************/
 
