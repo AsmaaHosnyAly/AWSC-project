@@ -4,51 +4,318 @@
 </mat-accordion>
 
 
-<mat-card-header dir="ltr" class="parent-search">
-    <div class="child1">
-        <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
-            <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
-        </button>
-    </div>
+<mat-tab-group class="demo-tab-group" #matgroup (selectedTabChange)="tabSelected($event)">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <div class="pageTab">
+                <!-- <mat-icon class="example-tab-icon">cloud_done</mat-icon> -->
+                <h2>بيانات مجموعات الاجور</h2>
+            </div>
+        </ng-template>
 
-    <div>
-        <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
-    </div>
-</mat-card-header>
-
-
-<div class="div-table">
-    <table mat-table [dataSource]="dataSource2" dir="rtl">
-
-        <!-- name Column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> الاسم </th>
-            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-        </ng-container>
-
-        <!-- Action Column -->
-        <ng-container matColumnDef="Action">
-            <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 15%">
-                الاجراء
-            </th>
-            <td mat-cell *matCellDef="let row" id="buttn">
-                <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
-                    <mat-icon>edit</mat-icon>
+        <mat-card-header dir="ltr" class="parent-search">
+            <div class="child1">
+                <button mat-raised-button class="add" (click)="openDialog()" dir="ltr">
+                    <span class="ms-2">اضافة</span> <mat-icon class="me-1">add</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="deleteAllForms(row.id)">
-                    <mat-icon>delete_forever</mat-icon>
-                </button>
-            </td>
-        </ng-container>
+            </div>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <div>
+                <input matInput class="filter-search" (keyup)="applyFilter($event)" placeholder="بحث" #input />
+            </div>
+        </mat-card-header>
 
-    </table>
+        <div class="div-table">
+            <table mat-table [dataSource]="dataSource2" dir="rtl">
+
+                <!-- name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> الاسم </th>
+                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef id="action-header" style="width: 15%">
+                        الاجراء
+                    </th>
+                    <td mat-cell *matCellDef="let row" id="buttn">
+                        <button mat-icon-button class="editbtn" (click)="editMasterForm(row)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteAllForms(row.id)">
+                            <mat-icon>delete_forever</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+        </div>
+
+        <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)"
+            showFirstLastButtons>
+        </mat-paginator>
+
+    </mat-tab>
 
 
-</div>
+    <mat-tab #tab [disabled]='!tab.isActive'>
+        <ng-template mat-tab-label>
+            <div class="pageTab">
+                <!-- <mat-icon class="example-tab-icon">cloud_done</mat-icon> -->
+                <h2>اضافة مجموعات الاجور</h2>
+            </div>
+        </ng-template>
 
-<mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize"
-[pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات" (page)="pageChanged($event)" showFirstLastButtons>
-</mat-paginator>
+        <div class="container">
+
+            <div mat-dialog-content dir="rtl" class="mt-3">
+                <div mat-dialog-content class="mat-dialog-content mt-4" dir="rtl">
+                    <form [formGroup]="groupMasterForm" (keydown.enter)="$event.preventDefault()">
+
+                        <div class="headerForm">
+
+                            <div class="searchLabels">
+                                <mat-label>الاسم*</mat-label>
+
+                                <mat-form-field appearance="outline" class="groupInput" style="width: 100% !important;">
+                                    <input matInput placeholder="الاسم" formControlName="name">
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                        <h1></h1>
+                        <div dir="ltr">
+                            <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="
+                       editData ||  MasterGroupInfoEntered
+                            ? 'nextButtonEditHeaderDetails'
+                            : 'nextButtonAddNewHeader'
+                        ">
+                                حفظ
+                            </button>
+                        </div>
+
+
+                    </form>
+
+
+                    <!-- <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()"> -->
+                    <div [ngClass]="(MasterGroupInfoEntered || editData) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+
+
+                        <div>
+                            <div dir="ltr">
+                                <button mat-raised-button class="follow-btn" (click)="updateMaster()">تعديل
+                                    الاذن</button>
+
+                            </div>
+
+                            <!-- <div class="groupAction">
+                                            <button mat-raised-button class="savebtn" (click)="OpenDetailsDialog()">اضافة بيان</button>
+                
+                                        </div> -->
+
+                        </div>
+
+
+                        <!-- --------------------------------------------------------------------------------------- -->
+
+
+                        <div>
+                            <mat-tab-group mat-stretch-tabs style="margin-top: 5%;">
+                                <mat-tab label="تفاصيل مجموعات الاجور">
+
+
+                                    <form [formGroup]="groupDetailsForm" (keydown.enter)="$event.preventDefault()"
+                                        style="overflow: hidden !important;">
+
+
+
+                                        <div style="overflow: hidden !important;">
+                                            <div class="headerForm2" dir="rtl">
+
+                                                <div class="searchLabels">
+                                                    <mat-label> الحساب* </mat-label>
+
+                                                    <mat-form-field appearance="outline" class="child-num"
+                                                        style="width: 100%;">
+                                                        <input matInput aria-label="commodity"
+                                                            [matAutocomplete]="autoPyItem" [formControl]="pyItemCtrl"
+                                                            placeholder="{{editDataDetails ? editDataDetails.pyItemName : ''}}"
+                                                            (click)="openAutoPyItem()" required />
+                                                        <mat-autocomplete #autoPyItem="matAutocomplete"
+                                                            [displayWith]="displayPyItemName"
+                                                            (optionSelected)="PyItemSelected($event)">
+                                                            <mat-option *ngFor="let pyItem of filteredPyItem | async"
+                                                                [value]="pyItem">
+                                                                {{ pyItem.name }}
+                                                            </mat-option>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+
+                                                </div>
+
+                                            </div>
+                                            <div>
+                                                <div dir="ltr">
+                                                    <button mat-raised-button class="follow-btn"
+                                                        (click)="addDetailsInfo()">{{!editDataDetails ?
+                                                        'اضافة':'تعديل'}}</button>
+                                                    <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                    <div class="tableFixHead">
+                                        <table mat-table [dataSource]="dataSource" matSort class="headerTable">
+
+                                            <!-- pyItemName Column -->
+                                            <ng-container matColumnDef="pyItemName">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> بنود الاجور</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.pyItemName}} </td>
+                                            </ng-container>
+
+                                            <!-- action Column -->
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="width: 25%;"> الاجراء
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <button mat-icon-button color="primary"
+                                                        (click)="editDetailsForm(row)">
+                                                        <mat-icon>edit</mat-icon>
+                                                    </button>
+                                                    <button mat-icon-button color="warn"
+                                                        (click)="deleteFormDetails(row.id)">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedDetailsColumns; sticky: true">
+                                            </tr>
+                                            <tr mat-row *matRowDef="let emprow; columns: displayedDetailsColumns"></tr>
+
+                                        </table>
+
+                                        <mat-paginator #paginatorDetails [length]="lengthDetails"
+                                            [pageIndex]="pageIndexDetails" [pageSize]="pageSizeDetails"
+                                            [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
+                                            (page)="pageChangedDetails($event)" showFirstLastButtons>
+                                        </mat-paginator>
+
+                                    </div>
+                                </mat-tab>
+
+
+                                <mat-tab label="تفاصيل الموظفين">
+
+                                    <form [formGroup]="groupEmployeeForm" (keydown.enter)="$event.preventDefault()"
+                                        style="overflow: hidden !important;">
+
+
+
+                                        <div style="overflow: hidden !important;">
+                                            <div class="headerForm2" dir="rtl">
+
+                                                <div class="searchLabels">
+                                                    <mat-label> الموظف* </mat-label>
+
+                                                    <mat-form-field appearance="outline" class="child-num"
+                                                        style="width: 100%;">
+                                                        <input matInput aria-label="commodity"
+                                                            [matAutocomplete]="autoEmployee"
+                                                            [formControl]="employeeCtrl"
+                                                            placeholder="{{editDataEmployee ? editDataEmployee.employeeName : ''}}"
+                                                            (click)="openAutoEmployee()" required />
+                                                        <mat-autocomplete #autoEmployee="matAutocomplete"
+                                                            [displayWith]="displayEmployeeName"
+                                                            (optionSelected)="EmployeeSelected($event)">
+                                                            <mat-option
+                                                                *ngFor="let employee of filteredEmployee | async"
+                                                                [value]="employee">
+                                                                {{ employee.name }}
+                                                            </mat-option>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+
+                                                </div>
+
+                                            </div>
+                                            <div>
+                                                <div dir="ltr">
+                                                    <button mat-raised-button class="follow-btn"
+                                                        (click)="addEmployeeInfo()">{{!editDataEmployee ?
+                                                        'اضافة':'تعديل'}}</button>
+                                                    <!-- <button mat-raised-button color="warn" mat-dialog-close (click)="getAllMasterForms()">اغلاق</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                    <div class="tableFixHead">
+
+                                        <table mat-table [dataSource]="dataSourceEmployee" matSort class="headerTable">
+
+                                            <!-- employeeName Column -->
+                                            <ng-container matColumnDef="employeeName">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> الموظف</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.employeeName}} </td>
+                                            </ng-container>
+
+                                            <!-- action Column -->
+                                            <ng-container matColumnDef="action">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                    style="width: 25%;"> الاجراء
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    <button mat-icon-button color="primary"
+                                                        (click)="editDetailsEmployeeForm(row)">
+                                                        <mat-icon>edit</mat-icon>
+                                                    </button>
+                                                    <button mat-icon-button color="warn"
+                                                        (click)="deleteFormDetailsEmployee(row.id)">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row
+                                                *matHeaderRowDef="displayedEmployeesColumns; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let emprow; columns: displayedEmployeesColumns">
+                                            </tr>
+
+                                        </table>
+
+                                        <mat-paginator #paginatorEmployees [length]="lengthEmployee"
+                                            [pageIndex]="pageIndexEmployee" [pageSize]="pageSizeEmployee"
+                                            [pageSizeOptions]="[5, 10, 25, 100, 1000]" aria-label="الصفحات"
+                                            (page)="pageChangedEmployee($event)" showFirstLastButtons>
+                                        </mat-paginator>
+
+                                    </div>
+
+                                </mat-tab>
+                            </mat-tab-group>
+
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </mat-tab>
+</mat-tab-group>
