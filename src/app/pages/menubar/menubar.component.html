@@ -661,77 +661,77 @@
               <mat-panel-title> التكويد </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Course" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/الدورات التدريبية" *ngIf="hasAccessRole(pageEnums.TrCourse)"
                 routerLinkActive="active">
                 <p class="font">الدورات التدريبية</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-CourseCategory"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/تصنيف الدورة التدريبية"
+                *ngIf="hasAccessRole(pageEnums.TrCourseCategory)" routerLinkActive="active">
                 <p class="font">تصنيف الدورة التدريبية</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-CourseType"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/نوع الدورة التدريبية"
+                *ngIf="hasAccessRole(pageEnums.TrCourseType)" routerLinkActive="active">
                 <p class="font">نوع الدورة التدريبية</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/TR-Instructor"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/المدريبن"
+                *ngIf="hasAccessRole(pageEnums.TRInstructor)" routerLinkActive="active">
                 <p class="font">المدربين</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/TrTrainee" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+              <a mat-list-item class="sideNavSubItems" routerLink="/المتدربين" *ngIf="hasAccessRole(pageEnums.TrTrainee)"
                 routerLinkActive="active">
                 <p class="font">المتدربين</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="Tr-InstructorCourse"
-                *ngIf="hasAccessRole(pageEnums.PR_USER)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/دورات المدربين"
+                *ngIf="hasAccessRole(pageEnums.TrInstructorCourse)" routerLinkActive="active">
                 <p class="font">دورات المدربين</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-CoporteClient"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/عملاء الشركات"
+                *ngIf="hasAccessRole(pageEnums.TrCoporteClient)" routerLinkActive="active">
                 <p class="font">عملاءالشركات</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-TrainingCenter"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/مراكز التدريب"
+                *ngIf="hasAccessRole(pageEnums.TrTrainingCenter)" routerLinkActive="active">
                 <p class="font">مراكز التدريب</p>
               </a>
 
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-ClassRoom"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/قاعات التدريب"
+                *ngIf="hasAccessRole(pageEnums.TrClassRoom)" routerLinkActive="active">
                 <p class="font">قاعات التدريب</p>
               </a>
-              <a mat-list-item class="sideNavSubItems" routerLink="/Tr-trainingCenterCourse"
-                *ngIf="hasAccessRole(pageEnums.PR_GROUP)" routerLinkActive="active">
+              <a mat-list-item class="sideNavSubItems" routerLink="/دورات مركز التدريب"
+                *ngIf="hasAccessRole(pageEnums.TrTrainingCenterCourse)" routerLinkActive="active">
                 <p class="font">دورات مركز التدريب</p>
               </a>
             </mat-nav-list>
           </mat-expansion-panel>
         </mat-nav-list>
         <mat-nav-list>
-          <a mat-list-item class="sideNavSubItems" routerLink="/TrPlan" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/الدورات المخططة" *ngIf="hasAccessRole(pageEnums.TrPlan)"
             routerLinkActive="active">
             <p class="font">الدورات المخططة</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/TrExcuted" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/الدورات المنفذة" *ngIf="hasAccessRole(pageEnums.TrExcuted)"
             routerLinkActive="active">
             <p class="font">الدورات المنفذة</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/TrTrack" *ngIf="hasAccessRole(pageEnums.PR_USER)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/حزم تدريبية" *ngIf="hasAccessRole(pageEnums.TrTrack)"
             routerLinkActive="active">
             <p class="font">حزم تدريبية</p>
           </a>
 
-          <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Purpose" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/غرض التدريب" *ngIf="hasAccessRole(pageEnums.TrPurpose)"
             routerLinkActive="active">
             <p class="font">غرض التدريب</p>
           </a>
 
-          <a mat-list-item class="sideNavSubItems" routerLink="/Tr-Budget" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/الموازنة" *ngIf="hasAccessRole(pageEnums.TrBudget)"
             routerLinkActive="active">
             <p class="font">الموازنة</p>
           </a>
 
-          <a mat-list-item class="sideNavSubItems" routerLink="/TrReports" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          <a mat-list-item class="sideNavSubItems" routerLink="/تقارير التدريب" *ngIf="hasAccessRole(pageEnums.TrReports)"
             routerLinkActive="active">
             <p class="font">تقارير التدريب</p>
           </a>
