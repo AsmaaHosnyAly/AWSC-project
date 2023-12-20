@@ -231,6 +231,7 @@ export class ApiService {
     return this.http.put<any>(`${this.url}/PyItemGroup/update`, data);
   }
   deletePyItemGroup(id: number) {
+    console.log("delete api id: ", id);
     return this.http.delete<any>(`${this.url}/PyItemGroup/delete/` + id);
   }
 
@@ -243,6 +244,10 @@ export class ApiService {
   }
   getPyItemGroupDetailsByHeaderId(id: any) {
     return this.http.get<any>(`${this.url}/PyItemGroupDetails/get/by/header/${id}`);
+  }
+  getPyItemGroupDetailsPaginateByHeaderId(currentPage: any, pageSize: any, HeaderId: any) {
+    let urlPassed = `${this.url}/PyItemGroupDetails/get/by/pagination?page=${currentPage}&pageSize=${pageSize}&HeaderId=${HeaderId}`;
+    return urlPassed;
   }
   putPyItemGroupDetails(data: any) {
     return this.http.put<any>(`${this.url}/PyItemGroupDetails/update`, data);
@@ -259,6 +264,10 @@ export class ApiService {
   }
   getPyItemGroupEmployeeByHeaderId(id: any) {
     return this.http.get<any>(`${this.url}/PyItemGroupEmployee/get/by/header/${id}`);
+  }
+  getPyItemGroupEmployeePaginateByHeaderId(currentPage: any, pageSize: any, HeaderId: any) {
+    let urlPassed = `${this.url}/PyItemGroupEmployee/get/by/pagination?page=${currentPage}&pageSize=${pageSize}&HeaderId=${HeaderId}`;
+    return urlPassed;
   }
   putPyItemGroupEmployee(data: any) {
     return this.http.put<any>(`${this.url}/PyItemGroupEmployee/update`, data);
