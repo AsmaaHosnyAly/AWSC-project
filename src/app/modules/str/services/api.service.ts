@@ -1649,8 +1649,9 @@ export class ApiService {
   //   });
   // }
 
-  uploadedFile(formData: FormData, id: any) {
-    return this.http.post(`${this.url}/STRProduct/UploadFile?Id=${id}`, formData);
+  uploadedFile(data:any, id: any) {
+    console.log("11111111111",data)
+    return this.http.post(`${this.url}/STRProduct/UploadFile?Id=${id}`, data,{headers:{"Content-Type": "multipart/form-data"} });
   }
 
   deleteStrProduct(id: number) {
