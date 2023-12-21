@@ -197,6 +197,7 @@ export class StrWithdrawTableComponent implements OnInit {
   getDetailedRowData: any;
   sumOfTotals = 0;
   sumOfItemsStore: any = 0;
+  sumOfItemsStoreAfterQty: any = 0;
 
   displayedDetailsColumns: string[] = [
     'itemName',
@@ -248,7 +249,8 @@ export class StrWithdrawTableComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    
   ) {
 
     this.reportNameList = [
@@ -1704,7 +1706,7 @@ export class StrWithdrawTableComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.sumOfItemsStore = res;
-          console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+          console.log("sumOfItemsStore itemSelected: ", this.sumOfItemsStore);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -1777,7 +1779,7 @@ export class StrWithdrawTableComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.sumOfItemsStore = res;
-          console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+          console.log("sumOfItemsStore itemOnChange: ", this.sumOfItemsStore);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -1836,7 +1838,7 @@ export class StrWithdrawTableComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.sumOfItemsStore = res;
-          console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+          console.log("sumOfItemsStore getAvgPrice: ", this.sumOfItemsStore);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
@@ -1894,7 +1896,7 @@ export class StrWithdrawTableComponent implements OnInit {
             .subscribe({
               next: (res) => {
                 this.sumOfItemsStore = res;
-                console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                console.log("sumOfItemsStore getItemByProductId: ", this.sumOfItemsStore);
               },
               error: (err) => {
                 // console.log("fetch fiscalYears data err: ", err);
@@ -1966,7 +1968,7 @@ export class StrWithdrawTableComponent implements OnInit {
               .subscribe({
                 next: (res) => {
                   this.sumOfItemsStore = res;
-                  console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                  console.log("sumOfItemsStore getItemByProductCode: ", this.sumOfItemsStore);
                 },
                 error: (err) => {
                   // console.log("fetch fiscalYears data err: ", err);
@@ -2103,7 +2105,7 @@ export class StrWithdrawTableComponent implements OnInit {
                 .subscribe({
                   next: (res) => {
                     this.sumOfItemsStore = res;
-                    console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                    console.log("sumOfItemsStore getItemByCode: ", this.sumOfItemsStore);
                   },
                   error: (err) => {
                     // console.log("fetch fiscalYears data err: ", err);
@@ -2161,7 +2163,7 @@ export class StrWithdrawTableComponent implements OnInit {
     }
   }
 
-  editDetailsForm(row: any) {
+  async editDetailsForm(row: any) {
     console.log("editData details: ", row);
     this.editDataDetails = row;
 
@@ -2190,6 +2192,28 @@ export class StrWithdrawTableComponent implements OnInit {
       this.groupDetailsForm.controls['stateName'].setValue(this.editDataDetails.stateName);
 
     }
+
+    this.sumOfItemsStore = await this.sumOfItemsStore;
+    this.api.getSumQuantity(
+      this.groupMasterForm.getRawValue().storeId,
+      this.groupDetailsForm.getRawValue().itemId,
+    )
+      .subscribe({
+        next: async (res) => {
+          this.sumOfItemsStore = res;
+          await this.sumOfItemsStore;
+          console.log("sumOfItemsStore editDetailsForm: ", this.sumOfItemsStore);
+          this.sumOfItemsStore = this.sumOfItemsStore + this.groupDetailsForm.getRawValue().qty;
+          console.log("sumOfItemsStore editDetailsForm after edit: ", this.sumOfItemsStore);
+        },
+        error: (err) => {
+          // console.log("fetch fiscalYears data err: ", err);
+          // alert("خطا اثناء جلب الرصيد الحالى  !");
+        }
+      })
+
+
+
   }
 
   getAllDetailsForms() {
@@ -2326,6 +2350,25 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getAllDetailsForms();
   }
 
+  qtyChange(qty: any) {
+    console.log("qty change: ", qty.target.value);
+    var qtyValue: number = qty.target.value;
+
+    if (qtyValue && this.sumOfItemsStore > 0 && this.editDataDetails) {
+      // this.sumOfItemsStore = this.sumOfItemsStore + this.groupDetailsForm.getRawValue().qty;
+
+      this.sumOfItemsStoreAfterQty = this.sumOfItemsStore - qtyValue;
+    }
+    else if (qtyValue && this.sumOfItemsStore > 0 && !this.editDataDetails) {
+      this.sumOfItemsStoreAfterQty = this.sumOfItemsStore - qtyValue;
+    }
+    else {
+      this.sumOfItemsStoreAfterQty = '';
+    }
+
+  }
+
+
   async addNewDetails() {
     if (!this.getMasterRowId) {
       this.getMasterRowId = {
@@ -2375,6 +2418,24 @@ export class StrWithdrawTableComponent implements OnInit {
               .postStrWithdrawDetails(this.groupDetailsForm.value)
               .subscribe({
                 next: (res) => {
+
+                  this.api.getSumQuantity(
+                    this.groupMasterForm.getRawValue().storeId,
+                    this.groupDetailsForm.getRawValue().itemId,
+                  )
+                    .subscribe({
+                      next: (res) => {
+                        this.sumOfItemsStore = res;
+                        console.log("sumOfItemsStore addNewDetails: ", this.sumOfItemsStore);
+                      },
+                      error: (err) => {
+                        // console.log("fetch fiscalYears data err: ", err);
+                        // alert("خطا اثناء جلب الرصيد الحالى  !");
+                      }
+                    })
+
+                  this.sumOfItemsStoreAfterQty = 0;
+
                   this.toastrSuccess();
                   this.groupDetailsForm.reset();
                   this.updateDetailsForm();
@@ -2383,9 +2444,10 @@ export class StrWithdrawTableComponent implements OnInit {
                   this.itemByFullCodeValue = '';
                   this.fullCodeValue = '';
                   this.productCtrl.setValue('');
-
                   // alert("autoNo: " + this.autoNo + " no control: " + this.groupMasterForm.getRawValue().no)
                   // this.autoNo = this.groupMasterForm.getRawValue().no;
+
+
                 },
                 error: (err) => {
                   // alert("حدث خطأ أثناء إضافة مجموعة")
@@ -2403,6 +2465,9 @@ export class StrWithdrawTableComponent implements OnInit {
     else {
       this.updateDetailsForm();
     }
+
+
+
   }
 
   async updateDetailsForm() {
@@ -2436,11 +2501,30 @@ export class StrWithdrawTableComponent implements OnInit {
         this.toastrBalanceWarning();
       }
       else {
+        console.log("sumOfItemsStore", this.sumOfItemsStore, "qty : ", this.groupDetailsForm.getRawValue().qty, "new sumOfItemsStore: ", this.sumOfItemsStoreAfterQty);
 
         this.api
           .putStrWithdrawDetails(this.groupDetailsForm.value)
           .subscribe({
             next: (res) => {
+
+              this.api.getSumQuantity(
+                this.groupMasterForm.getRawValue().storeId,
+                this.groupDetailsForm.getRawValue().itemId,
+              )
+                .subscribe({
+                  next: (res) => {
+                    this.sumOfItemsStore = res;
+                    console.log("sumOfItemsStore updateDetailsForm: ", this.sumOfItemsStore);
+                  },
+                  error: (err) => {
+                    // console.log("fetch fiscalYears data err: ", err);
+                    // alert("خطا اثناء جلب الرصيد الحالى  !");
+                  }
+                })
+
+              this.sumOfItemsStoreAfterQty = 0;
+
               this.groupDetailsForm.reset();
               this.getAllDetailsForms();
               this.itemPositiveCtrl.setValue('');
@@ -2455,6 +2539,9 @@ export class StrWithdrawTableComponent implements OnInit {
 
               // alert("autoNo: " + this.autoNo + " no control: " + this.groupMasterForm.getRawValue().no)
               // this.autoNo = this.groupMasterForm.getRawValue().no;
+
+
+
             },
             error: (err) => {
               console.log("update err: ", err)
@@ -2462,6 +2549,22 @@ export class StrWithdrawTableComponent implements OnInit {
             },
           });
       }
+
+      // this.api.getSumQuantity(
+      //   this.groupMasterForm.getRawValue().storeId,
+      //   this.groupDetailsForm.getRawValue().itemId,
+      // )
+      //   .subscribe({
+      //     next: (res) => {
+      //       this.sumOfItemsStore = res;
+      //       console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+      //     },
+      //     error: (err) => {
+      //       // console.log("fetch fiscalYears data err: ", err);
+      //       // alert("خطا اثناء جلب الرصيد الحالى  !");
+      //     }
+      //   })
+
     }
 
   }

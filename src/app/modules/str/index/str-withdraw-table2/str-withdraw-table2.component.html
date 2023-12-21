@@ -48,8 +48,8 @@
             <mat-label>الموظف:</mat-label>
 
             <mat-form-field appearance="outline" class="groupInput">
-              <input matInput aria-label="list" formControlName="sourceInput"
-                [matAutocomplete]="autoList" [formControl]="listCtrl" (click)="openAutoList()" required />
+              <input matInput aria-label="list" formControlName="sourceInput" [matAutocomplete]="autoList"
+                [formControl]="listCtrl" (click)="openAutoList()" required />
               <mat-autocomplete #ListId #autoList="matAutocomplete" [displayWith]="displayListName"
                 (optionSelected)="listSelected($event)">
                 <mat-option *ngFor="let list of filteredList | async" [value]="list">
@@ -63,7 +63,7 @@
             <mat-label>الصنف:</mat-label>
 
             <mat-form-field appearance="outline" class="searchForm">
-              <input matInput aria-label="item" [matAutocomplete]="autoitem" [formControl]="itemCtrl" 
+              <input matInput aria-label="item" [matAutocomplete]="autoitem" [formControl]="itemCtrl"
                 formControlName="itemName" (keydown)="getsearch($event)" (click)="openAutoitem()" required />
               <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
                 (optionSelected)="itemSelected($event)">
@@ -347,8 +347,8 @@
                     <mat-label> موظف : </mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput">
-                      <input matInput aria-label="list" formControlName="sourceInput"
-                        [matAutocomplete]="autoList" [formControl]="listCtrl" placeholder="{{
+                      <input matInput aria-label="list" formControlName="sourceInput" [matAutocomplete]="autoList"
+                        [formControl]="listCtrl" placeholder="{{
                           editData && editData.employeeName
                             ? editData.employeeName
                             : ''
@@ -557,7 +557,7 @@
 
 
                       <div class="searchLabels">
-                        <mat-label>رصيد المخزن </mat-label>
+                        <mat-label>رصيد المخزن الحالى </mat-label>
 
                         <mat-form-field appearance="outline" class="groupInput">
                           <input matInput [value]="sumOfItemsStore" [disabled]="!sumOfItemsStore">
@@ -569,10 +569,20 @@
 
                         <mat-form-field appearance="outline" class="groupInput" style="width: 120px !important;">
                           <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
-                            [value]="editDataDetails ? editDataDetails.qty : ''" />
+                            [value]="editDataDetails ? editDataDetails.qty : ''" (input)="qtyChange($event)" />
                         </mat-form-field>
                       </div>
                       <!-- </div> -->
+
+
+                      <div class="searchLabels">
+                        <mat-label>رصيد المخزن بعد تغيير الكمية</mat-label>
+
+                        <mat-form-field appearance="outline" class="groupInput">
+                          <input type="number" matInput placeholder="رصيد المخزن بعد تغيير الكمية "
+                            [value]="sumOfItemsStoreAfterQty" readonly>
+                        </mat-form-field>
+                      </div>
 
                       <div class="searchLabels">
                         <mat-label>السعر</mat-label>
@@ -582,6 +592,8 @@
                             [value]="editDataDetails ? editDataDetails.price : ''" readonly="true" />
                         </mat-form-field>
                       </div>
+
+                      <!-- <mat-label class="itemStoreAfterQty-label">رصيد المخزن بعد تغيير الكمية : {{ sumOfItemsStoreAfterQty }}</mat-label> -->
 
 
                       <!-- <div style="display: flex; flex-direction: row">
@@ -606,11 +618,21 @@
                     <div>
                       <div dir="ltr">
                         <button mat-raised-button class="follow-btn" (click)="addNewDetails()">
-                          {{ !editDataDetails ? "اضافة" : "تعديل" }}
+                          {{ !editDataDetails ? "اضافة تفاصيل" : "تعديل التفاصيل" }}
                         </button>
                       </div>
                     </div>
+
+
                   </form>
+                </div>
+
+                <div>
+                  <div dir="ltr">
+                    <button mat-raised-button class="follow-btn-add-new" (click)="openWithdrawDialog()">
+                      اضافة اذن جديد
+                    </button>
+                  </div>
                 </div>
 
                 <div class="tableFixHead">
