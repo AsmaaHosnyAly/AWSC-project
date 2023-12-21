@@ -6,13 +6,14 @@
   <form [formGroup]="TaxBracketsForm" dir="rtl">
     <div mat-dialog-content>
       <form [formGroup]="TaxBracketsForm">
-        
+        <mat-label>القيمة</mat-label>
         <mat-form-field appearance="outline">
-          <mat-label>القيمة</mat-label>
+       
           <input formControlName="value" matInput placeholder="القيمة">
         </mat-form-field>
+        <mat-label>النسبة</mat-label>
         <mat-form-field appearance="outline">
-            <mat-label>النسبة</mat-label>
+           
             <input formControlName="ratio" matInput placeholder="النسبة">
           </mat-form-field>
         <button mat-raised-button class="savebtn" (click)="addTaxBrackets()">{{actionBtn}}</button> 

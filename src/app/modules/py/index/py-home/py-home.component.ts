@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PagesEnums } from 'src/app/core/enums/pages.enum'; 
 import jwt_decode from 'jwt-decode';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 @Component({
   selector: 'app-py-home',
@@ -16,12 +17,13 @@ export class PyHomeComponent {
   userRole= localStorage.getItem('userRoles')
  
 
-  constructor(){
+  constructor(global:GlobalService){
     const accessToken: any = localStorage.getItem('accessToken');
     this.decodedToken = jwt_decode(accessToken);
     this. decodedToken1 = this.decodedToken.modules;
     this.decodedToken2 = this.decodedToken.roles;
     console.log(this.decodedToken2)
+    global.getPermissionUserRoles('PY', 'pyHome', 'الاستحقاقات', 'money')
   }
   hasAccessRole(name: string): boolean {
     const USER_ROLES_LOCAL_STORAGE =  this.decodedToken2

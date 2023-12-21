@@ -16,6 +16,7 @@ import { Hotkey } from 'angular2-hotkeys';
 import { ToastrService } from 'ngx-toastr';
 import { FaFixedAssetDialogComponent } from '../fa-fixed-asset-dialog/fa-fixed-asset-dialog.component';
 import { formatDate } from '@angular/common';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 interface FaFixedAsset {
   code: string;
@@ -124,7 +125,7 @@ export class FaFixedAssetComponent implements OnInit {
     private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private localeBuyDate: string,
     @Inject(LOCALE_ID) private localeWorkDate: string,
-    @Inject(LOCALE_ID) private localeSpeculateDate: string,) {
+    @Inject(LOCALE_ID) private localeSpeculateDate: string,global:GlobalService) {
 
     this.categoryFirstCtrl = new FormControl();
     this.filteredCategoryFirst = this.categoryFirstCtrl.valueChanges.pipe(
@@ -155,7 +156,7 @@ export class FaFixedAssetComponent implements OnInit {
       startWith(''),
       map((value) => this._filterEntry(value))
     );
-
+    global.getPermissionUserRoles('FA', '', 'الاصول الثابتة', 'collections_bookmark')
   }
 
   ngOnInit(): void {

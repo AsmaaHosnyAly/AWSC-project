@@ -72,7 +72,7 @@ export class CcPlantComponent {
       map((value) => this._filterSubRegiones(value))
     );
 
-    global.getPermissionUserRoles(4, 'stores', ' الموديل', '')
+    global.getPermissionUserRoles('CC', 'ccHome', 'التكاليف', 'credit_card')
   }
   ngOnInit(): void {
     // console.log(productForm)

@@ -26,6 +26,7 @@ export class FaCategoryFirstComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog, private hotkeysService: HotkeysService, private api: ApiService, private toastr: ToastrService, global: GlobalService) {
+    global.getPermissionUserRoles('FA', '', 'الاصول الثابتة', 'collections_bookmark')
   }
 
   ngOnInit(): void {
