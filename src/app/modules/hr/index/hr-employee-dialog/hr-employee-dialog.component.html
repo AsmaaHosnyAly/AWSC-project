@@ -205,9 +205,15 @@
                 type="email"
                 formControlName="email"
                 name="email" ngModel email="true"
-              />
-            </mat-form-field>
-        
+                required email  id="email">
+              <!-- <div class="error" *ngIf="email">
+                <p *ngIf="email.errors?.['required']">Email is required</p>
+                <p *ngIf="email.errors?.['email']">Not a valid Email</p>
+              </div> -->
+              <!-- <span ng-valid >vbfgg</span> -->
+             
+            </mat-form-field>                           
+           
             <!-- <input
             
              ngClass="invalid" [class.is-invalid]="
