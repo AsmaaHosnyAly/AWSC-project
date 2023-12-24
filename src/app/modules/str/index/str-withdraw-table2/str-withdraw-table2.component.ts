@@ -2366,6 +2366,7 @@ export class StrWithdrawTableComponent implements OnInit {
       this.sumOfItemsStoreAfterQty = this.sumOfItemsStore - qtyValue;
       if(this.sumOfItemsStoreAfterQty <0 ) {
         this.toastrExceedStockWarning()
+        
       }
       
     }
