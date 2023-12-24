@@ -21,6 +21,7 @@ import {
 } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { GlobalService } from 'src/app/pages/services/global.service';
 
 interface USER {
   no: string;
@@ -104,7 +105,8 @@ export class PyExchangeComponent  implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient, private formBuilder: FormBuilder,
     @Inject(LOCALE_ID) private locale: string,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    global:GlobalService
   ) {
     
     this.employeeCtrl = new FormControl();

@@ -41,7 +41,7 @@ export class HrAttendanceScheduleComponent {
   @ViewChild(MatSort) sort!: MatSort;
   
   constructor(private dialog: MatDialog,private hotkeysService: HotkeysService, private api: ApiService,private toastr: ToastrService,global:GlobalService) {
-    global.getPermissionUserRoles('IT', '', 'الحضور والإنصراف', 'book')
+    global.getPermissionUserRoles('Attendance', 'hr-AttendanceHome', 'الحضور والإنصراف', 'book')
   }
   ngOnInit(): void {
     // console.log(productForm)

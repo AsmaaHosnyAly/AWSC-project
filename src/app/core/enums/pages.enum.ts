@@ -9,8 +9,9 @@ export enum PagesEnums {
   HR='HR',
   ATTENDANDCE='Attendance',
   PY='PY',
-  TR='TR',
-  
+  TR='Training',
+  CC='CC',
+  FA='FA',
 
   /*************USER_ROLES***************/
   /****************** module:1 STORES المخازن ************************/
@@ -85,29 +86,54 @@ Qualification_level='الدرجة العلمية',
 /****************** module:6 Py الرواتب************************/
   PyInstallment='الأقساط',
   PyItem='بنود الأجور',
-  PyItemGroup='مجموعات الأجور',
+  PyItemGroup='مجموعات الاجور',
   PyItemCategory='تصنيفات بنود الاجور',
   pytaxbracket='الوعاء الضريبي',
+  PyExchange='الصرفيات',
+  PyReports="تقارير الاستحقاقات",
+
+   /****************** module:7 Training  ************************/
+   TrCourse='الدورات التدريبية',
+   TrCourseCategory='تصنيف الدورة التدريبية',
+   TrCourseType='نوع الدورة التدريبية',
+   TRInstructor='المدريبن',
+   TrTrainee='المتدربين',
+   TrInstructorCourse='دورات المدربين',
+   TrCoporteClient='عملاء الشركات',
+   TrTrainingCenter='مراكز التدريب',
+   TrClassRoom='قاعات التدريب',
+   TrTrainingCenterCourse='دورات مركز التدريب',
+   TrPlan='الدورات المخططة',
+   TrExcuted='الدورات المنفذة',
+   TrTrack='حزم تدريبية',
+   TrPurpose='غرض التدريب',
+   TrBudget='الموازنة',
+   TrReports='تقارير التدريب',
+  
 
 
-  /****************** module:7 Cc التكاليف************************/
+  /****************** module:8 Cc التكاليف************************/
   CcActivity='النشاط',
   CcFunction='الوظيفي',
   CcPlant='المحطة',
   CcRegion='المنطقة',
   CcSubRegion='المنطقة الفرعية',
   CcSource='المصدر',
-  CcPlantComponent='تحليل المنطقة',
+  CcPlantComponent='تحليل المحطة',
   CcEquipment='المعدات',
   Cccostcenter='مركزالتكاليف',
-  CcEntry='القيود',
+  CcEntry='قيود التكاليف',
   CcReports='تقارير التكاليف',
 
-   /****************** module:8 FA الاصول الثابتة  ************************/
+   /****************** module:9 FA الاصول الثابتة  ************************/
+
+
    FaCategoryFirst='تصنيف اول',
    FaCategorySecond='تصنيف ثاني',
    FaCategoryThird='تصنيف ثالث',
-   FaFixedAsset='الإصول الثابتة ',
-   FaSGGubRegion='حركة الإصول',
-   FaReports='تقارير الإصول',
+   FaFixedAsset='الاصول الثابتة',
+   FaSGGubRegion='حركة الاصول',
+   FaReports='تقارير الاصول',
+
+   
 }

@@ -69,21 +69,25 @@ th {
   /* justify-content: space-between; */
   flex-wrap: wrap;
 }
-.searchbyproduct{
+
+.searchbyproduct {
   display: flex;
   justify-content: space-around;
 }
-.radio{
+
+.radio {
   display: flex;
-   flex-direction: column;
-    width: 100%
-} 
-.sum-label{
+  flex-direction: column;
+  width: 100%
+}
+
+.sum-label {
   font-size: 22px;
   border: 1px solid black;
   padding: 5px;
   border-radius: 8px;
 }
+
 .search button,
 .print button {
   width: 250px;
@@ -428,6 +432,16 @@ mat-tab {
   text-align: left;
   padding: 5px 20px;
   font-size: 20px;
+  margin-bottom: 2%;
+}
+
+.follow-btn-add-new {
+  background-color: antiquewhite !important;
+  color: var(--bg-primary-color);
+  text-align: left;
+  padding: 5px 20px;
+  font-size: 20px;
+  margin-bottom: 2%;
 }
 
 .savebtn {
@@ -447,10 +461,13 @@ mat-tab {
   color: rgba(60, 201, 252, 0.8);
 
 }
+
 ::ng-deep .mat-typography h1 {
   margin: 20px 0 16px !important;
 }
-::ng-deep .mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
+
+::ng-deep .mat-mdc-tab-group,
+.mat-mdc-tab-nav-bar {
   --mdc-tab-indicator-active-indicator-color: #005061 !important;
   --mat-tab-header-disabled-ripple-color: rgba(0, 0, 0, 0.38);
   --mat-tab-header-pagination-icon-color: #000;

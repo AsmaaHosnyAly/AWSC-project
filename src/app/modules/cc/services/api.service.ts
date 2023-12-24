@@ -336,6 +336,10 @@ export class ApiService {
   getCcEntryDetailsByMasterId(id: any) {
     return this.http.get<any>(`${this.url}/CcEntryDetails/get/By/Header/${id}`);
   }
+  getCcEntryDetailsPaginateByMasterId(currentPage: any, pageSize: any, HeaderId: any) {
+    let urlPassed = `${this.url}/CcEntryDetails/get/by/pagination?page=${currentPage}&pageSize=${pageSize}&HeaderId=${HeaderId}`;
+    return urlPassed;
+  }
   putCcEntryDetails(data: any) {
     console.log('put ccEntryDetails data with id: ', data);
     return this.http.put<any>(`${this.url}/CcEntryDetails/update/`, data);

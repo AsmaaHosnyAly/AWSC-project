@@ -19,7 +19,7 @@ export class CcEntryContainerComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private dialog: MatDialog, private api: ApiService,global:GlobalService) { 
-  
+    global.getPermissionUserRoles('CC', 'ccHome', 'التكاليف', 'credit_card')
   }
 
   ngOnInit(): void {

@@ -34,7 +34,7 @@ import { MatTableModule } from '@angular/material/table';
 import { STRGradeComponent } from './modules/str/index/str-grade/str-grade.component';
 import { STRGradeDialogComponent } from './modules/str/index/str-grade-dialog/str-grade-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { StrCostcenterComponent } from './modules/str/index/str-costcenter/str-costcenter.component';
 import { StrCostcenterDialogComponent } from './modules/str/index/str-costcenter-dialog/str-costcenter-dialog.component';
 // import { StrItemComponent } from './modules/str/index_item/STR_item..component';
@@ -510,7 +510,7 @@ import { FaMoveFixedAssetDialogComponent } from './modules/fa/index/fa-move-fixe
     PyTaxBracketComponent,
     PyTaxBracketDialogComponent,
     TrInstructorComponent,
-    TrInstructorDialogComponent,   
+    TrInstructorDialogComponent,
     TrCourseTypeComponent,
     TrCourseTypeDialogComponent,
     PyGroupDetailEmployeeDialogComponent,
@@ -521,7 +521,7 @@ import { FaMoveFixedAssetDialogComponent } from './modules/fa/index/fa-move-fixe
     TrCourseCategoryDialogComponent,
     TrCoporteClientComponent,
     TrCoporteClientDialogComponent,
-   
+
     TrCourseTypeComponent,
     TrCourseTypeDialogComponent,
     TrCourseComponent,
@@ -558,7 +558,7 @@ import { FaMoveFixedAssetDialogComponent } from './modules/fa/index/fa-move-fixe
     CcRegionDialogComponent,
     CcSubRegionComponent,
     CcSubRegionDialogComponent,
-   
+
     TrExcutedComponent,
     TrExcutedDialogComponent,
     TrExcutedInstructorDetailsDialogComponent,
@@ -604,7 +604,7 @@ import { FaMoveFixedAssetDialogComponent } from './modules/fa/index/fa-move-fixe
     ProTenderTypeDailogComponent,
     ProPlanTypeComponent,
     ProPlanTypeDailogComponent,
-   
+
     ProContractorTypeComponent,
     ProContractorTypeDialogComponent,
     ProOperationTypeComponent,
@@ -659,18 +659,24 @@ import { FaMoveFixedAssetDialogComponent } from './modules/fa/index/fa-move-fixe
     NgxExtendedPdfViewerModule,
     MatTabsModule,
     HotkeyModule.forRoot(),
-    
+
     // FontAwesomeModul
     // FontAwesomeModule,
   ],
   providers: [
     {
+      // provide: MAT_DATE_LOCALE, useValue: 'en-GB',
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
+
+    },
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'en-GB',
     },
     [HotkeysService],
   ],
+
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
