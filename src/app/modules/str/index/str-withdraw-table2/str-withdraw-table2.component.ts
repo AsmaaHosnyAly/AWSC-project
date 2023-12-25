@@ -2558,20 +2558,7 @@ export class StrWithdrawTableComponent implements OnInit {
           });
       }
 
-      // this.api.getSumQuantity(
-      //   this.groupMasterForm.getRawValue().storeId,
-      //   this.groupDetailsForm.getRawValue().itemId,
-      // )
-      //   .subscribe({
-      //     next: (res) => {
-      //       this.sumOfItemsStore = res;
-      //       console.log("sumOfItemsStore : ", this.sumOfItemsStore);
-      //     },
-      //     error: (err) => {
-      //       // console.log("fetch fiscalYears data err: ", err);
-      //       // alert("خطا اثناء جلب الرصيد الحالى  !");
-      //     }
-      //   })
+      
 
     }
 
