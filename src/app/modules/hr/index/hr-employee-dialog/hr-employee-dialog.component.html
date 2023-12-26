@@ -206,6 +206,7 @@
                 formControlName="email"
                 name="email" ngModel email="true"
                 required email  id="email">
+               <mat-error *ngIf="this.groupForm.dirty  ">ادخل الايميل بشكل  صحيح</mat-error>
               <!-- <div class="error" *ngIf="email">
                 <p *ngIf="email.errors?.['required']">Email is required</p>
                 <p *ngIf="email.errors?.['email']">Not a valid Email</p>

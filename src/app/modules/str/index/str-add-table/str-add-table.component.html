@@ -562,7 +562,7 @@
 
                     <mat-form-field appearance="outline" class="groupInput">
                       <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
-                        [value]="editDataDetails ? editDataDetails.qty : ''">
+                        [value]="editDataDetails ? editDataDetails.qty : ''" >
                     </mat-form-field>
                   </div>
 
@@ -572,8 +572,8 @@
                     <mat-label>السعر</mat-label>
 
                     <mat-form-field appearance="outline" class="groupInput">
-                      <input matInput type="number" min="0" placeholder=" السعر" formControlName="price"
-                        [value]="editDataDetails ? editDataDetails.price : ''" [readonly]="isReadOnly">
+                      <input matInput type="number" min="0" placeholder=" السعر" formControlName="price"   
+                        [value]="editDataDetails ? editDataDetails.price : ''" [readonly]="isReadOnly" >
                     </mat-form-field>
                   </div>
 
