@@ -103,7 +103,7 @@ export class HrEmployeeDialogComponent implements OnInit {
   qualificationLevelCtrl: FormControl;
   filteredqualificationLevel: Observable<qualificationLevel[]>;
   selectedqualificationLevel: qualificationLevel | undefined;
-email: any;
+
 
 
   constructor(private formBuilder: FormBuilder,
@@ -191,7 +191,7 @@ email: any;
       departmentId: ['', Validators.required],
       severanceReasonId: ['', Validators.required],
       maritalState: ['',Validators.required],
-      email:['',Validators.required,Validators.email],
+      email:['',Validators.required],
       phone:[null,Validators.required, Validators.pattern('[- +()0-9]+')] ,
       transactionUserId: ['', Validators.required],
       updateUserName:['admin',Validators.required]
