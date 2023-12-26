@@ -11,15 +11,16 @@
            <input formControlName="code" matInput placeholder="ادخل كود المخزن" [value]="editData ? editData.code : autoCode" readonly>
            
        </mat-form-field>
+       <mat-label>اسم المخزن</mat-label>
        <mat-form-field appearance="outline">
-           <mat-label>اسم المخزن</mat-label>
+          
            <input formControlName="name" matInput placeholder="ادخل اسم المخزن" type="text">
    
        </mat-form-field>
        <mat-label>أمين المخزن</mat-label>
       <mat-form-field appearance="outline">
         <input matInput aria-label="keeper" [matAutocomplete]="autoStoreKeeper" [formControl]="storeKeeperCtrl"
-          placeholder="{{getStoreData ? getStoreData.storekeeperName : 'اختر سلعة'}}" (click)="openStoreKeeper()" required />
+          placeholder="{{getStoreData ? getStoreData.storekeeperName : 'امين المخزن'}}" (click)="openStoreKeeper()" required />
         <mat-autocomplete #autoStoreKeeper="matAutocomplete" [displayWith]="displayStoreKeeper"
           (optionSelected)="keeperSelected($event)">
           <mat-option *ngFor="let keeper of filteredStoreKeepers| async" [value]="keeper">
