@@ -2358,12 +2358,20 @@ export class StrWithdrawTableComponent implements OnInit {
       // this.sumOfItemsStore = this.sumOfItemsStore + this.groupDetailsForm.getRawValue().qty;
 
       this.sumOfItemsStoreAfterQty = this.sumOfItemsStore - qtyValue;
+      if(this.sumOfItemsStoreAfterQty <0 ) {
+        this.toastrExceedStockWarning()
+      }
     }
     else if (qtyValue && this.sumOfItemsStore > 0 && !this.editDataDetails) {
       this.sumOfItemsStoreAfterQty = this.sumOfItemsStore - qtyValue;
+      if(this.sumOfItemsStoreAfterQty <0 ) {
+        this.toastrExceedStockWarning()
+        
+      }
+      
     }
     else {
-      this.sumOfItemsStoreAfterQty = '';
+      this.sumOfItemsStoreAfterQty = 0;
     }
 
   }
@@ -2550,20 +2558,7 @@ export class StrWithdrawTableComponent implements OnInit {
           });
       }
 
-      // this.api.getSumQuantity(
-      //   this.groupMasterForm.getRawValue().storeId,
-      //   this.groupDetailsForm.getRawValue().itemId,
-      // )
-      //   .subscribe({
-      //     next: (res) => {
-      //       this.sumOfItemsStore = res;
-      //       console.log("sumOfItemsStore : ", this.sumOfItemsStore);
-      //     },
-      //     error: (err) => {
-      //       // console.log("fetch fiscalYears data err: ", err);
-      //       // alert("خطا اثناء جلب الرصيد الحالى  !");
-      //     }
-      //   })
+      
 
     }
 
@@ -2608,5 +2603,9 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   toastrBalanceWarning(): void {
     this.toastr.warning("لا يمكن الاضافة او التعديل لعدم وجود الكمية الكفاية من رصيد المخزن !");
+  }
+  toastrExceedStockWarning(): void {
+     
+        this.toastr.warning("انتبه لقد نفذت الكمية في المخزن !");
   }
 }

@@ -314,6 +314,8 @@ td {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  
+  
 }
 
 ::ng-deep .mat-mdc-form-field-infix {
@@ -447,6 +449,24 @@ mat-tab {
   color: rgba(60, 201, 252, 0.8);
 
 }
+
+.label-sum{
+  margin: auto;
+  margin-top: 12px;
+  color: rgb(33, 6, 153);
+  font-weight: bold;
+  font-size: 15px;
+  
+}
+#price{
+  border: none !important;
+  outline: none;
+  color: rgb(33, 6, 153);
+  font-weight: bold;
+  font-size: 15px;
+  padding-top: 10px;
+}
+
 ::ng-deep .mat-typography h1 {
   margin: 20px 0 16px !important;
 }
