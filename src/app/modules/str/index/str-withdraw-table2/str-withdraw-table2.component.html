@@ -420,13 +420,11 @@
                     <div class="searchLabels">
                       <mat-label>التاريخ:</mat-label>
                       <mat-form-field appearance="outline">
-                        <input matInput [matDatepicker]="masterPicker" formControlName="date" />
-                        <mat-datepicker-toggle matIconSuffix [for]="masterPicker">
-                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                        </mat-datepicker-toggle>
-                        <mat-datepicker #masterPicker></mat-datepicker>
+                        <input matInput  formControlName="date" type="date"/>
+                       
+                        
                       </mat-form-field>
-                    </div>
+                    </div> 
                   </div>
 
                   <div dir="ltr">
