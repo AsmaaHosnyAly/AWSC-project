@@ -420,14 +420,16 @@
                     <div class="searchLabels">
                       <mat-label>التاريخ:</mat-label>
                       <mat-form-field appearance="outline">
-                        <input matInput [matDatepicker]="masterPicker" formControlName="date" />
-                        <mat-datepicker-toggle matIconSuffix [for]="masterPicker">
+                        <input matInput  type="date" formControlName="date"   />
+                        <!-- <mat-datepicker-toggle matIconSuffix [for]="masterPicker">
                           <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                        </mat-datepicker-toggle>
-                        <mat-datepicker #masterPicker></mat-datepicker>
+                        </mat-datepicker-toggle> -->
+                        <!-- <mat-datepicker #masterPicker></mat-datepicker> -->
                       </mat-form-field>
                     </div>
                   </div>
+                  <!-- <label for="birthday">Birthday:</label> -->
+              
 
                   <div dir="ltr">
                     <button class="follow-btn" mat-raised-button (click)="nextToAddFormDetails()" [ngClass]="

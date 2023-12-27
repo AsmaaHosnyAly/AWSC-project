@@ -393,7 +393,10 @@
                 *ngIf="hasAccessRole(pageEnums.HR_INCENTIVE)" routerLinkActive="active">
                 <p class="font">الحوافز</p>
               </a>
-
+              <a mat-list-item class="sideNavSubItems" routerLink="/الدرجات المالية"
+              *ngIf="hasAccessRole(pageEnums.HR_financialDegree)" routerLinkActive="active">
+              <p class="font">الدرجة المالية</p>
+            </a>
               <a mat-list-item class="sideNavSubItems" routerLink="/توع التوظيف"
                 *ngIf="hasAccessRole(pageEnums.HR_HIRING_TYPE)" routerLinkActive="active">
                 <p class="font">نوع التوظيف</p>
@@ -460,10 +463,7 @@
             *ngIf="hasAccessRole(pageEnums.HR_Employee_Disciplinary)" routerLinkActive="active">
             <p class="font">جزاءات الموظفين</p>
           </a>
-          <a mat-list-item class="sideNavSubItems" routerLink="/الدرجات المالية"
-            *ngIf="hasAccessRole(pageEnums.HR_financialDegree)" routerLinkActive="active">
-            <p class="font">الدرجة المالية</p>
-          </a>
+         
         </mat-nav-list>
         <a mat-list-item class="sideNavSubItems" routerLink="/تقييم الموظفين"
           *ngIf="hasAccessRole(pageEnums.HR_employeeAppraisal)" routerLinkActive="active">

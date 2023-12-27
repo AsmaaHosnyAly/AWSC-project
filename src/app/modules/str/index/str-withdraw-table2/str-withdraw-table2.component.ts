@@ -1630,7 +1630,7 @@ export class StrWithdrawTableComponent implements OnInit {
           employee,
           costCenter,
           report,
-          reportType
+          "pdf"
         )
         .subscribe({
           next: (res) => {
@@ -1682,7 +1682,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.api.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,
-      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+      formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
       this.groupDetailsForm.getRawValue().itemId
     )
       .subscribe({
@@ -1768,7 +1768,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,
-      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+      formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
       itemEvent)
 
 
@@ -1810,11 +1810,12 @@ export class StrWithdrawTableComponent implements OnInit {
     })
 
   }
+  
 
   getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
     console.log("Avg get inputs: ", "storeId: ", storeId,
       " fiscalYear: ", this.fiscalYear,
-      " date: ", formatDate(date, 'yyyy-MM-dd', this.locale),
+      " date: ", formatDate(date, 'dd-MM-yyyy', this.locale),
       " itemId: ", this.groupDetailsForm.getRawValue().itemId)
 
     this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
@@ -1875,7 +1876,7 @@ export class StrWithdrawTableComponent implements OnInit {
           this.api.getAvgPrice(
             this.groupMasterForm.getRawValue().storeId,
             this.groupMasterForm.getRawValue().fiscalYearId,
-            formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+            formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
             this.groupDetailsForm.getRawValue().itemId
           )
             .subscribe({
@@ -1945,7 +1946,7 @@ export class StrWithdrawTableComponent implements OnInit {
             this.api.getAvgPrice(
               this.groupMasterForm.getRawValue().storeId,
               this.groupMasterForm.getRawValue().fiscalYearId,
-              formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+              formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
               item
             )
               .subscribe({
@@ -2061,7 +2062,7 @@ export class StrWithdrawTableComponent implements OnInit {
               this.api.getAvgPrice(
                 this.groupMasterForm.getRawValue().storeId,
                 this.groupMasterForm.getRawValue().fiscalYearId,
-                formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+                formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
                 this.groupDetailsForm.getRawValue().itemId
               )
                 .subscribe({
