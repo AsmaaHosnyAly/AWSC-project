@@ -97,7 +97,7 @@
         <div class="searchLabels">
           <mat-label> تاريخ البداية</mat-label>
           <mat-form-field appearance="outline" class="searchForm">
-            <input #StartDate matInput [matDatepicker]="picker" formControlName="StartDate" />
+            <input input type="text" id="dateInput" [(ngModel)]="selectedDate" name="selectedDate" (input)="formatDate($event.target.value)" #StartDate matInput [matDatepicker]="picker" formControlName="StartDate" />
             <mat-datepicker-toggle matIconSuffix [for]="picker">
               <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
             </mat-datepicker-toggle>
