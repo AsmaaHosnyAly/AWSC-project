@@ -320,6 +320,7 @@ import { ProSellerComponent } from './modules/pro/index/pro-seller/pro-seller.co
 import { ProSellerDialogComponent } from './modules/pro/index/pro-seller-dialog/pro-seller-dialog.component';
 import { FaMoveFixedAssetComponent } from './modules/fa/index/fa-move-fixed-asset/fa-move-fixed-asset.component';
 import { FaMoveFixedAssetDialogComponent } from './modules/fa/index/fa-move-fixed-asset-dialog/fa-move-fixed-asset-dialog.component';
+import { DateFormatPipe } from './pipes/date-format.pipe';
 
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -616,7 +617,8 @@ import { FaMoveFixedAssetDialogComponent } from './modules/fa/index/fa-move-fixe
     ProSellerComponent,
     ProSellerDialogComponent,
     FaMoveFixedAssetComponent,
-    FaMoveFixedAssetDialogComponent
+    FaMoveFixedAssetDialogComponent,
+    DateFormatPipe
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],
