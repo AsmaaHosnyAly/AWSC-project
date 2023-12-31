@@ -96,11 +96,16 @@
 
         <div class="searchLabels">
           <mat-label> تاريخ البداية</mat-label>
-          <mat-form-field appearance="outline" class="searchForm">
-            <input input type="text" id="dateInput" [(ngModel)]="selectedDate" name="selectedDate" (input)="formatDate($event.target.value)" #StartDate matInput [matDatepicker]="picker" formControlName="StartDate" />
+          <!-- <mat-form-field appearance="outline" class="searchForm">
+            <input matInput [matDatepicker]="picke"  #StartDate matInput [matDatepicker]="picker" formControlName="StartDate" />
             <mat-datepicker-toggle matIconSuffix [for]="picker">
               <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
             </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field> -->
+          <mat-form-field appearance="outline" class="searchForm">
+            <input matInput [(ngModel)]="startDate" #StartDate="ngModel" name="startDate" (ngModelChange)="formatDateInput()" placeholder="DD/MM/YYYY">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>

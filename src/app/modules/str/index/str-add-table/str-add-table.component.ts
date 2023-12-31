@@ -201,6 +201,7 @@ export class STRAddTableComponent implements OnInit {
   filteredCommodity: Observable<Commodity[]>;
   commoditiesList: Commodity[] = [];
   selectedCommodity: Commodity | undefined;
+  startDate: string = '';
 
   decodedToken: any;
   decodedToken2: any;
@@ -871,6 +872,7 @@ export class STRAddTableComponent implements OnInit {
       });
     }
   }
+
 
   deleteFormDetails(id: number) {
     this.api.deleteStrAddDetails(id).subscribe({
@@ -1554,6 +1556,15 @@ export class STRAddTableComponent implements OnInit {
     this.isEdit = false;
 
     // this.getStrOpenAutoNo();
+  }
+
+  formatDateInput() {
+    const parts = this.startDate.split('/');
+    const day = parts[0].trim().padStart(2, '0');
+    const month = parts[1].trim().padStart(2, '0');
+    const year = parts[2].trim().padStart(4, '0');
+
+    this.startDate = `${day}/${month}/${year}`;
   }
 
   getStrOpenAutoNo() {
