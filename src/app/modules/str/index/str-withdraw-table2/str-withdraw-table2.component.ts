@@ -28,7 +28,7 @@ import { formatDate } from '@angular/common';
 import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
 
 export class item {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public fullCode: any) { }
 }
 
 export class Employee {
@@ -234,7 +234,7 @@ export class StrWithdrawTableComponent implements OnInit {
   isReadOnlyPercentage: any = true;
   editDataDetails: any;
   currentDate: any;
-
+  date: string = '';
 
   addTypeSource: any;
 
@@ -441,7 +441,7 @@ export class StrWithdrawTableComponent implements OnInit {
       this.listCtrl.setValue('');
       this.costcenterCtrl.setValue('');
       this.storeCtrl.setValue('');
-      // this.groupMasterForm.controls['date'].setValue(this.currentDate);
+      this.groupMasterForm.controls['date'].setValue('');
       // this.lists = [];
 
       this.getAllMasterForms();
@@ -570,7 +570,7 @@ export class StrWithdrawTableComponent implements OnInit {
     // }
 
     console.log('Master add form : ', this.groupMasterForm.value);
-
+  this.groupMasterForm.controls['date'].setValue(formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale));  
     if (this.groupMasterForm.getRawValue().storeId) {
 
       console.log('Master add form in : ', this.groupMasterForm.value);
@@ -762,7 +762,8 @@ export class StrWithdrawTableComponent implements OnInit {
       this.editData.fiscalYearId
     );
 
-    this.groupMasterForm.controls['date'].setValue(this.editData.date);
+    
+    this.groupMasterForm.controls['date'].setValue(formatDate(this.editData.date, 'dd-MM-yyyy', this.locale));
     this.groupMasterForm.controls['destStoreConfirm'].setValue(this.editData.destStoreConfirm);
     this.groupMasterForm.controls['transactionUserId'].setValue(
       this.editData.transactionUserId
@@ -1255,6 +1256,21 @@ export class StrWithdrawTableComponent implements OnInit {
   //   });
   // }
 
+  formatDate(event: any) {
+    const input = event.target.value;
+    const parts = input.split('/');
+    if (parts.length === 3) {
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10);
+      const year = parseInt(parts[2], 10);
+      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+        const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+        this.groupMasterSearchForm.get('date')?.setValue(formattedDate, { emitEvent: false });
+      }
+    }
+  }
+
+  
   async getFiscalYears() {
     this.api.getFiscalYears().subscribe({
       next: async (res) => {
@@ -1356,8 +1372,9 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
-    return this.itemsList.filter((item: { name: string }) =>
-      item.name.toLowerCase().includes(filterValue)
+    return this.itemsList.filter((item) =>
+      item.name.toLowerCase().includes(filterValue)||
+      item.fullCode.toLowerCase().includes(filterValue)
     );
   }
 
@@ -1718,7 +1735,8 @@ export class StrWithdrawTableComponent implements OnInit {
   private _filteritemsPositive(value: string): itemPositive[] {
     const filterValue = value;
     return this.itemsPositiveList.filter((item) =>
-      item.name.toLowerCase().includes(filterValue)
+      item.name.toLowerCase().includes(filterValue)||
+      item.fullCode.toLowerCase().includes(filterValue)
     );
   }
   openAutoitemPositive() {

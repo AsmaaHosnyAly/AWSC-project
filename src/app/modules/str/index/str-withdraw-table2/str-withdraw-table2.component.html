@@ -68,7 +68,7 @@
               <mat-autocomplete #autoitem="matAutocomplete" #itemId [displayWith]="displayitemName"
                 (optionSelected)="itemSelected($event)">
                 <mat-option *ngFor="let item of filtereditem | async" [value]="item">
-                  {{ item.name }} | {{ item.id }}
+                  {{ item.name }} | {{ item.fullCode }}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -419,11 +419,11 @@
                     ">
                     <div class="searchLabels">
                       <mat-label>التاريخ:</mat-label>
-                      <mat-form-field appearance="outline">
-                        <input matInput  formControlName="date" type="date"/>
-                       
                         
-                      </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <!-- <input matInput [matDatepicker]="dateMasterPicker" formControlName="date" (input)="formatDateInput()"> -->
+                          <input matInput  formControlName="date" placeholder="dd-mm-yyyy" (dateInput)="formatDate($event)">                          
+                        </mat-form-field>                                               
                     </div> 
                   </div>
 
@@ -547,7 +547,7 @@
                           <mat-autocomplete #autoItemPositive="matAutocomplete" [displayWith]="displayitemPositiveName"
                             (optionSelected)="itemPositiveSelected($event)">
                             <mat-option *ngFor="let item of filtereditemPositive | async" [value]="item">
-                              {{ item.name }}
+                              {{ item.name }} | {{ item.fullCode }}
                             </mat-option>
                           </mat-autocomplete>
                         </mat-form-field>

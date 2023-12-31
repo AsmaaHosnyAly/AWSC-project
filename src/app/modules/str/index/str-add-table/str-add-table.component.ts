@@ -1558,6 +1558,18 @@ export class STRAddTableComponent implements OnInit {
     // this.getStrOpenAutoNo();
   }
 
+  formatDate(date: string): string {
+    if (date) {
+      const parts = date.split('/');
+      const day = parts[0].trim().padStart(2, '0');
+      const month = parts[1].trim().padStart(2, '0');
+      const year = parts[2].trim().padStart(4, '0');
+
+      return `${day}/${month}/${year}`;
+    }
+    return '';
+  }
+
   formatDateInput() {
     const parts = this.startDate.split('/');
     const day = parts[0].trim().padStart(2, '0');
