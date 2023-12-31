@@ -547,59 +547,44 @@
                       </mat-autocomplete>
                     </mat-form-field>
                   </div>
-
                   <div class="searchLabels">
-                    <mat-label>رصيد المخزن </mat-label>
-
-                    <mat-form-field appearance="outline" class="groupInput">
+                    <mat-label>سعرالوحدة</mat-label>
+                 
+                    <div  class="groupInput" >
+                      <input id="price" type="number" matInput formControlName="price"style="width: 100px !important;"
+                        [value]="editDataDetails ? editDataDetails.price :'ــ'" readonly="true" />
+                    </div>
+                  </div>
+                  <div class="searchLabels">
+                    <mat-label >رصيد المخزن الحالي</mat-label>
+                    <!-- <div class="label-sum">{{sumOfItemsStore?sumOfItemsStore:''}}</div> -->
+                    <mat-form-field appearance="outline" class="groupInput" style="width: 120px !important;">
                       <input matInput formControlName="balanceQty" [value]="sumOfItemsStore" [disabled]="!sumOfItemsStore">
                     </mat-form-field>
 
                   </div>
+                 
 
-                  <div class="searchLabels">
+
+                  <div class="searchLabels" >
                     <mat-label>الكمية*</mat-label>
 
-                    <mat-form-field appearance="outline" class="groupInput">
+                    <mat-form-field appearance="outline" class="groupInput" style="width: 120px !important;">
                       <input type="number" min="0" matInput placeholder="الكمية" formControlName="qty"
-                        [value]="editDataDetails ? editDataDetails.qty : ''">
+                        [value]="editDataDetails ? editDataDetails.qty : ''" (input)="qtyChange($event)" >
                     </mat-form-field>
                   </div>
 
 
+
+                  
 
                   <div class="searchLabels">
-                    <mat-label>السعر</mat-label>
-
-                    <mat-form-field appearance="outline" class="groupInput">
-                      <input matInput type="number" min="0" placeholder=" السعر" formControlName="price"
-                        [value]="editDataDetails ? editDataDetails.price : ''" [readonly]="isReadOnly">
-                    </mat-form-field>
+                    <mat-label>الرصيد بعدالاضافة</mat-label>
+                     
+                  <div class="label-sum">{{sumOfItemsStoreAfterQty?sumOfItemsStoreAfterQty:'ـ'}}</div>
                   </div>
-
-
-                  <!-- <div style="display: flex; flex-direction: row">
-                    <div class="radio">
-                      <mat-label style="margin-top: 9px"> حالةالصنف*</mat-label>
-
-                      <mat-radio-group style="display: flex;flex-direction: row;" aria-label="Select an option"
-                        formControlName="state" (change)="set_Percentage($event)"
-                        [value]="editData ? editData.state : stateDefaultValue">
-                        <mat-radio-button value="جديد">جديد</mat-radio-button>
-                        <mat-radio-button value="مستعمل">مستعمل</mat-radio-button>
-                        <mat-radio-button value="قابل للاصلاح">قابل للاصلاح</mat-radio-button>
-                        <mat-radio-button value="كهنة و خردة">كهنة و خردة</mat-radio-button>
-                      </mat-radio-group>
-                    </div>
-                  </div> -->
-
-
                 </div>
-
-
-
-
-
                 <div>
                   <div dir="ltr">
                     <button mat-raised-button class="follow-btn" (click)="addDetailsInfo()">{{!editDataDetails ?

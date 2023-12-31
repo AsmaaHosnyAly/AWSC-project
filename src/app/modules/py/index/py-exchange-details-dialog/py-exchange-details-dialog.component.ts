@@ -157,10 +157,9 @@ export class PyExchangeDetailsDialogComponent  implements OnInit {
 
     return this.employeesList.filter(
       (employee) =>
-        employee.name.toLowerCase().includes(filterValue)
-    );
+      employee.name ? employee.name.includes(filterValue) : '-')
   }
-
+ 
   displayemployeeName(employee: any): string {
     return employee && employee.name ? employee.name : '';
   }
