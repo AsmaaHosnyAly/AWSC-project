@@ -325,6 +325,13 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
 // import { PrUsedrDetailsDialogComponent } from './modules/pr/index/pr-usedr-details-dialog/pr-usedr-details-dialog.component';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material/core';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -676,6 +683,12 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     {
       provide: MAT_DATE_LOCALE, useValue: 'en-GB',
     },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
     [HotkeysService],
   ],
 

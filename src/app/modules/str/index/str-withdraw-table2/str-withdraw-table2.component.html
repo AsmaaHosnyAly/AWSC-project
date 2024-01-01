@@ -636,7 +636,7 @@
                     </mat-form-field>
                   </div>
 
-                  <div
+                  <!-- <div
                     style="
                       display: flex;
                       flex-direction: row;
@@ -647,12 +647,28 @@
                       <mat-label>التاريخ:</mat-label>
                         
                         <mat-form-field appearance="outline">
-                          <!-- <input matInput [matDatepicker]="dateMasterPicker" formControlName="date" (input)="formatDateInput()"> -->
                           <input matInput  formControlName="date" placeholder="dd-mm-yyyy" >                          
                         </mat-form-field>                                               
                     </div> 
-                  </div>
+                  </div> -->
 
+                  <div style="
+                  display: flex;
+                  flex-direction: row;
+                  margin-left: 10px;
+                ">
+                <div class="searchLabels">
+                  <mat-label>التاريخ:</mat-label>
+                  <mat-form-field appearance="outline">
+                    <input #masterDate matInput [matDatepicker]="masterPicker" formControlName="date" placeholder="DD/MM/YYYY"/>
+                    <mat-datepicker-toggle matIconSuffix [for]="masterPicker">
+                      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #masterPicker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              
                   <div dir="ltr">
                     <button
                       class="follow-btn"
