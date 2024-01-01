@@ -1348,6 +1348,7 @@ export class StrEmployeeExchangeTableComponent implements OnInit {
       this.MasterGroupInfoEntered = false;
       // this.groupMasterForm.controls['no'].setValue('');
       this.groupMasterFormDialog.controls['no'].setValue('');
+      this.groupMasterFormDialog.controls['date'].setValue('');
 
       this.costcenterCtrl.setValue('');
       // this.groupMasterForm.controls['date'].setValue(this.currentDate);

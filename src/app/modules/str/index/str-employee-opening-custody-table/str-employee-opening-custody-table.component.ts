@@ -294,9 +294,14 @@ export class STREmployeeOpeningCustodyTableComponent implements OnInit {
   tabSelected(tab: any) {
     console.log('tab selected: ', tab);
     if (tab.index == 0) {
+      this.editData = '';
+      this.MasterGroupInfoEntered = false;
+      this.groupMasterForm.controls['date'].setValue('');
+
       this.getAllMasterForms();
     }
   }
+
   async fiscalYearValueChanges(fiscalyaerId: any) {
     console.log('fiscalyaer: ', fiscalyaerId);
     this.fiscalYearSelectedId = await fiscalyaerId;
