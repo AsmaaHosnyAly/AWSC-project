@@ -15,6 +15,7 @@ import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
 import jwt_decode from 'jwt-decode';
 
+
 import {
   FormControl,
   FormControlName,
@@ -28,7 +29,7 @@ import { formatDate } from '@angular/common';
 import { STRItem1DialogComponent } from '../str-item1-dialog/str-item1-dialog.component';
 
 export class item {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string, public fullCode: any) { }
 }
 
 export class Employee {
@@ -106,7 +107,7 @@ export class StrWithdrawTableComponent implements OnInit {
   matchedIds: any;
   // storeList: any;
   storeName: any;
-  fiscalYearsList: any;
+  lastFiscalYears: any;
   fiscalYear: any;
   employeeSelectList: any;
   employeeName: any;
@@ -234,11 +235,12 @@ export class StrWithdrawTableComponent implements OnInit {
   isReadOnlyPercentage: any = true;
   editDataDetails: any;
   currentDate: any;
-
+  date: string = '';
 
   addTypeSource: any;
 
   itemSearchWay: any;
+  fiscalYearsList: any;
 
 
   constructor(
@@ -252,10 +254,11 @@ export class StrWithdrawTableComponent implements OnInit {
     @Inject(LOCALE_ID) private locale: string,
     
   ) {
-
+    // this.getLastFiscalYearFun()
     this.reportNameList = [
       {
         titleval: 'STRWithdrawReport',
+
       },
     ];
 
@@ -341,7 +344,6 @@ export class StrWithdrawTableComponent implements OnInit {
     this.selectedReportTypeTitle = this.reportTypeList[0].titleval;
 
     this.getDestStores();
-    this.getFiscalYears();
     this.getItems();
 
     this.getCostCenters();
@@ -438,10 +440,11 @@ export class StrWithdrawTableComponent implements OnInit {
       this.editData = '';
       this.MasterGroupInfoEntered = false;
       this.groupMasterForm.controls['no'].setValue('');
+      this.groupMasterForm.controls['fiscalYearId'].setValue('');
       this.listCtrl.setValue('');
       this.costcenterCtrl.setValue('');
       this.storeCtrl.setValue('');
-      // this.groupMasterForm.controls['date'].setValue(this.currentDate);
+      this.groupMasterForm.controls['date'].setValue('');
       // this.lists = [];
 
       this.getAllMasterForms();
@@ -464,32 +467,12 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   openWithdrawDialog() {
     this.editData = '';
-    // this.editDataDetails = '';
-
-    // this.groupMasterForm.controls['no'].setValue('');
-    // this.groupMasterForm.controls['journalId'].setValue('');
-    // this.journalCtrl.reset();
-
-    // this.groupMasterForm.controls['fiEntrySourceTypeId'].setValue('');
-    // this.groupMasterForm.controls['date'].setValue(this.currentDate);
-    // this.getFiscalYears();
-
-    // this.groupMasterForm.controls['creditTotal'].setValue(0);
-    // this.groupMasterForm.controls['debitTotal'].setValue(0);
-    // this.groupMasterForm.controls['balance'].setValue(0);
-    // this.groupMasterForm.controls['state'].setValue(this.defaultState);
-    // this.groupMasterForm.controls['description'].setValue('');
-
     let tabGroup = this.matgroup;
     tabGroup.selectedIndex = 1;
 
     console.log("matGroup: ", tabGroup, "selectIndex: ", tabGroup.selectedIndex);
-    // this.autoNo = '';
-
-    // this.getStrWithdrawAutoNo();
-    // // this.lists = [];
-    // this.getListCtrl(this.groupMasterForm.getRawValue().type);
-
+    this.getFiscalYears();
+   
     this.getProducts();
     this.getItemsPositive();
 
@@ -525,26 +508,14 @@ export class StrWithdrawTableComponent implements OnInit {
       this.groupMasterForm.getRawValue().employeeId
     );
 
-    // this.costCenterName = await this.getemployeeByID(
-    //   this.groupMasterForm.getRawValue().employeeId
-    // );
     this.groupMasterForm.controls['employeeName'].setValue(
       this.groupMasterForm.getRawValue().employeeName
     );
 
-    // this.costCenterName = await this.getcostcenterByID(
-    //   this.groupMasterForm.getRawValue().costCenterId
-    // );
-    // this.groupMasterForm.controls['costcenterName'].setValue(
-    //   this.costCenterName
-    // );
-
     this.groupMasterForm.controls['deststoreId'].setValue(
       this.groupMasterForm.getRawValue().deststoreId
     );
-    // this.costCenterName = await this.getDestStoreById(
-    //   this.groupMasterForm.getRawValue().deststoreId
-    // );
+    
     console.log(
       'in next to add deststore name:',
       this.groupMasterForm.getRawValue().desstoreName
@@ -553,27 +524,18 @@ export class StrWithdrawTableComponent implements OnInit {
       this.groupMasterForm.getRawValue().desstoreName
     );
 
-    // console.log('dataName: ', this.groupMasterForm.value);
-
-    // if (this.groupMasterForm.getRawValue().no && this.groupMasterForm.getRawValue().no == this.autoNo) {
-
-    //   console.log('no changed: ', this.groupMasterForm.getRawValue().no);
-    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
-
-    // }
-    // else {
-    // this.groupMasterForm.controls['no'].setValue(this.groupMasterForm.getRawValue().no);
-    // console.log(
-    //   'no took auto number: ',
-    //   this.groupMasterForm.getRawValue().no
-    // );
-    // }
+  
 
     console.log('Master add form : ', this.groupMasterForm.value);
-
+  // this.groupMasterForm.controls['date'].setValue(formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale));  
     if (this.groupMasterForm.getRawValue().storeId) {
 
       console.log('Master add form in : ', this.groupMasterForm.value);
+
+      // let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
+      // let journalStartDateFormat = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
+      // let journalEndDateFormat = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
+
       this.api.postStrWithdraw(this.groupMasterForm.value).subscribe({
         next: (res) => {
           console.log('res code: ', res.status);
@@ -612,7 +574,9 @@ export class StrWithdrawTableComponent implements OnInit {
     );
 
     this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-
+    this.groupMasterForm.controls['fiscalYearId'].setValue(
+      this.editData.fiscalYearId
+    );
     console.log("update both: ", this.groupDetailsForm.valid, "ooo:", !this.getDetailedRowData);
     console.log("edit : ", this.groupDetailsForm.value)
     this.loading = true
@@ -720,6 +684,7 @@ export class StrWithdrawTableComponent implements OnInit {
     tabGroup.selectedIndex = 1;
 
     this.editData = row;
+
     this.editDataDetails = '';
 
     console.log('master edit form: ', this.editData);
@@ -732,7 +697,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.groupMasterForm.controls['type'].setValue(this.editData.type);
     this.getListCtrl(this.groupMasterForm.getRawValue().type);
 
-
+// this.getFiscalYears();
 
     console.log('master edit form: ', this.editData);
 
@@ -762,6 +727,7 @@ export class StrWithdrawTableComponent implements OnInit {
       this.editData.fiscalYearId
     );
 
+    
     this.groupMasterForm.controls['date'].setValue(this.editData.date);
     this.groupMasterForm.controls['destStoreConfirm'].setValue(this.editData.destStoreConfirm);
     this.groupMasterForm.controls['transactionUserId'].setValue(
@@ -1242,11 +1208,63 @@ export class StrWithdrawTableComponent implements OnInit {
     });
   }
 
-  // getFiscalYears() {
+// getLastFiscalYearFun(){
+//   this.api.getLastFiscalYear().subscribe({
+//     next: async (res) => {
+//       console.log('getLastFiscalYear',res.fiscalYear
+//       )
+//       if (this.editData) {
+//         console.log(
+//           'selectedYear id in get: ',
+//           this.editData.fiscalYearId
+//         );
+
+//         this.lastFiscalYears= res.fiscalYear;
+//         this.editData.fiscalYearId= res.id
+//       }else{
+//       this.lastFiscalYears= res.fiscalYear
+//       this.editData.fiscalYearId= res.id
+//       ;}
+//     }
+//   })
+// }
+  // async getFiscalYears() {
   //   this.api.getFiscalYears().subscribe({
-  //     next: (res) => {
-  //       this.fiscalYearsList = res;
-  //       console.log('fiscalYears list: ', this.fiscalYearsList);
+  //     next: async (res) => {
+  //       this.lastFiscalYears= res;
+
+  //       this.api.getLastFiscalYear().subscribe({
+  //         next: async (res) => {
+
+  //           this.defaultFiscalYearSelectValue = await res;
+  //           console.log(
+  //             'selectedYearggggggggggggggggggg: ',
+  //             this.defaultFiscalYearSelectValue
+  //           );
+  //           if (this.editData) {
+  //             console.log(
+  //               'selectedYear id in get: ',
+  //               this.editData.fiscalYearId
+  //             );
+
+  //             this.groupMasterForm.controls['fiscalYearId'].setValue(
+  //               this.editData.fiscalYearId
+  //             );
+  //           }
+  //           // else {
+  //           //   this.groupMasterForm.controls['fiscalYearId'].setValue(
+  //           //     this.defaultFiscalYearSelectValue.id
+  //           //   );
+  //           //   this.fiscalYearValueChanges(this.defaultFiscalYearSelectValue.id)
+  //           //   // this.getStrWithdrawAutoNo();
+  //           // }
+  //         },
+  //         error: (err) => {
+  //           // console.log("fetch store data err: ", err);
+  //           // alert("خطا اثناء جلب المخازن !");
+  //         },
+  //       });
+
   //     },
   //     error: (err) => {
   //       // console.log("fetch fiscalYears data err: ", err);
@@ -1255,15 +1273,22 @@ export class StrWithdrawTableComponent implements OnInit {
   //   });
   // }
 
+  
+
+  
+
   async getFiscalYears() {
+
     this.api.getFiscalYears().subscribe({
       next: async (res) => {
         this.fiscalYearsList = res;
-
         this.api.getLastFiscalYear().subscribe({
           next: async (res) => {
 
             this.defaultFiscalYearSelectValue = await res;
+          this.lastFiscalYears = res.fiscalYear;
+          console.log("res fiscalYear: ", this.lastFiscalYears);
+
             console.log(
               'selectedYearggggggggggggggggggg: ',
               this.defaultFiscalYearSelectValue
@@ -1273,6 +1298,7 @@ export class StrWithdrawTableComponent implements OnInit {
                 'selectedYear id in get: ',
                 this.editData.fiscalYearId
               );
+          this.lastFiscalYears = this.editData.fiscalyear;
 
               this.groupMasterForm.controls['fiscalYearId'].setValue(
                 this.editData.fiscalYearId
@@ -1356,8 +1382,9 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
-    return this.itemsList.filter((item: { name: string }) =>
-      item.name.toLowerCase().includes(filterValue)
+    return this.itemsList.filter((item) =>
+      item.name.toLowerCase().includes(filterValue)||
+      item.fullCode.toLowerCase().includes(filterValue)
     );
   }
 
@@ -1630,7 +1657,7 @@ export class StrWithdrawTableComponent implements OnInit {
           employee,
           costCenter,
           report,
-          reportType
+          "pdf"
         )
         .subscribe({
           next: (res) => {
@@ -1682,7 +1709,8 @@ export class StrWithdrawTableComponent implements OnInit {
     this.api.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,
-      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+    
+      formatDate(this.groupMasterForm.getRawValue().date,'dd-MM-yyyy', this.locale),
       this.groupDetailsForm.getRawValue().itemId
     )
       .subscribe({
@@ -1718,7 +1746,8 @@ export class StrWithdrawTableComponent implements OnInit {
   private _filteritemsPositive(value: string): itemPositive[] {
     const filterValue = value;
     return this.itemsPositiveList.filter((item) =>
-      item.name.toLowerCase().includes(filterValue)
+      item.name.toLowerCase().includes(filterValue)||
+      item.fullCode.toLowerCase().includes(filterValue)
     );
   }
   openAutoitemPositive() {
@@ -1768,7 +1797,7 @@ export class StrWithdrawTableComponent implements OnInit {
     this.getAvgPrice(
       this.groupMasterForm.getRawValue().storeId,
       this.groupMasterForm.getRawValue().fiscalYearId,
-      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+      formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
       itemEvent)
 
 
@@ -1810,11 +1839,12 @@ export class StrWithdrawTableComponent implements OnInit {
     })
 
   }
+  
 
   getAvgPrice(storeId: any, fiscalYear: any, date: any, itemId: any) {
     console.log("Avg get inputs: ", "storeId: ", storeId,
       " fiscalYear: ", this.fiscalYear,
-      " date: ", formatDate(date, 'yyyy-MM-dd', this.locale),
+      " date: ", formatDate(date, 'dd-MM-yyyy', this.locale),
       " itemId: ", this.groupDetailsForm.getRawValue().itemId)
 
     this.api.getAvgPrice(storeId, fiscalYear, date, itemId)
@@ -1875,7 +1905,7 @@ export class StrWithdrawTableComponent implements OnInit {
           this.api.getAvgPrice(
             this.groupMasterForm.getRawValue().storeId,
             this.groupMasterForm.getRawValue().fiscalYearId,
-            formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+            formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
             this.groupDetailsForm.getRawValue().itemId
           )
             .subscribe({
@@ -1945,7 +1975,7 @@ export class StrWithdrawTableComponent implements OnInit {
             this.api.getAvgPrice(
               this.groupMasterForm.getRawValue().storeId,
               this.groupMasterForm.getRawValue().fiscalYearId,
-              formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+              formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
               item
             )
               .subscribe({
@@ -2061,7 +2091,7 @@ export class StrWithdrawTableComponent implements OnInit {
               this.api.getAvgPrice(
                 this.groupMasterForm.getRawValue().storeId,
                 this.groupMasterForm.getRawValue().fiscalYearId,
-                formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
+                formatDate(this.groupMasterForm.getRawValue().date, 'dd-MM-yyyy', this.locale),
                 this.groupDetailsForm.getRawValue().itemId
               )
                 .subscribe({
@@ -2190,7 +2220,7 @@ export class StrWithdrawTableComponent implements OnInit {
       this.groupDetailsForm.controls['state'].setValue(this.editDataDetails.state);
       this.groupDetailsForm.controls['fullCode'].setValue(this.editDataDetails.fullCode);
       this.groupDetailsForm.controls['stateName'].setValue(this.editDataDetails.stateName);
-
+      
     }
 
     this.sumOfItemsStore = await this.sumOfItemsStore;
@@ -2358,12 +2388,20 @@ export class StrWithdrawTableComponent implements OnInit {
       // this.sumOfItemsStore = this.sumOfItemsStore + this.groupDetailsForm.getRawValue().qty;
 
       this.sumOfItemsStoreAfterQty = this.sumOfItemsStore - qtyValue;
+      if(this.sumOfItemsStoreAfterQty <0 ) {
+        this.toastrExceedStockWarning()
+      }
     }
     else if (qtyValue && this.sumOfItemsStore > 0 && !this.editDataDetails) {
       this.sumOfItemsStoreAfterQty = this.sumOfItemsStore - qtyValue;
+      if(this.sumOfItemsStoreAfterQty <0 ) {
+        this.toastrExceedStockWarning()
+        
+      }
+      
     }
     else {
-      this.sumOfItemsStoreAfterQty = '';
+      this.sumOfItemsStoreAfterQty = 0;
     }
 
   }
@@ -2550,20 +2588,7 @@ export class StrWithdrawTableComponent implements OnInit {
           });
       }
 
-      // this.api.getSumQuantity(
-      //   this.groupMasterForm.getRawValue().storeId,
-      //   this.groupDetailsForm.getRawValue().itemId,
-      // )
-      //   .subscribe({
-      //     next: (res) => {
-      //       this.sumOfItemsStore = res;
-      //       console.log("sumOfItemsStore : ", this.sumOfItemsStore);
-      //     },
-      //     error: (err) => {
-      //       // console.log("fetch fiscalYears data err: ", err);
-      //       // alert("خطا اثناء جلب الرصيد الحالى  !");
-      //     }
-      //   })
+      
 
     }
 
@@ -2608,5 +2633,9 @@ export class StrWithdrawTableComponent implements OnInit {
   }
   toastrBalanceWarning(): void {
     this.toastr.warning("لا يمكن الاضافة او التعديل لعدم وجود الكمية الكفاية من رصيد المخزن !");
+  }
+  toastrExceedStockWarning(): void {
+     
+        this.toastr.warning("انتبه لقد نفذت الكمية في المخزن !");
   }
 }

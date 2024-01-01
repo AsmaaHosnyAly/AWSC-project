@@ -32,7 +32,6 @@ import { ProSellerTypeDialogComponent } from 'src/app/modules/pro/index/pro-sell
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { ProSellerDialogComponent } from 'src/app/modules/pro/index/pro-seller-dialog/pro-seller-dialog.component';
 
-
 interface StrAddGetAllByUserId {
   no: any;
   storeName: any;
@@ -47,11 +46,15 @@ interface StrAddGetAllByUserId {
 }
 
 export class item {
-  constructor(public id: number, public name: string, public fullCode: string) { }
+  constructor(
+    public id: number,
+    public name: string,
+    public fullCode: string
+  ) {}
 }
 
 export class Employee {
-  constructor(public id: number, public name: string, public code: string) { }
+  constructor(public id: number, public name: string, public code: string) {}
 }
 
 // export class costcenter {
@@ -59,40 +62,39 @@ export class Employee {
 // }
 
 export class store {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 export class Seller {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 // export class Employee {
 //   constructor(public id: number, public name: string) { }
 // }
 export interface Source {
-  name: string
+  name: string;
 }
 export class List {
-  constructor(public id: number, public name: string, public code: any) { }
+  constructor(public id: number, public name: string, public code: any) {}
 }
 // export class Item {
 //   constructor(public id: number, public name: string) { }
 // }
 
 export class AddType {
-  constructor(public id: number, public name: string, public source: any) { }
+  constructor(public id: number, public name: string, public source: any) {}
 }
 
 export class ApprovalStatus {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
 export class Commodity {
-  constructor(public id: number, public name: string) { }
+  constructor(public id: number, public name: string) {}
 }
 
-
 export class Product {
-  constructor(public id: number, public name: string, public code: any) { }
+  constructor(public id: number, public name: string, public code: any) {}
 }
 
 interface strAddDetails {
@@ -103,12 +105,11 @@ interface strAddDetails {
   action: any;
 }
 
-
 @Component({
   selector: 'app-str-add-table',
   templateUrl: './str-add-table.component.html',
   styleUrls: ['./str-add-table.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class STRAddTableComponent implements OnInit {
   displayedColumns: string[] = [
@@ -169,14 +170,12 @@ export class STRAddTableComponent implements OnInit {
   filtereditem: Observable<item[]>;
   selecteditem: item | undefined;
 
-
   selectedReportName: string | undefined;
   // storeList: store[] = [];
   storeList: any;
   storeCtrl: FormControl;
   filteredstore: Observable<store[]>;
   selectedstore: store | undefined;
-
 
   listCtrl: FormControl;
   filteredList: Observable<List[]>;
@@ -202,6 +201,7 @@ export class STRAddTableComponent implements OnInit {
   filteredCommodity: Observable<Commodity[]>;
   commoditiesList: Commodity[] = [];
   selectedCommodity: Commodity | undefined;
+  startDate: string = '';
 
   decodedToken: any;
   decodedToken2: any;
@@ -218,7 +218,7 @@ export class STRAddTableComponent implements OnInit {
   paginatorDetails!: MatPaginator;
 
   dataSource!: MatTableDataSource<any>;
-  groupDetailsForm !: FormGroup;
+  groupDetailsForm!: FormGroup;
   userRoles: any;
 
   pageIndex: any;
@@ -227,17 +227,17 @@ export class STRAddTableComponent implements OnInit {
   currentPage: any;
   pageSizeOptions: number[] = [5, 10, 25, 100];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  dataSource2: MatTableDataSource<STRAddTableComponent> = new MatTableDataSource();
+  dataSource2: MatTableDataSource<STRAddTableComponent> =
+    new MatTableDataSource();
   isLoading = false;
   totalRows = 0;
   serachFlag: boolean = false;
 
   userRoleStoresAcc = PagesEnums.STORES_ACCOUNTS;
 
-
   sourceSelected: any;
   addTypeSource: any;
-  actionName: string = "choose";
+  actionName: string = 'choose';
   editData: any;
   fiscalYearSelectedId: any;
   isEdit: boolean = false;
@@ -245,11 +245,12 @@ export class STRAddTableComponent implements OnInit {
   storeSelectedId: any;
   MasterGroupInfoEntered = false;
   sumOfTotals = 0;
+  sumOfItemsStoreAfterQty: any = 0;
   getMasterRowId: any;
   userIdFromStorage = localStorage.getItem('transactionUserId');
   defaultStoreSelectValue: any;
   defaultFiscalYearSelectValue: any;
-  actionBtnMaster: string = "Save";
+  actionBtnMaster: string = 'Save';
   btnDisabled: boolean = false;
   editDataDetails: any;
 
@@ -258,9 +259,10 @@ export class STRAddTableComponent implements OnInit {
     'price',
     'qty',
     'total',
-    'action'
+    'action',
   ];
-  dataSourceDetails: MatTableDataSource<strAddDetails> = new MatTableDataSource();
+  dataSourceDetails: MatTableDataSource<strAddDetails> =
+    new MatTableDataSource();
   pageIndexDetails: any;
   lengthDetails: any;
   pageSizeDetails = 5;
@@ -282,7 +284,7 @@ export class STRAddTableComponent implements OnInit {
   isReadOnlyPercentage: any = false;
   itemName: any;
 
-  @ViewChild("matgroup", { static: false })
+  @ViewChild('matgroup', { static: false })
   matgroup!: MatTabGroup;
   sellerCode: any;
   sellerCodeIsDisabled: boolean = true;
@@ -292,16 +294,14 @@ export class STRAddTableComponent implements OnInit {
     private api: ApiService,
     private global: GlobalService,
     private hotkeysService: HotkeysService,
-    private dialog: MatDialog, private toastr: ToastrService,
+    private dialog: MatDialog,
+    private toastr: ToastrService,
     private cdr: ChangeDetectorRef,
     private http: HttpClient,
     private router: Router,
     @Inject(LOCALE_ID) private locale: string,
     private formBuilder: FormBuilder
   ) {
-
-
-
     // this.costcenterCtrl = new FormControl();
     // this.filteredcostcenter = this.costcenterCtrl.valueChanges.pipe(
     //   startWith(''),
@@ -327,13 +327,18 @@ export class STRAddTableComponent implements OnInit {
       startWith(''),
       map((value) => this._filterstores(value))
     );
-    global.getPermissionUserRoles('Store', 'str-home', 'إدارة المخازن وحسابات المخازن ', 'store');
+    global.getPermissionUserRoles(
+      'Store',
+      'str-home',
+      'إدارة المخازن وحسابات المخازن ',
+      'store'
+    );
 
     this.listCtrl = new FormControl();
     this.filteredList = this.listCtrl.valueChanges.pipe(
       startWith(''),
       debounceTime(300), // Adjust the debounce time (in milliseconds) to your preference
-      map(value => this._filterLists(value))
+      map((value) => this._filterLists(value))
     );
 
     // this.itemCtrl = new FormControl();
@@ -345,19 +350,19 @@ export class STRAddTableComponent implements OnInit {
     this.addTypeCtrl = new FormControl();
     this.filteredAddType = this.addTypeCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterAddType(value))
+      map((value) => this._filterAddType(value))
     );
 
     this.approvalStatusCtrl = new FormControl();
     this.filteredApprovalStatus = this.approvalStatusCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterApprovalStatus(value))
+      map((value) => this._filterApprovalStatus(value))
     );
 
     this.commodityCtrl = new FormControl();
     this.filteredCommodity = this.commodityCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterCommodity(value))
+      map((value) => this._filterCommodity(value))
     );
 
     // this.stateDefaultValue = "جديد";
@@ -369,8 +374,6 @@ export class STRAddTableComponent implements OnInit {
     );
 
     this.itemSearchWay = 'searchByItemCode';
-
-
   }
 
   ngOnInit(): void {
@@ -381,7 +384,7 @@ export class STRAddTableComponent implements OnInit {
     this.decodedToken2 = this.decodedToken.roles;
     console.log('accessToken2', this.decodedToken2);
 
-    this.selectedReportName = "STRWithdrawReport";
+    this.selectedReportName = 'STRWithdrawReport';
 
     this.getAllMasterForms();
     this.getFiscalYears();
@@ -414,7 +417,7 @@ export class STRAddTableComponent implements OnInit {
       itemId: [''],
       itemName: [''],
       report: ['STRWithdrawReport'],
-      reportType: ['']
+      reportType: [''],
     });
 
     this.groupMasterForm = this.formBuilder.group({
@@ -436,8 +439,7 @@ export class STRAddTableComponent implements OnInit {
       addTypeId: [''],
       entryNo: [0],
       approvalStatusId: [0],
-      commodityId: [0]
-
+      commodityId: [0],
     });
 
     this.groupDetailsForm = this.formBuilder.group({
@@ -454,15 +456,15 @@ export class STRAddTableComponent implements OnInit {
       // state: [this.stateDefaultValue],
       state: [],
       fullCode: [''],
-
-
     });
 
-    this.hotkeysService.add(new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.openAddDialog();
-      return false; // Prevent the default browser behavior
-    }));
+    this.hotkeysService.add(
+      new Hotkey('ctrl+o', (event: KeyboardEvent): boolean => {
+        // Call the deleteGrade() function in the current component
+        this.openAddDialog();
+        return false; // Prevent the default browser behavior
+      })
+    );
   }
 
   applyFilter(event: Event) {
@@ -483,7 +485,7 @@ export class STRAddTableComponent implements OnInit {
   }
 
   tabSelected(tab: any) {
-    console.log("tab selected: ", tab);
+    console.log('tab selected: ', tab);
     if (tab.index == 0) {
       //   console.log("done: ", tab);
 
@@ -497,7 +499,6 @@ export class STRAddTableComponent implements OnInit {
       //   // // this.lists = [];
 
       this.getAllMasterForms();
-
     }
   }
 
@@ -507,40 +508,20 @@ export class STRAddTableComponent implements OnInit {
       this.pageSize = 5;
 
       this.isLoading = true;
-      console.log("first time: ");
+      console.log('first time: ');
 
-
-      fetch(this.api.getStrAddPaginateByUserId(localStorage.getItem('transactionUserId'), this.currentPage, this.pageSize))
-        .then(response => response.json())
-        .then(data => {
-          // this.totalRows = data.length;
-          console.log("master data paginate first Time: ", data);
-          this.totalRows = data.length;
-
-          this.dataSource2.data = data.items;
-          this.pageIndex = data.page;
-          this.pageSize = data.pageSize;
-          this.length = data.totalItems;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.currentPage;
-            this.paginator.length = this.length;
-          });
-          this.isLoading = false;
-        }, error => {
-          console.log(error);
-          this.isLoading = false;
-        });
-    }
-    else {
-      if (this.serachFlag == false) {
-        this.isLoading = true;
-        console.log("second time: ");
-
-        fetch(this.api.getStrAddPaginateByUserId(localStorage.getItem('transactionUserId'), this.currentPage, this.pageSize))
-          .then(response => response.json())
-          .then(data => {
+      fetch(
+        this.api.getStrAddPaginateByUserId(
+          localStorage.getItem('transactionUserId'),
+          this.currentPage,
+          this.pageSize
+        )
+      )
+        .then((response) => response.json())
+        .then(
+          (data) => {
             // this.totalRows = data.length;
-            console.log("master data paginate: ", data);
+            console.log('master data paginate first Time: ', data);
             this.totalRows = data.length;
 
             this.dataSource2.data = data.items;
@@ -552,22 +533,77 @@ export class STRAddTableComponent implements OnInit {
               this.paginator.length = this.length;
             });
             this.isLoading = false;
-          }, error => {
+          },
+          (error) => {
             console.log(error);
             this.isLoading = false;
-          });
-      }
-      else {
-        console.log("search next paginate");
-        this.getSearchStrAdd(this.groupMasterSearchForm.getRawValue().no, this.groupMasterSearchForm.getRawValue().EntryNo, this.groupMasterSearchForm.getRawValue().StartDate, this.groupMasterSearchForm.getRawValue().EndDate, this.groupMasterSearchForm.getRawValue().fiscalYear)
-      }
+          }
+        );
+    } else {
+      if (this.serachFlag == false) {
+        this.isLoading = true;
+        console.log('second time: ');
 
+        fetch(
+          this.api.getStrAddPaginateByUserId(
+            localStorage.getItem('transactionUserId'),
+            this.currentPage,
+            this.pageSize
+          )
+        )
+          .then((response) => response.json())
+          .then(
+            (data) => {
+              // this.totalRows = data.length;
+              console.log('master data paginate: ', data);
+              this.totalRows = data.length;
+
+              this.dataSource2.data = data.items;
+              this.pageIndex = data.page;
+              this.pageSize = data.pageSize;
+              this.length = data.totalItems;
+              setTimeout(() => {
+                this.paginator.pageIndex = this.currentPage;
+                this.paginator.length = this.length;
+              });
+              this.isLoading = false;
+            },
+            (error) => {
+              console.log(error);
+              this.isLoading = false;
+            }
+          );
+      } else {
+        console.log('search next paginate');
+        this.getSearchStrAdd(
+          this.groupMasterSearchForm.getRawValue().no,
+          this.groupMasterSearchForm.getRawValue().EntryNo,
+          this.groupMasterSearchForm.getRawValue().StartDate,
+          this.groupMasterSearchForm.getRawValue().EndDate,
+          this.groupMasterSearchForm.getRawValue().fiscalYear
+        );
+      }
     }
+  }
 
+  qtyChange(qty: any) {
+    console.log('qty change: ', qty.target.value);
+    var qtyValue: number = parseInt(qty.target.value);
+    this.sumOfItemsStore = parseInt(this.sumOfItemsStore);
+    this.sumOfItemsStoreAfterQty = parseInt(this.sumOfItemsStoreAfterQty);
+    console.log('typeofsumOfItemsStoreAfterQty', typeof(this.sumOfItemsStoreAfterQty));
+    console.log('typeofsumOfItemsStore', typeof(this.sumOfItemsStore));
+    if (this.editDataDetails) {
+      this.sumOfItemsStoreAfterQty = this.sumOfItemsStore + qtyValue;
+      console.log('sumOfItemsStoreAfterQty', this.sumOfItemsStoreAfterQty);
+    } else if (!this.editDataDetails) {
+      this.sumOfItemsStoreAfterQty = this.sumOfItemsStore + qtyValue;
+      console.log('sumOfItemsStoreAfterQty', this.sumOfItemsStoreAfterQty);
+    }
   }
 
   pageChanged(event: PageEvent) {
-    console.log("page event: ", event);
+    console.log('page event: ', event);
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     // this.currentPage = event.previousPageIndex;
@@ -616,7 +652,6 @@ export class STRAddTableComponent implements OnInit {
     this.groupMasterForm.controls['addTypeId'].setValue('');
     this.addTypeCtrl.setValue('');
 
-
     this.getStrApprovalStatus();
     this.getStrCommodity();
     this.getStrAddType();
@@ -630,7 +665,6 @@ export class STRAddTableComponent implements OnInit {
     // this.getStrAddAutoNo();
 
     this.getFiscalYears();
-
   }
 
   getAllGroups() {
@@ -672,34 +706,42 @@ export class STRAddTableComponent implements OnInit {
 
     // this.getListCtrl(this.groupMasterForm.getRawValue().addTypeId);
 
-    console.log("master edit form: ", this.editData);
-    this.actionBtnMaster = "Update";
+    console.log('master edit form: ', this.editData);
+    this.actionBtnMaster = 'Update';
 
-    this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+    this.groupMasterForm.controls['transactionUserId'].setValue(
+      this.userIdFromStorage
+    );
 
     this.groupMasterForm.controls['no'].setValue(this.editData.no);
     this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
 
-    this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+    this.groupMasterForm.controls['fiscalYearId'].setValue(
+      this.editData.fiscalYearId
+    );
 
     this.groupMasterForm.controls['date'].setValue(this.editData.date);
     this.groupMasterForm.controls['total'].setValue(this.editData.total);
-    this.groupMasterForm.controls['addTypeId'].setValue(this.editData.addTypeId);
+    this.groupMasterForm.controls['addTypeId'].setValue(
+      this.editData.addTypeId
+    );
 
     this.lists = [];
     this.listCtrl.setValue('');
 
-    console.log("edit dataaaaaaaaaaaaaaa: ", this.editData);
+    console.log('edit dataaaaaaaaaaaaaaa: ', this.editData);
     // if (this.editData.addTypeName == 'اذن صرف') {
     //   this.actionName = "str";
     //   console.log("action btnnnnnnnnnnnnn", this.actionName)
     //   // this.groupMasterForm.controls['addTypeId'].setValue('المخزن');
     //   this.groupMasterForm.controls['entryNo'].disable();
 
-
     // }
 
-    if (this.editData.addTypeName == 'فاتورة' || this.editData.addTypeName == 'شهادة ادارية') {
+    if (
+      this.editData.addTypeName == 'فاتورة' ||
+      this.editData.addTypeName == 'شهادة ادارية'
+    ) {
       // alert("1")
       // this.actionName = "choose";
       // console.log("action btnnnnnnnnnnnnn 3", this.actionName);
@@ -709,45 +751,50 @@ export class STRAddTableComponent implements OnInit {
       // this.groupMasterForm.controls['entryNo'].enable();
       // this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
       this.sourceSelected = {
-        'name': this.editData.addTypeName
-      }
+        name: this.editData.addTypeName,
+      };
       this.sellerCodeIsDisabled = false;
 
       this.api.getAllSellers().subscribe((lists) => {
         this.lists = lists;
-        this.groupMasterForm.controls['sellerId'].setValue(this.editData.sellerId);
+        this.groupMasterForm.controls['sellerId'].setValue(
+          this.editData.sellerId
+        );
 
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
         // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
-        this.actionName = "choose";
+        this.actionName = 'choose';
 
         this.groupMasterForm.controls['entryNo'].enable();
-        this.groupMasterForm.controls['entryNo'].setValue(this.editData.entryNo);
-
+        this.groupMasterForm.controls['entryNo'].setValue(
+          this.editData.entryNo
+        );
       });
-    }
-    else if (this.editData.addTypeName == 'اذن ارتجاع' || this.editData.addTypeName == 'الموظف') {
+    } else if (
+      this.editData.addTypeName == 'اذن ارتجاع' ||
+      this.editData.addTypeName == 'الموظف'
+    ) {
       // alert("2")
       this.sourceSelected = {
-        'name': this.editData.addTypeName
-      }
+        name: this.editData.addTypeName,
+      };
       this.sellerCodeIsDisabled = true;
 
       // this.actionName = "emp";
       // console.log("action btnnnnnnnnnnnnn 2", this.actionName);
-      this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
+      this.groupMasterForm.controls['employeeId'].setValue(
+        this.editData.employeeId
+      );
 
       // // this.groupMasterForm.controls['addTypeId'].setValue('الموظف')
       // this.groupMasterForm.controls['entryNo'].disable();
       this.getQuickEmployees();
-
-
     } else {
       // alert("3")
       this.sourceSelected = {
-        'name': this.editData.addTypeName
-      }
+        name: this.editData.addTypeName,
+      };
       this.sellerCodeIsDisabled = true;
 
       // this.actionName = "choose";
@@ -761,16 +808,16 @@ export class STRAddTableComponent implements OnInit {
 
       this.api.getAllStore().subscribe((lists) => {
         this.lists = lists;
-        this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
+        this.groupMasterForm.controls['sourceStoreId'].setValue(
+          this.editData.sourceStoreId
+        );
 
         this.groupMasterForm.controls['sellerId'].setValue(null);
         // this.groupMasterForm.controls['sellerName'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
-        this.actionName = "str";
+        this.actionName = 'str';
         this.groupMasterForm.controls['entryNo'].disable();
       });
-
-
     }
 
     // this.groupMasterForm.controls['addReceiptId'].setValue(this.editData.addReceiptId);
@@ -779,12 +826,18 @@ export class STRAddTableComponent implements OnInit {
     // this.groupMasterForm.controls['sourceStoreId'].setValue(this.editData.sourceStoreId);
     // this.groupMasterForm.controls['employeeId'].setValue(this.editData.employeeId);
 
-    this.groupMasterForm.controls['commodityId'].setValue(this.editData.commodityId);
-    this.groupMasterForm.controls['approvalStatusId'].setValue(this.editData.approvalStatusId);
+    this.groupMasterForm.controls['commodityId'].setValue(
+      this.editData.commodityId
+    );
+    this.groupMasterForm.controls['approvalStatusId'].setValue(
+      this.editData.approvalStatusId
+    );
 
-    this.groupMasterForm.addControl('id', new FormControl('', Validators.required));
+    this.groupMasterForm.addControl(
+      'id',
+      new FormControl('', Validators.required)
+    );
     this.groupMasterForm.controls['id'].setValue(this.editData.id);
-
 
     this.getAllDetailsForms();
   }
@@ -795,26 +848,21 @@ export class STRAddTableComponent implements OnInit {
     if (result) {
       this.api.deleteStrAdd(id).subscribe({
         next: (res) => {
+          this.api.getStrAddDetails().subscribe({
+            next: (res) => {
+              this.matchedIds = res.filter((a: any) => {
+                // console.log("matched Id & HeaderId : ", a.HeaderId === id)
+                return a.addId === id;
+              });
 
-          this.api.getStrAddDetails()
-            .subscribe({
-              next: (res) => {
-
-                this.matchedIds = res.filter((a: any) => {
-                  // console.log("matched Id & HeaderId : ", a.HeaderId === id)
-                  return a.addId === id;
-                });
-
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.deleteFormDetails(this.matchedIds[i].id);
-                }
-
-              },
-              error: (err) => {
-                // alert('خطا اثناء تحديد المجموعة !!');
-
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.deleteFormDetails(this.matchedIds[i].id);
               }
-            })
+            },
+            error: (err) => {
+              // alert('خطا اثناء تحديد المجموعة !!');
+            },
+          });
 
           this.getAllMasterForms();
         },
@@ -824,6 +872,7 @@ export class STRAddTableComponent implements OnInit {
       });
     }
   }
+
 
   deleteFormDetails(id: number) {
     this.api.deleteStrAddDetails(id).subscribe({
@@ -854,36 +903,36 @@ export class STRAddTableComponent implements OnInit {
   // }
 
   async getFiscalYears() {
-    this.api.getFiscalYears()
-      .subscribe({
-        next: async (res) => {
-          this.fiscalYearsList = res;
+    this.api.getFiscalYears().subscribe({
+      next: async (res) => {
+        this.fiscalYearsList = res;
 
-          this.api.getLastFiscalYear()
-            .subscribe({
-              next: async (res) => {
+        this.api.getLastFiscalYear().subscribe({
+          next: async (res) => {
+            this.defaultFiscalYearSelectValue = await res;
 
-                this.defaultFiscalYearSelectValue = await res;
-
-                if (this.editData) {
-                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
-                }
-                else {
-                  this.groupMasterForm.controls['fiscalYearId'].setValue(this.defaultFiscalYearSelectValue.id);
-                  // this.getStrOpenAutoNo();
-                }
-              },
-              error: (err) => {
-                // console.log("fetch store data err: ", err);
-                // alert("خطا اثناء جلب المخازن !");
-              }
-            })
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+            if (this.editData) {
+              this.groupMasterForm.controls['fiscalYearId'].setValue(
+                this.editData.fiscalYearId
+              );
+            } else {
+              this.groupMasterForm.controls['fiscalYearId'].setValue(
+                this.defaultFiscalYearSelectValue.id
+              );
+              // this.getStrOpenAutoNo();
+            }
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          },
+        });
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
 
   // getStores() {
@@ -922,54 +971,55 @@ export class STRAddTableComponent implements OnInit {
 
   async getStores() {
     this.userRoles = this.decodedToken2;
-    console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc))
+    console.log('userRoles: ', this.userRoles.includes(this.userRoleStoresAcc));
 
     if (this.userRoles.includes(this.userRoleStoresAcc)) {
       // console.log('user is manager -all stores available- , role: ', userRoles);
 
-      this.api.getStore()
+      this.api.getStore().subscribe({
+        next: async (res) => {
+          this.storeList = res;
+          this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
+
+          if (this.editData) {
+            this.groupMasterForm.controls['storeId'].setValue(
+              this.editData.storeId
+            );
+          } else {
+            this.groupMasterForm.controls['storeId'].setValue(
+              this.defaultStoreSelectValue.id
+            );
+          }
+        },
+        error: (err) => {
+          // console.log("fetch store data err: ", err);
+          // alert("خطا اثناء جلب المخازن !");
+        },
+      });
+    } else {
+      this.api
+        .getUserStores(localStorage.getItem('transactionUserId'))
         .subscribe({
           next: async (res) => {
             this.storeList = res;
             this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
 
             if (this.editData) {
-              this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
+              this.groupMasterForm.controls['storeId'].setValue(
+                this.editData.storeId
+              );
+            } else {
+              this.groupMasterForm.controls['storeId'].setValue(
+                this.defaultStoreSelectValue.storeId
+              );
             }
-            else {
-              this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.id);
-            }
-
           },
           error: (err) => {
             // console.log("fetch store data err: ", err);
             // alert("خطا اثناء جلب المخازن !");
-          }
-        })
-    }
-    else {
-      this.api.getUserStores(localStorage.getItem('transactionUserId'))
-        .subscribe({
-          next: async (res) => {
-            this.storeList = res;
-            this.defaultStoreSelectValue = await res[Object.keys(res)[0]];
-
-            if (this.editData) {
-              this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-            }
-            else {
-              this.groupMasterForm.controls['storeId'].setValue(this.defaultStoreSelectValue.storeId);
-            }
-
           },
-          error: (err) => {
-            // console.log("fetch store data err: ", err);
-            // alert("خطا اثناء جلب المخازن !");
-          }
-        })
+        });
     }
-
-
   }
 
   getsearch(code: any) {
@@ -1019,7 +1069,7 @@ export class STRAddTableComponent implements OnInit {
       next: (res) => {
         this.itemsList = res;
         this.cdr.detectChanges(); // Trigger change detection
-        console.log("itemss res: ", this.itemsList);
+        console.log('itemss res: ', this.itemsList);
       },
       error: (err) => {
         // console.log("fetch store data err: ", err);
@@ -1028,17 +1078,18 @@ export class STRAddTableComponent implements OnInit {
     });
   }
 
-
-
   getEmployees() {
     this.api.getEmployee().subscribe((lists) => {
       this.lists = lists;
-
     });
   }
 
   displayEmployeeName(employee: any): string {
-    return employee ? employee.name && employee.name != null ? employee.name : '-' : '';
+    return employee
+      ? employee.name && employee.name != null
+        ? employee.name
+        : '-'
+      : '';
   }
   employeeSelected(event: MatAutocompleteSelectedEvent): void {
     const employee = event.option.value as Employee;
@@ -1050,7 +1101,6 @@ export class STRAddTableComponent implements OnInit {
       'employee in form: ',
       this.groupMasterSearchForm.getRawValue().employeeId
     );
-
   }
   private _filteremployees(value: string): Employee[] {
     const filterValue = value.toLowerCase();
@@ -1065,7 +1115,6 @@ export class STRAddTableComponent implements OnInit {
     this.employeeCtrl.updateValueAndValidity();
   }
 
-
   displayitemName(item: any): string {
     return item && item.name ? item.name : '';
   }
@@ -1073,113 +1122,82 @@ export class STRAddTableComponent implements OnInit {
     const item = event.option.value as item;
     console.log('item selected: ', item);
     this.selecteditem = item;
-    // this.groupDetailsForm.patchValue({ itemId: item.id });
-    // console.log('item in form: ', this.groupDetailsForm.getRawValue().itemId);
-
-    // // this.groupDetailsForm.patchValue({ itemId: item.id });
-    // this.groupDetailsForm.patchValue({ itemName: item.name });
-
-    // this.api.getAvgPrice(
-    //   this.groupMasterForm.getRawValue().storeId,
-    //   this.groupMasterForm.getRawValue().fiscalYearId,
-    //   formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-    //   this.groupDetailsForm.getRawValue().itemId
-    // )
-    //   .subscribe({
-    //     next: (res) => {
-    //       // this.priceCalled = res;
-    //       this.groupDetailsForm.controls['avgPrice'].setValue(res);
-    //       this.groupDetailsForm.controls['price'].setValue(res)
-    //       console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-    //     },
-    //     error: (err) => {
-    //       // console.log("fetch fiscalYears data err: ", err);
-    //       // alert("خطا اثناء جلب متوسط السعر !");
-    //     }
-    //   })
-
-
-    // this.api.getSumQuantity(
-    //   this.groupMasterForm.getRawValue().storeId,
-    //   this.groupDetailsForm.getRawValue().itemId,
-    // )
-    //   .subscribe({
-    //     next: (res) => {
-    //       // this.priceCalled = res;
-    //       this.groupDetailsForm.controls['balanceQty'].setValue(res);
-    //       console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
-    //     },
-    //     error: (err) => {
-    //       // console.log("fetch fiscalYears data err: ", err);
-    //       alert("خطا اثناء جلب الرصيد الحالى  !");
-    //     }
-    //   })
-
     this.groupDetailsForm.patchValue({ itemId: item.id });
     // this.groupDetailsForm.patchValue({ itemName: item.name });
     this.groupDetailsForm.patchValue({ fullCode: item.fullCode });
 
     this.getCodeByItem(this.groupDetailsForm.getRawValue().itemId);
 
-    this.api.getAvgPrice(
-      this.groupMasterForm.getRawValue().storeId,
-      this.groupMasterForm.getRawValue().fiscalYearId,
-      formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-      this.groupDetailsForm.getRawValue().itemId
-    )
+    this.api
+      .getAvgPrice(
+        this.groupMasterForm.getRawValue().storeId,
+        this.groupMasterForm.getRawValue().fiscalYearId,
+        formatDate(
+          this.groupMasterForm.getRawValue().date,
+          'yyyy-MM-dd',
+          this.locale
+        ),
+        this.groupDetailsForm.getRawValue().itemId
+      )
       .subscribe({
         next: (res) => {
           // this.priceCalled = res;
           this.groupDetailsForm.controls['avgPrice'].setValue(res);
           this.groupDetailsForm.controls['price'].setValue(res);
-          console.log("include ? ", this.addTypeSource);
+          console.log('include ? ', this.addTypeSource);
           if (!this.addTypeSource && this.editData) {
-            if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+            if (
+              this.editData.addTypeName.includes('فاتورة') ||
+              this.editData.addTypeName.includes('شهادة ادارية')
+            ) {
               this.isReadOnly = false;
-              console.log("change readOnly to enable here");
-            }
-            else {
+              console.log('change readOnly to enable here');
+            } else {
               this.isReadOnly = true;
-              console.log("change readOnly to disable here");
+              console.log('change readOnly to disable here');
             }
-
-          }
-          else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
+          } else if (
+            this.addTypeSource &&
+            this.addTypeSource.includes('مورد')
+          ) {
             this.isReadOnly = false;
-            console.log("change readOnly to enable here");
-          }
-          else {
+            console.log('change readOnly to enable here');
+          } else {
             this.isReadOnly = true;
-            console.log("change readOnly to disable here");
+            console.log('change readOnly to disable here');
           }
-          console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-          console.log("price called res: ", this.groupDetailsForm.getRawValue().price);
+          console.log(
+            'price avg called res: ',
+            this.groupDetailsForm.getRawValue().avgPrice
+          );
+          console.log(
+            'price called res: ',
+            this.groupDetailsForm.getRawValue().price
+          );
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
           // alert("خطا اثناء جلب متوسط السعر !");
-        }
-      })
+        },
+      });
 
-
-    this.api.getSumQuantity(
-      this.groupMasterForm.getRawValue().storeId,
-      this.groupDetailsForm.getRawValue().itemId,
-    )
+    this.api
+      .getSumQuantity(
+        this.groupMasterForm.getRawValue().storeId,
+        this.groupDetailsForm.getRawValue().itemId
+      )
       .subscribe({
         next: (res) => {
           this.sumOfItemsStore = res;
           this.groupDetailsForm.controls['balanceQty'].setValue(res);
 
-          console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+          console.log('sumOfItemsStore : ', this.sumOfItemsStore);
         },
         error: (err) => {
           // console.log("fetch fiscalYears data err: ", err);
           // alert("خطا اثناء جلب الرصيد الحالى  !");
-        }
-      })
-
-
+        },
+      });
   }
   private _filteritems(value: string): item[] {
     const filterValue = value;
@@ -1194,7 +1212,6 @@ export class STRAddTableComponent implements OnInit {
     this.itemCtrl.updateValueAndValidity();
   }
 
-
   displaystoreName(store: any): string {
     return store && store.name ? store.name : '';
   }
@@ -1203,7 +1220,10 @@ export class STRAddTableComponent implements OnInit {
     console.log('store selected: ', store);
     this.selectedstore = store;
     this.groupMasterSearchForm.patchValue({ storeId: store.id });
-    console.log('store in form: ', this.groupMasterSearchForm.getRawValue().storeId);
+    console.log(
+      'store in form: ',
+      this.groupMasterSearchForm.getRawValue().storeId
+    );
   }
   private _filterstores(value: string): store[] {
     const filterValue = value;
@@ -1218,113 +1238,19 @@ export class STRAddTableComponent implements OnInit {
     this.storeCtrl.updateValueAndValidity();
   }
 
-
-  // displayItemName(item: any): string {
-  //   return item && item.name ? item.name : '';
-  // }
-  // itemSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const item = event.option.value as Item;
-  //   this.selectedItem = item;
-  //   this.groupDetailsForm.patchValue({ itemId: item.id });
-  //   this.groupDetailsForm.patchValue({ itemName: item.name });
-
-  //   this.api.getAvgPrice(
-  //     this.groupMasterForm.getRawValue().storeId,
-  //     this.groupMasterForm.getRawValue().fiscalYearId,
-  //     formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-  //     this.groupDetailsForm.getRawValue().itemId
-  //   )
-  //     .subscribe({
-  //       next: (res) => {
-  //         // this.priceCalled = res;
-  //         this.groupDetailsForm.controls['avgPrice'].setValue(res);
-  //         this.groupDetailsForm.controls['price'].setValue(res)
-  //         console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-  //       },
-  //       error: (err) => {
-  //         // console.log("fetch fiscalYears data err: ", err);
-  //         // alert("خطا اثناء جلب متوسط السعر !");
-  //       }
-  //     })
-
-
-  //   this.api.getSumQuantity(
-  //     this.groupMasterForm.getRawValue().storeId,
-  //     this.groupDetailsForm.getRawValue().itemId,
-  //   )
-  //     .subscribe({
-  //       next: (res) => {
-  //         // this.priceCalled = res;
-  //         this.groupDetailsForm.controls['balanceQty'].setValue(res);
-  //         console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
-  //       },
-  //       error: (err) => {
-  //         // console.log("fetch fiscalYears data err: ", err);
-  //         alert("خطا اثناء جلب الرصيد الحالى  !");
-  //       }
-  //     })
-
-
-  // }
-  // private _filterItems(value: string): Item[] {
-  //   const filterValue = value;
-  //   return this.items.filter(item =>
-  //     item.name.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutoTem() {
-  //   this.itemCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.itemCtrl.updateValueAndValidity();
-  // }
-
-
-  // displayListName(list: any): string {
-  //   return list && list.name ? list.name : '';
-  // }
-  // listSelected(event: MatAutocompleteSelectedEvent): void {
-  //   const list = event.option.value as List;
-  //   this.selectedList = list;
-  //   console.log("list: ", list, "sourceSelected: ", this.sourceSelected.source);
-
-  //   if (this.sourceSelected.source == "المورد" || this.sourceSelected.source == "شهادة ادارية") {
-  //     this.groupMasterForm.patchValue({ sellerId: list.id });
-  //     // this.groupMasterForm.patchValue({ sellerName: list.name });
-  //   }
-  //   else if (this.sourceSelected.source == "الموظف") {
-  //     this.groupMasterForm.patchValue({ employeeId: list.id });
-  //     // this.groupMasterForm.patchValue({ employeeName: list.name });
-
-  //   } else {
-  //     this.groupMasterForm.patchValue({ sourceStoreId: list.id });
-  //     // this.groupMasterForm.patchValue({ sourceStoreName: list.name });
-
-  //   }
-
-
-  // }
-  // private _filterLists(value: string): List[] {
-  //   console.log("filterValue: ", value);
-  //   const filterValue = value;
-  //   return this.lists.filter(list =>
-  //     list.name.toLowerCase().includes(filterValue)
-  //   );
-  // }
-  // openAutoList() {
-  //   this.listCtrl.setValue(''); // Clear the input field value
-
-  //   // Open the autocomplete dropdown by triggering the value change event
-  //   this.listCtrl.updateValueAndValidity();
-  // }
-
   displayListName(list: any): string {
-    console.log("list name: ", list);
-    return list ? list.name && list.name != null ? list.name : list : '';
+    console.log('list name: ', list);
+    return list ? (list.name && list.name != null ? list.name : list) : '';
     // return list && list.name ? list.name : '';
   }
   listSelected(event: MatAutocompleteSelectedEvent): void {
-    console.log("list select: ", event.option.value, "sourceSelected: ", this.sourceSelected, this.sourceSelected.name == 'فاتورة');
+    console.log(
+      'list select: ',
+      event.option.value,
+      'sourceSelected: ',
+      this.sourceSelected,
+      this.sourceSelected.name == 'فاتورة'
+    );
     const list = event.option.value as List;
     this.selectedList = list;
 
@@ -1332,24 +1258,39 @@ export class STRAddTableComponent implements OnInit {
     //   this.sourceSelected = this.editData.addTypeName
     // }
 
-    if (this.sourceSelected.name == 'فاتورة' || this.sourceSelected.name == 'شهادة ادارية') {
+    if (
+      this.sourceSelected.name == 'فاتورة' ||
+      this.sourceSelected.name == 'شهادة ادارية'
+    ) {
       this.groupMasterForm.patchValue({ sellerId: list.id });
-      console.log("listId: ", list.id, " seller control: ", this.groupMasterForm.getRawValue().sellerId);
+      console.log(
+        'listId: ',
+        list.id,
+        ' seller control: ',
+        this.groupMasterForm.getRawValue().sellerId
+      );
       // this.groupMasterForm.patchValue({ employeeName: list.name });
-    }
-    else if (this.sourceSelected.name == 'اذن ارتجاع') {
+    } else if (this.sourceSelected.name == 'اذن ارتجاع') {
       this.groupMasterForm.patchValue({ employeeId: list.id });
-      console.log("listId: ", list.id, " employee control: ", this.groupMasterForm.getRawValue().employeeId);
+      console.log(
+        'listId: ',
+        list.id,
+        ' employee control: ',
+        this.groupMasterForm.getRawValue().employeeId
+      );
 
       // this.groupMasterForm.patchValue({ employeeName: list.name });
-    }
-    else {
-      console.log("store list selected: ");
+    } else {
+      console.log('store list selected: ');
       this.groupMasterForm.patchValue({ sourceStoreId: list.id });
       // this.groupMasterForm.patchValue({ desstoreName: list.name });
       // alert("deststoreId::::" + this.groupMasterForm.getRawValue().deststoreId)
-      console.log("listId: ", list.id, " sourceStore control: ", this.groupMasterForm.getRawValue().sourceStoreId);
-
+      console.log(
+        'listId: ',
+        list.id,
+        ' sourceStore control: ',
+        this.groupMasterForm.getRawValue().sourceStoreId
+      );
     }
     // alert("list control selected: " + this.groupMasterForm.getRawValue().sellerId);
   }
@@ -1366,7 +1307,6 @@ export class STRAddTableComponent implements OnInit {
     this.listCtrl.updateValueAndValidity();
   }
 
-
   displayAddTypeName(addType: any): string {
     return addType && addType.name ? addType.name : '';
   }
@@ -1374,13 +1314,12 @@ export class STRAddTableComponent implements OnInit {
     const addType = event.option.value as AddType;
     this.groupMasterForm.patchValue({ addTypeId: addType.id });
     this.addTypeSource = addType.source;
-    console.log("addType selected: ", addType);
+    console.log('addType selected: ', addType);
     this.getListCtrl(addType);
-
   }
   private _filterAddType(value: string): AddType[] {
     const filterValue = value;
-    return this.addTypeList.filter(addType =>
+    return this.addTypeList.filter((addType) =>
       addType.name.toLowerCase().includes(filterValue)
     );
   }
@@ -1391,18 +1330,16 @@ export class STRAddTableComponent implements OnInit {
     this.addTypeCtrl.updateValueAndValidity();
   }
 
-
   displayApprovalStatusName(approvalStatus: any): string {
     return approvalStatus && approvalStatus.name ? approvalStatus.name : '';
   }
   ApprovalStatusSelected(event: MatAutocompleteSelectedEvent): void {
     const approvalStatus = event.option.value as ApprovalStatus;
     this.groupMasterForm.patchValue({ approvalStatusId: approvalStatus.id });
-
   }
   private _filterApprovalStatus(value: string): ApprovalStatus[] {
     const filterValue = value;
-    return this.approvalStatusList.filter(approvalStatus =>
+    return this.approvalStatusList.filter((approvalStatus) =>
       approvalStatus.name.toLowerCase().includes(filterValue)
     );
   }
@@ -1413,18 +1350,16 @@ export class STRAddTableComponent implements OnInit {
     this.approvalStatusCtrl.updateValueAndValidity();
   }
 
-
   displayCommodityName(commodity: any): string {
     return commodity && commodity.name ? commodity.name : '';
   }
   CommoditySelected(event: MatAutocompleteSelectedEvent): void {
     const commodity = event.option.value as Commodity;
     this.groupMasterForm.patchValue({ commodityId: commodity.id });
-
   }
   private _filterCommodity(value: string): Commodity[] {
     const filterValue = value;
-    return this.commoditiesList.filter(commodity =>
+    return this.commoditiesList.filter((commodity) =>
       commodity.name.toLowerCase().includes(filterValue)
     );
   }
@@ -1435,12 +1370,11 @@ export class STRAddTableComponent implements OnInit {
     this.commodityCtrl.updateValueAndValidity();
   }
 
-
   getListCtrl(type: any) {
-    console.log("addType obj: ", type);
+    console.log('addType obj: ', type);
     this.sourceSelected = type;
     this.lists = [];
-    if (type.source == "المورد" || type.source == "شهادة ادارية") {
+    if (type.source == 'المورد' || type.source == 'شهادة ادارية') {
       this.sellerCodeIsDisabled = false;
 
       this.api.getAllSellers().subscribe((lists) => {
@@ -1448,13 +1382,11 @@ export class STRAddTableComponent implements OnInit {
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
         // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
-        this.actionName = "choose";
+        this.actionName = 'choose';
 
         this.groupMasterForm.controls['entryNo'].enable();
       });
-    }
-    else if (type.source == "الموظف") {
-
+    } else if (type.source == 'الموظف') {
       // this.api.getEmployee().subscribe((lists) => {
       //   this.lists = lists;
       //   console.log("employees selected list: ", lists);
@@ -1464,14 +1396,11 @@ export class STRAddTableComponent implements OnInit {
       //   this.actionName = "emp";
       //   this.groupMasterForm.controls['entryNo'].disable();
 
-
       // });
       this.sellerCodeIsDisabled = true;
 
       this.getQuickEmployees();
-    }
-
-    else {
+    } else {
       this.sellerCodeIsDisabled = true;
 
       this.api.getAllStore().subscribe((lists) => {
@@ -1479,12 +1408,10 @@ export class STRAddTableComponent implements OnInit {
         this.groupMasterForm.controls['sellerId'].setValue(null);
         // this.groupMasterForm.controls['sellerName'].setValue(null);
         this.groupMasterForm.controls['employeeId'].setValue(null);
-        this.actionName = "str";
+        this.actionName = 'str';
         this.groupMasterForm.controls['entryNo'].disable();
       });
     }
-
-
   }
 
   getQuickEmployees() {
@@ -1494,11 +1421,11 @@ export class STRAddTableComponent implements OnInit {
         // this.loading = false;
 
         this.lists = res;
-        console.log("employees selected list: ", this.lists);
+        console.log('employees selected list: ', this.lists);
         this.groupMasterForm.controls['sourceStoreId'].setValue(null);
         // this.groupMasterForm.controls['sourceStoreName'].setValue(null);
         this.groupMasterForm.controls['sellerId'].setValue(null);
-        this.actionName = "emp";
+        this.actionName = 'emp';
         this.groupMasterForm.controls['entryNo'].disable();
 
         // if (this.editData) {
@@ -1516,76 +1443,95 @@ export class STRAddTableComponent implements OnInit {
   }
 
   getStrAddType() {
-    this.api.getType()
-      .subscribe({
-        next: (res) => {
-          this.addTypeList = res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getType().subscribe({
+      next: (res) => {
+        this.addTypeList = res;
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
 
   getStrApprovalStatus() {
-    this.api.getStrApprovalStatus()
-      .subscribe({
-        next: (res) => {
-          this.approvalStatusList = res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getStrApprovalStatus().subscribe({
+      next: (res) => {
+        this.approvalStatusList = res;
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
 
   getStrCommodity() {
-    this.api.getcommodity()
-      .subscribe({
-        next: (res) => {
-          this.commoditiesList = res;
-        },
-        error: (err) => {
-          // console.log("fetch fiscalYears data err: ", err);
-          // alert("خطا اثناء جلب العناصر !");
-        }
-      })
+    this.api.getcommodity().subscribe({
+      next: (res) => {
+        this.commoditiesList = res;
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
   }
 
-  getSearchStrAdd(no: any, EntryNo: any, StartDate: any, EndDate: any, fiscalyear: any) {
-    console.log('fiscalyear in searchhhhh : ', fiscalyear, 'itemId', "EntryNo: ", EntryNo);
+  getSearchStrAdd(
+    no: any,
+    EntryNo: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalyear: any
+  ) {
+    console.log(
+      'fiscalyear in searchhhhh : ',
+      fiscalyear,
+      'itemId',
+      'EntryNo: ',
+      EntryNo
+    );
     // let costCenter = this.groupMasterSearchForm.getRawValue().costCenterId;
     let employee = this.groupMasterSearchForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterSearchForm.getRawValue().storeId;
 
     // this.loading = true;
-    this.api.getStrAddSearach(no, EntryNo, fiscalyear, employee, item, store, StartDate, EndDate).subscribe({
-      next: (res) => {
-        // this.loading = false;
+    this.api
+      .getStrAddSearach(
+        no,
+        EntryNo,
+        fiscalyear,
+        employee,
+        item,
+        store,
+        StartDate,
+        EndDate
+      )
+      .subscribe({
+        next: (res) => {
+          // this.loading = false;
 
-        this.totalRows = res.length;
-        if (this.serachFlag == false) {
-          // this.dataSource.data = data.items;
-          this.pageIndex = 0;
-          this.pageSize = 5;
-          this.length = this.totalRows;
-          this.serachFlag = true;
-        }
+          this.totalRows = res.length;
+          if (this.serachFlag == false) {
+            // this.dataSource.data = data.items;
+            this.pageIndex = 0;
+            this.pageSize = 5;
+            this.length = this.totalRows;
+            this.serachFlag = true;
+          }
 
-        console.log('master data paginate first Time: ', res);
-        this.dataSource2 = new MatTableDataSource(res);
-        this.dataSource2.paginator = this.paginator;
-        this.dataSource2.sort = this.sort;
-
-      },
-      error: (err) => {
-        // this.loading = false;
-        console.log('eroorr', err);
-      },
-    });
+          console.log('master data paginate first Time: ', res);
+          this.dataSource2 = new MatTableDataSource(res);
+          this.dataSource2.paginator = this.paginator;
+          this.dataSource2.sort = this.sort;
+        },
+        error: (err) => {
+          // this.loading = false;
+          console.log('eroorr', err);
+        },
+      });
   }
 
   resetForm() {
@@ -1604,97 +1550,68 @@ export class STRAddTableComponent implements OnInit {
 
   async fiscalYearValueChanges(fiscalyaerId: any) {
     this.fiscalYearSelectedId = await fiscalyaerId;
-    this.groupMasterForm.controls['fiscalYearId'].setValue(this.fiscalYearSelectedId);
+    this.groupMasterForm.controls['fiscalYearId'].setValue(
+      this.fiscalYearSelectedId
+    );
     this.isEdit = false;
 
     // this.getStrOpenAutoNo();
   }
 
+  formatDate(date: string): string {
+    if (date) {
+      const parts = date.split('/');
+      const day = parts[0].trim().padStart(2, '0');
+      const month = parts[1].trim().padStart(2, '0');
+      const year = parts[2].trim().padStart(4, '0');
+
+      return `${day}/${month}/${year}`;
+    }
+    return '';
+  }
+
+  formatDateInput() {
+    const parts = this.startDate.split('/');
+    const day = parts[0].trim().padStart(2, '0');
+    const month = parts[1].trim().padStart(2, '0');
+    const year = parts[2].trim().padStart(4, '0');
+
+    this.startDate = `${day}/${month}/${year}`;
+  }
+
   getStrOpenAutoNo() {
     if (this.groupMasterForm) {
+      console.log(
+        'editData: ',
+        this.editData,
+        'storeSelected: ',
+        this.storeSelectedId,
+        'fiscaLYearId: ',
+        this.fiscalYearSelectedId
+      );
 
-      // if (this.editData && !this.fiscalYearSelectedId) {
-      //   this.api.getStrAddAutoNo(this.groupMasterForm.getRawValue().storeId, this.editData.fiscalYearId)
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         console.log("autoNo: ", this.autoNo);
-      //         this.groupMasterForm.controls['no'].setValue(this.autoNo);
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log("fetch autoNo err: ", err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       }
-      //     })
-      // }
-
-      // else if (this.editData && !this.storeSelectedId) {
-      //   this.api.getStrAddAutoNo(this.editData.storeId, this.groupMasterForm.getRawValue().fiscalYearId)
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         console.log("autoNo: ", this.autoNo);
-      //         this.groupMasterForm.controls['no'].setValue(this.autoNo);
-
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log("fetch autoNo err: ", err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       }
-      //     })
-      // }
-      // else if (this.editData) {
-      //   this.api.getStrAddAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-
-      //         console.log("isEdit : ", this.isEdit)
-
-      //         console.log("autoNo: ", this.autoNo);
-      //         this.groupMasterForm.controls['no'].setValue(this.autoNo);
-
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log("fetch autoNo err: ", err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       }
-      //     })
-      // }
-      // else {
-      //   this.api.getStrAddAutoNo(this.groupMasterForm.getRawValue().storeId, this.groupMasterForm.getRawValue().fiscalYearId)
-      //     .subscribe({
-      //       next: (res) => {
-      //         this.autoNo = res;
-      //         console.log("autoNo: ", this.autoNo);
-      //         this.groupMasterForm.controls['no'].setValue(this.autoNo);
-
-      //         return res;
-      //       },
-      //       error: (err) => {
-      //         console.log("fetch autoNo err: ", err);
-      //         // alert("خطا اثناء جلب العناصر !");
-      //       }
-      //     })
-      // }
-
-
-      console.log('editData: ', this.editData, "storeSelected: ", this.storeSelectedId, "fiscaLYearId: ", this.fiscalYearSelectedId);
-
-      if (this.editData && (this.editData.storeId == this.storeSelectedId) && (this.editData.fiscalYearId == this.fiscalYearSelectedId)) {
-        console.log("firstCase editData does Not change: ");
+      if (
+        this.editData &&
+        this.editData.storeId == this.storeSelectedId &&
+        this.editData.fiscalYearId == this.fiscalYearSelectedId
+      ) {
+        console.log('firstCase editData does Not change: ');
         this.isEdit = true;
 
-        console.log('isEdit : ', this.isEdit, "no master: ", this.groupMasterForm.getRawValue().no);
+        console.log(
+          'isEdit : ',
+          this.isEdit,
+          'no master: ',
+          this.groupMasterForm.getRawValue().no
+        );
         this.groupMasterForm.controls['no'].setValue(this.editData.no);
         console.log('autoNo1: ', this.groupMasterForm.getRawValue().no);
-
-      }
-      else if (this.editData && (this.editData.storeId != this.storeSelectedId) && (this.editData.fiscalYearId == this.fiscalYearSelectedId)) {
-        console.log("secondCase editData with storeId Only change: ");
+      } else if (
+        this.editData &&
+        this.editData.storeId != this.storeSelectedId &&
+        this.editData.fiscalYearId == this.fiscalYearSelectedId
+      ) {
+        console.log('secondCase editData with storeId Only change: ');
 
         this.api
           .getStrAddAutoNo(
@@ -1705,7 +1622,12 @@ export class STRAddTableComponent implements OnInit {
             next: (res) => {
               this.autoNo = res;
 
-              console.log('isEdit : ', this.isEdit, "no master: ", this.groupMasterForm.getRawValue().no);
+              console.log(
+                'isEdit : ',
+                this.isEdit,
+                'no master: ',
+                this.groupMasterForm.getRawValue().no
+              );
               this.groupMasterForm.controls['no'].setValue(this.autoNo);
               console.log('autoNo2: ', this.autoNo);
               return res;
@@ -1715,10 +1637,12 @@ export class STRAddTableComponent implements OnInit {
               // alert("خطا اثناء جلب العناصر !");
             },
           });
-
-      }
-      else if (this.editData && (this.editData.storeId == this.storeSelectedId) && (this.editData.fiscalYearId != this.fiscalYearSelectedId)) {
-        console.log("thirdCase editData with fiscalYear Only change: ");
+      } else if (
+        this.editData &&
+        this.editData.storeId == this.storeSelectedId &&
+        this.editData.fiscalYearId != this.fiscalYearSelectedId
+      ) {
+        console.log('thirdCase editData with fiscalYear Only change: ');
 
         this.api
           .getStrAddAutoNo(
@@ -1729,7 +1653,12 @@ export class STRAddTableComponent implements OnInit {
             next: (res) => {
               this.autoNo = res;
 
-              console.log('isEdit : ', this.isEdit, "no master: ", this.groupMasterForm.getRawValue().no);
+              console.log(
+                'isEdit : ',
+                this.isEdit,
+                'no master: ',
+                this.groupMasterForm.getRawValue().no
+              );
               this.groupMasterForm.controls['no'].setValue(this.autoNo);
               console.log('autoNo3: ', this.autoNo);
               return res;
@@ -1739,9 +1668,12 @@ export class STRAddTableComponent implements OnInit {
               // alert("خطا اثناء جلب العناصر !");
             },
           });
-      }
-      else if (this.editData && (this.editData.storeId != this.storeSelectedId) && (this.editData.fiscalYearId != this.fiscalYearSelectedId)) {
-        console.log("fourthCase editData with fiscalYear And store change: ");
+      } else if (
+        this.editData &&
+        this.editData.storeId != this.storeSelectedId &&
+        this.editData.fiscalYearId != this.fiscalYearSelectedId
+      ) {
+        console.log('fourthCase editData with fiscalYear And store change: ');
 
         this.api
           .getStrAddAutoNo(
@@ -1752,7 +1684,12 @@ export class STRAddTableComponent implements OnInit {
             next: (res) => {
               this.autoNo = res;
 
-              console.log('isEdit : ', this.isEdit, "no master: ", this.groupMasterForm.getRawValue().no);
+              console.log(
+                'isEdit : ',
+                this.isEdit,
+                'no master: ',
+                this.groupMasterForm.getRawValue().no
+              );
               this.groupMasterForm.controls['no'].setValue(this.autoNo);
               console.log('autoNo4: ', this.autoNo);
               return res;
@@ -1762,9 +1699,8 @@ export class STRAddTableComponent implements OnInit {
               // alert("خطا اثناء جلب العناصر !");
             },
           });
-      }
-      else {
-        console.log("fifthCase No editData: ");
+      } else {
+        console.log('fifthCase No editData: ');
 
         this.api
           .getStrAddAutoNo(
@@ -1775,7 +1711,12 @@ export class STRAddTableComponent implements OnInit {
             next: (res) => {
               this.autoNo = res;
               // this.editData.no = res
-              console.log('isEdit : ', this.isEdit, "no master: ", this.groupMasterForm.getRawValue().no);
+              console.log(
+                'isEdit : ',
+                this.isEdit,
+                'no master: ',
+                this.groupMasterForm.getRawValue().no
+              );
               this.groupMasterForm.controls['no'].setValue(this.autoNo);
               console.log('autoNo5: ', this.autoNo);
               return res;
@@ -1786,105 +1727,62 @@ export class STRAddTableComponent implements OnInit {
             },
           });
       }
-
     }
-
   }
 
-  // getStrAddAutoNo() {
-  //   this.api.getStrAddAutoNo()
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.autoNo = res;
-  //         return res;
-  //       },
-  //       error: (err) => {
-  //         // console.log("fetch fiscalYears data err: ", err);
-  //         // alert("خطا اثناء جلب العناصر !");
-  //       }
-  //     })
-  // }
-
   async nextToAddFormDetails() {
-    this.groupMasterForm.removeControl('id')
-
-    // this.storeName = await this.getStoreByID(this.groupMasterForm.getRawValue().storeId);
-
-    // this.groupMasterForm.controls['storeName'].setValue(this.storeName);
-
-    // this.sourceStoreName = await this.getSourceStoreByID(this.groupMasterForm.getRawValue().sourceStoreId);
-
-    // // this.groupMasterForm.controls['sourceStoreName'].setValue(this.sourceStoreName);
-
-    // this.sellerName = await this.getSellerByID(this.groupMasterForm.getRawValue().sellerId);
-
-    // // this.groupMasterForm.controls['sellerName'].setValue(this.sellerName);
-
-    // this.employeeName = await this.getEmployeeByID(this.groupMasterForm.getRawValue().employeeId);
-
-    // // this.groupMasterForm.controls['employeeName'].setValue(this.employeeName);
-
-
+    this.groupMasterForm.removeControl('id');
     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-    this.groupMasterForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+    this.groupMasterForm.controls['transactionUserId'].setValue(
+      this.userIdFromStorage
+    );
 
-    // this.groupMasterForm.controls['fiscalYearId'].setValue(1)
+    console.log('Master add form : ', this.groupMasterForm.value);
 
-    // if (this.groupMasterForm.getRawValue().no == this.autoNo) {
-    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
-    // }
+    if (
+      this.groupMasterForm.getRawValue().date &&
+      this.groupMasterForm.getRawValue().storeId &&
+      this.groupMasterForm.getRawValue().no
+    ) {
+      this.api.postStrAdd(this.groupMasterForm.value).subscribe({
+        next: (res) => {
+          console.log('ID header after post req: ', res);
+          this.getMasterRowId = {
+            id: res,
+          };
+          this.MasterGroupInfoEntered = true;
 
-    console.log("Master add form : ", this.groupMasterForm.value)
-
-    if (this.groupMasterForm.getRawValue().date && this.groupMasterForm.getRawValue().storeId && this.groupMasterForm.getRawValue().no) {
-
-      this.api.postStrAdd(this.groupMasterForm.value)
-        .subscribe({
-          next: (res) => {
-            console.log("ID header after post req: ", res);
-            this.getMasterRowId = {
-              "id": res
-            };
-            this.MasterGroupInfoEntered = true;
-
-            this.toastrSuccess();
-            // this.getAllDetailsForms();
-            this.getAllMasterForms();
-          },
-          error: (err) => {
-            console.log("header post err: ", err);
-            // alert("حدث خطأ أثناء إضافة مجموعة")
-          }
-        })
+          this.toastrSuccess();
+          // this.getAllDetailsForms();
+          this.getAllMasterForms();
+        },
+        error: (err) => {
+          console.log('header post err: ', err);
+          // alert("حدث خطأ أثناء إضافة مجموعة")
+        },
+      });
     }
-
   }
 
   async updateMaster() {
-    this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+    this.groupDetailsForm.controls['transactionUserId'].setValue(
+      this.userIdFromStorage
+    );
     // alert("list control selected put form: " + this.groupMasterForm.getRawValue().sellerId);
 
-    console.log("update both: ", this.groupMasterForm.value);
-    this.api.putStrAdd(this.groupMasterForm.value)
-      .subscribe({
-        next: (res) => {
+    console.log('update both: ', this.groupMasterForm.value);
+    this.api.putStrAdd(this.groupMasterForm.value).subscribe({
+      next: (res) => {
+        this.groupDetailsForm.reset();
 
-          this.groupDetailsForm.reset();
-
-          // this.getDetailedRowData = '';
-          // this.groupDetailsForm.controls['qty'].setValue(1);
-
-
-        },
-
-      })
-
+      },
+    });
   }
 
   // ---------------------------------------------------------------------------------------
 
   pageChangedDetails(event: PageEvent) {
-    console.log("page event: ", event);
+    console.log('page event: ', event);
     this.pageSizeDetails = event.pageSize;
     this.currentPageDetails = event.pageIndex;
 
@@ -1900,114 +1798,28 @@ export class STRAddTableComponent implements OnInit {
     // if (this.getMasterRowId) {
 
     if (this.editData) {
-
       if (this.editData.hasOwnProperty('strWithDrawDetailsGetVM')) {
         this.btnDisabled = true;
-        this.api.getStrAddDetailsByAddId(this.editData.id)
-          .subscribe({
-            next: (res) => {
-
-              console.log("enter getAllDetails: ", res);
-
-              this.matchedIds = res;
-
-              if (this.matchedIds) {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
-                this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
-                this.dataSourceDetails.paginator = this.paginatorDetails;
-                this.dataSourceDetails.sort = this.sort;
-
-                this.sumOfTotals = 0;
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                  this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                  // alert('totalll: '+ this.sumOfTotals)
-                  // this.updateBothForms();
-
-                  this.updateMaster();
-                }
-              }
-            },
-            error: (err) => {
-              // console.log("fetch items data err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
-            }
-          })
-      }
-      else {
-        this.api.getStrAddDetailsByAddId(this.editData.id)
-          .subscribe({
-            next: (res) => {
-
-              console.log("enter getAllDetails: ", res);
-
-              this.matchedIds = res;
-
-              if (this.matchedIds) {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
-                this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
-                this.dataSourceDetails.paginator = this.paginatorDetails;
-                this.dataSourceDetails.sort = this.sort;
-
-                this.sumOfTotals = 0;
-                for (let i = 0; i < this.matchedIds.length; i++) {
-                  this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-                  this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                  this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-                  // alert('totalll: '+ this.sumOfTotals)
-                  // this.updateBothForms();
-
-                  this.updateMaster();
-                }
-              }
-            },
-            error: (err) => {
-              // console.log("fetch items data err: ", err);
-              // alert("خطا اثناء جلب العناصر !");
-            }
-          })
-      }
-
-    }
-    else {
-      this.api.getStrAddDetailsByAddId(this.getMasterRowId.id)
-        .subscribe({
+        this.api.getStrAddDetailsByAddId(this.editData.id).subscribe({
           next: (res) => {
-
-            console.log("enter getAllDetails: ", res);
+            console.log('enter getAllDetails: ', res);
 
             this.matchedIds = res;
 
-            // if (this.matchedIds) {
-            //   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
-            //   this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
-            //   this.dataSourceDetails.paginator = this.paginatorDetails;
-            //   this.dataSourceDetails.sort = this.sort;
-
-            //   this.sumOfTotals = 0;
-            //   for (let i = 0; i < this.matchedIds.length; i++) {
-            //     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
-            //     this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-            //     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
-            //     // alert('totalll: '+ this.sumOfTotals)
-            //     // this.updateBothForms();
-
-            //     this.updateMaster();
-            //   }
-            // }
-
             if (this.matchedIds) {
-              console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res);
+              console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeee: ', res);
               this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
               this.dataSourceDetails.paginator = this.paginatorDetails;
               this.dataSourceDetails.sort = this.sort;
 
               this.sumOfTotals = 0;
               for (let i = 0; i < this.matchedIds.length; i++) {
-                this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.sumOfTotals =
+                  this.sumOfTotals + parseFloat(this.matchedIds[i].total);
                 this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
-                this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+                this.groupMasterForm.controls['total'].setValue(
+                  this.sumOfTotals
+                );
                 // alert('totalll: '+ this.sumOfTotals)
                 // this.updateBothForms();
 
@@ -2018,64 +1830,148 @@ export class STRAddTableComponent implements OnInit {
           error: (err) => {
             // console.log("fetch items data err: ", err);
             // alert("خطا اثناء جلب العناصر !");
+          },
+        });
+      } else {
+        this.api.getStrAddDetailsByAddId(this.editData.id).subscribe({
+          next: (res) => {
+            console.log('enter getAllDetails: ', res);
+
+            this.matchedIds = res;
+
+            if (this.matchedIds) {
+              console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeee: ', res);
+              this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
+              this.dataSourceDetails.paginator = this.paginatorDetails;
+              this.dataSourceDetails.sort = this.sort;
+
+              this.sumOfTotals = 0;
+              for (let i = 0; i < this.matchedIds.length; i++) {
+                this.sumOfTotals =
+                  this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+                this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+                this.groupMasterForm.controls['total'].setValue(
+                  this.sumOfTotals
+                );
+                // alert('totalll: '+ this.sumOfTotals)
+                // this.updateBothForms();
+
+                this.updateMaster();
+              }
+            }
+          },
+          error: (err) => {
+            // console.log("fetch items data err: ", err);
+            // alert("خطا اثناء جلب العناصر !");
+          },
+        });
+      }
+    } else {
+      this.api.getStrAddDetailsByAddId(this.getMasterRowId.id).subscribe({
+        next: (res) => {
+          console.log('enter getAllDetails: ', res);
+
+          this.matchedIds = res;
+
+          // if (this.matchedIds) {
+          //   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeee: ", res[0].strAddDetailsGetVM);
+          //   this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
+          //   this.dataSourceDetails.paginator = this.paginatorDetails;
+          //   this.dataSourceDetails.sort = this.sort;
+
+          //   this.sumOfTotals = 0;
+          //   for (let i = 0; i < this.matchedIds.length; i++) {
+          //     this.sumOfTotals = this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+          //     this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+          //     this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+          //     // alert('totalll: '+ this.sumOfTotals)
+          //     // this.updateBothForms();
+
+          //     this.updateMaster();
+          //   }
+          // }
+
+          if (this.matchedIds) {
+            console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeee: ', res);
+            this.dataSourceDetails = new MatTableDataSource(this.matchedIds);
+            this.dataSourceDetails.paginator = this.paginatorDetails;
+            this.dataSourceDetails.sort = this.sort;
+
+            this.sumOfTotals = 0;
+            for (let i = 0; i < this.matchedIds.length; i++) {
+              this.sumOfTotals =
+                this.sumOfTotals + parseFloat(this.matchedIds[i].total);
+              this.sumOfTotals = Number(this.sumOfTotals.toFixed(2));
+              this.groupMasterForm.controls['total'].setValue(this.sumOfTotals);
+              // alert('totalll: '+ this.sumOfTotals)
+              // this.updateBothForms();
+
+              this.updateMaster();
+            }
           }
-        })
+        },
+        error: (err) => {
+          // console.log("fetch items data err: ", err);
+          // alert("خطا اثناء جلب العناصر !");
+        },
+      });
     }
 
-
     // }
-
-
   }
 
-
   editDetailsForm(row: any) {
-    console.log("editData details: ", row);
+    console.log('editData details: ', row);
     this.editDataDetails = row;
 
     if (this.editDataDetails) {
-
       console.log('dETAILS ROW: ', this.editDataDetails);
 
-      this.groupDetailsForm.controls['addId'].setValue(this.editDataDetails.addId);
-      this.groupDetailsForm.controls['avgPrice'].setValue(this.editDataDetails.avgPrice);
-      this.groupDetailsForm.controls['balanceQty'].setValue(this.editDataDetails.balanceQty);
-      this.groupDetailsForm.controls['fullCode'].setValue(this.editDataDetails.fullCode);
-      this.groupDetailsForm.controls['itemId'].setValue(this.editDataDetails.itemId);
+      this.groupDetailsForm.controls['addId'].setValue(
+        this.editDataDetails.addId
+      );
+      this.groupDetailsForm.controls['avgPrice'].setValue(
+        this.editDataDetails.avgPrice
+      );
+      this.groupDetailsForm.controls['balanceQty'].setValue(
+        this.editDataDetails.balanceQty
+      );
+      this.groupDetailsForm.controls['fullCode'].setValue(
+        this.editDataDetails.fullCode
+      );
+      this.groupDetailsForm.controls['itemId'].setValue(
+        this.editDataDetails.itemId
+      );
       // // this.groupDetailsForm.controls['itemName'].setValue(this.editDataDetails.itemName);
-      this.groupDetailsForm.controls['percentage'].setValue(this.editDataDetails.percentage);
-      this.groupDetailsForm.controls['price'].setValue(this.editDataDetails.price);
+      this.groupDetailsForm.controls['percentage'].setValue(
+        this.editDataDetails.percentage
+      );
+      this.groupDetailsForm.controls['price'].setValue(
+        this.editDataDetails.price
+      );
       this.groupDetailsForm.controls['qty'].setValue(this.editDataDetails.qty);
-      this.groupDetailsForm.controls['state'].setValue(this.editDataDetails.state);
-      this.groupDetailsForm.controls['total'].setValue(this.editDataDetails.total);
-      this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupDetailsForm.controls['state'].setValue(
+        this.editDataDetails.state
+      );
+      this.groupDetailsForm.controls['total'].setValue(
+        this.editDataDetails.total
+      );
+      this.groupDetailsForm.controls['transactionUserId'].setValue(
+        this.userIdFromStorage
+      );
 
       this.groupMasterForm.controls['date'].setValue(this.editData.date);
-      this.groupMasterForm.controls['fiscalYearId'].setValue(this.editData.fiscalYearId);
+      this.groupMasterForm.controls['fiscalYearId'].setValue(
+        this.editData.fiscalYearId
+      );
       this.groupMasterForm.controls['storeId'].setValue(this.editData.storeId);
-
-      // this.api.getSumQuantity(
-      //   this.groupMasterForm.getRawValue().storeId,
-      //   this.groupDetailsForm.getRawValue().itemId,
-      // )
-      //   .subscribe({
-      //     next: (res) => {
-      //       this.sumOfItemsStore = res;
-      //       console.log("sumOfItemsStore : ", this.sumOfItemsStore);
-      //     },
-      //     error: (err) => {
-      //       // console.log("fetch fiscalYears data err: ", err);
-      //       // alert("خطا اثناء جلب الرصيد الحالى  !");
-      //     }
-      //   })
       this.sumOfItemsStore = '';
-
     }
   }
 
   private _filterProducts(value: string): Product[] {
     const filterValue = value;
-    console.log("filterValue222:", filterValue);
+    console.log('filterValue222:', filterValue);
 
     return this.productsList.filter(
       (product) =>
@@ -2088,11 +1984,11 @@ export class STRAddTableComponent implements OnInit {
   }
   ProductSelected(event: MatAutocompleteSelectedEvent): void {
     const product = event.option.value as Product;
-    console.log("product selected: ", product);
+    console.log('product selected: ', product);
     this.selectedProduct = product;
     this.productIdValue = product.id;
 
-    console.log("product in form: ", this.productIdValue);
+    console.log('product in form: ', this.productIdValue);
     this.getItemByProductId(this.productIdValue);
   }
   openAutoProduct() {
@@ -2102,112 +1998,134 @@ export class STRAddTableComponent implements OnInit {
     this.productCtrl.updateValueAndValidity();
   }
 
-
   getItemByProductId(productEvent: any) {
-    console.log("productEvent: ", productEvent);
+    console.log('productEvent: ', productEvent);
 
     this.productsList.filter((a: any) => {
       if (a.id == productEvent) {
         this.groupDetailsForm.controls['itemId'].setValue(a.itemId);
         // this.groupDetailsForm.controls['fullCode'].setValue(a.code);
-        console.log("fullCodeValue find item: ", this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId));
+        console.log(
+          'fullCodeValue find item: ',
+          this.itemsList.find(
+            (item: { id: any }) =>
+              item.id == this.groupDetailsForm.getRawValue().itemId
+          )
+        );
 
-        this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
+        this.fullCodeValue = this.itemsList.find(
+          (item: { id: any }) =>
+            item.id == this.groupDetailsForm.getRawValue().itemId
+        )?.fullCode;
         this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
 
-        console.log("item by code: ", a.itemName, " itemId control: ", this.groupDetailsForm.getRawValue().itemId);
+        console.log(
+          'item by code: ',
+          a.itemName,
+          ' itemId control: ',
+          this.groupDetailsForm.getRawValue().itemId
+        );
         this.itemCtrl.setValue(a.itemName);
         if (a.itemName) {
           this.itemByFullCodeValue = a.itemName;
 
-          this.api.getAvgPrice(
-            this.groupMasterForm.getRawValue().storeId,
-            this.groupMasterForm.getRawValue().fiscalYearId,
-            formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-            this.groupDetailsForm.getRawValue().itemId
-          )
+          this.api
+            .getAvgPrice(
+              this.groupMasterForm.getRawValue().storeId,
+              this.groupMasterForm.getRawValue().fiscalYearId,
+              formatDate(
+                this.groupMasterForm.getRawValue().date,
+                'yyyy-MM-dd',
+                this.locale
+              ),
+              this.groupDetailsForm.getRawValue().itemId
+            )
             .subscribe({
               next: (res) => {
                 // this.priceCalled = res;
                 this.groupDetailsForm.controls['avgPrice'].setValue(res);
-                this.groupDetailsForm.controls['price'].setValue(res)
-                console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-                console.log("price called res3: ", this.groupDetailsForm.getRawValue().price);
+                this.groupDetailsForm.controls['price'].setValue(res);
+                console.log(
+                  'price avg called res: ',
+                  this.groupDetailsForm.getRawValue().avgPrice
+                );
+                console.log(
+                  'price called res3: ',
+                  this.groupDetailsForm.getRawValue().price
+                );
 
                 if (!this.addTypeSource && this.editData) {
-                  if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+                  if (
+                    this.editData.addTypeName.includes('فاتورة') ||
+                    this.editData.addTypeName.includes('شهادة ادارية')
+                  ) {
                     this.isReadOnly = false;
-                    console.log("change readOnly to enable here");
-                  }
-                  else {
+                    console.log('change readOnly to enable here');
+                  } else {
                     this.isReadOnly = true;
-                    console.log("change readOnly to disable here");
+                    console.log('change readOnly to disable here');
                   }
-
-                }
-                else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
+                } else if (
+                  this.addTypeSource &&
+                  this.addTypeSource.includes('مورد')
+                ) {
                   this.isReadOnly = false;
-                  console.log("change readOnly to enable here");
-                }
-                else {
+                  console.log('change readOnly to enable here');
+                } else {
                   this.isReadOnly = true;
-                  console.log("change readOnly to disable here");
+                  console.log('change readOnly to disable here');
                 }
               },
               error: (err) => {
                 // console.log("fetch fiscalYears data err: ", err);
                 // alert("خطا اثناء جلب متوسط السعر !");
-              }
-            })
+              },
+            });
 
-          this.api.getSumQuantity(
-            this.groupMasterForm.getRawValue().storeId,
-            this.groupDetailsForm.getRawValue().itemId,
-          )
+          this.api
+            .getSumQuantity(
+              this.groupMasterForm.getRawValue().storeId,
+              this.groupDetailsForm.getRawValue().itemId
+            )
             .subscribe({
               next: (res) => {
                 this.sumOfItemsStore = res;
                 this.groupDetailsForm.controls['balanceQty'].setValue(res);
 
-                console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                console.log('sumOfItemsStore : ', this.sumOfItemsStore);
               },
               error: (err) => {
                 // console.log("fetch fiscalYears data err: ", err);
                 // alert("خطا اثناء جلب الرصيد الحالى  !");
-              }
-            })
-
-        }
-        else {
+              },
+            });
+        } else {
           this.itemByFullCodeValue = '-';
         }
         this.itemByFullCodeValue = a.itemName;
       }
-    })
+    });
   }
 
   getCodeByItem(item: any) {
-    console.log("item by code: ", item, "code: ", this.itemsList);
+    console.log('item by code: ', item, 'code: ', this.itemsList);
 
     // if (item.keyCode == 13) {
     this.itemsList.filter((a: any) => {
       if (a.id === item) {
         // this.groupDetailsForm.controls['itemId'].setValue(a.id);
-        console.log("item by code selected: ", a)
+        console.log('item by code selected: ', a);
         // console.log("item by code selected: ", a.fullCode)
         if (a.fullCode) {
           this.fullCodeValue = a.fullCode;
-        }
-        else {
+        } else {
           this.fullCodeValue = '-';
         }
 
         // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId)
       }
-    })
+    });
     // }
-
-
   }
 
   getItemByProductCode(code: any) {
@@ -2230,83 +2148,98 @@ export class STRAddTableComponent implements OnInit {
           // alert("productId: " + this.groupDetailsForm.getRawValue().productId);
           // console.log("item by code: ", a.itemName);
           // console.log("item FULLCODE: ", this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId).fullCode);
-          this.fullCodeValue = this.itemsList.find((item: { id: any; }) => item.id == this.groupDetailsForm.getRawValue().itemId)?.fullCode;
+          this.fullCodeValue = this.itemsList.find(
+            (item: { id: any }) =>
+              item.id == this.groupDetailsForm.getRawValue().itemId
+          )?.fullCode;
           // alert("fullCode: " + this.fullCodeValue);
-          this.groupDetailsForm.controls['fullCode'].setValue(this.fullCodeValue);
+          this.groupDetailsForm.controls['fullCode'].setValue(
+            this.fullCodeValue
+          );
 
           this.itemCtrl.setValue(a.itemName);
           if (a.itemName) {
             this.itemByFullCodeValue = a.itemName;
 
-            this.api.getAvgPrice(
-              this.groupMasterForm.getRawValue().storeId,
-              this.groupMasterForm.getRawValue().fiscalYearId,
-              formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-              this.groupDetailsForm.getRawValue().itemId
-            )
+            this.api
+              .getAvgPrice(
+                this.groupMasterForm.getRawValue().storeId,
+                this.groupMasterForm.getRawValue().fiscalYearId,
+                formatDate(
+                  this.groupMasterForm.getRawValue().date,
+                  'yyyy-MM-dd',
+                  this.locale
+                ),
+                this.groupDetailsForm.getRawValue().itemId
+              )
               .subscribe({
                 next: (res) => {
                   // this.priceCalled = res;
                   this.groupDetailsForm.controls['avgPrice'].setValue(res);
-                  this.groupDetailsForm.controls['price'].setValue(res)
-                  console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-                  console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+                  this.groupDetailsForm.controls['price'].setValue(res);
+                  console.log(
+                    'price avg called res: ',
+                    this.groupDetailsForm.getRawValue().avgPrice
+                  );
+                  console.log(
+                    'price called res1: ',
+                    this.groupDetailsForm.getRawValue().price
+                  );
                   // alert("addTypeSource to readOnly price: " + this.addTypeSource);
                   if (!this.addTypeSource && this.editData) {
-                    if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+                    if (
+                      this.editData.addTypeName.includes('فاتورة') ||
+                      this.editData.addTypeName.includes('شهادة ادارية')
+                    ) {
                       this.isReadOnly = false;
-                      console.log("change readOnly to enable here");
-                    }
-                    else {
+                      console.log('change readOnly to enable here');
+                    } else {
                       this.isReadOnly = true;
-                      console.log("change readOnly to disable here");
+                      console.log('change readOnly to disable here');
                     }
-
-                  }
-                  else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
+                  } else if (
+                    this.addTypeSource &&
+                    this.addTypeSource.includes('مورد')
+                  ) {
                     this.isReadOnly = false;
-                    console.log("change readOnly to enable here");
-                  }
-                  else {
+                    console.log('change readOnly to enable here');
+                  } else {
                     this.isReadOnly = true;
-                    console.log("change readOnly to disable here");
+                    console.log('change readOnly to disable here');
                   }
                 },
                 error: (err) => {
                   // console.log("fetch fiscalYears data err: ", err);
                   // alert("خطا اثناء جلب متوسط السعر !");
-                }
-              })
+                },
+              });
 
-
-            this.api.getSumQuantity(
-              this.groupMasterForm.getRawValue().storeId,
-              this.groupDetailsForm.getRawValue().itemId,
-            )
+            this.api
+              .getSumQuantity(
+                this.groupMasterForm.getRawValue().storeId,
+                this.groupDetailsForm.getRawValue().itemId
+              )
               .subscribe({
                 next: (res) => {
                   this.sumOfItemsStore = res;
-                this.groupDetailsForm.controls['balanceQty'].setValue(res);
+                  this.groupDetailsForm.controls['balanceQty'].setValue(res);
 
-                  console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                  console.log('sumOfItemsStore : ', this.sumOfItemsStore);
                 },
                 error: (err) => {
                   // console.log("fetch fiscalYears data err: ", err);
                   // alert("خطا اثناء جلب الرصيد الحالى  !");
-                }
-              })
-          }
-          else {
+                },
+              });
+          } else {
             this.itemByFullCodeValue = '-';
           }
           this.itemByFullCodeValue = a.itemName;
           // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
-
-        }
-        else {
+        } else {
           this.productIdValue = '';
         }
-      })
+      });
     }
   }
 
@@ -2314,9 +2247,7 @@ export class STRAddTableComponent implements OnInit {
     this.groupDetailsForm.controls['itemId'].setValue('');
     this.itemCtrl.setValue('');
     if (code.keyCode == 13) {
-
       if (this.itemSearchWay != 'searchByProductName') {
-
         this.itemsList.filter((a: any) => {
           // console.log("enter product code case, ", "a.code: ", a.fullCode, " code target: ", code.target.value);
 
@@ -2326,77 +2257,87 @@ export class STRAddTableComponent implements OnInit {
             this.groupDetailsForm.controls['itemId'].setValue(a.id);
             this.groupDetailsForm.controls['fullCode'].setValue(a.fullCode);
 
-            console.log("item by code: ", a.name);
+            console.log('item by code: ', a.name);
             this.itemCtrl.setValue(a.name);
             if (a.name) {
               this.itemByFullCodeValue = a.name;
 
-              this.api.getAvgPrice(
-                this.groupMasterForm.getRawValue().storeId,
-                this.groupMasterForm.getRawValue().fiscalYearId,
-                formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-                this.groupDetailsForm.getRawValue().itemId
-              )
+              this.api
+                .getAvgPrice(
+                  this.groupMasterForm.getRawValue().storeId,
+                  this.groupMasterForm.getRawValue().fiscalYearId,
+                  formatDate(
+                    this.groupMasterForm.getRawValue().date,
+                    'yyyy-MM-dd',
+                    this.locale
+                  ),
+                  this.groupDetailsForm.getRawValue().itemId
+                )
                 .subscribe({
                   next: (res) => {
                     // this.priceCalled = res;
                     this.groupDetailsForm.controls['avgPrice'].setValue(res);
-                    this.groupDetailsForm.controls['price'].setValue(res)
-                    console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-                    console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
+                    this.groupDetailsForm.controls['price'].setValue(res);
+                    console.log(
+                      'price avg called res: ',
+                      this.groupDetailsForm.getRawValue().avgPrice
+                    );
+                    console.log(
+                      'price called res1: ',
+                      this.groupDetailsForm.getRawValue().price
+                    );
                     if (!this.addTypeSource && this.editData) {
-                      if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
+                      if (
+                        this.editData.addTypeName.includes('فاتورة') ||
+                        this.editData.addTypeName.includes('شهادة ادارية')
+                      ) {
                         this.isReadOnly = false;
-                        console.log("change readOnly to enable here");
-                      }
-                      else {
+                        console.log('change readOnly to enable here');
+                      } else {
                         this.isReadOnly = true;
-                        console.log("change readOnly to disable here");
+                        console.log('change readOnly to disable here');
                       }
-
-                    }
-                    else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
+                    } else if (
+                      this.addTypeSource &&
+                      this.addTypeSource.includes('مورد')
+                    ) {
                       this.isReadOnly = false;
-                      console.log("change readOnly to enable here");
-                    }
-                    else {
+                      console.log('change readOnly to enable here');
+                    } else {
                       this.isReadOnly = true;
-                      console.log("change readOnly to disable here");
+                      console.log('change readOnly to disable here');
                     }
                   },
                   error: (err) => {
                     // console.log("fetch fiscalYears data err: ", err);
                     // alert("خطا اثناء جلب متوسط السعر !");
-                  }
-                })
+                  },
+                });
 
-
-              this.api.getSumQuantity(
-                this.groupMasterForm.getRawValue().storeId,
-                this.groupDetailsForm.getRawValue().itemId,
-              )
+              this.api
+                .getSumQuantity(
+                  this.groupMasterForm.getRawValue().storeId,
+                  this.groupDetailsForm.getRawValue().itemId
+                )
                 .subscribe({
                   next: (res) => {
                     this.sumOfItemsStore = res;
-                this.groupDetailsForm.controls['balanceQty'].setValue(res);
+                    this.groupDetailsForm.controls['balanceQty'].setValue(res);
 
-                    console.log("sumOfItemsStore : ", this.sumOfItemsStore);
+                    console.log('sumOfItemsStore : ', this.sumOfItemsStore);
                   },
                   error: (err) => {
                     // console.log("fetch fiscalYears data err: ", err);
                     // alert("خطا اثناء جلب الرصيد الحالى  !");
-                  }
-                })
-            }
-            else {
+                  },
+                });
+            } else {
               this.itemByFullCodeValue = '-';
             }
             this.itemByFullCodeValue = a.name;
             // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
-
           }
-
-        })
+        });
 
         if (!this.groupDetailsForm.getRawValue().itemId) {
           this.itemByFullCodeValue = '-';
@@ -2418,18 +2359,14 @@ export class STRAddTableComponent implements OnInit {
       // else {
 
       // }
-
     }
-
-
   }
 
   getSellerByCode(code: any) {
-    console.log("code: ", code);
+    console.log('code: ', code);
     this.groupMasterForm.controls['sellerId'].setValue('');
     this.listCtrl.setValue('');
     if (code.keyCode == 13) {
-
       // if (this.itemSearchWay != 'searchByProductName') {
 
       this.sellerList.filter((a: any) => {
@@ -2437,82 +2374,13 @@ export class STRAddTableComponent implements OnInit {
 
         if (a.code == code.target.value) {
           // console.log("enter product code case condition: ", a.fullCode === code.target.value);
-          console.log("seller selected : ", a);
+          console.log('seller selected : ', a);
 
           this.groupMasterForm.controls['sellerId'].setValue(a.id);
           this.sellerCode = a.code;
-          this.listCtrl.setValue(a.name)
-          // this.displayListName(a);
-          // console.log("item by code: ", a.name);
-          // this.itemCtrl.setValue(a.name);
-          // if (a.name) {
-          //   this.itemByFullCodeValue = a.name;
-
-          //   this.api.getAvgPrice(
-          //     this.groupMasterForm.getRawValue().storeId,
-          //     this.groupMasterForm.getRawValue().fiscalYearId,
-          //     formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-          //     this.groupDetailsForm.getRawValue().itemId
-          //   )
-          //     .subscribe({
-          //       next: (res) => {
-          //         // this.priceCalled = res;
-          //         this.groupDetailsForm.controls['avgPrice'].setValue(res);
-          //         this.groupDetailsForm.controls['price'].setValue(res)
-          //         console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-          //         console.log("price called res1: ", this.groupDetailsForm.getRawValue().price);
-          //         if (!this.addTypeSource && this.editData) {
-          //           if (this.editData.addTypeName.includes('فاتورة') || this.editData.addTypeName.includes('شهادة ادارية')) {
-          //             this.isReadOnly = false;
-          //             console.log("change readOnly to enable here");
-          //           }
-          //           else {
-          //             this.isReadOnly = true;
-          //             console.log("change readOnly to disable here");
-          //           }
-
-          //         }
-          //         else if (this.addTypeSource && this.addTypeSource.includes('مورد')) {
-          //           this.isReadOnly = false;
-          //           console.log("change readOnly to enable here");
-          //         }
-          //         else {
-          //           this.isReadOnly = true;
-          //           console.log("change readOnly to disable here");
-          //         }
-          //       },
-          //       error: (err) => {
-          //         // console.log("fetch fiscalYears data err: ", err);
-          //         // alert("خطا اثناء جلب متوسط السعر !");
-          //       }
-          //     })
-
-
-          //   this.api.getSumQuantity(
-          //     this.groupMasterForm.getRawValue().storeId,
-          //     this.groupDetailsForm.getRawValue().itemId,
-          //   )
-          //     .subscribe({
-          //       next: (res) => {
-          //         // this.priceCalled = res;
-          //         this.groupDetailsForm.controls['balanceQty'].setValue(res);
-          //         console.log("balanceQty called res: ", this.groupDetailsForm.getRawValue().balanceQty);
-          //       },
-          //       error: (err) => {
-          //         // console.log("fetch fiscalYears data err: ", err);
-          //         // alert("خطا اثناء جلب الرصيد الحالى  !");
-          //       }
-          //     })
-          // }
-          // else {
-          //   this.itemByFullCodeValue = '-';
-          // }
-          // this.itemByFullCodeValue = a.name;
-          // // this.itemOnChange(this.groupDetailsForm.getRawValue().itemId);
-
+          this.listCtrl.setValue(a.name);
         }
-
-      })
+      });
 
       if (!this.groupMasterForm.getRawValue().sellerId) {
         this.sellerCode = '-';
@@ -2534,33 +2402,27 @@ export class STRAddTableComponent implements OnInit {
       // else {
 
       // }
-
     }
-
-
   }
 
   set_Percentage(state: any) {
-
-    console.log("state value changed: ", state.value);
+    console.log('state value changed: ', state.value);
     // this.groupDetailsForm.controls['state'].setValue(state.value);
 
-    if (this.groupDetailsForm.getRawValue().state == "مستعمل") {
+    if (this.groupDetailsForm.getRawValue().state == 'مستعمل') {
       this.isReadOnlyPercentage = false;
       this.groupDetailsForm.controls['percentage'].setValue(0);
-    }
-    else {
+    } else {
       this.isReadOnlyPercentage = true;
       this.groupDetailsForm.controls['percentage'].setValue(100);
     }
-
   }
 
   getProducts() {
     this.api.getStrProduct().subscribe({
       next: (res) => {
         this.productsList = res;
-        console.log("productsList res: ", this.productsList);
+        console.log('productsList res: ', this.productsList);
       },
       error: (err) => {
         // console.log("fetch products data err: ", err);
@@ -2573,190 +2435,206 @@ export class STRAddTableComponent implements OnInit {
     this.groupDetailsForm.removeControl('id');
 
     // this.groupDetailsForm.removeControl('id')
-    console.log("edit data form: ", this.editDataDetails, "main id: ", this.getMasterRowId);
-    // if (this.isEdit == false) {
-    //   this.groupMasterForm.controls['no'].setValue(this.autoNo);
-    // }
-
+    console.log(
+      'edit data form: ',
+      this.editDataDetails,
+      'main id: ',
+      this.getMasterRowId
+    );
+   
     if (!this.editDataDetails) {
       // if (this.getMasterRowId) {
-      console.log("form  headerId: ", this.getMasterRowId)
+      console.log('form  headerId: ', this.getMasterRowId);
 
-      // if (this.groupDetailsForm.getRawValue().itemId) {
-      // this.itemName = await this.getItemByID(this.groupDetailsForm.getRawValue().itemId);
-      // this.groupDetailsForm.controls['itemName'].setValue(this.itemName);
-      // this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage?.slice(1, length - 1));
-      this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
+      this.groupDetailsForm.controls['transactionUserId'].setValue(
+        this.userIdFromStorage
+      );
       // }
 
-      this.groupDetailsForm.controls['state'].setValue(this.groupDetailsForm.getRawValue().state);
-
+      this.groupDetailsForm.controls['state'].setValue(
+        this.groupDetailsForm.getRawValue().state
+      );
 
       if (this.editData) {
         this.groupDetailsForm.controls['addId'].setValue(this.editData.id);
+      } else {
+        this.groupDetailsForm.controls['addId'].setValue(
+          this.getMasterRowId.id
+        );
       }
-      else {
-        this.groupDetailsForm.controls['addId'].setValue(this.getMasterRowId.id);
 
-      }
+      this.groupDetailsForm.controls['total'].setValue(
+        parseFloat(this.groupDetailsForm.getRawValue().price) *
+          parseFloat(this.groupDetailsForm.getRawValue().qty)
+      );
 
-      this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
+      this.groupDetailsForm.addControl(
+        'date',
+        new FormControl('', Validators.required)
+      );
+      this.groupDetailsForm.controls['date'].setValue(
+        this.groupMasterForm.getRawValue().date
+      );
 
-      this.groupDetailsForm.addControl('date', new FormControl('', Validators.required));
-      this.groupDetailsForm.controls['date'].setValue(this.groupMasterForm.getRawValue().date);
+      this.groupDetailsForm.addControl(
+        'storeId',
+        new FormControl('', Validators.required)
+      );
+      this.groupDetailsForm.controls['storeId'].setValue(
+        this.groupMasterForm.getRawValue().storeId
+      );
 
-      this.groupDetailsForm.addControl('storeId', new FormControl('', Validators.required));
-      this.groupDetailsForm.controls['storeId'].setValue(this.groupMasterForm.getRawValue().storeId,);
+      this.groupDetailsForm.addControl(
+        'fiscalYearId',
+        new FormControl('', Validators.required)
+      );
+      this.groupDetailsForm.controls['fiscalYearId'].setValue(
+        this.groupMasterForm.getRawValue().fiscalYearId
+      );
 
-      this.groupDetailsForm.addControl('fiscalYearId', new FormControl('', Validators.required));
-      this.groupDetailsForm.controls['fiscalYearId'].setValue(this.groupMasterForm.getRawValue().fiscalYearId);
+      console.log('form details after item: ', this.groupDetailsForm.value);
 
-
-
-      console.log("form details after item: ", this.groupDetailsForm.value)
-
-
-      // this must be at sellerid only 
-      this.api.getNewAvgPrice(
-        this.groupMasterForm.getRawValue().storeId,
-        this.groupMasterForm.getRawValue().fiscalYearId,
-        formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale),
-        this.groupDetailsForm.getRawValue().itemId,
-        this.groupDetailsForm.getRawValue().price,
-        this.groupDetailsForm.getRawValue().qty
-      )
+      // this must be at sellerid only
+      this.api
+        .getNewAvgPrice(
+          this.groupMasterForm.getRawValue().storeId,
+          this.groupMasterForm.getRawValue().fiscalYearId,
+          formatDate(
+            this.groupMasterForm.getRawValue().date,
+            'yyyy-MM-dd',
+            this.locale
+          ),
+          this.groupDetailsForm.getRawValue().itemId,
+          this.groupDetailsForm.getRawValue().price,
+          this.groupDetailsForm.getRawValue().qty
+        )
         .subscribe({
           next: (res) => {
             // this.priceCalled = res;
             this.groupDetailsForm.controls['avgPrice'].setValue(res);
-            console.log("price avg called res: ", this.groupDetailsForm.getRawValue().avgPrice);
-            console.log("price called res2: ", this.groupDetailsForm.getRawValue().price);
-
+            console.log(
+              'price avg called res: ',
+              this.groupDetailsForm.getRawValue().avgPrice
+            );
+            console.log(
+              'price called res2: ',
+              this.groupDetailsForm.getRawValue().price
+            );
           },
           error: (err) => {
             // console.log("fetch fiscalYears data err: ", err);
             // alert("خطا اثناء جلب متوسط السعر !");
-          }
-        })
+          },
+        });
 
-      console.log("form details before post: ", this.groupDetailsForm.value)
+      console.log('form details before post: ', this.groupDetailsForm.value);
       if (this.groupDetailsForm.valid) {
 
-        this.api.postStrAddDetails(this.groupDetailsForm.value)
-          .subscribe({
-            next: (res) => {
-              this.toastrSuccess();
-              // alert("تمت إضافة المجموعة بنجاح");
-              this.groupDetailsForm.reset();
-              // this.groupDetailsForm.controls['qty'].setValue(1);
-              // this.groupDetailsForm.controls['percentage'].setValue(100);
-              // this.groupDetailsForm.controls['state'].setValue("جديد");
+       
+        this.api.postStrAddDetails(this.groupDetailsForm.value).subscribe({
+          next: (res) => {
+            this.toastrSuccess();
+            // alert("تمت إضافة المجموعة بنجاح");
+            this.groupDetailsForm.reset();
+            console.log(
+              'form details after remove controllers: ',
+              this.groupDetailsForm.value
+            );
 
-              // this.updateDetailsForm();
-
-              console.log("form details after remove controllers: ", this.groupDetailsForm.value)
-
-              this.groupDetailsForm.reset();
-              // this.groupDetailsForm.controls['qty'].setValue(1);
-              this.itemCtrl.setValue('');
-              this.itemByFullCodeValue = '';
-              this.fullCodeValue = '';
-              this.getAllDetailsForms();
-
-            },
-            error: (err) => {
-              console.log("add details err: ", err)
-              // alert("حدث خطأ أثناء إضافة تفاصيل")
-            }
-          })
-        // }
-        // else {
-        //   this.updateBothForms();
-        // }
-
+            this.groupDetailsForm.reset();
+            // this.groupDetailsForm.controls['qty'].setValue(1);
+            this.itemCtrl.setValue('');
+            this.itemByFullCodeValue = '';
+            this.fullCodeValue = '';
+            this.getAllDetailsForms();
+          },
+          error: (err) => {
+            console.log('add details err: ', err);
+            // alert("حدث خطأ أثناء إضافة تفاصيل")
+          },
+        });
       }
-
-    }
-    else {
+    } else {
       this.updateDetailsForm();
     }
-
-
   }
 
   async updateDetailsForm() {
-
-    console.log("values getMasterRowId: ", this.getMasterRowId)
-    console.log("values details form: ", this.groupDetailsForm.value)
+    console.log('values getMasterRowId: ', this.getMasterRowId);
+    console.log('values details form: ', this.groupDetailsForm.value);
 
     if (this.editDataDetails) {
-      this.groupDetailsForm.addControl('id', new FormControl('', Validators.required));
+      this.groupDetailsForm.addControl(
+        'id',
+        new FormControl('', Validators.required)
+      );
       this.groupDetailsForm.controls['id'].setValue(this.editDataDetails.id);
 
-      this.groupDetailsForm.controls['avgPrice'].setValue(this.editDataDetails.avgPrice);
-      console.log("details foorm: ", this.groupDetailsForm.value)
-
+      this.groupDetailsForm.controls['avgPrice'].setValue(
+        this.editDataDetails.avgPrice
+      );
+      console.log('details foorm: ', this.groupDetailsForm.value);
     }
 
     this.isEdit = false;
 
-    this.groupDetailsForm.controls['addId'].setValue(this.editDataDetails.addId);
-    this.groupDetailsForm.controls['transactionUserId'].setValue(this.userIdFromStorage);
-    this.groupDetailsForm.controls['total'].setValue((parseFloat(this.groupDetailsForm.getRawValue().price) * parseFloat(this.groupDetailsForm.getRawValue().qty)));
+    this.groupDetailsForm.controls['addId'].setValue(
+      this.editDataDetails.addId
+    );
+    this.groupDetailsForm.controls['transactionUserId'].setValue(
+      this.userIdFromStorage
+    );
+    this.groupDetailsForm.controls['total'].setValue(
+      parseFloat(this.groupDetailsForm.getRawValue().price) *
+        parseFloat(this.groupDetailsForm.getRawValue().qty)
+    );
 
-    console.log("details form values: ", this.groupDetailsForm.value);
+    console.log('details form values: ', this.groupDetailsForm.value);
     if (this.groupDetailsForm.value && this.editDataDetails) {
-      this.api.putStrAddDetails(this.groupDetailsForm.value)
-        .subscribe({
-          next: (res) => {
-            // alert("تم الحفظ بنجاح");
-            this.toastrEditSuccess();
-            // console.log("update res: ", res);
-            this.groupDetailsForm.reset();
-            // this.groupDetailsForm.controls['state'].setValue("جديد");
-            this.itemByFullCodeValue = '';
-            this.fullCodeValue = '';
-            this.getAllDetailsForms();
-            this.editDataDetails = '';
-            this.itemCtrl.setValue('');
+      this.api.putStrAddDetails(this.groupDetailsForm.value).subscribe({
+        next: (res) => {
+          // alert("تم الحفظ بنجاح");
+          this.toastrEditSuccess();
+          // console.log("update res: ", res);
+          this.groupDetailsForm.reset();
+          // this.groupDetailsForm.controls['state'].setValue("جديد");
+          this.itemByFullCodeValue = '';
+          this.fullCodeValue = '';
+          this.getAllDetailsForms();
+          this.editDataDetails = '';
+          this.itemCtrl.setValue('');
 
-            // this.autoNo = this.groupMasterForm.getRawValue().no;
-
-
-          },
-          error: (err) => {
-            console.log("update details err: ", err)
-            // alert("خطأ أثناء تحديث سجل المجموعة !!")
-          }
-        })
+          // this.autoNo = this.groupMasterForm.getRawValue().no;
+        },
+        error: (err) => {
+          console.log('update details err: ', err);
+          // alert("خطأ أثناء تحديث سجل المجموعة !!")
+        },
+      });
     }
-
   }
 
-
   async getItemByID(id: any) {
-    console.log("row item id: ", id);
+    console.log('row item id: ', id);
     return fetch(this.api.getItemById(id))
-      .then(response => response.json())
-      .then(json => {
-        console.log("fetch item name by id res: ", json.name);
+      .then((response) => response.json())
+      .then((json) => {
+        console.log('fetch item name by id res: ', json.name);
         return json.name;
       })
       .catch((err) => {
-        console.log("error in fetch item name by id: ", err);
+        console.log('error in fetch item name by id: ', err);
         // alert("خطا اثناء جلب رقم العنصر !");
       });
   }
 
-
   // -----------------------------------------------------------------------------------------
 
-
   toastrSuccess(): void {
-    this.toastr.success("تم الحفظ بنجاح");
+    this.toastr.success('تم الحفظ بنجاح');
   }
   toastrDeleteSuccess(): void {
-    this.toastr.success("تم الحذف بنجاح");
+    this.toastr.success('تم الحذف بنجاح');
   }
   toastrEditSuccess(): void {
     this.toastr.success('تم التعديل بنجاح');
@@ -2767,28 +2645,43 @@ export class STRAddTableComponent implements OnInit {
     localStorage.setItem('store-data', JSON.stringify(data));
   }
 
-
   storeValueChanges(storeId: any) {
-    console.log("storeId selected to get pending withdraw: ", storeId);
+    console.log('storeId selected to get pending withdraw: ', storeId);
     // this.groupMasterSearchForm.controls['storeId'].setValue(storeId);
 
     this.getAllWithDrawByDestStore(storeId);
-
   }
-  downloadPrint(no: any, StartDate: any, EndDate: any, fiscalYear: any, report: any, reportType: any) {
+  downloadPrint(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
     let costCenter = this.groupMasterSearchForm.getRawValue().costCenterId;
     let employee = this.groupMasterSearchForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
     let store = this.groupMasterSearchForm.getRawValue().storeId;
 
     this.api
-      .strAdd(no, store, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, reportType)
+      .strAdd(
+        no,
+        store,
+        StartDate,
+        EndDate,
+        fiscalYear,
+        item,
+        employee,
+        costCenter,
+        report,
+        reportType
+      )
       .subscribe({
         next: (res) => {
           console.log('search:', res);
           const url: any = res.url;
           window.open(url);
-
         },
         error: (err) => {
           console.log('eroorr', err);
@@ -2796,8 +2689,14 @@ export class STRAddTableComponent implements OnInit {
         },
       });
   }
-  previewPrint(no: any, StartDate: any, EndDate: any, fiscalYear: any, report: any, reportType: any) {
-
+  previewPrint(
+    no: any,
+    StartDate: any,
+    EndDate: any,
+    fiscalYear: any,
+    report: any,
+    reportType: any
+  ) {
     let costCenter = this.groupMasterSearchForm.getRawValue().costCenterId;
     let employee = this.groupMasterSearchForm.getRawValue().employeeId;
     let item = this.groupDetailsForm.getRawValue().itemId;
@@ -2805,7 +2704,18 @@ export class STRAddTableComponent implements OnInit {
     if (report != null && reportType != null) {
       // this.loading = true;
       this.api
-        .strAdd(no, store, StartDate, EndDate, fiscalYear, item, employee, costCenter, report, reportType)
+        .strAdd(
+          no,
+          store,
+          StartDate,
+          EndDate,
+          fiscalYear,
+          item,
+          employee,
+          costCenter,
+          report,
+          reportType
+        )
         .subscribe({
           next: (res) => {
             // this.loading = false;
@@ -2817,8 +2727,6 @@ export class STRAddTableComponent implements OnInit {
             this.dialog.open(PrintDialogComponent, {
               width: '50%',
             });
-
-
           },
           error: (err) => {
             // this.loading = false;
@@ -2826,9 +2734,8 @@ export class STRAddTableComponent implements OnInit {
             window.open(err.url);
           },
         });
-    }
-    else {
-      alert("ادخل التقرير و نوع التقرير!")
+    } else {
+      alert('ادخل التقرير و نوع التقرير!');
     }
   }
 
@@ -2836,17 +2743,16 @@ export class STRAddTableComponent implements OnInit {
     let newRes: any[] | undefined = [];
     this.api.GetWithDrawByDestStore(storeId).subscribe({
       next: (res) => {
-        console.log("pending withdraws: ", res);
+        console.log('pending withdraws: ', res);
 
         for (let i = 0; i < res.length; i++) {
           newRes?.push(res[i].strWithdrawGetVM);
         }
 
-        console.log("pending withdraws new res: ", newRes);
+        console.log('pending withdraws new res: ', newRes);
         this.dataSourcePendingWithdraws = new MatTableDataSource(newRes);
         this.dataSourcePendingWithdraws.paginator = this.paginatorGSTN;
         this.dataSourcePendingWithdraws.sort = this.sort;
-
       },
       error: () => {
         // alert("خطأ أثناء جلب سجلات المجموعة !!");
@@ -2855,55 +2761,82 @@ export class STRAddTableComponent implements OnInit {
   }
 
   acceptPendingWithdraw(row: any) {
-    console.log("pending withdraw row: ", row.id, "userId: ", localStorage.getItem('transactionUserId'));
+    console.log(
+      'pending withdraw row: ',
+      row.id,
+      'userId: ',
+      localStorage.getItem('transactionUserId')
+    );
     let acceptId = 1;
     let userId = parseInt(localStorage.getItem('transactionUserId')!);
 
-    console.log("type of row: ", typeof (row.id), "userId: ", typeof (userId), "acceptId: ", typeof (acceptId));
+    console.log(
+      'type of row: ',
+      typeof row.id,
+      'userId: ',
+      typeof userId,
+      'acceptId: ',
+      typeof acceptId
+    );
 
     let dataPending = {
-      'userId': userId,
-      'withDrawId': row.id,
-      'state': acceptId
+      userId: userId,
+      withDrawId: row.id,
+      state: acceptId,
     };
 
-    this.api.postAcceptOrRejectWithDrawByDestStore(dataPending)
-      .subscribe({
-        next: (res) => {
-          console.log("res after accept or reject pending withdraw: ", res);
-          this.getAllWithDrawByDestStore(row.storeId);
-        },
-        error: (err) => {
-          console.log("post err after accept or reject pending withdraw: ", err);
-          // alert("حدث خطأ أثناء إضافة مجموعة")
-        }
-      })
+    this.api.postAcceptOrRejectWithDrawByDestStore(dataPending).subscribe({
+      next: (res) => {
+        console.log('res after accept or reject pending withdraw: ', res);
+        this.getAllWithDrawByDestStore(row.storeId);
+      },
+      error: (err) => {
+        console.log('post err after accept or reject pending withdraw: ', err);
+        // alert("حدث خطأ أثناء إضافة مجموعة")
+      },
+    });
   }
 
-
   rejectPendingWithdraw(row: any) {
-    console.log("pending withdraw row: ", row.id, "userId: ", localStorage.getItem('transactionUserId'));
+    console.log(
+      'pending withdraw row: ',
+      row.id,
+      'userId: ',
+      localStorage.getItem('transactionUserId')
+    );
     let rejectId = 0;
     let userId = parseInt(localStorage.getItem('transactionUserId')!);
 
-    console.log("type of row: ", typeof (row.id), "userId: ", typeof (userId), "rejectId: ", typeof (rejectId));
+    console.log(
+      'type of row: ',
+      typeof row.id,
+      'userId: ',
+      typeof userId,
+      'rejectId: ',
+      typeof rejectId
+    );
 
     let dataPending = {
-      'userId': userId,
-      'withDrawId': row.id,
-      'state': rejectId
+      userId: userId,
+      withDrawId: row.id,
+      state: rejectId,
     };
 
-    this.api.postAcceptOrRejectWithDrawByDestStore(dataPending)
-      .subscribe({
-        next: (res) => {
-          console.log("res after accept or reject pending withdraw: ", res);
-          this.getAllWithDrawByDestStore(row.storeId);
-        },
-        error: (err) => {
-          console.log("post err after accept or reject pending withdraw: ", err);
-          // alert("حدث خطأ أثناء إضافة مجموعة")
-        }
-      })
+    this.api.postAcceptOrRejectWithDrawByDestStore(dataPending).subscribe({
+      next: (res) => {
+        console.log('res after accept or reject pending withdraw: ', res);
+        this.getAllWithDrawByDestStore(row.storeId);
+      },
+      error: (err) => {
+        console.log('post err after accept or reject pending withdraw: ', err);
+        // alert("حدث خطأ أثناء إضافة مجموعة")
+      },
+    });
+  }
+  toastrBalanceWarning(): void {
+    this.toastr.warning("لا يمكن الاضافة او التعديل لعدم وجود الكمية الكفاية من رصيد المخزن !");
+  }
+  toastrExceedStockWarning(): void {
+    this.toastr.warning('انتبه لقد نفذت الكمية في المخزن !');
   }
 }
