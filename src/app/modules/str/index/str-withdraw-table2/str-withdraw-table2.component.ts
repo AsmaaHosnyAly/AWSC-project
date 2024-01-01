@@ -531,6 +531,11 @@ export class StrWithdrawTableComponent implements OnInit {
     if (this.groupMasterForm.getRawValue().storeId) {
 
       console.log('Master add form in : ', this.groupMasterForm.value);
+
+      // let dateFormat = formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale);
+      // let journalStartDateFormat = formatDate(this.journalStartDate, 'yyyy-MM-dd', this.locale);
+      // let journalEndDateFormat = formatDate(this.journalEndDate, 'yyyy-MM-dd', this.locale);
+
       this.api.postStrWithdraw(this.groupMasterForm.value).subscribe({
         next: (res) => {
           console.log('res code: ', res.status);
@@ -1268,19 +1273,7 @@ export class StrWithdrawTableComponent implements OnInit {
   //   });
   // }
 
-  formatDate(event: any) {
-    const input = event.target.value;
-    const parts = input.split('/');
-    if (parts.length === 3) {
-      const day = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10);
-      const year = parseInt(parts[2], 10);
-      if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
-        const formattedDate = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
-        this.groupMasterSearchForm.get('date')?.setValue(formattedDate, { emitEvent: false });
-      }
-    }
-  }
+  
 
   
 
