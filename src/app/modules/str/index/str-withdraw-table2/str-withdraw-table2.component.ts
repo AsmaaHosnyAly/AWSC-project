@@ -527,7 +527,7 @@ export class StrWithdrawTableComponent implements OnInit {
   
 
     console.log('Master add form : ', this.groupMasterForm.value);
-  this.groupMasterForm.controls['date'].setValue(formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale));  
+  // this.groupMasterForm.controls['date'].setValue(formatDate(this.groupMasterForm.getRawValue().date, 'yyyy-MM-dd', this.locale));  
     if (this.groupMasterForm.getRawValue().storeId) {
 
       console.log('Master add form in : ', this.groupMasterForm.value);
@@ -728,7 +728,7 @@ export class StrWithdrawTableComponent implements OnInit {
     );
 
     
-    this.groupMasterForm.controls['date'].setValue(formatDate(this.editData.date, 'dd-MM-yyyy', this.locale));
+    this.groupMasterForm.controls['date'].setValue(this.editData.date);
     this.groupMasterForm.controls['destStoreConfirm'].setValue(this.editData.destStoreConfirm);
     this.groupMasterForm.controls['transactionUserId'].setValue(
       this.editData.transactionUserId
