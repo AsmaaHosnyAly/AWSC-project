@@ -105,6 +105,7 @@ export class StrProductDialogComponent implements OnInit {
       attachment: [''],
       transactionUserId: ['', Validators.required],
     });
+    console.log("oninit",this.MasterGroupInfoEntered);
 
     this.getVendors();
 
@@ -302,11 +303,12 @@ export class StrProductDialogComponent implements OnInit {
         // this.loading = true;
         this.api.postStrProduct(this.productForm.value).subscribe({
           next: (res) => {
-            // this.loading = false;
+            this.loading = false;
             console.log('add product res: ', res);
             this.productIdToEdit = res;
             this.MasterGroupInfoEntered = true;
-            this.toastrSuccess();
+            console.log("saveeeed",this.MasterGroupInfoEntered);            
+            // this.toastrSuccess();
             this.productForm.reset();
 
             // this.dialogRef.close('save');
@@ -362,7 +364,7 @@ export class StrProductDialogComponent implements OnInit {
         this.productIdToEdit = this.editData.id;
       }
       console.log('formData: ',this.productForm.value,'id: ',this.productIdToEdit);
-      console.log(this.productForm.value.attachment)
+      console.log(this.productForm.value.attachment);
       const formData = new FormData();
       formData.append("attachment", this.productForm.value.attachment);
       console.log(formData);
