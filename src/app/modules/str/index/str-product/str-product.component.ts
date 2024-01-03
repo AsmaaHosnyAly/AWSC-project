@@ -79,12 +79,14 @@ export class StrProductComponent implements OnInit {
 onDownload() {
   this.http.get('http://192.168.100.213/files/str-uploads', { responseType: 'blob' })
     .subscribe(response => {
+      console.log("text",response);
+      
       const downloadUrl = URL.createObjectURL(response);
       window.open(downloadUrl);
     });
 }
   openDialog() {
-    this.loading=true;
+    // this.loading=true;
     this.dialog.open(StrProductDialogComponent, {
       width: '47%'
     }).afterClosed().subscribe(val => {
@@ -103,8 +105,14 @@ onDownload() {
   .subscribe({
     next: (res:any) => {
       console.log('search:', res);
-      const url: any = res.url;
-      window.open(url);
+      if(res.url != null && res.url != undefined){
+
+        const url: any = res.url;
+        window.open(url);
+      }
+      else{
+        this.toastrFoundFailed();
+      }
     },
     error: (err) => {
       console.log('eroorr', err);
@@ -157,6 +165,9 @@ onDownload() {
 
   toastrDeleteSuccess(): void {
     this.toastr.success("تم الحذف بنجاح");
+  }
+  toastrFoundFailed(): void {
+    this.toastr.error("لا يوجد ملف لتحميله");
   }
 
 }
