@@ -378,11 +378,7 @@ export class StrWithdrawTableComponent implements OnInit {
       reportType: [''],
       // item:['']
     });
-    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
-      // Call the deleteGrade() function in the current component
-      this.nextToAddFormDetails();
-      return false; // Prevent the default browser behavior
-    }));
+    
     this.groupMasterForm = this.formBuilder.group({
       total: ['0', Validators.required],
       no: ['', Validators.required],
