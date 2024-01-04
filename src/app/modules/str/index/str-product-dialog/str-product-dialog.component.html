@@ -71,9 +71,10 @@
       </button>
 
       <div [ngClass]="(MasterGroupInfoEntered || editData) ? 'restGroupInfo' : 'restGroupInfoDisable'">
+        <!-- <div ngIf=MasterGroupInfoEntered > -->
         <div class="child1">
           <mat-label>رفع الملف</mat-label>
-          <input type="file" class="file-input" (change)="onChange($event)" />
+          <input type="file" class="file-input" name="file Upload" (change)="onChange($event)" />
           <div *ngIf="selectedFile">{{ selectedFile.name }}</div>
         </div>
 
