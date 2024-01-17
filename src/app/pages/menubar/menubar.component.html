@@ -521,6 +521,10 @@
             routerLinkActive="active">
             <p class="font">مجموعات المستخدمين</p>
           </a>
+          <a mat-list-item class="sideNavSubItems" routerLink="/صلاحيات امين المخازن" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
+          routerLinkActive="active">
+          <p class="font">صلاحيات امين المخازن</p>
+        </a>
           <a mat-list-item class="sideNavSubItems" routerLink="/pr-reports" *ngIf="hasAccessRole(pageEnums.PR_GROUP)"
             routerLinkActive="active">
             <p class="font">تقارير الصلاحيات</p>

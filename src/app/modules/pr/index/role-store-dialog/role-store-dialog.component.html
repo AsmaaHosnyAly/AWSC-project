@@ -1,0 +1,82 @@
+<div class="text-center w=100" *ngIf="loading">
+    <app-spinner></app-spinner>
+  </div>
+  <div class="cdk-overlay-pane">
+    <button class="close" mat-button mat-dialog-close>
+      <mat-icon> clear</mat-icon>
+    </button>
+  </div>
+  
+  <h1 mat-dialog-title class="add-h1">
+    {{ editData ? "  تعديل مخزن ل امين مخازن   " : " إضافة مخزن ل امين مخازن" }}
+  </h1>
+  <form [formGroup]="groupForm" dir="rtl">
+    <div mat-dialog-content>
+      <form [formGroup]="groupForm">
+      
+        <div class="child1">
+        <mat-label>اسم الموظف</mat-label>
+        <mat-form-field appearance="outline"*ngIf="!loading">
+          <input
+            matInput
+            aria-label="user"
+            [matAutocomplete]="autoUser"
+            [formControl]="userCtrl"
+            placeholder="{{ getGroupData ? getGroupData.userName : '' }}"
+            (click)="openAutoUser()"
+            required
+          />
+          <mat-autocomplete
+            #autoUser="matAutocomplete"
+            [displayWith]="displayUserName"
+            (optionSelected)="userSelected($event)"
+          >
+            <mat-option
+              *ngFor="let user of filteredUsers | async"
+              [value]="user"
+            >
+            {{ user.name ? user.name : '-' }} 
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        </div>
+        <div class="child1"*ngIf="!loading">
+        <mat-label>اسم المخزن</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            aria-label="store"
+            [matAutocomplete]="autoStore"
+            [formControl]="storeCtrl"
+            required
+            placeholder="{{ getGroupData ? getGroupData.storeName : '' }}"
+            (click)="openAutoStore()"
+            required
+          />
+          <mat-autocomplete
+            #autoStore="matAutocomplete"
+            [displayWith]="displayGradeName"
+            (optionSelected)="storeSelected($event)"
+          >
+            <mat-option
+              *ngFor="let store of filteredStores | async"
+              [value]="store"
+            >
+            {{ store.name ? store.name : '-' }} | {{ store.code }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        </div>
+     
+        <button
+          mat-raised-button
+          class="savebtn"
+          (click)="addGroup()"
+          style="margin-left: 8px"
+        >
+          {{ actionBtn }}
+        </button>
+      </form>
+    </div>
+  </form>
+  

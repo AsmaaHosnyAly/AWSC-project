@@ -1037,8 +1037,27 @@ export class STRItem1Component implements OnInit {
     this.loading = true;
     this.api.getItems().subscribe({
       next: (res) => {
+
+        // const myObject = res;
+       
+        // window.localStorage.setItem("myObject", JSON.stringify(myObject));
+        // console.log("ggg type: ", typeof(localStorage.getItem("myObject"))?.split(','));
+        // let splitedItem = localStorage.getItem("myObject")?.split(',')
+        // console.log("ggg: ", localStorage.getItem("myObject")?.split(','));
+      //  let ogg= JSON.parse(localStorage.getItem("myObject")?.split(','))
+    
+       var object =(localStorage.getItem("myObject")?.split(','));
+       console.log(typeof( object));
+// var array = [];
+// for(var i in object) {
+//    array.push(object[i]);
+// }
         this.loading = false;
-        this.itemsList = res;
+        // let myArr = JSON.parse(JSON.stringify(res));
+        // console.log("local item: ", myArr);
+
+        // localStorage.setItem('itemsList',myArr);
+        this.itemsList  = res;
         this.cdr.detectChanges(); // Trigger change detection
       },      
       error: (err) => {

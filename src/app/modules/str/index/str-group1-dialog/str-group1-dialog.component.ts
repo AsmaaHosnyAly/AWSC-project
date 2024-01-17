@@ -13,6 +13,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { HotkeysService } from 'angular2-hotkeys';
 import { Hotkey } from 'angular2-hotkeys';
+
 export class Commodity {
   constructor(public id: number, public name: string, public code: any) { }
 }
