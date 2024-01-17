@@ -331,6 +331,8 @@ import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
+import { RoleStoreComponent } from './modules/pr/index/role-store/role-store.component';
+import { RoleStoreDialogComponent } from './modules/pr/index/role-store-dialog/role-store-dialog.component';
 
 @NgModule({
   declarations: [
@@ -625,7 +627,9 @@ import {
     ProSellerDialogComponent,
     FaMoveFixedAssetComponent,
     FaMoveFixedAssetDialogComponent,
-    DateFormatPipe
+    DateFormatPipe,
+    RoleStoreComponent,
+    RoleStoreDialogComponent
     // CcCostCenterComponent,
     // CcCostCenterDialogComponent,
   ],

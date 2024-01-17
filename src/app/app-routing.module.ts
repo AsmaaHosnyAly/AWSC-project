@@ -184,6 +184,7 @@ import { ProSellerTypeComponent } from './modules/pro/index/pro-seller-type/pro-
 import { ProTenderComponent } from './modules/pro/index/pro-tender/pro-tender.component';
 import { ProSellerComponent } from './modules/pro/index/pro-seller/pro-seller.component';
 import { FaMoveFixedAssetComponent } from './modules/fa/index/fa-move-fixed-asset/fa-move-fixed-asset.component';
+import { RoleStoreComponent } from './modules/pr/index/role-store/role-store.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -381,6 +382,12 @@ const routes: Routes = [
       {
         path: 'مجموعات المستخدمين',
         component: PrGroupTableComponent,
+        canActivate: [prGroupGuard],
+        data: { PageLsit: [PagesEnums.PR_GROUP] },
+      },
+      {
+        path: 'صلاحيات امين المخازن',
+        component:RoleStoreComponent,
         canActivate: [prGroupGuard],
         data: { PageLsit: [PagesEnums.PR_GROUP] },
       },

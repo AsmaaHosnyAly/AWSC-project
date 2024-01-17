@@ -76,6 +76,9 @@ mycondition:any;
   getPrUser() {
     return this.http.get<any>(`${this.url}/PRUser/get/all`);
   }
+  getAllStores() {
+    return this.http.get<any>(`${this.url}/STRStore/get/all`);
+  }
   putPrUser(data: any) {
     console.log('prGroup edit data: ', data);
     return this.http.put<any>(`${this.url}/PRUser/update`, data);
@@ -99,6 +102,28 @@ mycondition:any;
     console.log('deleted detaild row id: ', HeaderId);
     return this.http.delete<any>(`${this.url}/PRUserGroup/delete/` + HeaderId);
   }
+
+  // userStore
+
+  postUserStore(data: any) {
+    return this.http.post<any>(`${this.url}/StrUserStore/Add`, data);
+  }
+  getUserStore() {
+    return this.http.get<any>(`${this.url}/StrUserStore/get/all`);
+  }
+
+  putUserStore(data: any) {
+    console.log('PrGroupRole data: ', data);
+    return this.http.put<any>(`${this.url}/StrUserStore/update`, data);
+  }
+
+
+  deleteUserStore(HeaderId: number) {
+    console.log('deleted detaild row id: ', HeaderId);
+    return this.http.delete<any>(`${this.url}/StrUserStore/delete/` + HeaderId);
+   
+  }
+
 
 
     ///////////////////////attendace reports//////////////////////////
