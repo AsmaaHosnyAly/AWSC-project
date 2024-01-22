@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Injectable, Compiler } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,28 +6,36 @@ import { SharedService } from 'src/app/core/guards/shared.service';
 import { GlobalService } from '../services/global.service';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   transactionUserId: any;
-  modules:any
-  showLogin:any
-  testRoles:any
+  modules: any;
+  showLogin: any;
+  testRoles: any;
+  fiscalYearsList: any;
+  defaultFiscalYearSelectValue: any;
+  lastFiscalYears: any;
+  fiscalYearSelectedId: any;
 
-  OnIinit(): void {
-
+  ngOnInit(): void {
+    console.log('loginP');
+    this.getFiscalYears();
   }
 
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.maxLength(50)]), // Validators.pattern()
+    username: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(50),
+    ]), // Validators.pattern()
     password: new FormControl('', [
       Validators.required,
       Validators.maxLength(10),
     ]),
+    fiscalYearId: new FormControl('', Validators.required), // Validators.pattern()
   });
 
   isSubmit = false;
@@ -79,53 +87,51 @@ export class LoginComponent {
   //     });
   //   }
 
-    // if (this.loginForm.valid) {
-    //   console.log('login1', this.loginForm.value);
-    //   this.isSubmit = true;
-    //   this.global.login(this.loginForm.value).subscribe((res) => {
-    //     console.log('login2', res);
-     
-    //       localStorage.setItem('transactionUserId', res.id);
-    //       console.log(
-    //         'handelres',
-    //         localStorage.setItem('transactionUserId', res.id)
-    //       );
-    //       this.global.isLogIn = true;
-    //       localStorage.setItem('userRoles', res.roles);
-    //       this.toastrloginSuccess();
-    //       this.router.navigate(['/home']);
-        
-    //   });
-    // }
-  
+  // if (this.loginForm.valid) {
+  //   console.log('login1', this.loginForm.value);
+  //   this.isSubmit = true;
+  //   this.global.login(this.loginForm.value).subscribe((res) => {
+  //     console.log('login2', res);
+
+  //       localStorage.setItem('transactionUserId', res.id);
+  //       console.log(
+  //         'handelres',
+  //         localStorage.setItem('transactionUserId', res.id)
+  //       );
+  //       this.global.isLogIn = true;
+  //       localStorage.setItem('userRoles', res.roles);
+  //       this.toastrloginSuccess();
+  //       this.router.navigate(['/home']);
+
+  //   });
+  // }
 
   handleSubmitByJWT() {
-    
-    console.log("LOGIN FORM: ", this.loginForm.value);
-    if(this.loginForm.valid){
+    console.log('LOGIN FORM: ', this.loginForm.value);
+    if (this.loginForm.valid) {
       this.global.loginbyJWT(this.loginForm.value).subscribe({
         next: (res) => {
           localStorage.setItem('transactionUserId', res.id);
           this.global.isLogIn = true;
           localStorage.setItem('accessToken', res.accessToken);
-      //     let modules=res['modules']
-      //     let tmpTabKV: { }[] = [];
-      //     // console.log('userRoles',modules)
-      //     for (let i = 0; i <modules!.length; i++) {
-      //       console.log('userRoles',modules[i].roles)
-      //       // this.testRoles.push(modules[i].roles)
-      // tmpTabKV.push([modules[i].roles]);
+          //     let modules=res['modules']
+          //     let tmpTabKV: { }[] = [];
+          //     // console.log('userRoles',modules)
+          //     for (let i = 0; i <modules!.length; i++) {
+          //       console.log('userRoles',modules[i].roles)
+          //       // this.testRoles.push(modules[i].roles)
+          // tmpTabKV.push([modules[i].roles]);
 
-      //     }
-      //     // localStorage.setItem('userRoles',tmpTabKV);
-      //     this.testRoles=  tmpTabKV
-      //    console.log("this.testRoles",this.testRoles)
-        
+          //     }
+          //     // localStorage.setItem('userRoles',tmpTabKV);
+          //     this.testRoles=  tmpTabKV
+          //    console.log("this.testRoles",this.testRoles)
+
           this.toastrloginSuccess();
           this.router.navigate(['/home']);
         },
         error: () => {
-         this.toastrloginfailed()
+          this.toastrloginfailed();
         },
       });
     }
@@ -135,7 +141,7 @@ export class LoginComponent {
     //   this.isSubmit = true;
     //   this.global.login(this.loginForm.value).subscribe((res) => {
     //     console.log('login2', res);
-     
+
     //       localStorage.setItem('transactionUserId', res.id);
     //       console.log(
     //         'handelres',
@@ -145,12 +151,10 @@ export class LoginComponent {
     //       localStorage.setItem('userRoles', res.roles);
     //       this.toastrloginSuccess();
     //       this.router.navigate(['/home']);
-        
+
     //   });
     // }
   }
-
-
 
   //  this.global.getRolesByUserId(res.id).subscribe(res=>{
   //   console.log("res", res)
@@ -164,4 +168,44 @@ export class LoginComponent {
   // this.global. getPermissionRolesScreens(18||19,'الصلاحيات','')
 
   // fddddddddddddddddddddddddddddddddddd
+
+  async getFiscalYears() {
+    this.global.getFiscalYears().subscribe({
+      next: async (res) => {
+        this.fiscalYearsList = res;
+
+        this.global.getLastFiscalYear().subscribe({
+          next: async (res) => {
+            this.defaultFiscalYearSelectValue = await res;
+
+            
+              this.loginForm.controls['fiscalYearId'].setValue(
+                this.defaultFiscalYearSelectValue.id
+              );
+              // this.getStrOpenAutoNo();
+            
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          },
+        });
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+
+  async fiscalYearValueChanges(fiscalyaerId: any) {
+    this.fiscalYearSelectedId = await fiscalyaerId;
+    localStorage.setItem('fiscalyaerId',await fiscalyaerId)
+    this.loginForm.controls['fiscalYearId'].setValue(
+      this.fiscalYearSelectedId
+    );
+    // this.isEdit = false;
+
+    // this.getStrOpenAutoNo();
+  }
 }
