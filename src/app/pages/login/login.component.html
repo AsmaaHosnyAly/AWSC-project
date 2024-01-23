@@ -58,7 +58,18 @@
             ادخل كلمة المرور
         </div>
         </div>
+        
 
+        
+          <label for="" class="details mb-2">السنة المالية</label>
+          <div appearance="outline" style="width: 320px;">
+            <mat-select  formControlName="fiscalYearId"
+              (valueChange)="fiscalYearValueChanges($event)">
+              <mat-option [value]="fiscalYear.id"
+                *ngFor="let fiscalYear of fiscalYearsList">{{fiscalYear.fiscalyear}}</mat-option>
+            </mat-select>
+          </div>
+       
         <!-- <div class="alert alert-danger" *ngIf="isSubmit && userData?.['password']?.invalid">
                 <div *ngIf="userData?.errors?.['required']">password is required</div>
             </div> -->

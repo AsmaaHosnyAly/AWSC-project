@@ -12,6 +12,7 @@ export class store {
   constructor(public name: string) {}
 }
 
+
 @Component({
   selector: 'app-menubar',
   templateUrl: './menubar.component.html',

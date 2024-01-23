@@ -51,6 +51,12 @@ export class GlobalService {
     return this.http.get(`${this.url}/PRUser/get/${id}`);
   }
 
+
+  getLoginFisicalyearById(id: any): Observable<any> {
+    return this.http.get(`${this.url}/Login/get/fisical/year/${id}`);
+    
+  }
+
   login(obj: any): Observable<any> {
     // console.log('obj ', obj);
     return this.http.get(
@@ -67,6 +73,16 @@ export class GlobalService {
     );
   }
 
+
+  getFiscalYears() {
+    return this.http.get<any>(`${this.url}/STRFiscalYear/get/all`);
+  }
+
+  getLastFiscalYear() {
+    return this.http.get<any>(
+      `${this.url}/STRFiscalYear/get/Last/fisical/year`
+    );
+  }
   getRolesByUserId(userId: any): Observable<any> {
     // console.log('userId ', userId);
     return this.http.get(`${this.url}/PRUser/get/role/${userId}`);
