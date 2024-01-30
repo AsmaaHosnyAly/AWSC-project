@@ -111,9 +111,14 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.global.loginbyJWT(this.loginForm.value).subscribe({
         next: (res) => {
+          // console.log("login res: ", res);
+
           localStorage.setItem('transactionUserId', res.id);
           this.global.isLogIn = true;
           localStorage.setItem('accessToken', res.accessToken);
+          let fiscalYearId = this.loginForm.getRawValue().fiscalYearId
+          localStorage.setItem('fiscalYearId', fiscalYearId!);
+
           //     let modules=res['modules']
           //     let tmpTabKV: { }[] = [];
           //     // console.log('userRoles',modules)

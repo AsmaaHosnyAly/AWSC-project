@@ -33,6 +33,8 @@ interface fiJournal {
   styleUrls: ['./fi-journal.component.css']
 })
 export class FIJournalComponent {
+  paginateFiscalYearId=localStorage.getItem('fiscalYearId');
+
   ELEMENT_DATA: fiJournal[] = [];
 
   isLoading = false;
@@ -117,11 +119,12 @@ export class FIJournalComponent {
     });
   }
   getFIJournals() {
+    console.log("fiscalYearId To paginate: ", this.paginateFiscalYearId);
     if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
 
       // this.isLoading = true;
-      fetch(this.api.getFiJournalPaginate(this.currentPage, this.pageSize))
+      fetch(this.api.getFiJournalPaginate(this.currentPage, this.pageSize, this.paginateFiscalYearId))
         .then(response => response.json())
         .then(data => {
           this.totalRows = data.length;
@@ -143,7 +146,7 @@ export class FIJournalComponent {
     else {
       if (this.serachFlag == false) {
         // this.isLoading = true;
-        fetch(this.api.getFiJournalPaginate(this.currentPage, this.pageSize))
+        fetch(this.api.getFiJournalPaginate(this.currentPage, this.pageSize, this.paginateFiscalYearId))
           .then(response => response.json())
           .then(data => {
             this.totalRows = data.length;

@@ -96,8 +96,8 @@ export class ApiService {
     return this.http.get<any>(`${this.url}/FIJournal/get/all`);
 
   }
-  getFiJournalPaginate(currentPage: any, pageSize: any) {
-    let urlPassed = `${this.url}/FIJournal/get/by/pagination?page=${currentPage}&pageSize=${pageSize}`;
+  getFiJournalPaginate(currentPage: any, pageSize: any, YearID: any) {
+    let urlPassed = `${this.url}/FIJournal/get/by/pagination?page=${currentPage}&pageSize=${pageSize}&YearID=${YearID}`;
     return urlPassed;
   }
   getFIJournalSearch(no: any, Description: any, StartDate: any, EndDate: any, fiscalYear: any) {
