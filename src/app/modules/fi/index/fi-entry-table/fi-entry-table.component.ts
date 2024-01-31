@@ -1340,17 +1340,17 @@ export class FiEntryTableComponent implements OnInit {
   }
 
   getJournalsByFiscalYear(fiscalYear: any) {
-    this.api.getJournals().subscribe({
+    this.api.getJournalsByFiscalYearId(this.paginateFiscalYearId).subscribe({
       next: (res) => {
         this.journalsList = res;
         console.log('journals res: ', this.journalsList);
-        this.journalsList = res.filter((journal: any) => {
-          if (journal.fiscalYearId) {
-            return journal.fiscalYearId == fiscalYear;
-          }
-          else return false;
+        // this.journalsList = res.filter((journal: any) => {
+        //   if (journal.fiscalYearId) {
+        //     return journal.fiscalYearId == fiscalYear;
+        //   }
+        //   else return false;
 
-        });
+        // });
       },
       error: (err) => {
         console.log('fetch journals data err: ', err);
