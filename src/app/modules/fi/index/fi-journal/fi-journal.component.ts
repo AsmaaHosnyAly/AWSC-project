@@ -130,7 +130,7 @@ export class FIJournalComponent {
         .then(response => response.json())
         .then(data => {
           this.totalRows = data.length;
-          console.log("master data paginate first Time: ", data);
+          console.log("master data paginate first Timeee: ", data);
           this.dataSource2.data = data.items;
           this.pageIndex = data.page;
           this.pageSize = data.pageSize;
