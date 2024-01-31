@@ -445,6 +445,12 @@ export class ApiService {
   getJournals() {
     return this.http.get<any>(`${this.url}/FIJournal/get/all`);
   }
+  getJournalsByFiscalYearId(id: any) {
+    return this.http.get<any>(`${this.url}/FIJournal/get/all?YearID=${id}`);
+  }
+  getJournalIdByFiscalYearId(id: any) {
+    return this.http.get<any>(`${this.url}/FIJournal/get/${id}`);
+  }
   getFiAccounts() {
     return this.http.get<any>(`${this.url}/FIAccount/get/all`);
   }
@@ -464,8 +470,8 @@ export class ApiService {
   getFiEntry() {
     return this.http.get<any>(`${this.url}/FIEntry/get/all`);
   }
-  getFiEntryPaginate(currentPage: any, pageSize: any) {
-    let urlPassed = `${this.url}/FIEntry/get/pagnation?page=${currentPage}&pageSize=${pageSize}`;
+  getFiEntryPaginate(currentPage: any, pageSize: any, YearID: any) {
+    let urlPassed = `${this.url}/FIEntry/get/pagnation?page=${currentPage}&pageSize=${pageSize}&YearID=${YearID}`;
     return urlPassed;
   }
   putFiEntry(data: any) {
