@@ -60,7 +60,7 @@
             <mat-form-field appearance="outline" class="searchForm">
              
               <input formControlName="fiscalYearId" matInput  type="text"
-              [value]="editData ? editData.fiscalyear : lastFiscalYears?lastFiscalYears:''"
+              [value]="editData ? editData.fiscalyear : localFiscalYearId?fiscalYearObj.fiscalyear:''"
               readonly="true" > 
             </mat-form-field>  
 

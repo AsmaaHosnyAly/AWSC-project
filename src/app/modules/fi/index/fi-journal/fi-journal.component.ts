@@ -33,7 +33,7 @@ interface fiJournal {
   styleUrls: ['./fi-journal.component.css']
 })
 export class FIJournalComponent {
-  paginateFiscalYearId=localStorage.getItem('fiscalYearId');
+  paginateFiscalYearId = localStorage.getItem('fiscalYearId');
 
   ELEMENT_DATA: fiJournal[] = [];
 
@@ -59,6 +59,7 @@ export class FIJournalComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  journalsList: any;
 
   ngAfterViewInit() {
     this.dataSource2.paginator = this.paginator;
@@ -68,11 +69,12 @@ export class FIJournalComponent {
     private hotkeysService: HotkeysService,
     private api: ApiService, private toastr: ToastrService, private formBuilder: FormBuilder, private global: GlobalService,
     @Inject(LOCALE_ID) private locale: string) {
-      global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
+    global.getPermissionUserRoles('Accounts', 'fi-home', 'إدارة الحسابات ', 'iso')
   }
   ngOnInit(): void {
     this.getFIJournals();
     this.getFiscalYears();
+    this.getJournalByFiscalYearId();
 
     this.groupMasterForm = this.formBuilder.group({
       no: [''],
@@ -128,7 +130,7 @@ export class FIJournalComponent {
         .then(response => response.json())
         .then(data => {
           this.totalRows = data.length;
-          console.log("master data paginate first Time: ", data);
+          console.log("master data paginate first Timeee: ", data);
           this.dataSource2.data = data.items;
           this.pageIndex = data.page;
           this.pageSize = data.pageSize;
@@ -260,6 +262,19 @@ export class FIJournalComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  getJournalByFiscalYearId() {
+    this.api.getJournalsByFiscalYearId(this.paginateFiscalYearId).subscribe({
+      next: (res) => {
+        this.journalsList = res;
+        console.log('journals res: ', this.journalsList);
+      },
+      error: (err) => {
+        console.log('fetch journals data err: ', err);
+        // alert('خطا اثناء جلب الدفاتر !');
+      },
+    });
   }
 
   toastrDeleteSuccess(): void {

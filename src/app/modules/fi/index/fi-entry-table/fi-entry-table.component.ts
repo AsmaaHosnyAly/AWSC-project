@@ -56,6 +56,8 @@ export class AccountItem {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FiEntryTableComponent implements OnInit {
+  paginateFiscalYearId=localStorage.getItem('fiscalYearId');
+
   ELEMENT_DATA: ccEntry[] = [];
   isLoading = false;
   totalRows = 0;
@@ -204,7 +206,6 @@ export class FiEntryTableComponent implements OnInit {
   ngOnInit(): void {
     this.getAllMasterForms();
     this.getFiEntryAutoCode();
-    this.getJournals();
     this.getFiAccounts();
     this.getFiEntrySource();
     this.getFiscalYears();
@@ -440,12 +441,14 @@ export class FiEntryTableComponent implements OnInit {
   }
 
   getAllMasterForms() {
+    console.log("fiscalYearId To paginate: ", this.paginateFiscalYearId);
+
     // loadData() {
     if (!this.currentPage && this.serachFlag == false) {
       this.currentPage = 0;
 
       this.isLoading = true;
-      fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
+      fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize, this.paginateFiscalYearId))
         .then(response => response.json())
         .then(data => {
           this.totalRows = data.length;
@@ -467,7 +470,7 @@ export class FiEntryTableComponent implements OnInit {
     else {
       if (this.serachFlag == false) {
         this.isLoading = true;
-        fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize))
+        fetch(this.api.getFiEntryPaginate(this.currentPage, this.pageSize, this.paginateFiscalYearId))
           .then(response => response.json())
           .then(data => {
             this.totalRows = data.length;
@@ -526,18 +529,7 @@ export class FiEntryTableComponent implements OnInit {
     });
   }
 
-  getJournals() {
-    this.api.getJournals().subscribe({
-      next: (res) => {
-        this.journalsList = res;
-        console.log('journals res: ', this.journalsList);
-      },
-      error: (err) => {
-        console.log('fetch journals data err: ', err);
-        // alert('خطا اثناء جلب الدفاتر !');
-      },
-    });
-  }
+
 
   // getFiAccounts() {
   //   this.api.getFiAccounts().subscribe({

@@ -2345,6 +2345,8 @@ export class ApiService {
     });
   }
 
-
+  getYearByFiscalYearId(id: any) {
+    return this.http.get<any>(`${this.url}/STRFiscalYear/get/${id}`);
+  }
 
 }
