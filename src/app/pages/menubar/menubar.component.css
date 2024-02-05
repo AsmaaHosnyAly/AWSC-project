@@ -19,7 +19,9 @@
   font-size: 14px;
  margin: 0 0 2px !important;
 }
-
+::ng-deep .mat-select-arrow {
+ color: aliceblue !important;
+}
 
 
 

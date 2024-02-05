@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../services/global.service';
 import { SharedService } from '../../core/guards/shared.service';
 import { Router } from '@angular/router';
@@ -6,7 +7,7 @@ import { PagesEnums } from '../../core/enums/pages.enum';
 import jwt_decode from 'jwt-decode';
 import { Observable, map, startWith, tap, debounceTime } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export class store {
   constructor(public name: string) {}
@@ -18,7 +19,7 @@ export class store {
   templateUrl: './menubar.component.html',
   styleUrls: ['./menubar.component.css'],
 })
-export class MenubarComponent {
+export class MenubarComponent implements OnInit{
   str1: any;
   pageTitle: any;
   badgevisible = false;
@@ -43,6 +44,11 @@ export class MenubarComponent {
   selectedstore: store | undefined;
   sourceSelected: any;
   activeRoute: string | undefined;
+  fiscalYearsList: any;
+  defaultFiscalYearSelectValue: any;
+  lastFiscalYears: any;
+  fiscalYearSelectedId: any;
+
   constructor(
     public global: GlobalService,
     public shared: SharedService,
@@ -66,7 +72,7 @@ export class MenubarComponent {
     this.global.bgColor = document
       .querySelector('section')
       ?.classList.add('screenBackground');
-
+      this.getFiscalYears();
     // Retrieve the access token
     const accessToken: any = localStorage.getItem('accessToken');
     // console.log('accessToken', accessToken);
@@ -89,6 +95,12 @@ export class MenubarComponent {
     console.log('newArr: ', tmpTabKV);
     this.storeList= tmpTabKV
   }
+
+  
+  loginForm = new FormGroup({
+   
+    fiscalYearId: new FormControl('', Validators.required), // Validators.pattern()
+  });
   title = 'str-group';
 
   showFiller = false;
@@ -123,6 +135,44 @@ export class MenubarComponent {
   refresh() {
     window.location.reload();
   }
+
+  async fiscalYearValueChanges(fiscalyaerId: any) {
+    this.fiscalYearSelectedId = await fiscalyaerId;
+    localStorage.setItem('fiscalyaerId',await fiscalyaerId)
+    this.loginForm.controls['fiscalYearId'].setValue(
+      this.fiscalYearSelectedId
+    );
+  }
+
+  async getFiscalYears() {
+    this.global.getFiscalYears().subscribe({
+      next: async (res) => {
+        this.fiscalYearsList = res;
+
+        this.global.getLastFiscalYear().subscribe({
+          next: async (res) => {
+            this.defaultFiscalYearSelectValue = await res;
+
+            
+              this.loginForm.controls['fiscalYearId'].setValue(
+                this.defaultFiscalYearSelectValue.id
+              );
+             
+            
+          },
+          error: (err) => {
+            // console.log("fetch store data err: ", err);
+            // alert("خطا اثناء جلب المخازن !");
+          },
+        });
+      },
+      error: (err) => {
+        // console.log("fetch fiscalYears data err: ", err);
+        // alert("خطا اثناء جلب العناصر !");
+      },
+    });
+  }
+
 
   hasAccessModule(name: string): boolean {
     // console.log('name passed: ', name);
