@@ -12,6 +12,7 @@ export enum PagesEnums {
   TR='Training',
   CC='CC',
   FA='FA',
+  PRO='PRO',
 
   /*************USER_ROLES***************/
   /****************** module:1 STORES المخازن ************************/
@@ -36,6 +37,7 @@ export enum PagesEnums {
   PRODUCT_SERIAL='مسلسل المنتج',
  STRUSERSTORE ='مخازن المستخدم',
  StrStockTaking='الجرد',
+ StrReport='تقارير المخازن',
  /****************** module:2 Roles الصلاحيات************************/
   PR_USER = 'المستخدمين',
   PR_GROUP = 'مجموعات المستخدمين',

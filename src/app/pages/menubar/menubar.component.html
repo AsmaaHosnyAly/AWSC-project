@@ -19,8 +19,20 @@
       <span>{{
         this.global.pageTitle ? this.global.pageTitle : "الصفحة الرئيسية"
         }}</span>
+        
     </div>
+    <form   [formGroup]="loginForm"
+    >
+     <div appearance="outline" style="color: aliceblue; margin-right: 20px;" >
+       <mat-select  formControlName="fiscalYearId"
+         (valueChange)="fiscalYearValueChanges($event)" style="color: aliceblue; width: 200px;" >
+         <mat-option [value]="fiscalYear.id"
+           *ngFor="let fiscalYear of fiscalYearsList" >{{fiscalYear.fiscalyear}}</mat-option>
+       </mat-select>
+     </div>
+   </form>
   </div>
+
   <div>
     <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
       <div class="toolbarUserContent parent-user-name">
@@ -34,6 +46,7 @@
         </div>
       </div>
     </button>
+   
   </div>
 
   <mat-menu #menu="matMenu">
@@ -180,7 +193,7 @@
             <p class="font">الجرد</p>
           </a>
           <a mat-list-item routerLink="/تقارير المخازن" class="sideNavSubItems"
-            *ngIf="hasAccessRole(pageEnums.EMPLOYEE_OPENING_CUSTODY)" routerLinkActive="active">
+            *ngIf="hasAccessRole(pageEnums.StrReport)" routerLinkActive="active">
             <p class="font">تقارير المخازن</p>
           </a>
         </mat-nav-list>
@@ -649,7 +662,7 @@
 
       <!-- End PY    -->
       <!-- Start  Training التدريب   -->
-      <mat-expansion-panel dir="rtl">
+      <mat-expansion-panel dir="rtl"   *ngIf="hasAccessModule(pageEnums.TR)">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon color="primary" class="ms-2">supervised_user_circle</mat-icon>
@@ -744,7 +757,7 @@
       </mat-expansion-panel>
       <!-- End Training   التدريب  -->
       <!-- Start   العقود والمشتريات   -->
-      <mat-expansion-panel dir="rtl">
+      <mat-expansion-panel dir="rtl"  *ngIf="hasAccessModule(pageEnums.PRO)">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon color="primary" class="ms-2">business_center</mat-icon>
